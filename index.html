@@ -200,6 +200,13 @@ h1{font-family:var(--f-display);font-weight:500;font-size:clamp(34px,4.2vw,68px)
  text-decoration:none;cursor:pointer;transition:filter .15s ease}
 .card h2 a:hover,.card h2 a:focus-visible{filter:brightness(1.18)}
 
+/* --- BLOQUE 2b · franja de practica ---------------------------------------- */
+.practice{background:var(--night);border-top:0.5px solid var(--line-top);
+ padding:56px 24px;text-align:center}
+/* Fila preparada para mas de un boton: el segundo entra sin tocar el CSS. */
+.practice__row{display:flex;justify-content:center;align-items:center;gap:14px}
+.practice__note{margin:16px 0 0;font-size:13px;color:var(--dim)}
+
 /* --- BLOQUE 3 · pie -------------------------------------------------------- */
 footer{background:var(--night);padding:44px 64px;border-top:0.5px solid rgba(70,82,95,.4)}
 footer p{margin:0;font-size:12px;line-height:1.7;color:var(--faint)}
@@ -221,6 +228,8 @@ footer .name{font-family:var(--f-mono);letter-spacing:.1em;color:var(--dim)}
   .desktop-hint{display:block}
   .modules{padding:0 0 56px}
   .modules__grid{grid-template-columns:1fr}
+  /* Los botones de practica, uno debajo de otro. */
+  .practice__row{flex-direction:column}
   /* Apiladas: el filete pasa de vertical a horizontal. */
   .card + .card{border-left:0}
   .card:not(:last-child){border-bottom:0.5px solid var(--line-top)}
@@ -338,6 +347,17 @@ footer .name{font-family:var(--f-mono);letter-spacing:.1em;color:var(--dim)}
     </article>
 
   </nav>
+</section>
+
+<!-- ===================== BLOQUE 2b · PRACTICA ============================= -->
+<section class="practice">
+  <div class="practice__row">
+    <a class="btn" href="chapters/balizamiento-p1-the-marks.html#flashcards">Flashcards</a>
+    <!-- SEGUNDO BOTON: el de "Test" va exactamente aqui, en la linea de abajo,
+         con la misma clase btn. La fila ya los separa 14px y los apila en movil.
+         <a class="btn" href="...">Test</a> -->
+  </div>
+  <p class="practice__note">48 cards on buoyage. Free, and they unlock as you go.</p>
 </section>
 </main>
 
