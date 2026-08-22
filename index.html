@@ -147,6 +147,12 @@ h1{font-family:var(--f-display);font-weight:400;font-size:44px;line-height:1.15;
  line-height:1.9;transition:color .15s ease}
 .card a:hover,.card a:focus-visible{color:var(--mod)}
 
+/* El titulo es un enlace a la primera parte del modulo. Debe verse igual que
+   antes: hereda color y tamano del h2 y no lleva subrayado. */
+.card h2 a{display:inline;color:inherit;font-size:inherit;line-height:inherit;
+ text-decoration:none;cursor:pointer;transition:filter .15s ease}
+.card h2 a:hover,.card h2 a:focus-visible{filter:brightness(1.18)}
+
 /* --- BLOQUE 3 · pie -------------------------------------------------------- */
 footer{background:var(--night);padding:44px 64px;border-top:0.5px solid rgba(70,82,95,.4)}
 footer p{margin:0;font-size:12px;line-height:1.7;color:var(--faint)}
@@ -221,7 +227,7 @@ footer .name{font-family:var(--f-mono);letter-spacing:.1em;color:var(--dim)}
   <div class="modules__grid">
 
     <article class="card card--buoyage">
-      <h2>Buoyage</h2>
+      <h2><a href="chapters/balizamiento-p1-the-marks.html">Buoyage</a></h2>
       <p class="meta">3 parts · 63 screens</p>
       <ul>
         <li><a href="chapters/balizamiento-p1-the-marks.html">Buoyage — The marks</a></li>
@@ -231,7 +237,7 @@ footer .name{font-family:var(--f-mono);letter-spacing:.1em;color:var(--dim)}
     </article>
 
     <article class="card card--lights">
-      <h2>Lights and shapes</h2>
+      <h2><a href="chapters/luces-p1-what-she-shows.html">Lights and shapes</a></h2>
       <p class="meta">4 parts · 48 screens</p>
       <ul>
         <li><a href="chapters/luces-p1-what-she-shows.html">What she shows</a></li>
@@ -242,7 +248,7 @@ footer .name{font-family:var(--f-mono);letter-spacing:.1em;color:var(--dim)}
     </article>
 
     <article class="card card--rules">
-      <h2>Rules of the road</h2>
+      <h2><a href="chapters/rules-of-the-road.html">Rules of the road</a></h2>
       <p class="meta">Collision avoidance</p>
       <ul>
         <li><a href="chapters/rules-of-the-road.html">Rules of the road — Collision avoidance</a></li>
