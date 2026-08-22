@@ -51,6 +51,22 @@
   --ink-soft:#9BA6B2;
   --dim:#7A8794;
   --faint:#5E6976;
+
+  /* -- Los tres colores del curso. Nada de esto se repite suelto mas abajo. --
+     acento : --accent-graphic de balizamiento y luces. El ambar de los
+              elementos destacados. NO es --alarm (#B33A22), que es el rojo
+              de los avisos. En rules-of-the-road el mismo ambar es --ochre.
+     azul   : --water de balizamiento.
+     magenta: --magenta-soft de rules-of-the-road.                         */
+  --accent:#C97B1B;
+  --blue:#8FC3DA;
+  --magenta:#E86AA0;
+
+  /* Tinta sobre el ambar macizo del boton: 5,6:1 de contraste. */
+  --on-accent:#1A1206;
+
+  --card:#1B222C;
+  --card-link:#C3CBD4;
   --f-display:"Newsreader",ui-serif,Georgia,"Palatino Linotype","Times New Roman",serif;
   --f-ui:"IBM Plex Sans",system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;
   --f-mono:"IBM Plex Mono",ui-monospace,"SF Mono","Segoe UI Mono",Menlo,Consolas,monospace;
@@ -75,10 +91,10 @@ h1{font-family:var(--f-display);font-weight:400;font-size:44px;line-height:1.15;
 
 .lede{font-size:16px;line-height:1.65;color:var(--ink-soft);margin:0 0 36px}
 
-.btn{display:inline-block;border:0.5px solid var(--line);border-radius:6px;
- color:var(--ink);text-decoration:none;padding:13px 26px;font-size:15px;
- transition:border-color .18s ease, background-color .18s ease}
-.btn:hover,.btn:focus-visible{border-color:var(--ink);background:rgba(232,234,237,.05)}
+.btn{display:inline-block;border:0;border-radius:6px;background:var(--accent);
+ color:var(--on-accent);text-decoration:none;padding:12px 32px;font-size:15px}
+/* Se aclara un punto. Sin movimiento y sin animacion. */
+.btn:hover,.btn:focus-visible{filter:brightness(1.12)}
 
 .legal{font-size:11px;line-height:1.55;color:var(--faint);margin:20px 0 0;max-width:380px}
 
@@ -107,26 +123,29 @@ h1{font-family:var(--f-display);font-weight:400;font-size:44px;line-height:1.15;
  justify-content:center;z-index:2}
 .dots i{width:22px;height:3px;background:#2C2C2A;opacity:.3;
  transition:opacity .4s ease}
-.dots i.is-on{opacity:1}
+.dots i.is-on{background:var(--accent);opacity:1}
 
 /* --- BLOQUE 2 · los tres modulos ------------------------------------------ */
 .modules{background:var(--night-2);padding:80px 64px}
 .modules__grid{max-width:1180px;margin:0 auto;display:grid;gap:28px;
  grid-template-columns:repeat(3,1fr)}
 
-.card{border:0.5px solid var(--line);border-radius:6px;padding:28px 26px;
- background:rgba(255,255,255,.012)}
-.card h2{font-family:var(--f-ui);font-size:16px;font-weight:600;color:var(--ink);
+/* Cada tarjeta lleva su color en --mod y todo lo suyo se refiere a esa var. */
+.card--buoyage{--mod:var(--blue)}
+.card--lights {--mod:var(--magenta)}
+.card--rules  {--mod:var(--accent)}
+
+.card{background:var(--card);border:0;border-top:3px solid var(--mod);
+ border-radius:0 0 8px 8px;padding:26px 24px 24px}
+.card h2{font-family:var(--f-ui);font-size:14px;font-weight:600;color:var(--mod);
  margin:0 0 6px;letter-spacing:0}
-.card .meta{font-family:var(--f-mono);font-size:12px;color:var(--dim);margin:0 0 20px}
+.card .meta{font-family:var(--f-mono);font-size:12px;color:var(--dim);margin:0 0 18px}
 
 .card ul{list-style:none;margin:0;padding:0}
-.card li{margin:0 0 2px}
-.card a{display:block;color:var(--ink-soft);text-decoration:none;font-size:14px;
- line-height:1.5;padding:7px 0;border-bottom:0.5px solid rgba(70,82,95,.45);
- transition:color .15s ease}
-.card li:last-child a{border-bottom:0}
-.card a:hover,.card a:focus-visible{color:var(--ink)}
+.card li{margin:0}
+.card a{display:block;color:var(--card-link);text-decoration:none;font-size:12px;
+ line-height:1.9;transition:color .15s ease}
+.card a:hover,.card a:focus-visible{color:var(--mod)}
 
 /* --- BLOQUE 3 · pie -------------------------------------------------------- */
 footer{background:var(--night);padding:44px 64px;border-top:0.5px solid rgba(70,82,95,.4)}
@@ -160,7 +179,7 @@ footer .name{font-family:var(--f-mono);letter-spacing:.1em;color:var(--dim)}
       <h1>Navigation,<br>taught properly</h1>
       <p class="lede">Buoyage, lights and the rules of the road — practised, not
         watched. Three modules, free.</p>
-      <a class="btn" href="chapters/balizamiento-p1-the-marks.html">Start with buoyage</a>
+      <a class="btn" href="chapters/balizamiento-p1-the-marks.html">Start</a>
       <p class="legal">Independent preparation. Not affiliated with or accredited
         by the RYA.</p>
       <p class="desktop-hint">Best on a desktop screen.</p>
@@ -201,7 +220,7 @@ footer .name{font-family:var(--f-mono);letter-spacing:.1em;color:var(--dim)}
 <section class="modules">
   <div class="modules__grid">
 
-    <article class="card">
+    <article class="card card--buoyage">
       <h2>Buoyage</h2>
       <p class="meta">3 parts · 63 screens</p>
       <ul>
@@ -211,7 +230,7 @@ footer .name{font-family:var(--f-mono);letter-spacing:.1em;color:var(--dim)}
       </ul>
     </article>
 
-    <article class="card">
+    <article class="card card--lights">
       <h2>Lights and shapes</h2>
       <p class="meta">4 parts · 48 screens</p>
       <ul>
@@ -222,7 +241,7 @@ footer .name{font-family:var(--f-mono);letter-spacing:.1em;color:var(--dim)}
       </ul>
     </article>
 
-    <article class="card">
+    <article class="card card--rules">
       <h2>Rules of the road</h2>
       <p class="meta">Collision avoidance</p>
       <ul>
