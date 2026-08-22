@@ -1,0 +1,21 @@
+# Scratchpad y temporales
+scratchpad/
+.scratchpad/
+tmp/
+temp/
+.tmp/
+*.tmp
+*.bak
+*.orig
+
+# Basura del sistema operativo
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Dependencias
+node_modules/
+
+# Informe de auditoria: nombra los 11 capitulos de pago con fichero y titulo.
+# Es una nota de trabajo, no material publicable. Fuera del repositorio publico.
+INVENTARIO-ESCAPARATE.md

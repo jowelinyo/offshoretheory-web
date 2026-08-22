@@ -1,0 +1,3104 @@
+<meta charset="utf-8"><title>Lights and shapes of vessels — What she shows</title>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<style>
+
+@font-face{font-family:'IBM Plex Mono';font-style:normal;font-weight:400;font-display:swap;
+ src:url(../assets/fonts/IBMPlexMono-400-normal-latin.woff2) format('woff2');
+ unicode-range:U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD}
+@font-face{font-family:'IBM Plex Mono';font-style:normal;font-weight:400;font-display:swap;
+ src:url(../assets/fonts/IBMPlexMono-400-normal-latin-ext.woff2) format('woff2');
+ unicode-range:U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF}
+@font-face{font-family:'IBM Plex Mono';font-style:normal;font-weight:500;font-display:swap;
+ src:url(../assets/fonts/IBMPlexMono-500-normal-latin.woff2) format('woff2');
+ unicode-range:U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD}
+@font-face{font-family:'IBM Plex Mono';font-style:normal;font-weight:500;font-display:swap;
+ src:url(../assets/fonts/IBMPlexMono-500-normal-latin-ext.woff2) format('woff2');
+ unicode-range:U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF}
+@font-face{font-family:'IBM Plex Sans';font-style:normal;font-weight:400 600;font-display:swap;
+ src:url(../assets/fonts/IBMPlexSans-400-normal-latin.woff2) format('woff2');
+ unicode-range:U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD}
+@font-face{font-family:'IBM Plex Sans';font-style:normal;font-weight:400 600;font-display:swap;
+ src:url(../assets/fonts/IBMPlexSans-400-normal-latin-ext.woff2) format('woff2');
+ unicode-range:U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF}
+@font-face{font-family:'Newsreader';font-style:italic;font-weight:400;font-display:swap;
+ src:url(../assets/fonts/Newsreader-400-italic-latin.woff2) format('woff2');
+ unicode-range:U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD}
+@font-face{font-family:'Newsreader';font-style:italic;font-weight:400;font-display:swap;
+ src:url(../assets/fonts/Newsreader-400-italic-latin-ext.woff2) format('woff2');
+ unicode-range:U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF}
+@font-face{font-family:'Newsreader';font-style:normal;font-weight:500;font-display:swap;
+ src:url(../assets/fonts/Newsreader-500-normal-latin.woff2) format('woff2');
+ unicode-range:U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD}
+@font-face{font-family:'Newsreader';font-style:normal;font-weight:500;font-display:swap;
+ src:url(../assets/fonts/Newsreader-500-normal-latin-ext.woff2) format('woff2');
+ unicode-range:U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF}
+
+:root{
+
+ --page:#E8EBED;
+ --panel:#F6F7F7;
+ --card:#FCFCFB;
+ --inset:#F4F6F7;
+ --bar:#1C2B36;
+
+ --edge-frame:#B7C0C6;
+ --edge-card:#BCC4C9;
+ --edge-inner:#E4E8EA;
+ --edge-panel:#CFD7DC;
+ --edge-leader:#C1C9CE;
+ --edge-button:#A9B4BB;
+ --rule-heavy:#1C2B36;
+
+ --ink-title:#0F171D;
+ --ink-strong:#141C22;
+ --ink-lead:#20292F;
+ --ink-body:#333D45;
+ --ink-secondary:#4A5A66;
+ --ink-label:#5B6B77;
+ --ink-quiet:#5E6B74;
+
+ --accent-text:#9A5C10;
+ --accent-graphic:#C97B1B;
+ --accent-on-bar:#E2B15C;
+ --link:#2F6C8F;
+ --progress-pending:#CDD5DA;
+ --on-bar:#DCE4E9; --on-bar-dim:#B8C7D0; --on-bar-strong:#F6F9FA;
+ --on-primary:#F2F6F8;
+
+ --sp-hair:4px; --sp-inline:8px; --sp-tight:12px; --sp-card:14px; --sp-block:16px;
+ --sp-col-y:20px; --sp-col-x:22px; --sp-panel-y:18px; --sp-panel-c:22px;
+ --sp-panel-x:30px; --sp-bar-x:24px; --sp-close:40px;
+
+ --f-display:"Newsreader",ui-serif,Georgia,"Palatino Linotype","Times New Roman",serif;
+ --f-ui:"IBM Plex Sans",system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;
+ --f-mono:"IBM Plex Mono",ui-monospace,"SF Mono","Segoe UI Mono",Menlo,Consolas,monospace;
+
+ --sea-deep:#0A1E27; --sea:#102B36; --sea-line:#1E4453;
+ --paper:#E3EAEE; --paper-ink:#EFE6D2; --paper-2:#D2DDE3; --paper-line:#A6B3BA;
+ --ink:#15252D; --ink-soft:#5C7079; --dim:#829AA3;
+ --magenta:#6B2461; --magenta-soft:#B07FA6;
+ --water:#8FC3DA; --alarm:#B33A22; --ok:#3F7A56;
+
+ --ink-glosa:#4A5C65;
+ --alarm-noche:#D9744E;
+ --dim-banda:#93A9B1;
+}
+*{box-sizing:border-box}
+html,body{margin:0;height:100%;overflow:hidden}
+body{display:flex;flex-direction:column;background:var(--page);color:var(--ink-body);
+ font:400 16px/1.68 var(--f-ui);-webkit-font-smoothing:antialiased;
+ text-rendering:optimizeLegibility}
+
+#barra{flex:none;height:54px;display:flex;align-items:center;gap:var(--sp-inline);
+ padding:0 var(--sp-bar-x);background:var(--bar);
+ box-shadow:inset 0 1px 0 rgba(255,255,255,.08)}
+
+#barra a{text-decoration:none;cursor:pointer;
+ display:inline-flex;align-items:center;min-height:44px}
+.barlink{font:600 15px/1.45 var(--f-ui);color:var(--on-bar);white-space:nowrap;flex:none}
+.barlink:hover{color:var(--on-bar-strong);text-decoration:underline}
+#barra .sep{flex:none;width:1px;height:22px;background:#3A4E5C;margin:0 var(--sp-inline)}
+
+#miga{font:400 17px/1.2 var(--f-display);color:var(--on-bar-dim);
+ white-space:nowrap;overflow:hidden;text-overflow:ellipsis;min-width:0}
+#miga b{color:var(--on-bar-strong);font-weight:500}
+#barra .crece{flex:1;min-width:var(--sp-inline)}
+#barCont{flex:none;font:400 12px/1.4 var(--f-mono);letter-spacing:.12em;
+ color:var(--accent-on-bar);font-variant-numeric:tabular-nums}
+
+#wrap{flex:1;min-height:0;display:grid;
+ grid-template-columns:minmax(0,1fr) clamp(320px,37%,560px)}
+#lienzo{min-width:0;min-height:0;display:flex;flex-direction:column;
+ justify-content:center;align-items:center;
+ padding:var(--sp-col-y) var(--sp-col-x)}
+
+#ficha.sinCaja{background:transparent;border:0;box-shadow:none}
+
+#ficha{--lam-ink:var(--paper-ink);--lam-dim:var(--dim);--lam-alarm:var(--alarm-noche);--lam-magenta:var(--magenta-soft)}
+#ficha.sinCaja{--lam-ink:var(--ink-title);--lam-dim:var(--ink-glosa);--lam-alarm:var(--alarm);--lam-magenta:var(--magenta)}
+
+#fichas .ficha{--lam-ink:var(--ink-title);--lam-dim:var(--ink-glosa);--lam-alarm:var(--alarm);--lam-magenta:var(--magenta)}
+#fichas .escena{--lam-ink:var(--paper-ink);--lam-dim:var(--dim);--lam-alarm:var(--alarm-noche);--lam-magenta:var(--magenta-soft)}
+#ficha{flex:1;align-self:stretch;min-height:0;position:relative;background:var(--sea-deep);
+ border:1px solid var(--edge-card);border-radius:0;
+ box-shadow:0 2px 3px rgba(28,43,54,.07);overflow:hidden}
+
+#fichas{flex:1;min-height:0;display:grid;gap:var(--sp-card);
+ grid-template-columns:1fr;justify-content:center;width:100%}
+#cierre{flex:none;margin-top:var(--sp-close);padding-top:var(--sp-tight);
+ border-top:2px solid var(--rule-heavy)}
+#cierre .cf{font:500 24px/1.25 var(--f-display);color:var(--ink-title)}
+#cierre .cp{margin-top:2px;font:italic 400 15px/1.45 var(--f-display);
+ color:var(--ink-secondary)}
+
+.ficha{flex:1;min-height:0;display:grid;
+ background:var(--card);border:1px solid var(--edge-card);border-radius:0;
+ box-shadow:0 2px 3px rgba(28,43,54,.07)}
+.ficha.conpie{grid-template-columns:none;grid-template-rows:auto minmax(0,1fr) auto}
+.ficha.conpie .bcab{border-bottom:1px solid var(--edge-inner)}
+.ficha.conpie .bpie{border-top:1px solid var(--edge-inner)}
+.ficha.allado{grid-template-rows:auto minmax(0,1fr)}
+.ficha.allado .escena{grid-area:1/1/3/2}
+.ficha.allado .bcab{grid-area:1/2/2/3;border-left:1px solid var(--edge-inner);
+ align-self:end}
+.ficha.allado .bpie{grid-area:2/2/3/3;border-left:1px solid var(--edge-inner);
+ align-self:start}
+.bcab,.bpie{padding:10px 18px;min-width:0}
+
+.ficha.marcada{box-shadow:0 2px 3px rgba(28,43,54,.07),-3px 0 0 var(--accent-graphic)}
+.escena{position:relative;background:var(--sea-deep);overflow:hidden}
+
+.escena.dia{background:var(--paper)}
+.escena.dia,#fichas .escena.dia{--lam-ink:var(--ink-title);--lam-dim:var(--ink-glosa);
+ --lam-alarm:var(--alarm);--lam-magenta:var(--magenta)}
+#fichas{width:100%}
+.escena svg{position:absolute;inset:0;width:100%;height:100%}
+.bcab{display:flex;align-items:baseline;gap:var(--sp-inline)}
+
+.bcab .k{font:500 19px/1.2 var(--f-display);color:var(--ink-title);flex:none}
+.ficha.marcada .bcab .k{color:var(--accent-text)}
+.bcab .guia{flex:1;border-bottom:1px dotted var(--edge-leader);min-width:10px}
+.bcab .v{font:400 12px/1.4 var(--f-mono);letter-spacing:.06em;color:var(--ink-label);
+ flex:none;font-variant-numeric:tabular-nums;white-space:nowrap}
+.btit{font:600 16px/1.35 var(--f-ui);color:var(--ink-title)}
+
+.btit.alarma{color:var(--accent-text)}
+
+.res-col{background:var(--card);border:1px solid var(--edge-card);
+ box-shadow:0 2px 3px rgba(28,43,54,.07);display:flex;flex-direction:column;
+ min-width:0;overflow:hidden}
+.res-col>h5{margin:0;padding:10px 16px;border-bottom:1px solid var(--edge-inner);
+ font:400 12px/1.4 var(--f-mono);letter-spacing:.12em;text-transform:uppercase;
+ color:var(--ink-label)}
+.res-col>div{padding:12px 16px;overflow:auto}
+.res-col dl{margin:0}
+.res-col dt{font:600 15px/1.35 var(--f-ui);color:var(--ink-title);margin-top:10px}
+.res-col dt:first-child{margin-top:0}
+.res-col dd{margin:1px 0 0;font:400 15px/1.4 var(--f-ui);color:var(--ink-secondary)}
+.bglo{margin-top:2px;font:italic 400 16px/1.35 var(--f-display);
+ color:var(--ink-secondary)}
+#obj{position:absolute;inset:0}
+#svg{position:absolute;inset:0;width:100%;height:100%;touch-action:none}
+#obj,#svg,#svg *{-webkit-user-select:none;-moz-user-select:none;user-select:none;
+ -webkit-user-drag:none;-webkit-tap-highlight-color:transparent}
+#obj svg .boton{cursor:pointer}
+
+#side{min-height:0;display:flex;flex-direction:column;background:var(--panel);
+ border-left:1px solid var(--edge-frame)}
+#head{flex:none;padding:var(--sp-panel-y) var(--sp-panel-x);
+ border-bottom:1px solid var(--edge-panel)}
+.hd{display:flex;align-items:baseline;gap:var(--sp-tight)}
+.hd>:last-child{margin-left:auto}
+
+#hTit{font:400 12px/1.4 var(--f-mono);letter-spacing:.12em;text-transform:uppercase;
+ color:var(--ink-label);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+#hN{flex:none;font:400 12px/1.4 var(--f-mono);letter-spacing:.12em;
+ color:var(--ink-quiet);font-variant-numeric:tabular-nums}
+#prog{display:flex;gap:3px;margin-top:var(--sp-tight)}
+#prog i{flex:1;height:5px;background:var(--progress-pending);border-radius:0;
+ cursor:pointer}
+#prog i.done{background:var(--link)}
+#prog i.on{background:var(--accent-graphic)}
+#pane{flex:1;min-height:0;overflow-y:auto;
+ padding:var(--sp-panel-c) var(--sp-panel-x)}
+
+h2{margin:0 0 var(--sp-block);font:500 31px/1.18 var(--f-display);
+ color:var(--ink-title)}
+h3{margin:0 0 var(--sp-tight);font:400 12px/1.4 var(--f-mono);letter-spacing:.12em;
+ text-transform:uppercase;color:var(--ink-label)}
+p{margin:0 0 var(--sp-block);max-width:62ch;color:var(--ink-body)}
+p:last-child{margin-bottom:0}
+p b{color:var(--ink-title);font-weight:600}
+
+p em{font-style:normal;color:var(--ink-secondary)}
+
+button{font:600 15px/1.45 var(--f-ui);padding:11px 26px;border:1px solid transparent;
+ border-radius:2px;cursor:pointer;background:var(--bar);color:var(--on-primary);
+ min-height:44px}
+button:hover:not(:disabled){background:#26394A}
+button.sec{background:var(--card);color:var(--ink-lead);border-color:var(--edge-button);
+ padding:10px 18px}
+button.sec:hover:not(:disabled){background:var(--inset)}
+button.show{background:transparent;color:var(--accent-text);
+ border-color:var(--edge-button);padding:10px 18px}
+
+a.skip{font:400 15px/1.45 var(--f-ui);color:var(--ink-secondary);cursor:pointer;
+ text-decoration:none;white-space:nowrap;padding:0 var(--sp-tight);
+ display:inline-flex;align-items:center;min-height:44px}
+a.skip:hover{color:var(--ink-title);text-decoration:underline}
+
+.prl{font:400 12px/1.4 var(--f-mono);letter-spacing:.12em;color:var(--accent-text);
+ margin-left:auto;white-space:nowrap;font-variant-numeric:tabular-nums}
+
+b.q{display:block;margin:0 0 var(--sp-block);font:400 17px/1.6 var(--f-ui);
+ color:var(--ink-lead);font-weight:400}
+.ops{display:flex;flex-direction:column;gap:var(--sp-inline);
+ margin:0 0 var(--sp-block);counter-reset:op}
+
+.ops button{display:block;position:relative;width:100%;
+ min-height:52px;padding:15px var(--sp-block) 15px 46px;text-align:left;
+ background:var(--card);color:var(--ink-lead);border:1px solid var(--edge-card);
+ font:400 17px/1.45 var(--f-ui)}
+.ops button b{font-weight:600;color:var(--ink-title)}
+.ops button::before{counter-increment:op;content:counter(op,upper-alpha);
+ position:absolute;left:var(--sp-block);top:15px;
+ font:500 15px/1.45 var(--f-mono);color:var(--accent-text)}
+.ops button:hover:not(:disabled){background:var(--inset);
+ border-color:var(--edge-button)}
+.ops button:disabled{opacity:1;cursor:default;color:var(--ink-secondary)}
+
+.res{margin:0 0 var(--sp-block);padding:var(--sp-tight) var(--sp-block);
+ background:var(--inset);border:1px solid var(--edge-inner);
+ border-left:3px solid var(--edge-panel);color:var(--ink-body);font-size:16px}
+.res b{color:var(--ink-title);font-weight:600}
+.res.si{border-left-color:var(--link)}
+.res.no{border-left-color:var(--accent-graphic)}
+.res.ver{border-left-color:var(--accent-graphic)}
+
+.pista{margin:0 0 var(--sp-block);font:italic 400 19px/1.5 var(--f-display);
+ color:var(--ink-secondary);border:0;padding:0}
+
+.calc{margin:0 0 var(--sp-block);padding:var(--sp-tight) var(--sp-block);
+ background:var(--inset);border:1px solid var(--edge-inner);
+ font:400 15px/1.45 var(--f-ui);color:var(--ink-body);
+ font-variant-numeric:tabular-nums}
+.calc b{color:var(--ink-title);font-weight:600}
+
+#foot{flex:none;border-top:1px solid var(--edge-panel);
+ padding:var(--sp-panel-y) var(--sp-panel-x)}
+#navPie .nav{display:flex;align-items:center;gap:var(--sp-inline);flex-wrap:wrap}
+#navPie .nav button#sig,#navPie .nav button#otra{margin-left:auto}
+
+.pie2{display:flex;align-items:baseline;gap:var(--sp-tight);
+ margin-top:var(--sp-tight);font:400 12px/1.4 var(--f-mono);letter-spacing:.1em;
+ color:var(--ink-quiet);white-space:nowrap}
+.pie2>:last-child{margin-left:auto}
+a.pieLink{color:var(--link);text-decoration:none;cursor:pointer;white-space:nowrap}
+a.pieLink:hover{text-decoration:underline}
+.sello{display:block;margin-top:var(--sp-hair);font:400 12px/1.4 var(--f-mono);
+
+ letter-spacing:.1em;color:var(--ink-quiet);
+
+ white-space:normal;overflow-wrap:anywhere}
+.sello b{font-weight:400}
+
+@media (max-width:1099px){
+ #wrap{grid-template-columns:minmax(0,1fr) clamp(320px,34%,346px)}
+ #miga{font-size:15px}
+}
+
+@media (max-width:999px){ #barra{height:50px} }
+</style>
+<div id="barra">
+ <a class="barlink" href="../index.html">&#8592; The course</a>
+ <i class="sep"></i>
+ <div id="miga">Lights and shapes of vessels <span>&middot;</span> <b>What she shows</b></div>
+ <span class="crece"></span>
+ 
+ <a class="barlink" href="balizamiento-p1-the-marks.html#flashcards">Flashcards</a>
+ <i class="sep"></i>
+ <a class="barlink" href="../index.html">Contents</a>
+ <span id="barCont"></span>
+</div>
+<div id="wrap">
+ <div id="lienzo">
+  <div id="ficha"><div id="obj"><svg id="svg"></svg></div></div>
+  <div id="fichas"></div>
+  <div id="cierre"></div>
+ </div>
+ <div id="side">
+  <div id="head">
+   <div class="hd"><b id="hTit" data-rotulo="1">The same sentence, twice</b><span id="hN"></span></div>
+   <div id="prog"></div></div>
+  <div id="pane"></div>
+  <div id="foot">
+   <div id="navPie"></div>
+   <div class="pie2"><span id="fLog">0 answers logged</span><a class="pieLink" id="deCero" onclick="deCero()">start over</a></div>
+   <div class="sello" id="sello" data-sello="1a751f50">lights and shapes · part 1 · <b>16 of 16 screens</b> · 22 Aug 2026</div>
+  </div>
+ </div>
+</div>
+
+<template id="tSig"><div class="calc"><b>Next: What she is.</b><br>
+   Eleven configurations in three families, grouped by what you see and not by rule number: no colour above the sidelights, a pair one over one, or a string of reds. And the tow, which is none of them.</div></template>
+<script>
+
+function pintaFicha(q, s, anchoUn, franja){
+ const X = (franja || 0) * D.W;
+ const P = {x0:X, y0:0, x1:X + D.W, y1:D.H, cx:X + D.W/2, cy:D.H*0.74};
+
+ const aire = q.aire || 0;
+ if(q.dia){
+  const an = anchoUn || (D.W - 67);
+  casco({x0: P.cx - an/2, y0: P.y0, x1: P.cx + an/2, y1: P.y1,
+         cx: P.cx, cy: P.cy, aire: aire},
+        q.v, false, marcasDia(q.v));
+  return;
+ }
+ pintaNave(P, q.v, q.g, {pasos: q.pasos, nm: q.nm, tapaBabor: q.tapaBabor, aire: q.aire || 0,
+                         neutro: q.neutro, soloRemolcador: q.soloRemolcador,
+                         ancho: q.neutro ? ANCHO_PRACTICA : (anchoUn || (D.W - 67))});
+}
+
+const FICHAS = {
+
+ tesis: s => [
+   {v: s.buque, dia: true, rot: "BY DAY", tit: "her day shapes", glo: "shapes"},
+   {v: s.buque, rot: "AT NIGHT", tit: "her lights", glo: "lights"}],
+
+ estados: s => {
+  const pasos = pasosMax(s.estados.map(e => ({v: Object.assign({}, s.buque, e.v)})));
+  return s.estados.map(e => {
+   const v = Object.assign({}, s.buque, e.v);
+   const ve = vistas(v, null).filter(l => l.kind !== "port");
+   return {v: v, pasos: pasos, tapaBabor: true, rot: e.rot,
+           tit: ve.length === 1 ? "one light" : ve.length + " lights", glo: e.pie};
+  });
+ },
+
+ topes: s => {
+  const pasos = pasosMax(s.naves.map(q => ({v: q.v})));
+  return s.naves.map(q => {
+   const ve = vistas(q.v, null).filter(l => l.kind !== "port");
+   return {v: q.v, pasos: pasos, tapaBabor: true, rot: q.rot,
+           tit: ve.filter(l => l.kind === "masthead").length === 1
+                ? "one masthead" : "two mastheads", glo: q.pie || q.rot};
+  });
+ },
+
+ deshace: s => {
+  const pasos = pasosMax([{v: s.buque}]);
+  return s.millas.map(nm => {
+   const q = configuration(s.buque).filter(l =>
+     visible(l, s.g) && nm <= ranges(s.buque.length || 12)[l.rangeKey]);
+   return {v: s.buque, g: s.g, nm: nm, pasos: pasos, rot: nm + " MILES OFF",
+           tit: q.length === 1 ? "one light left" : q.length + " lights",
+           glo: nm + " nm", alarma: !q.length};
+  });
+ },
+
+ fondeo: s => {
+  const pasos = pasosMax(s.paneles.filter(q => !q.dia).map(q => ({v: q.v})));
+  return s.paneles.map(q => {
+   const ve = q.dia ? [] : vistas(q.v, null).filter(l => l.kind !== "port");
+   return {v: q.v, dia: !!q.dia, pasos: pasos, tapaBabor: true, rot: q.rot,
+           tit: q.dia ? "her day shape"
+                      : (ve.length === 1 ? "one light" : ve.length + " lights"),
+           glo: q.pie};
+  });
+ }
+};
+
+"use strict";
+const VISTO_CLAVE = "rya.visto";
+
+const VISTO_V = 2;
+
+function vistoAlmacen(){
+ try{ return (typeof localStorage !== "undefined" && localStorage) ? localStorage : null; }
+ catch(e){ return null; }
+}
+
+function vistoLee(){
+ const A = vistoAlmacen();
+ if(!A) return {v:VISTO_V, empezadas:{}, terminadas:{}, sinAlmacen:true};
+ try{
+  const o = JSON.parse(A.getItem(VISTO_CLAVE) || "null");
+  if(o && o.v === VISTO_V && o.empezadas && o.terminadas) return o;
+ }catch(e){}
+ return {v:VISTO_V, empezadas:{}, terminadas:{}};
+}
+
+function _vistoGuarda(o){
+ const A = vistoAlmacen();
+ if(!A) return o;
+ try{
+  A.setItem(VISTO_CLAVE, JSON.stringify(
+   {v:VISTO_V, empezadas:o.empezadas, terminadas:o.terminadas, pos:o.pos || {}}));
+ }catch(e){}
+ return o;
+}
+
+function _vistoPon(cual, fichero){
+ const o = vistoLee();
+ if(o.sinAlmacen || o[cual][fichero]) return o;
+ o[cual][fichero] = 1;
+ return _vistoGuarda(o);
+}
+
+const vistoEmpieza  = f => _vistoPon("empezadas", f);
+const vistoTermina  = f => _vistoPon("terminadas", f);
+const vistoEmpezada = f => !!vistoLee().empezadas[f];
+const vistoTerminada= f => !!vistoLee().terminadas[f];
+const vistoHayAlmacen = () => !!vistoAlmacen();
+
+function vistoPon(fichero, n){
+ const o = vistoLee();
+ if(o.sinAlmacen) return o;
+ if(!o.pos) o.pos = {};
+ if(o.pos[fichero] === n) return o;
+ o.pos[fichero] = n;
+ return _vistoGuarda(o);
+}
+
+function vistoPos(fichero, tope){
+ const p = vistoLee().pos;
+ const n = p && p[fichero];
+ if(typeof n !== "number" || !isFinite(n) || n < 0) return 0;
+ return (typeof tope === "number" && tope >= 0) ? Math.min(n, tope) : n;
+}
+
+function vistoOlvida(fichero){
+ const o = vistoLee();
+ if(o.sinAlmacen || !o.pos || !(fichero in o.pos)) return o;
+ delete o.pos[fichero];
+ return _vistoGuarda(o);
+}
+
+"use strict";
+
+const ARC = {
+  masthead: 112.5,
+  sidelight:112.5,
+  stern:    112.5,
+  allRound: 180
+};
+
+const CUTOFF = 1.5;
+
+const visible = (arc, aspect) => {
+  const a = Math.abs(aspect);
+  switch(arc.kind){
+    case "masthead": return a <= ARC.masthead;
+    case "starboard":return aspect >= -CUTOFF && aspect <= ARC.sidelight;
+    case "port":     return aspect <=  CUTOFF && aspect >= -ARC.sidelight;
+
+    case "stern":    return a > ARC.stern;
+    case "allround": return true;
+  }
+  return false;
+};
+
+const HGT = {
+
+  mast1: L => Math.max(1.6, 0.62 * Math.pow(L, 0.72)),
+  mast2: L => HGT.mast1(L) + Math.max(4.5, HGT.mast1(L)*0.22),
+  side:  L => L >= 20 ? HGT.mast1(L)*0.72 : Math.max(0.9, HGT.mast1(L)*0.55),
+  stern: L => L >= 20 ? HGT.mast1(L)*0.42 : Math.max(0.7, HGT.mast1(L)*0.40),
+  allr:  L => Math.max(2.2, HGT.mast1(L)*0.90),
+  mast:  L => Math.max(1.6, 0.62 * Math.pow(L, 0.72))
+};
+
+function ranges(L){
+  if (L >= 50) return {masthead:6, side:3, stern:3, allround:3, towing:3};
+  if (L >= 20) return {masthead:5, side:2, stern:2, allround:2, towing:2};
+  if (L >= 12) return {masthead:3, side:2, stern:2, allround:2, towing:2};
+  return          {masthead:2, side:1, stern:2, allround:2, towing:2};
+}
+
+const L = (kind, colour, h, x, rangeKey, extra={}) =>
+  ({kind, colour, h, x, rangeKey, ...extra});
+
+function configuration(v){
+  const LEN = v.length || 12;
+  const L50 = LEN >= 50;
+  const making = v.makingWay !== false;
+  const under  = v.underway  !== false;
+
+  const sideX  = L50 ? -0.30 : 0.80;
+  const side   = [L("starboard","green",HGT.side(LEN), sideX,"side"),
+                  L("port",     "red",  HGT.side(LEN), sideX,"side")];
+  const stern  = [L("stern","white",HGT.stern(LEN),-0.96,"stern")];
+  const mast1  = [L("masthead","white",HGT.mast1(LEN), 0.55,"masthead")];
+  const mast2  = L50 ? [L("masthead","white",HGT.mast2(LEN),-0.40,"masthead")] : [];
+
+  if (!under) {
+    return LEN >= 50
+      ? [L("allround","white",HGT.allr(LEN)*0.9, 0.88,"allround"),
+         L("allround","white",HGT.stern(LEN)*1.4,-0.88,"allround")]
+      : [L("allround","white",HGT.allr(LEN), 0.0,"allround")];
+  }
+
+  switch(v.type){
+    case "power": case "pilotUnderway":
+
+      if(LEN < 12 && v.combined !== false)
+        return [L("allround","white",Math.max(2.2,LEN*0.22),0.10,"allround"), ...side];
+      return [...mast1, ...mast2, ...side, ...stern];
+
+    case "sailing":
+
+      const mastTop = LEN*1.30;
+      return v.tricolour && LEN < 20
+        ? [L("starboard","green",mastTop,0.05,"side"), L("port","red",mastTop,0.05,"side"),
+           L("stern","white",mastTop,0.05,"stern")]
+        : [L("starboard","green",HGT.side(LEN),0.86,"side"),
+           L("port","red",      HGT.side(LEN),0.86,"side"), ...stern,
+           ...(v.optionalRedGreen ? [L("allround","red",  mastTop,0.05,"allround"),
+                                     L("allround","green",mastTop*0.94,0.05,"allround")] : [])];
+
+    case "fishingTrawl":
+      return [L("allround","green",HGT.allr(LEN)*1.25,0.28,"allround"),
+              L("allround","white",HGT.allr(LEN)*0.95,0.28,"allround"),
+              ...(L50?[L("masthead","white",HGT.mast2(LEN),-0.40,"masthead")]:[]),
+              ...(making?[...side,...stern]:[])];
+
+    case "fishingOther":
+      return [L("allround","red",HGT.allr(LEN)*1.25,0.28,"allround"),
+              L("allround","white",HGT.allr(LEN)*0.95,0.28,"allround"),
+              ...(making?[...side,...stern]:[])];
+
+    case "nuc":
+      return [L("allround","red",HGT.allr(LEN)*1.25,0.20,"allround"),
+              L("allround","red",HGT.allr(LEN)*0.95,0.20,"allround"),
+              ...(making?[...side,...stern]:[])];
+
+    case "ram":
+      return [L("allround","red",  HGT.allr(LEN)*1.45,0.20,"allround"),
+              L("allround","white",HGT.allr(LEN)*1.20,0.20,"allround"),
+              L("allround","red",  HGT.allr(LEN)*0.95,0.20,"allround"),
+              ...(making?[...mast1,...mast2,...side,...stern]:[])];
+
+    case "cbd":
+      return [...mast1, ...mast2, ...side, ...stern,
+
+              L("allround","red",HGT.allr(LEN)*1.35,0.14,"allround"),
+              L("allround","red",HGT.allr(LEN)*1.15,0.14,"allround"),
+              L("allround","red",HGT.allr(LEN)*0.95,0.14,"allround")];
+
+    case "pilot":
+
+      return [L("allround","white",HGT.allr(LEN)*1.25,0.20,"allround"),
+              L("allround","red",  HGT.allr(LEN)*0.95,0.20,"allround"),
+              ...side, ...stern];
+
+    case "towing": {
+      const TL   = v.towLength || 120;
+      const long = TL > 200;
+      const stack = [];
+      const step = Math.max(2, LEN*0.055);
+      for (let i=0;i<(long?3:2);i++)
+        stack.push(L("masthead","white",HGT.mast1(LEN)+i*step,0.55,"masthead"));
+      const tug = [...stack, ...(L50?[L("masthead","white",HGT.mast2(LEN)+step*2,-0.40,"masthead")]:[]),
+                   ...side, ...stern,
+                   L("stern","yellow",HGT.stern(LEN)*1.5,-0.96,"towing")];
+
+      const back = -(TL + LEN*0.5);
+      const towed = [
+        L("starboard","green",2.0,0,"side",  {xm:back, tow:true}),
+        L("port",     "red",  2.0,0,"side",  {xm:back, tow:true}),
+        L("stern",    "white",1.6,0,"stern", {xm:back - 20, tow:true})
+      ];
+      return [...tug, ...towed];
+    }
+  }
+  return [...side, ...stern];
+}
+
+function seenFrom(v, aspect, rangeNm){
+  const R = ranges(v.length || 12);
+  return configuration(v)
+    .filter(l => visible(l, aspect))
+    .filter(l => rangeNm === undefined || rangeNm <= R[l.rangeKey])
+    .map(l => ({...l, nominal:R[l.rangeKey]}));
+}
+
+const A1 = {
+
+  TOPE_SOBRE_CASCO_MIN: 6,
+  TOPE_NUNCA_HACE_FALTA_MAS: 12,
+
+  TOPE2_SOBRE_TOPE1: 4.5,
+
+  TOPES_SEP_FRAC_ESLORA: 0.5,
+  TOPES_SEP_NUNCA_MAS: 100,
+  TOPE1_DESDE_LA_RODA_FRAC: 0.25,
+
+  TOPE_CHICO_SOBRE_BORDA: 2.5,
+
+  COSTADOS_FRAC_TOPE: 0.75,
+
+  VERT_SEP_GRANDE: 2, VERT_BAJA_GRANDE: 4,
+  VERT_SEP_CHICO: 1,  VERT_BAJA_CHICO: 2,
+
+  ANCLA_PROA_SOBRE_POPA: 4.5,
+  ANCLA_PROA_MIN_50: 6,
+
+  PESCA_SOBRE_COSTADOS_VECES: 2,
+
+  CUBIERTAS_ILUMINADAS_DESDE: 100,
+
+  GRANDE: 20,
+  MUY_GRANDE: 50
+};
+
+const ESLORA_POR_MANGA = 6.5;
+const manga = L => L / ESLORA_POR_MANGA;
+
+function alturaTope(L) {
+  if (L < A1.GRANDE) return A1.TOPE_CHICO_SOBRE_BORDA;
+  return Math.min(Math.max(A1.TOPE_SOBRE_CASCO_MIN, manga(L)),
+                  A1.TOPE_NUNCA_HACE_FALTA_MAS);
+}
+
+const COSTADOS_TECHO_COMUN = A1.COSTADOS_FRAC_TOPE * A1.TOPE_SOBRE_CASCO_MIN;
+function alturaCostados(L) {
+  return Math.min(COSTADOS_TECHO_COMUN, A1.COSTADOS_FRAC_TOPE * alturaTope(L));
+}
+const vertical = L => L >= A1.GRANDE
+  ? { sep: A1.VERT_SEP_GRANDE, baja: A1.VERT_BAJA_GRANDE }
+  : { sep: A1.VERT_SEP_CHICO,  baja: A1.VERT_BAJA_CHICO };
+
+const xTope1 = L => L / 2 - L * A1.TOPE1_DESDE_LA_RODA_FRAC;
+const xTope2 = L => xTope1(L) - Math.min(L * A1.TOPES_SEP_FRAC_ESLORA,
+                                         A1.TOPES_SEP_NUNCA_MAS);
+const xPopa  = L => -L / 2;
+const X_MEDIO = 0;
+
+const SM_CRUJIA = 0;
+function athwart(v, kind, L) {
+  if (kind === "starboard") return  manga(L) / 2;
+  if (kind === "port")      return -manga(L) / 2;
+  return SM_CRUJIA;
+}
+const CITA_ATHWART = {
+  starboard: "R21(b) \u00b7 en la banda de estribor",
+  port:      "R21(b) \u00b7 en la banda de babor"
+};
+
+const ALCANCE_SOBRE_CASCO = 0;
+
+const TOW_LARGO_DIAMANTE = 200;
+const towLargo   = v => v.towLength   || 120;
+const towEslora  = v => v.towedLength || 60;
+
+const towAtras   = v => towLargo(v) + (v.length || 12)/2 + towEslora(v)/2;
+
+const tramoDe = v => (v.length || 12);
+const tramoRemolque = v => (v.length || 12)/2 + towAtras(v) + towEslora(v)/2;
+
+const CITA = {
+  power:        { r: "R23",    ident: [] },
+  sailing:      { r: "R25",    ident: [] },
+  nuc:          { r: "R27(a)", ident: ["red", "red"] },
+  ram:          { r: "R27(b)", ident: ["red", "white", "red"] },
+  cbd:          { r: "R28",    ident: ["red", "red", "red"] },
+  pilot:        { r: "R29",    ident: ["white", "red"] },
+  fishingTrawl: { r: "R26(b)", ident: ["green", "white"] },
+  fishingOther: { r: "R26(c)", ident: ["red", "white"] },
+  towing:       { r: "R24",    ident: [] },
+  fondeada:     { r: "R30",    ident: ["white"] }
+};
+
+const SOLO_CON_ARRANCADA = ["nuc", "ram", "fishingTrawl", "fishingOther"];
+
+const MARCAS_DIA = {
+  power:        [],
+  sailing:      [],
+  velaYMotor:   ["coneUp"],
+  nuc:          ["ball", "ball"],
+  ram:          ["ball", "diamond", "ball"],
+  cbd:          ["cylinder"],
+  pilot:        [],
+  fishingTrawl: ["coneUp", "cone"],
+  fishingOther: ["coneUp", "cone"],
+  towing:       [],
+
+  fondeada:     ["ball"]
+};
+
+const NO_ES_TIPO = ["velaYMotor"];
+
+function marcasDia(v) {
+  const clave = v.underway === false ? "fondeada"
+              : (v.velaYMotor ? "velaYMotor" : v.type);
+
+  if (clave === "towing")
+    return towLargo(v) > TOW_LARGO_DIAMANTE ? ["diamond"] : [];
+  return (MARCAS_DIA[clave] || []).slice();
+}
+
+function citada(v, luces) {
+  const L = v.length || 12;
+  const fondeada = v.underway === false;
+  const clave = fondeada ? "fondeada" : v.type;
+  const C = CITA[clave];
+  if (!C) return "el tipo «" + v.type + "» no esta citado a ninguna regla";
+
+  if (clave === "towing") {
+    const suyas = luces.filter(l => !l.tow), suyo = luces.filter(l => l.tow);
+    const topes = suyas.filter(l => l.kind === "masthead").length;
+    const pide = ((towLargo(v) > TOW_LARGO_DIAMANTE) ? 3 : 2)
+               + (L >= A1.MUY_GRANDE ? 1 : 0);
+    if (topes !== pide)
+      return "R24(a)(i) da " + pide + " tope(s) a un remolcador de " + L + " m con un "
+        + "remolque de " + towLargo(v) + " m, y hay " + topes;
+    if (suyas.filter(l => l.kind === "starboard").length !== 1
+     || suyas.filter(l => l.kind === "port").length !== 1)
+      return "R24 pide los dos costados del remolcador, y uno de cada";
+    if (suyas.filter(l => l.kind === "stern" && l.colour === "white").length !== 1)
+      return "R24(a)(iii) pide la luz de alcance del remolcador";
+    if (suyas.filter(l => l.kind === "stern" && l.colour === "yellow").length !== 1)
+      return "R24(a)(iv) pide la AMARILLA de remolque, sobre la de alcance";
+    if (suyas.some(l => l.kind === "allround"))
+      return "R24 no le da al remolcador ninguna luz de todo horizonte";
+    if (suyo.filter(l => l.kind === "starboard").length !== 1
+     || suyo.filter(l => l.kind === "port").length !== 1
+     || suyo.filter(l => l.kind === "stern").length !== 1)
+      return "R24(e) pide del remolcado sus dos costados y su luz de alcance, y nada mas";
+    if (suyo.some(l => l.kind === "masthead" || l.kind === "allround"))
+      return "R24(e) no le da al remolcado ni tope ni luz de todo horizonte";
+    return null;
+  }
+
+  const todoH = luces.filter(l => l.kind === "allround")
+                     .sort((a, b) => b.h - a.h).map(l => l.colour);
+  const topes  = luces.filter(l => l.kind === "masthead").length;
+  const lados  = luces.filter(l => l.kind === "starboard" || l.kind === "port").length;
+  const alcance = luces.filter(l => l.kind === "stern" && l.colour === "white").length;
+  const otros  = luces.filter(l => ["allround", "masthead", "starboard", "port",
+                                    "stern"].indexOf(l.kind) < 0);
+  if (otros.length) return "lleva " + otros.length + " luz(ces) de una clase que esta "
+    + "tabla no conoce: " + otros.map(l => l.kind).join(" ");
+
+  for (const k of ["starboard", "port"]) {
+    const n = luces.filter(l => l.kind === k).length;
+    if (n > 1) return "lleva " + n + " luces de " + k + ", y un buque tiene una";
+  }
+
+  if (fondeada) {
+    const n = L >= A1.MUY_GRANDE ? 2 : 1;
+    if (todoH.length !== n)
+      return "R30 pide " + n + " blanca(s) de fondeo para " + L + " m y hay " + todoH.length;
+    if (todoH.some(c => c !== "white")) return "una luz de fondeo que no es blanca";
+    if (topes || lados || alcance) return "fondeada y con luces de navegacion encendidas";
+    return null;
+  }
+
+  const chicaCombinada = clave === "power" && L < 12
+    && todoH.length === 1 && todoH[0] === "white" && !topes && !alcance;
+  if (!chicaCombinada && todoH.join(" ") !== C.ident.join(" "))
+    return C.r + " manda de identidad [" + (C.ident.join(" ") || "ninguna")
+      + "] y hay [" + (todoH.join(" ") || "ninguna") + "]";
+
+  let topesQueTocan;
+  if (clave === "power")        topesQueTocan = L < 12 ? (chicaCombinada ? 0 : 1)
+                                              : (L >= A1.MUY_GRANDE ? 2 : 1);
+  else if (clave === "cbd")     topesQueTocan = L >= A1.MUY_GRANDE ? 2 : 1;
+  else if (clave === "ram")     topesQueTocan = v.makingWay === false ? 0
+                                              : (L >= A1.MUY_GRANDE ? 2 : 1);
+  else if (clave === "fishingTrawl") topesQueTocan = L >= A1.MUY_GRANDE ? 1 : 0;
+  else                          topesQueTocan = 0;
+  if (topes !== topesQueTocan)
+    return C.r + " da " + topesQueTocan + " tope(s) a un buque de " + L + " m y hay " + topes;
+
+  if (SOLO_CON_ARRANCADA.indexOf(clave) >= 0) {
+    const debe = v.makingWay !== false;
+    if (debe && (lados !== 2 || alcance !== 1))
+      return C.r + " con arrancada pide los dos costados y la de alcance";
+    if (!debe && (lados || alcance))
+      return C.r + " sin arrancada no lleva costados ni luz de alcance";
+  } else if (!chicaCombinada && (lados !== 2 || alcance !== 1)) {
+    return C.r + " pide los dos costados y la de alcance";
+  } else if (chicaCombinada && lados !== 2) {
+    return "R23(d) pide los dos costados";
+  }
+  return null;
+}
+
+const P = (m, xm, cita, libre, sarta) => ({
+  m: m, xm: xm, cita: cita,
+  mLibre:  !!(libre && libre.indexOf("m") >= 0),
+  xmLibre: !!(libre && libre.indexOf("x") >= 0),
+  sarta: sarta || null
+});
+
+function coloca(v, luces, completas) {
+  const mal = citada(v, completas || luces);
+  if (mal) throw new Error("configuracion no citada: " + mal
+    + "  (" + v.type + " " + (v.length || 12) + " m)");
+
+  const todas = completas || luces;
+  const L = v.length || 12, VE = vertical(L);
+  const fondeada = v.underway === false;
+
+  if (!fondeada && v.type === "towing") {
+    const out = todas.map(() => null);
+    const suyas = todas.filter(l => !l.tow), suyo = todas.filter(l => l.tow);
+    const pon = (l, q) => { out[todas.indexOf(l)] = q; };
+
+    const topes = suyas.filter(l => l.kind === "masthead")
+      .sort((a, b) => a.h - b.h);
+
+    const sarta = topes.filter(l => l.x > 0), atras = topes.filter(l => l.x <= 0);
+    sarta.forEach((l, k) => pon(l, P(alturaTope(L) + k * VE.sep, xTope1(L),
+      "R24(a)(i) \u00b7 en linea vertical + A1 2(a) y 2(f)", null, "topes24")));
+    const cima = alturaTope(L) + (sarta.length - 1) * VE.sep;
+    atras.forEach(l => pon(l, P(cima + A1.TOPE2_SOBRE_TOPE1, xTope2(L),
+      "A1 2(a)(ii) + 3(a)")));
+    suyas.forEach(l => {
+      if (out[todas.indexOf(l)]) return;
+      if (l.kind === "starboard" || l.kind === "port")
+        pon(l, P(alturaCostados(L), xTope1(L), "A1 2(g) + 3(b)"));
+      else if (l.kind === "stern" && l.colour === "white")
+        pon(l, P(ALCANCE_SOBRE_CASCO, xPopa(L),
+                 "R21 \u00b7 el sitio; la altura no la da el Anexo I", "m", "popa24"));
+      else if (l.kind === "stern" && l.colour === "yellow")
+
+        pon(l, P(ALCANCE_SOBRE_CASCO + VE.sep, xPopa(L),
+                 "R24(a)(iv) \u00b7 sobre la de alcance + A1 2(f)", "m", "popa24"));
+    });
+
+    const Lr = towEslora(v), atrasM = towAtras(v), VR = vertical(Lr);
+    suyo.forEach(l => {
+      if (l.kind === "starboard" || l.kind === "port")
+        pon(l, P(alturaCostados(Lr), -atrasM + xTope1(Lr),
+                 "R24(e)(i) + A1 2(g) y 3(b)"));
+      else if (l.kind === "stern")
+        pon(l, P(ALCANCE_SOBRE_CASCO, -atrasM + xPopa(Lr),
+                 "R24(e)(i) \u00b7 el sitio; la altura no la da el Anexo I", "m"));
+    });
+
+    todas.forEach((l, i) => { if (!out[i]) return;
+      out[i].sm = athwart(v, l.kind, l.tow ? towEslora(v) : L);
+      out[i].citaSm = CITA_ATHWART[l.kind] || "R21 \u00b7 en la crujia"; });
+    const sinSitio = out.findIndex(o => !o);
+    if (sinSitio >= 0) throw new Error("el R24 no le da sitio a "
+      + todas[sinSitio].kind + "/" + todas[sinSitio].colour);
+    return luces.map(l => out[todas.indexOf(l)]);
+  }
+
+  const luces_ = todas;
+  const out = luces_.map(() => null);
+
+  const idx = luces_.map((l, i) => i).filter(i => luces_[i].kind === "allround")
+    .sort((a, b) => luces_[b].h - luces_[a].h);
+  let cimaTodoH = null;
+
+  if (fondeada) {
+    if (idx.length === 2) {
+
+      out[idx[0]] = P(A1.ANCLA_PROA_MIN_50, xTope1(L), "A1 2(k) + R30(a)(i)");
+      out[idx[1]] = P(A1.ANCLA_PROA_MIN_50 - A1.ANCLA_PROA_SOBRE_POPA, xPopa(L),
+                      "A1 2(k) + R30(a)(ii)");
+    } else {
+
+      out[idx[0]] = P(VE.baja, xTope1(L), "R30(b) · donde mejor pueda ser vista",
+                      "mx");
+    }
+  } else if (v.type === "fishingTrawl" || v.type === "fishingOther") {
+
+    const baja = Math.max(VE.baja,
+      alturaCostados(L) + A1.PESCA_SOBRE_COSTADOS_VECES * VE.sep);
+    out[idx[1]] = P(baja,          X_MEDIO, "A1 2(i)", "x", "2f");
+    out[idx[0]] = P(baja + VE.sep, X_MEDIO, "A1 2(i) + 2(f)", "x", "2f");
+    cimaTodoH = baja + VE.sep;
+  } else if (v.type === "pilot") {
+
+    const alta = Math.max(alturaTope(L), VE.baja + VE.sep);
+    out[idx[0]] = P(alta,          X_MEDIO, "R29 · en el tope o cerca", "mx", "2f");
+    out[idx[1]] = P(alta - VE.sep, X_MEDIO, "R29 + A1 2(f)", "x", "2f");
+    cimaTodoH = alta;
+  } else if (idx.length === 1 && v.type === "power") {
+
+    out[idx[0]] = P(A1.TOPE_CHICO_SOBRE_BORDA, X_MEDIO,
+                    "R23(d) · donde mejor pueda ser vista", "mx");
+  } else if (idx.length) {
+
+    for (let k = 0; k < idx.length; k++)
+      out[idx[idx.length - 1 - k]] = P(VE.baja + k * VE.sep, X_MEDIO,
+        "A1 2(f) · la altura; el sitio es libre", "x", "2f");
+    cimaTodoH = VE.baja + (idx.length - 1) * VE.sep;
+  }
+
+  const iTopes = luces_.map((l, i) => i).filter(i => luces_[i].kind === "masthead")
+    .sort((a, b) => luces_[a].h - luces_[b].h);
+  const alturaTope1 = Math.max(alturaTope(L),
+    cimaTodoH === null ? 0 : cimaTodoH + VE.sep);
+  if (iTopes.length >= 1)
+    out[iTopes[0]] = P(alturaTope1, xTope1(L), "A1 2(a) + 3(a)");
+  if (iTopes.length >= 2)
+    out[iTopes[1]] = P(alturaTope1 + A1.TOPE2_SOBRE_TOPE1, xTope2(L),
+                       "A1 2(a)(ii) + 3(a)");
+
+  const mCostados = alturaCostados(L);
+  luces_.forEach((l, i) => {
+    if (out[i]) return;
+    if (l.kind === "starboard" || l.kind === "port")
+      out[i] = P(mCostados, xTope1(L), "A1 2(g) + 3(b)");
+    else if (l.kind === "stern" && l.colour === "white")
+
+      out[i] = P(ALCANCE_SOBRE_CASCO, xPopa(L),
+                 "R21 · el sitio; la altura no la da el Anexo I", "m");
+    else if (l.kind === "stern" && l.colour === "yellow")
+      out[i] = P(ALCANCE_SOBRE_CASCO + VE.sep, xPopa(L), "R24 + A1 2(f)", "m");
+  });
+  luces_.forEach((l, i) => { if (!out[i]) return;
+    out[i].sm = athwart(v, l.kind, L);
+    out[i].citaSm = CITA_ATHWART[l.kind] || "R21 \u00b7 en la crujia"; });
+  const huerfana = out.findIndex(o => !o);
+  if (huerfana >= 0) throw new Error("el Anexo I no le da sitio a "
+    + luces_[huerfana].kind + "/" + luces_[huerfana].colour);
+
+  return luces.map(l => out[luces_.indexOf(l)]);
+}
+
+if (typeof module !== "undefined") module.exports = {
+  A1, manga, alturaTope, alturaCostados, vertical,
+  xTope1, xTope2, xPopa, X_MEDIO, ALCANCE_SOBRE_CASCO,
+  COSTADOS_TECHO_COMUN, CITA, SOLO_CON_ARRANCADA, citada, coloca,
+  athwart, CITA_ATHWART,
+  MARCAS_DIA, NO_ES_TIPO, marcasDia,
+  TOW_LARGO_DIAMANTE, towLargo, towEslora, towAtras, tramoDe, tramoRemolque
+};
+
+const PZ = [{"id": "1.S1", "tema": "What she shows · topic 1", "obra": "tesis", "reparto": "apiladas", "b": "Next", "h": "The same sentence, twice", "buque": {"type": "nuc", "length": 90, "underway": true, "makingWay": false}, "renglon": "Two black balls. Two red lights. The same sentence.", "pie": "A vessel not under command · 90 m · stopped in the water", "p": ["Everything in this module is one idea, and here it is before anything else: <b>what she shows by day and what she shows by night say the same thing</b>. They are not two systems to learn. They are one sentence written twice, once for the light and once for the dark.", "On the left she is carrying <b>two black balls</b>. On the right, the same vessel at night, carrying <b>two all-round red lights</b>. Both mean exactly one thing: <em>I am not under command — something has failed and I cannot get out of your way.</em>", "Learn to read one and you have read the other. That is why they are taught together and never in two lists."], "calc": "<b>Not under command</b> · Rule 27<br>by day &nbsp;&nbsp;two balls, in a vertical line<br>at night &nbsp;two all-round reds, in a vertical line"}, {"id": "1.S2", "tema": "What she shows · topic 1", "obra": "cuando", "b": "Next", "h": "When they are burning", "rotNiebla": "Fog at midday: lights ON, and her whistle going too", "renglon": "Sunset to sunrise, in all weathers — and by day whenever you cannot see far.", "pie": "Rule 20 · the rule that decides when every other rule in this module applies", "p": ["Before any of it: <b>when are they lit?</b> Rule 20 answers in one sentence and most people only hear the first half of it.", "<b>From sunset to sunrise, in all weathers.</b> Not «when it gets dark» and not «when you think you need them» — the sun goes down and they go on, clear night or filthy one. That much everybody knows.", "<b>And by day, in restricted visibility.</b> That is the half that gets missed, and it is the one that changes what you expect to see. <em>Fog at noon and every vessel around you has her navigation lights burning</em> — in daylight, with her day shapes up as well.", "Which is why this is also the door into the last part of this module. In fog she is lit <b>and she is sounding her whistle</b>, and the two go together: the same conditions switch on both. <em>A ship blowing a long blast at midday is not making a mistake — she is obeying Rule 35, and her lights are on for the same reason.</em>", "There is a second half to Rule 20 about not showing other lights that could be mistaken for these. <b>It belongs to navigation in reduced visibility and it is not in this module</b>, which is about reading the lights themselves."], "calc": "<b>Rule 20</b><br>sunset to sunrise &nbsp;<b>all weathers</b><br>and by day &nbsp;<b>in restricted visibility</b><br>same conditions as <b>Rule 35</b>, the sound signals"}, {"id": "1.S3", "tema": "What she shows · topic 1", "obra": "arcos", "b": "Next", "h": "The horizon, divided once", "renglon": "112.5 + 112.5 = 225. And 225 + 135 = 360.", "pie": "Every arc in the rules is one of these four, and together they cover the horizon exactly once", "p": ["A vessel's lights are not told apart by colour or by height. They are told apart by <b>where you have to be standing to see them</b>. Rule 21 does nothing but divide the horizon, and every light in the book is one of these four slices.", "The two sidelights take <b>112.5&deg; each</b>, from right ahead to 22.5&deg; abaft their own beam. Put them together and they are <b>225&deg;</b> &mdash; which is exactly the masthead light, sitting on top of both. <em>In a vessel of less than 20 m the two of them may live in a single lantern on her centreline &mdash; Rule 21(b). One lamp, and still the same two arcs and the same two colours.</em>", "What is left behind is <b>135&deg;</b>, and that is the sternlight. <em>225 and 135 make 360: the horizon is covered once, with nothing doubled and nothing missed.</em>", "An all-round light is the fifth kind, and it is the easy one: 360&deg;, seen from anywhere."], "calc": "<b>Rule 21</b> &middot; the arcs<br>masthead &nbsp;225&deg; &nbsp;&nbsp;sidelights &nbsp;112.5&deg; each<br>sternlight &nbsp;135&deg; &nbsp;&nbsp;all-round &nbsp;360&deg;"}, {"id": "1.S4", "tema": "What she shows · topic 1", "obra": "desde", "b": "Next", "h": "From ahead you see two. From astern, one.", "buque": {"type": "power", "length": 60, "underway": true, "makingWay": true}, "ojos": [{"n": 1, "g": 0, "tit": "Right ahead of her", "dice": "both sidelights, and her mastheads"}, {"n": 2, "g": 90, "tit": "On her starboard beam", "dice": "green only — the red is hidden by the hull"}, {"n": 3, "g": 150, "tit": "Abaft her beam", "dice": "the sternlight, and nothing else"}], "renglon": "The sidelights stop at 112.5°. One degree past it, they are gone.", "pie": "Which is why a vessel showing you only a white light is going away from you", "p": ["Stand right ahead of her and you are inside <b>both</b> sidelight arcs at once, because both of them start at right ahead. Red on your right, green on your left, and her mastheads above. That sight means one thing: <b>she is coming at you</b>.", "Step round to her beam and one sidelight goes out &mdash; her own hull hides it. Now you see a single colour, and that colour tells you which side of her you are on.", "Go one degree past <b>112.5&deg;</b> and both sidelights and both mastheads cut off together, and the sternlight comes on. From anywhere abaft that line you see <b>one white light and nothing else</b>.", "<em>That is the whole of overtaking, and it is in the arcs before it is in Rule 13.</em>"], "calc": "<b>The cut</b> &middot; 112.5&deg; from right ahead<br>before it &nbsp;sidelight and mastheads<br>after it &nbsp;&nbsp;the sternlight, alone"}, {"id": "2.S1", "tema": "What she shows · topic 2", "obra": "estados", "reparto": "apiladas", "b": "Now you try", "h": "Under way does not mean moving", "buque": {"type": "nuc", "length": 90}, "estados": [{"rot": "AT ANCHOR", "v": {"underway": false}, "pie": "her anchor is down"}, {"rot": "NOT MAKING WAY", "v": {"underway": true, "makingWay": false}, "pie": "anchor up, stopped in the water"}, {"rot": "MAKING WAY", "v": {"underway": true, "makingWay": true}, "pie": "moving through the water"}], "renglon": "Sidelights and a sternlight are what «making way» looks like.", "pie": "The same vessel, three times — drawn from her starboard side, so her port sidelight is hidden by her own hull", "p": ["Two words that sound alike and are not. <b>Under way</b> means only this: she is not at anchor, not made fast to the shore, and not aground. She may be dead in the water and still be under way. <b>Making way</b> is the second thing &mdash; she is moving through the water.", "Between the first panel and the second, everything changes: anchor lights go out, her own lights come on. Between the second and the third, only <b>the sidelights and the sternlight</b> are added &mdash; and that is the whole of it. Those two are the only lights in the rules that mean <em>moving</em>.", "Which is why you do not have to know what she is to know whether she is moving. <em>Read the sidelights first and the identity afterwards.</em>", "One warning, and the next screen will charge you for it: a power-driven vessel keeps her sidelights whether she is making way or not. On her, the lights answer <em>under way</em> and stop there."], "calc": "<b>under way</b> &nbsp;not anchored, not aground, not made fast<br><b>making way</b> &nbsp;and moving through the water<br>the tell &nbsp;&nbsp;sidelights and sternlight"}, {"id": "2.P1", "tema": "What she shows · topic 2", "obra": "practica", "banco": "ESTADO", "h": "Is she moving?", "instruccion": "Her hull is drawn to tell you she is a vessel, and it is the same hull every time. Read the lights.", "p": []}, {"id": "3.S1", "tema": "What she shows · topic 3", "obra": "topes", "reparto": "apiladas", "b": "Now you try", "h": "One masthead light, or two", "naves": [{"rot": "LESS THAN 50 M", "v": {"type": "power", "length": 30, "underway": true, "makingWay": true}, "pie": "forward, and on its own"}, {"rot": "50 M OR MORE", "v": {"type": "power", "length": 160, "underway": true, "makingWay": true}, "pie": "the after one higher, and further aft"}, {"rot": "SAYS NOTHING", "v": {"type": "sailing", "length": 40, "underway": true, "makingWay": true}, "pie": "none at all, at any length"}], "renglon": "One masthead light: under 50 m. Two: 50 m or more.", "pie": "The cheapest piece of information in the module — and the one least often looked for", "p": ["Rule 23 hands you her length for nothing, and most people never collect it. A power-driven vessel under way carries <b>one masthead light</b> if she is under 50 m and <b>two</b> if she is 50 m or more, the after one <b>higher than the forward one and further aft</b>.", "Two answers, not three. The rule has no way of saying <em>30 m</em> or <em>200 m</em> &mdash; it only ever says which side of fifty she is on. At anchor, Rule 30 gives you the <b>same count</b>: one all-round white under 50 m, two at 50 m and over. But <b>not the same picture</b> &mdash; the two of Rule 30 are stacked <b>the other way up</b>, the forward one higher, where the two of Rule 23 have the after one higher. <em>Same count, mirrored.</em>", "<b>And under 12 m the count stops working altogether.</b> Rule 23(d) lets a small power-driven vessel put her masthead light and her sternlight together as <b>one all-round white</b>, with her sidelights below it. So she has no masthead light to count — not because she is hiding it, but because the rule let her fold two lights into one. <em>One all-round white with sidelights under it is a motorboat, and it looks nothing like a ship.</em>", "And the third panel is the one to remember. <b>A sailing vessel carries no masthead light at all</b>, whatever her length &mdash; so there is nothing to count and nothing to conclude. The same happens to any vessel once you are abaft her beam: the mastheads cut off at 112.5&deg; and all that is left is her sternlight.", "<em>When the count is not there, the honest answer is that her lights do not say. Guessing is how a ship becomes a fishing boat.</em>"], "calc": "<b>Rule 23</b> &middot; under way<br>under 12 m &nbsp;<b>one all-round white</b> instead<br>under 50 m &nbsp;one masthead<br>50 m or more &nbsp;two, the <b>after</b> one higher<br><b>Rule 30</b> &middot; at anchor<br>50 m or more &nbsp;two, the <b>forward</b> one higher"}, {"id": "3.P1", "tema": "What she shows · topic 3", "obra": "practica", "banco": "ESLORA", "h": "How long is she?", "instruccion": "Count what is white and where it sits. If the count is not there, say so — that is an answer too.", "p": []}, {"id": "4.S1", "tema": "What she shows · topic 4", "obra": "alcance", "b": "Next", "h": "How far each light has to be seen", "naves": [{"L": 9, "rot": "under 12 m"}, {"L": 15, "rot": "12 to 20 m"}, {"L": 30, "rot": "20 to 50 m"}, {"L": 120, "rot": "50 m and over"}], "cols": [{"clave": "masthead", "rot": "MASTHEAD", "color": "#FFF6E2"}, {"clave": "side", "rot": "SIDELIGHT", "color": "#33C46B"}, {"clave": "stern", "rot": "STERN", "color": "#FFF6E2"}, {"clave": "allround", "rot": "ALL-ROUND", "color": "#E23B3B"}], "renglon": "The bigger she is, the further off you have to be able to see her.", "pie": "Rule 22 · the sixteen figures come out of the same table the chapter draws with", "p": ["Every light in the book has a <b>range</b>: the distance at which it must still be visible on a clear night. Rule 22 sets it, and it depends on two things only — <b>what kind of light it is</b> and <b>how long she is</b>.", "Read the table down a column and you see the first: a big ship has to be seen from further off than a small one. Read it across a row and you see the second, which matters more: <b>the masthead light always reaches furthest</b>, and the sidelights least — on a big ship, twice as far.", "<em>That is not a detail about lamps. It is what happens to a vessel as she goes away from you.</em>", "And it is a minimum, not a promise: a light may be seen further in clear air and less in haze. What the rule guarantees is that <b>inside</b> the range it is there."], "calc": "<b>Rule 22</b> · the ranges<br>they are <b>minima</b>, in nautical miles<br>and the masthead always wins"}, {"id": "4.S2", "tema": "What she shows · topic 4", "obra": "deshace", "reparto": "apiladas", "b": "Now you try", "h": "She does not vanish. She comes apart.", "buque": {"type": "power", "length": 120, "underway": true, "makingWay": true}, "g": 50, "millas": [2, 3.5, 4.5, 6.5], "renglon": "The last light you lose is the first one you saw.", "pie": "The same vessel, the same bearing, four distances — and the hull is drawn the same size in all four on purpose", "p": ["Here is the table from the last screen, happening. One vessel of 120 m, one bearing, and you backing away from her.", "At two miles you have <b>all of it</b>. At three and a half the <b>sidelight goes</b> — 3 miles is all Rule 22 asks of it. Past four and a half everything low has gone with it, and what is left is <b>one white light six miles out</b>.", "<b>So a single distant white light is not a small boat.</b> It is just as likely to be a ship whose colour you have not reached yet — and that mistake, made at night, is the one that ends in a report.", "<em>Read what is missing as hard as you read what is there.</em>"], "calc": "<b>going away</b> · the order they drop<br>sidelights first · then stern and all-round<br>the masthead last, and by a long way"}, {"id": "4.P1", "tema": "What she shows · topic 4", "obra": "practica", "banco": "ALCANCE", "h": "What is not reaching you?", "instruccion": "You are told how far off she is. Say what she is carrying that has not got to you.", "p": []}, {"id": "5.S1", "tema": "What she shows · topic 5", "obra": "marcas", "b": "Now you try", "h": "Four shapes, and the arrangements they make", "ensenaTambien": ["fishingOther"], "noSeVeDeNoche": ["velaYMotor"], "clases": [{"clave": "fondeada", "rot": "A ball", "quien": "at anchor"}, {"clave": "velaYMotor", "rot": "A cone", "quien": "sail and engine", "regla": "R25(e)"}, {"clave": "fishingTrawl", "rot": "Two cones", "quien": "fishing — either kind"}, {"clave": "cbd", "rot": "A cylinder", "quien": "draught"}, {"clave": "nuc", "rot": "Two balls", "quien": "not under command"}, {"clave": "ram", "rot": "Ball, diamond, ball", "quien": "restricted"}], "renglon": "Ball, cone, cylinder, diamond. Six arrangements of four shapes.", "pie": "Every one of them is the daylight half of a sentence you have already read in lights", "p": ["By day there are no lights, so the rules say the same things in <b>black shapes</b>. The convention defines <b>four</b>: <b>a ball</b>, <b>a cone</b>, <b>a cylinder</b> and <b>a diamond</b> — and a diamond is itself two cones, base to base. Put two cones <b>point to point</b> instead and you have the fishing vessel’s mark: the same cone, arranged another way.", "Read the row and you will recognise every arrangement, because you have already met all of them at night. <b>Two balls</b> is the vessel with the two all-round reds. <b>Ball, diamond, ball</b> is red, white, red, with the diamond standing exactly where the white light goes.", "The odd one out is the <b>single cone, point down</b>: a sailing vessel that is also using her engine. At night she shows the lights of a power-driven vessel and there is nothing to see; <b>by day the cone is the only thing that says it</b>. It is the one place where the day says more than the night.", "<em>And a fishing vessel gets the same two cones whichever way she is fishing — which is why the next screen asks you to go from her lights to her shape, and never the other way.</em>"], "calc": "<b>the four</b> · ball · cone · cylinder · diamond<br>a diamond is two cones base to base<br>and two cones point to point is the other pairing"}, {"id": "5.P1", "tema": "What she shows · topic 5", "obra": "practica", "banco": "FORMA", "h": "Say it again, in black", "instruccion": "You have her lights. Say what the same vessel would be showing in daylight.", "p": []}, {"id": "6.S1", "tema": "What she shows · topic 6", "obra": "fondeo", "reparto": "apiladas", "b": "Now you try", "h": "At anchor: one ball, and one white light", "paneles": [{"dia": true, "rot": "BY DAY", "v": {"type": "power", "length": 120, "underway": false}, "pie": "a single ball, in the fore part — at any length"}, {"rot": "UNDER 50 M", "v": {"type": "power", "length": 30, "underway": false}, "pie": "one all-round white, where it can best be seen"}, {"rot": "50 M AND OVER", "v": {"type": "power", "length": 120, "underway": false}, "pie": "two — one forward, one aft and at least 4.5 m lower"}], "renglon": "You do not have to know what she is to know she is not going anywhere.", "pie": "Rule 30 · the most common thing you will ever have to read — and the one place where the honest answer is often «I cannot tell»", "p": ["The last one, and the one you will use most. A vessel at anchor shows <b>one all-round white light</b> where it can best be seen — and, if she is <b>50 m or more</b>, a second one aft and <b>at least 4.5 m lower</b>. By day, <b>one black ball</b> forward.", "Notice what is <b>not</b> there: no sidelights, no sternlight, no masthead. An anchor light comes alone, and that is the whole of the reading. Her type does not come into it — a tanker of 300 m and a fishing boat of 15 show you the same thing.", "And there is one trap, which the next screen will charge you for. <b>A sternlight is also a single white light.</b> From abaft the beam of a vessel under way you see one white light and nothing else — the same count as a vessel of under 50 m at anchor.", "You might think you could tell them apart by where the light sits: an anchor light up forward, a sternlight low and right aft. <b>You cannot.</b> Rule 30(b) lets a vessel of under 50 m carry her anchor light <em>where it can best be seen</em> — which is nowhere in particular, and includes low and right aft. The rule leaves it free, so the position tells you nothing.", "<em>When two readings are the same picture, the answer is that you cannot tell. Saying so is not a failure — it is the reason you keep watching, and it is the only honest thing to write in a log.</em>"], "calc": "<b>Rule 30</b> · at anchor<br>under 50 m &nbsp;one all-round white<br>50 m and over &nbsp;two, the forward one higher"}, {"id": "6.P1", "tema": "What she shows · topic 6", "obra": "practica", "banco": "FONDEO", "h": "Is she at anchor?", "instruccion": "Anchor lights come alone. Before you say yes, ask what else could look like that.", "p": []}, {"id": "6.C1", "tema": "What she shows · topic 6", "obra": "cierre", "b": "Next", "h": "What you can read now", "renglon": "Five kinds of light, four arcs, two words, and five shapes.", "pie": "None of it says what she IS — and that is the whole of part 2", "p": ["That is the vocabulary. Not one rule about who gives way, and not one vessel identified by name: what you have is <b>the alphabet</b>, and it is smaller than it looks.", "You can now say, of any contact at night: <b>which way she is pointing</b>, from the arcs; <b>whether she is under way and whether she is moving</b>, from her sidelights; <b>which side of 50 m she is</b>, from her mastheads; and roughly <b>how far off</b>, from what has stopped reaching you. And you can say the same things in daylight, from five black shapes.", "<b>What you cannot do yet is name her.</b> Two all-round reds, red over white, three reds in a line — you have seen them all in these fifteen screens and you have not been asked to say what any of them means. That is deliberate: <em>reading comes before naming, and most people try it the other way round and never get the reading.</em>", "Part 2 takes one vessel at a time, by day and by night together."], "calc": "<b>part 1</b> · what she shows<br><b>part 2</b> · what she is<br><b>part 3</b> · from where you are"}];
+const YO = "luces-p1-what-she-shows.html";
+const D = {W:1000, H:640};
+
+const LUZ = {
+
+  D: 20,
+
+  SARTA:    1.15,
+  DISTINTO: 2.0,
+  ANCHO:    4.5
+};
+
+const NS = "http://www.w3.org/2000/svg";
+let svg = null, gO = null;
+
+let ESC = 1;
+const px = n => n / ESC;
+function el(t, at, pa){
+ const e = document.createElementNS(NS, t);
+ for(const k in at) if(at[k] !== undefined && at[k] !== null) e.setAttribute(k, at[k]);
+ (pa || gO || svg).appendChild(e); return e;
+}
+
+function txt(x, y, s, an, tam, col, peso, fam){
+ const e = el("text", {x:x, y:y, "text-anchor":an||"start", "pointer-events":"none",
+  "font-size":px(tam||13),
+  fill:col||"var(--paper-ink)", "font-weight":peso||400,
+  "font-family":fam==="mono" ? "var(--f-mono)" : "var(--f-ui)"});
+ e.textContent = s; return e;
+}
+
+function parte(s, ancho, tam){
+
+ const porLinea = Math.max(6, Math.floor(ancho / (px(tam) * 0.62)));
+ const lineas = []; let l = "";
+ for(const q of String(s).split(" ")){
+  if(!l) l = q;
+  else if((l + " " + q).length <= porLinea) l += " " + q;
+  else { lineas.push(l); l = q; }
+ }
+ if(l) lineas.push(l);
+ return lineas;
+}
+
+const altoDe = (s, ancho, tam) => parte(s, ancho, tam).length * px(tam*1.35);
+function txtCabe(cx, y, s, ancho, tam, col, peso, fam, an){
+ const lineas = parte(s, ancho, tam);
+ lineas.forEach((t, i) => txt(cx, y + i*px(tam*1.35), t, an || "middle", tam, col,
+                              peso, fam));
+ return lineas.length;
+}
+
+function renglonAbajo(yQuiere, renglon, pie, x0, x1){
+ const ancho = x1 - x0;
+ const nR = parte(renglon, ancho, 17).length;
+ const nP = parte(pie, ancho, 12.5).length;
+ const tope = D.H - px(12) - nR*px(24) - (nP - 1)*px(17);
+ const y = Math.min(yQuiere, tope);
+ el("line", {x1:x0, y1:y - px(26), x2:x1, y2:y - px(26),
+   stroke:"var(--sea-line)", "stroke-width":1});
+ txtCabe(D.W/2, y, renglon, ancho, 17, "var(--lam-ink)", 600);
+ txtCabe(D.W/2, y + nR*px(24), pie, ancho, 12.5, "var(--lam-dim)");
+ return y;
+}
+
+let CAJAS_PROPIAS = 0;
+function panel(x, y, an, al, noche, rotulo, pincha){
+
+ const suya = !noche || !(an > D.W * 0.8 && al > D.H * 0.35) || pincha;
+ if(suya) CAJAS_PROPIAS++;
+ el("rect", {x:x, y:y, width:an, height:al, rx: suya ? 3 : 0,
+   fill: suya ? (noche ? "#07161D" : "var(--paper)") : "transparent",
+   stroke: pincha ? "var(--dim)"
+                  : (suya ? (noche ? "var(--sea-line)" : "var(--paper-line)") : "none"),
+
+   "stroke-width": pincha ? px(2.6) : 1.2});
+
+ txt(x+px(12), y+px(22), rotulo, "start", 12, noche ? "var(--dim)" : "var(--ink-body)", 600, "mono");
+
+ return {x0:x, y0:y, x1:x+an, y1:y+al, cx:x+an/2, cy:y+al*0.74};
+}
+
+const CASCOS_REF = {
+  mercante: {poly:[[-200,210],[140,207],[205,198],[185,240],[-192,240]],
+    blocks:[[140,195,195,210],[-190,160,-90,210],[-197,146,-83,160]],
+    masts:[[-140,72,146],[120,104,210]], spars:[],
+    plan:[-200,205,60], ydeck:207, ywater:240, sup:[-190,-90,160], pte:[-197,-83,146]},
+  costero: {poly:[[-140,210],[95,207],[148,198],[130,240],[-134,240]],
+    blocks:[[-130,164,-50,210],[-137,150,-43,164]],
+    masts:[[-90,92,150],[70,112,210]], spars:[],
+    plan:[-140,148,44], ydeck:207, ywater:240, sup:[-130,-50,164], pte:[-137,-43,150]},
+  pesquero: {poly:[[-140,210],[90,207],[145,198],[128,240],[-134,240]],
+    blocks:[[-130,164,-50,210],[-137,150,-43,164]],
+    masts:[[-90,72,150],[60,114,210]], spars:[[-90,20,132]],
+    plan:[-140,145,44], ydeck:207, ywater:240, sup:[-130,-50,164], pte:[-137,-43,150]},
+  remolcador: {poly:[[-110,210],[60,207],[115,196],[98,240],[-104,240]],
+    blocks:[[-30,158,70,210],[-37,144,77,158]],
+    masts:[[20,50,144]], spars:[],
+    plan:[-110,115,40], ydeck:205, ywater:240, sup:[-30,70,158], pte:[-37,77,144]},
+  practico: {poly:[[-80,212],[45,209],[85,202],[72,240],[-74,240]],
+    blocks:[[-30,166,55,212],[-37,154,62,166]],
+    masts:[[10,84,154]], spars:[],
+    plan:[-80,85,28], ydeck:209, ywater:240, sup:[-30,55,166], pte:[-37,62,154]},
+  velero: {poly:[[-100,216],[75,213],[105,206],[92,240],[-94,240]],
+    blocks:[[-30,204,30,216]],
+    masts:[[10,64,216]], spars:[[-60,45,196]],
+    plan:[-100,105,30], ydeck:213, ywater:240, sup:[-30,30,204], pte:null},
+  lancha: {poly:[[-60,218],[40,215],[65,209],[55,240],[-54,240]],
+    blocks:[[-10,204,15,218]],
+    masts:[[0,172,204]], spars:[],
+    plan:[-60,65,22], ydeck:215, ywater:240, sup:[-10,15,204], pte:null},
+  gabarra: {poly:[[-150,216],[150,216],[140,240],[-140,240]],
+    blocks:[],
+    masts:[], spars:[],
+    plan:[-150,150,56], ydeck:216, ywater:240, sup:null, pte:null}
+};
+
+const REF_D = 14;
+
+function cascoDe(v, L){
+ const t = (v && v.type) || "power", m = L || (v && v.length) || 12;
+ if(v && v.gabarra)                          return CASCOS_REF.gabarra;
+ if(t === "sailing")                         return CASCOS_REF.velero;
+ if(t === "fishingTrawl" || t === "fishingOther") return CASCOS_REF.pesquero;
+ if(t === "towing")                          return CASCOS_REF.remolcador;
+ if(t === "pilot" || t === "pilotUnderway")  return CASCOS_REF.practico;
+ if(m < 12)                                  return CASCOS_REF.lancha;
+ if(m < 50)                                  return CASCOS_REF.costero;
+ return CASCOS_REF.mercante;
+}
+const familiaDe = L => cascoDe(null, L);
+
+const POSICIONES = {
+  mercante: {"tope_proa":[120,104],"tope_popa":[-140,72],"costado":[-140,168],"alcance":[-195,200],"remolque":[-195,182],"ancla_proa":[175,150],"ancla_popa":[-165,188],"topes_col":null,"arte":null,"columna":{"libre":[120,116],"bajo_tope":[120,128]},"paso_luz":18.0},
+  costero: {"tope_proa":[70,112],"tope_popa":[-90,92],"costado":[-130,170],"alcance":[-135,200],"remolque":[-135,182],"ancla_proa":[75,138],"ancla_popa":[-100,168],"topes_col":null,"arte":null,"columna":{"libre":[70,124],"bajo_tope":[70,88]},"paso_luz":18.0},
+  pesquero: {"tope_proa":[60,114],"tope_popa":[-90,72],"costado":[-130,168],"alcance":[-135,200],"remolque":[-135,182],"ancla_proa":[60,140],"ancla_popa":[-100,170],"topes_col":null,"arte":[132,150],"columna":{"libre":[60,118],"bajo_tope":[60,130]},"paso_luz":18.0},
+  remolcador: {"tope_proa":[20,56],"tope_popa":[20,38],"costado":[-30,166],"alcance":[-105,200],"remolque":[-105,182],"ancla_proa":[60,150],"ancla_popa":[-80,178],"topes_col":{"f":20,"y_base":74,"paso":18.0,"crece":"arriba"},"arte":null,"columna":{"libre":[20,96],"bajo_tope":[20,116]},"paso_luz":18.0},
+  practico: {"tope_proa":[10,96],"tope_popa":[10,84],"costado":[-30,172],"alcance":[-75,206],"remolque":null,"ancla_proa":[48,150],"ancla_popa":[-55,178],"topes_col":null,"arte":null,"columna":{"libre":[10,84],"bajo_tope":[10,108]},"paso_luz":18.0},
+  velero: {"tope_proa":[10,118],"tope_popa":null,"costado":[78,208],"alcance":[-95,214],"remolque":null,"ancla_proa":[10,130],"ancla_popa":null,"topes_col":null,"arte":null,"columna":{"libre":[10,68],"bajo_tope":[10,130]},"paso_luz":18.0},
+  lancha: {"tope_proa":[0,172],"tope_popa":null,"costado":[28,210],"alcance":[-55,214],"remolque":null,"ancla_proa":[0,172],"ancla_popa":null,"topes_col":null,"arte":null,"columna":{"libre":[0,172],"bajo_tope":[0,186]},"paso_luz":16.0},
+  gabarra: {"tope_proa":null,"tope_popa":null,"costado":[130,212],"alcance":[-145,212],"remolque":null,"ancla_proa":[100,170],"ancla_popa":[-100,195],"topes_col":null,"arte":null,"columna":{"libre":[0,150],"bajo_tope":[0,150]},"paso_luz":18.0}
+};
+
+const L_REF = {
+  "costero|allround:white": {id:"23-fondeado-menor", L:[{"k":"allround","col":"white","f":75,"s":0,"y":138,"t":false}]},
+  "costero|allround:yellow,masthead:white,port:red,starboard:green,stern:white": {id:"04-colchon", L:[{"k":"masthead","col":"white","f":70,"s":0,"y":112,"t":false},{"k":"allround","col":"yellow","f":70,"s":0,"y":88,"t":false},{"k":"starboard","col":"green","f":-130,"s":22,"y":170,"t":false},{"k":"port","col":"red","f":-130,"s":-22,"y":170,"t":false},{"k":"stern","col":"white","f":-135,"s":0,"y":200,"t":false}]},
+  "costero|masthead:white,port:red,starboard:green,stern:white": {id:"02-mecanica-20", L:[{"k":"masthead","col":"white","f":70,"s":0,"y":112,"t":false},{"k":"starboard","col":"green","f":-130,"s":22,"y":170,"t":false},{"k":"port","col":"red","f":-130,"s":-22,"y":170,"t":false},{"k":"stern","col":"white","f":-135,"s":0,"y":200,"t":false}]},
+  "gabarra|port:red,starboard:green,stern:white": {id:"07-remolcado", L:[{"k":"starboard","col":"green","f":130,"s":28,"y":212,"t":false},{"k":"port","col":"red","f":130,"s":-28,"y":212,"t":false},{"k":"stern","col":"white","f":-145,"s":0,"y":212,"t":false}]},
+  "lancha|allround:white,port:red,starboard:green": {id:"03-mecanica-12", L:[{"k":"allround","col":"white","f":0,"s":0,"y":172,"t":false},{"k":"starboard","col":"green","f":28,"s":11,"y":210,"t":false},{"k":"port","col":"red","f":28,"s":-11,"y":210,"t":false}]},
+  "mercante|allround:red,allround:red,allround:red,masthead:white,masthead:white,port:red,starboard:green,stern:white": {id:"18-calado", L:[{"k":"masthead","col":"white","f":120,"s":0,"y":104,"t":false},{"k":"masthead","col":"white","f":-140,"s":0,"y":72,"t":false},{"k":"allround","col":"red","f":120,"s":0,"y":128,"t":false},{"k":"allround","col":"red","f":120,"s":0,"y":146,"t":false},{"k":"allround","col":"red","f":120,"s":0,"y":164,"t":false},{"k":"starboard","col":"green","f":-140,"s":30,"y":182,"t":false},{"k":"port","col":"red","f":-140,"s":-30,"y":182,"t":false},{"k":"stern","col":"white","f":-195,"s":0,"y":200,"t":false}]},
+  "mercante|allround:red,allround:red,allround:white,allround:white": {id:"24-varado", L:[{"k":"allround","col":"white","f":175,"s":0,"y":150,"t":false},{"k":"allround","col":"white","f":-165,"s":0,"y":188,"t":false},{"k":"allround","col":"red","f":120,"s":0,"y":116,"t":false},{"k":"allround","col":"red","f":120,"s":0,"y":134,"t":false}]},
+  "mercante|allround:red,allround:red,allround:white,masthead:white,masthead:white,port:red,starboard:green,stern:white": {id:"17-maniobra", L:[{"k":"masthead","col":"white","f":120,"s":0,"y":104,"t":false},{"k":"masthead","col":"white","f":-140,"s":0,"y":72,"t":false},{"k":"allround","col":"red","f":120,"s":0,"y":128,"t":false},{"k":"allround","col":"white","f":120,"s":0,"y":146,"t":false},{"k":"allround","col":"red","f":120,"s":0,"y":164,"t":false},{"k":"starboard","col":"green","f":-140,"s":30,"y":182,"t":false},{"k":"port","col":"red","f":-140,"s":-30,"y":182,"t":false},{"k":"stern","col":"white","f":-195,"s":0,"y":200,"t":false}]},
+  "mercante|allround:red,allround:red,port:red,starboard:green,stern:white": {id:"16-sin-gobierno", L:[{"k":"allround","col":"red","f":120,"s":0,"y":116,"t":false},{"k":"allround","col":"red","f":120,"s":0,"y":134,"t":false},{"k":"starboard","col":"green","f":-140,"s":30,"y":180,"t":false},{"k":"port","col":"red","f":-140,"s":-30,"y":180,"t":false},{"k":"stern","col":"white","f":-195,"s":0,"y":200,"t":false}]},
+  "mercante|allround:white,allround:white": {id:"22-fondeado-50", L:[{"k":"allround","col":"white","f":175,"s":0,"y":150,"t":false},{"k":"allround","col":"white","f":-165,"s":0,"y":188,"t":false}]},
+  "mercante|masthead:white,masthead:white,port:red,starboard:green,stern:white": {id:"01-mecanica-50", L:[{"k":"masthead","col":"white","f":120,"s":0,"y":104,"t":false},{"k":"masthead","col":"white","f":-140,"s":0,"y":72,"t":false},{"k":"starboard","col":"green","f":-140,"s":30,"y":168,"t":false},{"k":"port","col":"red","f":-140,"s":-30,"y":168,"t":false},{"k":"stern","col":"white","f":-195,"s":0,"y":200,"t":false}]},
+  "pesquero|allround:green,allround:white,masthead:white,port:red,starboard:green,stern:white": {id:"13-arrastre", L:[{"k":"allround","col":"green","f":60,"s":0,"y":118,"t":false},{"k":"allround","col":"white","f":60,"s":0,"y":136,"t":false},{"k":"masthead","col":"white","f":-90,"s":0,"y":72,"t":false},{"k":"starboard","col":"green","f":-130,"s":22,"y":168,"t":false},{"k":"port","col":"red","f":-130,"s":-22,"y":168,"t":false},{"k":"stern","col":"white","f":-135,"s":0,"y":200,"t":false}]},
+  "pesquero|allround:red,allround:white,allround:white,port:red,starboard:green,stern:white": {id:"15-pesca-arte", L:[{"k":"allround","col":"red","f":60,"s":0,"y":118,"t":false},{"k":"allround","col":"white","f":60,"s":0,"y":136,"t":false},{"k":"allround","col":"white","f":132,"s":0,"y":150,"t":false},{"k":"starboard","col":"green","f":-130,"s":22,"y":168,"t":false},{"k":"port","col":"red","f":-130,"s":-22,"y":168,"t":false},{"k":"stern","col":"white","f":-135,"s":0,"y":200,"t":false}]},
+  "pesquero|allround:red,allround:white,port:red,starboard:green,stern:white": {id:"14-pesca", L:[{"k":"allround","col":"red","f":60,"s":0,"y":118,"t":false},{"k":"allround","col":"white","f":60,"s":0,"y":136,"t":false},{"k":"starboard","col":"green","f":-130,"s":22,"y":168,"t":false},{"k":"port","col":"red","f":-130,"s":-22,"y":168,"t":false},{"k":"stern","col":"white","f":-135,"s":0,"y":200,"t":false}]},
+  "practico|allround:red,allround:white,allround:white": {id:"21-practico-fondeado", L:[{"k":"allround","col":"white","f":10,"s":0,"y":84,"t":false},{"k":"allround","col":"red","f":10,"s":0,"y":102,"t":false},{"k":"allround","col":"white","f":48,"s":0,"y":150,"t":false}]},
+  "practico|allround:red,allround:white,port:red,starboard:green,stern:white": {id:"20-practico", L:[{"k":"allround","col":"white","f":10,"s":0,"y":84,"t":false},{"k":"allround","col":"red","f":10,"s":0,"y":102,"t":false},{"k":"starboard","col":"green","f":-30,"s":14,"y":172,"t":false},{"k":"port","col":"red","f":-30,"s":-14,"y":172,"t":false},{"k":"stern","col":"white","f":-75,"s":0,"y":206,"t":false}]},
+  "remolcador|allround:green,allround:green,allround:red,allround:red,allround:red,allround:red,allround:white,masthead:white,port:red,starboard:green,stern:white": {id:"19-draga", L:[{"k":"masthead","col":"white","f":20,"s":0,"y":50,"t":false},{"k":"allround","col":"red","f":20,"s":0,"y":116,"t":false},{"k":"allround","col":"white","f":20,"s":0,"y":134,"t":false},{"k":"allround","col":"red","f":20,"s":0,"y":152,"t":false},{"k":"allround","col":"red","f":0,"s":-18,"y":158,"t":false},{"k":"allround","col":"red","f":0,"s":-18,"y":176,"t":false},{"k":"allround","col":"green","f":0,"s":18,"y":158,"t":false},{"k":"allround","col":"green","f":0,"s":18,"y":176,"t":false},{"k":"starboard","col":"green","f":-30,"s":20,"y":170,"t":false},{"k":"port","col":"red","f":-30,"s":-20,"y":170,"t":false},{"k":"stern","col":"white","f":-105,"s":0,"y":200,"t":false}]},
+  "remolcador|masthead:white,masthead:white,masthead:white,port:red,starboard:green,stern:white,stern:yellow": {id:"06-remolque-largo", L:[{"k":"masthead","col":"white","f":20,"s":0,"y":38,"t":false},{"k":"masthead","col":"white","f":20,"s":0,"y":56,"t":false},{"k":"masthead","col":"white","f":20,"s":0,"y":74,"t":false},{"k":"starboard","col":"green","f":-30,"s":20,"y":166,"t":false},{"k":"port","col":"red","f":-30,"s":-20,"y":166,"t":false},{"k":"stern","col":"white","f":-105,"s":0,"y":200,"t":false},{"k":"stern","col":"yellow","f":-105,"s":0,"y":182,"t":true}]},
+  "remolcador|masthead:white,masthead:white,port:red,starboard:green,stern:white": {id:"08-empuje", L:[{"k":"masthead","col":"white","f":20,"s":0,"y":56,"t":false},{"k":"masthead","col":"white","f":20,"s":0,"y":74,"t":false},{"k":"starboard","col":"green","f":-30,"s":20,"y":166,"t":false},{"k":"port","col":"red","f":-30,"s":-20,"y":166,"t":false},{"k":"stern","col":"white","f":-105,"s":0,"y":200,"t":false}]},
+  "remolcador|masthead:white,masthead:white,port:red,starboard:green,stern:white,stern:yellow": {id:"05-remolque-corto", L:[{"k":"masthead","col":"white","f":20,"s":0,"y":56,"t":false},{"k":"masthead","col":"white","f":20,"s":0,"y":74,"t":false},{"k":"starboard","col":"green","f":-30,"s":20,"y":166,"t":false},{"k":"port","col":"red","f":-30,"s":-20,"y":166,"t":false},{"k":"stern","col":"white","f":-105,"s":0,"y":200,"t":false},{"k":"stern","col":"yellow","f":-105,"s":0,"y":182,"t":true}]},
+  "velero|allround:green,allround:red,port:red,starboard:green,stern:white": {id:"11-vela-rojo-verde", L:[{"k":"allround","col":"red","f":10,"s":0,"y":68,"t":false},{"k":"allround","col":"green","f":10,"s":0,"y":86,"t":false},{"k":"starboard","col":"green","f":78,"s":15,"y":208,"t":false},{"k":"port","col":"red","f":78,"s":-15,"y":208,"t":false},{"k":"stern","col":"white","f":-95,"s":0,"y":214,"t":false}]},
+  "velero|combinado:white": {id:"10-vela-farol", L:[{"k":"combinado","col":"white","f":10,"s":0,"y":68,"t":false}]},
+  "velero|masthead:white,port:red,starboard:green,stern:white": {id:"12-vela-motor", L:[{"k":"masthead","col":"white","f":10,"s":0,"y":118,"t":false},{"k":"starboard","col":"green","f":78,"s":15,"y":208,"t":false},{"k":"port","col":"red","f":78,"s":-15,"y":208,"t":false},{"k":"stern","col":"white","f":-95,"s":0,"y":214,"t":false}]},
+  "velero|port:red,starboard:green,stern:white": {id:"09-vela", L:[{"k":"starboard","col":"green","f":78,"s":15,"y":208,"t":false},{"k":"port","col":"red","f":78,"s":-15,"y":208,"t":false},{"k":"stern","col":"white","f":-95,"s":0,"y":214,"t":false}]}
+};
+
+const D_MARCA = 16.0, PASO_MARCA = 6.0;
+const ALTO_MARCA = {"bola":16.0,"cono_arriba":16.0,"cono_abajo":16.0,"bicono":32.0,"rombo":32.0,"cilindro":32.0};
+
+const PROY = g => ({ f: Math.abs(Math.sin(g * Math.PI / 180)),
+                     s: Math.abs(Math.cos(g * Math.PI / 180)),
+
+                     lado: -Math.cos(g * Math.PI / 180),
+                     proa: Math.abs(g) < 90 });
+
+const AIRE_CASCO = {};
+function anclasDe(h){
+ const nom = nombreCasco(h);
+ if(AIRE_CASCO[nom]) return AIRE_CASCO[nom];
+ const P = POSICIONES[nom], manga = h.plan[2] / 2, out = [];
+ const pon = (f, s, y) => { if(isFinite(f) && isFinite(y)) out.push([f, s || 0, y]); };
+
+ ["tope_popa", "alcance", "remolque", "ancla_popa", "arte"]
+   .forEach(function(k){ const q = P[k]; if(q) pon(q[0], 0, q[1]); });
+
+ if(P.costado){ pon(P.costado[0],  manga, P.costado[1]);
+                pon(P.costado[0], -manga, P.costado[1]); }
+
+ const sube = (a, n, paso) => { if(a) for(let k = 0; k < n; k++)
+   pon(a[0], 0, a[1] - k * paso); };
+ const baja = (a, n, paso) => { if(a) for(let k = 0; k < n; k++)
+   pon(a[0], 0, a[1] + k * paso); };
+ if(P.topes_col) sube([P.topes_col.f, P.topes_col.y_base], 4, P.topes_col.paso);
+ sube(P.tope_proa, 3, P.paso_luz);
+ baja(P.columna.libre, 3, P.paso_luz);
+ baja(P.columna.bajo_tope, 3, P.paso_luz);
+ baja(P.ancla_proa, 2, P.paso_luz);
+ return (AIRE_CASCO[nom] = out);
+}
+
+function silueta(hueco, h, tinta, nave, pr, pts, marcas){
+ const PJ = pr || {f: 1, s: 0, lado: 0, proa: false};
+ const f0 = h.plan[0], f1 = h.plan[1], hb = h.plan[2] / 2;
+
+ const X = (fq, sq) => fq * PJ.f + (sq || 0) * PJ.lado;
+ const cara = 2 * hb * PJ.s;
+
+ let x0 = Infinity, x1 = -Infinity, y0 = Infinity, y1 = -Infinity;
+ const mete = (a, b, c, e) => { if(a < x0) x0 = a; if(b > x1) x1 = b;
+                                if(c < y0) y0 = c; if(e > y1) y1 = e; };
+ h.poly.forEach(q => mete(X(q[0]), X(q[0]), q[1], q[1]));
+ if(cara > 0) mete(PJ.proa ? X(f1) : X(f0) - cara, PJ.proa ? X(f1) + cara : X(f0),
+                   h.ydeck, h.ywater);
+ (h.blocks || []).forEach(b => { const bajo = (b[3] - b[1]) < 20;
+   const mg = (hb + (bajo ? 2 : -4)) * PJ.s;
+   mete(Math.min(X(b[0]), X(b[2])) - mg, Math.max(X(b[0]), X(b[2])) + mg, b[1], b[3]); });
+ (h.spars || []).forEach(q => mete(Math.min(X(q[0]), X(q[1])), Math.max(X(q[0]), X(q[1])),
+                                   q[2], q[2] + 2.5));
+ (h.masts || []).forEach(m => mete(X(m[0]) - 2, X(m[0]) + 2, m[1], m[2]));
+
+ const topeM = (h.masts || []).length
+   ? Math.min.apply(null, h.masts.map(function(m){ return m[1]; })) : h.ydeck;
+ mete(x0, x1, topeM - REF_D/2, y1);
+ anclasDe(h).forEach(function(q){
+  const cx = X(q[0], q[1]);
+  mete(cx - REF_D/2, cx + REF_D/2, q[2] - REF_D/2, q[2] + REF_D/2);
+ });
+
+ if(marcas && marcas.length){
+  const P = POSICIONES[nombreCasco(h)], anc = P.columna.libre;
+  const ms = marcasRefDe(marcas);
+  let alt = 0;
+  ms.forEach(function(m){ alt += ALTO_MARCA[m] + PASO_MARCA; });
+  mete(X(anc[0]) - D_MARCA/2, X(anc[0]) + D_MARCA/2,
+       anc[1], anc[1] + alt - PASO_MARCA);
+ }
+
+ const vb = [x0, y0, Math.max(1, x1 - x0), Math.max(1, y1 - y0)];
+
+ const g = el("svg", {x: hueco.x, y: hueco.y, width: hueco.w, height: hueco.h,
+   viewBox: vb.join(" "), preserveAspectRatio: "xMidYMid meet",
+   "data-nave": nave, "data-buquesvg": 1,
+   "data-hx": hueco.x, "data-hy": hueco.y,
+   "data-hw": hueco.w, "data-hh": hueco.h});
+
+ el("path", {d: "M" + h.poly.map((q, i) => (i ? "L" : "") + X(q[0]).toFixed(2)
+      + "," + q[1].toFixed(2)).join(" ") + " Z",
+   fill: tinta, stroke: "none",
+   "data-nave": nave, "data-casco": 1, "data-escorzo": PJ.f.toFixed(4)}, g);
+ if(cara > 0.5)
+  el("rect", {x: PJ.proa ? X(f1) : X(f0) - cara, y: h.ydeck, width: cara,
+    height: h.ywater - h.ydeck, fill: tinta,
+    "data-cara": 1, "data-nave": nave}, g);
+ (h.blocks || []).forEach(b => {
+  const bajo = (b[3] - b[1]) < 20;
+  const mg = (hb + (bajo ? 2 : -4)) * 2 * PJ.s;
+  const a = X(b[0]), c = X(b[2]), suyo = Math.abs(c - a), an = Math.max(suyo, mg);
+  el("rect", {x: Math.min(a, c) - (an - suyo) / 2, y: b[1], width: an,
+    height: b[3] - b[1], fill: tinta, "data-nave": nave, "data-sup": 1}, g);
+ });
+ (h.spars || []).forEach(q => {
+  const a = X(q[0]), c = X(q[1]);
+  el("rect", {x: Math.min(a, c), y: q[2], width: Math.max(Math.abs(c - a), 2),
+    height: 2.5, fill: tinta, "data-nave": nave, "data-verga": 1}, g);
+ });
+
+ (h.masts || []).forEach(m => {
+  el("rect", {x: X(m[0]) - 2, y: m[1], width: 4, height: m[2] - m[1],
+    fill: tinta, "data-nave": nave, "data-palo": 1}, g);
+ });
+
+ if(marcas && marcas.length) pilaDiaRef(g, h, marcas, tinta, nave, X);
+ return {nodo: g, vb: vb, h: h, PJ: PJ, X: X};
+}
+
+function focosCubierta(pts, S, nave){
+ pts.forEach(p => {
+  if(p.l.kind !== "allround" || p.l.colour !== "white") return;
+  const h = S.h, w = (h.plan[1] - h.plan[0]) * 0.055;
+  el("path", {d: "M" + p.cx.toFixed(2) + "," + p.cy.toFixed(2)
+    + " L" + (p.cx - w).toFixed(2) + "," + h.ydeck
+    + " L" + (p.cx + w).toFixed(2) + "," + h.ydeck + " Z",
+    fill: "#FFF3C4", "fill-opacity": 0.09, "data-foco": 1, "data-nave": nave}, S.nodo);
+ });
+}
+
+let NAVE_N = 0;
+
+let HAY_LUZ = false;
+
+function medidasDe(S, hueco){
+ const vb = S.vb;
+ const k = Math.min(hueco.w / vb[2], hueco.h / vb[3]);
+ return {k: k,
+   ox: hueco.x + (hueco.w - vb[2]*k)/2 - vb[0]*k,
+   oy: hueco.y + (hueco.h - vb[3]*k)/2 - vb[1]*k};
+}
+function casco(P, v, noche, marcas, centroX, largoReal, fam, pr){
+ const L = largoReal || v.length || 12;
+ const h = fam || cascoDe(v, L);
+ const yo = NAVE_N++;
+
+ const tinta = noche ? "#24343D" : "var(--ink)";
+
+ const altoHueco = Math.max(20, (P.cy - P.y0) - 10);
+ const hueco = {x: P.x0 + 10, y: (P.y0 + P.y1)/2 - altoHueco/2,
+                w: Math.max(20, (P.x1 - P.x0) - 20),
+                h: altoHueco};
+ const S = silueta(hueco, h, tinta, yo, pr, null, marcas);
+ const M = medidasDe(S, hueco);
+ const refL = h.plan[1] - h.plan[0];
+ return {x0: M.ox + M.k*S.X(h.plan[0]), x1: M.ox + M.k*S.X(h.plan[1]),
+         y: M.oy + M.k*h.ywater,
+         alto: M.k*(h.ywater - S.vb[1]),
+         largo: M.k*refL, n: yo,
+         cub: M.oy + M.k*h.ydeck, fb: M.k*(h.ywater - h.ydeck),
+         sup: S, k: M.k, ox: M.ox, oy: M.oy,
+         medio: M.ox + M.k*((h.plan[0] + h.plan[1])/2),
+         escalaH: M.k*refL / L,
+         mx: xm => M.ox + M.k*((xm / L) * refL)};
+}
+
+function marcaDia(g, cx, cy, r, cual, tinta){
+ const d = {"data-forma": cual};
+ const T = tinta || "var(--ink)";
+ if(cual === "ball")      el("circle", Object.assign({cx:cx, cy:cy, r:r,
+                            fill:T}, d), g);
+ else if(cual === "cone") el("path", Object.assign({d:"M"+cx+","+(cy-r)
+                            +" L"+(cx+r)+","+(cy+r)+" L"+(cx-r)+","+(cy+r)+" Z",
+                            fill:T}, d), g);
+ else if(cual === "coneUp")el("path", Object.assign({d:"M"+cx+","+(cy+r)
+                            +" L"+(cx+r)+","+(cy-r)+" L"+(cx-r)+","+(cy-r)+" Z",
+                            fill:T}, d), g);
+ else if(cual === "diamond")el("path", Object.assign({d:"M"+cx+","+(cy-r)
+                            +" L"+(cx+r)+","+cy+" L"+cx+","+(cy+r)
+                            +" L"+(cx-r)+","+cy+" Z", fill:T}, d), g);
+ else if(cual === "cylinder")el("rect", Object.assign({x:cx-r*0.8, y:cy-r,
+                            width:r*1.6, height:r*2, fill:T}, d), g);
+}
+
+const MARCA_PASO = 24;
+
+const MARCA_REF = {ball: "bola", cone: "cono_arriba", coneUp: "cono_abajo",
+                   diamond: "rombo", cylinder: "cilindro"};
+function marcasRefDe(formas){
+ const out = [];
+ for(let i = 0; i < formas.length; i++){
+  if(formas[i] === "coneUp" && formas[i+1] === "cone"){ out.push("bicono"); i++; }
+  else out.push(MARCA_REF[formas[i]] || "bola");
+ }
+ return out;
+}
+
+function marcaRef(g, cx, cy, m, tinta, nave, k){
+ const e = k || 1;
+ const r = D_MARCA * e / 2, h = ALTO_MARCA[m] * e / 2;
+ const d = {"data-forma": m, "data-nave": nave};
+
+ const pol = pts => el("path", Object.assign({
+   d: "M" + pts.map(function(q, i){ return (i ? "L" : "") + q[0] + "," + q[1]; }).join(" ")
+      + " Z", fill: tinta}, d), g);
+ if(m === "bola")
+  el("circle", Object.assign({cx: cx, cy: cy, r: r, fill: tinta}, d), g);
+ else if(m === "cono_arriba")
+  pol([[cx, cy-h], [cx+r, cy+h], [cx-r, cy+h]]);
+ else if(m === "cono_abajo")
+  pol([[cx, cy+h], [cx+r, cy-h], [cx-r, cy-h]]);
+ else if(m === "bicono"){
+  pol([[cx, cy], [cx+r, cy-h], [cx-r, cy-h]]);
+  pol([[cx, cy], [cx+r, cy+h], [cx-r, cy+h]]);
+ } else if(m === "rombo")
+  pol([[cx, cy-h], [cx+r, cy], [cx, cy+h], [cx-r, cy]]);
+ else if(m === "cilindro")
+  el("rect", Object.assign({x: cx-r, y: cy-h, width: D_MARCA * e,
+    height: ALTO_MARCA[m] * e, fill: tinta}, d), g);
+}
+
+function pilaDiaSuelta(cx, yBase, formas, tinta, k){
+ const ms = marcasRefDe(formas || []);
+ if(!ms.length) return 0;
+ const e = k || 1;
+ let alto = 0;
+ ms.forEach(function(m){ alto += ALTO_MARCA[m] * e; });
+ alto += PASO_MARCA * e * (ms.length - 1);
+ let y = yBase - alto;
+ ms.forEach(function(m){
+  marcaRef(null, cx, y + ALTO_MARCA[m] * e / 2, m, tinta, undefined, e);
+  y += (ALTO_MARCA[m] + PASO_MARCA) * e;
+ });
+ return alto;
+}
+
+function pilaDiaRef(g, h, formas, tinta, nave, X){
+ const ms = marcasRefDe(formas || []);
+ if(!ms.length) return null;
+ const P = POSICIONES[nombreCasco(h)];
+ const anc = P.columna.libre;
+ let y = anc[1];
+
+ const yaHayPalo = X && (h.masts || []).some(function(m){
+  return Math.abs(X(m[0]) - anc[0]) < 3
+      && m[1] <= anc[1] + 1 && m[2] >= h.ydeck - 1;
+ });
+ if(!yaHayPalo)
+  el("rect", {x: anc[0] - 2, y: anc[1], width: 4, height: h.ydeck - anc[1],
+    fill: tinta, "data-nave": nave, "data-palo": 1}, g);
+ ms.forEach(function(m){
+  marcaRef(g, anc[0], y + ALTO_MARCA[m] / 2, m, tinta, nave);
+  y += ALTO_MARCA[m] + PASO_MARCA;
+ });
+ return {f: anc[0], y0: anc[1], y1: y - PASO_MARCA};
+}
+
+function pilaDia(cx, yBase, r, formas, paso, soporte){
+ const d = paso === undefined ? px(MARCA_PASO) : paso;
+ if(soporte && formas.length){
+  const an = Math.max(2, LUZ.D * 0.22);
+  el("rect", {x: cx - an/2, y: yBase - (formas.length-1)*d,
+    width: an, height: soporte.cub - (yBase - (formas.length-1)*d),
+    fill: soporte.tinta});
+ }
+ formas.forEach((f, i) => marcaDia(gO, cx, yBase - (formas.length-1-i)*d, r, f));
+ return formas.length ? (formas.length-1)*d + r*2 : 0;
+}
+
+function estrella(cx, cy, r, puntas){
+ const n = puntas || 10, d = [];
+ for(let i = 0; i < n*2; i++){
+  const a = (i * Math.PI / n) - Math.PI/2, rr = (i % 2) ? r*0.62 : r;
+  d.push((i ? "L" : "M") + (cx + rr*Math.cos(a)).toFixed(2)
+                    + "," + (cy + rr*Math.sin(a)).toFixed(2));
+ }
+ return d.join(" ") + " Z";
+}
+function luz(cx, cy, r, color, datos, centelleante, pa){
+ if(centelleante)
+  el("path", Object.assign({d: estrella(cx, cy, r), fill:color,
+    "data-centelleo":1}, datos || {}), pa);
+ else
+  el("circle", Object.assign({cx:cx, cy:cy, r:r, fill:color}, datos || {}), pa);
+}
+
+const COLOR_LUZ = {white:"#FFFFFF", red:"#FF0000", green:"#5AA900",
+                   yellow:"#FFFF00", blue:"#0070C0"};
+
+const COLOR_CENTELLEO = {yellow:"#EFD400"};
+
+function vistas(v, g){ return configuration(v).filter(l => visible(l, g)); }
+
+function nombreCasco(h){
+ for(const k in CASCOS_REF) if(CASCOS_REF[k] === h) return k;
+ return "mercante";
+}
+
+function firmaLuces(todas){
+ return todas.map(l => l.kind + ":" + l.colour).sort().join(",");
+}
+
+function sitiaRef(v, luces, todas, h){
+ const P = POSICIONES[nombreCasco(h)];
+ const manga = h.plan[2] / 2;
+ const fondeada = v.underway === false;
+ const out = new Array(luces.length).fill(null);
+
+ const ficha = L_REF[nombreCasco(h) + "|" + firmaLuces(todas)];
+ if(ficha){
+
+  const suyas = {}, mias = {};
+  ficha.L.forEach(q => { const k = q.k + "|" + q.col;
+    (suyas[k] = suyas[k] || []).push(q); });
+  todas.forEach(l => { const k = l.kind + "|" + l.colour;
+    (mias[k] = mias[k] || []).push(l); });
+  const de = new Map();
+  let todo = true;
+  for(const k in mias){
+   const A = mias[k].slice().sort((a, b) => b.h - a.h);
+   const B = (suyas[k] || []).slice().sort((a, b) => a.y - b.y);
+   if(A.length !== B.length){ todo = false; break; }
+   A.forEach((l, i) => de.set(l, B[i]));
+  }
+  if(todo){
+   luces.forEach((l, i) => {
+    const q = de.get(l);
+    if(!q){ todo = false; return; }
+    out[i] = {f: q.f, s: q.s, y: q.y};
+   });
+   if(todo) return out;
+   out.fill(null);
+  }
+ }
+
+ const pon = (l, q) => { const i = luces.indexOf(l); if(i >= 0 && q) out[i] = q; };
+ const dea = k => todas.filter(l => l.kind === k);
+
+ if(v.tricolour && (v.length || 12) < 20){
+  const c = P.columna.libre;
+  todas.forEach(l => pon(l, {f: c[0], s: 0, y: c[1]}));
+  return out;
+ }
+
+ const topes = P.tope_proa
+   ? dea("masthead").slice().sort((a, b) => a.h - b.h)
+   : [];
+ if(P.topes_col && topes.length >= 2){
+
+  const tc = P.topes_col;
+  const sarta = topes.filter(l => l.x > 0), atras = topes.filter(l => !(l.x > 0));
+  const cola = sarta.length ? sarta : topes;
+  cola.forEach((l, k) => pon(l, {f: tc.f, s: 0, y: tc.y_base - k * tc.paso}));
+  if(sarta.length) atras.forEach((l, k) => pon(l, P.tope_popa && P.tope_popa[0] !== tc.f
+    ? {f: P.tope_popa[0], s: 0, y: P.tope_popa[1]}
+    : {f: tc.f, s: 0, y: tc.y_base - (cola.length + k) * tc.paso}));
+ } else if(topes.length >= 2){
+
+  const sarta = topes.filter(l => l.x > 0), atras = topes.filter(l => !(l.x > 0));
+  const col = sarta.length ? sarta : topes.slice(0, topes.length - 1);
+  const fin = sarta.length ? atras : topes.slice(-1);
+  col.forEach((l, k) => pon(l, {f: P.tope_proa[0], s: 0,
+    y: P.tope_proa[1] - k * P.paso_luz}));
+  fin.forEach((l, k) => pon(l, P.tope_popa
+    ? {f: P.tope_popa[0], s: 0, y: P.tope_popa[1] - k * P.paso_luz}
+    : {f: P.tope_proa[0], s: 0, y: P.tope_proa[1] - (col.length + k) * P.paso_luz}));
+ } else if(topes.length === 1 && P.tope_proa){
+  pon(topes[0], {f: P.tope_proa[0], s: 0, y: P.tope_proa[1]});
+ }
+
+ dea("starboard").forEach(l => pon(l, {f: P.costado[0], s: manga, y: P.costado[1]}));
+ dea("port").forEach(l =>      pon(l, {f: P.costado[0], s: -manga, y: P.costado[1]}));
+
+ dea("stern").forEach(l => {
+  if(l.colour === "yellow" && P.remolque)
+   pon(l, {f: P.remolque[0], s: 0, y: P.remolque[1]});
+  else
+   pon(l, {f: P.alcance[0], s: 0, y: P.alcance[1]});
+ });
+
+ const th = dea("allround").slice().sort((a, b) => b.h - a.h);
+ if(fondeada){
+
+  if(th.length >= 2 && P.ancla_popa){
+   pon(th[0], {f: P.ancla_proa[0], s: 0, y: P.ancla_proa[1]});
+   pon(th[1], {f: P.ancla_popa[0], s: 0, y: P.ancla_popa[1]});
+   th.slice(2).forEach((l, k) => pon(l, {f: P.columna.libre[0], s: 0,
+     y: P.columna.libre[1] + k * P.paso_luz}));
+  } else {
+   th.forEach((l, k) => pon(l, {f: P.ancla_proa[0], s: 0,
+     y: P.ancla_proa[1] + k * P.paso_luz}));
+  }
+ } else if(th.length){
+
+  const fc = P.columna.libre[0];
+  const conTope = topes.some(l => { const q = out[luces.indexOf(l)];
+    return q ? q.f === fc : (P.tope_proa && P.tope_proa[0] === fc); });
+  const anc = conTope ? P.columna.bajo_tope : P.columna.libre;
+
+  th.forEach((l, k) => pon(l, {f: anc[0], s: 0, y: anc[1] + k * P.paso_luz}));
+ }
+
+ let sobra = 0;
+ out.forEach((q, i) => { if(!q){ SIN_SITIO++;
+   out[i] = {f: P.columna.libre[0], s: 0,
+             y: P.columna.libre[1] + (sobra++) * P.paso_luz}; } });
+ return out;
+}
+let SIN_SITIO = 0;
+
+function reparte(luces, sitios, geo, tramo){
+
+ const porSarta = {}, porAltura = {};
+ luces.forEach((l, i) => {
+  const q = sitios[i];
+  if(q.sarta) (porSarta[q.sarta] = porSarta[q.sarta] || []).push(i);
+  else { const k = q.m.toFixed(4); (porAltura[k] = porAltura[k] || []).push(i); }
+ });
+ const items = [];
+ for(const k in porSarta)  items.push({idx: porSarta[k],  sarta: true});
+ for(const k in porAltura) items.push({idx: porAltura[k], sarta: false});
+ items.forEach(it => {
+  const ms = it.idx.map(i => sitios[i].m);
+  it.baja = Math.min.apply(null, ms);
+  it.alta = Math.max.apply(null, ms);
+ });
+
+ items.sort((a, b) => a.baja - b.baja || a.alta - b.alta);
+
+ const alturaDe = {};
+ items.forEach(it => {
+  const niveles = it.idx.map(i => sitios[i].m)
+    .sort((a, b) => a - b).filter((m, k, a) => !k || m !== a[k-1]);
+
+  let debajo = 0;
+  items.forEach(ot => { if(ot !== it && ot.alta <= it.baja && ot.techo !== undefined)
+    debajo = Math.max(debajo, ot.techo); });
+
+  let y = (it.baja === 0) ? 0 : debajo + LUZ.DISTINTO;
+  const de = {};
+  niveles.forEach((m, k) => { if(k) y += LUZ.SARTA; de[m.toFixed(4)] = y; });
+  it.idx.forEach(i => { alturaDe[i] = de[sitios[i].m.toFixed(4)]; });
+  it.techo = y;
+ });
+
+ const P = geo.pr || {f: 1, s: 0, lado: 0};
+ return luces.map((l, i) => ({
+   cx: geo.medio + ((sitios[i].xm * P.f + (sitios[i].sm || 0) * P.lado) / tramo)
+                   * geo.ancho,
+   cy: geo.base  - alturaDe[i] * geo.d,
+   l: l, m: sitios[i].m, xm: sitios[i].xm, fila: alturaDe[i],
+   mLibre: sitios[i].mLibre, xmLibre: sitios[i].xmLibre,
+   cita: sitios[i].cita, sarta: sitios[i].sarta, sm: sitios[i].sm || 0 }));
+}
+
+function pasosDe(v, luces, todas){
+ const pts = reparte(luces, coloca(v, luces, todas),
+   {medio:0, ancho:0, base:0, d:1}, tramoDe(v));
+ return Math.max.apply(null, pts.map(p => -p.cy));
+}
+
+function pasosMax(naves){
+ let m = 0;
+ naves.forEach(q => {
+  try {
+   const todas = q.todas || configuration(q.v);
+   m = Math.max(m, pasosDe(q.v, q.luces || todas, todas));
+  } catch(e){}
+ });
+ return m;
+}
+
+function pintaPuntos(pts, r, L, nave, pa){
+ if(pts && pts.length) HAY_LUZ = true;
+ pts.slice().sort((a, b) => b.cy - a.cy).forEach(p => {
+  const col = p.l.flash ? (COLOR_CENTELLEO[p.l.colour] || COLOR_LUZ[p.l.colour])
+                        : COLOR_LUZ[p.l.colour];
+  luz(p.cx, p.cy, r, col || "#FFFFFF",
+    {"data-m": p.m.toFixed(3), "data-xm": p.xm.toFixed(3),
+     "data-kind": p.l.kind, "data-l": L,
+     "data-nave": (p.nave === undefined ? nave : p.nave),
+     "data-fila": p.fila.toFixed(3),
+     "data-sarta": p.sarta || "",
+
+     "data-sm": (p.sm || 0).toFixed(3),
+
+     "data-mlibre": p.mLibre ? 1 : 0, "data-xlibre": p.xmLibre ? 1 : 0,
+     "data-cita": p.cita}, p.l.flash, pa);
+ });
+}
+
+const ROTULO_LIBRE = {
+  "R30(b) \u00b7 donde mejor pueda ser vista":
+    "Under 50 m she shows one anchor light where it can best be seen \u2014 "
+    + "its height and position are not fixed by the rule.",
+  "R23(d) \u00b7 donde mejor pueda ser vista":
+    "Under 12 m this all-round white light goes where it can best be seen \u2014 "
+    + "the rule does not fix where.",
+  "A1 2(f) \u00b7 la altura; el sitio es libre":
+    "The rule fixes how high these all-round lights are and how far apart, "
+    + "but not where along her length \u2014 that is flexible.",
+  "R29 \u00b7 en el tope o cerca":
+    "The rule says at or near the masthead. How near is not a number.",
+  "R29 + A1 2(f)":
+    "The rule says at or near the masthead. How near is not a number.",
+  "A1 2(i)":
+    "The rule fixes how high this pair is, but not where along her length.",
+  "A1 2(i) + 2(f)":
+    "The rule fixes how high this pair is, but not where along her length."
+};
+
+function frasesLibres(sitios){
+ const dichas = {};
+ if(typeof ROTULO_LIBRE === "undefined") return dichas;
+ sitios.forEach(q => {
+  if(!q || (!q.mLibre && !q.xmLibre)) return;
+  const f = ROTULO_LIBRE[q.cita];
+
+  if(f) dichas[f] = dichas[f] ? (dichas[f] + " " + q.cita) : q.cita;
+ });
+ return dichas;
+}
+
+function altoLibres(dichas, ancho){
+ const frases = Object.keys(dichas);
+ if(!frases.length) return 0;
+ return px(38) + frases.reduce(
+   (a, f) => a + parte(f, ancho - px(24), 12.5).length * px(17), 0);
+}
+let LIBRES_DICHAS = {};
+
+function altoLibreDe(v, anchoPanel){
+ try{
+  const suyas = configuration(v);
+  return altoLibres(frasesLibres(coloca(v, suyas, suyas)), anchoPanel);
+ }catch(e){ return 0; }
+}
+function rotulaLibres(P, dichas, ancho){
+ const frases = Object.keys(dichas).filter(f => !LIBRES_DICHAS[f]);
+ frases.forEach(f => { LIBRES_DICHAS[f] = 1; });
+ if(!frases.length) return 0;
+
+ let y = P.y0 + px(38);
+ frases.forEach(f => {
+  const lineas = parte(f, ancho - px(24), 12.5);
+  lineas.forEach((t, i) => {
+
+   const e = txt(P.cx, y + i*px(17), t, "middle", 12.5, "var(--dim)");
+   e.setAttribute("data-libre", dichas[f]);
+  });
+  y += lineas.length * px(17);
+ });
+ return frases.length;
+}
+
+function pintaNaveDe(P, v, luces, todas, o){
+ return dibujaLuces(P, v, luces, todas, o || {});
+}
+
+function pintaNave(P, v, g, o){
+ o = o || {};
+ const todas = configuration(v);
+
+ let luces = (g === undefined || g === null) ? todas : todas.filter(l => visible(l, g));
+
+ if(o.soloRemolcador) luces = luces.filter(l => !l.tow);
+
+ if(o.nm !== undefined && o.nm !== null){
+  const R = ranges(v.length || 12);
+  luces = luces.filter(l => o.nm <= R[l.rangeKey]);
+ }
+
+ if(o.tapaBabor) luces = luces.filter(l => l.kind !== "port");
+
+ return dibujaLuces(P, v, luces, todas, Object.assign({g: g}, o));
+}
+
+function dibujaLuces(P, v, luces, todas, o){
+ const r = LUZ.D / 2, d = LUZ.D;
+ const L = v.length || 12;
+
+ const anchoPanel = P.x1 - P.x0;
+
+ const ancho = o.ancho || (anchoPanel - 108);
+
+ const fam = o.casco ? CASCOS_REF[o.casco]
+           : (o.neutro ? CASCOS_REF.mercante : cascoDe(v, L));
+
+ const sitios = coloca(v, luces, todas);
+
+ const dichas = (o.rotula === false) ? {} : frasesLibres(sitios);
+
+ const arriba = P.y0 + altoLibres(dichas, anchoPanel);
+
+ const pasos = (o.pasos !== undefined && o.pasos !== null) ? o.pasos
+   : (function(){ try { return pasosDe(v, luces, todas); } catch(e){ return 0; } })();
+
+ const pr = (!o.escorza || o.g === undefined || o.g === null) ? null : PROY(o.g);
+
+ const hw = Math.max(20, o.ancho ? o.ancho : (anchoPanel - 24));
+ if(o.rotula !== false) rotulaLibres(P, dichas, Math.min(anchoPanel, hw));
+
+ const refL = fam.plan[1] - fam.plan[0];
+ const topeDe = q => (q.masts || []).length
+   ? Math.min.apply(null, q.masts.map(function(m){ return m[1]; }))
+   : q.ydeck - REF_D/2;
+
+ const cuelga = (ps, tope) => {
+  if(!ps.length) return ps;
+  const alta = Math.min.apply(null, ps.map(function(p){ return p.cy; }));
+  const dy = tope - alta;
+  ps.forEach(function(p){ p.cy += dy; });
+  return ps;
+ };
+
+ const hh = o.ancho ? hw : Math.max(20, P.y1 - arriba - 12);
+ const hueco = {x: P.cx - hw/2, y: (P.y0 + P.y1)/2 - hh/2, w: hw, h: hh};
+
+ if(v.type === "towing" && v.underway !== false && !o.soloRemolcador
+    && !o.soloRemolcado && luces.some(l => l.tow)){
+  const suyas = [], suyo = [];
+  luces.forEach((l, i) => (l.tow ? suyo : suyas).push(i));
+  const Lr = towEslora(v);
+  const fa = cascoDe(v, L), fr = cascoDe({type:"power", gabarra:1, length:Lr}, Lr);
+  const rA = fa.plan[1] - fa.plan[0], rB = fr.plan[1] - fr.plan[0];
+  const PJ = pr || {f: 1, s: 0, lado: 0};
+  const arma = (idx, casco, todasDe) => {
+   const q = sitiaRef(v, idx.map(i => luces[i]), todasDe, casco);
+   return idx.map(function(i, k){
+    return {cx: q[k].f * PJ.f + q[k].s * PJ.lado, cy: q[k].y, l: luces[i],
+            m: sitios[i].m, xm: sitios[i].xm, sm: sitios[i].sm || 0,
+            fila: (casco.ywater - q[k].y) / REF_D,
+            mLibre: sitios[i].mLibre, xmLibre: sitios[i].xmLibre,
+            cita: sitios[i].cita, sarta: sitios[i].sarta};
+   });
+  };
+  const uno = arma(suyas, fa, todas.filter(l => !l.tow));
+
+  const dos = arma(suyo, fr, todas.filter(l => l.tow));
+
+  const sep = hueco.w / 6;
+  const util = hueco.w - sep, tot = rA + rB;
+  const hA = {x: hueco.x + util*(rB/tot) + sep, y: hueco.y, w: util*(rA/tot), h: hueco.h};
+  const hB = {x: hueco.x, y: hueco.y, w: util*(rB/tot), h: hueco.h};
+  const nA = NAVE_N++, nB = NAVE_N++;
+  const SA = silueta(hA, fa, "#24343D", nA, pr, uno);
+  const SB = silueta(hB, fr, "#24343D", nB, pr, dos);
+  uno.forEach(p => p.nave = nA); dos.forEach(p => p.nave = nB);
+  pintaPuntos(uno, REF_D/2, L,  nA, SA.nodo);
+  pintaPuntos(dos, REF_D/2, Lr, nB, SB.nodo);
+  const M = medidasDe(SA, hA);
+  return {n: nA, medio: M.ox + M.k*((fa.plan[0] + fa.plan[1])/2), base: M.oy};
+ }
+
+ const sr = sitiaRef(v, luces, todas, fam);
+ const PJ = pr || {f: 1, s: 0, lado: 0};
+ const pts = luces.map(function(l, i){
+  return {cx: sr[i].f * PJ.f + sr[i].s * PJ.lado, cy: sr[i].y, l: l,
+          m: sitios[i].m, xm: sitios[i].xm, sm: sitios[i].sm || 0,
+          fila: (fam.ywater - sr[i].y) / REF_D,
+          mLibre: sitios[i].mLibre, xmLibre: sitios[i].xmLibre,
+          cita: sitios[i].cita, sarta: sitios[i].sarta};
+ });
+
+ const yo = NAVE_N++;
+ const S = silueta(hueco, fam, o.dia ? "var(--ink)" : "#24343D", yo, pr, pts);
+
+ if(v.underway === false && L >= A1.CUBIERTAS_ILUMINADAS_DESDE)
+  focosCubierta(pts, S, yo);
+
+ pintaPuntos(pts, REF_D/2, L, yo, S.nodo);
+ const M = medidasDe(S, hueco);
+ return {n: yo, medio: M.ox + M.k*((fam.plan[0] + fam.plan[1])/2),
+         base: M.oy + M.k*fam.ydeck};
+}
+
+function firmaEscena(v, g){
+ const L = tramoDe(v), todas = configuration(v);
+ const vis = todas.filter(l => visible(l, g));
+ if(!vis.length) return "";
+ const s = coloca(v, vis, todas);
+ return vis.map((l, i) => l.colour + "@" + s[i].m.toFixed(2)
+                          + "/" + (s[i].xm / L).toFixed(3)).sort().join(" ");
+}
+const conL = (v, L) => Object.assign({}, v, {length: L});
+
+function escenaLibre(v, g, nm){
+
+ const L = tramoDe(v), todas = configuration(v);
+ let ver = todas.filter(l => visible(l, g));
+ if(nm !== undefined && nm !== null){
+  const R = ranges(L);
+  ver = ver.filter(l => nm <= R[l.rangeKey]);
+ }
+
+ ver = ver.filter(l => !l.tow);
+ if(!ver.length) return null;
+ const s = coloca(v, ver, todas);
+ return ver.map((l, i) => ({c: l.colour,
+   m:  s[i].mLibre  ? null : s[i].m,
+   x:  s[i].xmLibre ? null : s[i].xm / L}));
+}
+const cabe = (a, b) => a === null || b === null || Math.abs(a - b) < 0.01;
+
+function unifica(A, B){
+ if(!A || !B || A.length !== B.length) return false;
+ const usadas = B.map(() => false);
+ const anda = i => {
+  if(i >= A.length) return true;
+  for(let j = 0; j < B.length; j++){
+   if(usadas[j] || A[i].c !== B[j].c) continue;
+   if(!cabe(A[i].m, B[j].m) || !cabe(A[i].x, B[j].x)) continue;
+   usadas[j] = true;
+   if(anda(i + 1)) return true;
+   usadas[j] = false;
+  }
+  return false;
+ };
+ return anda(0);
+}
+
+let PATRON = null;
+function patrones(){
+ if(PATRON) return PATRON;
+ PATRON = [];
+ for(const t in CITA){
+  if(t === "fondeada") continue;
+  for(const L of [9, 15, 24, 30, 45, 48, 52, 90, 120, 200, 300])
+   for(const est of [{underway:false},
+                     {underway:true, makingWay:true},
+                     {underway:true, makingWay:false}]){
+
+    const largos = (t === "towing") ? [120, 250] : [null];
+    for(const TL of largos){
+     const v = Object.assign({type:t, length:L}, est);
+     if(TL !== null){ v.towLength = TL; v.towedLength = 60; }
+     let cfg; try { cfg = configuration(v); } catch(e){ continue; }
+     if(citada(v, cfg)) continue;
+     PATRON.push(v);
+    }
+   }
+ }
+ return PATRON;
+}
+
+const MARCACIONES = [0, 20, 60, 100, 112, 114, 150, 179,
+                     -20, -60, -100, -112, -114, -150, -179];
+
+const _cacheEsc = {};
+function escenaCache(v, g, nm){
+
+ const k = v.type + "|" + v.length + "|" + (v.underway === false ? "a" : "n")
+   + (v.makingWay === false ? "p" : "m") + "|" + (v.towLength || 0)
+   + "|" + (v.towedLength || 0) + "|" + g + "|" + nm;
+ if(k in _cacheEsc) return _cacheEsc[k];
+ let e = null;
+ try { e = escenaLibre(v, g, nm); } catch(err){ e = null; }
+ return (_cacheEsc[k] = e);
+}
+
+const _cacheLect = {};
+
+const universo = q => patrones().concat([q.buque]);
+
+function lecturasCon(banco, q){
+ const clave = banco + "|" + JSON.stringify(q.buque) + "|" + q.g + "|" + q.nm;
+ if(clave in _cacheLect) return _cacheLect[clave];
+ const yo = escenaLibre(q.buque, q.g, q.nm);
+ const out = {};
+ if(yo){
+  for(const v of universo(q))
+   for(const g of MARCACIONES){
+    const e = escenaCache(v, g, q.nm);
+    if(!e || !unifica(yo, e)) continue;
+    let c; try { c = DICE[banco]({buque:v, g:g, nm:q.nm}); } catch(err){ continue; }
+    if(!out[c]) out[c] = {clase:c, v:v, g:g};
+   }
+ }
+ return (_cacheLect[clave] = out);
+}
+
+const NOMBRE_NAVE = {
+  power:        "a power-driven vessel",
+  sailing:      "a sailing vessel",
+  nuc:          "not under command",
+  ram:          "restricted in her ability to manoeuvre",
+  cbd:          "constrained by her draught",
+  pilot:        "a pilot vessel",
+  fishingTrawl: "a fishing vessel trawling",
+  fishingOther: "a fishing vessel, not trawling",
+  towing:       "a vessel towing",
+  fondeada:     "at anchor"
+};
+
+function claveDe(v){
+ return v.underway === false ? "fondeada"
+      : (v.velaYMotor ? "velaYMotor" : v.type);
+}
+const claveNave = v => v.underway === false ? "fondeada" : v.type;
+function nombraNave(v){
+  const k = claveNave(v), C = CITA[k];
+  return (NOMBRE_NAVE[k] || k) + (C ? " \u00b7 " + C.r : "");
+}
+
+const _cacheId = {};
+function identidades(q){
+  const clave = JSON.stringify(q.buque) + "|" + q.g + "|" + q.nm;
+  if(clave in _cacheId) return _cacheId[clave];
+  const yo = escenaLibre(q.buque, q.g, q.nm);
+  const out = {};
+  if(yo) for(const v of universo(q))
+    for(const g of MARCACIONES){
+      const e = escenaCache(v, g, q.nm);
+      if(e && unifica(yo, e)) out[nombraNave(v)] = 1;
+    }
+  return (_cacheId[clave] = Object.keys(out).sort());
+}
+
+const lecturas = (banco, q) => Object.keys(lecturasCon(banco, q));
+window.universo = universo;
+
+function testigos(banco, q){
+ const yo = escenaLibre(q.buque, q.g, q.nm);
+ const out = {};
+ if(!yo || !VERDAD || !VERDAD[banco]) return out;
+ const mia = VERDAD[banco](q.buque, q.g, q.nm);
+ for(const v of universo(q))
+  for(const g of MARCACIONES){
+   const e = escenaCache(v, g, q.nm);
+   if(!e || !unifica(yo, e)) continue;
+   let t; try { t = VERDAD[banco](v, g, q.nm); } catch(err){ continue; }
+   if(t === mia || out[t]) continue;
+   out[t] = {verdad:t, v:v, g:g};
+  }
+ return out;
+}
+
+function bolsa(lista, semilla){
+ let s = semilla || 1, idx = [], i = 0;
+ const rnd = () => { s ^= s<<13; s ^= s>>>17; s ^= s<<5; return (s>>>0)/4294967296; };
+ const barajar = () => { idx = lista.map((_, k) => k);
+   for(let j = idx.length-1; j > 0; j--){ const t = Math.floor(rnd()*(j+1));
+     [idx[j], idx[t]] = [idx[t], idx[j]]; } i = 0; };
+ barajar();
+ return {saca: () => { if(i >= idx.length) barajar(); return lista[idx[i++]]; }};
+}
+const BOLSAS = {};
+function sacaDe(s){
+ if(!BOLSAS[s.banco]) BOLSAS[s.banco] = bolsa(BANCOS[s.banco] || [],
+                                              AZAR + s.id.charCodeAt(0));
+ return BOLSAS[s.banco].saca();
+}
+window.bolsaDe = s => BOLSAS[s.banco];
+
+function claseDe(s, q){
+ const l = lecturas(s.banco, q);
+ if(l.length > 1) return NO_LO_DICE[s.banco] || "confusa";
+ return DICE[s.banco](q);
+}
+function okDe(s, q){ return TEXTOS[s.banco].clases.indexOf(claseDe(s, q)); }
+window.claseDe = claseDe; window.okDe = okDe;
+
+function nombraEscena(q){
+ if(typeof NOMBRA_ESCENA === "function") return NOMBRA_ESCENA(q);
+ const vis = vistas(q.buque, q.g);
+ const cuenta = {};
+ vis.forEach(l => { const k = l.colour + "|" + (l.kind === "allround" ? "all-round"
+   : l.kind === "masthead" ? "masthead" : l.kind === "stern" ? "sternlight"
+   : "sidelight");
+   cuenta[k] = (cuenta[k] || 0) + 1; });
+ const CIF = ["no", "one", "two", "three", "four", "five", "six"];
+ const trozos = Object.keys(cuenta).map(k => {
+   const [col, tipo] = k.split("|"), n = cuenta[k];
+
+   const suf = (tipo === "all-round" || tipo === "masthead") ? " light" : "";
+   return (CIF[n] || n) + " " + col + " " + tipo + suf + (n > 1 ? "s" : ""); });
+ if(!trozos.length) return "nothing at all";
+ if(trozos.length === 1) return trozos[0];
+ return trozos.slice(0, -1).join(", ") + " and " + trozos[trozos.length-1];
+}
+
+let EX = {sel:null, vistas:{}};
+
+let EJ = {i:0};
+
+let PR = {q:null, n:0, meta:2, fallos:0, hecho:false, res:""};
+
+let REJ = {};
+const LOG = [];
+function marcaLog(){ document.getElementById("fLog").textContent =
+  LOG.length + " answers logged"; }
+function prNuevo(){ PR.q = sacaDe(PZ[iP]); PR.hecho = false; dibuja(); }
+
+function ensenaPantalla(s){
+ const e = {};
+ (s.ensenaTambien || []).forEach(c => e[c] = 1);
+ const base = s.buque || {};
+ if(s.buque) e[claveDe(s.buque)] = 1;
+ ["estados", "naves", "paneles"].forEach(campo =>
+   (s[campo] || []).forEach(q => { if(q.v) e[claveDe(Object.assign({}, base, q.v))] = 1; }));
+ (s.tramos || []).forEach(t => { if(t.v) e[claveDe(t.v)] = 1; });
+ (s.clases || []).forEach(q => { if(q.clave) e[q.clave] = 1; });
+ return Object.keys(e);
+}
+const presentadas = hasta => {
+ const e = {};
+
+ for(let i = 0; i < hasta; i++)
+  if(PZ[i].obra !== "practica" && PZ[i].obra !== "rejilla")
+   ensenaPantalla(PZ[i]).forEach(c => e[c] = 1);
+ return e;
+};
+
+function quienEs(q){
+
+ if(typeof QUIEN_ES === "function") return QUIEN_ES(q);
+ const ids = identidades(q);
+ if(!ids.length) return "";
+ const yaSale = presentadas(iP);
+ const nueva = !yaSale[claveDe(q.buque)]
+   && typeof DONDE_LUEGO !== "undefined" ? DONDE_LUEGO : "";
+
+ const aviso = nueva
+   ? ' <em>New to you — what it means comes ' + nueva + ". For now the sight "
+     + "above is the whole of it: the name is a label, not a lesson yet.</em>"
+   : "";
+ if(ids.length === 1)
+  return '<div class="res ver"><b>And what she is:</b> ' + ids[0] + "." + aviso
+    + "</div>";
+ return '<div class="res ver"><b>And what she could be:</b> '
+   + ids.slice(0, -1).join(", ") + " or " + ids[ids.length-1]
+   + " \u2014 <em>her lights do not choose between them, and that is the answer, "
+   + "not a gap in it.</em>" + aviso + "</div>";
+}
+
+function responde(s, k){
+ const q = PR.q, ok = okDe(s, q), T = TEXTOS[s.banco], bien = (k === ok);
+ LOG.push({id:s.id, q:q.id, k:k, bien:bien}); marcaLog();
+ if(bien){ PR.hecho = true; PR.n++;
+   PR.res = '<div class="res si"><b>Yes.</b> You are seeing ' + nombraEscena(q)
+     + ". " + T.porque[T.clases[ok]] + "</div>" + quienEs(q);
+
+   if(PR.fallos && PR.meta === 2){ PR.meta = 3;
+     PR.res += '<div class="res">Two was the plan; the third is here because you '
+       + "slipped, and it goes away as soon as you do not.</div>"; }
+ }else{ PR.fallos++;
+   PR.res = '<div class="res no"><b>Not that one.</b> ' + (T.mal[T.clases[k]] || "")
+     + "</div>";
+   if(T.pista) PR.res += '<div class="pista">' + T.pista + "</div>"; }
+ dibuja();
+}
+function muestra(s){
+ const q = PR.q, ok = okDe(s, q), T = TEXTOS[s.banco];
+ PR.hecho = true; PR.n++;
+ LOG.push({id:s.id, q:q.id, k:-1, bien:false, show:true}); marcaLog();
+ PR.res = '<div class="res ver"><b>' + T.opciones[ok].replace(/<[^>]+>/g, "") + "</b> "
+   + "There is " + nombraEscena(q) + ". " + T.show[T.clases[ok]] + "</div>"
+   + quienEs(q);
+ if(PR.meta === 2) PR.meta = 3;
+ dibuja();
+}
+
+function salta(s){
+ LOG.push({id:s.id, q:PR.q && PR.q.id, k:-1, bien:false, saltada:true}); marcaLog();
+ PR.res = "";
+ if(PR.meta === 2){ PR.meta = 3;
+   PR.res = '<div class="res">Skipped. One more after this.</div>'; }
+ prNuevo();
+}
+
+function panelPaso(s, p){
+ const t = s.tramos[EJ.i];
+ p.innerHTML = h3De(s) + "<h2>" + s.h + "</h2>";
+
+ const pr = t.p || (Array.isArray(s.p) ? s.p[EJ.i] : null);
+ if(pr) p.insertAdjacentHTML("beforeend", "<p>" + pr + "</p>");
+ if(t.razon) p.insertAdjacentHTML("beforeend", '<div class="calc">' + t.razon + "</div>");
+ const nav = document.createElement("div"); nav.className = "nav";
+ nav.innerHTML = '<button class="sec" id="atras"' + (EJ.i ? "" : " disabled")
+   + ">Back a step</button>"
+   + '<button id="sig">' + (EJ.i < s.tramos.length-1 ? "Next step" : (s.b || "Next"))
+   + "</button>"
+   + '<span class="prl">step ' + (EJ.i+1) + " of " + s.tramos.length + "</span>";
+ colgaNav(p, nav);
+ nav.querySelector("#atras").onclick = () => { if(EJ.i){ EJ.i--; dibuja(); } };
+ nav.querySelector("#sig").onclick = () => {
+   if(EJ.i < s.tramos.length-1){ EJ.i++; dibuja(); } else vaA(iP+1); };
+}
+
+function panelExplora(s, p){
+ const n = s.naves.length;
+ const abiertas = s.naves.filter(q => EX.vistas[q.id]).length;
+ const sel = EX.sel && s.naves.filter(q => q.id === EX.sel)[0];
+ p.innerHTML = h3De(s) + "<h2>" + s.h + "</h2>";
+ if(sel){
+  p.insertAdjacentHTML("beforeend", '<b class="q">' + sel.nombre + "</b>");
+  if(sel.regla) p.insertAdjacentHTML("beforeend",
+    '<div class="calc">' + sel.regla + "</div>");
+  (sel.p || []).forEach(x => p.insertAdjacentHTML("beforeend", "<p>" + x + "</p>"));
+ }else{
+  (s.p || []).forEach(x => p.insertAdjacentHTML("beforeend", "<p>" + x + "</p>"));
+ }
+ const nav = document.createElement("div"); nav.className = "nav";
+
+ nav.innerHTML = '<button class="sec" id="atras"' + (iP ? "" : " disabled")
+   + ">Back</button>"
+   + '<button id="sig">' + (abiertas >= n ? (s.b || "Now you try") : "Next")
+   + "</button>"
+   + '<span class="prl">' + abiertas + " of " + n + " opened</span>";
+ colgaNav(p, nav);
+ nav.querySelector("#atras").onclick = () => vaA(iP-1);
+ nav.querySelector("#sig").onclick = () => vaA(iP+1);
+}
+
+function panelPractica(s, p){
+ const q = PR.q; if(!q) return;
+ const T = TEXTOS[s.banco];
+ p.innerHTML = h3De(s) + '<b class="q">' + T.pregunta + "</b>"
+   + (s.instruccion ? "<p><em>" + s.instruccion + "</em></p>" : "");
+ const ops = document.createElement("div"); ops.className = "ops";
+
+ const orden = T.opciones.map((o, k) => k);
+ for(let j = orden.length-1; j > 0; j--){
+   const t = Math.floor((((AZAR + j*7 + iP*13) % 97) / 97) * (j+1));
+   [orden[j], orden[t]] = [orden[t], orden[j]]; }
+ orden.forEach(k => {
+   const b = document.createElement("button");
+   b.innerHTML = T.opciones[k]; b.dataset.k = k; b.disabled = PR.hecho;
+   b.onclick = () => responde(s, k);
+   ops.appendChild(b); });
+ p.appendChild(ops);
+ if(PR.res) p.insertAdjacentHTML("beforeend", PR.res);
+ const nav = document.createElement("div"); nav.className = "nav";
+ nav.innerHTML = '<button class="sec" id="atras">Back</button>'
+   + (PR.hecho ? '<button id="otra">Next one</button>' : "")
+   + (PR.hecho && PR.n >= PR.meta ? '<button id="sig">Next</button>' : "")
+   + (!PR.hecho && PR.fallos >= 2 ? '<button class="show" id="show">Show me</button>' : "")
+   + (!PR.hecho ? '<a class="skip" id="salta">Skip</a>' : "")
+   + '<span class="prl">' + Math.min(PR.hecho ? PR.n : PR.n+1, PR.meta)
+   + " of " + PR.meta + "</span>";
+ colgaNav(p, nav);
+ nav.querySelector("#atras").onclick = () => vaA(iP-1);
+ const o = nav.querySelector("#otra");  if(o)  o.onclick  = () => { PR.res = ""; prNuevo(); };
+ const g = nav.querySelector("#sig");   if(g)  g.onclick  = () => vaA(iP+1);
+ const sh = nav.querySelector("#show"); if(sh) sh.onclick = () => muestra(s);
+ const sk = nav.querySelector("#salta");if(sk) sk.onclick = () => salta(s);
+}
+
+let iP = 0;
+
+const AIRE = 0.015;
+
+function cajaDe(e){
+ const a = e.attributes ? null : null;
+ const n = k => { const v = e.getAttribute(k); return v === null ? null : +v; };
+ const t = e.tagName;
+ if(t === "circle"){
+  const r = n("r") || 0;
+  return {x0:n("cx")-r, y0:n("cy")-r, x1:n("cx")+r, y1:n("cy")+r};
+ }
+ if(t === "line")
+  return {x0:Math.min(n("x1"),n("x2")), y0:Math.min(n("y1"),n("y2")),
+          x1:Math.max(n("x1"),n("x2")), y1:Math.max(n("y1"),n("y2"))};
+ if(t === "text"){
+  const tam = n("font-size") || 12, an = (e.textContent || "").length * tam * 0.58;
+  const anc = e.getAttribute("text-anchor");
+  const x0 = anc === "middle" ? n("x") - an/2 : (anc === "end" ? n("x") - an : n("x"));
+  return {x0:x0, y0:n("y") - tam, x1:x0 + an, y1:n("y")};
+ }
+ const d = e.getAttribute("d");
+ if(d){
+  const nums = d.match(/-?\d+(\.\d+)?/g) || [];
+  if(nums.length < 2) return null;
+  let x0 = Infinity, y0 = Infinity, x1 = -Infinity, y1 = -Infinity;
+  for(let i = 0; i + 1 < nums.length; i += 2){
+   x0 = Math.min(x0, +nums[i]);   x1 = Math.max(x1, +nums[i]);
+   y0 = Math.min(y0, +nums[i+1]); y1 = Math.max(y1, +nums[i+1]);
+  }
+  return {x0:x0, y0:y0, x1:x1, y1:y1};
+ }
+ if(n("width") !== null && n("x") !== null)
+  return {x0:n("x"), y0:n("y"), x1:n("x")+n("width"), y1:n("y")+n("height")};
+ return null;
+}
+
+function unificaEscala(raiz){
+ const gs = [];
+ (function anda(n){
+  if(!n) return;
+  if(n.getAttribute && n.getAttribute("data-buquesvg")) gs.push(n);
+  const h = n.childNodes || [];
+  for(let i = 0; i < h.length; i++) if(h[i].getAttribute) anda(h[i]);
+ })(raiz);
+
+ if(!gs.length) return 0;
+ let K = Infinity;
+ const cajas = gs.map(function(g){
+  const vb = String(g.getAttribute("viewBox")).trim().split(/\s+/).map(Number);
+  const hx = +g.getAttribute("data-hx"), hy = +g.getAttribute("data-hy");
+  const hw = +g.getAttribute("data-hw"), hh = +g.getAttribute("data-hh");
+  const k = Math.min(hw / vb[2], hh / vb[3]);
+  if(k < K) K = k;
+  return {g: g, vb: vb, hx: hx, hy: hy, hw: hw, hh: hh};
+ });
+ if(!isFinite(K) || K <= 0) return gs.length;
+ cajas.forEach(function(q){
+  const w = q.vb[2] * K, h = q.vb[3] * K;
+  q.g.setAttribute("width", w);
+  q.g.setAttribute("height", h);
+  q.g.setAttribute("x", q.hx + (q.hw - w) / 2);
+  q.g.setAttribute("y", q.hy + (q.hh - h) / 2);
+ });
+ return gs.length;
+}
+
+function cajaDibujo(){
+ let x0 = Infinity, y0 = Infinity, x1 = -Infinity, y1 = -Infinity, n = 0;
+ const mira = e => {
+  if(e.getAttribute && e.getAttribute("class") === "boton") return;
+
+  if(e.tagName === "svg" && e.getAttribute && e.getAttribute("viewBox")){
+   const bx = +e.getAttribute("x"), by = +e.getAttribute("y");
+   const bw = +e.getAttribute("width"), bh = +e.getAttribute("height");
+   if(isFinite(bx) && isFinite(by) && isFinite(bw) && isFinite(bh)){
+    n++;
+    x0 = Math.min(x0, bx); y0 = Math.min(y0, by);
+    x1 = Math.max(x1, bx + bw); y1 = Math.max(y1, by + bh);
+    return;
+   }
+  }
+  const c = cajaDe(e);
+  if(c && isFinite(c.x0) && isFinite(c.y0)){
+   n++;
+   x0 = Math.min(x0, c.x0); y0 = Math.min(y0, c.y0);
+   x1 = Math.max(x1, c.x1); y1 = Math.max(y1, c.y1);
+  }
+  const hijos = e.childNodes || [];
+  for(let i = 0; i < hijos.length; i++)
+   if(hijos[i].getAttribute) mira(hijos[i]);
+ };
+ const hijos = gO.childNodes || [];
+ for(let i = 0; i < hijos.length; i++) if(hijos[i].getAttribute) mira(hijos[i]);
+ if(!n) return null;
+ return {x0:x0, y0:y0, x1:x1, y1:y1, w:x1-x0, h:y1-y0, piezas:n};
+}
+
+let FORMA = null;
+function midePresenta(c){
+ const d = LUZ.D;
+ FORMA = {w_d:c.w, h_d:c.h, d:d, r:c.w/c.h, V:c.h/d, piezas:c.piezas};
+ return FORMA;
+}
+
+function esc(){
+ const c = document.getElementById("obj").getBoundingClientRect();
+ const k = Math.min(c.width / D.W, c.height / D.H);
+ if(k > 0 && isFinite(k)) return k;
+ const L = document.getElementById("lienzo");
+ const r = L ? L.getBoundingClientRect() : null;
+ const k2 = r ? Math.min(r.width / D.W, r.height / D.H) : 0;
+ return (k2 > 0 && isFinite(k2)) ? k2 : 1;
+}
+
+const BANDA = 236;
+const HUECO = 14;
+
+let BANDA_ABAJO = false;
+
+let CAJA_F = null;
+
+const ANCHO_REPARTO = 540;
+
+function repartoDe(s){
+ if(s.reparto !== "apiladas" || typeof FICHAS === "undefined" || !FICHAS[s.obra])
+  return null;
+
+ const L = document.getElementById("lienzo");
+ if(!L) return null;
+
+ const an = L.getBoundingClientRect().width - 44;
+ if(an < ANCHO_REPARTO) return null;
+
+ return FICHAS[s.obra](s) || null;
+}
+
+function apila(s, fichas){
+ const cont = document.getElementById("fichas");
+ const cie  = document.getElementById("cierre");
+ cont.innerHTML = "";
+ cie.innerHTML = s.renglon
+   ? '<div class="cf">' + s.renglon + "</div>"
+     + (s.pie ? '<div class="cp">' + s.pie + "</div>" : "")
+   : "";
+ const n = fichas.length;
+
+ const cols = fichas.cols || 1;
+ const filas = Math.ceil(n / cols);
+ const caja = cont.getBoundingClientRect();
+
+ if(cols > 1 || (caja.width - HUECO*(cols - 1)) / cols - BANDA - 2 < 420)
+  BANDA_ABAJO = true;
+ cont.style.gridTemplateColumns = "repeat(" + cols + ",1fr)";
+ const alto = Math.floor((caja.height - HUECO*(filas - 1)) / filas) - 2;
+
+ const anchoMax = Math.floor((caja.width - HUECO*(cols - 1)) / cols)
+                  - (BANDA_ABAJO ? 0 : BANDA) - 2;
+ const altoEsc = alto - (BANDA_ABAJO ? 84 : 0);
+ CAJA_F = {w: anchoMax, h: altoEsc, n: n};
+
+ const iM = (s.marca == null) ? -1 : s.marca.charCodeAt(0) - 65;
+ const svgs = [];
+ fichas.forEach(function(q, i){
+  const fi = document.createElement("div");
+  fi.className = "ficha " + (BANDA_ABAJO ? "conpie" : "allado")
+               + (i === iM ? " marcada" : "");
+
+  const es = document.createElement("div");
+  es.className = "escena" + (q && q.dia ? " dia" : "");
+  const sv = document.createElementNS(NS, "svg");
+  sv.setAttribute("preserveAspectRatio", "xMidYMid meet");
+  es.appendChild(sv);
+  fi.appendChild(es);
+
+  const cab = document.createElement("div"); cab.className = "bcab";
+  cab.innerHTML = '<span class="k">' + String.fromCharCode(65 + i)
+    + '</span><span class="guia"></span><span class="v">' + q.rot + '</span>';
+  const pie = document.createElement("div"); pie.className = "bpie";
+  pie.innerHTML = '<div class="btit' + (q.alarma ? " alarma" : "") + '">' + q.tit
+    + '</div><div class="bglo">' + q.glo + '</div>';
+  fi.insertBefore(cab, es);
+  fi.appendChild(pie);
+  cont.appendChild(fi);
+  svgs.push({sv: sv, fi: fi, q: q});
+ });
+
+ const SUELO_LUZ = 12, TECHO_LUZ = 26;
+ const anchoUn = Math.min(D.W - 67,
+                          anchoMax / (SUELO_LUZ / LUZ.D) / (1 + 2*AIRE));
+ ESC = Math.min(anchoMax / D.W, altoEsc / D.H);
+
+ const aireLibre = Math.max.apply(null, svgs.map(function(o){
+   return (o.q && o.q.v && !o.q.dia) ? altoLibreDe(o.q.v, anchoUn) : 0;
+ }).concat([0]));
+ const cajas = [], gs = [];
+ svgs.forEach(function(o, i){
+  svg = o.sv; svg.innerHTML = "";
+  gO = el("g", {}, svg);
+  gs.push(gO);
+  if(o.q) o.q.aire = aireLibre;
+  pintaFicha(o.q, s, anchoUn, i);
+ });
+
+ unificaEscala(document.getElementById("fichas"));
+ gs.forEach(function(g){ gO = g; cajas.push(cajaDibujo()); });
+
+ let k = Infinity;
+ cajas.forEach(function(b){
+  if(!b) return;
+  k = Math.min(k, altoEsc / (b.h * (1 + 2*AIRE)),
+                  anchoMax / (b.w * (1 + 2*AIRE)));
+ });
+
+ const an = anchoMax;
+ CAJA_F.w = an;
+
+ if(altoEsc < 240){
+  cont.innerHTML = ""; cie.innerHTML = "";
+  cont.style.gridTemplateColumns = "";
+  BANDA_ABAJO = false;
+  return false;
+ }
+
+ const altoF = alto;
+ cont.style.gridTemplateRows = "repeat(" + filas + "," + altoF + "px)";
+ cont.style.alignContent = "center";
+
+ if(cols === 1)
+  cont.style.gridTemplateColumns =
+    Math.min(Math.floor(caja.width), an + (BANDA_ABAJO ? 0 : BANDA) + 2) + "px";
+ KLAM = k / ESC;
+ FORMA = null;
+ svgs.forEach(function(o, i){
+  const b = cajas[i];
+
+  o.fi.style.gridTemplateColumns = BANDA_ABAJO ? "" : an + "px minmax(0,1fr)";
+  if(!b) return;
+  const mx = b.w*AIRE, my = b.h*AIRE;
+  const vw = b.w + mx*2, vh = b.h + my*2;
+
+  const vwC = Math.max(vw, an / k);
+  o.sv.setAttribute("viewBox", (b.x0 - mx - (vwC - vw)/2) + " " + (b.y0 - my)
+    + " " + vwC + " " + vh);
+  if(!FORMA) FORMA = {w_d:b.w, h_d:b.h, d:LUZ.D, r:b.w/b.h, V:b.h/LUZ.D,
+                      piezas:b.piezas};
+ });
+ return true;
+}
+
+function dibuja(){
+ guardaDonde(iP);
+ const sP = PZ[iP];
+ const reparto = repartoDe(sP);
+
+ const uno = document.getElementById("ficha");
+ const pila = document.getElementById("fichas");
+ const cie = document.getElementById("cierre");
+ if(pila){
+  uno.style.display  = reparto ? "none" : "";
+  pila.style.display = reparto ? "" : "none";
+  cie.style.display  = reparto ? "" : "none";
+
+  uno.style.width = ""; uno.style.height = ""; uno.style.flex = "";
+  if(!reparto){ pila.innerHTML = ""; cie.innerHTML = ""; }
+ }
+
+ if(sP.obra === "cierre" && sP.cols && pila){
+  uno.style.display = "none"; pila.style.display = ""; cie.style.display = "";
+  const vs = document.getElementById("svg");
+  if(vs) vs.innerHTML = "";
+  pila.style.gridTemplateColumns = "repeat(" + sP.cols.length + ",1fr)";
+  pila.innerHTML = sP.cols.map(function(c){
+   return '<div class="res-col"><h5>' + c.rot + "</h5><div><dl>"
+     + c.filas.map(function(f){
+        return "<dt>" + f[0] + "</dt><dd>" + f[1] + "</dd>"; }).join("")
+     + "</dl></div></div>";
+  }).join("");
+  cie.innerHTML = (sP.renglon ? '<div class="cf">' + sP.renglon + "</div>" : "")
+                + (sP.pie ? '<div class="cp">' + sP.pie + "</div>" : "");
+  pinta();
+  return;
+ }
+ if(reparto){
+
+  const vs = document.getElementById("svg");
+  if(vs) vs.innerHTML = "";
+  NAVE_N = 0;
+  HAY_LUZ = false;
+  LIBRES_DICHAS = {};
+
+  if(apila(sP, reparto)){ pinta(); return; }
+  uno.style.display = ""; pila.style.display = "none"; cie.style.display = "none";
+ }
+ svg = document.getElementById("svg");
+ svg.innerHTML = "";
+ svg.setAttribute("viewBox", "0 0 " + D.W + " " + D.H);
+ svg.setAttribute("preserveAspectRatio", "xMidYMid meet");
+ CAJAS_PROPIAS = 0;
+ ESC = esc();
+ NAVE_N = 0;
+ HAY_LUZ = false;
+
+ LIBRES_DICHAS = {};
+ gO = el("g", {}, svg);
+ cableaClic();
+ const s = PZ[iP];
+ (OBRAS[s.obra] || (()=>{}))(s);
+
+ const _t = document.getElementById("ficha");
+ if(_t) _t.className = CAJAS_PROPIAS > 1 ? "sinCaja" : "";
+
+ unificaEscala(gO);
+ ajustaLamina();
+ ciñeFicha();
+ pinta();
+}
+
+function ciñeFicha(){
+ const f = document.getElementById("ficha");
+ const L = document.getElementById("lienzo");
+ if(!f || !L || !FORMA || !(FORMA.r > 0)) return;
+ const c = L.getBoundingClientRect();
+ const an = c.width - 44, al = c.height - 40;
+ let w = an, h = w / FORMA.r;
+ if(h > al){ h = al; w = h * FORMA.r; }
+ f.style.width  = Math.round(w) + "px";
+ f.style.height = Math.round(h) + "px";
+ f.style.flex   = "none";
+}
+
+let KLAM = 1;
+function ajustaLamina(){
+ KLAM = 1;
+ let c = null;
+ for(let vuelta = 0; vuelta < 4; vuelta++){
+  c = cajaDibujo();
+  if(!c || !(c.w > 0) || !(c.h > 0)){ FORMA = null; return; }
+  const mx = c.w * AIRE, my = c.h * AIRE;
+  const vb = {x:c.x0 - mx, y:c.y0 - my, w:c.w + mx*2, h:c.h + my*2};
+
+  const caja = document.getElementById("obj").getBoundingClientRect();
+
+  let kNueva = Math.min(caja.width / vb.w, caja.height / vb.h) / ESC;
+
+  if(HAY_LUZ && LUZ.D * ESC * kNueva > 26) kNueva = 26 / (LUZ.D * ESC);
+  const paso = kNueva / KLAM;
+  svg.setAttribute("viewBox", vb.x + " " + vb.y + " " + vb.w + " " + vb.h);
+  KLAM = kNueva;
+
+  reajustaRotulos(paso);
+  if(Math.abs(paso - 1) < 0.005) break;
+ }
+ midePresenta(c);
+}
+
+function reajustaRotulos(paso){
+ if(!(paso > 0) || Math.abs(paso - 1) < 1e-6) return;
+ const anda = e => {
+  if(e.tagName === "text"){
+   const t = +e.getAttribute("font-size");
+   if(t) e.setAttribute("font-size", t / paso);
+  }
+  const h = e.childNodes || [];
+  for(let i = 0; i < h.length; i++) if(h[i].getAttribute) anda(h[i]);
+ };
+ const h = gO.childNodes || [];
+ for(let i = 0; i < h.length; i++) if(h[i].getAttribute) anda(h[i]);
+}
+
+function marcoNuevo(){
+ const r = document.getElementById("hTit");
+ return !!(r && r.getAttribute("data-rotulo") !== null);
+}
+
+function h3De(s){ return marcoNuevo() ? "" : "<h3>" + s.tema + "</h3>"; }
+
+function colgaNav(p, nav){
+ const pie = document.getElementById("navPie");
+ (marcoNuevo() && pie ? pie : p).appendChild(nav);
+}
+const dosCifras = n => (n < 10 ? "0" : "") + n;
+function pinta(){
+ const s = PZ[iP];
+ const nuevo = marcoNuevo();
+
+ const pie = document.getElementById("navPie");
+ if(pie) pie.innerHTML = "";
+ document.getElementById("hTit").textContent = nuevo ? s.tema : s.h;
+ const hN = document.getElementById("hN");
+ if(hN) hN.textContent = (iP+1) + " / " + PZ.length;
+ const bc = document.getElementById("barCont");
+ if(bc) bc.textContent = dosCifras(iP+1) + " / " + dosCifras(PZ.length);
+ const pane = document.getElementById("pane");
+ if(s.obra === "practica"){ panelPractica(s, pane); }
+ else if(s.obra === "explora"){ panelExplora(s, pane); }
+ else if(s.obra === "paso"){ panelPaso(s, pane); }
+ else {
+
+  const sig = document.getElementById("tSig");
+  const anuncio = (s.obra === "cierre" && sig && sig.innerHTML) ? sig.innerHTML : "";
+  pane.innerHTML = h3De(s) + "<h2>" + s.h + "</h2>"
+   + s.p.map(q => "<p>" + q + "</p>").join("")
+   + (s.calc ? '<div class="calc">' + s.calc + "</div>" : "")
+   + anuncio;
+
+  const barra = '<div class="nav"><button onclick="vaA(iP+1)"'
+   + (iP >= PZ.length-1 ? " disabled" : "") + ">" + (s.b || "Next") + "</button></div>";
+  if(nuevo && pie) pie.innerHTML = barra; else pane.insertAdjacentHTML("beforeend", barra);
+ }
+
+ const pr = document.getElementById("prog");
+ pr.innerHTML = "";
+ PZ.forEach((q, i) => {
+  const b = document.createElement("i");
+  if(i === iP) b.className = "on"; else if(i < iP) b.className = "done";
+  b.title = "Screen " + (i+1) + " of " + PZ.length + " · " + q.h;
+  b.onclick = () => vaA(i);
+  pr.appendChild(b);
+ });
+}
+function vaA(i){
+ if(i < 0 || i >= PZ.length) return;
+
+ if(typeof suePara === "function") suePara();
+ iP = i;
+
+ if(PZ[i].obra === "explora") EX = {sel:null, vistas:{}};
+ if(PZ[i].obra === "paso") EJ = {i:0};
+
+  if(PZ[i].obra === "rejilla") REJ = {};
+ if(PZ[i].obra === "practica"){
+   PR = {q:null, n:0, meta:2, fallos:0, hecho:false, res:""};
+   PR.q = sacaDe(PZ[i]);
+ }
+ dibuja();
+}
+
+function cableaClic(){
+ const s = document.getElementById("svg");
+ if(!s || s._cableado) return;
+ s._cableado = true;
+ s.addEventListener("pointerdown", e => {
+
+  const sn = e.target.closest ? e.target.closest("[data-suena]") : null;
+  if(sn){
+   const d = sn.getAttribute("data-suena");
+   if(d === "para"){ suePara(); return; }
+   if(typeof SUENAN === "function"){
+    const q = SUENAN(PZ[iP], d);
+    if(q) sueToca(q.tramos, q.medio, q.hueco);
+   }
+   return;
+  }
+
+  const c = e.target.closest ? e.target.closest("[data-casilla]") : null;
+  if(c && PZ[iP].obra === "rejilla"){
+   REJ[+c.getAttribute("data-casilla")] = true; dibuja(); return;
+  }
+  const b = e.target.closest ? e.target.closest("[data-buque]") : null;
+  if(!b) return;
+  if(PZ[iP].obra !== "explora") return;
+  const id = b.getAttribute("data-buque");
+  EX.sel = id; EX.vistas[id] = true; dibuja();
+ });
+}
+addEventListener("resize", dibuja);
+
+function guardaDonde(i){ vistoPon(YO, i); }
+function donde(){ return vistoPos(YO, PZ.length-1); }
+function deCero(){ vistoOlvida(YO); vaA(0); }
+
+function diceEstado(q){
+ const v = q.buque, g = q.g;
+ const yo   = firmaEscena(v, g);
+ const anc  = firmaEscena(Object.assign({}, v, {underway:false}), g);
+ const and_ = firmaEscena(Object.assign({}, v, {underway:true, makingWay:true}),  g);
+ const par  = firmaEscena(Object.assign({}, v, {underway:true, makingWay:false}), g);
+ const como = [yo === anc, yo === and_, yo === par];
+ if(como[0] && !como[1] && !como[2]) return "anclada";
+ if(!como[0] &&  como[1] && !como[2]) return "andando";
+ if(!como[0] && !como[1] &&  como[2]) return "parada";
+ if(!como[0] &&  como[1] &&  como[2]) return "muda";
+ return "confusa";
+}
+
+const OTRO_CAJON = {corto: 30, largo: 120};
+function diceEslora(q){
+ const v = q.buque, g = q.g;
+ const grande = (v.length || 12) >= 50;
+ const otra = firmaEscena(conL(v, grande ? OTRO_CAJON.corto : OTRO_CAJON.largo), g);
+ if(firmaEscena(v, g) === otra) return "muda";
+ return grande ? "grande" : "pequena";
+}
+
+function faltanDesde(v, g, nm){
+ const todas = configuration(v).filter(l => visible(l, g));
+ const R = ranges(v.length || 12);
+ const fuera = todas.filter(l => nm > R[l.rangeKey]);
+ const clases = {};
+ fuera.forEach(l => clases[l.rangeKey] = true);
+ return {fuera: fuera, quedan: todas.length - fuera.length, claves: clases};
+}
+function diceAlcance(q){
+ const f = faltanDesde(q.buque, q.g, q.nm);
+ if(!f.fuera.length) return "ninguna";
+ if(f.claves.masthead) return "tope";
+
+ return "costados";
+}
+
+const FORMA_NOMBRE = {
+  "": "nothing at all",
+  "ball": "a single black ball",
+  "ball ball": "two black balls",
+  "ball diamond ball": "ball, diamond, ball",
+  "cylinder": "a cylinder",
+  "coneUp cone": "two cones, points together",
+  "coneUp": "a single cone, point down"
+};
+function diceForma(q){ return marcasDia(q.buque).join(" "); }
+
+function diceFondeo(q){
+ const v = q.buque;
+ if(v.underway !== false) return "navegando";
+ return (v.length || 12) >= A1.MUY_GRANDE ? "grande" : "chica";
+}
+
+const DICE = {ESTADO: diceEstado, ESLORA: diceEslora, ALCANCE: diceAlcance,
+              FORMA: diceForma, FONDEO: diceFondeo};
+
+const NO_LO_DICE = {ESTADO: "muda", ESLORA: "muda", FONDEO: "muda"};
+
+const cajon = L => (L >= 50 ? "50 o mas" : "menos de 50");
+const VERDAD = {
+  ESTADO: v => v.underway === false ? "fondeada"
+            : (v.makingWay === false ? "parada" : "andando"),
+  ESLORA: v => cajon(v.length || 12),
+  FONDEO: v => v.underway === false ? "fondeada, " + cajon(v.length || 12)
+                                    : "navegando",
+  ALCANCE: (v, g, nm) => diceAlcance({buque:v, g:g, nm:nm}),
+  FORMA:  v => marcasDia(v).join(" ") || "ninguna"
+};
+
+function obraTesis(s){
+ const v = s.buque;
+ const M = 26, ANP = (D.W - M*3)/2, ALP = 300;
+ const PD = panel(M, 70, ANP, ALP, false, "BY DAY");
+ const PN = panel(M*2+ANP, 70, ANP, ALP, true, "AT NIGHT");
+ const rMarca = px(9);
+
+ const cd = casco(PD, v, false, marcasDia(v));
+
+ pintaNave(PN, v, null);
+
+ renglonAbajo(70 + ALP + 46, s.renglon, s.pie, M, D.W - M);
+}
+
+function polar(cx, cy, r, gr){
+ const a = (gr - 90) * Math.PI / 180;
+ return [cx + r*Math.cos(a), cy + r*Math.sin(a)];
+}
+function sector(cx, cy, r, g0, g1, color, op){
+ const [x0,y0] = polar(cx,cy,r,g0), [x1,y1] = polar(cx,cy,r,g1);
+ const grande = ((g1-g0+360)%360) > 180 ? 1 : 0;
+ el("path", {d:"M"+cx+","+cy+" L"+x0+","+y0+" A"+r+","+r+" 0 "+grande+" 1 "
+   +x1+","+y1+" Z", fill:color, "fill-opacity":op===undefined?.30:op});
+}
+
+function planta(cx, cy, r){
+ const l = r*0.30, m = l*0.34;
+ el("path", {d:"M"+cx+","+(cy-l)+" L"+(cx+m)+","+(cy-l*0.35)+" L"+(cx+m)+","+(cy+l*0.8)
+   +" L"+(cx-m)+","+(cy+l*0.8)+" L"+(cx-m)+","+(cy-l*0.35)+" Z",
+   fill:"var(--paper-ink)", stroke:"var(--dim)", "stroke-width":1});
+}
+
+function obraArcos(s){
+ const cx = D.W*0.27, cy = D.H*0.48, R = Math.min(D.W*0.21, D.H*0.30);
+ el("circle", {cx:cx, cy:cy, r:R, fill:"#07161D",
+   stroke:"var(--sea-line)", "stroke-width":1.2});
+
+ sector(cx, cy, R, -ARC.masthead, ARC.masthead, COLOR_LUZ.white, .13);
+ sector(cx, cy, R, 0, ARC.sidelight, COLOR_LUZ.green, .34);
+ sector(cx, cy, R, -ARC.sidelight, 0, COLOR_LUZ.red, .34);
+ sector(cx, cy, R, ARC.sidelight, 360-ARC.sidelight, COLOR_LUZ.white, .30);
+ planta(cx, cy, R);
+
+ for(const g of [ARC.sidelight, -ARC.sidelight]){
+  const [x,y] = polar(cx,cy,R,g);
+  el("line", {x1:cx, y1:cy, x2:x, y2:y, stroke:"var(--paper-ink)",
+    "stroke-width":1.4, "stroke-dasharray":"5,4", "stroke-opacity":.75});
+ }
+
+ const lx = D.W*0.56;
+
+ const yTope = Math.min(D.H*0.88, D.H - px(88)) - px(40);
+ const anchoLeyenda = D.W - lx - px(18) - px(16);
+
+ const FILAS = [
+   [COLOR_LUZ.white, "Masthead", (ARC.masthead*2)+"°",
+    "from right ahead to 22.5° abaft each beam"],
+   [COLOR_LUZ.green, "Starboard sidelight", ARC.sidelight+"°",
+    "her own side only, from right ahead"],
+   [COLOR_LUZ.red, "Port sidelight", ARC.sidelight+"°", "the same, to port"],
+   [COLOR_LUZ.white, "Sternlight", (360-ARC.sidelight*2)+"°",
+    "everything the sidelights do not cover"]];
+
+ let ly = D.H*0.14, glosa = true, altos, suma;
+ for(const con of [true, false]){
+   glosa = con;
+   altos = FILAS.map(f => px(38) + (con ? altoDe(f[3], anchoLeyenda, 12.5) : 0));
+   suma = altos.reduce((a, b) => a + b, 0) + px(8)*(FILAS.length - 1);
+   if(ly + suma <= yTope) break;
+ }
+ const hueco = Math.max(px(8), (yTope - ly - suma + px(8)*(FILAS.length-1))
+                               / (FILAS.length - 1));
+ FILAS.forEach((f, i) => {
+  el("circle", {cx:lx, cy:ly-px(4), r:px(6), fill:f[0]});
+  txtCabe(lx+px(18), ly, f[1], anchoLeyenda, 15, "var(--lam-ink)", 600, "ui", "start");
+  txt(lx+px(18), ly+px(19), f[2], "start", 13, "var(--lam-magenta)", 600, "mono");
+  if(glosa) txtCabe(lx+px(18), ly+px(38), f[3], anchoLeyenda, 12.5, "var(--lam-dim)",
+                    400, "ui", "start");
+  ly += altos[i] + hueco;
+ });
+
+ renglonAbajo(Math.min(D.H*0.88, D.H - px(88)), s.renglon, s.pie, D.W*0.08, D.W*0.92);
+}
+
+function obraDesde(s){
+ const cx = D.W*0.25, cy = D.H*0.40, R = Math.min(D.W*0.18, D.H*0.22);
+ el("circle", {cx:cx, cy:cy, r:R, fill:"#07161D",
+   stroke:"var(--sea-line)", "stroke-width":1.2});
+ sector(cx, cy, R, 0, ARC.sidelight, COLOR_LUZ.green, .28);
+ sector(cx, cy, R, -ARC.sidelight, 0, COLOR_LUZ.red, .28);
+ sector(cx, cy, R, ARC.sidelight, 360-ARC.sidelight, COLOR_LUZ.white, .26);
+ planta(cx, cy, R);
+
+ const luces = configuration(s.buque);
+ const lx = D.W*0.52;
+
+ const yTopeOjos = Math.min(D.H*0.82, D.H - px(88)) - px(44);
+ const anchoOjo = D.W - lx - px(46);
+ const altosOjo = s.ojos.map(o => px(30) + altoDe(o.dice, anchoOjo, 12.5) + px(14));
+ const conGlosa = D.H*0.16 + altosOjo.reduce((a, b) => a + b, 0) <= yTopeOjos;
+ let ly = D.H*0.16;
+ for(const o of s.ojos){
+  const [ox,oy] = polar(cx, cy, R*1.30, o.g);
+
+  el("circle", {cx:ox, cy:oy, r:px(7), fill:"var(--paper-ink)"});
+  txt(ox, oy+px(4), String(o.n), "middle", 12, "#0A1E27", 700, "mono");
+
+  const ve = luces.filter(l => visible(l, o.g));
+
+  const cuenta = {};
+  for(const l of ve) cuenta[l.colour] = (cuenta[l.colour]||0) + 1;
+  el("circle", {cx:lx, cy:ly-px(4), r:px(8), fill:"var(--paper-ink)"});
+  txt(lx, ly, String(o.n), "middle", 12, "#0A1E27", 700, "mono");
+  txtCabe(lx+px(20), ly, o.tit, D.W - lx - px(36), 14.5, "var(--lam-ink)", 600,
+          "ui", "start");
+  let qx = lx+px(20);
+  for(const c in cuenta){
+   for(let k=0;k<cuenta[c];k++){
+    el("circle", {cx:qx+px(7), cy:ly+px(20), r:px(6), fill:COLOR_LUZ[c]});
+    qx += px(19);
+   }
+  }
+  const nD = conGlosa
+    ? txtCabe(qx+px(8), ly+px(24), o.dice, D.W - qx - px(24), 12.5,
+              "var(--lam-dim)", 400, "ui", "start")
+    : 0;
+
+  ly += px(30) + nD * px(17) + px(14);
+ }
+ renglonAbajo(Math.min(D.H*0.82, D.H - px(88)), s.renglon, s.pie, D.W*0.08, D.W*0.92);
+}
+
+function obraEstados(s){
+ const M = 20, ANP = (D.W - M*4)/3, ALP = 322;
+
+ const pasos = pasosMax(s.estados.map(e => ({v: Object.assign({}, s.buque, e.v)})));
+
+ const aire = Math.max.apply(null, s.estados.map(e =>
+   altoLibreDe(Object.assign({}, s.buque, e.v), ANP)).concat([0]));
+ let bajo = 52 + ALP;
+ s.estados.forEach((e, i) => {
+  const P = panel(M + (ANP + M)*i, 52, ANP, ALP, true, e.rot);
+  const v = Object.assign({}, s.buque, e.v);
+
+  pintaNave(P, v, null, {tapaBabor: true, pasos: pasos, aire: aire});
+  const n = txtCabe(P.cx, P.y1 + px(21), e.pie, ANP - px(12), 12.5, "var(--lam-dim)");
+  bajo = Math.max(bajo, P.y1 + px(21) + (n-1)*px(17));
+ });
+
+ renglonAbajo(Math.min(bajo + px(46), D.H - px(62)), s.renglon, s.pie, M, D.W - M);
+}
+
+function obraTopes(s){
+ const M = 20, ANP = (D.W - M*4)/3, ALP = 322;
+
+ const pasos = pasosMax(s.naves);
+ let bajo = 52 + ALP;
+ s.naves.forEach((n, i) => {
+  const P = panel(M + (ANP + M)*i, 52, ANP, ALP, true, n.rot);
+  pintaNave(P, n.v, null, {tapaBabor: true, pasos: pasos});
+
+  const topes = configuration(n.v).filter(l => l.kind === "masthead").length;
+  const y0 = P.y1 + px(21);
+  const n1 = txtCabe(P.cx, y0, topes === 1 ? "one masthead light"
+      : topes ? topes + " masthead lights" : "no masthead light at all",
+      ANP - px(12), 13, "var(--lam-ink)", 600);
+  const y1 = y0 + n1*px(18) + px(2);
+  const n2 = txtCabe(P.cx, y1, n.pie, ANP - px(12), 12.5, "var(--lam-dim)");
+  bajo = Math.max(bajo, y1 + (n2-1)*px(17));
+ });
+
+ renglonAbajo(Math.min(bajo + px(46), D.H - px(62)), s.renglon, s.pie, M, D.W - M);
+}
+
+const ANCHO_PRACTICA = 580;
+
+function obraPractica(s){
+ const q = PR.q; if(!q) return;
+ const M = 46;
+
+ const P = panel(M, 76, D.W - M*2, 320, true,
+   q.nm === undefined || q.nm === null ? "WHAT YOU SEE"
+     : "WHAT YOU SEE \u00b7 SHE IS " + q.nm + " MILES OFF");
+
+ pintaNave(P, q.buque, q.g,
+           {ancho: ANCHO_PRACTICA, nm: q.nm, neutro: true});
+ txt(D.W/2, P.y1 + px(48),
+     "Her hull is drawn the same shape and size every time. It is not the answer.",
+     "middle", 12.5, "var(--lam-dim)");
+}
+
+function obraAlcance(s){
+ const M = 60, filas = s.naves, cols = s.cols;
+ const x0 = M + px(150), an = (D.W - M*2 - px(150)) / cols.length;
+ const y0 = 110, alto = px(46);
+
+ cols.forEach((c, j) => {
+   txtCabe(x0 + an*j + an/2, y0 - px(16), c.rot, an - px(8), 12.5,
+           "var(--lam-magenta)", 600, "mono");
+   el("circle", {cx:x0 + an*j + an/2, cy:y0 - px(40), r:px(5.5), fill:c.color});
+ });
+ el("line", {x1:M, y1:y0 - px(6), x2:D.W - M, y2:y0 - px(6),
+   stroke:"var(--sea-line)", "stroke-width":1});
+ filas.forEach((f, i) => {
+   const y = y0 + alto*(i + 0.7);
+   txtCabe(M, y, f.rot, px(140), 13.5, "var(--lam-ink)", 600, "ui", "start");
+   const R = ranges(f.L);
+   cols.forEach((c, j) => {
+
+     txt(x0 + an*j + an/2, y, R[c.clave] + " M", "middle", 16,
+         "var(--lam-ink)", 600, "mono");
+   });
+   if(i < filas.length - 1)
+     el("line", {x1:M, y1:y + px(14), x2:D.W - M, y2:y + px(14),
+       stroke:"var(--sea-line)", "stroke-width":1, "stroke-opacity":.5});
+ });
+ renglonAbajo(Math.min(y0 + alto*filas.length + px(58), D.H - px(62)), s.renglon, s.pie, M, D.W - M);
+}
+
+function obraDeshace(s){
+
+ const M = 18, ANP = (D.W - M*3)/2, ALP = 186, HUE = 46;
+
+ const pasos = pasosMax([{v: s.buque}]);
+ let bajo = 52 + ALP;
+ s.millas.forEach((nm, i) => {
+  const col = i % 2, fila = (i / 2) | 0;
+  const P = panel(M + (ANP + M)*col, 52 + fila*(ALP + HUE), ANP, ALP, true,
+                  nm + " MILES OFF");
+  pintaNave(P, s.buque, s.g, {nm: nm, ancho: ANP - 140, pasos: pasos});
+
+  const quedan = configuration(s.buque)
+    .filter(l => visible(l, s.g) && nm <= ranges(s.buque.length || 12)[l.rangeKey]);
+  const n = txtCabe(P.cx, P.y1 + px(22),
+    quedan.length === 1 ? "one light left" : quedan.length + " lights",
+    ANP - px(10), 13, "var(--lam-ink)", 600);
+  bajo = Math.max(bajo, P.y1 + px(22) + (n-1)*px(18));
+ });
+ renglonAbajo(Math.min(bajo + px(30), D.H - px(62)), s.renglon, s.pie, M, D.W - M);
+}
+
+function obraMarcas(s){
+ const M = 26, n = s.clases.length, an = (D.W - M*2) / n;
+ const P = panel(M, 56, D.W - M*2, 236, false, "BY DAY");
+
+ const kM = 1.6, yBase = P.y1 - 24;
+ let bajo = P.y1;
+ s.clases.forEach((c, i) => {
+  const cx = M + an*i + an/2;
+  const formas = MARCAS_DIA[c.clave] || [];
+  pilaDiaSuelta(cx, yBase, formas, "var(--ink)", kM);
+  const nn = txtCabe(cx, P.y1 + px(24), c.rot, an - px(14), 13.5,
+                     "var(--lam-ink)", 600);
+  const mm = txtCabe(cx, P.y1 + px(24) + nn*px(19) + px(3),
+          (CITA[c.clave] ? CITA[c.clave].r : c.regla) + " · " + c.quien,
+          an - px(14), 12, "var(--lam-dim)", 400, "mono");
+  bajo = Math.max(bajo, P.y1 + px(24) + nn*px(19) + mm*px(16));
+ });
+ renglonAbajo(Math.min(bajo + px(46), D.H - px(62)), s.renglon, s.pie, M, D.W - M);
+}
+
+function obraFondeo(s){
+ const M = 20, ANP = (D.W - M*4)/3, ALP = 300;
+ const pasos = pasosMax(s.paneles.filter(q => !q.dia));
+
+ const aire = Math.max.apply(null, s.paneles.filter(q => !q.dia)
+   .map(q => altoLibreDe(q.v, ANP)).concat([0]));
+ let bajo = 56 + ALP;
+ s.paneles.forEach((q, i) => {
+  const P = panel(M + (ANP + M)*i, 56, ANP, ALP, !q.dia, q.rot);
+  if(q.dia){
+
+   const c = casco(Object.assign({}, P, {aire: aire}), q.v, false, marcasDia(q.v));
+  } else {
+   pintaNave(P, q.v, null, {tapaBabor: true, pasos: pasos, aire: aire});
+  }
+  const nn = txtCabe(P.cx, P.y1 + px(22), q.pie, ANP - px(12), 12.5, "var(--lam-dim)");
+  bajo = Math.max(bajo, P.y1 + px(22) + (nn-1)*px(17));
+ });
+ renglonAbajo(Math.min(bajo + px(46), D.H - px(62)), s.renglon, s.pie, M, D.W - M);
+}
+
+function obraCierre(s){
+
+ const n = (s.cols || []).length || 3, M = 26, HUE = px(18);
+ const an = (D.W - M*2 - HUE*(n - 1)) / n;
+ const y0 = 62;
+ const R = ranges(120);
+
+ const COLS = [
+  ["THE FIVE KINDS OF LIGHT", [
+    ["Masthead · " + (ARC.masthead*2) + "°", "white, forward, over the bow"],
+    ["Sidelights · " + ARC.sidelight + "° each", "green to starboard, red to port"],
+    ["Sternlight · " + (360 - ARC.sidelight*2) + "°", "white, only from abaft"],
+    ["All-round · 360°", "from anywhere, any colour"]]],
+  ["WHAT THEY TELL YOU", [
+    ["Under way, or making way", "sidelights and stern mean moving"],
+    ["Her length, off her mastheads", "one under 50 m, two at 50 and over"],
+    ["How far, off what is missing",
+     "a masthead reaches " + R.masthead + " M, a sidelight " + R.side]]],
+  ["AND BY DAY", [
+    ["The same sentence, in shapes", "ball, cone, cylinder, diamond"],
+    ["At anchor · Rule 30", "one ball, or one white light"],
+    ["What you still cannot do", "say what she IS — that is part 2"]]]];
+
+ const suelo = D.H - px(96);
+ const mide = con => Math.max.apply(null, COLS.map(c =>
+   c[1].reduce((a, f) => a + parte(f[0], an - px(8), 13).length * px(18)
+     + (con ? parte(f[1], an - px(8), 12).length * px(16) + px(2) : 0) + px(10), 0)));
+ const glosa = y0 + px(54) + mide(true) <= suelo;
+ let hondo = 0;
+ COLS.forEach((c, j) => {
+  const bx = M + (an + HUE)*j;
+  el("rect", {x:bx, y:y0, width:an, height:px(30), rx:2, fill:"#0D2431",
+    stroke:"var(--sea-line)", "stroke-width":1});
+  txtCabe(bx + an/2, y0 + px(20), c[0], an - px(12), 12,
+          "var(--lam-magenta)", 600, "mono");
+  let yy = y0 + px(54);
+  c[1].forEach(f => {
+   yy += txtCabe(bx + px(4), yy, f[0], an - px(8), 13, "var(--lam-ink)",
+                 600, "ui", "start") * px(18);
+   if(glosa) yy += txtCabe(bx + px(4), yy + px(2), f[1], an - px(8), 12,
+                           "var(--lam-dim)", 400, "ui", "start") * px(16) + px(2);
+   yy += px(10);
+  });
+  hondo = Math.max(hondo, yy);
+ });
+ renglonAbajo(Math.min(hondo + px(30), suelo), s.renglon, s.pie, M, D.W - M);
+}
+
+function obraCuando(s){
+ const M = 60, an = D.W - M*2, alto = px(46);
+ const y = 108;
+
+ const AMANECE = 0.25, ANOCHECE = 0.79;
+ const NIEBLA = [0.44, 0.60];
+
+ el("rect", {x:M, y:y, width:an, height:alto, rx:px(3), fill:"#0B2836",
+   stroke:"var(--sea-line)", "stroke-width":1.2});
+
+ el("rect", {x:M + an*AMANECE, y:y, width:an*(ANOCHECE - AMANECE), height:alto,
+   fill:"#123444"});
+
+ el("rect", {x:M + an*NIEBLA[0], y:y, width:an*(NIEBLA[1] - NIEBLA[0]), height:alto,
+   fill:"#2A4657", "data-niebla":1});
+
+ const enc = [[0, AMANECE], [NIEBLA[0], NIEBLA[1]], [ANOCHECE, 1]];
+ enc.forEach(([a, b], i) => {
+  const n = Math.max(2, Math.round((b - a) * 26));
+  for(let k = 0; k < n; k++){
+   const t = a + (b - a) * (k + 0.5) / n;
+   el("circle", {cx:M + an*t, cy:y + alto*0.34, r:LUZ.D/2,
+     fill:"#FFFFFF", "data-encendida":i});
+  }
+ });
+
+ [[0, "midnight"], [AMANECE, "sunrise"], [ANOCHECE, "sunset"], [1, "midnight"]]
+   .forEach(([t, r], i) => {
+    const x = M + an*t;
+    el("line", {x1:x, y1:y + alto, x2:x, y2:y + alto + px(6),
+      stroke:"var(--sea-line)", "stroke-width":1});
+    txt(x, y + alto + px(20), r, i === 0 ? "start" : (i === 3 ? "end" : "middle"),
+        12, "var(--lam-dim)", 600, "mono");
+   });
+
+ txtCabe(M + an*AMANECE/2, y - px(14), "LIGHTS", an*AMANECE - px(8), 12.5,
+         "var(--lam-ink)", 600, "mono");
+ txtCabe(M + an*(ANOCHECE + 1)/2, y - px(14), "LIGHTS", an*(1 - ANOCHECE) - px(8),
+         12.5, "var(--lam-ink)", 600, "mono");
+ txtCabe(M + an*(NIEBLA[0] + NIEBLA[1])/2, y - px(14), "LIGHTS \u2014 AND SOUND",
+         an*(NIEBLA[1] - NIEBLA[0]) + px(60), 12.5, "var(--lam-alarm)", 600, "mono");
+ txtCabe(M + an*(AMANECE + NIEBLA[0])/2, y + alto*0.62, "no lights",
+         an*(NIEBLA[0] - AMANECE) - px(8), 12, "var(--dim-banda)", 400, "mono");
+ txtCabe(M + an*(NIEBLA[1] + ANOCHECE)/2, y + alto*0.62, "no lights",
+         an*(ANOCHECE - NIEBLA[1]) - px(8), 12, "var(--dim-banda)", 400, "mono");
+
+ txtCabe(M + an*(NIEBLA[0] + NIEBLA[1])/2, y + alto + px(40), s.rotNiebla,
+         an*0.46, 12.5, "var(--lam-alarm)", 600);
+
+ renglonAbajo(Math.min(y + alto + px(74), D.H - px(62)), s.renglon, s.pie, M, D.W - M);
+}
+
+const OBRAS = {tesis: obraTesis, cuando: obraCuando, arcos: obraArcos, desde: obraDesde,
+               estados: obraEstados, topes: obraTopes, practica: obraPractica,
+               alcance: obraAlcance, deshace: obraDeshace, marcas: obraMarcas,
+               fondeo: obraFondeo, cierre: obraCierre};
+
+const BANCOS = {"ESTADO": [{"id": "st-nuc-parada", "buque": {"type": "nuc", "length": 90, "underway": true, "makingWay": false}, "g": 90}, {"id": "st-nuc-andando", "buque": {"type": "nuc", "length": 90, "underway": true, "makingWay": true}, "g": 150}, {"id": "st-anc-120", "buque": {"type": "power", "length": 120, "underway": false, "makingWay": true}, "g": 150}, {"id": "st-power-030", "buque": {"type": "power", "length": 30, "underway": true, "makingWay": true}, "g": 60}, {"id": "st-power-200", "buque": {"type": "power", "length": 200, "underway": true, "makingWay": false}, "g": -60}, {"id": "st-sail-014", "buque": {"type": "sailing", "length": 14, "underway": true, "makingWay": true}, "g": -100}, {"id": "st-ram-parada", "buque": {"type": "ram", "length": 100, "underway": true, "makingWay": false}, "g": 110}, {"id": "st-ram-andando", "buque": {"type": "ram", "length": 100, "underway": true, "makingWay": true}, "g": -70}, {"id": "st-trawl-parada", "buque": {"type": "fishingTrawl", "length": 26, "underway": true, "makingWay": false}, "g": 90}, {"id": "st-trawl-andando", "buque": {"type": "fishingTrawl", "length": 26, "underway": true, "makingWay": true}, "g": -30}, {"id": "st-other-parada", "buque": {"type": "fishingOther", "length": 18, "underway": true, "makingWay": false}, "g": 150}, {"id": "st-pilot-andando", "buque": {"type": "pilot", "length": 24, "underway": true, "makingWay": true}, "g": 40}, {"id": "st-anc-045", "buque": {"type": "power", "length": 45, "underway": false, "makingWay": true}, "g": 90}, {"id": "st-cbd-150", "buque": {"type": "cbd", "length": 150, "underway": true, "makingWay": false}, "g": 70}, {"id": "st-anc-090", "buque": {"type": "nuc", "length": 90, "underway": false, "makingWay": true}, "g": 70}], "ESLORA": [{"id": "es-power-030", "buque": {"type": "power", "length": 30, "underway": true, "makingWay": true}, "g": 60}, {"id": "es-power-120", "buque": {"type": "power", "length": 120, "underway": true, "makingWay": true}, "g": 60}, {"id": "es-power-048", "buque": {"type": "power", "length": 48, "underway": true, "makingWay": true}, "g": 100}, {"id": "es-power-052", "buque": {"type": "power", "length": 52, "underway": true, "makingWay": true}, "g": 100}, {"id": "es-power-009", "buque": {"type": "power", "length": 9, "underway": true, "makingWay": true}, "g": 70}, {"id": "es-anc-030", "buque": {"type": "power", "length": 30, "underway": false, "makingWay": true}, "g": 90}, {"id": "es-anc-150", "buque": {"type": "power", "length": 150, "underway": false, "makingWay": true}, "g": 90}, {"id": "es-sail-024", "buque": {"type": "sailing", "length": 24, "underway": true, "makingWay": true}, "g": 60}, {"id": "es-sail-060", "buque": {"type": "sailing", "length": 60, "underway": true, "makingWay": true}, "g": -80}, {"id": "es-power-200", "buque": {"type": "power", "length": 200, "underway": true, "makingWay": true}, "g": 150}, {"id": "es-power-020", "buque": {"type": "power", "length": 20, "underway": true, "makingWay": true}, "g": 160}, {"id": "es-nuc-090", "buque": {"type": "nuc", "length": 90, "underway": true, "makingWay": true}, "g": 70}, {"id": "es-cbd-150", "buque": {"type": "cbd", "length": 150, "underway": true, "makingWay": true}, "g": 40}, {"id": "es-cbd-030", "buque": {"type": "cbd", "length": 30, "underway": true, "makingWay": true}, "g": -100}, {"id": "es-power-300", "buque": {"type": "power", "length": 300, "underway": true, "makingWay": true}, "g": -60}], "ALCANCE": [{"id": "al-120-cerca", "buque": {"type": "power", "length": 120, "underway": true, "makingWay": true}, "g": 50, "nm": 2.5}, {"id": "al-120-lejos", "buque": {"type": "power", "length": 120, "underway": true, "makingWay": true}, "g": 50, "nm": 4.5}, {"id": "al-052-cerca", "buque": {"type": "power", "length": 52, "underway": true, "makingWay": true}, "g": 80, "nm": 2.0}, {"id": "al-052-lejos", "buque": {"type": "power", "length": 52, "underway": true, "makingWay": true}, "g": 80, "nm": 5.0}, {"id": "al-030-cerca", "buque": {"type": "power", "length": 30, "underway": true, "makingWay": true}, "g": -60, "nm": 1.5}, {"id": "al-030-lejos", "buque": {"type": "power", "length": 30, "underway": true, "makingWay": true}, "g": -60, "nm": 3.0}, {"id": "al-015-cerca", "buque": {"type": "power", "length": 15, "underway": true, "makingWay": true}, "g": 70, "nm": 1.5}, {"id": "al-015-lejos", "buque": {"type": "power", "length": 15, "underway": true, "makingWay": true}, "g": 70, "nm": 2.5}, {"id": "al-009-cerca", "buque": {"type": "power", "length": 9, "underway": true, "makingWay": true}, "g": 40, "nm": 0.8}, {"id": "al-020-lejos", "buque": {"type": "power", "length": 20, "underway": true, "makingWay": true}, "g": 70, "nm": 2.5}, {"id": "al-cbd-cerca", "buque": {"type": "cbd", "length": 150, "underway": true, "makingWay": true}, "g": 60, "nm": 2.5}, {"id": "al-cbd-lejos", "buque": {"type": "cbd", "length": 150, "underway": true, "makingWay": true}, "g": 60, "nm": 4.5}, {"id": "al-anc-cerca", "buque": {"type": "power", "length": 200, "underway": false, "makingWay": true}, "g": 90, "nm": 2.0}, {"id": "al-300-lejos", "buque": {"type": "power", "length": 300, "underway": true, "makingWay": true}, "g": -40, "nm": 5.5}, {"id": "al-048-lejos", "buque": {"type": "power", "length": 48, "underway": true, "makingWay": true}, "g": 100, "nm": 4.0}], "FORMA": [{"id": "fo-nuc-090", "buque": {"type": "nuc", "length": 90, "underway": true, "makingWay": false}, "g": 90}, {"id": "fo-nuc-030", "buque": {"type": "nuc", "length": 30, "underway": true, "makingWay": true}, "g": -60}, {"id": "fo-ram-100", "buque": {"type": "ram", "length": 100, "underway": true, "makingWay": false}, "g": 110}, {"id": "fo-ram-060", "buque": {"type": "ram", "length": 60, "underway": true, "makingWay": true}, "g": 40}, {"id": "fo-cbd-150", "buque": {"type": "cbd", "length": 150, "underway": true, "makingWay": true}, "g": 70}, {"id": "fo-cbd-030", "buque": {"type": "cbd", "length": 30, "underway": true, "makingWay": true}, "g": -100}, {"id": "fo-trawl-026", "buque": {"type": "fishingTrawl", "length": 26, "underway": true, "makingWay": false}, "g": 90}, {"id": "fo-trawl-060", "buque": {"type": "fishingTrawl", "length": 60, "underway": true, "makingWay": true}, "g": -30}, {"id": "fo-other-018", "buque": {"type": "fishingOther", "length": 18, "underway": true, "makingWay": false}, "g": 150}, {"id": "fo-other-040", "buque": {"type": "fishingOther", "length": 40, "underway": true, "makingWay": true}, "g": 60}, {"id": "fo-anc-120", "buque": {"type": "power", "length": 120, "underway": false, "makingWay": true}, "g": 90}, {"id": "fo-anc-200", "buque": {"type": "power", "length": 200, "underway": false, "makingWay": true}, "g": -70}, {"id": "fo-power-080", "buque": {"type": "power", "length": 80, "underway": true, "makingWay": true}, "g": 60}, {"id": "fo-sail-024", "buque": {"type": "sailing", "length": 24, "underway": true, "makingWay": true}, "g": -80}, {"id": "fo-pilot-024", "buque": {"type": "pilot", "length": 24, "underway": true, "makingWay": true}, "g": 40}], "FONDEO": [{"id": "fd-anc-120", "buque": {"type": "power", "length": 120, "underway": false, "makingWay": true}, "g": 90}, {"id": "fd-anc-045", "buque": {"type": "power", "length": 45, "underway": false, "makingWay": true}, "g": 60}, {"id": "fd-anc-090", "buque": {"type": "nuc", "length": 90, "underway": false, "makingWay": true}, "g": -70}, {"id": "fd-anc-030", "buque": {"type": "power", "length": 30, "underway": false, "makingWay": true}, "g": 150}, {"id": "fd-anc-200", "buque": {"type": "power", "length": 200, "underway": false, "makingWay": true}, "g": -160}, {"id": "fd-nav-120", "buque": {"type": "power", "length": 120, "underway": true, "makingWay": true}, "g": 60}, {"id": "fd-nav-030", "buque": {"type": "power", "length": 30, "underway": true, "makingWay": true}, "g": -50}, {"id": "fd-nav-nuc", "buque": {"type": "nuc", "length": 90, "underway": true, "makingWay": false}, "g": 90}, {"id": "fd-nav-sail", "buque": {"type": "sailing", "length": 24, "underway": true, "makingWay": true}, "g": 70}, {"id": "fd-nav-cbd", "buque": {"type": "cbd", "length": 150, "underway": true, "makingWay": true}, "g": 40}, {"id": "fd-nav-trawl", "buque": {"type": "fishingTrawl", "length": 26, "underway": true, "makingWay": false}, "g": -90}, {"id": "fd-popa-200", "buque": {"type": "power", "length": 200, "underway": true, "makingWay": true}, "g": 150}, {"id": "fd-popa-030", "buque": {"type": "power", "length": 30, "underway": true, "makingWay": true}, "g": 160}, {"id": "fd-popa-024", "buque": {"type": "sailing", "length": 24, "underway": true, "makingWay": true}, "g": -170}, {"id": "fd-popa-048", "buque": {"type": "power", "length": 48, "underway": true, "makingWay": true}, "g": -150}]};
+
+const DONDE_LUEGO = "in part 2, «What she is»";
+const TEXTOS = {"ESTADO": {"pregunta": "What do her lights tell you she is doing?", "clases": ["anclada", "andando", "parada", "muda"], "opciones": ["She is <b>at anchor</b>.", "She is <b>under way and making way</b> — moving through the water.", "She is <b>under way but not making way</b> — stopped in the water.", "She is <b>under way</b>, but her lights do not say whether she is moving."], "porque": {"anclada": "An all-round white, and not one other light on her. That is Rule 30 and it is the only thing it can be: her anchor is down.", "andando": "Her sidelights and her sternlight are burning, and those are the two lights that only come on when she moves through the water.", "parada": "She is telling you what she is, and showing neither sidelight nor sternlight. Anchor up, stopped in the water — which for this one is a thing worth knowing.", "muda": "Nothing on her changes when she stops. A power-driven vessel, a sailing vessel, a tug with a tow: they carry the same lights making way or lying dead in the water. The lights answer <em>under way</em> and go no further."}, "mal": {"anclada": "At anchor she would show an all-round white and nothing else — no sidelight, no sternlight, and none of the lights that say what she is.", "andando": "<em>Making way</em> has to be visible before you can claim it: sidelights, or a sternlight. And on some vessels they are lit whether she moves or not, so seeing them is not enough either.", "parada": "<em>Stopped in the water</em> is a claim that her sidelights and sternlight are OUT — and that they would have been ON if she were moving. Check both halves.", "muda": "Some vessels do carry the same lights stopped or moving. Not this one: what she is showing changes when she stops, so it answers."}, "pista": "Sidelights and a sternlight are the only lights in the book that mean <em>moving through the water</em>. Everything else she carries says what she IS, not what she is doing.", "show": {"anclada": "All-round white, alone. Rule 30: her anchor is down. She is not under way at all, so <em>making way</em> does not arise.", "andando": "The sidelights and the sternlight are the tell. Rules 24 to 28 give them to a vessel <em>when making way</em>, and take them away the moment she stops.", "parada": "She has her identity lights and neither sidelight nor sternlight. Under way — not anchored, not aground — and stopped in the water.", "muda": "Compare her with herself: put her lights out of gear and not one of them goes out. Under way is all they say, and it is all you may claim."}}, "ESLORA": {"pregunta": "How long is she?", "clases": ["pequena", "grande", "muda"], "opciones": ["<b>Less than 50 m.</b>", "<b>50 m or more.</b>", "<b>Her lights do not say.</b>"], "porque": {"pequena": "One white forward and no second one abaft it. Rule 23 gives a vessel of less than 50 m a single masthead light; the second is only carried at 50 m and over. At anchor the count is the same — one all-round white under 50 m, two at 50 m and over.", "grande": "Two whites, and only a vessel of 50 m or more may show them. <b>Which one is higher tells you which rule you are reading.</b> Under way it is Rule 23: the <b>after</b> one higher, and further aft. At anchor it is Rule 30, and it is <b>the other way round</b> — the <b>forward</b> one higher, and at least 4.5 m above the after one. Same count, mirrored.", "muda": "There is no masthead light in front of you to count. Either you are abaft her beam, where the mastheads have cut off and only the sternlight is left, or <b>she is under 12 m and Rule 23(d) has folded her masthead and her sternlight into one all-round white</b>, or she carries none at all. Either way her length is not on offer, and guessing it is how people decide a ship is small."}, "mal": {"pequena": "<em>Less than 50 m</em> is a claim about seeing ONE masthead light. Count again — and make sure what you are counting is a masthead light and not her sternlight.", "grande": "<em>50 m or more</em> is a claim about a <b>pair</b> of whites — her two mastheads under way, or her two anchor lights at anchor. If you cannot see two, you cannot make the claim.", "muda": "Her lights do say it here. Find the mastheads — or the all-round whites, if she is lying at anchor — and count them."}, "pista": "Rule 23 only ever offers two answers: one masthead light under 50 m, two at 50 m and over, the <b>after</b> one the higher. Rule 30 counts the same way at anchor and stacks them the other way up — the <b>forward</b> one higher. <b>Under 12 m she may carry no masthead light at all</b> — Rule 23(d) folds it and the sternlight into one all-round white, and then there is nothing to count. And if there is nothing to count there is no third answer: there is no answer.", "show": {"pequena": "One white forward, no second one behind it. Under 50 m. The count is the whole of it.", "grande": "Two whites. 50 m or more — Rule 23 if she is under way, Rule 30 if she is at anchor, and the one that is higher tells you which.", "muda": "Count the mastheads and there are none to count. Her length is not in what you can see, and the honest answer is to say so."}}, "ALCANCE": {"pregunta": "What is she carrying that you cannot see from here?", "clases": ["ninguna", "costados", "tope"], "opciones": ["<b>Nothing.</b> Every light she has is reaching you.", "<b>At least her sidelights</b> — and, depending on what she is, more.", "<b>Her masthead light.</b>"], "porque": {"ninguna": "You are inside the range of every light she is showing. What you see is all of it — which is worth knowing too, because it puts an upper bound on how far off she is.", "costados": "A sidelight is the shortest-ranged light in the book, so it is always the first to go. She is still carrying them; they are just not reaching you — and there may be more you cannot even guess at, because what else she carries depends on what she is, and that is part 2.", "tope": "—"}, "mal": {"ninguna": "«Nothing» is a claim about range, not about the picture. Check the shortest-ranged light she has and ask whether you are inside it.", "costados": "The sidelights are the first to go — but here they are still reaching you. Check the shortest range she has against the distance you were given.", "tope": "Never. Rule 22 gives the masthead light the <b>longest</b> range of the lot — 6 miles on a big ship against 3 for a sidelight. It is the last light you lose, not the first."}, "pista": "Rule 22 gives every light a range, and they are not the same: the masthead reaches furthest, the sidelights least. So a vessel does not vanish — she comes apart, from the bottom up.", "show": {"ninguna": "You are inside the range of the shortest light she has, so nothing is missing.", "costados": "Only the sidelights have dropped out. She is past their range and inside everything else.", "tope": "This never happens: the masthead light outreaches the rest."}, "senuelos": ["tope"]}, "FORMA": {"pregunta": "And by day, what would she be showing?", "clases": ["", "ball", "ball ball", "ball diamond ball", "cylinder", "coneUp cone"], "opciones": ["<b>Nothing at all.</b> No day shape.", "<b>A single black ball.</b>", "<b>Two black balls</b>, in a vertical line.", "<b>Ball — diamond — ball</b>, in a vertical line.", "<b>A cylinder.</b>", "<b>Two cones</b>, points together."], "porque": {"": "Some vessels say nothing by day at all. A power-driven vessel under way, a sailing vessel under sail alone, a pilot vessel: their lights say something and their daytime silhouette says nothing.", "ball": "One ball, in the fore part. Rule 30 by day is the same sentence as one all-round white by night.", "ball ball": "Two balls for two all-round reds. Rule 27(a) writes the same thing twice, once for the light and once for the dark.", "ball diamond ball": "Ball, diamond, ball — exactly the red, white, red of her lights, with the diamond standing where the white one goes. Rule 27(b).", "cylinder": "A cylinder, for the three all-round reds. Rule 28, and the only shape in the book that is neither ball nor cone.", "coneUp cone": "Two cones with their points together, for both kinds of fishing vessel. Rule 26 gives them the same shape by day and different lights by night — which is why this question runs from the night to the day and not the other way."}, "mal": {"": "She is showing you something at night that Rule 26, 27, 28 or 30 also writes as a shape. Read what is lit before you decide it says nothing.", "ball": "One ball is Rule 30 — at anchor, and nothing else lit.", "ball ball": "Two balls is <em>not under command</em>: two all-round reds, and only two.", "ball diamond ball": "That one is <em>restricted in her ability to manoeuvre</em>: red, white, red. Count the colours again.", "cylinder": "The cylinder belongs to a vessel constrained by her draught — three all-round reds, and the lights of a power-driven vessel underneath them.", "coneUp cone": "Two cones is a fishing vessel: an all-round green or red over an all-round white."}, "pista": "Every rule in this module writes the same sentence twice — once in lights and once in shapes. Read what the lights say first, then say it again in black.", "show": {"": "No shape. What she is showing at night has no daytime equivalent.", "ball": "A single ball. Rule 30, at anchor.", "ball ball": "Two balls. Rule 27(a), not under command.", "ball diamond ball": "Ball, diamond, ball. Rule 27(b), restricted in her ability to manoeuvre.", "cylinder": "A cylinder. Rule 28, constrained by her draught.", "coneUp cone": "Two cones, points together. Rule 26, fishing."}}, "FONDEO": {"pregunta": "Is she at anchor?", "clases": ["grande", "navegando", "muda"], "opciones": ["<b>At anchor, and 50 m or more.</b>", "<b>Not at anchor — she is under way.</b>", "<b>One white light and no more — it could be either.</b>"], "porque": {"grande": "Two all-round whites, the forward one higher and at least 4.5 m above the after one, and nothing else on her. Rule 30 asks that of a vessel of 50 m or more and of nobody else — two mastheads come with sidelights, and from astern they do not come at all.", "navegando": "That could not be an anchor light. Something coloured is lit, or there is more on her than Rule 30 allows — and Rule 30 allows nothing else at all.", "muda": "<b>One white light, and nothing else.</b> Rule 30(b) lets a vessel of under 50 m carry her anchor light <em>where it can best be seen</em> — so it can be anywhere, including low and right aft. And a sternlight is one white light, low and right aft. <b>Nothing in the picture separates them.</b> Saying so is the answer; guessing is how a ship at anchor becomes a ship going away from you."}, "mal": {"grande": "Two whites, the forward one higher, and nothing else lit. If you can see only one — or if anything else is burning — it is not that.", "navegando": "You can only rule out anchoring if what you see could not be anchor lights. One lone white light could be.", "muda": "Here the picture does settle it. Either there are two whites in the Rule 30 pair, or there is something on her that Rule 30 would never allow."}, "pista": "Rule 30 gives a vessel of 50 m or more <b>two</b> all-round whites, the forward one higher. Under 50 m it gives her <b>one</b> — and, and this is the whole trap, <em>where it can best be seen</em>, which is nowhere in particular. A sternlight is one white light too.", "show": {"grande": "Two all-round whites, the forward one higher, and nothing else. At anchor, 50 m or more.", "navegando": "Not Rule 30. Something here belongs to a vessel under way.", "muda": "One white light. Rule 30(b) does not say where a small vessel carries her anchor light, so it can sit exactly where a sternlight sits. Two readings, and nothing to choose between them."}}};
+const AZAR = 20260815;
+window.identidades = identidades; window.BANCOS = BANCOS; window.TEXTOS = TEXTOS; window.DICE = DICE;
+
+vistoEmpieza(YO);
+vaA(donde());
+</script>

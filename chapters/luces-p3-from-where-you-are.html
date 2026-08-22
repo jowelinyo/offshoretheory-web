@@ -1,0 +1,2864 @@
+<meta charset="utf-8"><title>Lights and shapes of vessels — From where you are</title>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<style>
+
+@font-face{font-family:'IBM Plex Mono';font-style:normal;font-weight:400;font-display:swap;
+ src:url(../assets/fonts/IBMPlexMono-400-normal-latin.woff2) format('woff2');
+ unicode-range:U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD}
+@font-face{font-family:'IBM Plex Mono';font-style:normal;font-weight:400;font-display:swap;
+ src:url(../assets/fonts/IBMPlexMono-400-normal-latin-ext.woff2) format('woff2');
+ unicode-range:U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF}
+@font-face{font-family:'IBM Plex Mono';font-style:normal;font-weight:500;font-display:swap;
+ src:url(../assets/fonts/IBMPlexMono-500-normal-latin.woff2) format('woff2');
+ unicode-range:U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD}
+@font-face{font-family:'IBM Plex Mono';font-style:normal;font-weight:500;font-display:swap;
+ src:url(../assets/fonts/IBMPlexMono-500-normal-latin-ext.woff2) format('woff2');
+ unicode-range:U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF}
+@font-face{font-family:'IBM Plex Sans';font-style:normal;font-weight:400 600;font-display:swap;
+ src:url(../assets/fonts/IBMPlexSans-400-normal-latin.woff2) format('woff2');
+ unicode-range:U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD}
+@font-face{font-family:'IBM Plex Sans';font-style:normal;font-weight:400 600;font-display:swap;
+ src:url(../assets/fonts/IBMPlexSans-400-normal-latin-ext.woff2) format('woff2');
+ unicode-range:U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF}
+@font-face{font-family:'Newsreader';font-style:italic;font-weight:400;font-display:swap;
+ src:url(../assets/fonts/Newsreader-400-italic-latin.woff2) format('woff2');
+ unicode-range:U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD}
+@font-face{font-family:'Newsreader';font-style:italic;font-weight:400;font-display:swap;
+ src:url(../assets/fonts/Newsreader-400-italic-latin-ext.woff2) format('woff2');
+ unicode-range:U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF}
+@font-face{font-family:'Newsreader';font-style:normal;font-weight:500;font-display:swap;
+ src:url(../assets/fonts/Newsreader-500-normal-latin.woff2) format('woff2');
+ unicode-range:U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD}
+@font-face{font-family:'Newsreader';font-style:normal;font-weight:500;font-display:swap;
+ src:url(../assets/fonts/Newsreader-500-normal-latin-ext.woff2) format('woff2');
+ unicode-range:U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF}
+:root{
+
+ --page:#E8EBED;
+ --panel:#F6F7F7;
+ --card:#FCFCFB;
+ --inset:#F4F6F7;
+ --bar:#1C2B36;
+
+ --edge-frame:#B7C0C6;
+ --edge-card:#BCC4C9;
+ --edge-inner:#E4E8EA;
+ --edge-panel:#CFD7DC;
+ --edge-leader:#C1C9CE;
+ --edge-button:#A9B4BB;
+ --rule-heavy:#1C2B36;
+
+ --ink-title:#0F171D;
+ --ink-strong:#141C22;
+ --ink-lead:#20292F;
+ --ink-body:#333D45;
+ --ink-secondary:#4A5A66;
+ --ink-label:#5B6B77;
+ --ink-quiet:#5E6B74;
+
+ --accent-text:#9A5C10;
+ --accent-graphic:#C97B1B;
+ --accent-on-bar:#E2B15C;
+ --link:#2F6C8F;
+ --progress-pending:#CDD5DA;
+ --on-bar:#DCE4E9; --on-bar-dim:#B8C7D0; --on-bar-strong:#F6F9FA;
+ --on-primary:#F2F6F8;
+
+ --sp-hair:4px; --sp-inline:8px; --sp-tight:12px; --sp-card:14px; --sp-block:16px;
+ --sp-col-y:20px; --sp-col-x:22px; --sp-panel-y:18px; --sp-panel-c:22px;
+ --sp-panel-x:30px; --sp-bar-x:24px; --sp-close:40px;
+
+ --f-display:"Newsreader",ui-serif,Georgia,"Palatino Linotype","Times New Roman",serif;
+ --f-ui:"IBM Plex Sans",system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;
+ --f-mono:"IBM Plex Mono",ui-monospace,"SF Mono","Segoe UI Mono",Menlo,Consolas,monospace;
+
+ --sea-deep:#0A1E27; --sea:#102B36; --sea-line:#1E4453;
+ --paper:#E3EAEE; --paper-ink:#EFE6D2; --paper-2:#D2DDE3; --paper-line:#A6B3BA;
+ --ink:#15252D; --ink-soft:#5C7079; --dim:#829AA3;
+ --magenta:#6B2461; --magenta-soft:#B07FA6;
+ --water:#8FC3DA; --alarm:#B33A22; --ok:#3F7A56;
+
+ --ink-glosa:#4A5C65;
+ --alarm-noche:#D9744E;
+ --dim-banda:#93A9B1;
+}
+*{box-sizing:border-box}
+html,body{margin:0;height:100%;overflow:hidden}
+body{display:flex;flex-direction:column;background:var(--page);color:var(--ink-body);
+ font:400 16px/1.68 var(--f-ui);-webkit-font-smoothing:antialiased;
+ text-rendering:optimizeLegibility}
+
+#barra{flex:none;height:54px;display:flex;align-items:center;gap:var(--sp-inline);
+ padding:0 var(--sp-bar-x);background:var(--bar);
+ box-shadow:inset 0 1px 0 rgba(255,255,255,.08)}
+
+#barra a{text-decoration:none;cursor:pointer;
+ display:inline-flex;align-items:center;min-height:44px}
+.barlink{font:600 15px/1.45 var(--f-ui);color:var(--on-bar);white-space:nowrap;flex:none}
+.barlink:hover{color:var(--on-bar-strong);text-decoration:underline}
+#barra .sep{flex:none;width:1px;height:22px;background:#3A4E5C;margin:0 var(--sp-inline)}
+
+#miga{font:400 17px/1.2 var(--f-display);color:var(--on-bar-dim);
+ white-space:nowrap;overflow:hidden;text-overflow:ellipsis;min-width:0}
+#miga b{color:var(--on-bar-strong);font-weight:500}
+#barra .crece{flex:1;min-width:var(--sp-inline)}
+#barCont{flex:none;font:400 12px/1.4 var(--f-mono);letter-spacing:.12em;
+ color:var(--accent-on-bar);font-variant-numeric:tabular-nums}
+
+#wrap{flex:1;min-height:0;display:grid;
+ grid-template-columns:minmax(0,1fr) clamp(320px,37%,560px)}
+#lienzo{min-width:0;min-height:0;display:flex;flex-direction:column;
+ justify-content:center;align-items:center;
+ padding:var(--sp-col-y) var(--sp-col-x)}
+
+#ficha.sinCaja{background:transparent;border:0;box-shadow:none}
+
+#ficha{--lam-ink:var(--paper-ink);--lam-dim:var(--dim);--lam-alarm:var(--alarm-noche);--lam-magenta:var(--magenta-soft)}
+#ficha.sinCaja{--lam-ink:var(--ink-title);--lam-dim:var(--ink-glosa);--lam-alarm:var(--alarm);--lam-magenta:var(--magenta)}
+
+#fichas .ficha{--lam-ink:var(--ink-title);--lam-dim:var(--ink-glosa);--lam-alarm:var(--alarm);--lam-magenta:var(--magenta)}
+#fichas .escena{--lam-ink:var(--paper-ink);--lam-dim:var(--dim);--lam-alarm:var(--alarm-noche);--lam-magenta:var(--magenta-soft)}
+#ficha{flex:1;align-self:stretch;min-height:0;position:relative;background:var(--sea-deep);
+ border:1px solid var(--edge-card);border-radius:0;
+ box-shadow:0 2px 3px rgba(28,43,54,.07);overflow:hidden}
+
+#fichas{flex:1;min-height:0;display:grid;gap:var(--sp-card);
+ grid-template-columns:1fr;justify-content:center;width:100%}
+#cierre{flex:none;margin-top:var(--sp-close);padding-top:var(--sp-tight);
+ border-top:2px solid var(--rule-heavy)}
+#cierre .cf{font:500 24px/1.25 var(--f-display);color:var(--ink-title)}
+#cierre .cp{margin-top:2px;font:italic 400 15px/1.45 var(--f-display);
+ color:var(--ink-secondary)}
+
+.ficha{flex:1;min-height:0;display:grid;
+ background:var(--card);border:1px solid var(--edge-card);border-radius:0;
+ box-shadow:0 2px 3px rgba(28,43,54,.07)}
+.ficha.conpie{grid-template-columns:none;grid-template-rows:auto minmax(0,1fr) auto}
+.ficha.conpie .bcab{border-bottom:1px solid var(--edge-inner)}
+.ficha.conpie .bpie{border-top:1px solid var(--edge-inner)}
+.ficha.allado{grid-template-rows:auto minmax(0,1fr)}
+.ficha.allado .escena{grid-area:1/1/3/2}
+.ficha.allado .bcab{grid-area:1/2/2/3;border-left:1px solid var(--edge-inner);
+ align-self:end}
+.ficha.allado .bpie{grid-area:2/2/3/3;border-left:1px solid var(--edge-inner);
+ align-self:start}
+.bcab,.bpie{padding:10px 18px;min-width:0}
+
+.ficha.marcada{box-shadow:0 2px 3px rgba(28,43,54,.07),-3px 0 0 var(--accent-graphic)}
+.escena{position:relative;background:var(--sea-deep);overflow:hidden}
+
+.escena.dia{background:var(--paper)}
+.escena.dia,#fichas .escena.dia{--lam-ink:var(--ink-title);--lam-dim:var(--ink-glosa);
+ --lam-alarm:var(--alarm);--lam-magenta:var(--magenta)}
+#fichas{width:100%}
+.escena svg{position:absolute;inset:0;width:100%;height:100%}
+.bcab{display:flex;align-items:baseline;gap:var(--sp-inline)}
+
+.bcab .k{font:500 19px/1.2 var(--f-display);color:var(--ink-title);flex:none}
+.ficha.marcada .bcab .k{color:var(--accent-text)}
+.bcab .guia{flex:1;border-bottom:1px dotted var(--edge-leader);min-width:10px}
+.bcab .v{font:400 12px/1.4 var(--f-mono);letter-spacing:.06em;color:var(--ink-label);
+ flex:none;font-variant-numeric:tabular-nums;white-space:nowrap}
+.btit{font:600 16px/1.35 var(--f-ui);color:var(--ink-title)}
+
+.btit.alarma{color:var(--accent-text)}
+
+.res-col{background:var(--card);border:1px solid var(--edge-card);
+ box-shadow:0 2px 3px rgba(28,43,54,.07);display:flex;flex-direction:column;
+ min-width:0;overflow:hidden}
+.res-col>h5{margin:0;padding:10px 16px;border-bottom:1px solid var(--edge-inner);
+ font:400 12px/1.4 var(--f-mono);letter-spacing:.12em;text-transform:uppercase;
+ color:var(--ink-label)}
+.res-col>div{padding:12px 16px;overflow:auto}
+.res-col dl{margin:0}
+.res-col dt{font:600 15px/1.35 var(--f-ui);color:var(--ink-title);margin-top:10px}
+.res-col dt:first-child{margin-top:0}
+.res-col dd{margin:1px 0 0;font:400 15px/1.4 var(--f-ui);color:var(--ink-secondary)}
+.bglo{margin-top:2px;font:italic 400 16px/1.35 var(--f-display);
+ color:var(--ink-secondary)}
+#obj{position:absolute;inset:0}
+#svg{position:absolute;inset:0;width:100%;height:100%;touch-action:none}
+#obj,#svg,#svg *{-webkit-user-select:none;-moz-user-select:none;user-select:none;
+ -webkit-user-drag:none;-webkit-tap-highlight-color:transparent}
+#obj svg .boton{cursor:pointer}
+
+#side{min-height:0;display:flex;flex-direction:column;background:var(--panel);
+ border-left:1px solid var(--edge-frame)}
+#head{flex:none;padding:var(--sp-panel-y) var(--sp-panel-x);
+ border-bottom:1px solid var(--edge-panel)}
+.hd{display:flex;align-items:baseline;gap:var(--sp-tight)}
+.hd>:last-child{margin-left:auto}
+
+#hTit{font:400 12px/1.4 var(--f-mono);letter-spacing:.12em;text-transform:uppercase;
+ color:var(--ink-label);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+#hN{flex:none;font:400 12px/1.4 var(--f-mono);letter-spacing:.12em;
+ color:var(--ink-quiet);font-variant-numeric:tabular-nums}
+#prog{display:flex;gap:3px;margin-top:var(--sp-tight)}
+#prog i{flex:1;height:5px;background:var(--progress-pending);border-radius:0;
+ cursor:pointer}
+#prog i.done{background:var(--link)}
+#prog i.on{background:var(--accent-graphic)}
+#pane{flex:1;min-height:0;overflow-y:auto;
+ padding:var(--sp-panel-c) var(--sp-panel-x)}
+
+h2{margin:0 0 var(--sp-block);font:500 31px/1.18 var(--f-display);
+ color:var(--ink-title)}
+h3{margin:0 0 var(--sp-tight);font:400 12px/1.4 var(--f-mono);letter-spacing:.12em;
+ text-transform:uppercase;color:var(--ink-label)}
+p{margin:0 0 var(--sp-block);max-width:62ch;color:var(--ink-body)}
+p:last-child{margin-bottom:0}
+p b{color:var(--ink-title);font-weight:600}
+
+p em{font-style:normal;color:var(--ink-secondary)}
+
+button{font:600 15px/1.45 var(--f-ui);padding:11px 26px;border:1px solid transparent;
+ border-radius:2px;cursor:pointer;background:var(--bar);color:var(--on-primary);
+ min-height:44px}
+button:hover:not(:disabled){background:#26394A}
+button.sec{background:var(--card);color:var(--ink-lead);border-color:var(--edge-button);
+ padding:10px 18px}
+button.sec:hover:not(:disabled){background:var(--inset)}
+button.show{background:transparent;color:var(--accent-text);
+ border-color:var(--edge-button);padding:10px 18px}
+
+a.skip{font:400 15px/1.45 var(--f-ui);color:var(--ink-secondary);cursor:pointer;
+ text-decoration:none;white-space:nowrap;padding:0 var(--sp-tight);
+ display:inline-flex;align-items:center;min-height:44px}
+a.skip:hover{color:var(--ink-title);text-decoration:underline}
+
+.prl{font:400 12px/1.4 var(--f-mono);letter-spacing:.12em;color:var(--accent-text);
+ margin-left:auto;white-space:nowrap;font-variant-numeric:tabular-nums}
+
+b.q{display:block;margin:0 0 var(--sp-block);font:400 17px/1.6 var(--f-ui);
+ color:var(--ink-lead);font-weight:400}
+.ops{display:flex;flex-direction:column;gap:var(--sp-inline);
+ margin:0 0 var(--sp-block);counter-reset:op}
+
+.ops button{display:block;position:relative;width:100%;
+ min-height:52px;padding:15px var(--sp-block) 15px 46px;text-align:left;
+ background:var(--card);color:var(--ink-lead);border:1px solid var(--edge-card);
+ font:400 17px/1.45 var(--f-ui)}
+.ops button b{font-weight:600;color:var(--ink-title)}
+.ops button::before{counter-increment:op;content:counter(op,upper-alpha);
+ position:absolute;left:var(--sp-block);top:15px;
+ font:500 15px/1.45 var(--f-mono);color:var(--accent-text)}
+.ops button:hover:not(:disabled){background:var(--inset);
+ border-color:var(--edge-button)}
+.ops button:disabled{opacity:1;cursor:default;color:var(--ink-secondary)}
+
+.res{margin:0 0 var(--sp-block);padding:var(--sp-tight) var(--sp-block);
+ background:var(--inset);border:1px solid var(--edge-inner);
+ border-left:3px solid var(--edge-panel);color:var(--ink-body);font-size:16px}
+.res b{color:var(--ink-title);font-weight:600}
+.res.si{border-left-color:var(--link)}
+.res.no{border-left-color:var(--accent-graphic)}
+.res.ver{border-left-color:var(--accent-graphic)}
+
+.pista{margin:0 0 var(--sp-block);font:italic 400 19px/1.5 var(--f-display);
+ color:var(--ink-secondary);border:0;padding:0}
+
+.calc{margin:0 0 var(--sp-block);padding:var(--sp-tight) var(--sp-block);
+ background:var(--inset);border:1px solid var(--edge-inner);
+ font:400 15px/1.45 var(--f-ui);color:var(--ink-body);
+ font-variant-numeric:tabular-nums}
+.calc b{color:var(--ink-title);font-weight:600}
+
+#foot{flex:none;border-top:1px solid var(--edge-panel);
+ padding:var(--sp-panel-y) var(--sp-panel-x)}
+#navPie .nav{display:flex;align-items:center;gap:var(--sp-inline);flex-wrap:wrap}
+#navPie .nav button#sig,#navPie .nav button#otra{margin-left:auto}
+
+.pie2{display:flex;align-items:baseline;gap:var(--sp-tight);
+ margin-top:var(--sp-tight);font:400 12px/1.4 var(--f-mono);letter-spacing:.1em;
+ color:var(--ink-quiet);white-space:nowrap}
+.pie2>:last-child{margin-left:auto}
+a.pieLink{color:var(--link);text-decoration:none;cursor:pointer;white-space:nowrap}
+a.pieLink:hover{text-decoration:underline}
+.sello{display:block;margin-top:var(--sp-hair);font:400 12px/1.4 var(--f-mono);
+
+ letter-spacing:.1em;color:var(--ink-quiet);
+
+ white-space:normal;overflow-wrap:anywhere}
+.sello b{font-weight:400}
+
+@media (max-width:1099px){
+ #wrap{grid-template-columns:minmax(0,1fr) clamp(320px,34%,346px)}
+ #miga{font-size:15px}
+}
+
+@media (max-width:999px){ #barra{height:50px} }
+</style>
+<div id="barra">
+ <a class="barlink" href="../index.html">&#8592; The course</a>
+ <i class="sep"></i>
+ <div id="miga">Lights and shapes of vessels <span>&middot;</span> <b>From where you are</b></div>
+ <span class="crece"></span>
+ 
+ <a class="barlink" href="balizamiento-p1-the-marks.html#flashcards">Flashcards</a>
+ <i class="sep"></i>
+ <a class="barlink" href="../index.html">Contents</a>
+ <span id="barCont"></span>
+</div>
+<div id="wrap">
+ <div id="lienzo">
+  <div id="ficha"><div id="obj"><svg id="svg"></svg></div></div>
+  <div id="fichas"></div>
+  <div id="cierre"></div>
+ </div>
+ <div id="side">
+  <div id="head">
+   <div class="hd"><b id="hTit" data-rotulo="1">From where you are · topic 1</b><span id="hN"></span></div>
+   <div id="prog"></div></div>
+  <div id="pane"></div>
+  <div id="foot">
+   <div id="navPie"></div>
+   <div class="pie2"><span id="fLog">0 answers logged</span><a class="pieLink" id="deCero" onclick="deCero()">start over</a></div>
+   <div class="sello" id="sello" data-sello="c85a16bc">lights and shapes · part 3 · <b>9 of 9 screens</b> · 22 Aug 2026</div>
+  </div>
+ </div>
+</div>
+
+<template id="tSig"><div class="calc"><b>Next: When you can't see her.</b><br>
+   The sound signals. Short and prolonged, what she carries by length, and the fog signal of every vessel in part 2 — seven signals for ten vessels, because seven share one.</div></template>
+<script>
+
+"use strict";
+const VISTO_CLAVE = "rya.visto";
+
+const VISTO_V = 2;
+
+function vistoAlmacen(){
+ try{ return (typeof localStorage !== "undefined" && localStorage) ? localStorage : null; }
+ catch(e){ return null; }
+}
+
+function vistoLee(){
+ const A = vistoAlmacen();
+ if(!A) return {v:VISTO_V, empezadas:{}, terminadas:{}, sinAlmacen:true};
+ try{
+  const o = JSON.parse(A.getItem(VISTO_CLAVE) || "null");
+  if(o && o.v === VISTO_V && o.empezadas && o.terminadas) return o;
+ }catch(e){}
+ return {v:VISTO_V, empezadas:{}, terminadas:{}};
+}
+
+function _vistoGuarda(o){
+ const A = vistoAlmacen();
+ if(!A) return o;
+ try{
+  A.setItem(VISTO_CLAVE, JSON.stringify(
+   {v:VISTO_V, empezadas:o.empezadas, terminadas:o.terminadas, pos:o.pos || {}}));
+ }catch(e){}
+ return o;
+}
+
+function _vistoPon(cual, fichero){
+ const o = vistoLee();
+ if(o.sinAlmacen || o[cual][fichero]) return o;
+ o[cual][fichero] = 1;
+ return _vistoGuarda(o);
+}
+
+const vistoEmpieza  = f => _vistoPon("empezadas", f);
+const vistoTermina  = f => _vistoPon("terminadas", f);
+const vistoEmpezada = f => !!vistoLee().empezadas[f];
+const vistoTerminada= f => !!vistoLee().terminadas[f];
+const vistoHayAlmacen = () => !!vistoAlmacen();
+
+function vistoPon(fichero, n){
+ const o = vistoLee();
+ if(o.sinAlmacen) return o;
+ if(!o.pos) o.pos = {};
+ if(o.pos[fichero] === n) return o;
+ o.pos[fichero] = n;
+ return _vistoGuarda(o);
+}
+
+function vistoPos(fichero, tope){
+ const p = vistoLee().pos;
+ const n = p && p[fichero];
+ if(typeof n !== "number" || !isFinite(n) || n < 0) return 0;
+ return (typeof tope === "number" && tope >= 0) ? Math.min(n, tope) : n;
+}
+
+function vistoOlvida(fichero){
+ const o = vistoLee();
+ if(o.sinAlmacen || !o.pos || !(fichero in o.pos)) return o;
+ delete o.pos[fichero];
+ return _vistoGuarda(o);
+}
+
+"use strict";
+
+const ARC = {
+  masthead: 112.5,
+  sidelight:112.5,
+  stern:    112.5,
+  allRound: 180
+};
+
+const CUTOFF = 1.5;
+
+const visible = (arc, aspect) => {
+  const a = Math.abs(aspect);
+  switch(arc.kind){
+    case "masthead": return a <= ARC.masthead;
+    case "starboard":return aspect >= -CUTOFF && aspect <= ARC.sidelight;
+    case "port":     return aspect <=  CUTOFF && aspect >= -ARC.sidelight;
+
+    case "stern":    return a > ARC.stern;
+    case "allround": return true;
+  }
+  return false;
+};
+
+const HGT = {
+
+  mast1: L => Math.max(1.6, 0.62 * Math.pow(L, 0.72)),
+  mast2: L => HGT.mast1(L) + Math.max(4.5, HGT.mast1(L)*0.22),
+  side:  L => L >= 20 ? HGT.mast1(L)*0.72 : Math.max(0.9, HGT.mast1(L)*0.55),
+  stern: L => L >= 20 ? HGT.mast1(L)*0.42 : Math.max(0.7, HGT.mast1(L)*0.40),
+  allr:  L => Math.max(2.2, HGT.mast1(L)*0.90),
+  mast:  L => Math.max(1.6, 0.62 * Math.pow(L, 0.72))
+};
+
+function ranges(L){
+  if (L >= 50) return {masthead:6, side:3, stern:3, allround:3, towing:3};
+  if (L >= 20) return {masthead:5, side:2, stern:2, allround:2, towing:2};
+  if (L >= 12) return {masthead:3, side:2, stern:2, allround:2, towing:2};
+  return          {masthead:2, side:1, stern:2, allround:2, towing:2};
+}
+
+const L = (kind, colour, h, x, rangeKey, extra={}) =>
+  ({kind, colour, h, x, rangeKey, ...extra});
+
+function configuration(v){
+  const LEN = v.length || 12;
+  const L50 = LEN >= 50;
+  const making = v.makingWay !== false;
+  const under  = v.underway  !== false;
+
+  const sideX  = L50 ? -0.30 : 0.80;
+  const side   = [L("starboard","green",HGT.side(LEN), sideX,"side"),
+                  L("port",     "red",  HGT.side(LEN), sideX,"side")];
+  const stern  = [L("stern","white",HGT.stern(LEN),-0.96,"stern")];
+  const mast1  = [L("masthead","white",HGT.mast1(LEN), 0.55,"masthead")];
+  const mast2  = L50 ? [L("masthead","white",HGT.mast2(LEN),-0.40,"masthead")] : [];
+
+  if (!under) {
+    return LEN >= 50
+      ? [L("allround","white",HGT.allr(LEN)*0.9, 0.88,"allround"),
+         L("allround","white",HGT.stern(LEN)*1.4,-0.88,"allround")]
+      : [L("allround","white",HGT.allr(LEN), 0.0,"allround")];
+  }
+
+  switch(v.type){
+    case "power": case "pilotUnderway":
+
+      if(LEN < 12 && v.combined !== false)
+        return [L("allround","white",Math.max(2.2,LEN*0.22),0.10,"allround"), ...side];
+      return [...mast1, ...mast2, ...side, ...stern];
+
+    case "sailing":
+
+      const mastTop = LEN*1.30;
+      return v.tricolour && LEN < 20
+        ? [L("starboard","green",mastTop,0.05,"side"), L("port","red",mastTop,0.05,"side"),
+           L("stern","white",mastTop,0.05,"stern")]
+        : [L("starboard","green",HGT.side(LEN),0.86,"side"),
+           L("port","red",      HGT.side(LEN),0.86,"side"), ...stern,
+           ...(v.optionalRedGreen ? [L("allround","red",  mastTop,0.05,"allround"),
+                                     L("allround","green",mastTop*0.94,0.05,"allround")] : [])];
+
+    case "fishingTrawl":
+      return [L("allround","green",HGT.allr(LEN)*1.25,0.28,"allround"),
+              L("allround","white",HGT.allr(LEN)*0.95,0.28,"allround"),
+              ...(L50?[L("masthead","white",HGT.mast2(LEN),-0.40,"masthead")]:[]),
+              ...(making?[...side,...stern]:[])];
+
+    case "fishingOther":
+      return [L("allround","red",HGT.allr(LEN)*1.25,0.28,"allround"),
+              L("allround","white",HGT.allr(LEN)*0.95,0.28,"allround"),
+              ...(making?[...side,...stern]:[])];
+
+    case "nuc":
+      return [L("allround","red",HGT.allr(LEN)*1.25,0.20,"allround"),
+              L("allround","red",HGT.allr(LEN)*0.95,0.20,"allround"),
+              ...(making?[...side,...stern]:[])];
+
+    case "ram":
+      return [L("allround","red",  HGT.allr(LEN)*1.45,0.20,"allround"),
+              L("allround","white",HGT.allr(LEN)*1.20,0.20,"allround"),
+              L("allround","red",  HGT.allr(LEN)*0.95,0.20,"allround"),
+              ...(making?[...mast1,...mast2,...side,...stern]:[])];
+
+    case "cbd":
+      return [...mast1, ...mast2, ...side, ...stern,
+
+              L("allround","red",HGT.allr(LEN)*1.35,0.14,"allround"),
+              L("allround","red",HGT.allr(LEN)*1.15,0.14,"allround"),
+              L("allround","red",HGT.allr(LEN)*0.95,0.14,"allround")];
+
+    case "pilot":
+
+      return [L("allround","white",HGT.allr(LEN)*1.25,0.20,"allround"),
+              L("allround","red",  HGT.allr(LEN)*0.95,0.20,"allround"),
+              ...side, ...stern];
+
+    case "towing": {
+      const TL   = v.towLength || 120;
+      const long = TL > 200;
+      const stack = [];
+      const step = Math.max(2, LEN*0.055);
+      for (let i=0;i<(long?3:2);i++)
+        stack.push(L("masthead","white",HGT.mast1(LEN)+i*step,0.55,"masthead"));
+      const tug = [...stack, ...(L50?[L("masthead","white",HGT.mast2(LEN)+step*2,-0.40,"masthead")]:[]),
+                   ...side, ...stern,
+                   L("stern","yellow",HGT.stern(LEN)*1.5,-0.96,"towing")];
+
+      const back = -(TL + LEN*0.5);
+      const towed = [
+        L("starboard","green",2.0,0,"side",  {xm:back, tow:true}),
+        L("port",     "red",  2.0,0,"side",  {xm:back, tow:true}),
+        L("stern",    "white",1.6,0,"stern", {xm:back - 20, tow:true})
+      ];
+      return [...tug, ...towed];
+    }
+  }
+  return [...side, ...stern];
+}
+
+function seenFrom(v, aspect, rangeNm){
+  const R = ranges(v.length || 12);
+  return configuration(v)
+    .filter(l => visible(l, aspect))
+    .filter(l => rangeNm === undefined || rangeNm <= R[l.rangeKey])
+    .map(l => ({...l, nominal:R[l.rangeKey]}));
+}
+
+const A1 = {
+
+  TOPE_SOBRE_CASCO_MIN: 6,
+  TOPE_NUNCA_HACE_FALTA_MAS: 12,
+
+  TOPE2_SOBRE_TOPE1: 4.5,
+
+  TOPES_SEP_FRAC_ESLORA: 0.5,
+  TOPES_SEP_NUNCA_MAS: 100,
+  TOPE1_DESDE_LA_RODA_FRAC: 0.25,
+
+  TOPE_CHICO_SOBRE_BORDA: 2.5,
+
+  COSTADOS_FRAC_TOPE: 0.75,
+
+  VERT_SEP_GRANDE: 2, VERT_BAJA_GRANDE: 4,
+  VERT_SEP_CHICO: 1,  VERT_BAJA_CHICO: 2,
+
+  ANCLA_PROA_SOBRE_POPA: 4.5,
+  ANCLA_PROA_MIN_50: 6,
+
+  PESCA_SOBRE_COSTADOS_VECES: 2,
+
+  CUBIERTAS_ILUMINADAS_DESDE: 100,
+
+  GRANDE: 20,
+  MUY_GRANDE: 50
+};
+
+const ESLORA_POR_MANGA = 6.5;
+const manga = L => L / ESLORA_POR_MANGA;
+
+function alturaTope(L) {
+  if (L < A1.GRANDE) return A1.TOPE_CHICO_SOBRE_BORDA;
+  return Math.min(Math.max(A1.TOPE_SOBRE_CASCO_MIN, manga(L)),
+                  A1.TOPE_NUNCA_HACE_FALTA_MAS);
+}
+
+const COSTADOS_TECHO_COMUN = A1.COSTADOS_FRAC_TOPE * A1.TOPE_SOBRE_CASCO_MIN;
+function alturaCostados(L) {
+  return Math.min(COSTADOS_TECHO_COMUN, A1.COSTADOS_FRAC_TOPE * alturaTope(L));
+}
+const vertical = L => L >= A1.GRANDE
+  ? { sep: A1.VERT_SEP_GRANDE, baja: A1.VERT_BAJA_GRANDE }
+  : { sep: A1.VERT_SEP_CHICO,  baja: A1.VERT_BAJA_CHICO };
+
+const xTope1 = L => L / 2 - L * A1.TOPE1_DESDE_LA_RODA_FRAC;
+const xTope2 = L => xTope1(L) - Math.min(L * A1.TOPES_SEP_FRAC_ESLORA,
+                                         A1.TOPES_SEP_NUNCA_MAS);
+const xPopa  = L => -L / 2;
+const X_MEDIO = 0;
+
+const SM_CRUJIA = 0;
+function athwart(v, kind, L) {
+  if (kind === "starboard") return  manga(L) / 2;
+  if (kind === "port")      return -manga(L) / 2;
+  return SM_CRUJIA;
+}
+const CITA_ATHWART = {
+  starboard: "R21(b) \u00b7 en la banda de estribor",
+  port:      "R21(b) \u00b7 en la banda de babor"
+};
+
+const ALCANCE_SOBRE_CASCO = 0;
+
+const TOW_LARGO_DIAMANTE = 200;
+const towLargo   = v => v.towLength   || 120;
+const towEslora  = v => v.towedLength || 60;
+
+const towAtras   = v => towLargo(v) + (v.length || 12)/2 + towEslora(v)/2;
+
+const tramoDe = v => (v.length || 12);
+const tramoRemolque = v => (v.length || 12)/2 + towAtras(v) + towEslora(v)/2;
+
+const CITA = {
+  power:        { r: "R23",    ident: [] },
+  sailing:      { r: "R25",    ident: [] },
+  nuc:          { r: "R27(a)", ident: ["red", "red"] },
+  ram:          { r: "R27(b)", ident: ["red", "white", "red"] },
+  cbd:          { r: "R28",    ident: ["red", "red", "red"] },
+  pilot:        { r: "R29",    ident: ["white", "red"] },
+  fishingTrawl: { r: "R26(b)", ident: ["green", "white"] },
+  fishingOther: { r: "R26(c)", ident: ["red", "white"] },
+  towing:       { r: "R24",    ident: [] },
+  fondeada:     { r: "R30",    ident: ["white"] }
+};
+
+const SOLO_CON_ARRANCADA = ["nuc", "ram", "fishingTrawl", "fishingOther"];
+
+const MARCAS_DIA = {
+  power:        [],
+  sailing:      [],
+  velaYMotor:   ["coneUp"],
+  nuc:          ["ball", "ball"],
+  ram:          ["ball", "diamond", "ball"],
+  cbd:          ["cylinder"],
+  pilot:        [],
+  fishingTrawl: ["coneUp", "cone"],
+  fishingOther: ["coneUp", "cone"],
+  towing:       [],
+
+  fondeada:     ["ball"]
+};
+
+const NO_ES_TIPO = ["velaYMotor"];
+
+function marcasDia(v) {
+  const clave = v.underway === false ? "fondeada"
+              : (v.velaYMotor ? "velaYMotor" : v.type);
+
+  if (clave === "towing")
+    return towLargo(v) > TOW_LARGO_DIAMANTE ? ["diamond"] : [];
+  return (MARCAS_DIA[clave] || []).slice();
+}
+
+function citada(v, luces) {
+  const L = v.length || 12;
+  const fondeada = v.underway === false;
+  const clave = fondeada ? "fondeada" : v.type;
+  const C = CITA[clave];
+  if (!C) return "el tipo «" + v.type + "» no esta citado a ninguna regla";
+
+  if (clave === "towing") {
+    const suyas = luces.filter(l => !l.tow), suyo = luces.filter(l => l.tow);
+    const topes = suyas.filter(l => l.kind === "masthead").length;
+    const pide = ((towLargo(v) > TOW_LARGO_DIAMANTE) ? 3 : 2)
+               + (L >= A1.MUY_GRANDE ? 1 : 0);
+    if (topes !== pide)
+      return "R24(a)(i) da " + pide + " tope(s) a un remolcador de " + L + " m con un "
+        + "remolque de " + towLargo(v) + " m, y hay " + topes;
+    if (suyas.filter(l => l.kind === "starboard").length !== 1
+     || suyas.filter(l => l.kind === "port").length !== 1)
+      return "R24 pide los dos costados del remolcador, y uno de cada";
+    if (suyas.filter(l => l.kind === "stern" && l.colour === "white").length !== 1)
+      return "R24(a)(iii) pide la luz de alcance del remolcador";
+    if (suyas.filter(l => l.kind === "stern" && l.colour === "yellow").length !== 1)
+      return "R24(a)(iv) pide la AMARILLA de remolque, sobre la de alcance";
+    if (suyas.some(l => l.kind === "allround"))
+      return "R24 no le da al remolcador ninguna luz de todo horizonte";
+    if (suyo.filter(l => l.kind === "starboard").length !== 1
+     || suyo.filter(l => l.kind === "port").length !== 1
+     || suyo.filter(l => l.kind === "stern").length !== 1)
+      return "R24(e) pide del remolcado sus dos costados y su luz de alcance, y nada mas";
+    if (suyo.some(l => l.kind === "masthead" || l.kind === "allround"))
+      return "R24(e) no le da al remolcado ni tope ni luz de todo horizonte";
+    return null;
+  }
+
+  const todoH = luces.filter(l => l.kind === "allround")
+                     .sort((a, b) => b.h - a.h).map(l => l.colour);
+  const topes  = luces.filter(l => l.kind === "masthead").length;
+  const lados  = luces.filter(l => l.kind === "starboard" || l.kind === "port").length;
+  const alcance = luces.filter(l => l.kind === "stern" && l.colour === "white").length;
+  const otros  = luces.filter(l => ["allround", "masthead", "starboard", "port",
+                                    "stern"].indexOf(l.kind) < 0);
+  if (otros.length) return "lleva " + otros.length + " luz(ces) de una clase que esta "
+    + "tabla no conoce: " + otros.map(l => l.kind).join(" ");
+
+  for (const k of ["starboard", "port"]) {
+    const n = luces.filter(l => l.kind === k).length;
+    if (n > 1) return "lleva " + n + " luces de " + k + ", y un buque tiene una";
+  }
+
+  if (fondeada) {
+    const n = L >= A1.MUY_GRANDE ? 2 : 1;
+    if (todoH.length !== n)
+      return "R30 pide " + n + " blanca(s) de fondeo para " + L + " m y hay " + todoH.length;
+    if (todoH.some(c => c !== "white")) return "una luz de fondeo que no es blanca";
+    if (topes || lados || alcance) return "fondeada y con luces de navegacion encendidas";
+    return null;
+  }
+
+  const chicaCombinada = clave === "power" && L < 12
+    && todoH.length === 1 && todoH[0] === "white" && !topes && !alcance;
+  if (!chicaCombinada && todoH.join(" ") !== C.ident.join(" "))
+    return C.r + " manda de identidad [" + (C.ident.join(" ") || "ninguna")
+      + "] y hay [" + (todoH.join(" ") || "ninguna") + "]";
+
+  let topesQueTocan;
+  if (clave === "power")        topesQueTocan = L < 12 ? (chicaCombinada ? 0 : 1)
+                                              : (L >= A1.MUY_GRANDE ? 2 : 1);
+  else if (clave === "cbd")     topesQueTocan = L >= A1.MUY_GRANDE ? 2 : 1;
+  else if (clave === "ram")     topesQueTocan = v.makingWay === false ? 0
+                                              : (L >= A1.MUY_GRANDE ? 2 : 1);
+  else if (clave === "fishingTrawl") topesQueTocan = L >= A1.MUY_GRANDE ? 1 : 0;
+  else                          topesQueTocan = 0;
+  if (topes !== topesQueTocan)
+    return C.r + " da " + topesQueTocan + " tope(s) a un buque de " + L + " m y hay " + topes;
+
+  if (SOLO_CON_ARRANCADA.indexOf(clave) >= 0) {
+    const debe = v.makingWay !== false;
+    if (debe && (lados !== 2 || alcance !== 1))
+      return C.r + " con arrancada pide los dos costados y la de alcance";
+    if (!debe && (lados || alcance))
+      return C.r + " sin arrancada no lleva costados ni luz de alcance";
+  } else if (!chicaCombinada && (lados !== 2 || alcance !== 1)) {
+    return C.r + " pide los dos costados y la de alcance";
+  } else if (chicaCombinada && lados !== 2) {
+    return "R23(d) pide los dos costados";
+  }
+  return null;
+}
+
+const P = (m, xm, cita, libre, sarta) => ({
+  m: m, xm: xm, cita: cita,
+  mLibre:  !!(libre && libre.indexOf("m") >= 0),
+  xmLibre: !!(libre && libre.indexOf("x") >= 0),
+  sarta: sarta || null
+});
+
+function coloca(v, luces, completas) {
+  const mal = citada(v, completas || luces);
+  if (mal) throw new Error("configuracion no citada: " + mal
+    + "  (" + v.type + " " + (v.length || 12) + " m)");
+
+  const todas = completas || luces;
+  const L = v.length || 12, VE = vertical(L);
+  const fondeada = v.underway === false;
+
+  if (!fondeada && v.type === "towing") {
+    const out = todas.map(() => null);
+    const suyas = todas.filter(l => !l.tow), suyo = todas.filter(l => l.tow);
+    const pon = (l, q) => { out[todas.indexOf(l)] = q; };
+
+    const topes = suyas.filter(l => l.kind === "masthead")
+      .sort((a, b) => a.h - b.h);
+
+    const sarta = topes.filter(l => l.x > 0), atras = topes.filter(l => l.x <= 0);
+    sarta.forEach((l, k) => pon(l, P(alturaTope(L) + k * VE.sep, xTope1(L),
+      "R24(a)(i) \u00b7 en linea vertical + A1 2(a) y 2(f)", null, "topes24")));
+    const cima = alturaTope(L) + (sarta.length - 1) * VE.sep;
+    atras.forEach(l => pon(l, P(cima + A1.TOPE2_SOBRE_TOPE1, xTope2(L),
+      "A1 2(a)(ii) + 3(a)")));
+    suyas.forEach(l => {
+      if (out[todas.indexOf(l)]) return;
+      if (l.kind === "starboard" || l.kind === "port")
+        pon(l, P(alturaCostados(L), xTope1(L), "A1 2(g) + 3(b)"));
+      else if (l.kind === "stern" && l.colour === "white")
+        pon(l, P(ALCANCE_SOBRE_CASCO, xPopa(L),
+                 "R21 \u00b7 el sitio; la altura no la da el Anexo I", "m", "popa24"));
+      else if (l.kind === "stern" && l.colour === "yellow")
+
+        pon(l, P(ALCANCE_SOBRE_CASCO + VE.sep, xPopa(L),
+                 "R24(a)(iv) \u00b7 sobre la de alcance + A1 2(f)", "m", "popa24"));
+    });
+
+    const Lr = towEslora(v), atrasM = towAtras(v), VR = vertical(Lr);
+    suyo.forEach(l => {
+      if (l.kind === "starboard" || l.kind === "port")
+        pon(l, P(alturaCostados(Lr), -atrasM + xTope1(Lr),
+                 "R24(e)(i) + A1 2(g) y 3(b)"));
+      else if (l.kind === "stern")
+        pon(l, P(ALCANCE_SOBRE_CASCO, -atrasM + xPopa(Lr),
+                 "R24(e)(i) \u00b7 el sitio; la altura no la da el Anexo I", "m"));
+    });
+
+    todas.forEach((l, i) => { if (!out[i]) return;
+      out[i].sm = athwart(v, l.kind, l.tow ? towEslora(v) : L);
+      out[i].citaSm = CITA_ATHWART[l.kind] || "R21 \u00b7 en la crujia"; });
+    const sinSitio = out.findIndex(o => !o);
+    if (sinSitio >= 0) throw new Error("el R24 no le da sitio a "
+      + todas[sinSitio].kind + "/" + todas[sinSitio].colour);
+    return luces.map(l => out[todas.indexOf(l)]);
+  }
+
+  const luces_ = todas;
+  const out = luces_.map(() => null);
+
+  const idx = luces_.map((l, i) => i).filter(i => luces_[i].kind === "allround")
+    .sort((a, b) => luces_[b].h - luces_[a].h);
+  let cimaTodoH = null;
+
+  if (fondeada) {
+    if (idx.length === 2) {
+
+      out[idx[0]] = P(A1.ANCLA_PROA_MIN_50, xTope1(L), "A1 2(k) + R30(a)(i)");
+      out[idx[1]] = P(A1.ANCLA_PROA_MIN_50 - A1.ANCLA_PROA_SOBRE_POPA, xPopa(L),
+                      "A1 2(k) + R30(a)(ii)");
+    } else {
+
+      out[idx[0]] = P(VE.baja, xTope1(L), "R30(b) · donde mejor pueda ser vista",
+                      "mx");
+    }
+  } else if (v.type === "fishingTrawl" || v.type === "fishingOther") {
+
+    const baja = Math.max(VE.baja,
+      alturaCostados(L) + A1.PESCA_SOBRE_COSTADOS_VECES * VE.sep);
+    out[idx[1]] = P(baja,          X_MEDIO, "A1 2(i)", "x", "2f");
+    out[idx[0]] = P(baja + VE.sep, X_MEDIO, "A1 2(i) + 2(f)", "x", "2f");
+    cimaTodoH = baja + VE.sep;
+  } else if (v.type === "pilot") {
+
+    const alta = Math.max(alturaTope(L), VE.baja + VE.sep);
+    out[idx[0]] = P(alta,          X_MEDIO, "R29 · en el tope o cerca", "mx", "2f");
+    out[idx[1]] = P(alta - VE.sep, X_MEDIO, "R29 + A1 2(f)", "x", "2f");
+    cimaTodoH = alta;
+  } else if (idx.length === 1 && v.type === "power") {
+
+    out[idx[0]] = P(A1.TOPE_CHICO_SOBRE_BORDA, X_MEDIO,
+                    "R23(d) · donde mejor pueda ser vista", "mx");
+  } else if (idx.length) {
+
+    for (let k = 0; k < idx.length; k++)
+      out[idx[idx.length - 1 - k]] = P(VE.baja + k * VE.sep, X_MEDIO,
+        "A1 2(f) · la altura; el sitio es libre", "x", "2f");
+    cimaTodoH = VE.baja + (idx.length - 1) * VE.sep;
+  }
+
+  const iTopes = luces_.map((l, i) => i).filter(i => luces_[i].kind === "masthead")
+    .sort((a, b) => luces_[a].h - luces_[b].h);
+  const alturaTope1 = Math.max(alturaTope(L),
+    cimaTodoH === null ? 0 : cimaTodoH + VE.sep);
+  if (iTopes.length >= 1)
+    out[iTopes[0]] = P(alturaTope1, xTope1(L), "A1 2(a) + 3(a)");
+  if (iTopes.length >= 2)
+    out[iTopes[1]] = P(alturaTope1 + A1.TOPE2_SOBRE_TOPE1, xTope2(L),
+                       "A1 2(a)(ii) + 3(a)");
+
+  const mCostados = alturaCostados(L);
+  luces_.forEach((l, i) => {
+    if (out[i]) return;
+    if (l.kind === "starboard" || l.kind === "port")
+      out[i] = P(mCostados, xTope1(L), "A1 2(g) + 3(b)");
+    else if (l.kind === "stern" && l.colour === "white")
+
+      out[i] = P(ALCANCE_SOBRE_CASCO, xPopa(L),
+                 "R21 · el sitio; la altura no la da el Anexo I", "m");
+    else if (l.kind === "stern" && l.colour === "yellow")
+      out[i] = P(ALCANCE_SOBRE_CASCO + VE.sep, xPopa(L), "R24 + A1 2(f)", "m");
+  });
+  luces_.forEach((l, i) => { if (!out[i]) return;
+    out[i].sm = athwart(v, l.kind, L);
+    out[i].citaSm = CITA_ATHWART[l.kind] || "R21 \u00b7 en la crujia"; });
+  const huerfana = out.findIndex(o => !o);
+  if (huerfana >= 0) throw new Error("el Anexo I no le da sitio a "
+    + luces_[huerfana].kind + "/" + luces_[huerfana].colour);
+
+  return luces.map(l => out[luces_.indexOf(l)]);
+}
+
+if (typeof module !== "undefined") module.exports = {
+  A1, manga, alturaTope, alturaCostados, vertical,
+  xTope1, xTope2, xPopa, X_MEDIO, ALCANCE_SOBRE_CASCO,
+  COSTADOS_TECHO_COMUN, CITA, SOLO_CON_ARRANCADA, citada, coloca,
+  athwart, CITA_ATHWART,
+  MARCAS_DIA, NO_ES_TIPO, marcasDia,
+  TOW_LARGO_DIAMANTE, towLargo, towEslora, towAtras, tramoDe, tramoRemolque
+};
+
+const PZ = [{"id": "1.S1", "tema": "From where you are · topic 1", "obra": "vuelta", "b": "Next", "reparto": "apiladas", "marca": "D", "h": "She stays where she is. You walk around her.", "buque": {"type": "power", "length": 150, "underway": true, "makingWay": true}, "marcaciones": [{"g": 0, "rot": "DEAD AHEAD", "pie": "both sidelights"}, {"g": 60, "rot": "60°", "pie": "one sidelight now"}, {"g": 112, "rot": "112°", "pie": "the same three"}, {"g": 113, "rot": "113°", "pie": "all three gone"}], "renglon": "One vessel, four places to stand, and four different sights.", "pie": "The same ship, the same lights, and nothing in common between the first panel and the last", "p": ["Everything so far has drawn her <b>from her starboard side, whole</b>. That is a diagram, and a useful one — but you have never once stood there. Here <b>she stays put and you walk</b>, and the hull turns with you: from ahead she is a narrow slab, on her beam she is her whole profile, on her quarter she is her transom.", "Watch what happens to the lights, because it is not gradual. Her mastheads and her sidelights all stop at the <b>same bearing</b> — <b>112.5° from her bow</b> — and her sternlight starts there. <b>225° and 135° make 360°: the horizon is divided once, and the two halves do not overlap.</b>", "Look at the last two panels, because they are <b>one degree apart</b>. At 112° she is showing you three lights and at 113° she is showing you one, and it is not even the same one. <b>The hull has barely moved.</b> That is what a sector is: not a fade, a wall.", "And <b>the cut is not on her beam</b>. It is <b>22.5° abaft it</b>, which is the single most common mistake made about these rules: a vessel 100° off your bow can still see your masthead light, and one at 115° cannot.", "<em>Last, and it is what the whole part is for: an all-round light and a sector light are drawn exactly the same — same disc, same size, same colour. The only thing that separates them is whether they are still there when you cross the cut.</em>"], "calc": "<b>one cut, at 112.5°</b><br>forward &nbsp;mastheads + your sidelight<br>abaft &nbsp;her sternlight, and only that<br>all-round &nbsp;does not know the cut exists"}, {"id": "1.S2", "tema": "From where you are · topic 1", "obra": "cruce", "b": "Now you try", "reparto": "apiladas", "marca": "C", "h": "Where you are, and how far. Together.", "g": 60, "millas": [2, 4], "naves": [{"v": {"type": "power", "length": 150, "underway": true, "makingWay": true}, "rot": "POWER-DRIVEN"}, {"v": {"type": "cbd", "length": 150, "underway": true, "makingWay": true}, "rot": "CONSTRAINED BY DRAUGHT"}, {"v": {"type": "nuc", "length": 90, "underway": true, "makingWay": true}, "rot": "NOT UNDER COMMAND"}], "renglon": "The same three vessels, twice. Two miles, then four.", "pie": "Rule 22 · the masthead light reaches 6 miles and everything else 3", "p": ["You have met bearing and you have met range. <b>Crossing them is new</b>, and it is where the module stops being tidy.", "Rule 22 gives a big vessel <b>6 miles</b> on her masthead light and <b>3</b> on everything else — sidelights, sternlight, and every all-round light she has. So between three and six miles <b>a ship is her masthead lights and nothing else</b>, whatever else she may be carrying.", "Read the middle column. At two miles she is unmistakable: three all-round reds under her mastheads. At four <b>the reds have gone and the mastheads have not</b> — and what is left is exactly an ordinary power-driven vessel. <b>The most hampered ship in the book looks like the freest one.</b>", "Now the right-hand column, and this is the one to keep. A vessel not under command carries <b>no masthead light at all</b>, so <b>every light she has stops at three miles</b>. At four she is not a faint ship. <b>She is nothing.</b>", "<em>Neither of those is a trick of the drawing. Both fall straight out of Rule 22, and both are on the water tonight.</em>"], "calc": "<b>Rule 22</b> &middot; 50 m or more<br>masthead &nbsp;<b>6 M</b><br>sidelights, stern, all-round &nbsp;<b>3 M</b><br><em>so 3–6 M is mastheads only</em>"}, {"id": "1.P1", "tema": "From where you are · topic 1", "obra": "practica", "banco": "DESDE", "reparto": "apiladas", "h": "Where are you standing?", "instruccion": "Read her lights, not her hull. The hull is drawn the same every time; only your place changes.", "p": []}, {"id": "2.S1", "tema": "From where you are · topic 2", "obra": "contra", "b": "Next", "reparto": "apiladas", "marca": "B", "h": "Two mastheads, or a stack of three?", "naves": [{"v": {"type": "power", "length": 150, "underway": true, "makingWay": true}, "g": 40, "rot": "ORDINARY, 150 m", "pie": "two whites, STEPPED"}, {"v": {"type": "towing", "length": 80, "towLength": 120, "towedLength": 60, "underway": true, "makingWay": true}, "g": 40, "rot": "TOW OF 120 m", "pie": "a COLUMN of two, and her own light further aft"}, {"v": {"type": "towing", "length": 80, "towLength": 250, "towedLength": 60, "underway": true, "makingWay": true}, "g": 40, "rot": "TOW OF 250 m", "pie": "a COLUMN of three, and her own light further aft"}], "renglon": "It is not the number. It is the column.", "pie": "Rule 23 steps them; Rule 24 stacks them", "p": ["Everyone learns this one as a count — <em>two is a ship, three is a tug</em> — and the count is what fails you. Look at the three panels: the tug with the short tow is showing <b>three</b> white lights, and she is not the one with the long tow.", "<b>What separates them is the shape, not the total.</b> Rule 23 puts her two mastheads <em>stepped</em>: one forward and low, one aft and higher. Rule 24 puts the towing lights <b>in a vertical line, one directly above another in the same place</b> — and her own after masthead is still there, higher and further aft, on top of the stack.", "So the question is never <em>how many</em>. It is <b>are they in a line or are they stepped</b>, and then the count of the line tells you the length: two for 200 m or less, three above it.", "<b>And that count is not a piece of trivia.</b> The wire between her and her tow runs <b>just under the water and you cannot see any of it</b> — so the number of lights in the column is the only thing that tells you how much of it there is. Two: up to 200 m of it. Three: more, and it can be far more.", "<b>The mistake that kills is not passing between them.</b> That one at least looks wrong. It is <b>crossing astern of the tug</b> — which looks like clear water, and is where the wire is. Read the column, work out how much cable is down there, and go round the whole thing. <em>&laquo;Never pass between a tug and her yellow light.&raquo;</em>", "<em>And this pays only from ahead. Cross the cut and the whole stack goes: from her quarter a tug is a sternlight with a yellow light over it, and nothing else — you know there is a wire and you no longer know how long it is. There is no bearing where both clues work at once.</em>"], "calc": "<b>stepped</b> &nbsp;one aft <em>and higher</em> &middot; Rule 23<br><b>stacked</b> &nbsp;one directly above another &middot; Rule 24<br>and from astern &nbsp;<b>the yellow</b>, or nothing"}, {"id": "2.S2", "tema": "From where you are · topic 2", "obra": "contra", "b": "Next", "reparto": "apiladas", "marca": "B", "h": "A green and a white. Which is on top?", "naves": [{"v": {"type": "power", "length": 150, "underway": true, "makingWay": true}, "g": 60, "rot": "ORDINARY", "pie": "white ABOVE green — a masthead over a sidelight"}, {"v": {"type": "fishingTrawl", "length": 60, "underway": true, "makingWay": true}, "g": 60, "rot": "TRAWLING", "pie": "green ABOVE white — Rule 26(b)"}, {"v": {"type": "fishingTrawl", "length": 60, "underway": true, "makingWay": true}, "g": 150, "rot": "THE SAME ONE, ASTERN", "pie": "and the green is STILL THERE"}], "renglon": "A green that survives the cut is not a sidelight.", "pie": "Rule 26(b) against Rule 23 — and the second panel is the one people misread", "p": ["Two white-and-green sights, and at a mile in a seaway they look alike. The first is an ordinary ship showing you her starboard side: a <b>masthead light at 12 m</b> and a <b>sidelight at 4.5</b>, so the white is above the green. The second is a trawler: <b>an all-round green over an all-round white</b>, and the green is on top.", "<b>Which is higher is a good clue and it is true.</b> But it asks you to judge height on two small lights at night, and that is exactly what goes wrong.", "So use the third panel instead. It is <b>the same trawler</b>, seen from her quarter. The ordinary ship, from there, would be showing you <b>a sternlight and nothing else</b> — her green stopped at 112.5°. The trawler's green is <b>all-round</b>, so it is still burning.", "<em>A green that is still there when you cross the cut is not a sidelight. That is the whole of it, and it does not ask you to judge anything.</em>"], "calc": "<b>white over green</b> &nbsp;masthead + sidelight<br><b>green over white</b> &nbsp;Rule 26(b), trawling<br><b>and past the cut</b> &nbsp;a sidelight is gone; an all-round is not"}, {"id": "2.S3", "tema": "From where you are · topic 2", "obra": "contra", "b": "Now you try", "reparto": "apiladas", "marca": "C", "h": "Three reds, or two? Do not count first.", "naves": [{"v": {"type": "nuc", "length": 90, "underway": true, "makingWay": true}, "g": 40, "rot": "NOT UNDER COMMAND", "pie": "two reds, and NOTHING WHITE above them"}, {"v": {"type": "cbd", "length": 150, "underway": true, "makingWay": true}, "g": 40, "rot": "CONSTRAINED BY DRAUGHT", "pie": "three reds, and TWO MASTHEADS above them"}, {"v": {"type": "cbd", "length": 150, "underway": true, "makingWay": true}, "g": 150, "rot": "THE SAME ONE, ASTERN", "pie": "the mastheads have gone. Now you must count"}], "renglon": "From ahead, look above the reds. From astern, there is no shortcut.", "pie": "Rule 27(a) takes her masthead away; Rule 28 lets her keep everything", "p": ["Counting two small red lights against three, at range, in a swell, is a poor way to decide anything — and it is the way it is taught.", "<b>From ahead you do not have to.</b> Rule 27(a) gives a vessel not under command <b>no masthead light at any length</b>: she has broken down and she is not driving. Rule 28 <em>adds</em> its three reds to the full set of Rule 23, so a vessel constrained by her draught still carries her mastheads, her sidelights and her sternlight. <b>A white light above the reds answers the question without counting them.</b>", "The third panel is the honest one. From her quarter <b>the mastheads have cut off</b>, and what is left is reds and a sternlight on both of them. <b>Here there is no shortcut and you have to count.</b> A screen that pretended otherwise would be lying to you.", "These two have rhymes as well, and they are the two the examiner asks about: <em>&laquo;Red over red, captain is dead.&raquo; &laquo;Red, white, red, restricted ability ahead.&raquo;</em> With the three from part 2 that is the whole set of five, and the point of having them all is the same as before — <b>a rhyme is only useful next to the one it could be confused with.</b> These two are that pair.", "<em>And remember what the last topic showed: at four miles the reds are gone and the mastheads are not. The one that cannot get out of your way looks ordinary, and the one that cannot steer is not there at all.</em>"], "calc": "<b>from ahead</b> &nbsp;is there white <em>above</em> the reds?<br>yes &rarr; Rule 28 &middot; no &rarr; Rule 27(a)<br><b>from astern</b> &nbsp;count them, and there is no other way"}, {"id": "2.P1", "tema": "From where you are · topic 2", "obra": "practica", "banco": "CONFUSION", "reparto": "apiladas", "h": "What is she, and does this bearing let you say?", "instruccion": "Stepped or stacked. Colour above or below. White above the reds or not. And say so when the bearing has taken the answer away.", "p": []}, {"id": "3.S1", "tema": "From where you are · topic 3", "obra": "rejilla", "b": "Next", "reparto": "apiladas", "marca": null, "h": "Six contacts, and no two from the same place", "naves": [{"v": {"type": "towing", "length": 80, "towLength": 250, "towedLength": 60, "underway": true, "makingWay": true}, "g": 30}, {"v": {"type": "fishingTrawl", "length": 60, "underway": true, "makingWay": true}, "g": 150}, {"v": {"type": "nuc", "length": 90, "underway": true, "makingWay": true}, "g": 40}, {"v": {"type": "cbd", "length": 150, "underway": true, "makingWay": true}, "g": 40, "nm": 4}, {"v": {"type": "pilot", "length": 24, "underway": true, "makingWay": true}, "g": 90}, {"v": {"type": "power", "length": 150, "underway": true, "makingWay": true}, "g": 160}], "renglon": "Name each one before you open it.", "pie": "Nothing is constant here: the vessel, the bearing and the range all change", "p": ["The last screen of the part, and the only one where <b>nothing is held still</b>. Six contacts: a different vessel each time, from a different bearing, and one of them from a different distance.", "Say what each one is before you tap it. <b>Two of the six cannot be named</b> — the cut has taken the lights that would have told you, or the range has — and for those the honest answer is <em>from here, I cannot say</em>.", "<b>Recognising includes recognising when there is nothing to recognise.</b> It is the difference between a lookout who reports what she sees and one who reports what she guessed."], "calc": "<b>1</b> what is lit?<br><b>2</b> what would be lit that is not?<br><b>3</b> and can this bearing tell them apart?"}, {"id": "3.C1", "tema": "From where you are · topic 3", "obra": "cierre", "b": "Next", "h": "What you can read now", "cols": [{"rot": "THE CUT", "filas": [["112.5° from her bow", "one cut, and everything sector-shaped ends there"], ["Not on her beam", "22.5° abaft it — the common mistake"], ["Forward of it", "mastheads, and the sidelight of your side"], ["Abaft it", "her sternlight, and only that"], ["All-round lights", "do not know the cut exists"]]}, {"rot": "WHAT SEPARATES THEM", "filas": [["Stepped or stacked", "Rule 23 steps her mastheads; Rule 24 stacks them"], ["Colour above or below", "green over white is fishing; white over green is a ship"], ["White above the reds", "Rule 28 keeps everything; Rule 27(a) has no masthead"], ["A green past the cut", "is not a sidelight"]]}, {"rot": "AND WHAT RANGE DOES", "filas": [["6 miles, and 3", "the masthead outreaches everything she has"], ["Between them", "she is her mastheads and nothing else"], ["Constrained by draught", "at 4 miles she looks ordinary"], ["Not under command", "at 4 miles she is not there"], ["What you still cannot do", "hear her — that is part 4"]]}, {"rot": "AND WHERE TO GO AND SEE IT", "filas": [["Dusk, and first light", "the hull and her lights, both at once"], ["Any working harbour", "tugs, pilots and fishermen, inside one hour"], ["Name her out loud", "and only then look again"]]}], "renglon": "Two questions, always in this order: what is lit, and where am I?", "pie": "Part 4 takes the same vessels and takes the light away", "p": ["You can now do the thing the first two parts could not ask for: <b>read a vessel from where you happen to be standing</b>, and know when where you are standing has taken the answer away.", "The spine of it is one number. <b>112.5° from her bow</b>, and it is the only cut there is. Everything with a sector ends there; everything all-round ignores it; and it sits <b>22.5° abaft her beam</b>, not on it.", "And the second half is Rule 22, which most people never collect: <b>the masthead light reaches twice as far as anything else on her</b>. Between three miles and six, every ship in the book looks the same.", "<em>What is left is the night when you cannot see her at all. She is still required to tell you what she is — and that is part 4.</em>"], "calc": "<b>1</b> what is lit?<br><b>2</b> where does that put me?<br><b>3</b> and what would be lit that is not?"}];
+const YO = "luces-p3-from-where-you-are.html";
+const D = {W:1000, H:640};
+
+const LUZ = {
+
+  D: 20,
+
+  SARTA:    1.15,
+  DISTINTO: 2.0,
+  ANCHO:    4.5
+};
+
+const NS = "http://www.w3.org/2000/svg";
+let svg = null, gO = null;
+
+let ESC = 1;
+const px = n => n / ESC;
+function el(t, at, pa){
+ const e = document.createElementNS(NS, t);
+ for(const k in at) if(at[k] !== undefined && at[k] !== null) e.setAttribute(k, at[k]);
+ (pa || gO || svg).appendChild(e); return e;
+}
+
+function txt(x, y, s, an, tam, col, peso, fam){
+ const e = el("text", {x:x, y:y, "text-anchor":an||"start", "pointer-events":"none",
+  "font-size":px(tam||13),
+  fill:col||"var(--paper-ink)", "font-weight":peso||400,
+  "font-family":fam==="mono" ? "var(--f-mono)" : "var(--f-ui)"});
+ e.textContent = s; return e;
+}
+
+function parte(s, ancho, tam){
+
+ const porLinea = Math.max(6, Math.floor(ancho / (px(tam) * 0.62)));
+ const lineas = []; let l = "";
+ for(const q of String(s).split(" ")){
+  if(!l) l = q;
+  else if((l + " " + q).length <= porLinea) l += " " + q;
+  else { lineas.push(l); l = q; }
+ }
+ if(l) lineas.push(l);
+ return lineas;
+}
+
+const altoDe = (s, ancho, tam) => parte(s, ancho, tam).length * px(tam*1.35);
+function txtCabe(cx, y, s, ancho, tam, col, peso, fam, an){
+ const lineas = parte(s, ancho, tam);
+ lineas.forEach((t, i) => txt(cx, y + i*px(tam*1.35), t, an || "middle", tam, col,
+                              peso, fam));
+ return lineas.length;
+}
+
+function renglonAbajo(yQuiere, renglon, pie, x0, x1){
+ const ancho = x1 - x0;
+ const nR = parte(renglon, ancho, 17).length;
+ const nP = parte(pie, ancho, 12.5).length;
+ const tope = D.H - px(12) - nR*px(24) - (nP - 1)*px(17);
+ const y = Math.min(yQuiere, tope);
+ el("line", {x1:x0, y1:y - px(26), x2:x1, y2:y - px(26),
+   stroke:"var(--sea-line)", "stroke-width":1});
+ txtCabe(D.W/2, y, renglon, ancho, 17, "var(--lam-ink)", 600);
+ txtCabe(D.W/2, y + nR*px(24), pie, ancho, 12.5, "var(--lam-dim)");
+ return y;
+}
+
+let CAJAS_PROPIAS = 0;
+function panel(x, y, an, al, noche, rotulo, pincha){
+
+ const suya = !noche || !(an > D.W * 0.8 && al > D.H * 0.35) || pincha;
+ if(suya) CAJAS_PROPIAS++;
+ el("rect", {x:x, y:y, width:an, height:al, rx: suya ? 3 : 0,
+   fill: suya ? (noche ? "#07161D" : "var(--paper)") : "transparent",
+   stroke: pincha ? "var(--dim)"
+                  : (suya ? (noche ? "var(--sea-line)" : "var(--paper-line)") : "none"),
+
+   "stroke-width": pincha ? px(2.6) : 1.2});
+
+ txt(x+px(12), y+px(22), rotulo, "start", 12, noche ? "var(--dim)" : "var(--ink-body)", 600, "mono");
+
+ return {x0:x, y0:y, x1:x+an, y1:y+al, cx:x+an/2, cy:y+al*0.74};
+}
+
+const CASCOS_REF = {
+  mercante: {poly:[[-200,210],[140,207],[205,198],[185,240],[-192,240]],
+    blocks:[[140,195,195,210],[-190,160,-90,210],[-197,146,-83,160]],
+    masts:[[-140,72,146],[120,104,210]], spars:[],
+    plan:[-200,205,60], ydeck:207, ywater:240, sup:[-190,-90,160], pte:[-197,-83,146]},
+  costero: {poly:[[-140,210],[95,207],[148,198],[130,240],[-134,240]],
+    blocks:[[-130,164,-50,210],[-137,150,-43,164]],
+    masts:[[-90,92,150],[70,112,210]], spars:[],
+    plan:[-140,148,44], ydeck:207, ywater:240, sup:[-130,-50,164], pte:[-137,-43,150]},
+  pesquero: {poly:[[-140,210],[90,207],[145,198],[128,240],[-134,240]],
+    blocks:[[-130,164,-50,210],[-137,150,-43,164]],
+    masts:[[-90,72,150],[60,114,210]], spars:[[-90,20,132]],
+    plan:[-140,145,44], ydeck:207, ywater:240, sup:[-130,-50,164], pte:[-137,-43,150]},
+  remolcador: {poly:[[-110,210],[60,207],[115,196],[98,240],[-104,240]],
+    blocks:[[-30,158,70,210],[-37,144,77,158]],
+    masts:[[20,50,144]], spars:[],
+    plan:[-110,115,40], ydeck:205, ywater:240, sup:[-30,70,158], pte:[-37,77,144]},
+  practico: {poly:[[-80,212],[45,209],[85,202],[72,240],[-74,240]],
+    blocks:[[-30,166,55,212],[-37,154,62,166]],
+    masts:[[10,84,154]], spars:[],
+    plan:[-80,85,28], ydeck:209, ywater:240, sup:[-30,55,166], pte:[-37,62,154]},
+  velero: {poly:[[-100,216],[75,213],[105,206],[92,240],[-94,240]],
+    blocks:[[-30,204,30,216]],
+    masts:[[10,64,216]], spars:[[-60,45,196]],
+    plan:[-100,105,30], ydeck:213, ywater:240, sup:[-30,30,204], pte:null},
+  lancha: {poly:[[-60,218],[40,215],[65,209],[55,240],[-54,240]],
+    blocks:[[-10,204,15,218]],
+    masts:[[0,172,204]], spars:[],
+    plan:[-60,65,22], ydeck:215, ywater:240, sup:[-10,15,204], pte:null},
+  gabarra: {poly:[[-150,216],[150,216],[140,240],[-140,240]],
+    blocks:[],
+    masts:[], spars:[],
+    plan:[-150,150,56], ydeck:216, ywater:240, sup:null, pte:null}
+};
+
+const REF_D = 14;
+
+function cascoDe(v, L){
+ const t = (v && v.type) || "power", m = L || (v && v.length) || 12;
+ if(v && v.gabarra)                          return CASCOS_REF.gabarra;
+ if(t === "sailing")                         return CASCOS_REF.velero;
+ if(t === "fishingTrawl" || t === "fishingOther") return CASCOS_REF.pesquero;
+ if(t === "towing")                          return CASCOS_REF.remolcador;
+ if(t === "pilot" || t === "pilotUnderway")  return CASCOS_REF.practico;
+ if(m < 12)                                  return CASCOS_REF.lancha;
+ if(m < 50)                                  return CASCOS_REF.costero;
+ return CASCOS_REF.mercante;
+}
+const familiaDe = L => cascoDe(null, L);
+
+const POSICIONES = {
+  mercante: {"tope_proa":[120,104],"tope_popa":[-140,72],"costado":[-140,168],"alcance":[-195,200],"remolque":[-195,182],"ancla_proa":[175,150],"ancla_popa":[-165,188],"topes_col":null,"arte":null,"columna":{"libre":[120,116],"bajo_tope":[120,128]},"paso_luz":18.0},
+  costero: {"tope_proa":[70,112],"tope_popa":[-90,92],"costado":[-130,170],"alcance":[-135,200],"remolque":[-135,182],"ancla_proa":[75,138],"ancla_popa":[-100,168],"topes_col":null,"arte":null,"columna":{"libre":[70,124],"bajo_tope":[70,88]},"paso_luz":18.0},
+  pesquero: {"tope_proa":[60,114],"tope_popa":[-90,72],"costado":[-130,168],"alcance":[-135,200],"remolque":[-135,182],"ancla_proa":[60,140],"ancla_popa":[-100,170],"topes_col":null,"arte":[132,150],"columna":{"libre":[60,118],"bajo_tope":[60,130]},"paso_luz":18.0},
+  remolcador: {"tope_proa":[20,56],"tope_popa":[20,38],"costado":[-30,166],"alcance":[-105,200],"remolque":[-105,182],"ancla_proa":[60,150],"ancla_popa":[-80,178],"topes_col":{"f":20,"y_base":74,"paso":18.0,"crece":"arriba"},"arte":null,"columna":{"libre":[20,96],"bajo_tope":[20,116]},"paso_luz":18.0},
+  practico: {"tope_proa":[10,96],"tope_popa":[10,84],"costado":[-30,172],"alcance":[-75,206],"remolque":null,"ancla_proa":[48,150],"ancla_popa":[-55,178],"topes_col":null,"arte":null,"columna":{"libre":[10,84],"bajo_tope":[10,108]},"paso_luz":18.0},
+  velero: {"tope_proa":[10,118],"tope_popa":null,"costado":[78,208],"alcance":[-95,214],"remolque":null,"ancla_proa":[10,130],"ancla_popa":null,"topes_col":null,"arte":null,"columna":{"libre":[10,68],"bajo_tope":[10,130]},"paso_luz":18.0},
+  lancha: {"tope_proa":[0,172],"tope_popa":null,"costado":[28,210],"alcance":[-55,214],"remolque":null,"ancla_proa":[0,172],"ancla_popa":null,"topes_col":null,"arte":null,"columna":{"libre":[0,172],"bajo_tope":[0,186]},"paso_luz":16.0},
+  gabarra: {"tope_proa":null,"tope_popa":null,"costado":[130,212],"alcance":[-145,212],"remolque":null,"ancla_proa":[100,170],"ancla_popa":[-100,195],"topes_col":null,"arte":null,"columna":{"libre":[0,150],"bajo_tope":[0,150]},"paso_luz":18.0}
+};
+
+const L_REF = {
+  "costero|allround:white": {id:"23-fondeado-menor", L:[{"k":"allround","col":"white","f":75,"s":0,"y":138,"t":false}]},
+  "costero|allround:yellow,masthead:white,port:red,starboard:green,stern:white": {id:"04-colchon", L:[{"k":"masthead","col":"white","f":70,"s":0,"y":112,"t":false},{"k":"allround","col":"yellow","f":70,"s":0,"y":88,"t":false},{"k":"starboard","col":"green","f":-130,"s":22,"y":170,"t":false},{"k":"port","col":"red","f":-130,"s":-22,"y":170,"t":false},{"k":"stern","col":"white","f":-135,"s":0,"y":200,"t":false}]},
+  "costero|masthead:white,port:red,starboard:green,stern:white": {id:"02-mecanica-20", L:[{"k":"masthead","col":"white","f":70,"s":0,"y":112,"t":false},{"k":"starboard","col":"green","f":-130,"s":22,"y":170,"t":false},{"k":"port","col":"red","f":-130,"s":-22,"y":170,"t":false},{"k":"stern","col":"white","f":-135,"s":0,"y":200,"t":false}]},
+  "gabarra|port:red,starboard:green,stern:white": {id:"07-remolcado", L:[{"k":"starboard","col":"green","f":130,"s":28,"y":212,"t":false},{"k":"port","col":"red","f":130,"s":-28,"y":212,"t":false},{"k":"stern","col":"white","f":-145,"s":0,"y":212,"t":false}]},
+  "lancha|allround:white,port:red,starboard:green": {id:"03-mecanica-12", L:[{"k":"allround","col":"white","f":0,"s":0,"y":172,"t":false},{"k":"starboard","col":"green","f":28,"s":11,"y":210,"t":false},{"k":"port","col":"red","f":28,"s":-11,"y":210,"t":false}]},
+  "mercante|allround:red,allround:red,allround:red,masthead:white,masthead:white,port:red,starboard:green,stern:white": {id:"18-calado", L:[{"k":"masthead","col":"white","f":120,"s":0,"y":104,"t":false},{"k":"masthead","col":"white","f":-140,"s":0,"y":72,"t":false},{"k":"allround","col":"red","f":120,"s":0,"y":128,"t":false},{"k":"allround","col":"red","f":120,"s":0,"y":146,"t":false},{"k":"allround","col":"red","f":120,"s":0,"y":164,"t":false},{"k":"starboard","col":"green","f":-140,"s":30,"y":182,"t":false},{"k":"port","col":"red","f":-140,"s":-30,"y":182,"t":false},{"k":"stern","col":"white","f":-195,"s":0,"y":200,"t":false}]},
+  "mercante|allround:red,allround:red,allround:white,allround:white": {id:"24-varado", L:[{"k":"allround","col":"white","f":175,"s":0,"y":150,"t":false},{"k":"allround","col":"white","f":-165,"s":0,"y":188,"t":false},{"k":"allround","col":"red","f":120,"s":0,"y":116,"t":false},{"k":"allround","col":"red","f":120,"s":0,"y":134,"t":false}]},
+  "mercante|allround:red,allround:red,allround:white,masthead:white,masthead:white,port:red,starboard:green,stern:white": {id:"17-maniobra", L:[{"k":"masthead","col":"white","f":120,"s":0,"y":104,"t":false},{"k":"masthead","col":"white","f":-140,"s":0,"y":72,"t":false},{"k":"allround","col":"red","f":120,"s":0,"y":128,"t":false},{"k":"allround","col":"white","f":120,"s":0,"y":146,"t":false},{"k":"allround","col":"red","f":120,"s":0,"y":164,"t":false},{"k":"starboard","col":"green","f":-140,"s":30,"y":182,"t":false},{"k":"port","col":"red","f":-140,"s":-30,"y":182,"t":false},{"k":"stern","col":"white","f":-195,"s":0,"y":200,"t":false}]},
+  "mercante|allround:red,allround:red,port:red,starboard:green,stern:white": {id:"16-sin-gobierno", L:[{"k":"allround","col":"red","f":120,"s":0,"y":116,"t":false},{"k":"allround","col":"red","f":120,"s":0,"y":134,"t":false},{"k":"starboard","col":"green","f":-140,"s":30,"y":180,"t":false},{"k":"port","col":"red","f":-140,"s":-30,"y":180,"t":false},{"k":"stern","col":"white","f":-195,"s":0,"y":200,"t":false}]},
+  "mercante|allround:white,allround:white": {id:"22-fondeado-50", L:[{"k":"allround","col":"white","f":175,"s":0,"y":150,"t":false},{"k":"allround","col":"white","f":-165,"s":0,"y":188,"t":false}]},
+  "mercante|masthead:white,masthead:white,port:red,starboard:green,stern:white": {id:"01-mecanica-50", L:[{"k":"masthead","col":"white","f":120,"s":0,"y":104,"t":false},{"k":"masthead","col":"white","f":-140,"s":0,"y":72,"t":false},{"k":"starboard","col":"green","f":-140,"s":30,"y":168,"t":false},{"k":"port","col":"red","f":-140,"s":-30,"y":168,"t":false},{"k":"stern","col":"white","f":-195,"s":0,"y":200,"t":false}]},
+  "pesquero|allround:green,allround:white,masthead:white,port:red,starboard:green,stern:white": {id:"13-arrastre", L:[{"k":"allround","col":"green","f":60,"s":0,"y":118,"t":false},{"k":"allround","col":"white","f":60,"s":0,"y":136,"t":false},{"k":"masthead","col":"white","f":-90,"s":0,"y":72,"t":false},{"k":"starboard","col":"green","f":-130,"s":22,"y":168,"t":false},{"k":"port","col":"red","f":-130,"s":-22,"y":168,"t":false},{"k":"stern","col":"white","f":-135,"s":0,"y":200,"t":false}]},
+  "pesquero|allround:red,allround:white,allround:white,port:red,starboard:green,stern:white": {id:"15-pesca-arte", L:[{"k":"allround","col":"red","f":60,"s":0,"y":118,"t":false},{"k":"allround","col":"white","f":60,"s":0,"y":136,"t":false},{"k":"allround","col":"white","f":132,"s":0,"y":150,"t":false},{"k":"starboard","col":"green","f":-130,"s":22,"y":168,"t":false},{"k":"port","col":"red","f":-130,"s":-22,"y":168,"t":false},{"k":"stern","col":"white","f":-135,"s":0,"y":200,"t":false}]},
+  "pesquero|allround:red,allround:white,port:red,starboard:green,stern:white": {id:"14-pesca", L:[{"k":"allround","col":"red","f":60,"s":0,"y":118,"t":false},{"k":"allround","col":"white","f":60,"s":0,"y":136,"t":false},{"k":"starboard","col":"green","f":-130,"s":22,"y":168,"t":false},{"k":"port","col":"red","f":-130,"s":-22,"y":168,"t":false},{"k":"stern","col":"white","f":-135,"s":0,"y":200,"t":false}]},
+  "practico|allround:red,allround:white,allround:white": {id:"21-practico-fondeado", L:[{"k":"allround","col":"white","f":10,"s":0,"y":84,"t":false},{"k":"allround","col":"red","f":10,"s":0,"y":102,"t":false},{"k":"allround","col":"white","f":48,"s":0,"y":150,"t":false}]},
+  "practico|allround:red,allround:white,port:red,starboard:green,stern:white": {id:"20-practico", L:[{"k":"allround","col":"white","f":10,"s":0,"y":84,"t":false},{"k":"allround","col":"red","f":10,"s":0,"y":102,"t":false},{"k":"starboard","col":"green","f":-30,"s":14,"y":172,"t":false},{"k":"port","col":"red","f":-30,"s":-14,"y":172,"t":false},{"k":"stern","col":"white","f":-75,"s":0,"y":206,"t":false}]},
+  "remolcador|allround:green,allround:green,allround:red,allround:red,allround:red,allround:red,allround:white,masthead:white,port:red,starboard:green,stern:white": {id:"19-draga", L:[{"k":"masthead","col":"white","f":20,"s":0,"y":50,"t":false},{"k":"allround","col":"red","f":20,"s":0,"y":116,"t":false},{"k":"allround","col":"white","f":20,"s":0,"y":134,"t":false},{"k":"allround","col":"red","f":20,"s":0,"y":152,"t":false},{"k":"allround","col":"red","f":0,"s":-18,"y":158,"t":false},{"k":"allround","col":"red","f":0,"s":-18,"y":176,"t":false},{"k":"allround","col":"green","f":0,"s":18,"y":158,"t":false},{"k":"allround","col":"green","f":0,"s":18,"y":176,"t":false},{"k":"starboard","col":"green","f":-30,"s":20,"y":170,"t":false},{"k":"port","col":"red","f":-30,"s":-20,"y":170,"t":false},{"k":"stern","col":"white","f":-105,"s":0,"y":200,"t":false}]},
+  "remolcador|masthead:white,masthead:white,masthead:white,port:red,starboard:green,stern:white,stern:yellow": {id:"06-remolque-largo", L:[{"k":"masthead","col":"white","f":20,"s":0,"y":38,"t":false},{"k":"masthead","col":"white","f":20,"s":0,"y":56,"t":false},{"k":"masthead","col":"white","f":20,"s":0,"y":74,"t":false},{"k":"starboard","col":"green","f":-30,"s":20,"y":166,"t":false},{"k":"port","col":"red","f":-30,"s":-20,"y":166,"t":false},{"k":"stern","col":"white","f":-105,"s":0,"y":200,"t":false},{"k":"stern","col":"yellow","f":-105,"s":0,"y":182,"t":true}]},
+  "remolcador|masthead:white,masthead:white,port:red,starboard:green,stern:white": {id:"08-empuje", L:[{"k":"masthead","col":"white","f":20,"s":0,"y":56,"t":false},{"k":"masthead","col":"white","f":20,"s":0,"y":74,"t":false},{"k":"starboard","col":"green","f":-30,"s":20,"y":166,"t":false},{"k":"port","col":"red","f":-30,"s":-20,"y":166,"t":false},{"k":"stern","col":"white","f":-105,"s":0,"y":200,"t":false}]},
+  "remolcador|masthead:white,masthead:white,port:red,starboard:green,stern:white,stern:yellow": {id:"05-remolque-corto", L:[{"k":"masthead","col":"white","f":20,"s":0,"y":56,"t":false},{"k":"masthead","col":"white","f":20,"s":0,"y":74,"t":false},{"k":"starboard","col":"green","f":-30,"s":20,"y":166,"t":false},{"k":"port","col":"red","f":-30,"s":-20,"y":166,"t":false},{"k":"stern","col":"white","f":-105,"s":0,"y":200,"t":false},{"k":"stern","col":"yellow","f":-105,"s":0,"y":182,"t":true}]},
+  "velero|allround:green,allround:red,port:red,starboard:green,stern:white": {id:"11-vela-rojo-verde", L:[{"k":"allround","col":"red","f":10,"s":0,"y":68,"t":false},{"k":"allround","col":"green","f":10,"s":0,"y":86,"t":false},{"k":"starboard","col":"green","f":78,"s":15,"y":208,"t":false},{"k":"port","col":"red","f":78,"s":-15,"y":208,"t":false},{"k":"stern","col":"white","f":-95,"s":0,"y":214,"t":false}]},
+  "velero|combinado:white": {id:"10-vela-farol", L:[{"k":"combinado","col":"white","f":10,"s":0,"y":68,"t":false}]},
+  "velero|masthead:white,port:red,starboard:green,stern:white": {id:"12-vela-motor", L:[{"k":"masthead","col":"white","f":10,"s":0,"y":118,"t":false},{"k":"starboard","col":"green","f":78,"s":15,"y":208,"t":false},{"k":"port","col":"red","f":78,"s":-15,"y":208,"t":false},{"k":"stern","col":"white","f":-95,"s":0,"y":214,"t":false}]},
+  "velero|port:red,starboard:green,stern:white": {id:"09-vela", L:[{"k":"starboard","col":"green","f":78,"s":15,"y":208,"t":false},{"k":"port","col":"red","f":78,"s":-15,"y":208,"t":false},{"k":"stern","col":"white","f":-95,"s":0,"y":214,"t":false}]}
+};
+
+const D_MARCA = 16.0, PASO_MARCA = 6.0;
+const ALTO_MARCA = {"bola":16.0,"cono_arriba":16.0,"cono_abajo":16.0,"bicono":32.0,"rombo":32.0,"cilindro":32.0};
+
+const PROY = g => ({ f: Math.abs(Math.sin(g * Math.PI / 180)),
+                     s: Math.abs(Math.cos(g * Math.PI / 180)),
+
+                     lado: -Math.cos(g * Math.PI / 180),
+                     proa: Math.abs(g) < 90 });
+
+const AIRE_CASCO = {};
+function anclasDe(h){
+ const nom = nombreCasco(h);
+ if(AIRE_CASCO[nom]) return AIRE_CASCO[nom];
+ const P = POSICIONES[nom], manga = h.plan[2] / 2, out = [];
+ const pon = (f, s, y) => { if(isFinite(f) && isFinite(y)) out.push([f, s || 0, y]); };
+
+ ["tope_popa", "alcance", "remolque", "ancla_popa", "arte"]
+   .forEach(function(k){ const q = P[k]; if(q) pon(q[0], 0, q[1]); });
+
+ if(P.costado){ pon(P.costado[0],  manga, P.costado[1]);
+                pon(P.costado[0], -manga, P.costado[1]); }
+
+ const sube = (a, n, paso) => { if(a) for(let k = 0; k < n; k++)
+   pon(a[0], 0, a[1] - k * paso); };
+ const baja = (a, n, paso) => { if(a) for(let k = 0; k < n; k++)
+   pon(a[0], 0, a[1] + k * paso); };
+ if(P.topes_col) sube([P.topes_col.f, P.topes_col.y_base], 4, P.topes_col.paso);
+ sube(P.tope_proa, 3, P.paso_luz);
+ baja(P.columna.libre, 3, P.paso_luz);
+ baja(P.columna.bajo_tope, 3, P.paso_luz);
+ baja(P.ancla_proa, 2, P.paso_luz);
+ return (AIRE_CASCO[nom] = out);
+}
+
+function silueta(hueco, h, tinta, nave, pr, pts, marcas){
+ const PJ = pr || {f: 1, s: 0, lado: 0, proa: false};
+ const f0 = h.plan[0], f1 = h.plan[1], hb = h.plan[2] / 2;
+
+ const X = (fq, sq) => fq * PJ.f + (sq || 0) * PJ.lado;
+ const cara = 2 * hb * PJ.s;
+
+ let x0 = Infinity, x1 = -Infinity, y0 = Infinity, y1 = -Infinity;
+ const mete = (a, b, c, e) => { if(a < x0) x0 = a; if(b > x1) x1 = b;
+                                if(c < y0) y0 = c; if(e > y1) y1 = e; };
+ h.poly.forEach(q => mete(X(q[0]), X(q[0]), q[1], q[1]));
+ if(cara > 0) mete(PJ.proa ? X(f1) : X(f0) - cara, PJ.proa ? X(f1) + cara : X(f0),
+                   h.ydeck, h.ywater);
+ (h.blocks || []).forEach(b => { const bajo = (b[3] - b[1]) < 20;
+   const mg = (hb + (bajo ? 2 : -4)) * PJ.s;
+   mete(Math.min(X(b[0]), X(b[2])) - mg, Math.max(X(b[0]), X(b[2])) + mg, b[1], b[3]); });
+ (h.spars || []).forEach(q => mete(Math.min(X(q[0]), X(q[1])), Math.max(X(q[0]), X(q[1])),
+                                   q[2], q[2] + 2.5));
+ (h.masts || []).forEach(m => mete(X(m[0]) - 2, X(m[0]) + 2, m[1], m[2]));
+
+ const topeM = (h.masts || []).length
+   ? Math.min.apply(null, h.masts.map(function(m){ return m[1]; })) : h.ydeck;
+ mete(x0, x1, topeM - REF_D/2, y1);
+ anclasDe(h).forEach(function(q){
+  const cx = X(q[0], q[1]);
+  mete(cx - REF_D/2, cx + REF_D/2, q[2] - REF_D/2, q[2] + REF_D/2);
+ });
+
+ if(marcas && marcas.length){
+  const P = POSICIONES[nombreCasco(h)], anc = P.columna.libre;
+  const ms = marcasRefDe(marcas);
+  let alt = 0;
+  ms.forEach(function(m){ alt += ALTO_MARCA[m] + PASO_MARCA; });
+  mete(X(anc[0]) - D_MARCA/2, X(anc[0]) + D_MARCA/2,
+       anc[1], anc[1] + alt - PASO_MARCA);
+ }
+
+ const vb = [x0, y0, Math.max(1, x1 - x0), Math.max(1, y1 - y0)];
+
+ const g = el("svg", {x: hueco.x, y: hueco.y, width: hueco.w, height: hueco.h,
+   viewBox: vb.join(" "), preserveAspectRatio: "xMidYMid meet",
+   "data-nave": nave, "data-buquesvg": 1,
+   "data-hx": hueco.x, "data-hy": hueco.y,
+   "data-hw": hueco.w, "data-hh": hueco.h});
+
+ el("path", {d: "M" + h.poly.map((q, i) => (i ? "L" : "") + X(q[0]).toFixed(2)
+      + "," + q[1].toFixed(2)).join(" ") + " Z",
+   fill: tinta, stroke: "none",
+   "data-nave": nave, "data-casco": 1, "data-escorzo": PJ.f.toFixed(4)}, g);
+ if(cara > 0.5)
+  el("rect", {x: PJ.proa ? X(f1) : X(f0) - cara, y: h.ydeck, width: cara,
+    height: h.ywater - h.ydeck, fill: tinta,
+    "data-cara": 1, "data-nave": nave}, g);
+ (h.blocks || []).forEach(b => {
+  const bajo = (b[3] - b[1]) < 20;
+  const mg = (hb + (bajo ? 2 : -4)) * 2 * PJ.s;
+  const a = X(b[0]), c = X(b[2]), suyo = Math.abs(c - a), an = Math.max(suyo, mg);
+  el("rect", {x: Math.min(a, c) - (an - suyo) / 2, y: b[1], width: an,
+    height: b[3] - b[1], fill: tinta, "data-nave": nave, "data-sup": 1}, g);
+ });
+ (h.spars || []).forEach(q => {
+  const a = X(q[0]), c = X(q[1]);
+  el("rect", {x: Math.min(a, c), y: q[2], width: Math.max(Math.abs(c - a), 2),
+    height: 2.5, fill: tinta, "data-nave": nave, "data-verga": 1}, g);
+ });
+
+ (h.masts || []).forEach(m => {
+  el("rect", {x: X(m[0]) - 2, y: m[1], width: 4, height: m[2] - m[1],
+    fill: tinta, "data-nave": nave, "data-palo": 1}, g);
+ });
+
+ if(marcas && marcas.length) pilaDiaRef(g, h, marcas, tinta, nave, X);
+ return {nodo: g, vb: vb, h: h, PJ: PJ, X: X};
+}
+
+function focosCubierta(pts, S, nave){
+ pts.forEach(p => {
+  if(p.l.kind !== "allround" || p.l.colour !== "white") return;
+  const h = S.h, w = (h.plan[1] - h.plan[0]) * 0.055;
+  el("path", {d: "M" + p.cx.toFixed(2) + "," + p.cy.toFixed(2)
+    + " L" + (p.cx - w).toFixed(2) + "," + h.ydeck
+    + " L" + (p.cx + w).toFixed(2) + "," + h.ydeck + " Z",
+    fill: "#FFF3C4", "fill-opacity": 0.09, "data-foco": 1, "data-nave": nave}, S.nodo);
+ });
+}
+
+let NAVE_N = 0;
+
+let HAY_LUZ = false;
+
+function medidasDe(S, hueco){
+ const vb = S.vb;
+ const k = Math.min(hueco.w / vb[2], hueco.h / vb[3]);
+ return {k: k,
+   ox: hueco.x + (hueco.w - vb[2]*k)/2 - vb[0]*k,
+   oy: hueco.y + (hueco.h - vb[3]*k)/2 - vb[1]*k};
+}
+function casco(P, v, noche, marcas, centroX, largoReal, fam, pr){
+ const L = largoReal || v.length || 12;
+ const h = fam || cascoDe(v, L);
+ const yo = NAVE_N++;
+
+ const tinta = noche ? "#24343D" : "var(--ink)";
+
+ const altoHueco = Math.max(20, (P.cy - P.y0) - 10);
+ const hueco = {x: P.x0 + 10, y: (P.y0 + P.y1)/2 - altoHueco/2,
+                w: Math.max(20, (P.x1 - P.x0) - 20),
+                h: altoHueco};
+ const S = silueta(hueco, h, tinta, yo, pr, null, marcas);
+ const M = medidasDe(S, hueco);
+ const refL = h.plan[1] - h.plan[0];
+ return {x0: M.ox + M.k*S.X(h.plan[0]), x1: M.ox + M.k*S.X(h.plan[1]),
+         y: M.oy + M.k*h.ywater,
+         alto: M.k*(h.ywater - S.vb[1]),
+         largo: M.k*refL, n: yo,
+         cub: M.oy + M.k*h.ydeck, fb: M.k*(h.ywater - h.ydeck),
+         sup: S, k: M.k, ox: M.ox, oy: M.oy,
+         medio: M.ox + M.k*((h.plan[0] + h.plan[1])/2),
+         escalaH: M.k*refL / L,
+         mx: xm => M.ox + M.k*((xm / L) * refL)};
+}
+
+function marcaDia(g, cx, cy, r, cual, tinta){
+ const d = {"data-forma": cual};
+ const T = tinta || "var(--ink)";
+ if(cual === "ball")      el("circle", Object.assign({cx:cx, cy:cy, r:r,
+                            fill:T}, d), g);
+ else if(cual === "cone") el("path", Object.assign({d:"M"+cx+","+(cy-r)
+                            +" L"+(cx+r)+","+(cy+r)+" L"+(cx-r)+","+(cy+r)+" Z",
+                            fill:T}, d), g);
+ else if(cual === "coneUp")el("path", Object.assign({d:"M"+cx+","+(cy+r)
+                            +" L"+(cx+r)+","+(cy-r)+" L"+(cx-r)+","+(cy-r)+" Z",
+                            fill:T}, d), g);
+ else if(cual === "diamond")el("path", Object.assign({d:"M"+cx+","+(cy-r)
+                            +" L"+(cx+r)+","+cy+" L"+cx+","+(cy+r)
+                            +" L"+(cx-r)+","+cy+" Z", fill:T}, d), g);
+ else if(cual === "cylinder")el("rect", Object.assign({x:cx-r*0.8, y:cy-r,
+                            width:r*1.6, height:r*2, fill:T}, d), g);
+}
+
+const MARCA_PASO = 24;
+
+const MARCA_REF = {ball: "bola", cone: "cono_arriba", coneUp: "cono_abajo",
+                   diamond: "rombo", cylinder: "cilindro"};
+function marcasRefDe(formas){
+ const out = [];
+ for(let i = 0; i < formas.length; i++){
+  if(formas[i] === "coneUp" && formas[i+1] === "cone"){ out.push("bicono"); i++; }
+  else out.push(MARCA_REF[formas[i]] || "bola");
+ }
+ return out;
+}
+
+function marcaRef(g, cx, cy, m, tinta, nave, k){
+ const e = k || 1;
+ const r = D_MARCA * e / 2, h = ALTO_MARCA[m] * e / 2;
+ const d = {"data-forma": m, "data-nave": nave};
+
+ const pol = pts => el("path", Object.assign({
+   d: "M" + pts.map(function(q, i){ return (i ? "L" : "") + q[0] + "," + q[1]; }).join(" ")
+      + " Z", fill: tinta}, d), g);
+ if(m === "bola")
+  el("circle", Object.assign({cx: cx, cy: cy, r: r, fill: tinta}, d), g);
+ else if(m === "cono_arriba")
+  pol([[cx, cy-h], [cx+r, cy+h], [cx-r, cy+h]]);
+ else if(m === "cono_abajo")
+  pol([[cx, cy+h], [cx+r, cy-h], [cx-r, cy-h]]);
+ else if(m === "bicono"){
+  pol([[cx, cy], [cx+r, cy-h], [cx-r, cy-h]]);
+  pol([[cx, cy], [cx+r, cy+h], [cx-r, cy+h]]);
+ } else if(m === "rombo")
+  pol([[cx, cy-h], [cx+r, cy], [cx, cy+h], [cx-r, cy]]);
+ else if(m === "cilindro")
+  el("rect", Object.assign({x: cx-r, y: cy-h, width: D_MARCA * e,
+    height: ALTO_MARCA[m] * e, fill: tinta}, d), g);
+}
+
+function pilaDiaSuelta(cx, yBase, formas, tinta, k){
+ const ms = marcasRefDe(formas || []);
+ if(!ms.length) return 0;
+ const e = k || 1;
+ let alto = 0;
+ ms.forEach(function(m){ alto += ALTO_MARCA[m] * e; });
+ alto += PASO_MARCA * e * (ms.length - 1);
+ let y = yBase - alto;
+ ms.forEach(function(m){
+  marcaRef(null, cx, y + ALTO_MARCA[m] * e / 2, m, tinta, undefined, e);
+  y += (ALTO_MARCA[m] + PASO_MARCA) * e;
+ });
+ return alto;
+}
+
+function pilaDiaRef(g, h, formas, tinta, nave, X){
+ const ms = marcasRefDe(formas || []);
+ if(!ms.length) return null;
+ const P = POSICIONES[nombreCasco(h)];
+ const anc = P.columna.libre;
+ let y = anc[1];
+
+ const yaHayPalo = X && (h.masts || []).some(function(m){
+  return Math.abs(X(m[0]) - anc[0]) < 3
+      && m[1] <= anc[1] + 1 && m[2] >= h.ydeck - 1;
+ });
+ if(!yaHayPalo)
+  el("rect", {x: anc[0] - 2, y: anc[1], width: 4, height: h.ydeck - anc[1],
+    fill: tinta, "data-nave": nave, "data-palo": 1}, g);
+ ms.forEach(function(m){
+  marcaRef(g, anc[0], y + ALTO_MARCA[m] / 2, m, tinta, nave);
+  y += ALTO_MARCA[m] + PASO_MARCA;
+ });
+ return {f: anc[0], y0: anc[1], y1: y - PASO_MARCA};
+}
+
+function pilaDia(cx, yBase, r, formas, paso, soporte){
+ const d = paso === undefined ? px(MARCA_PASO) : paso;
+ if(soporte && formas.length){
+  const an = Math.max(2, LUZ.D * 0.22);
+  el("rect", {x: cx - an/2, y: yBase - (formas.length-1)*d,
+    width: an, height: soporte.cub - (yBase - (formas.length-1)*d),
+    fill: soporte.tinta});
+ }
+ formas.forEach((f, i) => marcaDia(gO, cx, yBase - (formas.length-1-i)*d, r, f));
+ return formas.length ? (formas.length-1)*d + r*2 : 0;
+}
+
+function estrella(cx, cy, r, puntas){
+ const n = puntas || 10, d = [];
+ for(let i = 0; i < n*2; i++){
+  const a = (i * Math.PI / n) - Math.PI/2, rr = (i % 2) ? r*0.62 : r;
+  d.push((i ? "L" : "M") + (cx + rr*Math.cos(a)).toFixed(2)
+                    + "," + (cy + rr*Math.sin(a)).toFixed(2));
+ }
+ return d.join(" ") + " Z";
+}
+function luz(cx, cy, r, color, datos, centelleante, pa){
+ if(centelleante)
+  el("path", Object.assign({d: estrella(cx, cy, r), fill:color,
+    "data-centelleo":1}, datos || {}), pa);
+ else
+  el("circle", Object.assign({cx:cx, cy:cy, r:r, fill:color}, datos || {}), pa);
+}
+
+const COLOR_LUZ = {white:"#FFFFFF", red:"#FF0000", green:"#5AA900",
+                   yellow:"#FFFF00", blue:"#0070C0"};
+
+const COLOR_CENTELLEO = {yellow:"#EFD400"};
+
+function vistas(v, g){ return configuration(v).filter(l => visible(l, g)); }
+
+function nombreCasco(h){
+ for(const k in CASCOS_REF) if(CASCOS_REF[k] === h) return k;
+ return "mercante";
+}
+
+function firmaLuces(todas){
+ return todas.map(l => l.kind + ":" + l.colour).sort().join(",");
+}
+
+function sitiaRef(v, luces, todas, h){
+ const P = POSICIONES[nombreCasco(h)];
+ const manga = h.plan[2] / 2;
+ const fondeada = v.underway === false;
+ const out = new Array(luces.length).fill(null);
+
+ const ficha = L_REF[nombreCasco(h) + "|" + firmaLuces(todas)];
+ if(ficha){
+
+  const suyas = {}, mias = {};
+  ficha.L.forEach(q => { const k = q.k + "|" + q.col;
+    (suyas[k] = suyas[k] || []).push(q); });
+  todas.forEach(l => { const k = l.kind + "|" + l.colour;
+    (mias[k] = mias[k] || []).push(l); });
+  const de = new Map();
+  let todo = true;
+  for(const k in mias){
+   const A = mias[k].slice().sort((a, b) => b.h - a.h);
+   const B = (suyas[k] || []).slice().sort((a, b) => a.y - b.y);
+   if(A.length !== B.length){ todo = false; break; }
+   A.forEach((l, i) => de.set(l, B[i]));
+  }
+  if(todo){
+   luces.forEach((l, i) => {
+    const q = de.get(l);
+    if(!q){ todo = false; return; }
+    out[i] = {f: q.f, s: q.s, y: q.y};
+   });
+   if(todo) return out;
+   out.fill(null);
+  }
+ }
+
+ const pon = (l, q) => { const i = luces.indexOf(l); if(i >= 0 && q) out[i] = q; };
+ const dea = k => todas.filter(l => l.kind === k);
+
+ if(v.tricolour && (v.length || 12) < 20){
+  const c = P.columna.libre;
+  todas.forEach(l => pon(l, {f: c[0], s: 0, y: c[1]}));
+  return out;
+ }
+
+ const topes = P.tope_proa
+   ? dea("masthead").slice().sort((a, b) => a.h - b.h)
+   : [];
+ if(P.topes_col && topes.length >= 2){
+
+  const tc = P.topes_col;
+  const sarta = topes.filter(l => l.x > 0), atras = topes.filter(l => !(l.x > 0));
+  const cola = sarta.length ? sarta : topes;
+  cola.forEach((l, k) => pon(l, {f: tc.f, s: 0, y: tc.y_base - k * tc.paso}));
+  if(sarta.length) atras.forEach((l, k) => pon(l, P.tope_popa && P.tope_popa[0] !== tc.f
+    ? {f: P.tope_popa[0], s: 0, y: P.tope_popa[1]}
+    : {f: tc.f, s: 0, y: tc.y_base - (cola.length + k) * tc.paso}));
+ } else if(topes.length >= 2){
+
+  const sarta = topes.filter(l => l.x > 0), atras = topes.filter(l => !(l.x > 0));
+  const col = sarta.length ? sarta : topes.slice(0, topes.length - 1);
+  const fin = sarta.length ? atras : topes.slice(-1);
+  col.forEach((l, k) => pon(l, {f: P.tope_proa[0], s: 0,
+    y: P.tope_proa[1] - k * P.paso_luz}));
+  fin.forEach((l, k) => pon(l, P.tope_popa
+    ? {f: P.tope_popa[0], s: 0, y: P.tope_popa[1] - k * P.paso_luz}
+    : {f: P.tope_proa[0], s: 0, y: P.tope_proa[1] - (col.length + k) * P.paso_luz}));
+ } else if(topes.length === 1 && P.tope_proa){
+  pon(topes[0], {f: P.tope_proa[0], s: 0, y: P.tope_proa[1]});
+ }
+
+ dea("starboard").forEach(l => pon(l, {f: P.costado[0], s: manga, y: P.costado[1]}));
+ dea("port").forEach(l =>      pon(l, {f: P.costado[0], s: -manga, y: P.costado[1]}));
+
+ dea("stern").forEach(l => {
+  if(l.colour === "yellow" && P.remolque)
+   pon(l, {f: P.remolque[0], s: 0, y: P.remolque[1]});
+  else
+   pon(l, {f: P.alcance[0], s: 0, y: P.alcance[1]});
+ });
+
+ const th = dea("allround").slice().sort((a, b) => b.h - a.h);
+ if(fondeada){
+
+  if(th.length >= 2 && P.ancla_popa){
+   pon(th[0], {f: P.ancla_proa[0], s: 0, y: P.ancla_proa[1]});
+   pon(th[1], {f: P.ancla_popa[0], s: 0, y: P.ancla_popa[1]});
+   th.slice(2).forEach((l, k) => pon(l, {f: P.columna.libre[0], s: 0,
+     y: P.columna.libre[1] + k * P.paso_luz}));
+  } else {
+   th.forEach((l, k) => pon(l, {f: P.ancla_proa[0], s: 0,
+     y: P.ancla_proa[1] + k * P.paso_luz}));
+  }
+ } else if(th.length){
+
+  const fc = P.columna.libre[0];
+  const conTope = topes.some(l => { const q = out[luces.indexOf(l)];
+    return q ? q.f === fc : (P.tope_proa && P.tope_proa[0] === fc); });
+  const anc = conTope ? P.columna.bajo_tope : P.columna.libre;
+
+  th.forEach((l, k) => pon(l, {f: anc[0], s: 0, y: anc[1] + k * P.paso_luz}));
+ }
+
+ let sobra = 0;
+ out.forEach((q, i) => { if(!q){ SIN_SITIO++;
+   out[i] = {f: P.columna.libre[0], s: 0,
+             y: P.columna.libre[1] + (sobra++) * P.paso_luz}; } });
+ return out;
+}
+let SIN_SITIO = 0;
+
+function reparte(luces, sitios, geo, tramo){
+
+ const porSarta = {}, porAltura = {};
+ luces.forEach((l, i) => {
+  const q = sitios[i];
+  if(q.sarta) (porSarta[q.sarta] = porSarta[q.sarta] || []).push(i);
+  else { const k = q.m.toFixed(4); (porAltura[k] = porAltura[k] || []).push(i); }
+ });
+ const items = [];
+ for(const k in porSarta)  items.push({idx: porSarta[k],  sarta: true});
+ for(const k in porAltura) items.push({idx: porAltura[k], sarta: false});
+ items.forEach(it => {
+  const ms = it.idx.map(i => sitios[i].m);
+  it.baja = Math.min.apply(null, ms);
+  it.alta = Math.max.apply(null, ms);
+ });
+
+ items.sort((a, b) => a.baja - b.baja || a.alta - b.alta);
+
+ const alturaDe = {};
+ items.forEach(it => {
+  const niveles = it.idx.map(i => sitios[i].m)
+    .sort((a, b) => a - b).filter((m, k, a) => !k || m !== a[k-1]);
+
+  let debajo = 0;
+  items.forEach(ot => { if(ot !== it && ot.alta <= it.baja && ot.techo !== undefined)
+    debajo = Math.max(debajo, ot.techo); });
+
+  let y = (it.baja === 0) ? 0 : debajo + LUZ.DISTINTO;
+  const de = {};
+  niveles.forEach((m, k) => { if(k) y += LUZ.SARTA; de[m.toFixed(4)] = y; });
+  it.idx.forEach(i => { alturaDe[i] = de[sitios[i].m.toFixed(4)]; });
+  it.techo = y;
+ });
+
+ const P = geo.pr || {f: 1, s: 0, lado: 0};
+ return luces.map((l, i) => ({
+   cx: geo.medio + ((sitios[i].xm * P.f + (sitios[i].sm || 0) * P.lado) / tramo)
+                   * geo.ancho,
+   cy: geo.base  - alturaDe[i] * geo.d,
+   l: l, m: sitios[i].m, xm: sitios[i].xm, fila: alturaDe[i],
+   mLibre: sitios[i].mLibre, xmLibre: sitios[i].xmLibre,
+   cita: sitios[i].cita, sarta: sitios[i].sarta, sm: sitios[i].sm || 0 }));
+}
+
+function pasosDe(v, luces, todas){
+ const pts = reparte(luces, coloca(v, luces, todas),
+   {medio:0, ancho:0, base:0, d:1}, tramoDe(v));
+ return Math.max.apply(null, pts.map(p => -p.cy));
+}
+
+function pasosMax(naves){
+ let m = 0;
+ naves.forEach(q => {
+  try {
+   const todas = q.todas || configuration(q.v);
+   m = Math.max(m, pasosDe(q.v, q.luces || todas, todas));
+  } catch(e){}
+ });
+ return m;
+}
+
+function pintaPuntos(pts, r, L, nave, pa){
+ if(pts && pts.length) HAY_LUZ = true;
+ pts.slice().sort((a, b) => b.cy - a.cy).forEach(p => {
+  const col = p.l.flash ? (COLOR_CENTELLEO[p.l.colour] || COLOR_LUZ[p.l.colour])
+                        : COLOR_LUZ[p.l.colour];
+  luz(p.cx, p.cy, r, col || "#FFFFFF",
+    {"data-m": p.m.toFixed(3), "data-xm": p.xm.toFixed(3),
+     "data-kind": p.l.kind, "data-l": L,
+     "data-nave": (p.nave === undefined ? nave : p.nave),
+     "data-fila": p.fila.toFixed(3),
+     "data-sarta": p.sarta || "",
+
+     "data-sm": (p.sm || 0).toFixed(3),
+
+     "data-mlibre": p.mLibre ? 1 : 0, "data-xlibre": p.xmLibre ? 1 : 0,
+     "data-cita": p.cita}, p.l.flash, pa);
+ });
+}
+
+const ROTULO_LIBRE = {
+  "R30(b) \u00b7 donde mejor pueda ser vista":
+    "Under 50 m she shows one anchor light where it can best be seen \u2014 "
+    + "its height and position are not fixed by the rule.",
+  "R23(d) \u00b7 donde mejor pueda ser vista":
+    "Under 12 m this all-round white light goes where it can best be seen \u2014 "
+    + "the rule does not fix where.",
+  "A1 2(f) \u00b7 la altura; el sitio es libre":
+    "The rule fixes how high these all-round lights are and how far apart, "
+    + "but not where along her length \u2014 that is flexible.",
+  "R29 \u00b7 en el tope o cerca":
+    "The rule says at or near the masthead. How near is not a number.",
+  "R29 + A1 2(f)":
+    "The rule says at or near the masthead. How near is not a number.",
+  "A1 2(i)":
+    "The rule fixes how high this pair is, but not where along her length.",
+  "A1 2(i) + 2(f)":
+    "The rule fixes how high this pair is, but not where along her length."
+};
+
+function frasesLibres(sitios){
+ const dichas = {};
+ if(typeof ROTULO_LIBRE === "undefined") return dichas;
+ sitios.forEach(q => {
+  if(!q || (!q.mLibre && !q.xmLibre)) return;
+  const f = ROTULO_LIBRE[q.cita];
+
+  if(f) dichas[f] = dichas[f] ? (dichas[f] + " " + q.cita) : q.cita;
+ });
+ return dichas;
+}
+
+function altoLibres(dichas, ancho){
+ const frases = Object.keys(dichas);
+ if(!frases.length) return 0;
+ return px(38) + frases.reduce(
+   (a, f) => a + parte(f, ancho - px(24), 12.5).length * px(17), 0);
+}
+let LIBRES_DICHAS = {};
+
+function altoLibreDe(v, anchoPanel){
+ try{
+  const suyas = configuration(v);
+  return altoLibres(frasesLibres(coloca(v, suyas, suyas)), anchoPanel);
+ }catch(e){ return 0; }
+}
+function rotulaLibres(P, dichas, ancho){
+ const frases = Object.keys(dichas).filter(f => !LIBRES_DICHAS[f]);
+ frases.forEach(f => { LIBRES_DICHAS[f] = 1; });
+ if(!frases.length) return 0;
+
+ let y = P.y0 + px(38);
+ frases.forEach(f => {
+  const lineas = parte(f, ancho - px(24), 12.5);
+  lineas.forEach((t, i) => {
+
+   const e = txt(P.cx, y + i*px(17), t, "middle", 12.5, "var(--dim)");
+   e.setAttribute("data-libre", dichas[f]);
+  });
+  y += lineas.length * px(17);
+ });
+ return frases.length;
+}
+
+function pintaNaveDe(P, v, luces, todas, o){
+ return dibujaLuces(P, v, luces, todas, o || {});
+}
+
+function pintaNave(P, v, g, o){
+ o = o || {};
+ const todas = configuration(v);
+
+ let luces = (g === undefined || g === null) ? todas : todas.filter(l => visible(l, g));
+
+ if(o.soloRemolcador) luces = luces.filter(l => !l.tow);
+
+ if(o.nm !== undefined && o.nm !== null){
+  const R = ranges(v.length || 12);
+  luces = luces.filter(l => o.nm <= R[l.rangeKey]);
+ }
+
+ if(o.tapaBabor) luces = luces.filter(l => l.kind !== "port");
+
+ return dibujaLuces(P, v, luces, todas, Object.assign({g: g}, o));
+}
+
+function dibujaLuces(P, v, luces, todas, o){
+ const r = LUZ.D / 2, d = LUZ.D;
+ const L = v.length || 12;
+
+ const anchoPanel = P.x1 - P.x0;
+
+ const ancho = o.ancho || (anchoPanel - 108);
+
+ const fam = o.casco ? CASCOS_REF[o.casco]
+           : (o.neutro ? CASCOS_REF.mercante : cascoDe(v, L));
+
+ const sitios = coloca(v, luces, todas);
+
+ const dichas = (o.rotula === false) ? {} : frasesLibres(sitios);
+
+ const arriba = P.y0 + altoLibres(dichas, anchoPanel);
+
+ const pasos = (o.pasos !== undefined && o.pasos !== null) ? o.pasos
+   : (function(){ try { return pasosDe(v, luces, todas); } catch(e){ return 0; } })();
+
+ const pr = (!o.escorza || o.g === undefined || o.g === null) ? null : PROY(o.g);
+
+ const hw = Math.max(20, o.ancho ? o.ancho : (anchoPanel - 24));
+ if(o.rotula !== false) rotulaLibres(P, dichas, Math.min(anchoPanel, hw));
+
+ const refL = fam.plan[1] - fam.plan[0];
+ const topeDe = q => (q.masts || []).length
+   ? Math.min.apply(null, q.masts.map(function(m){ return m[1]; }))
+   : q.ydeck - REF_D/2;
+
+ const cuelga = (ps, tope) => {
+  if(!ps.length) return ps;
+  const alta = Math.min.apply(null, ps.map(function(p){ return p.cy; }));
+  const dy = tope - alta;
+  ps.forEach(function(p){ p.cy += dy; });
+  return ps;
+ };
+
+ const hh = o.ancho ? hw : Math.max(20, P.y1 - arriba - 12);
+ const hueco = {x: P.cx - hw/2, y: (P.y0 + P.y1)/2 - hh/2, w: hw, h: hh};
+
+ if(v.type === "towing" && v.underway !== false && !o.soloRemolcador
+    && !o.soloRemolcado && luces.some(l => l.tow)){
+  const suyas = [], suyo = [];
+  luces.forEach((l, i) => (l.tow ? suyo : suyas).push(i));
+  const Lr = towEslora(v);
+  const fa = cascoDe(v, L), fr = cascoDe({type:"power", gabarra:1, length:Lr}, Lr);
+  const rA = fa.plan[1] - fa.plan[0], rB = fr.plan[1] - fr.plan[0];
+  const PJ = pr || {f: 1, s: 0, lado: 0};
+  const arma = (idx, casco, todasDe) => {
+   const q = sitiaRef(v, idx.map(i => luces[i]), todasDe, casco);
+   return idx.map(function(i, k){
+    return {cx: q[k].f * PJ.f + q[k].s * PJ.lado, cy: q[k].y, l: luces[i],
+            m: sitios[i].m, xm: sitios[i].xm, sm: sitios[i].sm || 0,
+            fila: (casco.ywater - q[k].y) / REF_D,
+            mLibre: sitios[i].mLibre, xmLibre: sitios[i].xmLibre,
+            cita: sitios[i].cita, sarta: sitios[i].sarta};
+   });
+  };
+  const uno = arma(suyas, fa, todas.filter(l => !l.tow));
+
+  const dos = arma(suyo, fr, todas.filter(l => l.tow));
+
+  const sep = hueco.w / 6;
+  const util = hueco.w - sep, tot = rA + rB;
+  const hA = {x: hueco.x + util*(rB/tot) + sep, y: hueco.y, w: util*(rA/tot), h: hueco.h};
+  const hB = {x: hueco.x, y: hueco.y, w: util*(rB/tot), h: hueco.h};
+  const nA = NAVE_N++, nB = NAVE_N++;
+  const SA = silueta(hA, fa, "#24343D", nA, pr, uno);
+  const SB = silueta(hB, fr, "#24343D", nB, pr, dos);
+  uno.forEach(p => p.nave = nA); dos.forEach(p => p.nave = nB);
+  pintaPuntos(uno, REF_D/2, L,  nA, SA.nodo);
+  pintaPuntos(dos, REF_D/2, Lr, nB, SB.nodo);
+  const M = medidasDe(SA, hA);
+  return {n: nA, medio: M.ox + M.k*((fa.plan[0] + fa.plan[1])/2), base: M.oy};
+ }
+
+ const sr = sitiaRef(v, luces, todas, fam);
+ const PJ = pr || {f: 1, s: 0, lado: 0};
+ const pts = luces.map(function(l, i){
+  return {cx: sr[i].f * PJ.f + sr[i].s * PJ.lado, cy: sr[i].y, l: l,
+          m: sitios[i].m, xm: sitios[i].xm, sm: sitios[i].sm || 0,
+          fila: (fam.ywater - sr[i].y) / REF_D,
+          mLibre: sitios[i].mLibre, xmLibre: sitios[i].xmLibre,
+          cita: sitios[i].cita, sarta: sitios[i].sarta};
+ });
+
+ const yo = NAVE_N++;
+ const S = silueta(hueco, fam, o.dia ? "var(--ink)" : "#24343D", yo, pr, pts);
+
+ if(v.underway === false && L >= A1.CUBIERTAS_ILUMINADAS_DESDE)
+  focosCubierta(pts, S, yo);
+
+ pintaPuntos(pts, REF_D/2, L, yo, S.nodo);
+ const M = medidasDe(S, hueco);
+ return {n: yo, medio: M.ox + M.k*((fam.plan[0] + fam.plan[1])/2),
+         base: M.oy + M.k*fam.ydeck};
+}
+
+function firmaEscena(v, g){
+ const L = tramoDe(v), todas = configuration(v);
+ const vis = todas.filter(l => visible(l, g));
+ if(!vis.length) return "";
+ const s = coloca(v, vis, todas);
+ return vis.map((l, i) => l.colour + "@" + s[i].m.toFixed(2)
+                          + "/" + (s[i].xm / L).toFixed(3)).sort().join(" ");
+}
+const conL = (v, L) => Object.assign({}, v, {length: L});
+
+function escenaLibre(v, g, nm){
+
+ const L = tramoDe(v), todas = configuration(v);
+ let ver = todas.filter(l => visible(l, g));
+ if(nm !== undefined && nm !== null){
+  const R = ranges(L);
+  ver = ver.filter(l => nm <= R[l.rangeKey]);
+ }
+
+ ver = ver.filter(l => !l.tow);
+ if(!ver.length) return null;
+ const s = coloca(v, ver, todas);
+ return ver.map((l, i) => ({c: l.colour,
+   m:  s[i].mLibre  ? null : s[i].m,
+   x:  s[i].xmLibre ? null : s[i].xm / L}));
+}
+const cabe = (a, b) => a === null || b === null || Math.abs(a - b) < 0.01;
+
+function unifica(A, B){
+ if(!A || !B || A.length !== B.length) return false;
+ const usadas = B.map(() => false);
+ const anda = i => {
+  if(i >= A.length) return true;
+  for(let j = 0; j < B.length; j++){
+   if(usadas[j] || A[i].c !== B[j].c) continue;
+   if(!cabe(A[i].m, B[j].m) || !cabe(A[i].x, B[j].x)) continue;
+   usadas[j] = true;
+   if(anda(i + 1)) return true;
+   usadas[j] = false;
+  }
+  return false;
+ };
+ return anda(0);
+}
+
+let PATRON = null;
+function patrones(){
+ if(PATRON) return PATRON;
+ PATRON = [];
+ for(const t in CITA){
+  if(t === "fondeada") continue;
+  for(const L of [9, 15, 24, 30, 45, 48, 52, 90, 120, 200, 300])
+   for(const est of [{underway:false},
+                     {underway:true, makingWay:true},
+                     {underway:true, makingWay:false}]){
+
+    const largos = (t === "towing") ? [120, 250] : [null];
+    for(const TL of largos){
+     const v = Object.assign({type:t, length:L}, est);
+     if(TL !== null){ v.towLength = TL; v.towedLength = 60; }
+     let cfg; try { cfg = configuration(v); } catch(e){ continue; }
+     if(citada(v, cfg)) continue;
+     PATRON.push(v);
+    }
+   }
+ }
+ return PATRON;
+}
+
+const MARCACIONES = [0, 20, 60, 100, 112, 114, 150, 179,
+                     -20, -60, -100, -112, -114, -150, -179];
+
+const _cacheEsc = {};
+function escenaCache(v, g, nm){
+
+ const k = v.type + "|" + v.length + "|" + (v.underway === false ? "a" : "n")
+   + (v.makingWay === false ? "p" : "m") + "|" + (v.towLength || 0)
+   + "|" + (v.towedLength || 0) + "|" + g + "|" + nm;
+ if(k in _cacheEsc) return _cacheEsc[k];
+ let e = null;
+ try { e = escenaLibre(v, g, nm); } catch(err){ e = null; }
+ return (_cacheEsc[k] = e);
+}
+
+const _cacheLect = {};
+
+const universo = q => patrones().concat([q.buque]);
+
+function lecturasCon(banco, q){
+ const clave = banco + "|" + JSON.stringify(q.buque) + "|" + q.g + "|" + q.nm;
+ if(clave in _cacheLect) return _cacheLect[clave];
+ const yo = escenaLibre(q.buque, q.g, q.nm);
+ const out = {};
+ if(yo){
+  for(const v of universo(q))
+   for(const g of MARCACIONES){
+    const e = escenaCache(v, g, q.nm);
+    if(!e || !unifica(yo, e)) continue;
+    let c; try { c = DICE[banco]({buque:v, g:g, nm:q.nm}); } catch(err){ continue; }
+    if(!out[c]) out[c] = {clase:c, v:v, g:g};
+   }
+ }
+ return (_cacheLect[clave] = out);
+}
+
+const NOMBRE_NAVE = {
+  power:        "a power-driven vessel",
+  sailing:      "a sailing vessel",
+  nuc:          "not under command",
+  ram:          "restricted in her ability to manoeuvre",
+  cbd:          "constrained by her draught",
+  pilot:        "a pilot vessel",
+  fishingTrawl: "a fishing vessel trawling",
+  fishingOther: "a fishing vessel, not trawling",
+  towing:       "a vessel towing",
+  fondeada:     "at anchor"
+};
+
+function claveDe(v){
+ return v.underway === false ? "fondeada"
+      : (v.velaYMotor ? "velaYMotor" : v.type);
+}
+const claveNave = v => v.underway === false ? "fondeada" : v.type;
+function nombraNave(v){
+  const k = claveNave(v), C = CITA[k];
+  return (NOMBRE_NAVE[k] || k) + (C ? " \u00b7 " + C.r : "");
+}
+
+const _cacheId = {};
+function identidades(q){
+  const clave = JSON.stringify(q.buque) + "|" + q.g + "|" + q.nm;
+  if(clave in _cacheId) return _cacheId[clave];
+  const yo = escenaLibre(q.buque, q.g, q.nm);
+  const out = {};
+  if(yo) for(const v of universo(q))
+    for(const g of MARCACIONES){
+      const e = escenaCache(v, g, q.nm);
+      if(e && unifica(yo, e)) out[nombraNave(v)] = 1;
+    }
+  return (_cacheId[clave] = Object.keys(out).sort());
+}
+
+const lecturas = (banco, q) => Object.keys(lecturasCon(banco, q));
+window.universo = universo;
+
+function testigos(banco, q){
+ const yo = escenaLibre(q.buque, q.g, q.nm);
+ const out = {};
+ if(!yo || !VERDAD || !VERDAD[banco]) return out;
+ const mia = VERDAD[banco](q.buque, q.g, q.nm);
+ for(const v of universo(q))
+  for(const g of MARCACIONES){
+   const e = escenaCache(v, g, q.nm);
+   if(!e || !unifica(yo, e)) continue;
+   let t; try { t = VERDAD[banco](v, g, q.nm); } catch(err){ continue; }
+   if(t === mia || out[t]) continue;
+   out[t] = {verdad:t, v:v, g:g};
+  }
+ return out;
+}
+
+function bolsa(lista, semilla){
+ let s = semilla || 1, idx = [], i = 0;
+ const rnd = () => { s ^= s<<13; s ^= s>>>17; s ^= s<<5; return (s>>>0)/4294967296; };
+ const barajar = () => { idx = lista.map((_, k) => k);
+   for(let j = idx.length-1; j > 0; j--){ const t = Math.floor(rnd()*(j+1));
+     [idx[j], idx[t]] = [idx[t], idx[j]]; } i = 0; };
+ barajar();
+ return {saca: () => { if(i >= idx.length) barajar(); return lista[idx[i++]]; }};
+}
+const BOLSAS = {};
+function sacaDe(s){
+ if(!BOLSAS[s.banco]) BOLSAS[s.banco] = bolsa(BANCOS[s.banco] || [],
+                                              AZAR + s.id.charCodeAt(0));
+ return BOLSAS[s.banco].saca();
+}
+window.bolsaDe = s => BOLSAS[s.banco];
+
+function claseDe(s, q){
+ const l = lecturas(s.banco, q);
+ if(l.length > 1) return NO_LO_DICE[s.banco] || "confusa";
+ return DICE[s.banco](q);
+}
+function okDe(s, q){ return TEXTOS[s.banco].clases.indexOf(claseDe(s, q)); }
+window.claseDe = claseDe; window.okDe = okDe;
+
+function nombraEscena(q){
+ if(typeof NOMBRA_ESCENA === "function") return NOMBRA_ESCENA(q);
+ const vis = vistas(q.buque, q.g);
+ const cuenta = {};
+ vis.forEach(l => { const k = l.colour + "|" + (l.kind === "allround" ? "all-round"
+   : l.kind === "masthead" ? "masthead" : l.kind === "stern" ? "sternlight"
+   : "sidelight");
+   cuenta[k] = (cuenta[k] || 0) + 1; });
+ const CIF = ["no", "one", "two", "three", "four", "five", "six"];
+ const trozos = Object.keys(cuenta).map(k => {
+   const [col, tipo] = k.split("|"), n = cuenta[k];
+
+   const suf = (tipo === "all-round" || tipo === "masthead") ? " light" : "";
+   return (CIF[n] || n) + " " + col + " " + tipo + suf + (n > 1 ? "s" : ""); });
+ if(!trozos.length) return "nothing at all";
+ if(trozos.length === 1) return trozos[0];
+ return trozos.slice(0, -1).join(", ") + " and " + trozos[trozos.length-1];
+}
+
+let EX = {sel:null, vistas:{}};
+
+let EJ = {i:0};
+
+let PR = {q:null, n:0, meta:2, fallos:0, hecho:false, res:""};
+
+let REJ = {};
+const LOG = [];
+function marcaLog(){ document.getElementById("fLog").textContent =
+  LOG.length + " answers logged"; }
+function prNuevo(){ PR.q = sacaDe(PZ[iP]); PR.hecho = false; dibuja(); }
+
+function ensenaPantalla(s){
+ const e = {};
+ (s.ensenaTambien || []).forEach(c => e[c] = 1);
+ const base = s.buque || {};
+ if(s.buque) e[claveDe(s.buque)] = 1;
+ ["estados", "naves", "paneles"].forEach(campo =>
+   (s[campo] || []).forEach(q => { if(q.v) e[claveDe(Object.assign({}, base, q.v))] = 1; }));
+ (s.tramos || []).forEach(t => { if(t.v) e[claveDe(t.v)] = 1; });
+ (s.clases || []).forEach(q => { if(q.clave) e[q.clave] = 1; });
+ return Object.keys(e);
+}
+const presentadas = hasta => {
+ const e = {};
+
+ for(let i = 0; i < hasta; i++)
+  if(PZ[i].obra !== "practica" && PZ[i].obra !== "rejilla")
+   ensenaPantalla(PZ[i]).forEach(c => e[c] = 1);
+ return e;
+};
+
+function quienEs(q){
+
+ if(typeof QUIEN_ES === "function") return QUIEN_ES(q);
+ const ids = identidades(q);
+ if(!ids.length) return "";
+ const yaSale = presentadas(iP);
+ const nueva = !yaSale[claveDe(q.buque)]
+   && typeof DONDE_LUEGO !== "undefined" ? DONDE_LUEGO : "";
+
+ const aviso = nueva
+   ? ' <em>New to you — what it means comes ' + nueva + ". For now the sight "
+     + "above is the whole of it: the name is a label, not a lesson yet.</em>"
+   : "";
+ if(ids.length === 1)
+  return '<div class="res ver"><b>And what she is:</b> ' + ids[0] + "." + aviso
+    + "</div>";
+ return '<div class="res ver"><b>And what she could be:</b> '
+   + ids.slice(0, -1).join(", ") + " or " + ids[ids.length-1]
+   + " \u2014 <em>her lights do not choose between them, and that is the answer, "
+   + "not a gap in it.</em>" + aviso + "</div>";
+}
+
+function responde(s, k){
+ const q = PR.q, ok = okDe(s, q), T = TEXTOS[s.banco], bien = (k === ok);
+ LOG.push({id:s.id, q:q.id, k:k, bien:bien}); marcaLog();
+ if(bien){ PR.hecho = true; PR.n++;
+   PR.res = '<div class="res si"><b>Yes.</b> You are seeing ' + nombraEscena(q)
+     + ". " + T.porque[T.clases[ok]] + "</div>" + quienEs(q);
+
+   if(PR.fallos && PR.meta === 2){ PR.meta = 3;
+     PR.res += '<div class="res">Two was the plan; the third is here because you '
+       + "slipped, and it goes away as soon as you do not.</div>"; }
+ }else{ PR.fallos++;
+   PR.res = '<div class="res no"><b>Not that one.</b> ' + (T.mal[T.clases[k]] || "")
+     + "</div>";
+   if(T.pista) PR.res += '<div class="pista">' + T.pista + "</div>"; }
+ dibuja();
+}
+function muestra(s){
+ const q = PR.q, ok = okDe(s, q), T = TEXTOS[s.banco];
+ PR.hecho = true; PR.n++;
+ LOG.push({id:s.id, q:q.id, k:-1, bien:false, show:true}); marcaLog();
+ PR.res = '<div class="res ver"><b>' + T.opciones[ok].replace(/<[^>]+>/g, "") + "</b> "
+   + "There is " + nombraEscena(q) + ". " + T.show[T.clases[ok]] + "</div>"
+   + quienEs(q);
+ if(PR.meta === 2) PR.meta = 3;
+ dibuja();
+}
+
+function salta(s){
+ LOG.push({id:s.id, q:PR.q && PR.q.id, k:-1, bien:false, saltada:true}); marcaLog();
+ PR.res = "";
+ if(PR.meta === 2){ PR.meta = 3;
+   PR.res = '<div class="res">Skipped. One more after this.</div>'; }
+ prNuevo();
+}
+
+function panelPaso(s, p){
+ const t = s.tramos[EJ.i];
+ p.innerHTML = h3De(s) + "<h2>" + s.h + "</h2>";
+
+ const pr = t.p || (Array.isArray(s.p) ? s.p[EJ.i] : null);
+ if(pr) p.insertAdjacentHTML("beforeend", "<p>" + pr + "</p>");
+ if(t.razon) p.insertAdjacentHTML("beforeend", '<div class="calc">' + t.razon + "</div>");
+ const nav = document.createElement("div"); nav.className = "nav";
+ nav.innerHTML = '<button class="sec" id="atras"' + (EJ.i ? "" : " disabled")
+   + ">Back a step</button>"
+   + '<button id="sig">' + (EJ.i < s.tramos.length-1 ? "Next step" : (s.b || "Next"))
+   + "</button>"
+   + '<span class="prl">step ' + (EJ.i+1) + " of " + s.tramos.length + "</span>";
+ colgaNav(p, nav);
+ nav.querySelector("#atras").onclick = () => { if(EJ.i){ EJ.i--; dibuja(); } };
+ nav.querySelector("#sig").onclick = () => {
+   if(EJ.i < s.tramos.length-1){ EJ.i++; dibuja(); } else vaA(iP+1); };
+}
+
+function panelExplora(s, p){
+ const n = s.naves.length;
+ const abiertas = s.naves.filter(q => EX.vistas[q.id]).length;
+ const sel = EX.sel && s.naves.filter(q => q.id === EX.sel)[0];
+ p.innerHTML = h3De(s) + "<h2>" + s.h + "</h2>";
+ if(sel){
+  p.insertAdjacentHTML("beforeend", '<b class="q">' + sel.nombre + "</b>");
+  if(sel.regla) p.insertAdjacentHTML("beforeend",
+    '<div class="calc">' + sel.regla + "</div>");
+  (sel.p || []).forEach(x => p.insertAdjacentHTML("beforeend", "<p>" + x + "</p>"));
+ }else{
+  (s.p || []).forEach(x => p.insertAdjacentHTML("beforeend", "<p>" + x + "</p>"));
+ }
+ const nav = document.createElement("div"); nav.className = "nav";
+
+ nav.innerHTML = '<button class="sec" id="atras"' + (iP ? "" : " disabled")
+   + ">Back</button>"
+   + '<button id="sig">' + (abiertas >= n ? (s.b || "Now you try") : "Next")
+   + "</button>"
+   + '<span class="prl">' + abiertas + " of " + n + " opened</span>";
+ colgaNav(p, nav);
+ nav.querySelector("#atras").onclick = () => vaA(iP-1);
+ nav.querySelector("#sig").onclick = () => vaA(iP+1);
+}
+
+function panelPractica(s, p){
+ const q = PR.q; if(!q) return;
+ const T = TEXTOS[s.banco];
+ p.innerHTML = h3De(s) + '<b class="q">' + T.pregunta + "</b>"
+   + (s.instruccion ? "<p><em>" + s.instruccion + "</em></p>" : "");
+ const ops = document.createElement("div"); ops.className = "ops";
+
+ const orden = T.opciones.map((o, k) => k);
+ for(let j = orden.length-1; j > 0; j--){
+   const t = Math.floor((((AZAR + j*7 + iP*13) % 97) / 97) * (j+1));
+   [orden[j], orden[t]] = [orden[t], orden[j]]; }
+ orden.forEach(k => {
+   const b = document.createElement("button");
+   b.innerHTML = T.opciones[k]; b.dataset.k = k; b.disabled = PR.hecho;
+   b.onclick = () => responde(s, k);
+   ops.appendChild(b); });
+ p.appendChild(ops);
+ if(PR.res) p.insertAdjacentHTML("beforeend", PR.res);
+ const nav = document.createElement("div"); nav.className = "nav";
+ nav.innerHTML = '<button class="sec" id="atras">Back</button>'
+   + (PR.hecho ? '<button id="otra">Next one</button>' : "")
+   + (PR.hecho && PR.n >= PR.meta ? '<button id="sig">Next</button>' : "")
+   + (!PR.hecho && PR.fallos >= 2 ? '<button class="show" id="show">Show me</button>' : "")
+   + (!PR.hecho ? '<a class="skip" id="salta">Skip</a>' : "")
+   + '<span class="prl">' + Math.min(PR.hecho ? PR.n : PR.n+1, PR.meta)
+   + " of " + PR.meta + "</span>";
+ colgaNav(p, nav);
+ nav.querySelector("#atras").onclick = () => vaA(iP-1);
+ const o = nav.querySelector("#otra");  if(o)  o.onclick  = () => { PR.res = ""; prNuevo(); };
+ const g = nav.querySelector("#sig");   if(g)  g.onclick  = () => vaA(iP+1);
+ const sh = nav.querySelector("#show"); if(sh) sh.onclick = () => muestra(s);
+ const sk = nav.querySelector("#salta");if(sk) sk.onclick = () => salta(s);
+}
+
+let iP = 0;
+
+const AIRE = 0.015;
+
+function cajaDe(e){
+ const a = e.attributes ? null : null;
+ const n = k => { const v = e.getAttribute(k); return v === null ? null : +v; };
+ const t = e.tagName;
+ if(t === "circle"){
+  const r = n("r") || 0;
+  return {x0:n("cx")-r, y0:n("cy")-r, x1:n("cx")+r, y1:n("cy")+r};
+ }
+ if(t === "line")
+  return {x0:Math.min(n("x1"),n("x2")), y0:Math.min(n("y1"),n("y2")),
+          x1:Math.max(n("x1"),n("x2")), y1:Math.max(n("y1"),n("y2"))};
+ if(t === "text"){
+  const tam = n("font-size") || 12, an = (e.textContent || "").length * tam * 0.58;
+  const anc = e.getAttribute("text-anchor");
+  const x0 = anc === "middle" ? n("x") - an/2 : (anc === "end" ? n("x") - an : n("x"));
+  return {x0:x0, y0:n("y") - tam, x1:x0 + an, y1:n("y")};
+ }
+ const d = e.getAttribute("d");
+ if(d){
+  const nums = d.match(/-?\d+(\.\d+)?/g) || [];
+  if(nums.length < 2) return null;
+  let x0 = Infinity, y0 = Infinity, x1 = -Infinity, y1 = -Infinity;
+  for(let i = 0; i + 1 < nums.length; i += 2){
+   x0 = Math.min(x0, +nums[i]);   x1 = Math.max(x1, +nums[i]);
+   y0 = Math.min(y0, +nums[i+1]); y1 = Math.max(y1, +nums[i+1]);
+  }
+  return {x0:x0, y0:y0, x1:x1, y1:y1};
+ }
+ if(n("width") !== null && n("x") !== null)
+  return {x0:n("x"), y0:n("y"), x1:n("x")+n("width"), y1:n("y")+n("height")};
+ return null;
+}
+
+function unificaEscala(raiz){
+ const gs = [];
+ (function anda(n){
+  if(!n) return;
+  if(n.getAttribute && n.getAttribute("data-buquesvg")) gs.push(n);
+  const h = n.childNodes || [];
+  for(let i = 0; i < h.length; i++) if(h[i].getAttribute) anda(h[i]);
+ })(raiz);
+
+ if(!gs.length) return 0;
+ let K = Infinity;
+ const cajas = gs.map(function(g){
+  const vb = String(g.getAttribute("viewBox")).trim().split(/\s+/).map(Number);
+  const hx = +g.getAttribute("data-hx"), hy = +g.getAttribute("data-hy");
+  const hw = +g.getAttribute("data-hw"), hh = +g.getAttribute("data-hh");
+  const k = Math.min(hw / vb[2], hh / vb[3]);
+  if(k < K) K = k;
+  return {g: g, vb: vb, hx: hx, hy: hy, hw: hw, hh: hh};
+ });
+ if(!isFinite(K) || K <= 0) return gs.length;
+ cajas.forEach(function(q){
+  const w = q.vb[2] * K, h = q.vb[3] * K;
+  q.g.setAttribute("width", w);
+  q.g.setAttribute("height", h);
+  q.g.setAttribute("x", q.hx + (q.hw - w) / 2);
+  q.g.setAttribute("y", q.hy + (q.hh - h) / 2);
+ });
+ return gs.length;
+}
+
+function cajaDibujo(){
+ let x0 = Infinity, y0 = Infinity, x1 = -Infinity, y1 = -Infinity, n = 0;
+ const mira = e => {
+  if(e.getAttribute && e.getAttribute("class") === "boton") return;
+
+  if(e.tagName === "svg" && e.getAttribute && e.getAttribute("viewBox")){
+   const bx = +e.getAttribute("x"), by = +e.getAttribute("y");
+   const bw = +e.getAttribute("width"), bh = +e.getAttribute("height");
+   if(isFinite(bx) && isFinite(by) && isFinite(bw) && isFinite(bh)){
+    n++;
+    x0 = Math.min(x0, bx); y0 = Math.min(y0, by);
+    x1 = Math.max(x1, bx + bw); y1 = Math.max(y1, by + bh);
+    return;
+   }
+  }
+  const c = cajaDe(e);
+  if(c && isFinite(c.x0) && isFinite(c.y0)){
+   n++;
+   x0 = Math.min(x0, c.x0); y0 = Math.min(y0, c.y0);
+   x1 = Math.max(x1, c.x1); y1 = Math.max(y1, c.y1);
+  }
+  const hijos = e.childNodes || [];
+  for(let i = 0; i < hijos.length; i++)
+   if(hijos[i].getAttribute) mira(hijos[i]);
+ };
+ const hijos = gO.childNodes || [];
+ for(let i = 0; i < hijos.length; i++) if(hijos[i].getAttribute) mira(hijos[i]);
+ if(!n) return null;
+ return {x0:x0, y0:y0, x1:x1, y1:y1, w:x1-x0, h:y1-y0, piezas:n};
+}
+
+let FORMA = null;
+function midePresenta(c){
+ const d = LUZ.D;
+ FORMA = {w_d:c.w, h_d:c.h, d:d, r:c.w/c.h, V:c.h/d, piezas:c.piezas};
+ return FORMA;
+}
+
+function esc(){
+ const c = document.getElementById("obj").getBoundingClientRect();
+ const k = Math.min(c.width / D.W, c.height / D.H);
+ if(k > 0 && isFinite(k)) return k;
+ const L = document.getElementById("lienzo");
+ const r = L ? L.getBoundingClientRect() : null;
+ const k2 = r ? Math.min(r.width / D.W, r.height / D.H) : 0;
+ return (k2 > 0 && isFinite(k2)) ? k2 : 1;
+}
+
+const BANDA = 236;
+const HUECO = 14;
+
+let BANDA_ABAJO = false;
+
+let CAJA_F = null;
+
+const ANCHO_REPARTO = 540;
+
+function repartoDe(s){
+ if(s.reparto !== "apiladas" || typeof FICHAS === "undefined" || !FICHAS[s.obra])
+  return null;
+
+ const L = document.getElementById("lienzo");
+ if(!L) return null;
+
+ const an = L.getBoundingClientRect().width - 44;
+ if(an < ANCHO_REPARTO) return null;
+
+ return FICHAS[s.obra](s) || null;
+}
+
+function apila(s, fichas){
+ const cont = document.getElementById("fichas");
+ const cie  = document.getElementById("cierre");
+ cont.innerHTML = "";
+ cie.innerHTML = s.renglon
+   ? '<div class="cf">' + s.renglon + "</div>"
+     + (s.pie ? '<div class="cp">' + s.pie + "</div>" : "")
+   : "";
+ const n = fichas.length;
+
+ const cols = fichas.cols || 1;
+ const filas = Math.ceil(n / cols);
+ const caja = cont.getBoundingClientRect();
+
+ if(cols > 1 || (caja.width - HUECO*(cols - 1)) / cols - BANDA - 2 < 420)
+  BANDA_ABAJO = true;
+ cont.style.gridTemplateColumns = "repeat(" + cols + ",1fr)";
+ const alto = Math.floor((caja.height - HUECO*(filas - 1)) / filas) - 2;
+
+ const anchoMax = Math.floor((caja.width - HUECO*(cols - 1)) / cols)
+                  - (BANDA_ABAJO ? 0 : BANDA) - 2;
+ const altoEsc = alto - (BANDA_ABAJO ? 84 : 0);
+ CAJA_F = {w: anchoMax, h: altoEsc, n: n};
+
+ const iM = (s.marca == null) ? -1 : s.marca.charCodeAt(0) - 65;
+ const svgs = [];
+ fichas.forEach(function(q, i){
+  const fi = document.createElement("div");
+  fi.className = "ficha " + (BANDA_ABAJO ? "conpie" : "allado")
+               + (i === iM ? " marcada" : "");
+
+  const es = document.createElement("div");
+  es.className = "escena" + (q && q.dia ? " dia" : "");
+  const sv = document.createElementNS(NS, "svg");
+  sv.setAttribute("preserveAspectRatio", "xMidYMid meet");
+  es.appendChild(sv);
+  fi.appendChild(es);
+
+  const cab = document.createElement("div"); cab.className = "bcab";
+  cab.innerHTML = '<span class="k">' + String.fromCharCode(65 + i)
+    + '</span><span class="guia"></span><span class="v">' + q.rot + '</span>';
+  const pie = document.createElement("div"); pie.className = "bpie";
+  pie.innerHTML = '<div class="btit' + (q.alarma ? " alarma" : "") + '">' + q.tit
+    + '</div><div class="bglo">' + q.glo + '</div>';
+  fi.insertBefore(cab, es);
+  fi.appendChild(pie);
+  cont.appendChild(fi);
+  svgs.push({sv: sv, fi: fi, q: q});
+ });
+
+ const SUELO_LUZ = 12, TECHO_LUZ = 26;
+ const anchoUn = Math.min(D.W - 67,
+                          anchoMax / (SUELO_LUZ / LUZ.D) / (1 + 2*AIRE));
+ ESC = Math.min(anchoMax / D.W, altoEsc / D.H);
+
+ const aireLibre = Math.max.apply(null, svgs.map(function(o){
+   return (o.q && o.q.v && !o.q.dia) ? altoLibreDe(o.q.v, anchoUn) : 0;
+ }).concat([0]));
+ const cajas = [], gs = [];
+ svgs.forEach(function(o, i){
+  svg = o.sv; svg.innerHTML = "";
+  gO = el("g", {}, svg);
+  gs.push(gO);
+  if(o.q) o.q.aire = aireLibre;
+  pintaFicha(o.q, s, anchoUn, i);
+ });
+
+ unificaEscala(document.getElementById("fichas"));
+ gs.forEach(function(g){ gO = g; cajas.push(cajaDibujo()); });
+
+ let k = Infinity;
+ cajas.forEach(function(b){
+  if(!b) return;
+  k = Math.min(k, altoEsc / (b.h * (1 + 2*AIRE)),
+                  anchoMax / (b.w * (1 + 2*AIRE)));
+ });
+
+ const an = anchoMax;
+ CAJA_F.w = an;
+
+ if(altoEsc < 240){
+  cont.innerHTML = ""; cie.innerHTML = "";
+  cont.style.gridTemplateColumns = "";
+  BANDA_ABAJO = false;
+  return false;
+ }
+
+ const altoF = alto;
+ cont.style.gridTemplateRows = "repeat(" + filas + "," + altoF + "px)";
+ cont.style.alignContent = "center";
+
+ if(cols === 1)
+  cont.style.gridTemplateColumns =
+    Math.min(Math.floor(caja.width), an + (BANDA_ABAJO ? 0 : BANDA) + 2) + "px";
+ KLAM = k / ESC;
+ FORMA = null;
+ svgs.forEach(function(o, i){
+  const b = cajas[i];
+
+  o.fi.style.gridTemplateColumns = BANDA_ABAJO ? "" : an + "px minmax(0,1fr)";
+  if(!b) return;
+  const mx = b.w*AIRE, my = b.h*AIRE;
+  const vw = b.w + mx*2, vh = b.h + my*2;
+
+  const vwC = Math.max(vw, an / k);
+  o.sv.setAttribute("viewBox", (b.x0 - mx - (vwC - vw)/2) + " " + (b.y0 - my)
+    + " " + vwC + " " + vh);
+  if(!FORMA) FORMA = {w_d:b.w, h_d:b.h, d:LUZ.D, r:b.w/b.h, V:b.h/LUZ.D,
+                      piezas:b.piezas};
+ });
+ return true;
+}
+
+function dibuja(){
+ guardaDonde(iP);
+ const sP = PZ[iP];
+ const reparto = repartoDe(sP);
+
+ const uno = document.getElementById("ficha");
+ const pila = document.getElementById("fichas");
+ const cie = document.getElementById("cierre");
+ if(pila){
+  uno.style.display  = reparto ? "none" : "";
+  pila.style.display = reparto ? "" : "none";
+  cie.style.display  = reparto ? "" : "none";
+
+  uno.style.width = ""; uno.style.height = ""; uno.style.flex = "";
+  if(!reparto){ pila.innerHTML = ""; cie.innerHTML = ""; }
+ }
+
+ if(sP.obra === "cierre" && sP.cols && pila){
+  uno.style.display = "none"; pila.style.display = ""; cie.style.display = "";
+  const vs = document.getElementById("svg");
+  if(vs) vs.innerHTML = "";
+  pila.style.gridTemplateColumns = "repeat(" + sP.cols.length + ",1fr)";
+  pila.innerHTML = sP.cols.map(function(c){
+   return '<div class="res-col"><h5>' + c.rot + "</h5><div><dl>"
+     + c.filas.map(function(f){
+        return "<dt>" + f[0] + "</dt><dd>" + f[1] + "</dd>"; }).join("")
+     + "</dl></div></div>";
+  }).join("");
+  cie.innerHTML = (sP.renglon ? '<div class="cf">' + sP.renglon + "</div>" : "")
+                + (sP.pie ? '<div class="cp">' + sP.pie + "</div>" : "");
+  pinta();
+  return;
+ }
+ if(reparto){
+
+  const vs = document.getElementById("svg");
+  if(vs) vs.innerHTML = "";
+  NAVE_N = 0;
+  HAY_LUZ = false;
+  LIBRES_DICHAS = {};
+
+  if(apila(sP, reparto)){ pinta(); return; }
+  uno.style.display = ""; pila.style.display = "none"; cie.style.display = "none";
+ }
+ svg = document.getElementById("svg");
+ svg.innerHTML = "";
+ svg.setAttribute("viewBox", "0 0 " + D.W + " " + D.H);
+ svg.setAttribute("preserveAspectRatio", "xMidYMid meet");
+ CAJAS_PROPIAS = 0;
+ ESC = esc();
+ NAVE_N = 0;
+ HAY_LUZ = false;
+
+ LIBRES_DICHAS = {};
+ gO = el("g", {}, svg);
+ cableaClic();
+ const s = PZ[iP];
+ (OBRAS[s.obra] || (()=>{}))(s);
+
+ const _t = document.getElementById("ficha");
+ if(_t) _t.className = CAJAS_PROPIAS > 1 ? "sinCaja" : "";
+
+ unificaEscala(gO);
+ ajustaLamina();
+ ciñeFicha();
+ pinta();
+}
+
+function ciñeFicha(){
+ const f = document.getElementById("ficha");
+ const L = document.getElementById("lienzo");
+ if(!f || !L || !FORMA || !(FORMA.r > 0)) return;
+ const c = L.getBoundingClientRect();
+ const an = c.width - 44, al = c.height - 40;
+ let w = an, h = w / FORMA.r;
+ if(h > al){ h = al; w = h * FORMA.r; }
+ f.style.width  = Math.round(w) + "px";
+ f.style.height = Math.round(h) + "px";
+ f.style.flex   = "none";
+}
+
+let KLAM = 1;
+function ajustaLamina(){
+ KLAM = 1;
+ let c = null;
+ for(let vuelta = 0; vuelta < 4; vuelta++){
+  c = cajaDibujo();
+  if(!c || !(c.w > 0) || !(c.h > 0)){ FORMA = null; return; }
+  const mx = c.w * AIRE, my = c.h * AIRE;
+  const vb = {x:c.x0 - mx, y:c.y0 - my, w:c.w + mx*2, h:c.h + my*2};
+
+  const caja = document.getElementById("obj").getBoundingClientRect();
+
+  let kNueva = Math.min(caja.width / vb.w, caja.height / vb.h) / ESC;
+
+  if(HAY_LUZ && LUZ.D * ESC * kNueva > 26) kNueva = 26 / (LUZ.D * ESC);
+  const paso = kNueva / KLAM;
+  svg.setAttribute("viewBox", vb.x + " " + vb.y + " " + vb.w + " " + vb.h);
+  KLAM = kNueva;
+
+  reajustaRotulos(paso);
+  if(Math.abs(paso - 1) < 0.005) break;
+ }
+ midePresenta(c);
+}
+
+function reajustaRotulos(paso){
+ if(!(paso > 0) || Math.abs(paso - 1) < 1e-6) return;
+ const anda = e => {
+  if(e.tagName === "text"){
+   const t = +e.getAttribute("font-size");
+   if(t) e.setAttribute("font-size", t / paso);
+  }
+  const h = e.childNodes || [];
+  for(let i = 0; i < h.length; i++) if(h[i].getAttribute) anda(h[i]);
+ };
+ const h = gO.childNodes || [];
+ for(let i = 0; i < h.length; i++) if(h[i].getAttribute) anda(h[i]);
+}
+
+function marcoNuevo(){
+ const r = document.getElementById("hTit");
+ return !!(r && r.getAttribute("data-rotulo") !== null);
+}
+
+function h3De(s){ return marcoNuevo() ? "" : "<h3>" + s.tema + "</h3>"; }
+
+function colgaNav(p, nav){
+ const pie = document.getElementById("navPie");
+ (marcoNuevo() && pie ? pie : p).appendChild(nav);
+}
+const dosCifras = n => (n < 10 ? "0" : "") + n;
+function pinta(){
+ const s = PZ[iP];
+ const nuevo = marcoNuevo();
+
+ const pie = document.getElementById("navPie");
+ if(pie) pie.innerHTML = "";
+ document.getElementById("hTit").textContent = nuevo ? s.tema : s.h;
+ const hN = document.getElementById("hN");
+ if(hN) hN.textContent = (iP+1) + " / " + PZ.length;
+ const bc = document.getElementById("barCont");
+ if(bc) bc.textContent = dosCifras(iP+1) + " / " + dosCifras(PZ.length);
+ const pane = document.getElementById("pane");
+ if(s.obra === "practica"){ panelPractica(s, pane); }
+ else if(s.obra === "explora"){ panelExplora(s, pane); }
+ else if(s.obra === "paso"){ panelPaso(s, pane); }
+ else {
+
+  const sig = document.getElementById("tSig");
+  const anuncio = (s.obra === "cierre" && sig && sig.innerHTML) ? sig.innerHTML : "";
+  pane.innerHTML = h3De(s) + "<h2>" + s.h + "</h2>"
+   + s.p.map(q => "<p>" + q + "</p>").join("")
+   + (s.calc ? '<div class="calc">' + s.calc + "</div>" : "")
+   + anuncio;
+
+  const barra = '<div class="nav"><button onclick="vaA(iP+1)"'
+   + (iP >= PZ.length-1 ? " disabled" : "") + ">" + (s.b || "Next") + "</button></div>";
+  if(nuevo && pie) pie.innerHTML = barra; else pane.insertAdjacentHTML("beforeend", barra);
+ }
+
+ const pr = document.getElementById("prog");
+ pr.innerHTML = "";
+ PZ.forEach((q, i) => {
+  const b = document.createElement("i");
+  if(i === iP) b.className = "on"; else if(i < iP) b.className = "done";
+  b.title = "Screen " + (i+1) + " of " + PZ.length + " · " + q.h;
+  b.onclick = () => vaA(i);
+  pr.appendChild(b);
+ });
+}
+function vaA(i){
+ if(i < 0 || i >= PZ.length) return;
+
+ if(typeof suePara === "function") suePara();
+ iP = i;
+
+ if(PZ[i].obra === "explora") EX = {sel:null, vistas:{}};
+ if(PZ[i].obra === "paso") EJ = {i:0};
+
+  if(PZ[i].obra === "rejilla") REJ = {};
+ if(PZ[i].obra === "practica"){
+   PR = {q:null, n:0, meta:2, fallos:0, hecho:false, res:""};
+   PR.q = sacaDe(PZ[i]);
+ }
+ dibuja();
+}
+
+function cableaClic(){
+ const s = document.getElementById("svg");
+ if(!s || s._cableado) return;
+ s._cableado = true;
+ s.addEventListener("pointerdown", e => {
+
+  const sn = e.target.closest ? e.target.closest("[data-suena]") : null;
+  if(sn){
+   const d = sn.getAttribute("data-suena");
+   if(d === "para"){ suePara(); return; }
+   if(typeof SUENAN === "function"){
+    const q = SUENAN(PZ[iP], d);
+    if(q) sueToca(q.tramos, q.medio, q.hueco);
+   }
+   return;
+  }
+
+  const c = e.target.closest ? e.target.closest("[data-casilla]") : null;
+  if(c && PZ[iP].obra === "rejilla"){
+   REJ[+c.getAttribute("data-casilla")] = true; dibuja(); return;
+  }
+  const b = e.target.closest ? e.target.closest("[data-buque]") : null;
+  if(!b) return;
+  if(PZ[iP].obra !== "explora") return;
+  const id = b.getAttribute("data-buque");
+  EX.sel = id; EX.vistas[id] = true; dibuja();
+ });
+}
+addEventListener("resize", dibuja);
+
+function guardaDonde(i){ vistoPon(YO, i); }
+function donde(){ return vistoPos(YO, PZ.length-1); }
+function deCero(){ vistoOlvida(YO); vaA(0); }
+
+const ALTO_PANEL = (pasos, minimo, tope) =>
+  Math.min(tope || 1e9, Math.max(minimo, pasos * LUZ.D + LUZ.D * 2.2));
+
+const CORTE = ARC.masthead;
+
+function marcacionCorta(g){
+ const a = Math.abs(g);
+ if(a <= 5)        return "dead ahead";
+ if(a === 90)      return "on her beam";
+ if(a < CORTE)     return a + "° · forward of the cut";
+ if(a < CORTE + 2) return a + "° · past the cut";
+ return a + "° on her quarter";
+}
+function nombraMarcacion(g){
+ const a = Math.abs(g);
+ if(a <= 5)         return "dead ahead of her";
+ if(a < 90)         return a + "° on her bow";
+ if(a === 90)       return "on her beam";
+ if(a < CORTE)      return a + "° — abaft her beam, and still forward of the cut";
+ if(a < CORTE + 2)  return a + "° — one degree past the cut";
+ return a + "° on her quarter";
+}
+
+function obraVuelta(s){
+ const n = s.marcaciones.length;
+ const M = 18, ANP = (D.W - M*(n+1))/n;
+ const pasos = pasosMax(s.marcaciones.map(q => ({v: s.buque})));
+ const ALP = ALTO_PANEL(pasos, 300);
+ let bajo = 56 + ALP;
+ s.marcaciones.forEach((q, i) => {
+  const P = panel(M + (ANP + M)*i, 56, ANP, ALP, true, q.rot);
+  pintaNave(P, s.buque, q.g, {escorza: true, pasos: pasos, ancho: ANP - 67});
+
+  const ve = vistas(s.buque, q.g);
+  const n1 = txtCabe(P.cx, P.y1 + px(21), marcacionCorta(q.g), ANP - px(10), 13,
+                     "var(--lam-ink)", 600);
+  const n2 = txtCabe(P.cx, P.y1 + px(21) + n1*px(18) + px(2),
+    (ve.length === 1 ? "one light" : ve.length + " lights") + " · " + q.pie,
+    ANP - px(10), 12.5, "var(--lam-dim)");
+  bajo = Math.max(bajo, P.y1 + px(21) + n1*px(18) + n2*px(17));
+ });
+
+ renglonAbajo(Math.min(bajo + px(30), D.H - px(74)), s.renglon, s.pie, M, D.W - M);
+}
+
+function obraCruce(s){
+ const nc = s.naves.length, nf = s.millas.length;
+ const M = 20, ANP = (D.W - M*(nc+1))/nc;
+ const pasos = pasosMax(s.naves);
+
+ const ALP = ALTO_PANEL(pasos, 168, (D.H - 74 - 150)/nf - px(30));
+
+ s.naves.forEach((q, col) =>
+   txtCabe(M + (ANP + M)*col + ANP/2, 56, q.rot, ANP - px(6), 12,
+           "var(--lam-magenta)", 600, "mono"));
+ let bajo = 74;
+ s.millas.forEach((nm, fila) => {
+  const y = 74 + fila*(ALP + px(40));
+  s.naves.forEach((q, col) => {
+   const P = panel(M + (ANP + M)*col, y, ANP, ALP, true, nm + " MILES OFF");
+   pintaNave(P, q.v, s.g, {escorza: true, nm: nm, pasos: pasos,
+                           ancho: ANP - 67, rotula: false});
+   const ve = vistas(q.v, s.g).filter(l => nm <= ranges(q.v.length || 12)[l.rangeKey]);
+   const k = txtCabe(P.cx, P.y1 + px(18),
+     ve.length ? (ve.length === 1 ? "one light" : ve.length + " lights")
+               : "nothing at all",
+     ANP - px(10), 13, ve.length ? "var(--lam-ink)" : "var(--lam-alarm)", 600);
+   bajo = Math.max(bajo, P.y1 + px(18) + k*px(17));
+  });
+ });
+ renglonAbajo(Math.min(bajo + px(26), D.H - px(62)), s.renglon, s.pie, M, D.W - M);
+}
+
+function obraContra(s){
+ const n = s.naves.length;
+ const M = 18, ANP = (D.W - M*(n+1))/n;
+ const pasos = pasosMax(s.naves);
+ const ALP = ALTO_PANEL(pasos, 286);
+ let bajo = 52 + ALP;
+ s.naves.forEach((q, i) => {
+  const g = q.g === undefined ? s.g : q.g;
+  const P = panel(M + (ANP + M)*i, 52, ANP, ALP, true, q.rot);
+  pintaNave(P, q.v, g, {escorza: true, pasos: pasos, ancho: ANP - 67,
+                        rotula: false});
+  const n1 = txtCabe(P.cx, P.y1 + px(20), marcacionCorta(g), ANP - px(10), 12.5,
+                     "var(--lam-dim)", 400, "mono");
+  const n2 = txtCabe(P.cx, P.y1 + px(20) + n1*px(17) + px(3), q.pie,
+                     ANP - px(10), 13, "var(--lam-ink)", 600);
+  bajo = Math.max(bajo, P.y1 + px(20) + n1*px(17) + n2*px(18));
+ });
+ renglonAbajo(Math.min(bajo + px(38), D.H - px(62)), s.renglon, s.pie, M, D.W - M);
+}
+
+function obraRejilla(s){
+ const M = 16, cols = 3, filas = Math.ceil(s.naves.length / cols);
+ const ANP = (D.W - M*(cols+1))/cols;
+ const pasos = pasosMax(s.naves);
+ const ALP = ALTO_PANEL(pasos, 172, (D.H - 46 - 96)/2 - px(40));
+ s.naves.forEach((q, i) => {
+  const cx = i % cols, cy = (i / cols) | 0;
+
+  const P = panel(M + (ANP + M)*cx, 46 + cy*(ALP + px(74)), ANP, ALP, true,
+                  String.fromCharCode(65 + i), true);
+  pintaNave(P, q.v, q.g, {aire: q.aire || 0, escorza: true, nm: q.nm, pasos: pasos,
+                          ancho: ANP - 57, rotula: false});
+  const abierto = !!REJ[i];
+  const y0 = P.y1 + px(19);
+  const k = txtCabe(P.cx, y0, q.nm ? marcacionCorta(q.g) + " · " + q.nm + " M"
+                                   : marcacionCorta(q.g),
+                    ANP - px(8), 12.5, "var(--lam-dim)", 400, "mono");
+  if(abierto){
+   const ids = identidades({buque: q.v, g: q.g, nm: q.nm});
+   txtCabe(P.cx, y0 + k*px(16) + px(3),
+     ids.length === 1 ? ids[0] : "could be any of " + ids.length,
+     ANP - px(8), 12.5, ids.length === 1 ? "var(--lam-ink)" : "var(--lam-alarm)", 600);
+  }
+
+  el("rect", {x: M + (ANP + M)*cx, y: 46 + cy*(ALP + px(74)) - px(6),
+    width: ANP, height: ALP + px(56), fill: "transparent", class: "boton",
+    "data-casilla": i});
+ });
+}
+
+function obraPractica(s){
+ const q = PR.q; if(!q) return;
+ const M = 46;
+ const P = panel(M, 76, D.W - M*2, 320, true, "WHAT YOU SEE"
+   + (q.nm ? " \u00b7 " + q.nm + " MILES OFF" : ""));
+ pintaNave(P, q.buque, q.g, {ancho: ANCHO_PRACTICA, neutro: true, escorza: true,
+                             soloRemolcador: true, nm: q.nm});
+ txtCabe(D.W/2, P.y1 + px(48),
+   "Her hull is the same hull every time. What changes is where you are standing.",
+   D.W - px(120), 12.5, "var(--lam-dim)");
+}
+
+function obraCierre(s){
+
+ const n = (s.cols || []).length || 3, M = 26, HUE = px(18);
+ const an = (D.W - M*2 - HUE*(n - 1)) / n;
+ const y0 = 62, suelo = D.H - px(96);
+ const mide = con => Math.max.apply(null, s.cols.map(c =>
+   c.filas.reduce((a, f) => a + parte(f[0], an - px(8), 13).length * px(18)
+     + (con ? parte(f[1], an - px(8), 12).length * px(16) + px(2) : 0) + px(10), 0)));
+ const glosa = y0 + px(54) + mide(true) <= suelo;
+ let hondo = 0;
+ s.cols.forEach((c, j) => {
+  const bx = M + (an + HUE)*j;
+  el("rect", {x:bx, y:y0, width:an, height:px(30), rx:2, fill:"#0D2431",
+    stroke:"var(--sea-line)", "stroke-width":1});
+  txtCabe(bx + an/2, y0 + px(20), c.rot, an - px(12), 12,
+          "var(--lam-magenta)", 600, "mono");
+  let yy = y0 + px(54);
+  c.filas.forEach(f => {
+   yy += txtCabe(bx + px(4), yy, f[0], an - px(8), 13, "var(--lam-ink)",
+                 600, "ui", "start") * px(18);
+   if(glosa) yy += txtCabe(bx + px(4), yy + px(2), f[1], an - px(8), 12,
+                           "var(--lam-dim)", 400, "ui", "start") * px(16) + px(2);
+   yy += px(10);
+  });
+  hondo = Math.max(hondo, yy);
+ });
+ renglonAbajo(Math.min(hondo + px(30), suelo), s.renglon, s.pie, M, D.W - M);
+}
+
+const FICHAS = {
+ vuelta: s => {
+  const pasos = pasosMax(s.marcaciones.map(q => ({v: s.buque})));
+  return s.marcaciones.map(q => {
+   const ve = vistas(s.buque, q.g);
+   return {v: s.buque, g: q.g, pasos: pasos, rot: q.rot,
+           tit: (ve.length === 1 ? "one light" : ve.length + " lights") + " \u00b7 " + q.pie,
+           glo: marcacionCorta(q.g)};
+  });
+ },
+
+ cruce: s => {
+  const pasos = pasosMax(s.naves);
+  const out = [];
+  s.millas.forEach(function(nm){
+   s.naves.forEach(function(q){
+    const ve = vistas(q.v, s.g).filter(function(l){
+     return nm <= ranges(q.v.length || 12)[l.rangeKey]; });
+    out.push({v: q.v, g: s.g, nm: nm, pasos: pasos, rot: nm + " MILES OFF",
+              tit: ve.length ? (ve.length === 1 ? "one light" : ve.length + " lights")
+                             : "nothing at all",
+              glo: q.rot, alarma: !ve.length});
+   });
+  });
+  out.cols = s.naves.length;
+  return out;
+ },
+
+ rejilla: s => {
+  const pasos = pasosMax(s.naves);
+  const out = s.naves.map(function(q, i){
+   const ids = REJ[i] ? identidades({buque: q.v, g: q.g, nm: q.nm}) : null;
+   return {v: q.v, g: q.g, nm: q.nm, pasos: pasos, casilla: i,
+           rot: q.nm ? q.nm + " MILES OFF" : "close aboard",
+           tit: ids ? (ids.length === 1 ? ids[0] : "could be any of " + ids.length)
+                    : "tap to name her",
+           glo: marcacionCorta(q.g), alarma: !!(ids && ids.length !== 1)};
+  });
+  out.cols = 3;
+  return out;
+ },
+
+ practica: s => {
+  const q = PR.q;
+  if(!q) return null;
+  return [{v: q.buque, g: q.g, nm: q.nm, neutro: true,
+           pasos: pasosMax([{v: q.buque}]),
+           rot: "WHAT YOU SEE" + (q.nm ? " · " + q.nm + " MILES OFF" : ""),
+           tit: "Her hull is the same hull every time.",
+           glo: "What changes is where you are standing."}];
+ },
+ contra: s => {
+  const pasos = pasosMax(s.naves);
+  return s.naves.map(q => {
+   const g = q.g === undefined ? s.g : q.g;
+   return {v: q.v, g: g, pasos: pasos, rot: q.rot, tit: q.pie,
+           glo: marcacionCorta(g)};
+  });
+ }
+};
+
+function pintaFicha(q, s, anchoUn, franja){
+ const X = (franja || 0) * D.W;
+ const P = {x0:X, y0:0, x1:X + D.W, y1:D.H, cx:X + D.W/2, cy:D.H*0.74};
+ pintaNave(P, q.v, q.g, {escorza: true, pasos: q.pasos, nm: q.nm,
+                         neutro: q.neutro, soloRemolcador: q.neutro,
+                         ancho: q.neutro ? ANCHO_PRACTICA : (anchoUn || (D.W - 67))});
+
+ if(q.casilla !== undefined)
+
+  el("rect", {x:X + LUZ.D*0.2, y:D.H*0.38,
+              width:D.W - LUZ.D*0.4, height:D.H*0.60, fill:"transparent",
+
+              stroke:"var(--dim)", "stroke-width":LUZ.D*0.5,
+              class:"boton", "data-casilla": q.casilla});
+}
+
+const OBRAS = {vuelta: obraVuelta, cruce: obraCruce, contra: obraContra,
+               rejilla: obraRejilla, practica: obraPractica, cierre: obraCierre};
+
+const ANCHO_PRACTICA = 580;
+
+function diceDesde(q){
+ const ve = vistas(q.buque, q.g)
+   .filter(l => q.nm === undefined || q.nm <= ranges(q.buque.length || 12)[l.rangeKey]);
+ const lados = ve.filter(l => l.kind === "starboard" || l.kind === "port").length;
+ const alcance = ve.some(l => l.kind === "stern");
+ const topes = ve.some(l => l.kind === "masthead");
+ if(lados === 2) return "proa";
+ if(lados === 1 || topes) return "delante";
+ if(alcance) return "detras";
+ return "muda";
+}
+
+const PAREJA = {towing: "remolque", power: "remolque",
+                fishingTrawl: "pesca", nuc: "rojas", cbd: "rojas"};
+function diceConfusion(q){
+ const ids = identidades(q);
+ if(ids.length > 1) return "muda";
+ return claveDe(q.buque);
+}
+const DICE = { DESDE: diceDesde, CONFUSION: diceConfusion };
+const NO_LO_DICE = {DESDE: "muda", CONFUSION: "muda"};
+
+function verdadDesde(v, g, nm){
+ const ve = vistas(v, g)
+   .filter(l => nm === undefined || nm === null
+             || nm <= ranges(v.length || 12)[l.rangeKey]);
+ const lados = ve.filter(l => l.kind === "starboard" || l.kind === "port").length;
+ if(lados === 2) return "proa";
+ if(lados === 1 || ve.some(l => l.kind === "masthead")) return "delante";
+ if(ve.some(l => l.kind === "stern")) return "detras";
+ return "muda";
+}
+
+const VERDAD = {
+  DESDE: (v, g, nm) => Math.abs(g) <= 2 ? "proa"
+                     : (Math.abs(g) < CORTE ? "delante" : "detras"),
+  CONFUSION: (v, g, nm) => claveDe(v)
+};
+
+const BANCOS = {"DESDE": [{"buque": {"type": "power", "length": 150, "underway": true, "makingWay": true}, "g": 0, "id": "de-merc-proa"}, {"buque": {"type": "sailing", "length": 24, "underway": true, "makingWay": true}, "g": 0, "id": "de-vela-proa"}, {"buque": {"type": "power", "length": 30, "underway": true, "makingWay": true}, "g": 0, "id": "de-m30-proa"}, {"buque": {"type": "power", "length": 150, "underway": true, "makingWay": true}, "g": 20, "id": "de-merc-020"}, {"buque": {"type": "power", "length": 150, "underway": true, "makingWay": true}, "g": 60, "id": "de-merc-060"}, {"buque": {"type": "fishingTrawl", "length": 60, "underway": true, "makingWay": true}, "g": 100, "id": "de-trawl-100"}, {"buque": {"type": "cbd", "length": 150, "underway": true, "makingWay": true}, "g": 112, "id": "de-cbd-112"}, {"buque": {"type": "sailing", "length": 24, "underway": true, "makingWay": true}, "g": 70, "id": "de-vela-070"}, {"buque": {"type": "power", "length": 150, "underway": true, "makingWay": true}, "g": 150, "id": "de-merc-150"}, {"buque": {"type": "power", "length": 150, "underway": true, "makingWay": true}, "g": 168, "id": "de-merc-168"}, {"buque": {"type": "sailing", "length": 24, "underway": true, "makingWay": true}, "g": 160, "id": "de-vela-160"}, {"buque": {"type": "cbd", "length": 150, "underway": true, "makingWay": true}, "g": 150, "id": "de-cbd-150"}, {"buque": {"type": "nuc", "length": 90, "underway": true, "makingWay": false}, "g": 60, "id": "de-nuc-060"}, {"buque": {"type": "nuc", "length": 90, "underway": true, "makingWay": false}, "g": 150, "id": "de-nuc-150"}, {"buque": {"type": "power", "length": 120, "underway": false}, "g": 60, "id": "de-anc-060"}], "CONFUSION": [{"buque": {"type": "power", "length": 150, "underway": true, "makingWay": true}, "g": 40, "id": "cf-merc-040"}, {"buque": {"type": "power", "length": 150, "underway": true, "makingWay": true}, "g": 0, "id": "cf-merc-000"}, {"buque": {"type": "towing", "length": 80, "towLength": 120, "towedLength": 60, "underway": true, "makingWay": true}, "g": 40, "id": "cf-tug-c-040"}, {"buque": {"type": "towing", "length": 80, "towLength": 250, "towedLength": 60, "underway": true, "makingWay": true}, "g": 30, "id": "cf-tug-l-030"}, {"buque": {"type": "towing", "length": 80, "towLength": 250, "towedLength": 60, "underway": true, "makingWay": true}, "g": 150, "id": "cf-tug-l-150"}, {"buque": {"type": "fishingTrawl", "length": 60, "underway": true, "makingWay": true}, "g": 60, "id": "cf-trawl-060"}, {"buque": {"type": "fishingTrawl", "length": 60, "underway": true, "makingWay": true}, "g": 150, "id": "cf-trawl-150"}, {"buque": {"type": "power", "length": 150, "underway": true, "makingWay": true}, "g": 70, "id": "cf-merc-070"}, {"buque": {"type": "nuc", "length": 90, "underway": true, "makingWay": true}, "g": 40, "id": "cf-nuc-040"}, {"buque": {"type": "nuc", "length": 90, "underway": true, "makingWay": true}, "g": 150, "id": "cf-nuc-150"}, {"buque": {"type": "cbd", "length": 150, "underway": true, "makingWay": true}, "g": 40, "id": "cf-cbd-040"}, {"buque": {"type": "cbd", "length": 150, "underway": true, "makingWay": true}, "g": 150, "id": "cf-cbd-150"}, {"buque": {"type": "cbd", "length": 150, "underway": true, "makingWay": true}, "g": 40, "nm": 4, "id": "cf-cbd-lejos"}, {"buque": {"type": "towing", "length": 80, "towLength": 250, "towedLength": 60, "underway": true, "makingWay": true}, "g": 70, "nm": 4, "id": "cf-tug-lejos"}]};
+
+const DONDE_LUEGO = "in part 2, \u00abWhat she is\u00bb";
+const TEXTOS = {"DESDE": {"pregunta": "Where are you standing?", "clases": ["proa", "delante", "detras", "muda"], "opciones": ["<b>Dead ahead of her</b> — you can see both her sidelights.", "<b>Forward of the cut</b> — somewhere inside 112.5° of her bow.", "<b>Abaft the cut</b> — more than 112.5° from her bow.", "<b>Her lights do not say.</b>"], "porque": {"proa": "<b>Both sidelights at once.</b> They overlap for a degree or two right on her stem and nowhere else, so seeing red and green together puts you almost exactly on her bow — and it is the only bearing her lights give you to the degree.", "delante": "A sidelight, or a masthead light, or both. Rule 21 gives the masthead 225° and each sidelight 112.5°, and <b>all three end at the same place</b>: 112.5° from her bow. If any of them is reaching you, you are inside it. <em>What you cannot tell is how far inside: one sidelight looks the same at 20° as at 100°.</em>", "detras": "Her sternlight, and nothing that belongs forward. Rule 21(c) gives it 135° — 67.5° each side of dead astern — and it starts exactly where the others stop. <b>The two halves partition the horizon once and do not overlap.</b>", "muda": "Everything you can see is <b>all-round</b>, and an all-round light does not know where you are standing. That is the whole point of it: Rule 27, 28 and 30 want to be seen from everywhere, so they tell you what she is and say nothing about you."}, "mal": {"proa": "Dead ahead is a claim about seeing <b>two</b> sidelights, one of each colour. One is not enough — one sidelight covers 112.5°.", "delante": "Forward of the cut means something that stops at 112.5° is reaching you: a sidelight or a masthead light. Look again for one.", "detras": "Abaft the cut means her sternlight is what you have. Check whether what you are calling a sternlight is not a masthead light or an all-round white.", "muda": "Something here does place you. A sidelight, a masthead light or a sternlight all belong to a sector, and a sector is an answer."}, "pista": "There is <b>one cut</b> in the whole system and it is at <b>112.5°</b> from her bow — <em>not on her beam</em>, but 22.5° abaft it. Forward of it: mastheads and the sidelight of your side. Abaft it: her sternlight, and only that. All-round lights ignore it.", "show": {"proa": "Red and green together. Only her stem shows you both.", "delante": "A sector light that stops at 112.5° is reaching you, so you are inside it — and no closer than that.", "detras": "Her sternlight, and nothing forward. Past 112.5°.", "muda": "All-round only. Nothing here knows where you are."}}, "CONFUSION": {"pregunta": "What is she — and does this bearing let you say?", "clases": ["power", "towing", "fishingTrawl", "nuc", "cbd", "muda"], "opciones": ["<b>An ordinary power-driven vessel.</b>", "<b>A tug with something behind her.</b>", "<b>A fishing vessel trawling.</b>", "<b>Not under command.</b>", "<b>Constrained by her draught.</b>", "<b>From here you cannot say.</b>"], "porque": {"power": "Masthead lights <b>stepped</b> — the after one higher <em>and further aft</em> — with a sidelight under them. That step is Rule 23. A tug's extra lights sit in <b>one vertical line</b> in the same place, and a line is not a step.", "towing": "Masthead lights <b>in a vertical line</b>, one directly above another in the same column. Rule 24(a)(i): two for a tow of 200 m or less, three above that — and her own after masthead is a fourth, higher and further aft, and not part of the stack. <em>What separates her from an ordinary ship is not the number: it is the column.</em>", "fishingTrawl": "<b>Green over white, and both all-round.</b> On an ordinary vessel the white is <em>above</em> the green, because a masthead light sits at 12 m and a sidelight at 4.5. Here it is the other way up — and better than that: <b>a green that survives the cut is not a sidelight.</b>", "nuc": "Two all-round reds, and <b>no masthead light above them</b>. Rule 27(a) gives her none at any length, so the absence is as good as the count.", "cbd": "Three all-round reds — and she has <b>kept everything</b>: her mastheads, her sidelights, her sternlight. Rule 28 adds to Rule 23 instead of replacing it, so <em>a white light above the reds settles it without counting them.</em>", "muda": "From here what she is showing fits more than one vessel. Either the cut has taken the lights that would have told you, or the distance has. <b>Saying so is the answer</b> — and it is the answer a good lookout gives before she gives a wrong one."}, "mal": {"power": "An ordinary vessel's mastheads are <b>stepped</b>: the after one higher and further aft. Look at whether these are stepped or stacked.", "towing": "A tug shows mastheads <b>in one vertical column</b>, or a yellow light above her sternlight. Check for the column before you count.", "fishingTrawl": "Trawling is a green all-round <b>above</b> a white all-round. If the white is above the green you are looking at a masthead light and a sidelight.", "nuc": "Not under command is <b>two</b> all-round reds and <b>no masthead</b>. Check both halves — the count and the absence.", "cbd": "Constrained by her draught is three all-round reds <em>plus</em> the full set of Rule 23. Look for the mastheads above them.", "muda": "Here the picture does settle it. Something you can see belongs to one of these and to no other — find it before you give up on the picture."}, "pista": "Three questions, in this order. <b>Are the whites stepped or stacked?</b> Stacked is a tow. <b>Is the colour above the white or below it?</b> Above is fishing. <b>Is there a white light above the reds?</b> If there is, she is constrained by her draught and not out of command.", "show": {"power": "Stepped mastheads and a sidelight. Rule 23.", "towing": "A vertical column of mastheads. Rule 24.", "fishingTrawl": "Green over white, all-round. Rule 26(b).", "nuc": "Two all-round reds and no masthead. Rule 27(a).", "cbd": "Three all-round reds under her mastheads. Rule 28.", "muda": "More than one vessel fits this picture from this bearing."}}};
+const AZAR = 20260817;
+window.identidades = identidades; window.BANCOS = BANCOS; window.TEXTOS = TEXTOS;
+window.DICE = DICE;
+
+vistoEmpieza(YO);
+vaA(donde());
+</script>

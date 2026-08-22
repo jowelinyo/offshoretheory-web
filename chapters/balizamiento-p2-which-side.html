@@ -1,0 +1,1397 @@
+<meta charset="utf-8"><title>Buoyage — Which side you pass</title>
+
+
+
+<style>
+@font-face{font-family:'IBM Plex Mono';font-style:normal;font-weight:400;font-display:swap;
+ src:url(../assets/fonts/IBMPlexMono-400-normal-latin.woff2) format('woff2');
+ unicode-range:U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD}
+@font-face{font-family:'IBM Plex Mono';font-style:normal;font-weight:400;font-display:swap;
+ src:url(../assets/fonts/IBMPlexMono-400-normal-latin-ext.woff2) format('woff2');
+ unicode-range:U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF}
+@font-face{font-family:'IBM Plex Mono';font-style:normal;font-weight:500;font-display:swap;
+ src:url(../assets/fonts/IBMPlexMono-500-normal-latin.woff2) format('woff2');
+ unicode-range:U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD}
+@font-face{font-family:'IBM Plex Mono';font-style:normal;font-weight:500;font-display:swap;
+ src:url(../assets/fonts/IBMPlexMono-500-normal-latin-ext.woff2) format('woff2');
+ unicode-range:U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF}
+@font-face{font-family:'IBM Plex Sans';font-style:normal;font-weight:400 600;font-display:swap;
+ src:url(../assets/fonts/IBMPlexSans-400-normal-latin.woff2) format('woff2');
+ unicode-range:U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD}
+@font-face{font-family:'IBM Plex Sans';font-style:normal;font-weight:400 600;font-display:swap;
+ src:url(../assets/fonts/IBMPlexSans-400-normal-latin-ext.woff2) format('woff2');
+ unicode-range:U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF}
+@font-face{font-family:'Newsreader';font-style:italic;font-weight:400;font-display:swap;
+ src:url(../assets/fonts/Newsreader-400-italic-latin.woff2) format('woff2');
+ unicode-range:U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD}
+@font-face{font-family:'Newsreader';font-style:italic;font-weight:400;font-display:swap;
+ src:url(../assets/fonts/Newsreader-400-italic-latin-ext.woff2) format('woff2');
+ unicode-range:U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF}
+@font-face{font-family:'Newsreader';font-style:normal;font-weight:500;font-display:swap;
+ src:url(../assets/fonts/Newsreader-500-normal-latin.woff2) format('woff2');
+ unicode-range:U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD}
+@font-face{font-family:'Newsreader';font-style:normal;font-weight:500;font-display:swap;
+ src:url(../assets/fonts/Newsreader-500-normal-latin-ext.woff2) format('woff2');
+ unicode-range:U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF}
+
+:root{
+  --sea-deep:#0A1E27; --sea:#102B36; --sea-line:#1E4453;
+  --paper:#E3EAEE; --paper-ink:#EFE6D2;    --paper-2:#D2DDE3; --paper-line:#A6B3BA;
+  --ink:#15252D; --ink-soft:#5C7079; --dim:#829AA3;
+  --magenta:#6B2461; --magenta-soft:#B07FA6;
+  --water:#8FC3DA; --alarm:#B33A22; --ok:#3F7A56;
+  --f-display:"Spectral",ui-serif,Georgia,"Palatino Linotype","Times New Roman",serif;
+  --f-ui:"IBM Plex Sans",system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;
+  --f-mono:"IBM Plex Mono",ui-monospace,"SF Mono","Segoe UI Mono",Menlo,Consolas,monospace;
+}
+*{box-sizing:border-box}
+html,body{margin:0;height:100%;overflow:hidden;
+ background:var(--sea-deep);color:var(--paper-ink);
+ font:15px/1.5 var(--f-ui);-webkit-font-smoothing:antialiased}
+#wrap{display:flex;height:100%}
+#obj{flex:1;position:relative}
+
+#obj svg .dial{cursor:grab}
+
+#obj svg .boton{cursor:pointer}
+#obj svg .marca{cursor:pointer}
+body.arrastrando #obj svg .dial{cursor:grabbing}
+#svg{position:absolute;inset:0;width:100%;height:100%;touch-action:none}
+#obj,#svg,#svg *{-webkit-user-select:none;-moz-user-select:none;user-select:none;
+ -webkit-user-drag:none;-webkit-tap-highlight-color:transparent}
+#side{width:392px;background:linear-gradient(180deg,#0D2431,#0A1E27);
+ border-left:1px solid var(--sea-line);display:flex;flex-direction:column}
+#head{padding:12px 16px 11px;border-bottom:1px solid var(--sea-line);
+ background:linear-gradient(180deg,#0D2431,#0A1E27)}
+#head b{font-family:var(--f-mono);font-size:11px;letter-spacing:.18em;
+ color:var(--magenta-soft);font-weight:500}
+#hTit{font-size:12px;color:var(--dim);margin-top:3px}
+.hd{display:flex;justify-content:space-between;align-items:baseline;gap:14px}
+a.skip{font:12px var(--f-ui);color:var(--dim);text-decoration:underline;
+ cursor:pointer;white-space:nowrap;flex:none}
+a.skip:hover{color:var(--paper-ink)}
+#prog{display:flex;gap:4px;margin-top:9px}
+#prog i{flex:1;height:4px;background:#ffffff1f;border-radius:2px;cursor:pointer}
+#prog i.on{background:var(--magenta-soft);box-shadow:0 0 0 2px #6B246155}
+#prog i.done{background:var(--ok)}
+#pane{flex:1;overflow:auto;padding:18px 16px}
+#foot{border-top:1px solid var(--sea-line);padding:9px 16px;
+ font-family:var(--f-mono);font-size:10px;letter-spacing:.12em;color:#5E767F}
+h2{margin:0 0 10px;font-family:var(--f-display);font-size:23px;font-weight:600;
+ line-height:1.25;color:var(--paper-ink)}
+h3{margin:0 0 9px;font-family:var(--f-mono);font-size:10px;text-transform:uppercase;
+ letter-spacing:.18em;color:var(--magenta-soft);font-weight:500}
+p{margin:0 0 12px;max-width:60ch;color:#D8E2E6}
+p b{color:var(--paper-ink);font-weight:600}
+p em{color:var(--dim)}
+b.q{font-family:var(--f-display);font-size:18px;font-weight:600;color:var(--paper-ink);
+ display:block;margin-bottom:4px;line-height:1.4}
+button{font:600 13px var(--f-ui);padding:9px 15px;border:1px solid transparent;
+ border-radius:3px;cursor:pointer;background:var(--magenta);color:#fff;margin:4px 5px 0 0}
+button:hover{filter:brightness(1.14)}
+button:disabled{opacity:.35;cursor:default;filter:none}
+button.sec{background:transparent;color:#C7D4D9;border-color:var(--sea-line)}
+button.sec:hover{background:#ffffff0f;filter:none}
+button.show{background:var(--ok)}
+:focus-visible{outline:2px solid var(--magenta-soft);outline-offset:2px}
+.calc{background:var(--paper);color:var(--ink);border:1px solid var(--paper-line);
+ border-radius:2px;padding:11px 13px;margin:10px 0;font:13px/1.75 var(--f-mono)}
+.calc b{font-family:var(--f-ui);font-weight:600}
+.res{border:1px solid var(--sea-line);border-radius:3px;padding:11px 13px;margin:10px 0;
+ background:#ffffff0a}
+.res.no{background:#B33A2216;border-color:#B33A2255}
+.res.si{background:#3F7A5616;border-color:#3F7A5655}
+.res.ver{background:#3F7A5610;border-color:#3F7A5644}
+.res.ver>b{display:block;font-family:var(--f-display);font-size:16px;
+ margin-bottom:7px;color:#8FCFA8}
+.pista{margin-top:10px;padding-top:10px;border-top:1px dashed #B33A2255;color:#E3A392}
+.nav{display:flex;gap:8px;align-items:center;margin-top:16px;padding-top:12px;
+ border-top:1px solid var(--sea-line)}
+.ops{margin:14px 0 4px;display:flex;flex-direction:column;gap:7px}
+.ops button{margin:0;white-space:normal;line-height:1.35;
+ background:var(--paper);color:var(--ink);border-color:var(--paper-line);
+ text-align:left;font-weight:500;padding:10px 12px}
+.ops button:hover{background:#F2F6F8;filter:none;border-color:var(--magenta)}
+.ops button b{font-family:var(--f-mono);font-weight:600}
+.prl{font-family:var(--f-mono);font-size:11px;letter-spacing:.1em;color:var(--dim)}
+.sello{font-family:var(--f-mono);font-size:10px;letter-spacing:.1em;color:#5E767F;
+ margin-top:4px}
+.sello b{color:var(--dim);font-weight:500}
+
+a.volver{font:12px var(--f-ui);color:var(--dim);text-decoration:none;cursor:pointer;
+ white-space:nowrap;flex:none;letter-spacing:.06em}
+a.volver:hover{color:var(--paper-ink);text-decoration:underline}
+
+.hd{justify-content:flex-start}
+.hd>:last-child{margin-left:auto}
+
+#foot{display:flex;justify-content:space-between;align-items:baseline;gap:14px}
+
+:root{
+ --page:#E8EBED; --panel:#F6F7F7; --card:#FCFCFB; --inset:#F4F6F7; --bar:#1C2B36;
+ --edge-frame:#B7C0C6; --edge-card:#BCC4C9; --edge-inner:#E4E8EA;
+ --edge-panel:#CFD7DC; --edge-leader:#C1C9CE; --edge-button:#A9B4BB;
+ --rule-heavy:#1C2B36;
+ --ink-title:#0F171D; --ink-strong:#141C22; --ink-lead:#20292F; --ink-body:#333D45;
+ --ink-secondary:#4A5A66; --ink-label:#5B6B77; --ink-quiet:#5E6B74;
+ --accent-text:#9A5C10; --accent-graphic:#C97B1B; --accent-on-bar:#E2B15C;
+ --link:#2F6C8F; --progress-pending:#CDD5DA;
+ --on-bar:#DCE4E9; --on-bar-dim:#B8C7D0; --on-bar-strong:#F6F9FA; --on-primary:#F2F6F8;
+ --sp-hair:4px; --sp-inline:8px; --sp-tight:12px; --sp-card:14px; --sp-block:16px;
+ --sp-col-y:20px; --sp-col-x:22px; --sp-panel-y:18px; --sp-panel-c:22px;
+ --sp-panel-x:30px; --sp-bar-x:24px; --sp-close:40px;
+ --ink-glosa:#4A5C65; --alarm-noche:#D9744E; --dim-banda:#93A9B1;
+
+ --f-display:"Newsreader",ui-serif,Georgia,"Palatino Linotype","Times New Roman",serif;
+ --f-ui:"IBM Plex Sans",system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;
+ --f-mono:"IBM Plex Mono",ui-monospace,"SF Mono","Segoe UI Mono",Menlo,Consolas,monospace;
+}
+
+html,body{background:var(--page);color:var(--ink-body);
+ font:15px/1.55 var(--f-ui);overflow:hidden}
+body{display:flex;flex-direction:column}
+
+#barra{flex:none;height:54px;display:flex;align-items:center;gap:var(--sp-inline);
+ padding:0 var(--sp-bar-x);background:var(--bar);
+ box-shadow:inset 0 1px 0 rgba(255,255,255,.08)}
+#barra a{text-decoration:none;cursor:pointer;
+ display:inline-flex;align-items:center;min-height:44px}
+#barra .barlink{font:600 15px/1.45 var(--f-ui);color:var(--on-bar);
+ white-space:nowrap;flex:none}
+#barra .barlink:hover{color:var(--on-bar-strong);text-decoration:underline}
+#barra .sep{flex:none;width:1px;height:22px;background:#3A4E5C;margin:0 var(--sp-inline)}
+#miga{font:400 17px/1.2 var(--f-display);color:var(--on-bar-dim);
+ white-space:nowrap;overflow:hidden;text-overflow:ellipsis;min-width:0}
+#miga b{color:var(--on-bar-strong);font-weight:500}
+#barra .crece{flex:1;min-width:var(--sp-inline)}
+#barCont{flex:none;font:400 12px/1.4 var(--f-mono);letter-spacing:.12em;
+ color:var(--accent-on-bar);font-variant-numeric:tabular-nums}
+
+#wrap{flex:1;min-height:0;display:grid;
+ grid-template-columns:minmax(0,1fr) clamp(320px,37%,560px)}
+
+#lienzo{min-width:0;min-height:0;display:grid;place-items:center;
+ padding:var(--sp-col-y) var(--sp-col-x)}
+
+#ficha{--ar:1000/640;aspect-ratio:var(--ar);width:100%;
+ max-width:100%;max-height:100%;min-height:0;position:relative;
+ background:var(--card);border:1px solid var(--edge-card);border-radius:0;
+ box-shadow:0 2px 3px rgba(28,43,54,.07);overflow:hidden}
+#obj{position:absolute;inset:0}
+
+#side{min-height:0;display:flex;flex-direction:column;background:var(--panel);
+ border-left:1px solid var(--edge-frame);width:auto}
+#head{flex:none;padding:var(--sp-panel-y) var(--sp-panel-x);
+ border-bottom:1px solid var(--edge-panel);background:none}
+#head b{font:400 12px/1.4 var(--f-mono);letter-spacing:.12em;text-transform:uppercase;
+ color:var(--ink-label)}
+.hd{display:flex;align-items:baseline;gap:var(--sp-tight)}
+.hd>:last-child{margin-left:auto}
+#hTit{font:400 12px/1.4 var(--f-mono);letter-spacing:.12em;text-transform:uppercase;
+ color:var(--ink-label);margin-top:0;white-space:nowrap;overflow:hidden;
+ text-overflow:ellipsis}
+#prog{display:flex;gap:3px;margin-top:var(--sp-tight)}
+#prog i{flex:1;height:5px;background:var(--progress-pending);border-radius:0;
+ cursor:pointer;box-shadow:none}
+#prog i.done{background:var(--link)}
+#prog i.on{background:var(--accent-graphic);box-shadow:none}
+#pane{flex:1;min-height:0;overflow-y:auto;
+ padding:var(--sp-panel-c) var(--sp-panel-x)}
+#foot{flex:none;border-top:1px solid var(--edge-panel);
+ padding:var(--sp-tight) var(--sp-panel-x);
+ font:400 12px/1.4 var(--f-mono);letter-spacing:.12em;color:var(--ink-quiet);
+ display:flex;align-items:center;gap:var(--sp-tight);flex-wrap:wrap}
+#foot .volver{margin-left:auto}
+.sello{font:400 12px/1.4 var(--f-mono);letter-spacing:.1em;color:var(--ink-quiet);
+ margin-top:var(--sp-hair);width:100%}
+.sello b{color:var(--ink-label);font-weight:500}
+
+h2{margin:0 0 var(--sp-block);font:500 31px/1.18 var(--f-display);
+ color:var(--ink-title)}
+h3{margin:0 0 var(--sp-tight);font:400 12px/1.4 var(--f-mono);letter-spacing:.12em;
+ text-transform:uppercase;color:var(--ink-label)}
+p{margin:0 0 var(--sp-block);max-width:62ch;color:var(--ink-body)}
+p b{color:var(--ink-title);font-weight:600}
+p em{font-style:normal;color:var(--ink-secondary)}
+b.q{display:block;margin:0 0 var(--sp-block);font:400 17px/1.6 var(--f-ui);
+ color:var(--ink-lead);font-weight:400}
+.prl{font:400 12px/1.4 var(--f-mono);letter-spacing:.12em;color:var(--accent-text);
+ margin-left:auto;white-space:nowrap;font-variant-numeric:tabular-nums}
+
+button{font:600 15px/1.45 var(--f-ui);padding:11px 26px;border:1px solid transparent;
+ border-radius:2px;cursor:pointer;background:var(--bar);color:var(--on-primary);
+ min-height:44px;margin:0}
+button:hover:not(:disabled){background:#26394A;filter:none}
+button:disabled{opacity:.45;cursor:default;filter:none}
+button.sec{background:var(--card);color:var(--ink-lead);border-color:var(--edge-button);
+ padding:10px 18px}
+button.sec:hover:not(:disabled){background:var(--inset);filter:none}
+button.show{background:transparent;color:var(--accent-text);
+ border-color:var(--edge-button);padding:10px 18px}
+a.skip,a.volver,#foot a{font:400 15px/1.45 var(--f-ui);color:var(--ink-secondary);
+ cursor:pointer;text-decoration:none;white-space:nowrap;
+ display:inline-flex;align-items:center;min-height:44px;padding:0 var(--sp-tight)}
+a.skip:hover,a.volver:hover,#foot a:hover{color:var(--ink-title);
+ text-decoration:underline}
+.nav{display:flex;gap:var(--sp-inline);align-items:center;flex-wrap:wrap;
+ margin-top:var(--sp-block);padding-top:var(--sp-tight);
+ border-top:1px solid var(--edge-panel)}
+:focus-visible{outline:2px solid var(--accent-graphic);outline-offset:2px}
+
+.ops{display:flex;flex-direction:column;gap:var(--sp-inline);
+ margin:0 0 var(--sp-block)}
+.ops button{display:block;position:relative;width:100%;min-height:52px;
+ padding:15px var(--sp-block);text-align:left;background:var(--card);
+ color:var(--ink-lead);border:1px solid var(--edge-card);
+ font:400 17px/1.45 var(--f-ui);white-space:normal}
+.ops button b{font-weight:600;color:var(--ink-title);font-family:var(--f-ui)}
+.ops button:hover:not(:disabled){background:var(--inset);
+ border-color:var(--edge-button);filter:none}
+.ops button:disabled{opacity:1;cursor:default;color:var(--ink-secondary)}
+.res{margin:0 0 var(--sp-block);padding:var(--sp-tight) var(--sp-block);
+ background:var(--inset);border:1px solid var(--edge-inner);
+ border-left:3px solid var(--edge-panel);color:var(--ink-body);font-size:16px}
+.res b{color:var(--ink-title);font-weight:600}
+.res.si{background:var(--inset);border-color:var(--edge-inner);
+ border-left-color:var(--link)}
+.res.no{background:var(--inset);border-color:var(--edge-inner);
+ border-left-color:var(--accent-graphic)}
+.res.ver{background:var(--inset);border-color:var(--edge-inner);
+ border-left-color:var(--accent-graphic)}
+.res.ver>b{font:500 19px/1.3 var(--f-display);color:var(--ink-title);
+ display:block;margin-bottom:var(--sp-inline)}
+.pista{margin:var(--sp-tight) 0 0;padding:0;border:0;
+ font:italic 400 17px/1.5 var(--f-display);color:var(--ink-secondary)}
+.calc{background:var(--card);color:var(--ink-body);border:1px solid var(--edge-card);
+ border-radius:0;padding:var(--sp-tight) var(--sp-block);margin:0 0 var(--sp-block);
+ font:400 14px/1.7 var(--f-mono)}
+.calc b{font-family:var(--f-ui);font-weight:600;color:var(--ink-title)}
+</style>
+
+<div id="barra">
+ <a class="barlink" href="../index.html">&#8592; The course</a>
+ <i class="sep"></i>
+ <div id="miga">Buoyage <span>&middot;</span> <b>Which side you pass</b></div>
+ <span class="crece"></span>
+ <a class="barlink" id="fcBtn">Flashcards</a>
+ <i class="sep"></i>
+ <a class="barlink" href="../index.html">Contents</a>
+ <span id="barCont"></span>
+</div>
+<div id="wrap">
+ 
+ <div id="lienzo"><div id="ficha"><div id="obj"><svg id="svg"></svg></div></div></div>
+ <div id="side">
+  <div id="head">
+   <div class="hd"><div id="hTit">Which side you pass, and why it depends</div></div>
+   <div id="prog"></div></div>
+  <div id="pane"></div>
+  <div id="foot"><span id="fLog">0 answers logged</span><a class="volver" id="deCero" onclick="deCero()">start over</a>
+   <div class="sello" id="sello" data-sello="3cae227c">buoyage · part 2 · <b>24 of 24 screens</b> · 22 Aug 2026</div></div>
+ </div>
+</div>
+<template id="tSig"><div class="calc"><b>Next: At night, and on the chart.</b><br>
+   The rhythm of every mark, the cardinals' three-six-nine clock, and how the chart writes it next to the buoy.</div></template>
+<script>
+"use strict";
+
+const D={W:1000,H:640}, MARGEN=24;
+const svg=document.getElementById("svg");
+const pane=()=>document.getElementById("pane");
+let ESC=1, gO=null;
+function esc(){const r=svg.getBoundingClientRect();
+ return Math.min(r.width/D.W, r.height/D.H)||1;}
+const px=n=>n/ESC;
+function el(t,at,pa){const e=document.createElementNS("http://www.w3.org/2000/svg",t);
+ for(const k in at)e.setAttribute(k,at[k]); (pa||gO).appendChild(e); return e;}
+
+const HOJA=()=>{const m=px(MARGEN);
+ return {x0:m,y0:m,x1:D.W-m,y1:D.H-m,an:D.W-2*m,al:D.H-2*m};};
+function kQueCabe(k,arriba,abajo){
+ const h=HOJA(), libre=h.al-(arriba||0)-(abajo||0);
+ return px(2*k)<=libre ? k : Math.max(20,k*libre/px(2*k));}
+function lineaAgua(k,arriba,abajo){
+ const h=HOJA(), a=arriba||0, b=abajo||0;
+ return h.y0+a+(h.al-a-b)/2+px(k);}
+
+const T={rot:12, dato:14, lect:20, cifra:34};
+
+function txt(x,y,s,an,tam,col,peso,fam,esp){
+ const e=el("text",{x:x,y:y,"text-anchor":an||"middle","pointer-events":"none",
+  "font-size":px(tam||T.dato),
+  "font-family":fam==="mono"?"var(--f-mono)":fam==="serif"?"var(--f-display)":"var(--f-ui)",
+  "font-weight":peso||400, fill:col||"var(--ink)"});
+ if(esp)e.setAttribute("letter-spacing",px(esp));
+ e.textContent=s; return e;}
+
+const C={
+  papel:"#E3EAEE", papel2:"#D2DDE3", raya:"#A6B3BA",
+
+  tinta:"#15252D", suave:"#3A464E", agua:"#8FC3DA",
+  magenta:"#6B2461",
+  rojo:"#c8102e", verde:"#0A7D3A", negro:"#1A1A1A",
+  amarillo:"#F2C230",
+  azul:"#1F5FBF"
+};
+window.PALETA=C;
+
+const MARCAS=[{"id": "card-N", "nombre": "North cardinal", "corto": "North", "familia": "cardinal", "cardinal": "N", "codigo": "BY", "cuerpo": "pilar", "bandas": [["negro", 0.5], ["amarillo", 0.5]], "tope": "conos", "conos": ["up", "up"], "luz": null, "fuente": "dato"}, {"id": "card-E", "nombre": "East cardinal", "corto": "East", "familia": "cardinal", "cardinal": "E", "codigo": "BYB", "cuerpo": "pilar", "bandas": [["negro", 0.3333], ["amarillo", 0.3333], ["negro", 0.3333]], "tope": "conos", "conos": ["up", "dn"], "luz": null, "fuente": "dato"}, {"id": "card-S", "nombre": "South cardinal", "corto": "South", "familia": "cardinal", "cardinal": "S", "codigo": "YB", "cuerpo": "pilar", "bandas": [["amarillo", 0.5], ["negro", 0.5]], "tope": "conos", "conos": ["dn", "dn"], "luz": null, "fuente": "dato"}, {"id": "card-W", "nombre": "West cardinal", "corto": "West", "familia": "cardinal", "cardinal": "W", "codigo": "YBY", "cuerpo": "pilar", "bandas": [["amarillo", 0.3333], ["negro", 0.3333], ["amarillo", 0.3333]], "tope": "conos", "conos": ["dn", "up"], "luz": null, "fuente": "dato"}, {"id": "lat-babor", "nombre": "Port hand", "corto": "Port", "familia": "lateral", "codigo": "R", "forma": "can", "cuerpo": "lata", "tope": "lata", "luz": "Fl.R.5s", "fuente": "dato", "bandas": [["rojo", 1.0]]}, {"id": "lat-estribor", "nombre": "Starboard hand", "corto": "Stbd", "familia": "lateral", "codigo": "G", "forma": "conica", "cuerpo": "cono", "tope": "cono", "luz": "Fl.G.5s", "fuente": "dato", "bandas": [["verde", 1.0]]}, {"id": "aguas-seguras", "nombre": "Safe water", "corto": "Safe", "familia": "segura", "codigo": "RW", "forma": "esferica", "cuerpo": "esfera", "tope": "esferaR", "luz": "L.Fl.10s", "fuente": "dato", "franjas": ["rojo", "papel", "rojo", "papel"]}, {"id": "peligro-aislado", "nombre": "Isolated danger", "corto": "Isolated", "familia": "peligro", "codigo": "BRB", "forma": "pilar", "cuerpo": "pilar", "tope": "dosEsferas", "luz": "Fl(2)5s", "fuente": "dato", "bandas": [["negro", 0.3333], ["rojo", 0.3333], ["negro", 0.3333]]}, {"id": "especial", "nombre": "Special", "corto": "Special", "familia": "especial", "codigo": "Y", "forma": "can", "cuerpo": "lata", "tope": "aspa", "luz": "Fl.Y.5s", "fuente": "dato", "bandas": [["amarillo", 1.0]]}, {"id": "pref-estribor", "nombre": "Preferred channel to starboard", "corto": "Pref stbd", "familia": "preferente", "codigo": "RGR", "forma": "can", "cuerpo": "lata", "tope": "lata", "bandas": [["rojo", 0.34], ["verde", 0.3], ["rojo", 0.36]], "luz": "Fl(2+1)R.10s", "fuente": "memoria"}, {"id": "pref-babor", "nombre": "Preferred channel to port", "corto": "Pref port", "familia": "preferente", "codigo": "GRG", "forma": "conica", "cuerpo": "cono", "tope": "cono", "bandas": [["verde", 0.34], ["rojo", 0.3], ["verde", 0.36]], "luz": "Fl(2+1)G.10s", "fuente": "memoria"}, {"id": "nuevo-peligro", "nombre": "New danger", "corto": "New danger", "familia": "peligro", "codigo": "BuY", "forma": "pilar", "cuerpo": "pilarV", "tope": "cruz", "franjas": ["azul", "amarillo", "azul", "amarillo"], "luz": "Al.Oc.Bu.Y3s", "fuente": "memoria"}];
+window.MARCAS=MARCAS;
+const marcaDe=id=>MARCAS.find(m=>m.id===id);
+
+function consola(){
+ el("rect",{x:0,y:0,width:D.W,height:D.H,fill:"#0A1E27"});}
+function lamina(titulo){
+ const m=px(MARGEN), w=D.W-2*m, h=D.H-2*m;
+ consola();
+ el("rect",{x:m+px(3),y:m+px(4),width:w,height:h,fill:"#00000055",rx:px(3)});
+ el("rect",{x:m,y:m,width:w,height:h,fill:C.papel,rx:px(3)});
+ el("rect",{x:m,y:m,width:w,height:h,fill:"none",stroke:C.raya,
+   "stroke-width":px(1.5),rx:px(3)});
+ if(titulo)txt(m+px(16),m+px(22),titulo,"start",T.rot,C.suave,600,"mono",1.4);
+ return {x0:m,y0:m,x1:D.W-m,y1:D.H-m};}
+
+function agua(cx,base,ancho){
+ el("line",{x1:cx-ancho,y1:base,x2:cx+ancho,y2:base,
+   stroke:C.agua,"stroke-width":px(2.6),"stroke-linecap":"round"});}
+
+function dibujaTope(m,cx,tY,r,pa){
+ const nodo=(t,at)=>el(t,at,pa);
+ const cono=(yb,dir,col)=>nodo("path",{d: dir==="up"
+   ? "M"+(cx-r)+","+yb+" L"+(cx+r)+","+yb+" L"+cx+","+(yb-2*r)+" Z"
+   : "M"+(cx-r)+","+(yb-2*r)+" L"+(cx+r)+","+(yb-2*r)+" L"+cx+","+yb+" Z",
+   fill:col||C.negro, stroke:col?C.negro:"none","stroke-width":px(1.2)});
+ const t=m.tope;
+ if(t==="conos"){ const hueco=px(1.6);
+   cono(tY,m.conos[1]); cono(tY-2*r-hueco,m.conos[0]); }
+ else if(t==="lata") nodo("rect",{x:cx-r*0.85,y:tY-2*r,width:r*1.7,height:2*r,
+   fill:C.rojo,stroke:C.negro,"stroke-width":px(1.2)});
+ else if(t==="cono") cono(tY,"up",C.verde);
+ else if(t==="esferaR") nodo("circle",{cx:cx,cy:tY-r,r:r,fill:C.rojo,
+   stroke:C.negro,"stroke-width":px(1.2)});
+ else if(t==="dosEsferas"){ nodo("circle",{cx:cx,cy:tY-r,r:r*0.82,fill:C.negro});
+   nodo("circle",{cx:cx,cy:tY-r*2.9,r:r*0.82,fill:C.negro}); }
+ else if(t==="cruz"||t==="aspa"){
+   const a=r*1.05, yc=tY-a, d=t==="aspa";
+   const li=(x1,y1,x2,y2)=>nodo("line",{x1:x1,y1:y1,x2:x2,y2:y2,stroke:C.amarillo,
+     "stroke-width":px(3.4),"stroke-linecap":"round"});
+   if(d){ li(cx-a,yc-a,cx+a,yc+a); li(cx+a,yc-a,cx-a,yc+a); }
+   else { li(cx-a,yc,cx+a,yc); li(cx,yc-a,cx,yc+a); }
+ }}
+
+function marca(m,cx,base,k,op){
+ op=op||{};
+ const g=el("g",{},gO), alto=px(k), ancho=px(k*0.55);
+ const y0=base-alto;
+ const nodo=(t,at)=>el(t,at,g);
+
+ let topY=y0;
+ if(m.cuerpo==="esfera"){
+   const r=ancho*0.62, cy=base-r;
+   const cid="cl"+m.id+Math.round(k);
+   const cp=el("clipPath",{id:cid},g);
+   el("circle",{cx:cx,cy:cy,r:r},cp);
+   const n=m.franjas.length, w=2*r/n;
+   m.franjas.forEach((c,i)=>nodo("rect",{x:cx-r+i*w,y:cy-r,width:w+px(.4),
+     height:2*r,fill:C[c]||c,"clip-path":"url(#"+cid+")"}));
+   nodo("circle",{cx:cx,cy:cy,r:r,fill:"none",stroke:C.negro,"stroke-width":px(1.6)});
+   topY=cy-r;
+ }else if(m.cuerpo==="pilarV"){
+   const n=m.franjas.length, w=ancho/n;
+   m.franjas.forEach((c,i)=>nodo("rect",{x:cx-ancho/2+i*w,y:y0,width:w+px(.4),
+     height:alto,fill:C[c]||c}));
+   nodo("rect",{x:cx-ancho/2,y:y0,width:ancho,height:alto,fill:"none",
+     stroke:C.negro,"stroke-width":px(1.6)});
+ }else{
+   const anchoEn=yy=>m.cuerpo==="cono"
+     ? ancho*(0.30+0.70*((yy-y0)/alto)) : ancho;
+   let y=y0;
+   m.bandas.forEach(b=>{
+     const h=alto*b[1], aT=anchoEn(y), aB=anchoEn(y+h);
+     nodo("path",{d:"M"+(cx-aT/2)+","+y+" L"+(cx+aT/2)+","+y+" L"+(cx+aB/2)+","+(y+h)
+       +" L"+(cx-aB/2)+","+(y+h)+" Z", fill:C[b[0]]||b[0]});
+     y+=h;});
+   const aT=anchoEn(y0);
+   nodo("path",{d:"M"+(cx-aT/2)+","+y0+" L"+(cx+aT/2)+","+y0+" L"+(cx+ancho/2)+","
+     +base+" L"+(cx-ancho/2)+","+base+" Z", fill:"none",stroke:C.negro,
+     "stroke-width":px(1.6)});
+ }
+
+ const mast=px(k*0.28), tY=topY-mast, r=px(k*0.18);
+ nodo("line",{x1:cx,y1:topY,x2:cx,y2:tY,stroke:C.negro,"stroke-width":px(2.6)});
+ dibujaTope(m,cx,tY,r,g);
+
+ if(op.agua!==false) agua(cx,base,ancho*1.15);
+ if(op.nombre) txt(cx,base+px(22),op.nombre,"middle",T.rot,C.suave,600,"ui",.6);
+ if(op.codigo) txt(cx,base+px(38),m.codigo,"middle",T.rot,C.tinta,600,"mono",1.2);
+ return g;}
+
+const RUMBO={N:-90, E:0, S:90, W:180};
+function sector(cx,cy,rad,card){
+ const a0=(RUMBO[card]-45)*Math.PI/180, a1=(RUMBO[card]+45)*Math.PI/180;
+ el("path",{d:"M"+cx+","+cy+" L"+(cx+rad*Math.cos(a0))+","+(cy+rad*Math.sin(a0))
+   +" A"+rad+","+rad+" 0 0 1 "+(cx+rad*Math.cos(a1))+","+(cy+rad*Math.sin(a1))+" Z",
+   fill:C.agua,"fill-opacity":.34,stroke:C.agua,"stroke-width":px(1.2)});}
+
+function rosa(cx,cy,rad){
+ el("circle",{cx:cx,cy:cy,r:rad,fill:"none",stroke:C.suave,"stroke-width":px(1)});
+ [["N",-90],["E",0],["S",90],["W",180]].forEach(([l,a])=>{
+   const t=a*Math.PI/180;
+   txt(cx+(rad+px(11))*Math.cos(t), cy+(rad+px(11))*Math.sin(t)+px(4),
+       l,"middle",T.rot,C.suave,600,"mono",1);});
+ el("path",{d:"M"+cx+","+(cy-rad)+" L"+(cx-px(4))+","+(cy-rad+px(9))
+   +" L"+(cx+px(4))+","+(cy-rad+px(9))+" Z",fill:C.suave});}
+
+function obraEnmarca(s){
+ lamina(s.lamina||"");
+
+ const ids=s.marcas||MARCAS.map(m=>m.id);
+ const n=ids.length, fila=Math.min(n,5), filas=Math.ceil(n/fila);
+ const k=n<=2?110:n<=5?86:72;
+
+ const sobre=px(k*2)+px(4), bajo=px(s.nombres?34:8), sep=px(56);
+ const altoPieza=sobre+bajo;
+ const bloque=filas*altoPieza+(filas-1)*sep;
+
+ const _h=HOJA(), arriba=px(s.lamina?46:26), abajo=px(20);
+ const y0=_h.y0+arriba+((_h.al-arriba-abajo)-bloque)/2+sobre;
+ const dx=(D.W-px(2*MARGEN)-px(40))/fila;
+ ids.forEach((id,i)=>{
+   const m=marcaDe(id); if(!m)return;
+   const cx=px(MARGEN)+px(20)+dx*(i%fila)+dx/2;
+   const base=y0+(altoPieza+sep)*Math.floor(i/fila);
+   marca(m,cx,base,k,{nombre:s.nombres?m.nombre:null});});
+
+ if(s.rosa) rosa(D.W-px(96), px(MARGEN)+px(70), px(30));
+ if(s.peligro){
+   const cx=D.W/2, cy=D.H/2;
+   el("circle",{cx:cx,cy:cy,r:px(17),fill:C.negro});
+   txt(cx,cy+px(38),"the rock","middle",T.rot,C.suave,600,"ui",.6);}
+ return null;}
+
+function barco(cx,cy,k,rb,col){
+ const g=el("g",{transform:"rotate("+(rb||0)+" "+cx+" "+cy+")"},gO);
+ el("path",{d:"M"+cx+","+(cy-k)+" L"+(cx+k*0.42)+","+(cy-k*0.15)
+   +" L"+(cx+k*0.34)+","+(cy+k*0.8)+" L"+(cx-k*0.34)+","+(cy+k*0.8)
+   +" L"+(cx-k*0.42)+","+(cy-k*0.15)+" Z",
+   fill:col||C.papel2,stroke:C.tinta,"stroke-width":px(1.6)},g);
+ return g;}
+
+let CU={ang:200};
+function obraCuadrantes(s){
+ lamina(s.lamina||"");
+
+ const _h=HOJA(), _arr=px(46), _abj=px(44);
+ const anillo=Math.min((_h.al-_arr-_abj)/2, _h.an*0.34);
+ const rad=anillo/1.14;
+ const m=marcaDe(s.marca||"card-N");
+ const cy=_h.y0+_arr+anillo;
+ const cx=_h.x0+((D.W-px(96)-px(46))-_h.x0)/2;
+
+ CU.cx=cx; CU.cy=cy; CU.anillo=anillo;
+
+ for(const c of ["N","E","S","W"]){
+   const a0=(RUMBO[c]-45)*Math.PI/180, a1=(RUMBO[c]+45)*Math.PI/180;
+   const bueno=(c===m.cardinal);
+   el("path",{d:"M"+cx+","+cy+" L"+(cx+rad*Math.cos(a0))+","+(cy+rad*Math.sin(a0))
+     +" A"+rad+","+rad+" 0 0 1 "+(cx+rad*Math.cos(a1))+","+(cy+rad*Math.sin(a1))+" Z",
+     fill:bueno?C.agua:C.raya,"fill-opacity":bueno?.42:.14,
+     stroke:bueno?C.agua:C.raya,"stroke-width":px(1.2)});}
+ el("circle",{cx:cx,cy:cy,r:px(15),fill:C.negro});
+ txt(cx,cy+px(34),"the rock","middle",T.rot,C.suave,600,"ui",.6);
+ marca(m,cx+px(64),cy-px(6),80,{agua:false});
+ rosa(D.W-px(96),px(MARGEN)+px(70),px(28));
+
+ const t=CU.ang*Math.PI/180, bx=cx+anillo*Math.cos(t), by=cy+anillo*Math.sin(t);
+ el("circle",{cx:cx,cy:cy,r:anillo,fill:"none",stroke:C.raya,
+   "stroke-width":px(1),"stroke-dasharray":px(4)+" "+px(6)});
+ const dent=Math.abs(((CU.ang-RUMBO[m.cardinal]+540)%360)-180)>135;
+ barco(bx,by,px(20),CU.ang+90,dent?C.papel2:C.rojo);
+ el("circle",{cx:bx,cy:by,r:px(30),fill:"transparent",class:"dial",
+   "data-arrastra":"ang"});
+ txt(cx,cy+anillo+px(26),dent?"in the clear water":"not in the clear water",
+   "middle",T.lect,dent?C.verde:C.rojo,600,"serif");}
+
+let SE={entrando:true};
+
+const ORDEN_R=["N","E","S","W"];
+function obraRecorre(s,i){
+ const paso=s.tramos[i]||{}, todas=!!paso.todas;
+
+ if(!s.tramos.some(t=>t.card)){ obraFamilia(s,paso,todas); return; }
+ lamina(s.lamina||"");
+
+ const _h=HOJA(), _arr=px(46), _abj=px(30);
+ const rad=Math.min((_h.al-_arr-_abj)/2, _h.an*0.30);
+ const cy=_h.y0+_arr+(_h.al-_arr-_abj)/2;
+ const cx=_h.x0+((D.W-px(96)-px(46))-_h.x0)/2;
+ for(const c of ORDEN_R){
+   if(todas||c===paso.card){ sector(cx,cy,rad,c); continue; }
+   const a0=(RUMBO[c]-45)*Math.PI/180, a1=(RUMBO[c]+45)*Math.PI/180;
+   el("path",{d:"M"+cx+","+cy+" L"+(cx+rad*Math.cos(a0))+","+(cy+rad*Math.sin(a0))
+     +" A"+rad+","+rad+" 0 0 1 "+(cx+rad*Math.cos(a1))+","+(cy+rad*Math.sin(a1))+" Z",
+     fill:C.raya,"fill-opacity":.14,stroke:C.raya,"stroke-width":px(1.2)});}
+ el("circle",{cx:cx,cy:cy,r:px(13),fill:C.negro});
+ txt(cx,cy+px(30),"the rock","middle",T.rot,C.suave,600,"ui",.6);
+ rosa(D.W-px(96),px(MARGEN)+px(70),px(28));
+
+ if(todas){
+
+   const r0=px(72);
+   ORDEN_R.forEach(c=>{
+     const m=marcaDe("card-"+c); if(!m)return;
+     const t=RUMBO[c]*Math.PI/180;
+     marca(m,cx+r0*Math.cos(t),cy+r0*Math.sin(t),42,{agua:false,nombre:m.nombre});});
+ }else{
+   const m=marcaDe("card-"+paso.card);
+   if(m)marca(m,cx+px(64),cy-px(6),78,{agua:false,nombre:m.nombre});}}
+
+function obraFamilia(s,paso,todas){
+ lamina(s.lamina||"");
+ const ids=todas
+   ? (s.marcas||s.tramos.map(t=>t.marca).filter(Boolean))
+   : [paso.marca];
+ const n=ids.length, dx=(D.W-px(220))/Math.max(n,1);
+
+ const kf=kQueCabe(n>1?120:170,px(40),px(46));
+ const base=lineaAgua(kf,px(40),px(46));
+ ids.forEach((id,k)=>{
+   const m=marcaDe(id); if(!m)return;
+   marca(m,px(110)+dx*k+dx/2,base,kf,{agua:false,nombre:m.nombre});});}
+
+function obraSentido(s){
+ lamina(s.lamina||"");
+ const x0=px(MARGEN)+px(70), x1=D.W-px(MARGEN)-px(70);
+
+ const _h=HOJA(), _kL=56, _sobre=px(2*_kL)+px(40), _bajo=px(86);
+ const an=Math.min(px(96), (_h.al-px(46)-_sobre-_bajo)/2);
+ const y=_h.y0+px(46)+(_h.al-px(46)-(2*an+_sobre+_bajo))/2+an+_sobre;
+ el("rect",{x:x0,y:y-an,width:x1-x0,height:2*an,fill:C.agua,"fill-opacity":.20});
+ for(const yy of [y-an,y+an])
+   el("line",{x1:x0,y1:yy,x2:x1,y2:yy,stroke:C.raya,"stroke-width":px(1.5)});
+ el("line",{x1:x0,y1:y,x2:x1,y2:y,stroke:C.raya,"stroke-width":px(1),
+   "stroke-dasharray":px(6)+" "+px(8)});
+
+ const fy=y-an-px(34);
+ el("line",{x1:x0,y1:fy,x2:x1,y2:fy,stroke:C.magenta,"stroke-width":px(2.4)});
+ el("path",{d:"M"+x1+","+fy+" L"+(x1-px(14))+","+(fy-px(7))
+   +" L"+(x1-px(14))+","+(fy+px(7))+" Z",fill:C.magenta});
+ txt((x0+x1)/2,fy-px(12),"direction of buoyage","middle",T.rot,C.magenta,600,"mono",1.4);
+
+ const pares=3;
+ for(let i=0;i<pares;i++){
+   const x=x0+(x1-x0)*(i+1)/(pares+1);
+   marca(marcaDe("lat-babor"),x,y-an+px(6),56,{agua:false});
+   marca(marcaDe("lat-estribor"),x,y+an+px(6),56,{agua:false});}
+
+ const bx=SE.entrando?x0+px(50):x1-px(50);
+ barco(bx,y,px(26),SE.entrando?90:270,C.papel2);
+ txt(bx,y+px(72),SE.entrando?"coming in":"going out","middle",T.dato,
+   C.tinta,600,"ui",.4);
+
+ const mx=D.W/2, my=D.H-px(MARGEN)-px(48);
+ el("rect",{x:mx-px(110),y:my-px(26),width:px(220),height:px(52),rx:px(4),
+   fill:C.papel2,stroke:C.raya,"stroke-width":px(1.4),class:"boton",
+   "data-sentido":"1"});
+ txt(mx,my+px(6),"turn her round","middle",T.dato,C.tinta,600,"ui",.4);}
+
+const CANAL={"zoom": 0.579, "aumento": 1.4, "x0": 1605.7, "y0": 2095.0, "costa": [[[1567.5, 1796.8], [1558.6, 1797.8], [1549.8, 1798.7], [1540.9, 1800.0], [1532.4, 1797.9], [1506.7, 1795.7], [1490.1, 1802.8], [1482.0, 1806.5], [1473.2, 1805.7], [1465.5, 1801.0], [1308.3, 2911.8], [1325.6, 2907.0], [1334.5, 2905.7], [1343.2, 2903.6], [1352.0, 2901.7], [1360.9, 2900.1], [1369.8, 2898.8], [1378.4, 2896.4], [1386.6, 2892.6], [1394.9, 2889.2], [1403.4, 2886.2], [1411.9, 2883.4], [1420.3, 2880.1], [1429.0, 2878.4], [1434.5, 2885.3], [1436.3, 2894.0], [1436.0, 2903.0], [1435.0, 2911.9], [1433.8, 2920.8], [1432.1, 2929.6], [1431.1, 2938.5], [1431.0, 2956.5], [1431.8, 2965.5], [1432.5, 2974.4], [1434.1, 2983.3], [1436.3, 2992.0], [1438.2, 3000.7], [1438.7, 3009.7], [1438.6, 3018.6], [1440.1, 3027.4], [1441.7, 3036.2], [1449.0, 3039.6], [1456.6, 3034.8], [1465.3, 3036.1], [1469.4, 3043.8], [1472.0, 3052.4], [1474.5, 3061.0], [1477.5, 3069.3], [1478.5, 3087.3], [1479.1, 3096.2], [1481.5, 3104.9], [1482.0, 3113.8], [1481.2, 3122.8], [1478.6, 3131.4], [1477.0, 3140.2], [1477.0, 3149.2], [1477.9, 3158.2], [1478.4, 3167.1], [1480.7, 3175.8], [1486.1, 3182.8], [1493.7, 3187.7], [1501.5, 3192.0], [1510.4, 3191.5], [1519.3, 3190.1], [1528.0, 3188.0], [1536.7, 3185.5], [1545.6, 3185.0], [1554.6, 3185.0], [1563.6, 3185.6], [1570.8, 3190.8], [1576.1, 3198.0], [1579.6, 3206.3], [1800.4, 3201.2], [1808.7, 3200.1], [1815.0, 3206.1], [2027.9, 3203.8], [2024.8, 3195.4], [2019.1, 3188.6], [2014.2, 3181.1], [2002.4, 3167.5], [1997.0, 3160.3], [1994.1, 3151.8], [1993.0, 3142.9], [1992.9, 3134.0], [1990.0, 3125.5], [1986.8, 3117.1], [1982.3, 3109.3], [1978.5, 3101.2], [1977.1, 3092.3], [1976.0, 3083.4], [1976.7, 3074.4], [1980.0, 3066.2], [1984.7, 3058.5], [1985.4, 3049.9], [1978.8, 3043.9], [1970.8, 3039.7], [1963.2, 3035.1], [1956.2, 3029.3], [1950.6, 3022.5], [1951.3, 3013.7], [1952.0, 3004.7], [1951.0, 2995.8], [1948.4, 2987.5], [1942.0, 2981.2], [1934.6, 2976.2], [1926.4, 2972.5], [1918.9, 2967.5], [1913.5, 2960.4], [1908.7, 2952.9], [1902.0, 2946.9], [1897.1, 2939.4], [1892.1, 2931.9], [1889.2, 2923.4], [1886.8, 2914.8], [1879.4, 2898.5], [1875.2, 2890.5], [1872.0, 2882.2], [1867.9, 2874.2], [1864.6, 2865.8], [1861.0, 2857.5], [1858.2, 2849.0], [1854.5, 2840.8], [1846.7, 2824.6], [1843.4, 2816.3], [1839.4, 2808.2], [1838.2, 2799.4], [1839.8, 2790.5], [1841.5, 2781.7], [1842.5, 2763.8], [1841.9, 2754.8], [1840.5, 2745.9], [1838.3, 2737.2], [1835.4, 2728.9], [1827.9, 2724.2], [1819.4, 2721.5], [1810.5, 2721.9], [1801.5, 2722.0], [1796.0, 2716.3], [1795.0, 2707.3], [1795.0, 2698.3], [1797.3, 2689.8], [1801.7, 2682.0], [1807.8, 2675.6], [1814.3, 2669.4], [1821.9, 2664.6], [1830.4, 2662.1], [1838.9, 2658.9], [1846.5, 2654.2], [1853.7, 2648.8], [1858.9, 2641.5], [1863.0, 2633.5], [1868.5, 2616.4], [1871.7, 2608.0], [1875.0, 2599.6], [1878.9, 2591.5], [1883.5, 2583.8], [1889.0, 2576.7], [1895.0, 2570.0], [1901.4, 2563.6], [1908.2, 2557.7], [1915.9, 2553.4], [1924.8, 2552.0], [1933.6, 2553.4], [1941.6, 2557.5], [1950.1, 2560.2], [1958.9, 2562.1], [1967.6, 2564.4], [1976.0, 2567.2], [1985.0, 2568.0], [1993.8, 2566.8], [2002.8, 2566.1], [2011.7, 2567.0], [2020.6, 2565.9], [2029.5, 2566.9], [2038.3, 2568.7], [2046.2, 2572.9], [2053.6, 2578.0], [2061.1, 2582.9], [2068.9, 2587.3], [2077.5, 2590.1], [2085.6, 2594.0], [2094.0, 2597.0], [2102.7, 2599.4], [2111.0, 2602.8], [2127.1, 2610.7], [2134.7, 2615.6], [2140.4, 2622.5], [2148.4, 2625.9], [2157.3, 2625.1], [2166.1, 2623.5], [2174.8, 2621.4], [2183.8, 2621.0], [2192.8, 2621.0], [2201.8, 2621.8], [2210.5, 2623.7], [2219.0, 2626.6], [2227.7, 2628.9], [2236.6, 2630.0], [2245.6, 2630.8], [2254.6, 2631.2], [2263.5, 2632.0], [2272.5, 2632.0], [2281.4, 2632.9], [2290.4, 2633.3], [2299.0, 2635.7], [2307.4, 2639.1], [2315.1, 2643.7], [2322.8, 2648.3], [2329.1, 2654.7], [2335.7, 2660.7], [2341.6, 2667.5], [2344.9, 2675.8], [2344.1, 2684.8], [2343.2, 2693.7], [2341.1, 2702.4], [2339.6, 2711.2], [2338.1, 2720.1], [2336.7, 2728.9], [2336.3, 2737.7], [2338.3, 2746.3], [2339.0, 2755.3], [2333.1, 2760.0], [2315.1, 2760.0], [2306.3, 2761.8], [2299.6, 2767.5], [2295.7, 2775.6], [2292.4, 2783.9], [2291.0, 2792.7], [2291.9, 2801.7], [2294.1, 2810.3], [2298.9, 2817.9], [2305.3, 2824.2], [2320.0, 2834.5], [2328.2, 2838.2], [2336.6, 2841.4], [2345.2, 2844.2], [2353.5, 2847.6], [2361.1, 2852.2], [2367.2, 2858.9], [2372.4, 2866.2], [2376.7, 2874.1], [2381.2, 2881.9], [2385.0, 2889.8], [2385.9, 2898.8], [2384.7, 2907.7], [2383.7, 2916.6], [2383.9, 2925.5], [2384.0, 2934.5], [2385.1, 2943.4], [2387.5, 2952.1], [2391.9, 2959.9], [2397.9, 2966.5], [2405.4, 2971.5], [2410.9, 2978.2], [2410.5, 2987.1], [2405.5, 3004.3], [2401.8, 3012.5], [2398.6, 3020.9], [2396.5, 3029.6], [2395.5, 3038.5], [2395.0, 3047.5], [2395.2, 3056.5], [2397.2, 3065.2], [2399.9, 3083.0], [2401.6, 3091.7], [2405.9, 3099.5], [2412.5, 3105.3], [2414.9, 3114.0], [2417.1, 3122.7], [2419.9, 3131.2], [2428.4, 3130.7], [2436.3, 3126.5], [2443.2, 3120.8], [2449.2, 3114.1], [2454.5, 3106.8], [2458.9, 3099.0], [2462.1, 3090.7], [2464.2, 3081.9], [2465.0, 3073.0], [2462.6, 3064.6], [2457.0, 3057.6], [2452.0, 3050.1], [2449.0, 3041.7], [2450.0, 3032.8], [2451.5, 3024.0], [2455.7, 3016.1], [2457.9, 3007.4], [2463.9, 3001.3], [2472.5, 2999.1], [2480.1, 3003.3], [2483.2, 3011.6], [2484.1, 3020.5], [2486.4, 3029.2], [2493.3, 3034.4], [2501.9, 3033.2], [2506.0, 3025.3], [2508.9, 3016.8], [2510.8, 3008.0], [2507.5, 3000.0], [2501.2, 2993.6], [2494.2, 2988.1], [2490.4, 2980.1], [2487.9, 2971.5], [2486.1, 2962.7], [2482.2, 2945.2], [2481.9, 2936.2], [2477.3, 2918.8], [2474.5, 2910.3], [2470.0, 2902.5], [2465.0, 2895.1], [2459.2, 2888.2], [2454.1, 2880.8], [2450.4, 2872.6], [2446.2, 2864.7], [2442.7, 2856.5], [2436.6, 2849.9], [2431.8, 2842.4], [2431.7, 2833.5], [2435.5, 2825.4], [2440.1, 2817.6], [2445.7, 2810.6], [2451.2, 2803.5], [2455.4, 2795.5], [2457.9, 2786.9], [2458.4, 2778.1], [2456.2, 2769.3], [2454.3, 2760.6], [2451.6, 2752.0], [2447.7, 2743.9], [2442.6, 2736.5], [2441.3, 2727.9], [2448.6, 2723.5], [2457.5, 2721.8], [2464.6, 2716.5], [2473.4, 2715.1], [2482.2, 2716.9], [2490.9, 2718.9], [2499.9, 2719.5], [2508.3, 2722.6], [2517.2, 2724.0], [2526.1, 2725.1], [2535.0, 2726.0], [2543.9, 2724.7], [2552.6, 2722.3], [2561.0, 2719.3], [2569.4, 2716.0], [2577.4, 2712.0], [2585.3, 2707.6], [2593.3, 2703.6], [2601.7, 2700.3], [2609.9, 2696.7], [2618.6, 2694.5], [2627.5, 2693.9], [2635.4, 2697.9], [2643.1, 2702.4], [2651.7, 2704.9], [2660.6, 2704.1], [2669.0, 2700.8], [2677.2, 2697.1], [2684.7, 2692.2], [2691.1, 2685.9], [2696.5, 2678.8], [2701.5, 2671.3], [2707.1, 2664.2], [2713.0, 2657.5], [2718.6, 2650.4], [2725.4, 2644.6], [2733.5, 2640.6], [2742.0, 2638.0], [2751.0, 2637.2], [2760.0, 2637.0], [2768.6, 2639.3], [2777.6, 2639.9], [2786.5, 2639.0], [2795.4, 2637.8], [2803.9, 2634.8], [2811.0, 2629.6], [2815.7, 2622.0], [2818.7, 2613.5], [2819.5, 2604.6], [2821.2, 2595.8], [2824.6, 2587.5], [2829.8, 2580.1], [2836.8, 2574.8], [2853.8, 2568.9], [2862.6, 2567.2], [2871.5, 2566.1], [2880.4, 2565.1], [2888.1, 2560.7], [2893.9, 2553.7], [2898.0, 2545.8], [2901.1, 2537.3], [2903.6, 2528.7], [2906.9, 2520.3], [2909.8, 2511.8], [2910.8, 2502.9], [2912.6, 2494.1], [2914.1, 2485.3], [2914.0, 2476.3], [2913.3, 2467.5], [2908.1, 2461.1], [2899.3, 2462.2], [2892.1, 2467.5], [2885.9, 2474.0], [2878.4, 2478.8], [2869.7, 2478.7], [2861.3, 2475.3], [2854.5, 2469.6], [2848.5, 2463.0], [2844.2, 2455.1], [2840.3, 2447.1], [2834.3, 2440.3], [2827.9, 2434.1], [2822.8, 2426.8], [2815.9, 2421.3], [2807.8, 2417.5], [2799.1, 2415.1], [2781.6, 2410.9], [2773.0, 2408.3], [2764.9, 2404.4], [2756.4, 2401.6], [2747.8, 2398.9], [2739.3, 2396.1], [2730.5, 2394.2], [2721.7, 2392.1], [2712.8, 2392.4], [2703.8, 2392.5], [2695.9, 2396.3], [2689.0, 2402.1], [2682.1, 2407.8], [2667.2, 2417.8], [2659.4, 2422.3], [2651.5, 2426.6], [2636.0, 2435.7], [2627.7, 2439.4], [2619.3, 2442.3], [2610.5, 2444.1], [2601.5, 2445.0], [2583.5, 2445.0], [2574.6, 2444.8], [2566.0, 2442.3], [2557.8, 2438.5], [2549.7, 2434.6], [2541.9, 2430.1], [2534.5, 2425.1], [2526.9, 2420.2], [2519.1, 2415.8], [2511.0, 2411.8], [2503.6, 2406.8], [2495.7, 2402.5], [2488.5, 2397.0], [2482.1, 2390.8], [2470.2, 2377.3], [2463.8, 2371.0], [2456.2, 2366.2], [2449.5, 2360.2], [2441.4, 2356.5], [2434.3, 2351.4], [2430.2, 2333.9], [2426.8, 2325.6], [2418.3, 2324.1], [2409.8, 2326.9], [2401.4, 2329.9], [2392.4, 2330.8], [2374.9, 2334.6], [2366.0, 2334.4], [2357.2, 2332.4], [2348.5, 2330.2], [2339.8, 2327.7], [2323.9, 2320.1], [2315.2, 2317.8], [2307.6, 2313.1], [2299.5, 2309.3], [2290.9, 2309.5], [2285.0, 2316.3], [2279.2, 2323.2], [2273.3, 2329.9], [2266.2, 2335.4], [2258.5, 2340.0], [2250.8, 2344.7], [2243.0, 2349.2], [2235.0, 2353.2], [2226.9, 2357.2], [2218.1, 2359.0], [2209.3, 2360.7], [2200.3, 2361.0], [2182.5, 2359.5], [2173.5, 2358.5], [2164.7, 2357.0], [2155.7, 2356.0], [2146.7, 2355.9], [2137.8, 2354.7], [2129.1, 2352.6], [2121.7, 2347.7], [2113.8, 2343.6], [2106.2, 2338.8], [2099.7, 2332.6], [2093.8, 2325.8], [2087.7, 2319.2], [2082.1, 2312.2], [2075.3, 2306.3], [2062.6, 2293.6], [2056.9, 2286.6], [2051.5, 2279.4], [2043.5, 2263.4], [2040.2, 2255.0], [2035.7, 2247.2], [2029.9, 2240.4], [2025.7, 2232.5], [2021.6, 2224.5], [2018.0, 2216.2], [2013.3, 2208.6], [2009.2, 2200.6], [2005.7, 2192.3], [2001.7, 2184.2], [1996.0, 2177.4], [1992.0, 2169.6], [1988.5, 2161.5], [1984.5, 2153.6], [1982.4, 2144.9], [1980.6, 2136.0], [1977.4, 2127.7], [1973.5, 2119.6], [1970.0, 2111.3], [1967.2, 2102.8], [1964.6, 2094.2], [1959.8, 2086.9], [1952.9, 2081.1], [1945.0, 2077.0], [1937.4, 2072.2], [1931.6, 2065.5], [1927.8, 2057.3], [1922.2, 2050.4], [1914.5, 2045.6], [1906.1, 2042.6], [1889.6, 2035.5], [1880.9, 2033.1], [1872.2, 2031.1], [1863.2, 2031.0], [1854.5, 2032.6], [1848.5, 2039.1], [1842.4, 2044.0], [1834.3, 2040.4], [1826.5, 2036.0], [1818.1, 2032.7], [1809.9, 2029.0], [1801.2, 2027.0], [1783.4, 2025.0], [1774.4, 2024.1], [1765.5, 2025.5], [1756.6, 2026.0], [1747.6, 2026.0], [1738.7, 2025.2], [1720.8, 2027.0], [1711.8, 2027.6], [1703.0, 2029.1], [1694.1, 2030.0], [1685.3, 2028.0], [1679.6, 2021.4], [1672.8, 2015.6], [1666.8, 2009.2], [1666.5, 2000.3], [1670.3, 1992.3], [1676.4, 1985.7], [1682.7, 1979.3], [1689.6, 1973.5], [1697.1, 1968.7], [1704.5, 1963.5], [1712.3, 1959.0], [1720.4, 1955.1], [1728.8, 1952.1], [1737.2, 1948.7], [1745.6, 1945.5], [1762.0, 1938.2], [1770.3, 1934.8], [1787.0, 1928.2], [1795.3, 1924.7], [1803.8, 1921.8], [1812.3, 1918.8], [1821.0, 1916.4], [1829.5, 1913.6], [1838.3, 1912.0], [1847.3, 1912.0], [1865.3, 1911.0], [1874.1, 1912.2], [1882.6, 1915.1], [1891.0, 1918.3], [1899.8, 1919.9], [1908.8, 1920.0], [1917.7, 1921.2], [1926.4, 1923.5], [1934.9, 1926.4], [1943.8, 1928.0], [1952.5, 1930.1], [1961.3, 1932.0], [1969.6, 1935.4], [1978.5, 1936.9], [1987.3, 1938.3], [1995.6, 1941.8], [2004.3, 1943.9], [2022.1, 1946.9], [2031.0, 1947.0], [2040.0, 1947.8], [2048.9, 1948.8], [2057.8, 1950.0], [2066.6, 1951.8], [2075.6, 1952.0], [2084.5, 1951.0], [2093.5, 1951.7], [2102.0, 1954.4], [2111.0, 1955.0], [2120.0, 1955.1], [2128.8, 1956.9], [2137.2, 1959.9], [2145.4, 1963.7], [2152.8, 1968.8], [2161.2, 1971.9], [2170.1, 1972.8], [2178.9, 1974.7], [2187.4, 1977.6], [2196.2, 1979.6], [2204.8, 1982.1], [2222.4, 1986.0], [2231.2, 1987.4], [2240.1, 1989.1], [2249.0, 1990.4], [2257.7, 1992.5], [2266.7, 1993.0], [2275.7, 1993.1], [2284.5, 1994.7], [2293.4, 1996.1], [2302.1, 1998.2], [2311.1, 1999.2], [2328.6, 2003.0], [2337.5, 2004.3], [2355.2, 2007.7], [2364.0, 2009.4], [2372.8, 2011.3], [2381.4, 2013.7], [2390.2, 2015.8], [2398.7, 2018.4], [2406.9, 2021.6], [2415.9, 2022.0], [2424.7, 2023.5], [2433.1, 2026.8], [2442.0, 2027.0], [2451.0, 2027.0], [2460.0, 2027.2], [2469.0, 2028.0], [2478.0, 2028.0], [2495.8, 2030.4], [2504.6, 2032.3], [2512.9, 2035.4], [2521.1, 2039.1], [2529.8, 2041.4], [2538.4, 2044.0], [2546.1, 2048.5], [2554.2, 2052.4], [2562.9, 2054.6], [2571.8, 2056.1], [2580.5, 2058.0], [2589.1, 2060.9], [2597.8, 2063.2], [2605.9, 2066.9], [2614.6, 2069.5], [2623.1, 2072.2], [2631.6, 2075.3], [2640.4, 2076.7], [2649.4, 2077.5], [2667.2, 2079.4], [2676.1, 2080.6], [2685.1, 2081.4], [2694.0, 2082.6], [2711.9, 2083.4], [2720.9, 2084.0], [2747.9, 2084.0], [2756.7, 2085.7], [2765.7, 2086.0], [2783.7, 2086.0], [2792.6, 2087.0], [2810.6, 2087.0], [2819.6, 2087.2], [2828.5, 2088.0], [2837.5, 2088.3], [2846.4, 2089.1], [2855.4, 2088.9], [2864.2, 2087.2], [2873.1, 2086.9], [2882.0, 2087.9], [2891.0, 2088.0], [2899.9, 2089.0], [2908.5, 2091.5], [2917.5, 2092.0], [2926.5, 2092.2], [2962.2, 2095.8], [2971.0, 2097.5], [2979.7, 2099.7], [2988.6, 2101.0], [2997.5, 2102.0], [3006.4, 2102.8], [3015.4, 2103.0], [3024.4, 2104.0], [3033.3, 2103.1], [3041.8, 2100.3], [3049.0, 2094.9], [3055.4, 2088.6], [3060.4, 2081.2], [3063.6, 2063.7], [3065.7, 2055.0], [3069.3, 2046.8], [3073.9, 2039.1], [3081.0, 2033.6], [3088.8, 2029.3], [3097.1, 2025.7], [3106.0, 2026.2], [3113.7, 2030.7], [3121.4, 2034.9]], [[1837.4, 2103.4], [1832.2, 2110.1], [1831.8, 2119.0], [1835.9, 2126.9], [1840.6, 2134.5], [1845.8, 2141.8], [1850.5, 2149.4], [1853.4, 2157.9], [1855.6, 2166.6], [1857.9, 2175.3], [1859.4, 2184.1], [1861.2, 2192.9], [1863.1, 2201.7], [1867.1, 2209.7], [1872.3, 2217.0], [1879.4, 2222.5], [1886.9, 2227.3], [1894.8, 2231.7], [1902.6, 2236.0], [1911.0, 2239.3], [1918.8, 2243.8], [1927.1, 2247.1], [1935.1, 2251.3], [1942.8, 2255.8], [1951.3, 2258.8], [1960.2, 2259.9], [1968.8, 2257.7], [1973.3, 2250.1], [1973.5, 2241.2], [1968.4, 2233.9], [1963.0, 2226.8], [1956.6, 2220.5], [1950.2, 2214.3], [1944.3, 2207.5], [1937.6, 2201.5], [1931.4, 2195.0], [1925.8, 2188.0], [1919.1, 2182.0], [1913.1, 2175.3], [1907.4, 2168.4], [1897.1, 2153.8], [1891.9, 2146.5], [1887.7, 2138.6], [1882.2, 2131.5], [1875.5, 2125.6], [1868.0, 2120.5], [1861.1, 2114.8], [1853.4, 2110.1], [1845.7, 2105.7]], [[1477.3, 2657.4], [1473.7, 2649.1], [1472.0, 2640.3], [1467.5, 2633.4], [1459.8, 2636.6], [1459.0, 2645.6], [1459.1, 2654.6], [1460.3, 2663.5], [1461.7, 2672.5], [1462.0, 2681.5], [1462.0, 2699.5], [1460.6, 2708.4], [1460.0, 2717.4], [1459.1, 2726.4], [1457.1, 2735.1], [1454.9, 2743.7], [1454.0, 2752.7], [1455.0, 2761.6], [1455.3, 2770.6], [1457.1, 2779.4], [1463.9, 2784.9], [1466.6, 2793.5], [1470.1, 2801.8], [1476.9, 2806.9], [1485.5, 2805.2], [1489.2, 2797.2], [1491.3, 2788.5], [1494.0, 2779.9], [1499.8, 2762.8], [1502.3, 2754.2], [1504.8, 2745.5], [1506.9, 2736.8], [1509.9, 2728.2], [1512.5, 2719.6], [1514.8, 2710.9], [1516.0, 2701.9], [1514.7, 2693.1], [1509.2, 2686.1], [1502.2, 2680.4], [1486.7, 2671.5], [1479.9, 2666.0]], [[1315.8, 1797.0], [1313.0, 1805.4], [1307.2, 1812.0], [1307.1, 1833.8], [1309.8, 1842.2], [1310.1, 1851.0], [1314.2, 1858.6], [1322.4, 1861.3], [1329.9, 1857.1], [1342.0, 1844.1], [1347.8, 1837.4], [1354.0, 1831.1], [1368.5, 1820.8], [1376.6, 1817.5], [1385.4, 1816.9], [1393.8, 1814.2], [1397.2, 1806.7], [1391.2, 1800.4], [1383.1, 1797.2]], [[2049.1, 2489.0], [2040.4, 2488.0], [2031.7, 2486.9], [2022.9, 2486.0], [2014.1, 2484.9], [2005.5, 2483.0], [1996.7, 2481.8], [1987.9, 2481.0], [1961.4, 2478.2], [1952.6, 2478.0], [1943.9, 2479.8], [1937.0, 2485.3], [1930.0, 2490.8], [1926.6, 2498.4], [1933.5, 2503.8], [1940.7, 2508.9], [1949.1, 2511.9], [1957.7, 2514.2], [1966.5, 2515.2], [1975.3, 2516.3], [1984.0, 2517.6], [1992.9, 2518.0], [2001.8, 2518.1], [2010.6, 2519.0], [2019.3, 2517.4], [2027.9, 2515.7], [2035.2, 2510.7], [2041.1, 2504.1], [2046.9, 2497.3]], [[1846.6, 2544.8], [1838.3, 2546.2], [1831.4, 2551.7], [1826.3, 2559.0], [1823.3, 2567.3], [1820.1, 2575.6], [1816.2, 2583.5], [1811.1, 2590.8], [1804.7, 2596.9], [1797.4, 2602.0], [1789.8, 2606.5], [1782.2, 2611.1], [1775.0, 2616.2], [1769.5, 2623.1], [1767.0, 2631.5], [1768.9, 2640.0], [1776.3, 2644.0], [1785.1, 2643.0], [1793.7, 2640.9], [1801.6, 2636.8], [1808.4, 2631.3], [1812.0, 2623.4], [1813.3, 2614.6], [1816.8, 2606.5], [1827.1, 2592.1], [1831.6, 2584.4], [1836.4, 2577.0], [1841.5, 2569.8], [1845.0, 2561.6], [1847.9, 2553.3]]], "direccion": {"desde": "SH", "hacia": "Stennick Haven", "rumbo_entrando": 163, "rotulo": "Stennick Ldg 163°T"}, "marcas": [{"id": "lat-babor", "x": 1920.0, "y": 2337.8, "nombre": "No.2"}, {"id": "lat-estribor", "x": 1849.4, "y": 2455.4, "nombre": "No.1"}, {"id": "lat-babor", "x": 2634.8, "y": 2637.8, "nombre": "No.4"}, {"id": "lat-estribor", "x": 2382.3, "y": 2716.7, "nombre": "No.3"}, {"id": "aguas-seguras", "x": 1795.7, "y": 2285.0, "nombre": "SH"}]};
+function obraCanal(s){
+ lamina(s.lamina||"");
+ if(!CANAL){
+   txt(D.W/2,D.H/2,"the channel is not in this build yet","middle",
+     T.lect,C.suave,600,"serif");
+   return;}
+ const Z=CANAL.zoom, X0=CANAL.x0, Y0=CANAL.y0;
+
+ const _h=HOJA(), _fx=(_h.an-px(48))/880, _fy=(_h.al-px(86))/470;
+ const _f=Math.min(_fx,_fy);
+ const aX=x=>_h.x0+px(24)+(x-X0)*Z*_f;
+ const aY=y=>_h.y0+px(62)+(y-Y0)*Z*_f;
+
+ const _cid="recorteCanal";
+ const _cp=el("clipPath",{id:_cid});
+ el("rect",{x:_h.x0,y:_h.y0+px(46),width:_h.an,height:_h.al-px(46)},_cp);
+ (CANAL.costa||[]).forEach(l=>{
+   if(l.length<2)return;
+   el("path",{d:"M"+l.map(p=>aX(p[0])+","+aY(p[1])).join(" L"),
+     fill:"none",stroke:C.tinta,"stroke-width":px(1.4),
+     "clip-path":"url(#"+_cid+")"});});
+
+ if(CANAL.direccion){
+   const d=CANAL.direccion;
+   txt(D.W/2,D.H-px(MARGEN)-px(20),d.rotulo,"middle",T.rot,C.magenta,600,"mono",1.4);}
+ (CANAL.marcas||[]).forEach(b=>{
+   const m=marcaDe(b.id); if(!m)return;
+   marca(m,aX(b.x),aY(b.y),44,{agua:false});
+   if(b.nombre)txt(aX(b.x),aY(b.y)+px(16),b.nombre,"middle",T.rot,C.suave,600,"mono",1);});
+
+ txt(D.W-px(MARGEN)-px(16),px(MARGEN)+px(26),
+   "enlarged "+Z+"× · not to scale","end",T.rot,C.suave,500,"mono",1.2);}
+
+let EX={sel:null, vistas:{}};
+function obraExplora(s){
+ lamina(s.lamina||"");
+ const ids=s.marcas, n=ids.length;
+ const dx=(D.W-px(2*MARGEN)-px(40))/n, y=D.H*0.62;
+ ids.forEach((id,i)=>{
+  const m=marcaDe(id); if(!m)return;
+  const cx=px(MARGEN)+px(20)+dx*i+dx/2;
+  const sel=(EX.sel===id), visto=!!EX.vistas[id];
+  const g=marca(m,cx,y-(sel?px(10):0),sel?116:104,{});
+
+  el("rect",{x:cx-dx/2+px(6),y:px(MARGEN)+px(30),width:dx-px(12),
+    height:y-px(MARGEN),fill:"transparent",class:"marca","data-marca":id});
+  txt(cx,y+px(30),m.nombre,"middle",T.dato,visto?C.tinta:C.suave,
+      visto?600:400,"ui",.4);
+  if(sel)el("line",{x1:cx-px(46),y1:y+px(40),x2:cx+px(46),y2:y+px(40),
+    stroke:C.magenta,"stroke-width":px(2.5),"stroke-linecap":"round"});});
+ if(s.rosa) rosa(D.W-px(78), px(MARGEN)+px(66), px(26));}
+
+function obraEjemplo(s,i){
+ lamina(s.lamina||"");
+ const m=marcaDe(EJ.marca)||MARCAS[0], v=s.tramos[i].ensena||{};
+
+ const cx=D.W/2, k=kQueCabe(175,px(30),px(76)), base=lineaAgua(k,px(30),px(76));
+ const alto=px(k), ancho=px(k*0.55), y0=base-alto, r=px(k*0.18);
+ const mast=px(k*0.28), tY=y0-mast;
+
+ if(v.sector&&m.cardinal){const h=HOJA(), scy=base-px(60);
+   sector(cx,scy,Math.min(px(170),scy-h.y0-px(4),h.y1-scy-px(4)),m.cardinal);}
+
+ const conBandas=!!(m.bandas&&m.bandas.length);
+ const entero=(v.cuerpo||v.banda)&&!conBandas;
+
+ if(entero){
+   marca(m,cx,base,k,{agua:false});
+ }else{
+
+ if(v.cuerpo||v.banda){
+   const bandas=(m.bandas||[]).map(b=>b.slice());
+
+   const laBanda=i=>m.familia==="preferente"&&bandas[i][0]!==bandas[0][0];
+   let y=y0;
+   bandas.forEach((b,i)=>{
+     const h=alto*b[1], neg=(b[0]==="negro");
+
+     const col=(laBanda(i)&&!v.banda)?bandas[0][0]:b[0];
+     if(v.cuerpo||neg)
+       el("rect",{x:cx-ancho/2,y:y,width:ancho,height:h,fill:C[col]||col});
+     y+=h;});
+   if(v.cuerpo)el("rect",{x:cx-ancho/2,y:y0,width:ancho,height:alto,fill:"none",
+     stroke:C.negro,"stroke-width":px(1.6)});
+   el("line",{x1:cx,y1:y0,x2:cx,y2:tY,stroke:C.negro,"stroke-width":px(2.6)});
+ }
+
+ if(v.conos){
+   const base2=(v.cuerpo||v.banda)?tY:base-px(40), hueco=px(1.6);
+   dibujaTope(m,cx,base2,r,gO);
+
+   if(v.punta&&m.conos){
+     const flecha=(y,dir)=>el("path",{d:"M"+(cx+px(34))+","+y+" l"+px(13)+","
+       +(dir==="up"?-px(11):px(11))+" l0,"+(dir==="up"?px(22):-px(22))+" Z",
+       fill:C.magenta});
+     flecha(base2-2*r-hueco-r, m.conos[0]);
+     flecha(base2-r, m.conos[1]);}
+ }
+ }
+
+ if(v.cuerpo) agua(cx,base,ancho*1.15);
+ if(v.nombre){
+   txt(cx,base+px(34),m.nombre,"middle",T.lect,C.tinta,600,"serif");
+   txt(cx,base+px(56),m.codigo,"middle",T.dato,C.suave,600,"mono",1.4);}
+ return null;}
+
+function obraPractica(){
+ lamina("");
+ if(!PR.q)return;
+ const ids=PR.q.muestra||[PR.q.marca];
+ const n=ids.length, dx=(D.W-px(160))/n;
+
+ const k=kQueCabe(n>1?120:210,px(24),px(40));
+ const base=lineaAgua(k,px(24),px(40));
+ ids.forEach((id,i)=>{
+   const m=marcaDe(id); if(!m)return;
+   marca(m,px(80)+dx*i+dx/2, base, k,
+     {nombre:n>1?String.fromCharCode(65+i):null});});}
+
+function obraCierre(){
+ lamina("what you can do now");
+ const orden=["card-N","card-E","card-S","card-W","lat-babor","lat-estribor",
+              "aguas-seguras","peligro-aislado","nuevo-peligro","especial",
+              "pref-estribor","pref-babor"];
+
+ const fila=6, filas=2;
+ const arriba=px(MARGEN)+px(46), libre=(D.H-px(MARGEN))-arriba;
+
+ let k=64, rotulo=true, sobre, bajo, sep=px(30), bloque;
+ for(const [kk,rr] of [[64,true],[52,true],[52,false],[44,false]]){
+   k=kk; rotulo=rr;
+   sobre=px(k*2)+px(4); bajo=px(rotulo?34:8);
+   bloque=filas*(sobre+bajo)+(filas-1)*sep;
+   if(bloque<=libre) break;}
+ const y0=arriba+Math.max(0,(libre-bloque)/2)+sobre;
+ const dx=(D.W-px(2*MARGEN)-px(40))/fila;
+ orden.forEach((id,i)=>{
+   const m=marcaDe(id); if(!m)return;
+   marca(m, px(MARGEN)+px(20)+dx*(i%fila)+dx/2,
+     y0+(sobre+bajo+sep)*Math.floor(i/fila), k,
+     {nombre:rotulo?(m.corto||m.nombre):null});});}
+
+const AZAR=20260814;
+const BANCOS={"CUADRANTE": [{"id": "cu-N-045", "banco": "CUADRANTE", "marca": "card-N", "usos": ["1.P1"], "pregunta": "You are steering <b>045°</b> and this is ahead of you. Which side do you leave it?", "opciones": ["Leave it to <b>port</b>", "Leave it to <b>starboard</b>"], "ok": 1, "lado": "starboard", "porque": "A north cardinal means the clear water is to the north of it. Steering north-east, that water is on your port — so the mark goes down your starboard side.", "show": " Put the clear water on the side you want to be on, and the mark ends up on the other.", "pista": "Where is the clear water, and where is it relative to your bow?", "escena": {"rumbo": 45, "cardinal": "N"}, "fuente": "dato"}, {"id": "cu-N-135", "banco": "CUADRANTE", "marca": "card-N", "usos": ["1.P1"], "pregunta": "You are steering <b>135°</b> and this is ahead of you. Which side do you leave it?", "opciones": ["Leave it to <b>port</b>", "Leave it to <b>starboard</b>"], "ok": 1, "lado": "starboard", "porque": "A north cardinal means the clear water is to the north of it. Steering south-east, that water is on your port — so the mark goes down your starboard side.", "show": " Put the clear water on the side you want to be on, and the mark ends up on the other.", "pista": "Where is the clear water, and where is it relative to your bow?", "escena": {"rumbo": 135, "cardinal": "N"}, "fuente": "dato"}, {"id": "cu-N-225", "banco": "CUADRANTE", "marca": "card-N", "usos": ["1.P1"], "pregunta": "You are steering <b>225°</b> and this is ahead of you. Which side do you leave it?", "opciones": ["Leave it to <b>port</b>", "Leave it to <b>starboard</b>"], "ok": 0, "lado": "port", "porque": "A north cardinal means the clear water is to the north of it. Steering south-west, that water is on your starboard — so the mark goes down your port side.", "show": " Put the clear water on the side you want to be on, and the mark ends up on the other.", "pista": "Where is the clear water, and where is it relative to your bow?", "escena": {"rumbo": 225, "cardinal": "N"}, "fuente": "dato"}, {"id": "cu-N-315", "banco": "CUADRANTE", "marca": "card-N", "usos": ["1.P1"], "pregunta": "You are steering <b>315°</b> and this is ahead of you. Which side do you leave it?", "opciones": ["Leave it to <b>port</b>", "Leave it to <b>starboard</b>"], "ok": 0, "lado": "port", "porque": "A north cardinal means the clear water is to the north of it. Steering north-west, that water is on your starboard — so the mark goes down your port side.", "show": " Put the clear water on the side you want to be on, and the mark ends up on the other.", "pista": "Where is the clear water, and where is it relative to your bow?", "escena": {"rumbo": 315, "cardinal": "N"}, "fuente": "dato"}, {"id": "cu-E-045", "banco": "CUADRANTE", "marca": "card-E", "usos": ["1.P1"], "pregunta": "You are steering <b>045°</b> and this is ahead of you. Which side do you leave it?", "opciones": ["Leave it to <b>port</b>", "Leave it to <b>starboard</b>"], "ok": 0, "lado": "port", "porque": "An east cardinal means the clear water is to the east of it. Steering north-east, that water is on your starboard — so the mark goes down your port side.", "show": " Put the clear water on the side you want to be on, and the mark ends up on the other.", "pista": "Where is the clear water, and where is it relative to your bow?", "escena": {"rumbo": 45, "cardinal": "E"}, "fuente": "dato"}, {"id": "cu-E-135", "banco": "CUADRANTE", "marca": "card-E", "usos": ["1.P1"], "pregunta": "You are steering <b>135°</b> and this is ahead of you. Which side do you leave it?", "opciones": ["Leave it to <b>port</b>", "Leave it to <b>starboard</b>"], "ok": 1, "lado": "starboard", "porque": "An east cardinal means the clear water is to the east of it. Steering south-east, that water is on your port — so the mark goes down your starboard side.", "show": " Put the clear water on the side you want to be on, and the mark ends up on the other.", "pista": "Where is the clear water, and where is it relative to your bow?", "escena": {"rumbo": 135, "cardinal": "E"}, "fuente": "dato"}, {"id": "cu-E-225", "banco": "CUADRANTE", "marca": "card-E", "usos": ["1.P1"], "pregunta": "You are steering <b>225°</b> and this is ahead of you. Which side do you leave it?", "opciones": ["Leave it to <b>port</b>", "Leave it to <b>starboard</b>"], "ok": 1, "lado": "starboard", "porque": "An east cardinal means the clear water is to the east of it. Steering south-west, that water is on your port — so the mark goes down your starboard side.", "show": " Put the clear water on the side you want to be on, and the mark ends up on the other.", "pista": "Where is the clear water, and where is it relative to your bow?", "escena": {"rumbo": 225, "cardinal": "E"}, "fuente": "dato"}, {"id": "cu-E-315", "banco": "CUADRANTE", "marca": "card-E", "usos": ["1.P1"], "pregunta": "You are steering <b>315°</b> and this is ahead of you. Which side do you leave it?", "opciones": ["Leave it to <b>port</b>", "Leave it to <b>starboard</b>"], "ok": 0, "lado": "port", "porque": "An east cardinal means the clear water is to the east of it. Steering north-west, that water is on your starboard — so the mark goes down your port side.", "show": " Put the clear water on the side you want to be on, and the mark ends up on the other.", "pista": "Where is the clear water, and where is it relative to your bow?", "escena": {"rumbo": 315, "cardinal": "E"}, "fuente": "dato"}, {"id": "cu-S-045", "banco": "CUADRANTE", "marca": "card-S", "usos": ["1.P1"], "pregunta": "You are steering <b>045°</b> and this is ahead of you. Which side do you leave it?", "opciones": ["Leave it to <b>port</b>", "Leave it to <b>starboard</b>"], "ok": 0, "lado": "port", "porque": "A south cardinal means the clear water is to the south of it. Steering north-east, that water is on your starboard — so the mark goes down your port side.", "show": " Put the clear water on the side you want to be on, and the mark ends up on the other.", "pista": "Where is the clear water, and where is it relative to your bow?", "escena": {"rumbo": 45, "cardinal": "S"}, "fuente": "dato"}, {"id": "cu-S-135", "banco": "CUADRANTE", "marca": "card-S", "usos": ["1.P1"], "pregunta": "You are steering <b>135°</b> and this is ahead of you. Which side do you leave it?", "opciones": ["Leave it to <b>port</b>", "Leave it to <b>starboard</b>"], "ok": 0, "lado": "port", "porque": "A south cardinal means the clear water is to the south of it. Steering south-east, that water is on your starboard — so the mark goes down your port side.", "show": " Put the clear water on the side you want to be on, and the mark ends up on the other.", "pista": "Where is the clear water, and where is it relative to your bow?", "escena": {"rumbo": 135, "cardinal": "S"}, "fuente": "dato"}, {"id": "cu-S-225", "banco": "CUADRANTE", "marca": "card-S", "usos": ["1.P1"], "pregunta": "You are steering <b>225°</b> and this is ahead of you. Which side do you leave it?", "opciones": ["Leave it to <b>port</b>", "Leave it to <b>starboard</b>"], "ok": 1, "lado": "starboard", "porque": "A south cardinal means the clear water is to the south of it. Steering south-west, that water is on your port — so the mark goes down your starboard side.", "show": " Put the clear water on the side you want to be on, and the mark ends up on the other.", "pista": "Where is the clear water, and where is it relative to your bow?", "escena": {"rumbo": 225, "cardinal": "S"}, "fuente": "dato"}, {"id": "cu-S-315", "banco": "CUADRANTE", "marca": "card-S", "usos": ["1.P1"], "pregunta": "You are steering <b>315°</b> and this is ahead of you. Which side do you leave it?", "opciones": ["Leave it to <b>port</b>", "Leave it to <b>starboard</b>"], "ok": 1, "lado": "starboard", "porque": "A south cardinal means the clear water is to the south of it. Steering north-west, that water is on your port — so the mark goes down your starboard side.", "show": " Put the clear water on the side you want to be on, and the mark ends up on the other.", "pista": "Where is the clear water, and where is it relative to your bow?", "escena": {"rumbo": 315, "cardinal": "S"}, "fuente": "dato"}, {"id": "cu-W-045", "banco": "CUADRANTE", "marca": "card-W", "usos": ["1.P1"], "pregunta": "You are steering <b>045°</b> and this is ahead of you. Which side do you leave it?", "opciones": ["Leave it to <b>port</b>", "Leave it to <b>starboard</b>"], "ok": 1, "lado": "starboard", "porque": "A west cardinal means the clear water is to the west of it. Steering north-east, that water is on your port — so the mark goes down your starboard side.", "show": " Put the clear water on the side you want to be on, and the mark ends up on the other.", "pista": "Where is the clear water, and where is it relative to your bow?", "escena": {"rumbo": 45, "cardinal": "W"}, "fuente": "dato"}, {"id": "cu-W-135", "banco": "CUADRANTE", "marca": "card-W", "usos": ["1.P1"], "pregunta": "You are steering <b>135°</b> and this is ahead of you. Which side do you leave it?", "opciones": ["Leave it to <b>port</b>", "Leave it to <b>starboard</b>"], "ok": 0, "lado": "port", "porque": "A west cardinal means the clear water is to the west of it. Steering south-east, that water is on your starboard — so the mark goes down your port side.", "show": " Put the clear water on the side you want to be on, and the mark ends up on the other.", "pista": "Where is the clear water, and where is it relative to your bow?", "escena": {"rumbo": 135, "cardinal": "W"}, "fuente": "dato"}, {"id": "cu-W-225", "banco": "CUADRANTE", "marca": "card-W", "usos": ["1.P1"], "pregunta": "You are steering <b>225°</b> and this is ahead of you. Which side do you leave it?", "opciones": ["Leave it to <b>port</b>", "Leave it to <b>starboard</b>"], "ok": 0, "lado": "port", "porque": "A west cardinal means the clear water is to the west of it. Steering south-west, that water is on your starboard — so the mark goes down your port side.", "show": " Put the clear water on the side you want to be on, and the mark ends up on the other.", "pista": "Where is the clear water, and where is it relative to your bow?", "escena": {"rumbo": 225, "cardinal": "W"}, "fuente": "dato"}, {"id": "cu-W-315", "banco": "CUADRANTE", "marca": "card-W", "usos": ["1.P1"], "pregunta": "You are steering <b>315°</b> and this is ahead of you. Which side do you leave it?", "opciones": ["Leave it to <b>port</b>", "Leave it to <b>starboard</b>"], "ok": 1, "lado": "starboard", "porque": "A west cardinal means the clear water is to the west of it. Steering north-west, that water is on your port — so the mark goes down your starboard side.", "show": " Put the clear water on the side you want to be on, and the mark ends up on the other.", "pista": "Where is the clear water, and where is it relative to your bow?", "escena": {"rumbo": 315, "cardinal": "W"}, "fuente": "dato"}], "SENTIDO": [{"id": "se-lat-babor-in-00", "banco": "SENTIDO", "marca": "lat-babor", "usos": ["2.P1"], "pregunta": "You are <b>coming in</b>. Which side do you leave it?", "opciones": ["Leave it to <b>port</b>", "Leave it to <b>starboard</b>"], "ok": 0, "lado": "port", "porque": "Port hand. Coming in, that one goes down your port side; going out, everything swaps.", "show": " The mark never moves. <b>You</b> turned round, and that is the whole of it.", "pista": "Which way does the arrow point, and which way are you going?", "escena": {"entrando": true}, "fuente": "dato"}, {"id": "se-lat-babor-in-01", "banco": "SENTIDO", "marca": "lat-babor", "usos": ["2.P1"], "pregunta": "You are <b>coming in</b>. Which side do you leave it?", "opciones": ["Leave it to <b>port</b>", "Leave it to <b>starboard</b>"], "ok": 0, "lado": "port", "porque": "Port hand. Coming in, that one goes down your port side; going out, everything swaps.", "show": " The mark never moves. <b>You</b> turned round, and that is the whole of it.", "pista": "Which way does the arrow point, and which way are you going?", "escena": {"entrando": true}, "fuente": "dato"}, {"id": "se-lat-babor-in-10", "banco": "SENTIDO", "marca": "lat-babor", "usos": ["2.P1"], "pregunta": "You are <b>coming in</b>. Which side do you leave it?", "opciones": ["Leave it to <b>port</b>", "Leave it to <b>starboard</b>"], "ok": 0, "lado": "port", "porque": "Port hand. Coming in, that one goes down your port side; going out, everything swaps.", "show": " The mark never moves. <b>You</b> turned round, and that is the whole of it.", "pista": "Which way does the arrow point, and which way are you going?", "escena": {"entrando": true}, "fuente": "dato"}, {"id": "se-lat-babor-in-11", "banco": "SENTIDO", "marca": "lat-babor", "usos": ["2.P1"], "pregunta": "You are <b>coming in</b>. Which side do you leave it?", "opciones": ["Leave it to <b>port</b>", "Leave it to <b>starboard</b>"], "ok": 0, "lado": "port", "porque": "Port hand. Coming in, that one goes down your port side; going out, everything swaps.", "show": " The mark never moves. <b>You</b> turned round, and that is the whole of it.", "pista": "Which way does the arrow point, and which way are you going?", "escena": {"entrando": true}, "fuente": "dato"}, {"id": "se-lat-babor-out-00", "banco": "SENTIDO", "marca": "lat-babor", "usos": ["2.P2"], "pregunta": "You are <b>on your way out</b>. Which side do you leave it?", "opciones": ["Leave it to <b>port</b>", "Leave it to <b>starboard</b>"], "ok": 1, "lado": "starboard", "porque": "Port hand. Coming in, that one goes down your port side; going out, everything swaps.", "show": " The mark never moves. <b>You</b> turned round, and that is the whole of it.", "pista": "Which way does the arrow point, and which way are you going?", "escena": {"entrando": false}, "fuente": "dato"}, {"id": "se-lat-babor-out-01", "banco": "SENTIDO", "marca": "lat-babor", "usos": ["2.P2"], "pregunta": "You are <b>on your way out</b>. Which side do you leave it?", "opciones": ["Leave it to <b>port</b>", "Leave it to <b>starboard</b>"], "ok": 1, "lado": "starboard", "porque": "Port hand. Coming in, that one goes down your port side; going out, everything swaps.", "show": " The mark never moves. <b>You</b> turned round, and that is the whole of it.", "pista": "Which way does the arrow point, and which way are you going?", "escena": {"entrando": false}, "fuente": "dato"}, {"id": "se-lat-babor-out-10", "banco": "SENTIDO", "marca": "lat-babor", "usos": ["2.P2"], "pregunta": "You are <b>on your way out</b>. Which side do you leave it?", "opciones": ["Leave it to <b>port</b>", "Leave it to <b>starboard</b>"], "ok": 1, "lado": "starboard", "porque": "Port hand. Coming in, that one goes down your port side; going out, everything swaps.", "show": " The mark never moves. <b>You</b> turned round, and that is the whole of it.", "pista": "Which way does the arrow point, and which way are you going?", "escena": {"entrando": false}, "fuente": "dato"}, {"id": "se-lat-babor-out-11", "banco": "SENTIDO", "marca": "lat-babor", "usos": ["2.P2"], "pregunta": "You are <b>on your way out</b>. Which side do you leave it?", "opciones": ["Leave it to <b>port</b>", "Leave it to <b>starboard</b>"], "ok": 1, "lado": "starboard", "porque": "Port hand. Coming in, that one goes down your port side; going out, everything swaps.", "show": " The mark never moves. <b>You</b> turned round, and that is the whole of it.", "pista": "Which way does the arrow point, and which way are you going?", "escena": {"entrando": false}, "fuente": "dato"}, {"id": "se-lat-estribor-in-00", "banco": "SENTIDO", "marca": "lat-estribor", "usos": ["2.P1"], "pregunta": "You are <b>coming in</b>. Which side do you leave it?", "opciones": ["Leave it to <b>port</b>", "Leave it to <b>starboard</b>"], "ok": 1, "lado": "starboard", "porque": "Starboard hand. Coming in, that one goes down your starboard side; going out, everything swaps.", "show": " The mark never moves. <b>You</b> turned round, and that is the whole of it.", "pista": "Which way does the arrow point, and which way are you going?", "escena": {"entrando": true}, "fuente": "dato"}, {"id": "se-lat-estribor-in-01", "banco": "SENTIDO", "marca": "lat-estribor", "usos": ["2.P1"], "pregunta": "You are <b>coming in</b>. Which side do you leave it?", "opciones": ["Leave it to <b>port</b>", "Leave it to <b>starboard</b>"], "ok": 1, "lado": "starboard", "porque": "Starboard hand. Coming in, that one goes down your starboard side; going out, everything swaps.", "show": " The mark never moves. <b>You</b> turned round, and that is the whole of it.", "pista": "Which way does the arrow point, and which way are you going?", "escena": {"entrando": true}, "fuente": "dato"}, {"id": "se-lat-estribor-in-10", "banco": "SENTIDO", "marca": "lat-estribor", "usos": ["2.P1"], "pregunta": "You are <b>coming in</b>. Which side do you leave it?", "opciones": ["Leave it to <b>port</b>", "Leave it to <b>starboard</b>"], "ok": 1, "lado": "starboard", "porque": "Starboard hand. Coming in, that one goes down your starboard side; going out, everything swaps.", "show": " The mark never moves. <b>You</b> turned round, and that is the whole of it.", "pista": "Which way does the arrow point, and which way are you going?", "escena": {"entrando": true}, "fuente": "dato"}, {"id": "se-lat-estribor-in-11", "banco": "SENTIDO", "marca": "lat-estribor", "usos": ["2.P1"], "pregunta": "You are <b>coming in</b>. Which side do you leave it?", "opciones": ["Leave it to <b>port</b>", "Leave it to <b>starboard</b>"], "ok": 1, "lado": "starboard", "porque": "Starboard hand. Coming in, that one goes down your starboard side; going out, everything swaps.", "show": " The mark never moves. <b>You</b> turned round, and that is the whole of it.", "pista": "Which way does the arrow point, and which way are you going?", "escena": {"entrando": true}, "fuente": "dato"}, {"id": "se-lat-estribor-out-00", "banco": "SENTIDO", "marca": "lat-estribor", "usos": ["2.P2"], "pregunta": "You are <b>on your way out</b>. Which side do you leave it?", "opciones": ["Leave it to <b>port</b>", "Leave it to <b>starboard</b>"], "ok": 0, "lado": "port", "porque": "Starboard hand. Coming in, that one goes down your starboard side; going out, everything swaps.", "show": " The mark never moves. <b>You</b> turned round, and that is the whole of it.", "pista": "Which way does the arrow point, and which way are you going?", "escena": {"entrando": false}, "fuente": "dato"}, {"id": "se-lat-estribor-out-01", "banco": "SENTIDO", "marca": "lat-estribor", "usos": ["2.P2"], "pregunta": "You are <b>on your way out</b>. Which side do you leave it?", "opciones": ["Leave it to <b>port</b>", "Leave it to <b>starboard</b>"], "ok": 0, "lado": "port", "porque": "Starboard hand. Coming in, that one goes down your starboard side; going out, everything swaps.", "show": " The mark never moves. <b>You</b> turned round, and that is the whole of it.", "pista": "Which way does the arrow point, and which way are you going?", "escena": {"entrando": false}, "fuente": "dato"}, {"id": "se-lat-estribor-out-10", "banco": "SENTIDO", "marca": "lat-estribor", "usos": ["2.P2"], "pregunta": "You are <b>on your way out</b>. Which side do you leave it?", "opciones": ["Leave it to <b>port</b>", "Leave it to <b>starboard</b>"], "ok": 0, "lado": "port", "porque": "Starboard hand. Coming in, that one goes down your starboard side; going out, everything swaps.", "show": " The mark never moves. <b>You</b> turned round, and that is the whole of it.", "pista": "Which way does the arrow point, and which way are you going?", "escena": {"entrando": false}, "fuente": "dato"}, {"id": "se-lat-estribor-out-11", "banco": "SENTIDO", "marca": "lat-estribor", "usos": ["2.P2"], "pregunta": "You are <b>on your way out</b>. Which side do you leave it?", "opciones": ["Leave it to <b>port</b>", "Leave it to <b>starboard</b>"], "ok": 0, "lado": "port", "porque": "Starboard hand. Coming in, that one goes down your starboard side; going out, everything swaps.", "show": " The mark never moves. <b>You</b> turned round, and that is the whole of it.", "pista": "Which way does the arrow point, and which way are you going?", "escena": {"entrando": false}, "fuente": "dato"}], "PREFERENTE": [{"id": "pf-pref-estribor-in-0", "banco": "PREFERENTE", "marca": "pref-estribor", "usos": ["4.P1"], "pregunta": "The channel splits here, and you want <b>the main one</b>. You are coming in. Which side do you leave it?", "opciones": ["Leave it to <b>port</b>", "Leave it to <b>starboard</b>"], "ok": 0, "lado": "port", "porque": "Its body is a can, so for the main channel you treat it as port hand.", "show": " The band only tells you the other channel is there. <b>The body tells you what to do.</b>", "pista": "Ignore the band for a moment. What shape is the body?", "escena": {"entrando": true}, "fuente": "memoria"}, {"id": "pf-pref-estribor-in-1", "banco": "PREFERENTE", "marca": "pref-estribor", "usos": ["4.P1"], "pregunta": "The channel splits here, and you want <b>the main one</b>. You are coming in. Which side do you leave it?", "opciones": ["Leave it to <b>port</b>", "Leave it to <b>starboard</b>"], "ok": 0, "lado": "port", "porque": "Its body is a can, so for the main channel you treat it as port hand.", "show": " The band only tells you the other channel is there. <b>The body tells you what to do.</b>", "pista": "Ignore the band for a moment. What shape is the body?", "escena": {"entrando": true}, "fuente": "memoria"}, {"id": "pf-pref-estribor-in-2", "banco": "PREFERENTE", "marca": "pref-estribor", "usos": ["4.P1"], "pregunta": "The channel splits here, and you want <b>the main one</b>. You are coming in. Which side do you leave it?", "opciones": ["Leave it to <b>port</b>", "Leave it to <b>starboard</b>"], "ok": 0, "lado": "port", "porque": "Its body is a can, so for the main channel you treat it as port hand.", "show": " The band only tells you the other channel is there. <b>The body tells you what to do.</b>", "pista": "Ignore the band for a moment. What shape is the body?", "escena": {"entrando": true}, "fuente": "memoria"}, {"id": "pf-pref-estribor-out-0", "banco": "PREFERENTE", "marca": "pref-estribor", "usos": ["4.P1"], "pregunta": "The channel splits here, and you want <b>the main one</b>. You are going out. Which side do you leave it?", "opciones": ["Leave it to <b>port</b>", "Leave it to <b>starboard</b>"], "ok": 1, "lado": "starboard", "porque": "Its body is a can, so for the main channel you treat it as port hand.", "show": " The band only tells you the other channel is there. <b>The body tells you what to do.</b>", "pista": "Ignore the band for a moment. What shape is the body?", "escena": {"entrando": false}, "fuente": "memoria"}, {"id": "pf-pref-estribor-out-1", "banco": "PREFERENTE", "marca": "pref-estribor", "usos": ["4.P1"], "pregunta": "The channel splits here, and you want <b>the main one</b>. You are going out. Which side do you leave it?", "opciones": ["Leave it to <b>port</b>", "Leave it to <b>starboard</b>"], "ok": 1, "lado": "starboard", "porque": "Its body is a can, so for the main channel you treat it as port hand.", "show": " The band only tells you the other channel is there. <b>The body tells you what to do.</b>", "pista": "Ignore the band for a moment. What shape is the body?", "escena": {"entrando": false}, "fuente": "memoria"}, {"id": "pf-pref-estribor-out-2", "banco": "PREFERENTE", "marca": "pref-estribor", "usos": ["4.P1"], "pregunta": "The channel splits here, and you want <b>the main one</b>. You are going out. Which side do you leave it?", "opciones": ["Leave it to <b>port</b>", "Leave it to <b>starboard</b>"], "ok": 1, "lado": "starboard", "porque": "Its body is a can, so for the main channel you treat it as port hand.", "show": " The band only tells you the other channel is there. <b>The body tells you what to do.</b>", "pista": "Ignore the band for a moment. What shape is the body?", "escena": {"entrando": false}, "fuente": "memoria"}, {"id": "pf-pref-babor-in-0", "banco": "PREFERENTE", "marca": "pref-babor", "usos": ["4.P1"], "pregunta": "The channel splits here, and you want <b>the main one</b>. You are coming in. Which side do you leave it?", "opciones": ["Leave it to <b>port</b>", "Leave it to <b>starboard</b>"], "ok": 1, "lado": "starboard", "porque": "Its body is a cone, so for the main channel you treat it as starboard hand.", "show": " The band only tells you the other channel is there. <b>The body tells you what to do.</b>", "pista": "Ignore the band for a moment. What shape is the body?", "escena": {"entrando": true}, "fuente": "memoria"}, {"id": "pf-pref-babor-in-1", "banco": "PREFERENTE", "marca": "pref-babor", "usos": ["4.P1"], "pregunta": "The channel splits here, and you want <b>the main one</b>. You are coming in. Which side do you leave it?", "opciones": ["Leave it to <b>port</b>", "Leave it to <b>starboard</b>"], "ok": 1, "lado": "starboard", "porque": "Its body is a cone, so for the main channel you treat it as starboard hand.", "show": " The band only tells you the other channel is there. <b>The body tells you what to do.</b>", "pista": "Ignore the band for a moment. What shape is the body?", "escena": {"entrando": true}, "fuente": "memoria"}, {"id": "pf-pref-babor-in-2", "banco": "PREFERENTE", "marca": "pref-babor", "usos": ["4.P1"], "pregunta": "The channel splits here, and you want <b>the main one</b>. You are coming in. Which side do you leave it?", "opciones": ["Leave it to <b>port</b>", "Leave it to <b>starboard</b>"], "ok": 1, "lado": "starboard", "porque": "Its body is a cone, so for the main channel you treat it as starboard hand.", "show": " The band only tells you the other channel is there. <b>The body tells you what to do.</b>", "pista": "Ignore the band for a moment. What shape is the body?", "escena": {"entrando": true}, "fuente": "memoria"}, {"id": "pf-pref-babor-out-0", "banco": "PREFERENTE", "marca": "pref-babor", "usos": ["4.P1"], "pregunta": "The channel splits here, and you want <b>the main one</b>. You are going out. Which side do you leave it?", "opciones": ["Leave it to <b>port</b>", "Leave it to <b>starboard</b>"], "ok": 0, "lado": "port", "porque": "Its body is a cone, so for the main channel you treat it as starboard hand.", "show": " The band only tells you the other channel is there. <b>The body tells you what to do.</b>", "pista": "Ignore the band for a moment. What shape is the body?", "escena": {"entrando": false}, "fuente": "memoria"}, {"id": "pf-pref-babor-out-1", "banco": "PREFERENTE", "marca": "pref-babor", "usos": ["4.P1"], "pregunta": "The channel splits here, and you want <b>the main one</b>. You are going out. Which side do you leave it?", "opciones": ["Leave it to <b>port</b>", "Leave it to <b>starboard</b>"], "ok": 0, "lado": "port", "porque": "Its body is a cone, so for the main channel you treat it as starboard hand.", "show": " The band only tells you the other channel is there. <b>The body tells you what to do.</b>", "pista": "Ignore the band for a moment. What shape is the body?", "escena": {"entrando": false}, "fuente": "memoria"}, {"id": "pf-pref-babor-out-2", "banco": "PREFERENTE", "marca": "pref-babor", "usos": ["4.P1"], "pregunta": "The channel splits here, and you want <b>the main one</b>. You are going out. Which side do you leave it?", "opciones": ["Leave it to <b>port</b>", "Leave it to <b>starboard</b>"], "ok": 0, "lado": "port", "porque": "Its body is a cone, so for the main channel you treat it as starboard hand.", "show": " The band only tells you the other channel is there. <b>The body tells you what to do.</b>", "pista": "Ignore the band for a moment. What shape is the body?", "escena": {"entrando": false}, "fuente": "memoria"}], "CANAL": [{"id": "ca-No2-in-0", "banco": "CANAL", "marca": "lat-babor", "usos": ["3.P1"], "pregunta": "<b>Coming in</b> to Stennick Haven, you are about to pass <b>No.2</b>. Which side do you leave it?", "opciones": ["Leave it to <b>port</b>", "Leave it to <b>starboard</b>"], "ok": 0, "lado": "port", "porque": "No.2 is a port-hand mark. You are going with the direction of buoyage, so it goes down your port side.", "show": " With the arrow: red to port, green to starboard. Against the arrow both of them swap, because you swapped.", "pista": "Which way does the arrow across the channel point, and which way are you going?", "escena": {"entrando": true, "nombre": "No.2"}, "fuente": "dato"}, {"id": "ca-No2-in-1", "banco": "CANAL", "marca": "lat-babor", "usos": ["3.P1"], "pregunta": "<b>Coming in</b> to Stennick Haven, you are about to pass <b>No.2</b>. Which side do you leave it?", "opciones": ["Leave it to <b>port</b>", "Leave it to <b>starboard</b>"], "ok": 0, "lado": "port", "porque": "No.2 is a port-hand mark. You are going with the direction of buoyage, so it goes down your port side.", "show": " With the arrow: red to port, green to starboard. Against the arrow both of them swap, because you swapped.", "pista": "Which way does the arrow across the channel point, and which way are you going?", "escena": {"entrando": true, "nombre": "No.2"}, "fuente": "dato"}, {"id": "ca-No2-out-0", "banco": "CANAL", "marca": "lat-babor", "usos": ["3.P1"], "pregunta": "On your way <b>out</b> of Stennick Haven, you are about to pass <b>No.2</b>. Which side do you leave it?", "opciones": ["Leave it to <b>port</b>", "Leave it to <b>starboard</b>"], "ok": 1, "lado": "starboard", "porque": "No.2 is a port-hand mark. You are going against the direction of buoyage, so it goes down your starboard side.", "show": " With the arrow: red to port, green to starboard. Against the arrow both of them swap, because you swapped.", "pista": "Which way does the arrow across the channel point, and which way are you going?", "escena": {"entrando": false, "nombre": "No.2"}, "fuente": "dato"}, {"id": "ca-No2-out-1", "banco": "CANAL", "marca": "lat-babor", "usos": ["3.P1"], "pregunta": "On your way <b>out</b> of Stennick Haven, you are about to pass <b>No.2</b>. Which side do you leave it?", "opciones": ["Leave it to <b>port</b>", "Leave it to <b>starboard</b>"], "ok": 1, "lado": "starboard", "porque": "No.2 is a port-hand mark. You are going against the direction of buoyage, so it goes down your starboard side.", "show": " With the arrow: red to port, green to starboard. Against the arrow both of them swap, because you swapped.", "pista": "Which way does the arrow across the channel point, and which way are you going?", "escena": {"entrando": false, "nombre": "No.2"}, "fuente": "dato"}, {"id": "ca-No1-in-0", "banco": "CANAL", "marca": "lat-estribor", "usos": ["3.P1"], "pregunta": "<b>Coming in</b> to Stennick Haven, you are about to pass <b>No.1</b>. Which side do you leave it?", "opciones": ["Leave it to <b>port</b>", "Leave it to <b>starboard</b>"], "ok": 1, "lado": "starboard", "porque": "No.1 is a starboard-hand mark. You are going with the direction of buoyage, so it goes down your starboard side.", "show": " With the arrow: red to port, green to starboard. Against the arrow both of them swap, because you swapped.", "pista": "Which way does the arrow across the channel point, and which way are you going?", "escena": {"entrando": true, "nombre": "No.1"}, "fuente": "dato"}, {"id": "ca-No1-in-1", "banco": "CANAL", "marca": "lat-estribor", "usos": ["3.P1"], "pregunta": "<b>Coming in</b> to Stennick Haven, you are about to pass <b>No.1</b>. Which side do you leave it?", "opciones": ["Leave it to <b>port</b>", "Leave it to <b>starboard</b>"], "ok": 1, "lado": "starboard", "porque": "No.1 is a starboard-hand mark. You are going with the direction of buoyage, so it goes down your starboard side.", "show": " With the arrow: red to port, green to starboard. Against the arrow both of them swap, because you swapped.", "pista": "Which way does the arrow across the channel point, and which way are you going?", "escena": {"entrando": true, "nombre": "No.1"}, "fuente": "dato"}, {"id": "ca-No1-out-0", "banco": "CANAL", "marca": "lat-estribor", "usos": ["3.P1"], "pregunta": "On your way <b>out</b> of Stennick Haven, you are about to pass <b>No.1</b>. Which side do you leave it?", "opciones": ["Leave it to <b>port</b>", "Leave it to <b>starboard</b>"], "ok": 0, "lado": "port", "porque": "No.1 is a starboard-hand mark. You are going against the direction of buoyage, so it goes down your port side.", "show": " With the arrow: red to port, green to starboard. Against the arrow both of them swap, because you swapped.", "pista": "Which way does the arrow across the channel point, and which way are you going?", "escena": {"entrando": false, "nombre": "No.1"}, "fuente": "dato"}, {"id": "ca-No1-out-1", "banco": "CANAL", "marca": "lat-estribor", "usos": ["3.P1"], "pregunta": "On your way <b>out</b> of Stennick Haven, you are about to pass <b>No.1</b>. Which side do you leave it?", "opciones": ["Leave it to <b>port</b>", "Leave it to <b>starboard</b>"], "ok": 0, "lado": "port", "porque": "No.1 is a starboard-hand mark. You are going against the direction of buoyage, so it goes down your port side.", "show": " With the arrow: red to port, green to starboard. Against the arrow both of them swap, because you swapped.", "pista": "Which way does the arrow across the channel point, and which way are you going?", "escena": {"entrando": false, "nombre": "No.1"}, "fuente": "dato"}, {"id": "ca-No4-in-0", "banco": "CANAL", "marca": "lat-babor", "usos": ["3.P1"], "pregunta": "<b>Coming in</b> to Stennick Haven, you are about to pass <b>No.4</b>. Which side do you leave it?", "opciones": ["Leave it to <b>port</b>", "Leave it to <b>starboard</b>"], "ok": 0, "lado": "port", "porque": "No.4 is a port-hand mark. You are going with the direction of buoyage, so it goes down your port side.", "show": " With the arrow: red to port, green to starboard. Against the arrow both of them swap, because you swapped.", "pista": "Which way does the arrow across the channel point, and which way are you going?", "escena": {"entrando": true, "nombre": "No.4"}, "fuente": "dato"}, {"id": "ca-No4-in-1", "banco": "CANAL", "marca": "lat-babor", "usos": ["3.P1"], "pregunta": "<b>Coming in</b> to Stennick Haven, you are about to pass <b>No.4</b>. Which side do you leave it?", "opciones": ["Leave it to <b>port</b>", "Leave it to <b>starboard</b>"], "ok": 0, "lado": "port", "porque": "No.4 is a port-hand mark. You are going with the direction of buoyage, so it goes down your port side.", "show": " With the arrow: red to port, green to starboard. Against the arrow both of them swap, because you swapped.", "pista": "Which way does the arrow across the channel point, and which way are you going?", "escena": {"entrando": true, "nombre": "No.4"}, "fuente": "dato"}, {"id": "ca-No4-out-0", "banco": "CANAL", "marca": "lat-babor", "usos": ["3.P1"], "pregunta": "On your way <b>out</b> of Stennick Haven, you are about to pass <b>No.4</b>. Which side do you leave it?", "opciones": ["Leave it to <b>port</b>", "Leave it to <b>starboard</b>"], "ok": 1, "lado": "starboard", "porque": "No.4 is a port-hand mark. You are going against the direction of buoyage, so it goes down your starboard side.", "show": " With the arrow: red to port, green to starboard. Against the arrow both of them swap, because you swapped.", "pista": "Which way does the arrow across the channel point, and which way are you going?", "escena": {"entrando": false, "nombre": "No.4"}, "fuente": "dato"}, {"id": "ca-No4-out-1", "banco": "CANAL", "marca": "lat-babor", "usos": ["3.P1"], "pregunta": "On your way <b>out</b> of Stennick Haven, you are about to pass <b>No.4</b>. Which side do you leave it?", "opciones": ["Leave it to <b>port</b>", "Leave it to <b>starboard</b>"], "ok": 1, "lado": "starboard", "porque": "No.4 is a port-hand mark. You are going against the direction of buoyage, so it goes down your starboard side.", "show": " With the arrow: red to port, green to starboard. Against the arrow both of them swap, because you swapped.", "pista": "Which way does the arrow across the channel point, and which way are you going?", "escena": {"entrando": false, "nombre": "No.4"}, "fuente": "dato"}, {"id": "ca-No3-in-0", "banco": "CANAL", "marca": "lat-estribor", "usos": ["3.P1"], "pregunta": "<b>Coming in</b> to Stennick Haven, you are about to pass <b>No.3</b>. Which side do you leave it?", "opciones": ["Leave it to <b>port</b>", "Leave it to <b>starboard</b>"], "ok": 1, "lado": "starboard", "porque": "No.3 is a starboard-hand mark. You are going with the direction of buoyage, so it goes down your starboard side.", "show": " With the arrow: red to port, green to starboard. Against the arrow both of them swap, because you swapped.", "pista": "Which way does the arrow across the channel point, and which way are you going?", "escena": {"entrando": true, "nombre": "No.3"}, "fuente": "dato"}, {"id": "ca-No3-in-1", "banco": "CANAL", "marca": "lat-estribor", "usos": ["3.P1"], "pregunta": "<b>Coming in</b> to Stennick Haven, you are about to pass <b>No.3</b>. Which side do you leave it?", "opciones": ["Leave it to <b>port</b>", "Leave it to <b>starboard</b>"], "ok": 1, "lado": "starboard", "porque": "No.3 is a starboard-hand mark. You are going with the direction of buoyage, so it goes down your starboard side.", "show": " With the arrow: red to port, green to starboard. Against the arrow both of them swap, because you swapped.", "pista": "Which way does the arrow across the channel point, and which way are you going?", "escena": {"entrando": true, "nombre": "No.3"}, "fuente": "dato"}, {"id": "ca-No3-out-0", "banco": "CANAL", "marca": "lat-estribor", "usos": ["3.P1"], "pregunta": "On your way <b>out</b> of Stennick Haven, you are about to pass <b>No.3</b>. Which side do you leave it?", "opciones": ["Leave it to <b>port</b>", "Leave it to <b>starboard</b>"], "ok": 0, "lado": "port", "porque": "No.3 is a starboard-hand mark. You are going against the direction of buoyage, so it goes down your port side.", "show": " With the arrow: red to port, green to starboard. Against the arrow both of them swap, because you swapped.", "pista": "Which way does the arrow across the channel point, and which way are you going?", "escena": {"entrando": false, "nombre": "No.3"}, "fuente": "dato"}, {"id": "ca-No3-out-1", "banco": "CANAL", "marca": "lat-estribor", "usos": ["3.P1"], "pregunta": "On your way <b>out</b> of Stennick Haven, you are about to pass <b>No.3</b>. Which side do you leave it?", "opciones": ["Leave it to <b>port</b>", "Leave it to <b>starboard</b>"], "ok": 0, "lado": "port", "porque": "No.3 is a starboard-hand mark. You are going against the direction of buoyage, so it goes down your port side.", "show": " With the arrow: red to port, green to starboard. Against the arrow both of them swap, because you swapped.", "pista": "Which way does the arrow across the channel point, and which way are you going?", "escena": {"entrando": false, "nombre": "No.3"}, "fuente": "dato"}], "OBLIGA": [{"id": "ob-seg-0", "banco": "OBLIGA", "marca": "aguas-seguras", "usos": ["5.P1"], "pregunta": "You come up on this one. <b>What does it ask you to do?</b>", "opciones": ["<b>Pass it on one particular side</b> — and it tells you which", "<b>Nothing.</b> There is navigable water all round it", "<b>Nothing about your side.</b> Read the chart to see what it marks"], "ok": 1, "lado": "cualquiera", "porque": "<b>Safe water.</b> Red and white stripes and a red sphere on top: it means navigable water all round it, so <b>either side will do</b>. It marks a landfall or the middle of a channel — it is the one mark that is not warning you about anything.", "show": " Two marks in the whole system do not push you to a side: <b>safe water</b>, because there is navigable water all round it, and the <b>special mark</b>, because it is not about the seabed at all. Everything else tells you a side.", "pista": "Is this one warning you about something, or telling you there is nothing to warn about?", "escena": {}, "fuente": "dato"}, {"id": "ob-esp-0", "banco": "OBLIGA", "marca": "especial", "usos": ["5.P1"], "pregunta": "You come up on this one. <b>What does it ask you to do?</b>", "opciones": ["<b>Pass it on one particular side</b> — and it tells you which", "<b>Nothing.</b> There is navigable water all round it", "<b>Nothing about your side.</b> Read the chart to see what it marks"], "ok": 2, "lado": "la carta", "porque": "<b>Special mark.</b> Yellow, with a yellow saltire on top. It is not part of the system that says where to go: it marks <b>a feature</b> — an anchorage, a cable, a spoil ground, a racing buoy — and only the chart says which. <b>Never read a side into it.</b>", "show": " Two marks in the whole system do not push you to a side: <b>safe water</b>, because there is navigable water all round it, and the <b>special mark</b>, because it is not about the seabed at all. Everything else tells you a side.", "pista": "Is this one about the seabed at all?", "escena": {}, "fuente": "memoria"}, {"id": "ob-seg-1", "banco": "OBLIGA", "marca": "aguas-seguras", "usos": ["5.P1"], "pregunta": "Here it is, on your bow. <b>What does it ask of you?</b>", "opciones": ["<b>Pass it on one particular side</b> — and it tells you which", "<b>Nothing.</b> There is navigable water all round it", "<b>Nothing about your side.</b> Read the chart to see what it marks"], "ok": 1, "lado": "cualquiera", "porque": "<b>Safe water.</b> Red and white stripes and a red sphere on top: it means navigable water all round it, so <b>either side will do</b>. It marks a landfall or the middle of a channel — it is the one mark that is not warning you about anything.", "show": " Two marks in the whole system do not push you to a side: <b>safe water</b>, because there is navigable water all round it, and the <b>special mark</b>, because it is not about the seabed at all. Everything else tells you a side.", "pista": "Is this one warning you about something, or telling you there is nothing to warn about?", "escena": {}, "fuente": "dato"}, {"id": "ob-esp-1", "banco": "OBLIGA", "marca": "especial", "usos": ["5.P1"], "pregunta": "Here it is, on your bow. <b>What does it ask of you?</b>", "opciones": ["<b>Pass it on one particular side</b> — and it tells you which", "<b>Nothing.</b> There is navigable water all round it", "<b>Nothing about your side.</b> Read the chart to see what it marks"], "ok": 2, "lado": "la carta", "porque": "<b>Special mark.</b> Yellow, with a yellow saltire on top. It is not part of the system that says where to go: it marks <b>a feature</b> — an anchorage, a cable, a spoil ground, a racing buoy — and only the chart says which. <b>Never read a side into it.</b>", "show": " Two marks in the whole system do not push you to a side: <b>safe water</b>, because there is navigable water all round it, and the <b>special mark</b>, because it is not about the seabed at all. Everything else tells you a side.", "pista": "Is this one about the seabed at all?", "escena": {}, "fuente": "memoria"}, {"id": "ob-seg-2", "banco": "OBLIGA", "marca": "aguas-seguras", "usos": ["5.P1"], "pregunta": "You are closing this one. <b>What does it ask you to do?</b>", "opciones": ["<b>Pass it on one particular side</b> — and it tells you which", "<b>Nothing.</b> There is navigable water all round it", "<b>Nothing about your side.</b> Read the chart to see what it marks"], "ok": 1, "lado": "cualquiera", "porque": "<b>Safe water.</b> Red and white stripes and a red sphere on top: it means navigable water all round it, so <b>either side will do</b>. It marks a landfall or the middle of a channel — it is the one mark that is not warning you about anything.", "show": " Two marks in the whole system do not push you to a side: <b>safe water</b>, because there is navigable water all round it, and the <b>special mark</b>, because it is not about the seabed at all. Everything else tells you a side.", "pista": "Is this one warning you about something, or telling you there is nothing to warn about?", "escena": {}, "fuente": "dato"}, {"id": "ob-esp-2", "banco": "OBLIGA", "marca": "especial", "usos": ["5.P1"], "pregunta": "You are closing this one. <b>What does it ask you to do?</b>", "opciones": ["<b>Pass it on one particular side</b> — and it tells you which", "<b>Nothing.</b> There is navigable water all round it", "<b>Nothing about your side.</b> Read the chart to see what it marks"], "ok": 2, "lado": "la carta", "porque": "<b>Special mark.</b> Yellow, with a yellow saltire on top. It is not part of the system that says where to go: it marks <b>a feature</b> — an anchorage, a cable, a spoil ground, a racing buoy — and only the chart says which. <b>Never read a side into it.</b>", "show": " Two marks in the whole system do not push you to a side: <b>safe water</b>, because there is navigable water all round it, and the <b>special mark</b>, because it is not about the seabed at all. Everything else tells you a side.", "pista": "Is this one about the seabed at all?", "escena": {}, "fuente": "memoria"}, {"id": "ob-seg-3", "banco": "OBLIGA", "marca": "aguas-seguras", "usos": ["5.P1"], "pregunta": "This one is ahead of you. <b>What does it ask of you?</b>", "opciones": ["<b>Pass it on one particular side</b> — and it tells you which", "<b>Nothing.</b> There is navigable water all round it", "<b>Nothing about your side.</b> Read the chart to see what it marks"], "ok": 1, "lado": "cualquiera", "porque": "<b>Safe water.</b> Red and white stripes and a red sphere on top: it means navigable water all round it, so <b>either side will do</b>. It marks a landfall or the middle of a channel — it is the one mark that is not warning you about anything.", "show": " Two marks in the whole system do not push you to a side: <b>safe water</b>, because there is navigable water all round it, and the <b>special mark</b>, because it is not about the seabed at all. Everything else tells you a side.", "pista": "Is this one warning you about something, or telling you there is nothing to warn about?", "escena": {}, "fuente": "dato"}, {"id": "ob-esp-3", "banco": "OBLIGA", "marca": "especial", "usos": ["5.P1"], "pregunta": "This one is ahead of you. <b>What does it ask of you?</b>", "opciones": ["<b>Pass it on one particular side</b> — and it tells you which", "<b>Nothing.</b> There is navigable water all round it", "<b>Nothing about your side.</b> Read the chart to see what it marks"], "ok": 2, "lado": "la carta", "porque": "<b>Special mark.</b> Yellow, with a yellow saltire on top. It is not part of the system that says where to go: it marks <b>a feature</b> — an anchorage, a cable, a spoil ground, a racing buoy — and only the chart says which. <b>Never read a side into it.</b>", "show": " Two marks in the whole system do not push you to a side: <b>safe water</b>, because there is navigable water all round it, and the <b>special mark</b>, because it is not about the seabed at all. Everything else tells you a side.", "pista": "Is this one about the seabed at all?", "escena": {}, "fuente": "memoria"}, {"id": "ob-lado-lat-babor", "banco": "OBLIGA", "marca": "lat-babor", "usos": ["5.P1"], "pregunta": "You come up on this one. <b>What does it ask you to do?</b>", "opciones": ["<b>Pass it on one particular side</b> — and it tells you which", "<b>Nothing.</b> There is navigable water all round it", "<b>Nothing about your side.</b> Read the chart to see what it marks"], "ok": 0, "lado": "un lado", "porque": "<b>Port hand.</b> That one does tell you a side — which is what the rest of this part has been about.", "show": " Two marks in the whole system do not push you to a side: <b>safe water</b>, because there is navigable water all round it, and the <b>special mark</b>, because it is not about the seabed at all. Everything else tells you a side.", "pista": "Does this one belong to the family that says «go this side of me»?", "escena": {}, "fuente": "dato"}, {"id": "ob-lado-lat-estribor", "banco": "OBLIGA", "marca": "lat-estribor", "usos": ["5.P1"], "pregunta": "Here it is, on your bow. <b>What does it ask of you?</b>", "opciones": ["<b>Pass it on one particular side</b> — and it tells you which", "<b>Nothing.</b> There is navigable water all round it", "<b>Nothing about your side.</b> Read the chart to see what it marks"], "ok": 0, "lado": "un lado", "porque": "<b>Starboard hand.</b> That one does tell you a side — which is what the rest of this part has been about.", "show": " Two marks in the whole system do not push you to a side: <b>safe water</b>, because there is navigable water all round it, and the <b>special mark</b>, because it is not about the seabed at all. Everything else tells you a side.", "pista": "Does this one belong to the family that says «go this side of me»?", "escena": {}, "fuente": "dato"}, {"id": "ob-lado-card-N", "banco": "OBLIGA", "marca": "card-N", "usos": ["5.P1"], "pregunta": "You are closing this one. <b>What does it ask you to do?</b>", "opciones": ["<b>Pass it on one particular side</b> — and it tells you which", "<b>Nothing.</b> There is navigable water all round it", "<b>Nothing about your side.</b> Read the chart to see what it marks"], "ok": 0, "lado": "un lado", "porque": "<b>North cardinal.</b> That one does tell you a side — which is what the rest of this part has been about.", "show": " Two marks in the whole system do not push you to a side: <b>safe water</b>, because there is navigable water all round it, and the <b>special mark</b>, because it is not about the seabed at all. Everything else tells you a side.", "pista": "Does this one belong to the family that says «go this side of me»?", "escena": {}, "fuente": "dato"}, {"id": "ob-lado-card-S", "banco": "OBLIGA", "marca": "card-S", "usos": ["5.P1"], "pregunta": "This one is ahead of you. <b>What does it ask of you?</b>", "opciones": ["<b>Pass it on one particular side</b> — and it tells you which", "<b>Nothing.</b> There is navigable water all round it", "<b>Nothing about your side.</b> Read the chart to see what it marks"], "ok": 0, "lado": "un lado", "porque": "<b>South cardinal.</b> That one does tell you a side — which is what the rest of this part has been about.", "show": " Two marks in the whole system do not push you to a side: <b>safe water</b>, because there is navigable water all round it, and the <b>special mark</b>, because it is not about the seabed at all. Everything else tells you a side.", "pista": "Does this one belong to the family that says «go this side of me»?", "escena": {}, "fuente": "dato"}, {"id": "ob-lado-pref-estribor", "banco": "OBLIGA", "marca": "pref-estribor", "usos": ["5.P1"], "pregunta": "You come up on this one. <b>What does it ask you to do?</b>", "opciones": ["<b>Pass it on one particular side</b> — and it tells you which", "<b>Nothing.</b> There is navigable water all round it", "<b>Nothing about your side.</b> Read the chart to see what it marks"], "ok": 0, "lado": "un lado", "porque": "<b>Preferred channel to starboard.</b> That one does tell you a side — which is what the rest of this part has been about.", "show": " Two marks in the whole system do not push you to a side: <b>safe water</b>, because there is navigable water all round it, and the <b>special mark</b>, because it is not about the seabed at all. Everything else tells you a side.", "pista": "Does this one belong to the family that says «go this side of me»?", "escena": {}, "fuente": "memoria"}, {"id": "ob-lado-pref-babor", "banco": "OBLIGA", "marca": "pref-babor", "usos": ["5.P1"], "pregunta": "Here it is, on your bow. <b>What does it ask of you?</b>", "opciones": ["<b>Pass it on one particular side</b> — and it tells you which", "<b>Nothing.</b> There is navigable water all round it", "<b>Nothing about your side.</b> Read the chart to see what it marks"], "ok": 0, "lado": "un lado", "porque": "<b>Preferred channel to port.</b> That one does tell you a side — which is what the rest of this part has been about.", "show": " Two marks in the whole system do not push you to a side: <b>safe water</b>, because there is navigable water all round it, and the <b>special mark</b>, because it is not about the seabed at all. Everything else tells you a side.", "pista": "Does this one belong to the family that says «go this side of me»?", "escena": {}, "fuente": "memoria"}], "ej-0.E1": [{"id": "e0", "marca": "card-N"}], "ej-1.E1": [{"id": "e1", "marca": "card-N"}], "ej-2.E1": [{"id": "e2", "marca": "lat-babor"}], "ej-3.E1": [{"id": "e3", "marca": "lat-estribor"}], "ej-4.E1": [{"id": "e4", "marca": "pref-estribor"}]};
+window.BANCOS=BANCOS;
+let PZ=[{"id": "0.S1", "tema": "What «pass it» actually means", "obra": "enmarca", "b": "Next", "h": "The mark is the instruction", "lamina": "two ways past. one of them touches", "nombres": false, "marcas": ["card-N"], "p": ["You know all twelve marks now, and <b>not one of them has told you what to do.</b>", "<b>This part is about the ten that tell you a side</b> — the isolated danger and the new danger are not here, because you do not pass those on a side: you go round them.", "A mark is not the danger, and it is not a warning in general. <b>It is an instruction, and it is exact</b>: there is a side you may pass and a side you may not.", "<em>This part is that one question, four times over. And it has a catch in it that catches nearly everybody — you will meet it in topic two.</em>"]}, {"id": "0.E1", "tema": "What «pass it» actually means", "obra": "ejemplo", "banco": "ej-0.E1", "lamina": "what it marks, and where the water is", "h": "Three questions, always the same three", "tramos": [{"p": "First: <b>what is it marking?</b> Something hard, or an edge, or nothing at all.", "ensena": {"conos": 1}}, {"p": "Second: <b>where is the water it is pointing at?</b> Every mark answers this, and it answers it the same way every time.", "ensena": {"conos": 1, "cuerpo": 1}}, {"p": "Third: <b>so which side do you go?</b> That one is not a fact about the mark — <b>it depends on you</b>, and that is the whole of this part.", "razon": "what · where the water is · which side <b>you</b> go", "ensena": {"conos": 1, "cuerpo": 1, "nombre": 1, "sector": 1}}]}, {"id": "1.S1", "tema": "The cardinal names the water · topic 1", "obra": "enmarca", "b": "Next", "h": "«North cardinal» does not mean «go north»", "lamina": "the water, not the direction", "rosa": true, "nombres": true, "marcas": ["card-N", "card-S"], "p": ["This is the mistake almost everyone makes first, so it is worth making it here where it is free.", "<b>A north cardinal does not mean «steer north».</b> It means <b>the clear water is north of it</b> — and if you are already north of it, you are in the clear and can go wherever you like.", "<em>The mark is named after the water. It is not named after your course.</em>"]}, {"id": "1.E1", "tema": "The cardinal names the water · topic 1", "obra": "ejemplo", "banco": "ej-1.E1", "lamina": "the clear quadrant", "h": "Put the water on your side", "tramos": [{"p": "Here is the mark, and here is the rock it is standing over.", "ensena": {"conos": 1, "cuerpo": 1}}, {"p": "<b>The clear water is the quarter the cones point to.</b> Not a line — a whole quarter of the compass.", "ensena": {"conos": 1, "cuerpo": 1, "sector": 1}}, {"p": "So you steer to be <b>in that quarter</b>. Do that, and the side the mark ends up on <b>falls out on its own</b> — you never have to remember it.", "razon": "get into the clear quarter &rarr; the side takes care of itself", "ensena": {"conos": 1, "cuerpo": 1, "sector": 1, "nombre": 1}}]}, {"id": "1.R1", "tema": "The cardinal names the water · topic 1", "obra": "recorre", "lamina": "the four quarters", "marcas": ["card-N", "card-E", "card-S", "card-W"], "h": "All four, and there is no fifth", "tramos": [{"card": "N", "p": "<b>North cardinal.</b> The clear water is the whole quarter to the <b>north</b> of it — from north-west round to north-east. <b>A quarter, not a line.</b>"}, {"card": "E", "p": "<b>East cardinal.</b> The same idea turned a quarter: the clear water is <b>east</b> of it, and the thing it is guarding is west."}, {"card": "S", "p": "<b>South cardinal.</b> Clear water to the <b>south</b> — and the cones say so too, both of them pointing down at it."}, {"card": "W", "p": "<b>West cardinal.</b> Clear water to the <b>west</b>. That is the fourth of them, and there is no fifth."}, {"todas": true, "p": "Four marks, four quarters, and between them they cover the whole compass. <b>Whichever one you meet, it is the same job</b>: find the quarter it is named after, and get into it.", "razon": "each one is named after the quarter where the water is clear"}]}, {"id": "1.J1", "tema": "The cardinal names the water · topic 1", "obra": "cuadrantes", "b": "Next", "marca": "card-N", "lamina": "take her round", "h": "Move the boat, not the mark", "p": ["<b>Drag the boat round.</b> Watch the verdict underneath change as she crosses into the clear quarter and out of it again.", "The quarter never moves. <b>You do.</b> That is why «which side» is not a fact you can memorise about a mark.", "<em>Nothing is scored here.</em>"]}, {"id": "1.P1", "tema": "The cardinal names the water · topic 1", "obra": "practica", "banco": "CUADRANTE", "h": "Steering that course, which side?"}, {"id": "2.S1", "tema": "Which way the channel runs · topic 2", "obra": "sentido", "b": "Next", "lamina": "the same buoy, two answers", "h": "The same buoy, two different answers", "p": ["Look at the red can in this channel. <b>Two boats are going to pass it today, and it is on opposite sides of each of them.</b>", "Nothing about the buoy changed. It did not move, it did not repaint itself. <b>What changed is the direction the boat is going.</b>", "<b>This is the only place in the whole course where one object means two different things depending on which way you are pointed</b>, and it is where most people come unstuck. <em>The fix is one sentence, and it is on the next screen.</em>"]}, {"id": "2.E1", "tema": "Which way the channel runs · topic 2", "obra": "ejemplo", "banco": "ej-2.E1", "lamina": "the direction of buoyage", "h": "Somebody already decided which way is «in»", "tramos": [{"p": "A channel has <b>a direction printed on it</b>. Not a suggestion — a decision somebody made and drew on the chart, with an arrow.", "ensena": {"conos": 1}}, {"p": "It is called <b>the direction of buoyage</b>, and it usually runs the way you would go coming in from seaward. <b>But «usually» is not a rule</b>: some channels lead to no harbour at all. <b>Read the chart, do not guess.</b>", "ensena": {"conos": 1, "cuerpo": 1}}, {"p": "Now the sentence. <b>Going the way the arrow points, red is on your port hand and green on your starboard.</b> That is the whole rule, and it is the only thing here worth learning by heart. <b>And going the other way? Everything swaps</b> — because you swapped. <em>The marks are exactly where they were.</em>", "razon": "with the arrow &nbsp;&rarr;&nbsp; <b>red to port</b>, green to starboard<br>against the arrow &nbsp;&rarr;&nbsp; red to <b>starboard</b>", "ensena": {"conos": 1, "cuerpo": 1, "nombre": 1}}]}, {"id": "2.R1", "tema": "Which way the channel runs · topic 2", "obra": "recorre", "lamina": "one edge, and the other", "h": "Two marks, one channel", "marcas": ["lat-babor", "lat-estribor"], "tramos": [{"marca": "lat-babor", "p": "<b>The port-hand mark.</b> A red can, and a red can on top of it — <b>flat, both of them</b>. Going in with the arrow, this one goes down your port side."}, {"marca": "lat-estribor", "p": "<b>The starboard-hand mark.</b> A green cone, and a green cone on top — <b>pointed, both of them</b>. Going in with the arrow, this one goes down your starboard side."}, {"todas": true, "p": "They come in <b>pairs</b>, one on each edge, and you steer between them. <b>The shape says what the colour says</b> — which is why the pair still works at dusk, when red and green have gone grey.", "razon": "flat is port &nbsp;·&nbsp; pointed is starboard &nbsp;·&nbsp; going with the arrow"}]}, {"id": "2.J1", "tema": "Which way the channel runs · topic 2", "obra": "sentido", "b": "Next", "lamina": "turn her round", "h": "Turn her round and look again", "p": ["<b>Turn the boat round.</b> The buoys stay exactly where they are — watch which side of her they end up on.", "If you ever find yourself trying to remember <b>«red on the left»</b>, stop: <b>left of what?</b> That is the question the arrow answers.", "<em>Nothing is scored here. Turn her a few times.</em>"]}, {"id": "2.P1", "tema": "Which way the channel runs · topic 2", "obra": "practica", "banco": "SENTIDO", "h": "Coming in. Which side?"}, {"id": "2.P2", "tema": "Which way the channel runs · topic 2", "obra": "practica", "banco": "SENTIDO", "h": "And on the way out"}, {"id": "3.S1", "tema": "The channel itself · topic 3", "obra": "canal", "b": "Next", "lamina": "Stennick Haven", "h": "A real one, on the chart", "p": ["This is the channel into Stennick Haven, off the chart you will use for the rest of the course. <b>Everything you have practised is in it.</b>", "The safe water mark at the seaward end, then the pairs: <b>No.1, No.2, No.3, No.4</b>. And the direction of buoyage printed across it.", "<em>It is enlarged so the marks are far enough apart to steer between. It is not to scale, and the frame says so.</em>"]}, {"id": "3.E1", "tema": "The channel itself · topic 3", "obra": "ejemplo", "banco": "ej-3.E1", "lamina": "in from seaward", "h": "In from seaward, mark by mark", "tramos": [{"p": "Past the <b>safe water mark</b> at the door — <em>topic 5 comes back to that one</em> — the channel proper begins, and it is marked in <b>pairs</b>. This is the starboard-hand one.", "ensena": {"conos": 1, "cuerpo": 1}}, {"p": "And the rule you already have: with the arrow, <b>red to port, green to starboard</b>. So coming in, this one goes down your starboard side — and it is <b>No.1</b> or <b>No.3</b> on the chart. <b>And the collision rules are still running:</b> keep to the starboard side of the channel — <b>now you know which side that is.</b>", "razon": "the green side, coming in, is the starboard side of the channel", "ensena": {"conos": 1, "cuerpo": 1, "nombre": 1}}]}, {"id": "3.P1", "tema": "The channel itself · topic 3", "obra": "practica", "banco": "CANAL", "h": "On this channel, which side?"}, {"id": "4.S1", "tema": "When the channel splits · topic 4", "obra": "enmarca", "b": "Next", "h": "Two ways in. One of them is the one they mean", "lamina": "the channel splits", "nombres": true, "marcas": ["pref-estribor", "pref-babor"], "p": ["Sometimes a channel forks, and one of the two branches is the one the authority wants you to use — deeper, or better marked, or simply the main one.", "<b>These two say which.</b> They are the laterals you already know, with <b>a band of the other colour round the middle</b>.", "<em>They are not a new pair to memorise. They are a red can and a green cone carrying one extra piece of news.</em>"]}, {"id": "4.E1", "tema": "When the channel splits · topic 4", "obra": "ejemplo", "banco": "ej-4.E1", "lamina": "body first, band second", "h": "The body tells you what to do", "tramos": [{"p": "Start with the <b>body</b>, and ignore the band completely. A can is a can; a cone is a cone.", "ensena": {"conos": 1, "cuerpo": 1}}, {"p": "<b>Treat it exactly as that lateral</b>, and you are in the main channel. Nothing else to work out.", "ensena": {"conos": 1, "cuerpo": 1, "nombre": 1}}, {"p": "Now the band. <b>All it says is «there is another channel here»</b> — and its colour tells you which lateral the <em>other</em> branch would treat it as.", "razon": "body &rarr; what to do &nbsp;·&nbsp; band &rarr; there is another way", "ensena": {"conos": 1, "cuerpo": 1, "nombre": 1, "banda": 1}}]}, {"id": "4.P1", "tema": "When the channel splits · topic 4", "obra": "practica", "banco": "PREFERENTE", "h": "You want the main channel"}, {"id": "5.S1", "tema": "The two that do not push you anywhere · topic 5", "obra": "enmarca", "b": "Next", "h": "Two that do not send you anywhere", "lamina": "neither of these is about the seabed", "nombres": true, "marcas": ["aguas-seguras", "especial"], "p": ["Every mark so far has ended in a side: pass me here, not there. <b>These two do not</b>, and that is the whole of this topic.", "The <b>safe water mark</b> means what it says — <b>navigable water all round it</b>, so either side will do. You have already met one: it is the doorway at the seaward end of Stennick Haven.", "The <b>special mark</b> is not in the go-here-not-there business at all. It marks <b>a feature</b> — an anchorage, a cable, a spoil ground — and <b>the chart says which</b>.", "<em>Knowing that a mark is NOT giving you an instruction is worth as much as reading the ones that are.</em>"]}, {"id": "5.R1", "tema": "The two that do not push you anywhere · topic 5", "obra": "recorre", "lamina": "one says «anywhere», the other says «go and read»", "h": "One at a time", "marcas": ["aguas-seguras", "especial"], "tramos": [{"marca": "aguas-seguras", "p": "<b>Safe water.</b> Red and white stripes down its length, and a single <b>red sphere</b> on top — nothing else in the system has one. There is water all round it: <b>either side</b>."}, {"marca": "especial", "p": "<b>Special mark.</b> Yellow, with a <b>yellow saltire</b> on top — a cross lying over. It is not warning you about the seabed; it is pointing at something the chart explains."}, {"todas": true, "p": "Two marks, two ways of saying <b>«no instruction here»</b>. One says <b>anywhere</b>; the other says <b>go and read</b>. Anything else you meet is telling you a side.", "razon": "a red sphere &rarr; either side &nbsp;·&nbsp; a yellow cross &rarr; read the chart"}]}, {"id": "5.P1", "tema": "The two that do not push you anywhere · topic 5", "obra": "practica", "banco": "OBLIGA", "h": "What does this one ask of you?"}, {"id": "6.S1", "tema": "And in America · topic 6", "obra": "enmarca", "b": "Next", "h": "And in half the world, the red is on the other side", "lamina": "region A · region B", "nombres": true, "marcas": ["lat-babor", "lat-estribor"], "p": ["Everything in this module has been <b>IALA region A</b>: Europe, Africa, most of Asia, Australia. <b>It is the one you are learning and the one you will use.</b>", "There is a region B — the Americas, Japan, Korea, the Philippines — and there <b>the red and green are the other way round</b>. Red to starboard coming in.", "<b>Do not learn region B now.</b> Learning two opposite rules at once is how you end up sure of neither. Learn this one until it is automatic; the day you charter in Florida, you look it up and it takes a minute.", "<em>And the one thing worth carrying: <b>the cardinals do not change.</b> A south cardinal is a south cardinal everywhere on earth.</em>"]}, {"id": "7.C1", "tema": "", "obra": "cierre", "b": "Finish this part", "h": "What you can do now", "p": ["Ten marks that tell you a side, and now what to do about them. The other two — the isolated danger and the new danger — do not: you go round those.", "<b>A cardinal names a quarter of clear water, and you steer to be in it.</b> A lateral marks the edge of a channel, and which edge depends on the direction of buoyage — <b>which is printed, not guessed.</b>", "<em>What is still missing is the half of it that only happens after dark.</em> Every one of these marks has a light, and at night the shape and the colour are gone. That is what comes next."]}];
+const TOT=24;
+
+const FICHERO="balizamiento-p2-which-side.html";
+let iP=0, EJ={i:0,marca:null,var:0}, PR={q:null,n:0,meta:2,fallos:0,hecho:false};
+const LOG=[];
+const esPractica=s=>!!s&&s.obra==="practica";
+
+function bolsa(lista,semilla){
+ let s=semilla||1, idx=[], i=0;
+ const rnd=()=>{s^=s<<13;s^=s>>>17;s^=s<<5;return (s>>>0)/4294967296;};
+ const barajar=()=>{idx=lista.map((_,k)=>k);
+   for(let j=idx.length-1;j>0;j--){const t=Math.floor(rnd()*(j+1));
+     [idx[j],idx[t]]=[idx[t],idx[j]];} i=0;};
+ barajar();
+ return {saca:()=>{if(i>=idx.length)barajar(); return lista[idx[i++]];}};}
+const BOLSAS={};
+
+function bancoDe(s){
+ const b=BANCOS[s.banco]||[];
+ if(!b.some(q=>q.usos))return b;
+ const mio=b.filter(q=>q.usos&&q.usos.indexOf(s.id)>=0);
+
+ if(!mio.length)throw new Error(
+   s.id+" saca de "+s.banco+" y ninguna de sus preguntas la nombra en `usos`");
+ return mio;}
+
+const _semilla=id=>AZAR+Array.prototype.reduce.call(id,(a,c)=>a+c.charCodeAt(0),0);
+function sacaDe(s){
+ if(!BOLSAS[s.id])BOLSAS[s.id]=bolsa(bancoDe(s),_semilla(s.id));
+ return BOLSAS[s.id].saca();}
+window.bolsaDe=s=>BOLSAS[s.id];
+window.bancoDe=bancoDe;
+
+function prNuevo(){
+ const s=PZ[iP];
+ PR.q=sacaDe(s); PR.hecho=false;
+ pinta();}
+
+function panel(){
+ const s=PZ[iP], p=pane(); p.innerHTML="";
+ if(FC.on){ fcPanel(p); return; }
+ const h=document.createElement("div"); h.className="hd";
+ h.innerHTML="<h3>"+(s.tema||"")+"</h3>";
+ p.appendChild(h);
+ const t=document.createElement("h2"); t.textContent=s.h; p.appendChild(t);
+
+ if(s.obra==="ejemplo"||s.obra==="recorre"){
+   const tr=s.tramos[EJ.i];
+   p.insertAdjacentHTML("beforeend","<p>"+tr.p+"</p>");
+   if(tr.razon)p.insertAdjacentHTML("beforeend",
+     '<div class="calc">'+tr.razon+"</div>");
+   const nav=document.createElement("div"); nav.className="nav";
+   nav.innerHTML='<button class="sec" id="atras"'+(EJ.i?"":" disabled")
+     +">Back a step</button>"
+     +(EJ.i<s.tramos.length-1?'<button id="sig">Next step</button>'
+        :'<button id="sig">Next</button>')
+     +'<span class="prl">step '+(EJ.i+1)+" of "+s.tramos.length+"</span>";
+   p.appendChild(nav);
+   nav.querySelector("#atras").onclick=()=>{if(EJ.i){EJ.i--;pinta();}};
+   nav.querySelector("#sig").onclick=()=>{
+     if(EJ.i<s.tramos.length-1){EJ.i++;pinta();} else vaA(iP+1);};
+   return;}
+
+  if(s.obra==="explora"){ panelExplora(s,p); return; }
+ if(s.obra==="practica"){ panelPractica(s,p); return; }
+
+ (s.p||[]).forEach(x=>p.insertAdjacentHTML("beforeend","<p>"+x+"</p>"));
+
+ if(s.obra==="cierre"){
+   const t=document.getElementById("tSig");
+   if(t&&t.innerHTML)p.insertAdjacentHTML("beforeend",t.innerHTML);}
+ const nav=document.createElement("div"); nav.className="nav";
+ nav.innerHTML='<button class="sec" id="atras"'+(iP?"":" disabled")+">Back</button>"
+   +'<button id="sig">'+(s.b||"Next")+"</button>";
+ p.appendChild(nav);
+ nav.querySelector("#atras").onclick=()=>vaA(iP-1);
+ nav.querySelector("#sig").onclick=()=>vaA(iP+1);}
+
+function panelExplora(s,p){
+ const abiertas=s.marcas.filter(id=>EX.vistas[id]).length, n=s.marcas.length;
+ if(EX.sel){
+   const m=marcaDe(EX.sel), t=s.textos[EX.sel]||[];
+   p.insertAdjacentHTML("beforeend",'<b class="q">'+m.nombre+"</b>");
+   t.forEach(x=>p.insertAdjacentHTML("beforeend","<p>"+x+"</p>"));
+ }else{
+   (s.p||[]).forEach(x=>p.insertAdjacentHTML("beforeend","<p>"+x+"</p>"));
+ }
+ const nav=document.createElement("div"); nav.className="nav";
+
+ nav.innerHTML='<button class="sec" id="atras"'+(iP?"":" disabled")+">Back</button>"
+   +'<button id="sig">'+(abiertas>=n?(s.b||"Now you try"):"Next")+"</button>"
+   +'<span class="prl">'+abiertas+" of "+n+" opened</span>";
+ p.appendChild(nav);
+ nav.querySelector("#atras").onclick=()=>vaA(iP-1);
+ nav.querySelector("#sig").onclick=()=>vaA(iP+1);}
+
+function panelPractica(s,p){
+ const q=PR.q; if(!q)return;
+ p.insertAdjacentHTML("beforeend",'<b class="q">'+q.pregunta+"</b>");
+ if(q.instruccion)p.insertAdjacentHTML("beforeend","<p><em>"+q.instruccion+"</em></p>");
+ const ops=document.createElement("div"); ops.className="ops";
+
+ const orden=q.opciones.map((o,k)=>k);
+ for(let j=orden.length-1;j>0;j--){const t=Math.floor(((AZAR+j*7)%97)/97*(j+1));
+   [orden[j],orden[t]]=[orden[t],orden[j]];}
+ orden.forEach(k=>{
+   const b=document.createElement("button");
+   b.innerHTML=q.opciones[k]; b.dataset.k=k;
+   b.disabled=PR.hecho;
+   b.onclick=()=>responde(s,k);
+   ops.appendChild(b);});
+ p.appendChild(ops);
+ if(PR.res)p.insertAdjacentHTML("beforeend",PR.res);
+ const nav=document.createElement("div"); nav.className="nav";
+ nav.innerHTML='<button class="sec" id="atras">Back</button>'
+   +(PR.hecho?'<button id="otra">Next one</button>':"")
+   +(PR.hecho&&PR.n>=PR.meta?'<button id="sig">Next</button>':"")
+   +(!PR.hecho&&PR.fallos>=2?'<button class="show" id="show">Show me</button>':"")
+   +(!PR.hecho?'<a class="skip" id="salta">Skip</a>':"")
+
+   +'<span class="prl">'+Math.min(PR.hecho?PR.n:PR.n+1,PR.meta)+" of "+PR.meta+"</span>";
+ p.appendChild(nav);
+ nav.querySelector("#atras").onclick=()=>vaA(iP-1);
+ const o=nav.querySelector("#otra"); if(o)o.onclick=()=>{PR.res="";prNuevo();};
+ const g=nav.querySelector("#sig"); if(g)g.onclick=()=>vaA(iP+1);
+ const sh=nav.querySelector("#show"); if(sh)sh.onclick=()=>muestra(s);
+ const sk=nav.querySelector("#salta"); if(sk)sk.onclick=()=>salta(s);}
+
+function salta(s){
+ LOG.push({id:s.id,q:PR.q&&PR.q.id,k:-1,bien:false,saltada:true});
+ document.getElementById("fLog").textContent=LOG.length+" answers logged";
+ PR.res="";
+ if(PR.meta===2){PR.meta=3;
+   PR.res='<div class="res">Skipped. One more after this.</div>';}
+ prNuevo();}
+
+function responde(s,k){
+ const q=PR.q, bien=(k===q.ok);
+ LOG.push({id:s.id,q:q.id,k:k,bien:bien});
+ document.getElementById("fLog").textContent=LOG.length+" answers logged";
+
+ if(bien){ PR.hecho=true; PR.n++;
+   PR.res='<div class="res si"><b>Yes.</b> '+q.porque+"</div>";
+
+   if(PR.fallos&&PR.meta===2){PR.meta=3;
+     PR.res+='<div class="res">Two was the plan; the third is here because you '
+       +"slipped, and it goes away as soon as you do not.</div>";}
+ }else{ PR.fallos++;
+   PR.res='<div class="res no"><b>Not that one.</b> '+(q.mal&&q.mal[k]||"")+"</div>";
+   if(PR.fallos>=1&&q.pista)PR.res+='<div class="pista">'+q.pista+"</div>";}
+ pinta();}
+
+function muestra(s){
+ const q=PR.q; PR.hecho=true; PR.n++;
+ LOG.push({id:s.id,q:q.id,k:-1,bien:false,show:true});
+ PR.res='<div class="res ver"><b>'+q.opciones[q.ok].replace(/<[^>]+>/g,"")+"</b>"
+   +q.show+"</div>";
+ if(PR.meta===2){PR.meta=3;}
+ pinta();}
+
+function pinta(){
+ ESC=esc();
+ svg.setAttribute("viewBox","0 0 "+D.W+" "+D.H);
+ svg.innerHTML="";
+ gO=el("g",{},svg);
+
+ if(FC.on){ fcLienzo(); barra(); panel(); return; }
+ const s=PZ[iP];
+ if(!s)return;
+ if(s.obra==="explora")obraExplora(s);
+ else if(s.obra==="cuadrantes")obraCuadrantes(s);
+ else if(s.obra==="sentido")obraSentido(s);
+ else if(s.obra==="canal")obraCanal(s);
+ else if(s.obra==="enmarca")obraEnmarca(s);
+ else if(s.obra==="ejemplo")obraEjemplo(s,EJ.i);
+ else if(s.obra==="recorre")obraRecorre(s,EJ.i);
+ else if(s.obra==="practica")obraPractica();
+ else if(s.obra==="cierre")obraCierre();
+ barra(); panel();}
+
+function barra(){
+ const b=document.getElementById("prog"); b.innerHTML="";
+ PZ.forEach((s,i)=>{const e=document.createElement("i");
+   if(i===iP)e.className="on"; else if(i<iP)e.className="done";
+   e.title="Screen "+(i+1)+" of "+TOT+" · "+s.h;
+   e.onclick=()=>vaA(i); b.appendChild(e);});
+
+ const fi=document.getElementById("ficha");
+ if(fi)fi.style.setProperty("--ar",D.W+" / "+D.H);
+ const dc=n=>(n<10?"0":"")+n;
+ const bc=document.getElementById("barCont");
+ if(bc)bc.textContent=dc(iP+1)+" / "+dc(TOT);
+ const t=document.getElementById("hTit");
+ if(t)t.textContent=FC.on?"Flashcards · the deck":("Screen "+(iP+1)+" of "+TOT);
+ const fb=document.getElementById("fcBtn");
+ if(fb)fb.textContent=FC.on?("Back to screen "+(FC.desde+1)):"Flashcards";}
+
+function vaA(i){
+ if(i<0||i>=PZ.length)return;
+ iP=i; EJ={i:0,marca:null,var:0}; guardaDonde(i);
+ if(PZ[i].obra==="explora")EX={sel:null,vistas:{}};
+ const s=PZ[iP];
+
+ if(s.obra==="cierre")vistoTermina(FICHERO);
+
+ if(s.obra==="ejemplo")EJ.marca=sacaDe({banco:s.banco,id:s.id}).marca;
+ if(s.obra==="practica"){PR={q:null,n:0,meta:2,fallos:0,hecho:false,res:""};prNuevo();
+   return;}
+ pinta();}
+
+svg.addEventListener("pointerdown",e=>{
+
+ const mk=e.target.closest?e.target.closest("[data-marca]"):null;
+ if(mk){
+   if(PZ[iP].obra!=="explora")return;
+   const id=mk.getAttribute("data-marca");
+   EX.sel=id; EX.vistas[id]=true; pinta(); return;}
+
+ const sd=e.target.closest?e.target.closest("[data-sentido]"):null;
+ if(sd){ SE.entrando=!SE.entrando; pinta(); return;}
+
+ const ar=e.target.closest?e.target.closest("[data-arrastra]"):null;
+ if(ar){ document.body.classList.add("arrastrando"); ARR=true; pinta(); return;}
+
+ if(PZ[iP].obra==="cuadrantes"&&CU.cx!=null){
+   const r=svg.getBoundingClientRect(), kk=Math.min(r.width/D.W,r.height/D.H);
+   const x=(e.clientX-r.left)/kk, y=(e.clientY-r.top)/kk;
+   if(Math.hypot(x-CU.cx,y-CU.cy)<=CU.anillo*1.25){
+     CU.ang=(Math.atan2(y-CU.cy,x-CU.cx)*180/Math.PI+360)%360;
+     document.body.classList.add("arrastrando"); ARR=true; pinta(); return;}}
+});
+let ARR=false;
+svg.addEventListener("pointermove",e=>{
+ if(!ARR||PZ[iP].obra!=="cuadrantes")return;
+ const r=svg.getBoundingClientRect(), k=Math.min(r.width/D.W,r.height/D.H);
+ const x=(e.clientX-r.left)/k, y=(e.clientY-r.top)/k;
+ CU.ang=(Math.atan2(y-(CU.cy||D.H*0.5),x-(CU.cx||D.W*0.44))*180/Math.PI+360)%360;
+ pinta();});
+window.addEventListener("pointerup",()=>{ARR=false;});
+window.addEventListener("pointerup",()=>document.body.classList.remove("arrastrando"));
+window.addEventListener("resize",()=>pinta());
+
+if(PZ.length>TOT)throw new Error("el capitulo trae "+PZ.length
+  +" pantallas y el temario declara "+TOT);
+
+window.EST=()=>({i:iP,id:PZ[iP]&&PZ[iP].id,obra:PZ[iP]&&PZ[iP].obra,
+  tramo:EJ.i,tramos:(PZ[iP].tramos||[]).length,
+  ang:Math.round(CU.ang),entrando:SE.entrando,
+  q:PR.q&&PR.q.id,meta:PR.meta,fallos:PR.fallos,hecho:PR.hecho,hechas:PR.n,
+  sel:EX.sel,vistas:Object.keys(EX.vistas).length,
+  log:LOG.length,tot:TOT,n:PZ.length});
+window.vaA=vaA; window.PZ=PZ; window.LOG=LOG;
+
+window.grupoLimpio=()=>{svg.innerHTML="";gO=el("g",{},svg);return gO;};
+
+"use strict";
+
+const ritmoFase = (t, per) => ((t % per) + per) % per;
+
+function ritmoTramo(on, per, t){
+ const f = ritmoFase(t, per);
+ for(let i=0;i<on.length;i++) if(f >= on[i][0] && f < on[i][1]) return i;
+ return -1;
+}
+
+function ritmoEncendida(on, per, t){ return ritmoTramo(on, per, t) >= 0; }
+
+function ritmoMotor(pinta){
+ const M = {t:0, ref:0, raf:null, on:null, per:10};
+ M.luz = (on, per) => { M.on = on || null; M.per = per || 10; };
+ M.paso = now => {
+  M.t = (now - M.ref) / 1000;
+  if(M.on) pinta(ritmoEncendida(M.on, M.per, M.t), M.t);
+  M.raf = requestAnimationFrame(M.paso);
+ };
+ M.arranca = () => {
+  if(M.raf != null || typeof requestAnimationFrame === "undefined") return;
+  M.ref = performance.now() - M.t * 1000;
+  M.raf = requestAnimationFrame(M.paso);
+ };
+ M.para = () => {
+  if(M.raf == null) return;
+  cancelAnimationFrame(M.raf); M.raf = null;
+ };
+ M.anda = () => M.raf != null;
+ return M;
+}
+
+"use strict";
+const VISTO_CLAVE = "rya.visto";
+
+const VISTO_V = 2;
+
+function vistoAlmacen(){
+ try{ return (typeof localStorage !== "undefined" && localStorage) ? localStorage : null; }
+ catch(e){ return null; }
+}
+
+function vistoLee(){
+ const A = vistoAlmacen();
+ if(!A) return {v:VISTO_V, empezadas:{}, terminadas:{}, sinAlmacen:true};
+ try{
+  const o = JSON.parse(A.getItem(VISTO_CLAVE) || "null");
+  if(o && o.v === VISTO_V && o.empezadas && o.terminadas) return o;
+ }catch(e){}
+ return {v:VISTO_V, empezadas:{}, terminadas:{}};
+}
+
+function _vistoGuarda(o){
+ const A = vistoAlmacen();
+ if(!A) return o;
+ try{
+  A.setItem(VISTO_CLAVE, JSON.stringify(
+   {v:VISTO_V, empezadas:o.empezadas, terminadas:o.terminadas, pos:o.pos || {}}));
+ }catch(e){}
+ return o;
+}
+
+function _vistoPon(cual, fichero){
+ const o = vistoLee();
+ if(o.sinAlmacen || o[cual][fichero]) return o;
+ o[cual][fichero] = 1;
+ return _vistoGuarda(o);
+}
+
+const vistoEmpieza  = f => _vistoPon("empezadas", f);
+const vistoTermina  = f => _vistoPon("terminadas", f);
+const vistoEmpezada = f => !!vistoLee().empezadas[f];
+const vistoTerminada= f => !!vistoLee().terminadas[f];
+const vistoHayAlmacen = () => !!vistoAlmacen();
+
+function vistoPon(fichero, n){
+ const o = vistoLee();
+ if(o.sinAlmacen) return o;
+ if(!o.pos) o.pos = {};
+ if(o.pos[fichero] === n) return o;
+ o.pos[fichero] = n;
+ return _vistoGuarda(o);
+}
+
+function vistoPos(fichero, tope){
+ const p = vistoLee().pos;
+ const n = p && p[fichero];
+ if(typeof n !== "number" || !isFinite(n) || n < 0) return 0;
+ return (typeof tope === "number" && tope >= 0) ? Math.min(n, tope) : n;
+}
+
+function vistoOlvida(fichero){
+ const o = vistoLee();
+ if(o.sinAlmacen || !o.pos || !(fichero in o.pos)) return o;
+ delete o.pos[fichero];
+ return _vistoGuarda(o);
+}
+const LUZ_APAGADA="#16212B";
+const CARTAS=[{"id": "sight/card-N", "modo": "sight", "marca": "card-N", "detras": {"nombre": "North cardinal", "senas": ["a pillar", "black over yellow", "two black cones, both points up"], "hace": "The clear water is <b>north</b> of it. Steer to be in that quarter.", "luz": "Q", "fuente": "memoria", "libre": null}}, {"id": "sight/card-E", "modo": "sight", "marca": "card-E", "detras": {"nombre": "East cardinal", "senas": ["a pillar", "black, yellow, black", "two black cones, base to base"], "hace": "The clear water is <b>east</b> of it. Steer to be in that quarter.", "luz": "Q(3)10s", "fuente": "memoria", "libre": null}}, {"id": "sight/card-S", "modo": "sight", "marca": "card-S", "detras": {"nombre": "South cardinal", "senas": ["a pillar", "yellow over black", "two black cones, both points down"], "hace": "The clear water is <b>south</b> of it. Steer to be in that quarter.", "luz": "Q(6)+LFl15s", "fuente": "memoria", "libre": null}}, {"id": "sight/card-W", "modo": "sight", "marca": "card-W", "detras": {"nombre": "West cardinal", "senas": ["a pillar", "yellow, black, yellow", "two black cones, point to point"], "hace": "The clear water is <b>west</b> of it. Steer to be in that quarter.", "luz": "Q(9)15s", "fuente": "memoria", "libre": null}}, {"id": "sight/lat-babor", "modo": "sight", "marca": "lat-babor", "detras": {"nombre": "Port hand", "senas": ["a can", "red", "a red can"], "hace": "One edge of a channel. Going <b>with</b> the direction of buoyage, leave it to <b>port</b> — and to starboard coming the other way.", "luz": "Fl.R.5s", "fuente": "dato", "libre": "A lateral may flash any way except the compound group, and a special may flash any way at all. <b>This one is an example — the colour is what identifies it, not the period.</b>"}}, {"id": "sight/lat-estribor", "modo": "sight", "marca": "lat-estribor", "detras": {"nombre": "Starboard hand", "senas": ["a cone", "green", "a green cone"], "hace": "The other edge. Going <b>with</b> the arrow, leave it to <b>starboard</b> — and to port coming the other way.", "luz": "Fl.G.5s", "fuente": "dato", "libre": "A lateral may flash any way except the compound group, and a special may flash any way at all. <b>This one is an example — the colour is what identifies it, not the period.</b>"}}, {"id": "sight/aguas-seguras", "modo": "sight", "marca": "aguas-seguras", "detras": {"nombre": "Safe water", "senas": ["a sphere", "red and white", "a single red sphere"], "hace": "Navigable water <b>all round it</b>. Pass either side. It is a landfall or the middle of a channel, not a warning.", "luz": "L.Fl.10s", "fuente": "dato", "libre": null}}, {"id": "sight/peligro-aislado", "modo": "sight", "marca": "peligro-aislado", "detras": {"nombre": "Isolated danger", "senas": ["a pillar", "black and red", "two black spheres"], "hace": "It stands <b>on</b> the danger, and there is water all round it. Stand off and go round — either side.", "luz": "Fl(2)5s", "fuente": "dato", "libre": null}}, {"id": "sight/especial", "modo": "sight", "marca": "especial", "detras": {"nombre": "Special", "senas": ["a can", "yellow", "a yellow saltire cross"], "hace": "It gives you <b>no side at all</b>. It marks a feature — an anchorage, a cable, a spoil ground — and the chart says which.", "luz": "Fl.Y.5s", "fuente": "dato", "libre": "A lateral may flash any way except the compound group, and a special may flash any way at all. <b>This one is an example — the colour is what identifies it, not the period.</b>"}}, {"id": "sight/pref-estribor", "modo": "sight", "marca": "pref-estribor", "detras": {"nombre": "Preferred channel to starboard", "senas": ["a can", "red with a green band", "a red can"], "hace": "Its body is a red can, so <b>treat it as a port-hand mark</b>. The band says the channel forks: the main one is to starboard.", "luz": "Fl(2+1)R.10s", "fuente": "memoria", "libre": null}}, {"id": "sight/pref-babor", "modo": "sight", "marca": "pref-babor", "detras": {"nombre": "Preferred channel to port", "senas": ["a cone", "green with a red band", "a green cone"], "hace": "Its body is a green cone, so <b>treat it as a starboard-hand mark</b>. The main channel is the one to port.", "luz": "Fl(2+1)G.10s", "fuente": "memoria", "libre": null}}, {"id": "sight/nuevo-peligro", "modo": "sight", "marca": "nuevo-peligro", "detras": {"nombre": "New danger", "senas": ["a pillar", "blue and yellow", "an upright yellow cross"], "hace": "Something is there that <b>your chart does not show yet</b>. Give it room, and expect it to be gone once the chart catches up.", "luz": "Al.Oc.Bu.Y3s", "fuente": "memoria", "libre": null}}, {"id": "meaning/card-N", "modo": "meaning", "marca": "card-N", "detras": {"nombre": "North cardinal", "senas": ["a pillar", "black over yellow", "two black cones, both points up"], "hace": "The clear water is <b>north</b> of it. Steer to be in that quarter.", "luz": "Q", "fuente": "memoria", "libre": null}}, {"id": "meaning/card-E", "modo": "meaning", "marca": "card-E", "detras": {"nombre": "East cardinal", "senas": ["a pillar", "black, yellow, black", "two black cones, base to base"], "hace": "The clear water is <b>east</b> of it. Steer to be in that quarter.", "luz": "Q(3)10s", "fuente": "memoria", "libre": null}}, {"id": "meaning/card-S", "modo": "meaning", "marca": "card-S", "detras": {"nombre": "South cardinal", "senas": ["a pillar", "yellow over black", "two black cones, both points down"], "hace": "The clear water is <b>south</b> of it. Steer to be in that quarter.", "luz": "Q(6)+LFl15s", "fuente": "memoria", "libre": null}}, {"id": "meaning/card-W", "modo": "meaning", "marca": "card-W", "detras": {"nombre": "West cardinal", "senas": ["a pillar", "yellow, black, yellow", "two black cones, point to point"], "hace": "The clear water is <b>west</b> of it. Steer to be in that quarter.", "luz": "Q(9)15s", "fuente": "memoria", "libre": null}}, {"id": "meaning/lat-babor", "modo": "meaning", "marca": "lat-babor", "detras": {"nombre": "Port hand", "senas": ["a can", "red", "a red can"], "hace": "One edge of a channel. Going <b>with</b> the direction of buoyage, leave it to <b>port</b> — and to starboard coming the other way.", "luz": "Fl.R.5s", "fuente": "dato", "libre": "A lateral may flash any way except the compound group, and a special may flash any way at all. <b>This one is an example — the colour is what identifies it, not the period.</b>"}}, {"id": "meaning/lat-estribor", "modo": "meaning", "marca": "lat-estribor", "detras": {"nombre": "Starboard hand", "senas": ["a cone", "green", "a green cone"], "hace": "The other edge. Going <b>with</b> the arrow, leave it to <b>starboard</b> — and to port coming the other way.", "luz": "Fl.G.5s", "fuente": "dato", "libre": "A lateral may flash any way except the compound group, and a special may flash any way at all. <b>This one is an example — the colour is what identifies it, not the period.</b>"}}, {"id": "meaning/aguas-seguras", "modo": "meaning", "marca": "aguas-seguras", "detras": {"nombre": "Safe water", "senas": ["a sphere", "red and white", "a single red sphere"], "hace": "Navigable water <b>all round it</b>. Pass either side. It is a landfall or the middle of a channel, not a warning.", "luz": "L.Fl.10s", "fuente": "dato", "libre": null}}, {"id": "meaning/peligro-aislado", "modo": "meaning", "marca": "peligro-aislado", "detras": {"nombre": "Isolated danger", "senas": ["a pillar", "black and red", "two black spheres"], "hace": "It stands <b>on</b> the danger, and there is water all round it. Stand off and go round — either side.", "luz": "Fl(2)5s", "fuente": "dato", "libre": null}}, {"id": "meaning/especial", "modo": "meaning", "marca": "especial", "detras": {"nombre": "Special", "senas": ["a can", "yellow", "a yellow saltire cross"], "hace": "It gives you <b>no side at all</b>. It marks a feature — an anchorage, a cable, a spoil ground — and the chart says which.", "luz": "Fl.Y.5s", "fuente": "dato", "libre": "A lateral may flash any way except the compound group, and a special may flash any way at all. <b>This one is an example — the colour is what identifies it, not the period.</b>"}}, {"id": "meaning/pref-estribor", "modo": "meaning", "marca": "pref-estribor", "detras": {"nombre": "Preferred channel to starboard", "senas": ["a can", "red with a green band", "a red can"], "hace": "Its body is a red can, so <b>treat it as a port-hand mark</b>. The band says the channel forks: the main one is to starboard.", "luz": "Fl(2+1)R.10s", "fuente": "memoria", "libre": null}}, {"id": "meaning/pref-babor", "modo": "meaning", "marca": "pref-babor", "detras": {"nombre": "Preferred channel to port", "senas": ["a cone", "green with a red band", "a green cone"], "hace": "Its body is a green cone, so <b>treat it as a starboard-hand mark</b>. The main channel is the one to port.", "luz": "Fl(2+1)G.10s", "fuente": "memoria", "libre": null}}, {"id": "meaning/nuevo-peligro", "modo": "meaning", "marca": "nuevo-peligro", "detras": {"nombre": "New danger", "senas": ["a pillar", "blue and yellow", "an upright yellow cross"], "hace": "Something is there that <b>your chart does not show yet</b>. Give it room, and expect it to be gone once the chart catches up.", "luz": "Al.Oc.Bu.Y3s", "fuente": "memoria", "libre": null}}, {"id": "night/card-N", "modo": "night", "marca": null, "detras": {"nombre": "North cardinal", "senas": ["a pillar", "black over yellow", "two black cones, both points up"], "hace": "The clear water is <b>north</b> of it. Steer to be in that quarter.", "luz": "Q", "fuente": "memoria", "libre": null}, "ritmo": {"on": [[0.0, 0.3], [1.0, 1.3], [2.0, 2.3], [3.0, 3.3], [4.0, 4.3], [5.0, 5.3], [6.0, 6.3], [7.0, 7.3], [8.0, 8.3], [9.0, 9.3], [10.0, 10.3], [11.0, 11.3]], "per": 12.0, "hex": "#FFCE3A", "cols": ["#FFCE3A", "#FFCE3A", "#FFCE3A", "#FFCE3A", "#FFCE3A", "#FFCE3A", "#FFCE3A", "#FFCE3A", "#FFCE3A", "#FFCE3A", "#FFCE3A", "#FFCE3A"]}}, {"id": "night/card-E", "modo": "night", "marca": null, "detras": {"nombre": "East cardinal", "senas": ["a pillar", "black, yellow, black", "two black cones, base to base"], "hace": "The clear water is <b>east</b> of it. Steer to be in that quarter.", "luz": "Q(3)10s", "fuente": "memoria", "libre": null}, "ritmo": {"on": [[0.0, 0.3], [1.0, 1.3], [2.0, 2.3]], "per": 10.0, "hex": "#FFCE3A", "cols": ["#FFCE3A", "#FFCE3A", "#FFCE3A"]}}, {"id": "night/card-S", "modo": "night", "marca": null, "detras": {"nombre": "South cardinal", "senas": ["a pillar", "yellow over black", "two black cones, both points down"], "hace": "The clear water is <b>south</b> of it. Steer to be in that quarter.", "luz": "Q(6)+LFl15s", "fuente": "memoria", "libre": null}, "ritmo": {"on": [[0.0, 0.3], [1.0, 1.3], [2.0, 2.3], [3.0, 3.3], [4.0, 4.3], [5.0, 5.3], [6.3, 8.3]], "per": 15.0, "hex": "#FFCE3A", "cols": ["#FFCE3A", "#FFCE3A", "#FFCE3A", "#FFCE3A", "#FFCE3A", "#FFCE3A", "#FFCE3A"]}}, {"id": "night/card-W", "modo": "night", "marca": null, "detras": {"nombre": "West cardinal", "senas": ["a pillar", "yellow, black, yellow", "two black cones, point to point"], "hace": "The clear water is <b>west</b> of it. Steer to be in that quarter.", "luz": "Q(9)15s", "fuente": "memoria", "libre": null}, "ritmo": {"on": [[0.0, 0.3], [1.0, 1.3], [2.0, 2.3], [3.0, 3.3], [4.0, 4.3], [5.0, 5.3], [6.0, 6.3], [7.0, 7.3], [8.0, 8.3]], "per": 15.0, "hex": "#FFCE3A", "cols": ["#FFCE3A", "#FFCE3A", "#FFCE3A", "#FFCE3A", "#FFCE3A", "#FFCE3A", "#FFCE3A", "#FFCE3A", "#FFCE3A"]}}, {"id": "night/lat-babor", "modo": "night", "marca": null, "detras": {"nombre": "Port hand", "senas": ["a can", "red", "a red can"], "hace": "One edge of a channel. Going <b>with</b> the direction of buoyage, leave it to <b>port</b> — and to starboard coming the other way.", "luz": "Fl.R.5s", "fuente": "dato", "libre": "A lateral may flash any way except the compound group, and a special may flash any way at all. <b>This one is an example — the colour is what identifies it, not the period.</b>"}, "ritmo": {"on": [[0.0, 0.5]], "per": 5.0, "hex": "#E23B3B", "cols": ["#E23B3B"]}}, {"id": "night/lat-estribor", "modo": "night", "marca": null, "detras": {"nombre": "Starboard hand", "senas": ["a cone", "green", "a green cone"], "hace": "The other edge. Going <b>with</b> the arrow, leave it to <b>starboard</b> — and to port coming the other way.", "luz": "Fl.G.5s", "fuente": "dato", "libre": "A lateral may flash any way except the compound group, and a special may flash any way at all. <b>This one is an example — the colour is what identifies it, not the period.</b>"}, "ritmo": {"on": [[0.0, 0.5]], "per": 5.0, "hex": "#33C46B", "cols": ["#33C46B"]}}, {"id": "night/aguas-seguras", "modo": "night", "marca": null, "detras": {"nombre": "Safe water", "senas": ["a sphere", "red and white", "a single red sphere"], "hace": "Navigable water <b>all round it</b>. Pass either side. It is a landfall or the middle of a channel, not a warning.", "luz": "L.Fl.10s", "fuente": "dato", "libre": null}, "ritmo": {"on": [[0.0, 2.0]], "per": 10.0, "hex": "#FFCE3A", "cols": ["#FFCE3A"]}}, {"id": "night/peligro-aislado", "modo": "night", "marca": null, "detras": {"nombre": "Isolated danger", "senas": ["a pillar", "black and red", "two black spheres"], "hace": "It stands <b>on</b> the danger, and there is water all round it. Stand off and go round — either side.", "luz": "Fl(2)5s", "fuente": "dato", "libre": null}, "ritmo": {"on": [[0.0, 0.5], [1.0, 1.5]], "per": 5.0, "hex": "#FFCE3A", "cols": ["#FFCE3A", "#FFCE3A"]}}, {"id": "night/especial", "modo": "night", "marca": null, "detras": {"nombre": "Special", "senas": ["a can", "yellow", "a yellow saltire cross"], "hace": "It gives you <b>no side at all</b>. It marks a feature — an anchorage, a cable, a spoil ground — and the chart says which.", "luz": "Fl.Y.5s", "fuente": "dato", "libre": "A lateral may flash any way except the compound group, and a special may flash any way at all. <b>This one is an example — the colour is what identifies it, not the period.</b>"}, "ritmo": {"on": [[0.0, 0.5]], "per": 5.0, "hex": "#F2C230", "cols": ["#F2C230"]}}, {"id": "night/pref-estribor", "modo": "night", "marca": null, "detras": {"nombre": "Preferred channel to starboard", "senas": ["a can", "red with a green band", "a red can"], "hace": "Its body is a red can, so <b>treat it as a port-hand mark</b>. The band says the channel forks: the main one is to starboard.", "luz": "Fl(2+1)R.10s", "fuente": "memoria", "libre": null}, "ritmo": {"on": [[0.0, 0.5], [1.0, 1.5], [2.5, 3.0]], "per": 10.0, "hex": "#E23B3B", "cols": ["#E23B3B", "#E23B3B", "#E23B3B"]}}, {"id": "night/pref-babor", "modo": "night", "marca": null, "detras": {"nombre": "Preferred channel to port", "senas": ["a cone", "green with a red band", "a green cone"], "hace": "Its body is a green cone, so <b>treat it as a starboard-hand mark</b>. The main channel is the one to port.", "luz": "Fl(2+1)G.10s", "fuente": "memoria", "libre": null}, "ritmo": {"on": [[0.0, 0.5], [1.0, 1.5], [2.5, 3.0]], "per": 10.0, "hex": "#33C46B", "cols": ["#33C46B", "#33C46B", "#33C46B"]}}, {"id": "night/nuevo-peligro", "modo": "night", "marca": null, "detras": {"nombre": "New danger", "senas": ["a pillar", "blue and yellow", "an upright yellow cross"], "hace": "Something is there that <b>your chart does not show yet</b>. Give it room, and expect it to be gone once the chart catches up.", "luz": "Al.Oc.Bu.Y3s", "fuente": "memoria", "libre": null}, "ritmo": {"on": [[0.0, 1.0], [1.5, 2.5]], "per": 3.0, "hex": "#4FA3E3", "cols": ["#4FA3E3", "#F2C230"]}}, {"id": "whole/card-N", "modo": "whole", "marca": "card-N", "detras": {"nombre": "North cardinal", "senas": ["a pillar", "black over yellow", "two black cones, both points up"], "hace": "The clear water is <b>north</b> of it. Steer to be in that quarter.", "luz": "Q", "fuente": "memoria", "libre": null}, "ritmo": {"on": [[0.0, 0.3], [1.0, 1.3], [2.0, 2.3], [3.0, 3.3], [4.0, 4.3], [5.0, 5.3], [6.0, 6.3], [7.0, 7.3], [8.0, 8.3], [9.0, 9.3], [10.0, 10.3], [11.0, 11.3]], "per": 12.0, "hex": "#FFCE3A", "cols": ["#FFCE3A", "#FFCE3A", "#FFCE3A", "#FFCE3A", "#FFCE3A", "#FFCE3A", "#FFCE3A", "#FFCE3A", "#FFCE3A", "#FFCE3A", "#FFCE3A", "#FFCE3A"]}}, {"id": "whole/card-E", "modo": "whole", "marca": "card-E", "detras": {"nombre": "East cardinal", "senas": ["a pillar", "black, yellow, black", "two black cones, base to base"], "hace": "The clear water is <b>east</b> of it. Steer to be in that quarter.", "luz": "Q(3)10s", "fuente": "memoria", "libre": null}, "ritmo": {"on": [[0.0, 0.3], [1.0, 1.3], [2.0, 2.3]], "per": 10.0, "hex": "#FFCE3A", "cols": ["#FFCE3A", "#FFCE3A", "#FFCE3A"]}}, {"id": "whole/card-S", "modo": "whole", "marca": "card-S", "detras": {"nombre": "South cardinal", "senas": ["a pillar", "yellow over black", "two black cones, both points down"], "hace": "The clear water is <b>south</b> of it. Steer to be in that quarter.", "luz": "Q(6)+LFl15s", "fuente": "memoria", "libre": null}, "ritmo": {"on": [[0.0, 0.3], [1.0, 1.3], [2.0, 2.3], [3.0, 3.3], [4.0, 4.3], [5.0, 5.3], [6.3, 8.3]], "per": 15.0, "hex": "#FFCE3A", "cols": ["#FFCE3A", "#FFCE3A", "#FFCE3A", "#FFCE3A", "#FFCE3A", "#FFCE3A", "#FFCE3A"]}}, {"id": "whole/card-W", "modo": "whole", "marca": "card-W", "detras": {"nombre": "West cardinal", "senas": ["a pillar", "yellow, black, yellow", "two black cones, point to point"], "hace": "The clear water is <b>west</b> of it. Steer to be in that quarter.", "luz": "Q(9)15s", "fuente": "memoria", "libre": null}, "ritmo": {"on": [[0.0, 0.3], [1.0, 1.3], [2.0, 2.3], [3.0, 3.3], [4.0, 4.3], [5.0, 5.3], [6.0, 6.3], [7.0, 7.3], [8.0, 8.3]], "per": 15.0, "hex": "#FFCE3A", "cols": ["#FFCE3A", "#FFCE3A", "#FFCE3A", "#FFCE3A", "#FFCE3A", "#FFCE3A", "#FFCE3A", "#FFCE3A", "#FFCE3A"]}}, {"id": "whole/lat-babor", "modo": "whole", "marca": "lat-babor", "detras": {"nombre": "Port hand", "senas": ["a can", "red", "a red can"], "hace": "One edge of a channel. Going <b>with</b> the direction of buoyage, leave it to <b>port</b> — and to starboard coming the other way.", "luz": "Fl.R.5s", "fuente": "dato", "libre": "A lateral may flash any way except the compound group, and a special may flash any way at all. <b>This one is an example — the colour is what identifies it, not the period.</b>"}, "ritmo": {"on": [[0.0, 0.5]], "per": 5.0, "hex": "#E23B3B", "cols": ["#E23B3B"]}}, {"id": "whole/lat-estribor", "modo": "whole", "marca": "lat-estribor", "detras": {"nombre": "Starboard hand", "senas": ["a cone", "green", "a green cone"], "hace": "The other edge. Going <b>with</b> the arrow, leave it to <b>starboard</b> — and to port coming the other way.", "luz": "Fl.G.5s", "fuente": "dato", "libre": "A lateral may flash any way except the compound group, and a special may flash any way at all. <b>This one is an example — the colour is what identifies it, not the period.</b>"}, "ritmo": {"on": [[0.0, 0.5]], "per": 5.0, "hex": "#33C46B", "cols": ["#33C46B"]}}, {"id": "whole/aguas-seguras", "modo": "whole", "marca": "aguas-seguras", "detras": {"nombre": "Safe water", "senas": ["a sphere", "red and white", "a single red sphere"], "hace": "Navigable water <b>all round it</b>. Pass either side. It is a landfall or the middle of a channel, not a warning.", "luz": "L.Fl.10s", "fuente": "dato", "libre": null}, "ritmo": {"on": [[0.0, 2.0]], "per": 10.0, "hex": "#FFCE3A", "cols": ["#FFCE3A"]}}, {"id": "whole/peligro-aislado", "modo": "whole", "marca": "peligro-aislado", "detras": {"nombre": "Isolated danger", "senas": ["a pillar", "black and red", "two black spheres"], "hace": "It stands <b>on</b> the danger, and there is water all round it. Stand off and go round — either side.", "luz": "Fl(2)5s", "fuente": "dato", "libre": null}, "ritmo": {"on": [[0.0, 0.5], [1.0, 1.5]], "per": 5.0, "hex": "#FFCE3A", "cols": ["#FFCE3A", "#FFCE3A"]}}, {"id": "whole/especial", "modo": "whole", "marca": "especial", "detras": {"nombre": "Special", "senas": ["a can", "yellow", "a yellow saltire cross"], "hace": "It gives you <b>no side at all</b>. It marks a feature — an anchorage, a cable, a spoil ground — and the chart says which.", "luz": "Fl.Y.5s", "fuente": "dato", "libre": "A lateral may flash any way except the compound group, and a special may flash any way at all. <b>This one is an example — the colour is what identifies it, not the period.</b>"}, "ritmo": {"on": [[0.0, 0.5]], "per": 5.0, "hex": "#F2C230", "cols": ["#F2C230"]}}, {"id": "whole/pref-estribor", "modo": "whole", "marca": "pref-estribor", "detras": {"nombre": "Preferred channel to starboard", "senas": ["a can", "red with a green band", "a red can"], "hace": "Its body is a red can, so <b>treat it as a port-hand mark</b>. The band says the channel forks: the main one is to starboard.", "luz": "Fl(2+1)R.10s", "fuente": "memoria", "libre": null}, "ritmo": {"on": [[0.0, 0.5], [1.0, 1.5], [2.5, 3.0]], "per": 10.0, "hex": "#E23B3B", "cols": ["#E23B3B", "#E23B3B", "#E23B3B"]}}, {"id": "whole/pref-babor", "modo": "whole", "marca": "pref-babor", "detras": {"nombre": "Preferred channel to port", "senas": ["a cone", "green with a red band", "a green cone"], "hace": "Its body is a green cone, so <b>treat it as a starboard-hand mark</b>. The main channel is the one to port.", "luz": "Fl(2+1)G.10s", "fuente": "memoria", "libre": null}, "ritmo": {"on": [[0.0, 0.5], [1.0, 1.5], [2.5, 3.0]], "per": 10.0, "hex": "#33C46B", "cols": ["#33C46B", "#33C46B", "#33C46B"]}}, {"id": "whole/nuevo-peligro", "modo": "whole", "marca": "nuevo-peligro", "detras": {"nombre": "New danger", "senas": ["a pillar", "blue and yellow", "an upright yellow cross"], "hace": "Something is there that <b>your chart does not show yet</b>. Give it room, and expect it to be gone once the chart catches up.", "luz": "Al.Oc.Bu.Y3s", "fuente": "memoria", "libre": null}, "ritmo": {"on": [[0.0, 1.0], [1.5, 2.5]], "per": 3.0, "hex": "#4FA3E3", "cols": ["#4FA3E3", "#F2C230"]}}];
+const CARTAS_MODOS=[{"id": "sight", "titulo": "Sight", "lema": "See it, name it", "pregunta": "Which mark is this?", "requiere": "balizamiento-p1-the-marks.html", "comoSeLlama": "part 1", "bloqueado": "Open <b>part 1 · The marks</b> once, and these twelve are yours."}, {"id": "meaning", "titulo": "Meaning", "lema": "See it, say what it asks", "pregunta": "What does it ask you to do?", "requiere": "balizamiento-p2-which-side.html", "comoSeLlama": "part 2", "bloqueado": "Open <b>part 2 · Which side you pass</b> once, and these twelve are yours."}, {"id": "night", "titulo": "Night", "lema": "Time it, name it", "pregunta": "Which mark is showing that?", "requiere": "balizamiento-p3-at-night.html", "comoSeLlama": "part 3", "bloqueado": "Open <b>part 3 &middot; At night, and on the chart</b> once, and these twelve are yours."}, {"id": "whole", "titulo": "The whole buoy", "lema": "Shape and light together", "pregunta": "Which mark is this?", "requiere": "balizamiento-p3-at-night.html", "comoSeLlama": "part 3", "bloqueado": "Open <b>part 3 &middot; At night, and on the chart</b> once, and these twelve are yours."}];
+const CARTAS_ORDEN=["card-N", "card-E", "card-S", "card-W", "lat-babor", "lat-estribor", "aguas-seguras", "peligro-aislado", "especial", "pref-estribor", "pref-babor", "nuevo-peligro"];
+const POR_SESION=10;
+
+"use strict";
+
+const FC = {on:false, modo:null, ses:null, i:0, vuelta:false, primera:null, desde:0,
+ rit:null, luz:null};
+
+function fcRitmoPara(){
+ if(FC.rit){ FC.rit.para(); FC.rit = null; }
+ FC.luz = null;
+ if(typeof ritmoPara === "function") ritmoPara();
+}
+const FC_CLAVE = "baliz.cards", FC_V = 1;
+
+function fcAlmacen(){
+ try{ return (typeof localStorage !== "undefined" && localStorage) ? localStorage : null; }
+ catch(e){ return null; }
+}
+
+const _objeto = o => !!o && typeof o === "object" && !Array.isArray(o);
+
+function fcLee(){
+ const A = fcAlmacen();
+ if(A) try{
+  const o = JSON.parse(A.getItem(FC_CLAVE) || "null");
+
+  if(_objeto(o) && o.v === FC_V && _objeto(o.cartas)){
+
+   const limpio = {};
+   for(const k in o.cartas){
+    const c = o.cartas[k];
+    if(!_objeto(c)) continue;
+    const peso = Number(c.peso);
+    limpio[k] = {ok: Number(c.ok) || 0, mal: Number(c.mal) || 0,
+                 peso: (isFinite(peso) && peso >= 1) ? Math.min(peso, 3) : 1};
+   }
+   return {v: FC_V, cartas: limpio};
+  }
+ }catch(e){}
+ return {v:FC_V, cartas:{}};
+}
+function fcGuarda(o){
+ const A = fcAlmacen();
+ if(A) try{ A.setItem(FC_CLAVE, JSON.stringify(o)); }catch(e){}
+}
+const fcPeso = id => { const c = fcLee().cartas[id]; return (c && c.peso) || 1; };
+
+function fcAnota(id, bien){
+ const o = fcLee(), c = o.cartas[id] || {ok:0, mal:0, peso:1};
+ if(bien){ c.ok++; c.peso = Math.max(1, c.peso - 1); }
+ else    { c.mal++; c.peso = 3; }
+ o.cartas[id] = c; fcGuarda(o);
+}
+
+let FCR = ((typeof AZAR === "number" ? AZAR : 1) >>> 0) || 1;
+function fcAzar(){ FCR ^= FCR<<13; FCR >>>= 0; FCR ^= FCR>>>17; FCR ^= FCR<<5;
+ FCR >>>= 0; return FCR / 4294967296; }
+
+const fcModo = id => CARTAS_MODOS.filter(m => m.id === id)[0];
+const fcDelModo = id => CARTAS.filter(c => c.modo === id);
+
+const fcAbierto = id => vistoEmpezada(fcModo(id).requiere);
+
+function fcReparte(modo, n){
+ const pool = fcDelModo(modo).slice(), out = [];
+ while(out.length < n && pool.length){
+  let tot = 0; for(const c of pool) tot += fcPeso(c.id);
+  let r = fcAzar() * tot, k = 0;
+  while(k < pool.length - 1 && (r -= fcPeso(pool[k].id)) > 0) k++;
+  out.push(pool.splice(k, 1)[0].id);
+ }
+ return out;
+}
+
+function fcEmpieza(modo){
+ FC.modo = modo; FC.ses = fcReparte(modo, POR_SESION);
+ FC.i = 0; FC.vuelta = false; FC.primera = {}; FC.repes = {};
+ fcRitmoPara(); pinta();
+}
+
+const fcCarta = () => CARTAS.filter(c => c.id === FC.ses[FC.i])[0];
+const fcFin = () => !!FC.ses && FC.i >= FC.ses.length;
+
+const FC_VUELTAS = 1;
+
+function fcJuzga(bien){
+ const id = FC.ses[FC.i];
+ if(!(id in FC.primera)) FC.primera[id] = bien;
+ fcAnota(id, bien);
+ FC.repes = FC.repes || {};
+ if(!bien && (FC.repes[id] || 0) < FC_VUELTAS && FC.ses.indexOf(id, FC.i + 1) < 0){
+  FC.repes[id] = (FC.repes[id] || 0) + 1;
+  FC.ses.splice(Math.min(FC.i + 4, FC.ses.length), 0, id);
+ }
+ FC.i++; FC.vuelta = false; fcRitmoPara(); pinta();
+}
+
+window.fcAbre = () => { FC.on = true; FC.desde = iP; FC.modo = null; FC.ses = null;
+ fcRitmoPara(); pinta(); };
+window.fcCierra = () => { FC.on = false; fcRitmoPara(); vaA(FC.desde); };
+
+function fcRejilla(ids, titulo){
+ fcRitmoPara();
+ lamina(titulo || "");
+ const n = ids.length; if(!n) return;
+ const fila = Math.min(n, 6), filas = Math.ceil(n / fila);
+ const k0 = n <= 3 ? 96 : n <= 6 ? 74 : 60;
+ const arriba = px(46), abajo = px(30);
+ const k = kQueCabe(k0 * filas, arriba, abajo) / filas;
+ const alto = px(2 * k) + px(30), sep = px(20);
+ const bloque = filas * alto + (filas - 1) * sep;
+ const h = HOJA();
+ const y0 = h.y0 + arriba + ((h.al - arriba - abajo) - bloque) / 2 + px(2 * k);
+ const dx = (D.W - px(2 * MARGEN) - px(30)) / fila;
+ ids.forEach((id, i) => {
+  const m = marcaDe(id); if(!m) return;
+  marca(m, px(MARGEN) + px(15) + dx * (i % fila) + dx / 2,
+        y0 + (alto + sep) * Math.floor(i / fila), k,
+        {agua:false, nombre:m.corto});
+ });
+}
+
+function fcLuz(cx, cy, r, rt){
+ const halo = el("circle", {cx:cx, cy:cy, r:r*2.4, fill:rt.hex, "fill-opacity":0});
+ const lam  = el("circle", {cx:cx, cy:cy, r:r, fill:LUZ_APAGADA,
+                            stroke:C.raya, "stroke-width":px(1.4)});
+ FC.luz = {on:rt.on, per:rt.per, cols:rt.cols, lam:lam, halo:halo};
+ FC.rit = ritmoMotor((_, t) => fcPinta(t));
+ FC.rit.luz(rt.on, rt.per);
+ FC.rit.arranca();
+}
+
+function fcPinta(t){
+ const L = FC.luz; if(!L) return;
+ const k = ritmoTramo(L.on, L.per, t);
+ L.lam.setAttribute("fill", k < 0 ? LUZ_APAGADA : L.cols[k]);
+ L.halo.setAttribute("fill-opacity", k < 0 ? 0 : .30);
+ if(k >= 0) L.halo.setAttribute("fill", L.cols[k]);
+}
+
+function fcLienzo(){
+ if(!FC.modo || fcFin()){
+  const ids = fcFin()
+   ? FC.ses.filter((id,i,a) => a.indexOf(id)===i && FC.primera[id]===false)
+           .map(id => CARTAS.filter(c=>c.id===id)[0].marca)
+   : CARTAS_ORDEN;
+  fcRejilla(ids, fcFin() ? "the ones you missed" : "the deck");
+  return;
+ }
+
+ lamina("");
+ const c = fcCarta(); if(!c) return;
+ const rt = c.ritmo;
+
+ if(rt && !c.marca){
+  const h = HOJA();
+  el("rect", {x:h.x0, y:h.y0, width:h.an, height:h.al, rx:px(3), fill:"#08161D"});
+  fcLuz(D.W / 2, h.y0 + h.al * 0.46, px(26), rt);
+  txt(D.W / 2, h.y1 - px(16), "watch one whole cycle", "middle",
+      T.rot, "#4E6B78", 600, "ui", .8);
+  return;
+ }
+
+ const m = marcaDe(c.marca); if(!m) return;
+
+ const alto = rt ? px(34) : 0;
+ const k = kQueCabe(230, px(24) + alto, px(40));
+ const base = lineaAgua(k, px(24) + alto, px(40));
+ marca(m, D.W / 2, base, k, {agua:false});
+ if(rt) fcLuz(D.W / 2, base - px(2 * k) - px(16), px(11), rt);
+}
+
+function fcPanel(p){
+ const hd = document.createElement("div"); hd.className = "hd";
+ hd.innerHTML = "<h3>Flashcards</h3>";
+ p.appendChild(hd);
+
+ if(!FC.modo){ fcElector(p); return; }
+ if(fcFin()){ fcRecuento(p); return; }
+
+ const c = fcCarta(), md = fcModo(FC.modo), d = c.detras;
+ p.insertAdjacentHTML("beforeend",
+  '<span class="prl">' + md.titulo + " · card " + (FC.i + 1) + " of " + FC.ses.length
+  + "</span>");
+ p.insertAdjacentHTML("beforeend", '<b class="q">' + md.pregunta + "</b>");
+
+ if(!FC.vuelta){
+  const nav = document.createElement("div"); nav.className = "nav";
+  nav.innerHTML = '<button class="sec" id="fcSal">Leave</button>'
+   + '<button id="fcV">Turn it over</button>';
+  p.appendChild(nav);
+
+  nav.querySelector("#fcV").onclick = () => { FC.vuelta = true; pinta(); };
+  nav.querySelector("#fcSal").onclick = window.fcCierra;
+  return;
+ }
+
+ p.insertAdjacentHTML("beforeend",
+  '<div class="res ver"><b>' + d.nombre + "</b>"
+  + "<p>" + d.senas.join(" &middot; ") + "</p>"
+  + "<p>" + d.hace + "</p>"
+
+  + '<div class="calc">' + d.luz
+     + (d.fuente === "memoria" ? "  <b>(from memory, not the chart)</b>" : "")
+     + "</div>"
+
+  + (d.libre ? '<div class="pista">' + d.libre + "</div>" : "")
+  + "</div>");
+
+ const nav = document.createElement("div"); nav.className = "nav";
+ nav.innerHTML = '<button class="sec" id="fcMal">Missed it</button>'
+  + '<button class="show" id="fcBien">Got it</button>';
+ p.appendChild(nav);
+ nav.querySelector("#fcBien").onclick = () => fcJuzga(true);
+ nav.querySelector("#fcMal").onclick = () => fcJuzga(false);
+}
+
+function fcElector(p){
+ p.insertAdjacentHTML("beforeend",
+  "<p>Twelve marks, four ways. <b>Pick what you want to practise</b> — they are "
+  + "different things to remember, so they are never mixed in one run.</p>"
+  + "<p><em>Shape and rhythm are two separate memories. Mixing them trains both "
+  + "worse: you answer with whichever comes first and the other never gets its "
+  + "turn. <b>The whole buoy</b> is the last step, not the first.</em></p>");
+
+ if(!vistoHayAlmacen())
+  p.insertAdjacentHTML("beforeend",
+   '<div class="res no">This browser is not letting the course remember what you '
+   + "have finished, so nothing can unlock.</div>");
+ const ops = document.createElement("div"); ops.className = "ops";
+ CARTAS_MODOS.forEach(md => {
+  const abierto = fcAbierto(md.id), n = fcDelModo(md.id).length;
+  const b = document.createElement("button");
+  b.innerHTML = "<b>" + md.titulo + "</b> &middot; " + md.lema
+   + (abierto ? "<br>" + n + " cards" : "<br>" + md.bloqueado);
+  b.disabled = !abierto;
+  b.onclick = () => fcEmpieza(md.id);
+  ops.appendChild(b);
+ });
+ p.appendChild(ops);
+ const nav = document.createElement("div"); nav.className = "nav";
+ nav.innerHTML = '<button class="sec" id="fcSal">Back to the screens</button>';
+ p.appendChild(nav);
+ nav.querySelector("#fcSal").onclick = window.fcCierra;
+}
+
+function fcRecuento(p){
+ const vistas = FC.ses.filter((id,i,a) => a.indexOf(id) === i);
+ const bien = vistas.filter(id => FC.primera[id]).length;
+ const mal = vistas.filter(id => FC.primera[id] === false);
+ p.insertAdjacentHTML("beforeend",
+  '<div class="res ' + (mal.length ? "" : "si") + '"><b>' + bien + " of "
+  + vistas.length + "</b>"
+  + (mal.length
+     ? "<p>You missed these " + (mal.length === 1 ? "one" : mal.length)
+       + ". <b>They will come round more often</b> until you do not.</p>"
+       + "<p>" + mal.map(id => CARTAS.filter(c=>c.id===id)[0].detras.nombre)
+                   .join(" &middot; ") + "</p>"
+     : "<p><b>All of them, first time.</b></p>") + "</div>");
+ const nav = document.createElement("div"); nav.className = "nav";
+ nav.innerHTML = '<button class="sec" id="fcSal">Back to the screens</button>'
+  + '<button id="fcOtra">Another ten</button>';
+ p.appendChild(nav);
+ nav.querySelector("#fcOtra").onclick = () => fcEmpieza(FC.modo);
+ nav.querySelector("#fcSal").onclick = window.fcCierra;
+}
+
+window.FCEST = () => ({on:FC.on, modo:FC.modo, i:FC.i, vuelta:FC.vuelta,
+ largo:FC.ses ? FC.ses.length : 0, fin:fcFin(),
+ carta:(FC.ses && !fcFin()) ? FC.ses[FC.i] : null,
+ luz:FC.luz ? {per:FC.luz.per, tramos:FC.luz.on.length,
+               color:FC.luz.lam.getAttribute("fill")} : null,
+ anda:!!(FC.rit && FC.rit.anda()),
+ vueltas:FC.repes ? Object.keys(FC.repes).length : 0,
+ distintas:FC.ses ? new Set(FC.ses).size : 0,
+ abiertos:CARTAS_MODOS.filter(m => fcAbierto(m.id)).map(m => m.id)});
+window.fcEmpieza = fcEmpieza; window.fcJuzga = fcJuzga; window.fcPeso = fcPeso;
+
+vistoEmpieza(FICHERO);
+
+const _fb=document.getElementById("fcBtn");
+if(_fb)_fb.onclick=()=>{ if(FC.on)window.fcCierra(); else window.fcAbre(); };
+
+if(typeof location !== "undefined" && location.hash === "#flashcards" && _fb)
+ setTimeout(()=>_fb.click(), 0);
+
+addEventListener("keydown",e=>{ if(e.key==="Escape"&&FC.on)window.fcCierra(); });
+
+const YO = "balizamiento-p2-which-side.html";
+function guardaDonde(i){ vistoPon(YO, i); }
+function donde(){ return vistoPos(YO, PZ.length-1); }
+
+function deCero(){ vistoOlvida(YO); vaA(0); }
+
+vaA(donde());
+</script>
