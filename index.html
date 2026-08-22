@@ -113,12 +113,6 @@ h1{font-family:var(--f-display);font-weight:400;font-size:44px;line-height:1.15;
 /* Un <img> puesto aqui hereda el encuadre sin tocar nada mas. */
 .slide img{display:block;width:100%;height:100%;object-fit:cover}
 
-.ph{width:100%;height:100%;display:flex;align-items:center;justify-content:center;
- font-family:var(--f-mono);font-size:13px;letter-spacing:.12em;color:#2C2C2A}
-.ph--1{background:#B4B2A9}
-.ph--2{background:#A8A69D}
-.ph--3{background:#BCBAB1}
-
 .dots{position:absolute;left:0;right:0;bottom:28px;display:flex;gap:8px;
  justify-content:center;z-index:2}
 .dots i{width:22px;height:3px;background:#2C2C2A;opacity:.3;
@@ -195,25 +189,27 @@ footer .name{font-family:var(--f-mono);letter-spacing:.1em;color:var(--dim)}
   <div class="hero__media">
 
     <div class="slide slide--first is-on" data-slide>
-      <!-- FOTO 1 · aqui va la imagen. Sustituir la linea de abajo, entera, por:
-           <img src="assets/img/foto-1.jpg" alt=""> -->
-      <div class="ph ph--1">foto 1</div>
+      <img src="assets/img/foto-1.jpg" loading="eager"
+           alt="A sailing yacht under way offshore, heeling to the breeze">
     </div>
 
     <div class="slide" data-slide>
-      <!-- FOTO 2 · aqui va la imagen. Sustituir la linea de abajo, entera, por:
-           <img src="assets/img/foto-2.jpg" alt=""> -->
-      <div class="ph ph--2">foto 2</div>
+      <img src="assets/img/foto-2.jpg" loading="lazy"
+           alt="A sextant and dividers resting on a paper chart">
     </div>
 
     <div class="slide" data-slide>
-      <!-- FOTO 3 · aqui va la imagen. Sustituir la linea de abajo, entera, por:
-           <img src="assets/img/foto-3.jpg" alt=""> -->
-      <div class="ph ph--3">foto 3</div>
+      <img src="assets/img/foto-3.jpg" loading="lazy"
+           alt="A yacht's radar screens and helm controls">
+    </div>
+
+    <div class="slide" data-slide>
+      <img src="assets/img/foto-4.jpg" loading="lazy"
+           alt="A white lighthouse standing against the sky">
     </div>
 
     <div class="dots" aria-hidden="true">
-      <i class="is-on" data-dot></i><i data-dot></i><i data-dot></i>
+      <i class="is-on" data-dot></i><i data-dot></i><i data-dot></i><i data-dot></i>
     </div>
 
   </div>
