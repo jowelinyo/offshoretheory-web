@@ -125,10 +125,6 @@ h1{font-family:var(--f-display);font-weight:500;font-size:clamp(34px,4.2vw,68px)
 .proof{border-left:2px solid var(--accent);border-radius:0;padding:12px;margin:0 0 28px}
 .proof p{margin:0;font-size:clamp(12px,1vw,14px);line-height:1.55;color:var(--ink-soft)}
 
-/* Boton y coletilla, en la misma linea. */
-.cta{display:flex;align-items:center;gap:14px;flex-wrap:wrap}
-.cta .note{margin:0;font-size:12px;color:var(--dim)}
-
 .btn{display:inline-block;border:0;border-radius:6px;background:var(--accent);
  color:var(--on-accent);text-decoration:none;padding:12px 32px;font-size:clamp(14px,1.1vw,18px)}
 /* Se aclara un punto. Sin movimiento y sin animacion. */
@@ -218,8 +214,6 @@ footer .name{font-family:var(--f-mono);letter-spacing:.1em;color:var(--dim)}
   .hero__center{padding-top:40px;padding-bottom:44px}
   .scroll-cue{padding-bottom:28px}
   .hero__inner{max-width:none}
-  /* La coletilla del boton baja debajo, no al lado. */
-  .cta{flex-direction:column;align-items:flex-start;gap:10px}
   /* El logo no se come la pantalla. */
   .logo svg{width:28px;height:28px}
   .logo__name{font-size:18px}
@@ -269,10 +263,7 @@ footer .name{font-family:var(--f-mono);letter-spacing:.1em;color:var(--dim)}
             line against the current regulations.</p>
         </div>
 
-        <div class="cta">
-          <a class="btn" href="chapters/balizamiento-p1-the-marks.html">Start free</a>
-          <p class="note">No signup. No card.</p>
-        </div>
+        <a class="btn" href="chapters/balizamiento-p1-the-marks.html">Start free</a>
 
         <p class="desktop-hint">Best on a desktop screen.</p>
       </div>
