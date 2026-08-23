@@ -288,6 +288,25 @@ a.pieLink:hover{text-decoration:underline}
 }
 
 @media (max-width:999px){ #barra{height:50px} }
+
+/* --- Cierre de modulo: invitacion a la lista del curso completo ------------
+   Va dentro de <template id="tSig">, que el codigo inyecta SOLO en la
+   pantalla de cierre. Sin script, sin campos de formulario y sin oyentes:
+   es marcado puro, asi que sobrevive a cada repintado del panel.
+   Clases con prefijo ot- para no chocar con las de la pantalla.          */
+.ot-cierre{margin:26px 0 0;padding:22px 0 4px;border-top:1px solid var(--edge-panel)}
+.ot-rotulo{font-family:var(--f-mono);font-size:11px;letter-spacing:.16em;
+ text-transform:uppercase;color:var(--accent-text);margin:0 0 10px}
+.ot-tit{font-family:var(--f-display);font-size:21px;line-height:1.25;font-weight:600;
+ color:var(--ink-title);margin:0 0 8px}
+.ot-p{font-family:var(--f-ui);font-size:14px;line-height:1.6;color:var(--ink-body);
+ margin:0 0 18px}
+.ot-boton{display:inline-block;background:var(--accent-graphic);color:var(--ink-title);
+ text-decoration:none;padding:12px 28px;border-radius:6px;
+ font-family:var(--f-ui);font-size:14px;font-weight:600}
+.ot-boton:hover,.ot-boton:focus-visible{filter:brightness(1.08)}
+.ot-nota{font-family:var(--f-ui);font-size:12px;line-height:1.5;color:var(--ink-quiet);
+ margin:12px 0 0}
 </style>
 <div id="barra">
  <a class="barlink" href="../index.html">&#8592; The course</a>
@@ -319,7 +338,7 @@ a.pieLink:hover{text-decoration:underline}
  </div>
 </div>
 
-<template id="tSig"></template>
+<template id="tSig"><div class="ot-cierre"><p class="ot-rotulo">END OF LIGHTS AND SHAPES</p><p class="ot-tit">That&rsquo;s lights and shapes.</p><p class="ot-p">The full course &mdash; tides, chartwork, passage planning and the rest &mdash; opens later this year.</p><a class="ot-boton" href="../waitlist.html">Tell me when it opens</a><p class="ot-nota">One email when the course opens. Nothing else.</p></div></template>
 <script>
 
 "use strict";
