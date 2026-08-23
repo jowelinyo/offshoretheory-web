@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Join the list &mdash; Offshore Theory</title>
+<link rel="icon" type="image/svg+xml" href="assets/img/favicon.svg">
+<meta name="description" content="Leave your email and I'll send you one message when the full Offshore Theory course opens.">
+<link rel="canonical" href="https://offshoretheory.com/waitlist.html">
+
+<style>
+/* ---------------------------------------------------------------------------
+   Tipografias y paleta: las mismas declaraciones que index.html, copiadas tal
+   cual. Nada se carga de fuera del repositorio.
+   --------------------------------------------------------------------------- */
+@font-face{font-family:'IBM Plex Mono';font-style:normal;font-weight:400;font-display:swap;
+ src:url(assets/fonts/IBMPlexMono-400-normal-latin.woff2) format('woff2');
+ unicode-range:U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD}
+@font-face{font-family:'IBM Plex Mono';font-style:normal;font-weight:400;font-display:swap;
+ src:url(assets/fonts/IBMPlexMono-400-normal-latin-ext.woff2) format('woff2');
+ unicode-range:U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF}
+@font-face{font-family:'IBM Plex Sans';font-style:normal;font-weight:400 600;font-display:swap;
+ src:url(assets/fonts/IBMPlexSans-400-normal-latin.woff2) format('woff2');
+ unicode-range:U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD}
+@font-face{font-family:'IBM Plex Sans';font-style:normal;font-weight:400 600;font-display:swap;
+ src:url(assets/fonts/IBMPlexSans-400-normal-latin-ext.woff2) format('woff2');
+ unicode-range:U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF}
+@font-face{font-family:'Newsreader';font-style:normal;font-weight:500;font-display:swap;
+ src:url(assets/fonts/Newsreader-500-normal-latin.woff2) format('woff2');
+ unicode-range:U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD}
+@font-face{font-family:'Newsreader';font-style:normal;font-weight:500;font-display:swap;
+ src:url(assets/fonts/Newsreader-500-normal-latin-ext.woff2) format('woff2');
+ unicode-range:U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF}
+@font-face{font-family:'Gloock Logo';font-style:normal;font-weight:400;font-display:swap;
+ src:url(assets/fonts/gloock-logo.woff2) format('woff2')}
+
+:root{
+  --night:#0E1116;
+  --night-2:#161B22;
+  --line:#46525F;
+  --ink:#E8EAED;
+  --ink-soft:#9BA6B2;
+  --dim:#8B96A2;
+  --faint:#79838F;
+
+  /* -- Los tres colores del curso. Nada de esto se repite suelto mas abajo. --
+     acento : --accent-graphic de balizamiento y luces. El ambar de los
+              elementos destacados. NO es --alarm (#B33A22), que es el rojo
+              de los avisos. En rules-of-the-road el mismo ambar es --ochre.
+     azul   : --water de balizamiento.
+     magenta: --magenta-soft de rules-of-the-road.                         */
+  --accent:#C97B1B;
+  --blue:#8FC3DA;
+  --magenta:#E86AA0;
+
+  /* Tinta sobre el ambar macizo del boton: 5,6:1 de contraste. */
+  --on-accent:#1A1206;
+
+  --line-top:#232B36;   /* filetes: bajo la barra y entre las columnas */
+
+  --col-hover:rgba(255,255,255,.03);  /* aclarado de columna al pasar el raton */
+  --card-link:#C3CBD4;
+  --f-display:"Newsreader",ui-serif,Georgia,"Palatino Linotype","Times New Roman",serif;
+  --f-ui:"IBM Plex Sans",system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;
+  --f-mono:"IBM Plex Mono",ui-monospace,"SF Mono","Segoe UI Mono",Menlo,Consolas,monospace;
+}
+
+*{box-sizing:border-box}
+html,body{margin:0;padding:0}
+body{background:var(--night);color:var(--ink);font:15px/1.6 var(--f-ui);
+ -webkit-font-smoothing:antialiased;min-height:100vh;display:flex;flex-direction:column}
+
+/* --- barra del logo, la misma de la portada ------------------------------- */
+/* Barra superior, pegada al borde de arriba. */
+.topbar{margin:0;padding-top:16px;padding-bottom:16px;
+ border-bottom:0.5px solid var(--line-top)}
+/* Su relleno lateral, el mismo corto que en la portada. */
+.topbar{padding-left:clamp(20px,2vw,34px);padding-right:clamp(20px,2vw,34px)}
+/* Barra superior, pegada al borde de arriba. */
+.topbar{margin:0;padding-top:16px;padding-bottom:16px;
+ border-bottom:0.5px solid var(--line-top)}
+
+/* Logo: simbolo ambar y nombre en claro. El ambar solo en el simbolo. */
+.logo{display:inline-flex;align-items:center;gap:14px;text-decoration:none}
+.logo:hover,.logo:focus-visible{filter:brightness(1.15)}
+.logo svg{display:block;flex:none}
+.logo__name{font-family:"Gloock Logo",serif;font-size:clamp(18px,1.6vw,26px);
+ color:var(--ink);letter-spacing:.3px;line-height:1.1}
+
+/* --- la columna: crece y centra su contenido si cabe ---------------------- */
+.wrap{flex:1 1 auto;display:flex;align-items:center;justify-content:center;
+ padding:72px clamp(24px,4vw,40px) 88px}
+.col{width:100%;max-width:560px}
+
+.eyebrow{font-family:var(--f-mono);font-size:12px;letter-spacing:2px;
+ text-transform:uppercase;color:var(--accent);margin:0 0 22px}
+h1{font-family:var(--f-display);font-weight:500;font-size:clamp(30px,3.4vw,44px);
+ line-height:1.15;letter-spacing:-.01em;color:var(--ink);margin:0 0 18px}
+.lede{font-size:15px;line-height:1.7;color:var(--ink-soft);margin:0 0 34px}
+
+/* --- el formulario -------------------------------------------------------- */
+.field{display:block;width:100%;background:#131922;color:var(--ink);
+ border:1px solid #2A333F;border-radius:6px;padding:13px 14px;font:15px var(--f-ui)}
+.field::placeholder{color:var(--faint)}
+.field:focus{outline:2px solid var(--accent);outline-offset:1px}
+
+.consent{display:flex;gap:10px;align-items:flex-start;margin:16px 0 22px;
+ font-size:13px;line-height:1.55;color:var(--ink-soft)}
+.consent input{flex:none;margin:2px 0 0;width:16px;height:16px;accent-color:var(--accent)}
+.consent a{color:var(--accent);text-decoration:none}
+.consent a:hover,.consent a:focus-visible{text-decoration:underline}
+
+.btn{display:inline-block;border:0;border-radius:6px;background:var(--accent);
+ color:var(--on-accent);text-decoration:none;padding:12px 32px;font-size:clamp(14px,1.1vw,18px)}
+/* Se aclara un punto. Sin movimiento y sin animacion. */
+.btn:hover,.btn:focus-visible{filter:brightness(1.12)}
+.btn[disabled]{opacity:.6;cursor:default;filter:none}
+
+.smallprint{font-size:12px;line-height:1.55;color:var(--faint);margin:14px 0 0}
+
+/* Trampa para robots: fuera de pantalla, sin foco y sin voz. */
+.trampa{position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden}
+
+.aviso{margin:18px 0 0;font-size:13px;line-height:1.55;color:#E08A6B}
+.aviso:empty{display:none}
+
+/* --- el gracias ----------------------------------------------------------- */
+#gracias h2{font-family:var(--f-display);font-weight:500;
+ font-size:clamp(24px,2.6vw,34px);line-height:1.2;color:var(--ink);margin:0 0 12px}
+#gracias p{font-size:15px;line-height:1.7;color:var(--ink-soft);margin:0}
+
+.volver{display:inline-block;margin:34px 0 0;font-family:var(--f-mono);font-size:12px;
+ letter-spacing:.04em;color:var(--faint);text-decoration:none}
+.volver:hover,.volver:focus-visible{color:var(--dim)}
+
+/* --- BLOQUE 3 · pie -------------------------------------------------------- */
+footer{background:var(--night);padding:44px 64px;border-top:0.5px solid rgba(70,82,95,.4)}
+footer p{margin:0;font-size:12px;line-height:1.7;color:var(--faint)}
+footer .name{font-family:var(--f-mono);letter-spacing:.1em;color:var(--dim)}
+footer a{color:var(--dim);text-decoration:none}
+footer a:hover,footer a:focus-visible{color:var(--ink-soft)}
+
+/* --- MOVIL ---------------------------------------------------------------- */
+@media (max-width:800px){
+  .topbar{padding-left:24px;padding-right:24px}
+  .logo svg{width:28px;height:28px}
+  .logo__name{font-size:18px}
+  .wrap{padding:48px 24px 64px;align-items:flex-start}
+  footer{padding:36px 24px}
+}
+</style>
+</head>
+
+<body>
+
+<div class="topbar">
+  <a class="logo" href="index.html">
+    <svg viewBox="0 0 40 40" width="34" height="34" aria-hidden="true">
+      <path d="M17 17 L25 19 L20 25 Z" fill="var(--accent)" fill-opacity="0.5"/>
+      <line x1="7" y1="14.5" x2="35" y2="21.5" stroke="var(--accent)"
+            stroke-width="1.4" stroke-linecap="round"/>
+      <line x1="29" y1="14" x2="16" y2="30" stroke="var(--accent)"
+            stroke-width="1.4" stroke-linecap="round"/>
+      <line x1="21.5" y1="29" x2="15.5" y2="13" stroke="var(--accent)"
+            stroke-width="1.4" stroke-linecap="round"/>
+    </svg>
+    <span class="logo__name">Offshore Theory</span>
+  </a>
+</div>
+
+<div class="wrap">
+  <main class="col">
+
+    <p class="eyebrow">The full course</p>
+    <h1>Tell me when it opens</h1>
+    <p class="lede">The full Offshore Theory course &mdash; tides, chartwork, passage
+      planning and the rest &mdash; opens later this year. Leave your email and
+      I&rsquo;ll send you one message when it does.</p>
+
+    <form id="form">
+      <label class="trampa" aria-hidden="true">Leave this field empty
+        <input type="text" name="apellido2" id="trampa" tabindex="-1" autocomplete="off"></label>
+
+      <label class="trampa" for="email">Your email address</label>
+      <input class="field" type="email" id="email" name="fields[email]" required
+             placeholder="your@email.com" autocomplete="email" spellcheck="false">
+
+      <label class="consent">
+        <input type="checkbox" id="consent" required>
+        <span>I agree to receive emails from Offshore Theory and I have read the
+          <a href="privacy.html">Privacy Policy</a>.</span>
+      </label>
+
+      <input type="hidden" name="ml-submit" value="1">
+      <input type="hidden" name="anticsrf" value="true">
+
+      <button class="btn" type="submit" id="enviar">Add me to the list</button>
+      <p class="smallprint">One email when the course opens. Nothing else.
+        Unsubscribe any time.</p>
+      <p class="aviso" id="aviso" role="alert" aria-live="polite"></p>
+    </form>
+
+    <div id="gracias" hidden>
+      <h2>You&rsquo;re on the list.</h2>
+      <p>I&rsquo;ll email you when the course opens.</p>
+    </div>
+
+    <a class="volver" href="index.html">&larr; Back to Offshore Theory</a>
+
+  </main>
+</div>
+
+<footer>
+  <p class="name">Offshore Theory</p>
+  <p>Independent preparation. Not affiliated with or accredited by the RYA.</p>
+  <p><a href="privacy.html">Privacy Policy</a></p>
+</footer>
+
+<script>
+(function () {
+  "use strict";
+  /* El unico trafico hacia fuera de todo el sitio: esta peticion, y solo cuando
+     el usuario pulsa el boton. El endpoint devuelve JSON y manda
+     access-control-allow-origin:*, asi que la respuesta SE PUEDE LEER: el
+     "gracias" solo aparece si el servidor dice que el alta ha ido bien. */
+  var DESTINO = "https://assets.mailerlite.com/jsonp/2591310/forms/196564781400852107/subscribe";
+
+  var form    = document.getElementById("form");
+  var boton   = document.getElementById("enviar");
+  var aviso   = document.getElementById("aviso");
+  var gracias = document.getElementById("gracias");
+  var trampa  = document.getElementById("trampa");
+  var consent = document.getElementById("consent");
+  if (!form) return;
+
+  function di(t) { aviso.textContent = t || ""; }
+
+  function mensajeDe(j) {
+    try {
+      var f = j && j.errors && j.errors.fields;
+      for (var k in f) if (f[k] && f[k].length) return f[k][0];
+    } catch (e) {}
+    return "";
+  }
+
+  form.addEventListener("submit", function (ev) {
+    ev.preventDefault();
+    di("");
+
+    /* Robot: ese campo solo lo rellena una maquina. Se descarta en silencio. */
+    if (trampa && trampa.value) return;
+
+    /* Validacion nativa: correo bien formado y casilla marcada. */
+    if (!form.checkValidity()) {
+      form.reportValidity();
+      if (!consent.checked) di("Please tick the consent box before sending.");
+      return;
+    }
+
+    var datos = new FormData(form);
+    datos.delete("apellido2");            /* la trampa no viaja */
+
+    var etiqueta = boton.textContent;
+    boton.disabled = true;
+    boton.textContent = "Sending\u2026";
+
+    fetch(DESTINO, { method: "POST", body: datos })
+      .then(function (r) {
+        return r.json()
+                .catch(function () { return null; })
+                .then(function (j) { return { ok: r.ok, cuerpo: j }; });
+      })
+      .then(function (res) {
+        window.__ULTIMA = res;            /* para poder auditarlo en pruebas */
+        if (res.ok && res.cuerpo && res.cuerpo.success) {
+          form.hidden = true;
+          gracias.hidden = false;
+          gracias.setAttribute("tabindex", "-1");
+          gracias.focus();
+          return;
+        }
+        boton.disabled = false;
+        boton.textContent = etiqueta;
+        di(mensajeDe(res.cuerpo) || "That did not go through. Please try again.");
+      })
+      .catch(function (e) {
+        window.__ULTIMA = { ok: false, error: String(e) };
+        boton.disabled = false;
+        boton.textContent = etiqueta;
+        di("Could not reach the server. Check your connection and try again.");
+      });
+  });
+})();
+</script>
+
+</body>
+</html>
