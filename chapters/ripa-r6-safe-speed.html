@@ -1,0 +1,751 @@
+<!doctype html><html lang="en"><head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Collision avoidance &mdash; Rule 6 &middot; Safe speed</title>
+<style>
+@font-face{font-family:'IBM Plex Mono';font-style:normal;font-weight:400;font-display:swap;
+ src:url(../assets/fonts/IBMPlexMono-400-normal-latin.woff2) format('woff2');
+ unicode-range:U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD}
+@font-face{font-family:'IBM Plex Mono';font-style:normal;font-weight:400;font-display:swap;
+ src:url(../assets/fonts/IBMPlexMono-400-normal-latin-ext.woff2) format('woff2');
+ unicode-range:U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF}
+@font-face{font-family:'IBM Plex Mono';font-style:normal;font-weight:500;font-display:swap;
+ src:url(../assets/fonts/IBMPlexMono-500-normal-latin.woff2) format('woff2');
+ unicode-range:U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD}
+@font-face{font-family:'IBM Plex Mono';font-style:normal;font-weight:500;font-display:swap;
+ src:url(../assets/fonts/IBMPlexMono-500-normal-latin-ext.woff2) format('woff2');
+ unicode-range:U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF}
+@font-face{font-family:'IBM Plex Sans';font-style:normal;font-weight:400 600;font-display:swap;
+ src:url(../assets/fonts/IBMPlexSans-400-normal-latin.woff2) format('woff2');
+ unicode-range:U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD}
+@font-face{font-family:'IBM Plex Sans';font-style:normal;font-weight:400 600;font-display:swap;
+ src:url(../assets/fonts/IBMPlexSans-400-normal-latin-ext.woff2) format('woff2');
+ unicode-range:U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF}
+@font-face{font-family:'Newsreader';font-style:italic;font-weight:400;font-display:swap;
+ src:url(../assets/fonts/Newsreader-400-italic-latin.woff2) format('woff2');
+ unicode-range:U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD}
+@font-face{font-family:'Newsreader';font-style:italic;font-weight:400;font-display:swap;
+ src:url(../assets/fonts/Newsreader-400-italic-latin-ext.woff2) format('woff2');
+ unicode-range:U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF}
+@font-face{font-family:'Newsreader';font-style:normal;font-weight:500;font-display:swap;
+ src:url(../assets/fonts/Newsreader-500-normal-latin.woff2) format('woff2');
+ unicode-range:U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD}
+@font-face{font-family:'Newsreader';font-style:normal;font-weight:500;font-display:swap;
+ src:url(../assets/fonts/Newsreader-500-normal-latin-ext.woff2) format('woff2');
+ unicode-range:U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF}
+</style>
+<style>
+
+:root{
+ --page:#E8EBED; --panel:#F6F7F7; --card:#FCFCFB; --inset:#F4F6F7; --bar:#1C2B36;
+ --edge-frame:#B7C0C6; --edge-card:#BCC4C9; --edge-inner:#E4E8EA;
+ --edge-panel:#CFD7DC; --edge-button:#A9B4BB;
+ --ink-title:#0F171D; --ink-strong:#141C22; --ink-lead:#20292F; --ink-body:#333D45;
+ --ink-secondary:#4A5A66; --ink-label:#5B6B77; --ink-quiet:#5E6B74;
+ --on-bar:#DCE4E9; --on-bar-strong:#F6F9FA; --on-primary:#F2F6F8;
+ --magenta:#6B2461; --ok:#3F7A56; --alarm:#B33A22;
+ --accent-text:#9A5C10;
+ --accent-graphic:#C97B1B;
+ --accent-on-bar:#E2B15C;
+ --accent-control:var(--accent-graphic);
+ --lam-ink:#15252D; --lam-dim:#4A5A66; --lam-linea:#8FA3AB;
+ --lam-acento:var(--accent-text); --lam-magenta:var(--magenta);
+ --lam-ok:#3F7A56; --lam-alarm:#B33A22;
+
+ --carta-tierra:#F0C97F;
+ --carta-secante:#96A66E;
+ --carta-somera:#B2D6E9;
+ --carta-media:#D4E7F2;
+ --carta:#FFFFFF;
+ --carta-veril:#2F4A5A;
+ --carta-sonda:#263A55;
+ --sp-hair:4px; --sp-inline:8px; --sp-tight:12px; --sp-card:14px; --sp-block:16px;
+ --sp-col-y:20px; --sp-col-x:22px; --sp-panel-y:18px; --sp-panel-x:30px;
+ --sp-bar-x:24px; --sp-close:40px;
+
+ --f-mono:"IBM Plex Mono",ui-monospace,"SF Mono","Segoe UI Mono",Menlo,Consolas,monospace;
+ --f-display:"Newsreader",ui-serif,Georgia,"Palatino Linotype","Times New Roman",serif;
+ --f-ui:"IBM Plex Sans",system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;
+}
+*{box-sizing:border-box}
+html,body{margin:0;height:100%;overflow:hidden}
+body{display:flex;flex-direction:column;background:var(--page);color:var(--ink-body);
+ font:400 16px/1.68 var(--f-ui);-webkit-font-smoothing:antialiased}
+
+#barra{flex:none;height:54px;display:flex;align-items:center;gap:var(--sp-inline);
+ padding:0 var(--sp-bar-x);background:var(--bar);color:var(--on-bar)}
+#barra .marca{font:600 15px/1 var(--f-display);color:var(--on-bar-strong)}
+#barra .miga{font:400 14px/1 var(--f-ui);color:var(--on-bar)}
+#barra .crece{flex:1}
+#barCont{font:400 12px/1.4 var(--f-mono);letter-spacing:.12em;
+ color:var(--accent-on-bar);font-variant-numeric:tabular-nums}
+
+#wrap{flex:1;min-height:0;display:grid;
+ grid-template-columns:minmax(0,1fr) clamp(320px,37%,560px)}
+#side{grid-column:2}
+#lienzo{min-width:0;min-height:0;display:grid;place-items:center;
+ padding:var(--sp-col-y) var(--sp-col-x)}
+
+#ficha{width:100%;height:100%;background:var(--carta);
+ border:1px solid var(--edge-card);border-radius:2px;overflow:hidden;
+ touch-action:none;
+ -webkit-user-select:none;-moz-user-select:none;user-select:none}
+#ficha *{-webkit-user-select:none;-moz-user-select:none;user-select:none}
+#ficha.arrastrando{cursor:grabbing}
+#svg{width:100%;height:100%;display:block}
+#svg [data-mando]{cursor:pointer}
+
+#side{min-height:0;display:flex;flex-direction:column;background:var(--panel);
+ border-left:1px solid var(--edge-frame)}
+#head{flex:none;padding:var(--sp-panel-y) var(--sp-panel-x) var(--sp-tight);
+ border-bottom:1px solid var(--edge-panel)}
+#head .rot{font:400 12px/1.4 var(--f-mono);letter-spacing:.12em;
+ text-transform:uppercase;color:var(--ink-label)}
+#pane{flex:1;min-height:0;overflow-y:auto;
+ padding:var(--sp-panel-y) var(--sp-panel-x) var(--sp-close)}
+#foot{flex:none;padding:var(--sp-tight) var(--sp-panel-x);
+ border-top:1px solid var(--edge-panel);font:400 12px/1.5 var(--f-mono);
+ color:var(--ink-label)}
+
+h2{margin:0 0 var(--sp-block);font:500 31px/1.18 var(--f-display);color:var(--ink-title)}
+h3{margin:0 0 var(--sp-tight);font:400 12px/1.4 var(--f-mono);letter-spacing:.12em;
+ text-transform:uppercase;color:var(--ink-label)}
+p{margin:0 0 var(--sp-block);max-width:62ch;color:var(--ink-body)}
+p b{color:var(--ink-title);font-weight:600}
+
+.ahora{margin:0 0 var(--sp-block);padding:var(--sp-tight) var(--sp-card);
+ background:var(--inset);border-left:3px solid var(--ok);border-radius:2px}
+.ahora.mal{border-left-color:var(--alarm)}
+.ahora b{display:block;font:600 17px/1.4 var(--f-ui);color:var(--ink-title);
+ margin-bottom:var(--sp-inline)}
+.cifras{display:grid;grid-template-columns:auto 1fr;gap:var(--sp-hair) var(--sp-card);
+ margin:0}
+.cifras dt{margin:0;font:400 11px/1.6 var(--f-mono);letter-spacing:.08em;
+ text-transform:uppercase;color:var(--ink-label)}
+.cifras dd{margin:0;font:600 15px/1.6 var(--f-ui);color:var(--ink-strong);
+ font-variant-numeric:tabular-nums}
+
+.buque{margin:0 0 var(--sp-block);font:400 13px/1.65 var(--f-ui);
+ color:var(--ink-secondary);max-width:62ch}
+.buque b{color:var(--ink-title);font-weight:600}
+
+.ley-inciso{margin:0 0 var(--sp-tight);padding:var(--sp-tight) var(--sp-card);
+ background:var(--inset);border-left:3px solid var(--accent-graphic);
+ font:italic 400 15px/1.62 var(--f-display);color:var(--ink-lead);max-width:64ch}
+.ley-inciso.sub{margin-left:var(--sp-col-x);border-left-color:var(--lam-linea);
+ font-size:14.5px}
+.fuente{margin:var(--sp-block) 0 0;font:400 11px/1.5 var(--f-mono);
+ letter-spacing:.08em;color:var(--ink-label);max-width:64ch}
+:focus-visible{outline:2px solid var(--accent-graphic);outline-offset:2px}
+
+@media (max-width:699px){
+ :root{--sp-col-y:10px;--sp-col-x:12px;--sp-panel-x:18px}
+ #wrap{grid-template-columns:minmax(0,1fr);
+  grid-template-rows:clamp(320px,56vh,640px) minmax(0,1fr)}
+ #side{grid-column:1;grid-row:2;border-left:0;border-top:1px solid var(--edge-frame)}
+}
+</style><style data-marco="1">
+
+:root{ --link:#2F6C8F; --progress-pending:#CDD5DA; --on-bar-dim:#B8C7D0; }
+
+#barra a{text-decoration:none;cursor:pointer;
+ display:inline-flex;align-items:center;min-height:44px}
+.barlink{font:600 15px/1.45 var(--f-ui);color:var(--on-bar);white-space:nowrap;
+ flex:none}
+.barlink:hover{color:var(--on-bar-strong);text-decoration:underline}
+#barra .sep{flex:none;width:1px;height:22px;background:#3A4E5C;
+ margin:0 var(--sp-inline)}
+
+#miga b{color:var(--on-bar-strong);font-weight:500}
+#barCont{flex:none;font:400 12px/1.4 var(--f-mono);letter-spacing:.12em;
+ color:var(--accent-on-bar);font-variant-numeric:tabular-nums}
+
+#miga{font:400 17px/1.2 var(--f-display);color:var(--on-bar-dim);
+ white-space:nowrap;overflow:hidden;text-overflow:ellipsis;min-width:0}
+
+#prog{display:flex;gap:3px;margin-top:var(--sp-tight)}
+#prog i{flex:1;height:5px;background:var(--progress-pending);border-radius:0;
+ cursor:pointer}
+#prog i.done{background:var(--link)}
+#prog i.on{background:var(--accent-graphic)}
+
+#foot{padding:var(--sp-panel-y) var(--sp-panel-x);
+ font:400 16px/1.5 var(--f-ui);color:var(--ink-body)}
+#foot .pieLinea{margin-bottom:var(--sp-tight);
+ font:400 12px/1.5 var(--f-mono);color:var(--ink-label)}
+#navPie .nav{display:flex;align-items:center;gap:var(--sp-inline);flex-wrap:wrap}
+#navPie .nav button#sig,#navPie .nav button#otra{margin-left:auto}
+#navPie .nav button{font:600 15px/1.45 var(--f-ui);padding:11px 26px;
+ border:1px solid transparent;border-radius:2px;cursor:pointer;
+ background:var(--bar);color:var(--on-primary);min-height:44px}
+#navPie .nav button:hover:not(:disabled){background:#26394A}
+#navPie .nav button.sec{background:var(--card);color:var(--ink-lead);
+ border-color:var(--edge-button);padding:10px 18px}
+#navPie .nav button.sec:hover:not(:disabled){background:var(--inset)}
+a.skip{font:400 15px/1.45 var(--f-ui);color:var(--ink-secondary);cursor:pointer;
+ text-decoration:none;white-space:nowrap;padding:0 var(--sp-tight);
+ display:inline-flex;align-items:center;min-height:44px}
+a.skip:hover{color:var(--ink-title);text-decoration:underline}
+.pie2{display:flex;align-items:baseline;gap:var(--sp-tight);
+ margin-top:var(--sp-tight);font:400 12px/1.4 var(--f-mono);letter-spacing:.1em;
+ color:var(--ink-quiet);white-space:nowrap}
+.pie2>:last-child{margin-left:auto}
+a.pieLink{color:var(--link);text-decoration:none;cursor:pointer;white-space:nowrap}
+a.pieLink:hover{text-decoration:underline}
+
+.sello{display:block;margin-top:var(--sp-hair);font:400 12px/1.4 var(--f-mono);
+ letter-spacing:.1em;color:var(--ink-quiet);
+ white-space:normal;overflow-wrap:anywhere}
+.sello b{font-weight:400}
+</style>
+</head><body>
+
+<div id="barra">
+ <a class="barlink" href="../index.html">&#8592; The course</a>
+ <i class="sep"></i>
+ <div id="miga"><b>Collision avoidance</b> &middot; Rule 6 &middot; Safe speed</div>
+ <span class="crece"></span>
+ <a class="barlink" href="../chapters/balizamiento-p1-the-marks.html#flashcards">Flashcards</a>
+ <i class="sep"></i>
+ <a class="barlink" href="../index.html">Contents</a>
+ <span id="barCont"></span>
+</div>
+<div id="wrap">
+ <div id="lienzo"><div id="ficha"><svg id="svg"></svg></div></div>
+ <div id="side">
+  <div id="head"><span class="rot">Stopped within a distance appropriate</span><div id="prog"></div></div>
+  <div id="pane"></div>
+  <div id="foot"><div class="pieLinea">rule 6 of 19 &middot; a safe speed is not a number</div>
+   <div id="navPie"></div>
+   <div class="pie2"><span id="fLog">0 answers logged</span><a class="pieLink" id="deCero">start over</a></div>
+   <div class="sello" id="sello" data-sello="bf4362f9">collision avoidance &middot; module &middot; 20 screens &middot; 28 Aug 2026 &middot; <b>bf4362f9</b></div></div>
+ </div>
+</div>
+
+<template id="tSig"></template>
+<script>
+"use strict";
+
+const NS = "http://www.w3.org/2000/svg";
+const D = {W: 1000, H: 620};
+let svg = null, gO = null, ESC = 1;
+const px = n => n / ESC;
+
+function el(t, at, pa){
+  const e = document.createElementNS(NS, t);
+  for(const k in at) if(at[k] !== undefined && at[k] !== null) e.setAttribute(k, at[k]);
+  (pa || gO || svg).appendChild(e);
+  return e;
+}
+function txt(x, y, s, an, tam, col, peso, fam, pa){
+  const e = el("text", {x: x, y: y, "text-anchor": an || "start",
+    "pointer-events": "none", "font-size": px(tam || 13),
+    fill: col || "var(--lam-ink)", "font-weight": peso || 400,
+    "font-family": fam === "mono" ? "var(--f-mono)" : "var(--f-ui)"}, pa);
+  e.textContent = s;
+  return e;
+}
+
+function sondaDe(i, j){
+  const s = Math.sin(i*12.9898 + j*78.233) * 43758.5453;
+  return s - Math.floor(s);
+}
+function sonda(x, y, v){
+  const ent = Math.floor(v), dec = Math.round((v - ent)*10);
+  const t = el("text", {x: x, y: y, "text-anchor": "middle",
+    "pointer-events": "none", "font-size": px(11.5), "font-style": "italic",
+    fill: "var(--carta-sonda)", "font-family": "var(--f-ui)", opacity: .78});
+  t.appendChild(document.createTextNode(String(ent)));
+  if(dec){
+    const u = document.createElementNS(NS, "tspan");
+    u.setAttribute("font-size", px(8));
+    u.setAttribute("dy", px(3));
+    u.textContent = String(dec);
+    t.appendChild(u);
+  }
+}
+
+function plantaBarco(x, y, rumbo, tinta, op, largo){
+  const g = rumbo*Math.PI/180, sn = Math.sin(g), cs = Math.cos(g);
+  const L = largo || px(24), M = L*0.34;
+  const P = (av, tr) => [x + sn*av + cs*tr, y - cs*av + sn*tr];
+  const q = [P(L*0.5, 0), P(L*0.14, M), P(-L*0.46, M*0.8),
+             P(-L*0.5, -M*0.8), P(L*0.14, -M)];
+
+  el("path", {d: "M" + q.map(p => p[0].toFixed(1) + "," + p[1].toFixed(1)).join(" L")
+                + " Z", fill: tinta, opacity: op === undefined ? .95 : op,
+              "data-buque": "1"});
+}
+
+const LEY6 = ["Every vessel shall at all times proceed at a safe speed so that she can take proper and effective action to avoid collision and be stopped within a distance appropriate to the prevailing circumstances and conditions. In determining a safe speed the following factors shall be among those taken into account:", "(a) By all vessels:", "(i) the state of visibility;", "(ii) the traffic density including concentrations of fishing vessels or any other vessels;", "(iii) the maneuverability of the vessel with special reference to stopping distance and turning ability in the prevailing conditions;", "(iv) at night, the presence of background light such as from shore lights or from back scatter of her own lights;", "(v) the state of wind, sea and current, and the proximity of navigational hazards;", "(vi) the draft in relation to the available depth of water.", "(b) Additionally, by vessels with operational radar:", "(i) the characteristics, efficiency and limitations of the radar equipment;", "(ii) any constraints imposed by the radar range scale in use;", "(iii) the effect on radar detection of the sea state, weather and other sources of interference;", "(iv) the possibility that small vessels, ice and other floating objects may not be detected by radar at an adequate range;", "(v) the number, location and movement of vessels detected by radar;", "(vi) the more exact assessment of the visibility that may be possible when radar is used to determine the range of vessels or other objects in the vicinity."];
+const LEY6SUB = [2, 3, 4, 5, 6, 7, 9, 10, 11, 12, 13, 14];
+const LEY6CAR = 1474;
+
+"use strict";
+
+const BUQUE = {
+  n: "a general-cargo coaster",
+  eslora: 90,
+  desplaza: 4000,
+  tope: 14,
+  minimo: 2,
+  esloras: 8
+};
+
+const VIS = {min: 0.05, max: 0.45};
+const M_POR_MILLA = 1852;
+
+const K_PARADA = (BUQUE.eslora * BUQUE.esloras) / (BUQUE.tope * BUQUE.tope);
+
+function paradaDe(v){
+  return K_PARADA * v * v;
+}
+function alcanzasAVer(vis){
+  return vis * M_POR_MILLA;
+}
+function cabe(v, vis){
+  return paradaDe(v) <= alcanzasAVer(vis);
+}
+
+function maxSegura(vis){
+  return Math.min(BUQUE.tope, Math.sqrt(alcanzasAVer(vis) / K_PARADA));
+}
+function visMinima(v){
+  return paradaDe(v) / M_POR_MILLA;
+}
+
+const PAPEL = 2200;
+const V6 = {ox: 0.500, oy: 0.580};
+let E6 = {ox: 0, oy: 0, k: 1};
+function fija6(){
+  E6.ox = D.W*V6.ox; E6.oy = D.H*V6.oy; E6.k = D.W / PAPEL;
+}
+const MM = m => m*E6.k;
+
+const S6 = {v: 8, vis: 0.20};
+
+function carta6(){
+  el("rect", {x: 0, y: 0, width: D.W, height: D.H, fill: "var(--carta)",
+              "data-banda": "honda"});
+
+  const cel = px(132);
+  for(let i = 0; i*cel < D.W + cel; i++){
+    for(let j = 0; j*cel < D.H + cel; j++){
+      const r1 = sondaDe(i, j), r2 = sondaDe(i + 41, j + 17), r3 = sondaDe(i + 7, j + 91);
+      if(r3 < 0.42) continue;
+      const x = i*cel + r1*cel*0.7, y = j*cel + r2*cel*0.7;
+      if(x < px(30) || x > D.W - px(30) || y < px(120) || y > D.H - px(46)) continue;
+
+      if(Math.abs(x - E6.ox) < MM(260) && y < E6.oy + MM(160)) continue;
+      sonda(x, y, 26 + r1*18);
+    }
+  }
+
+  const nx = D.W - px(46), ny = px(126);
+  el("line", {x1: nx, y1: ny + px(14), x2: nx, y2: ny - px(12),
+              stroke: "var(--lam-ink)", "stroke-width": px(1.6)});
+  el("path", {d: "M" + nx + "," + (ny - px(20)) + " L" + (nx - px(5)) + ","
+                + (ny - px(9)) + " L" + (nx + px(5)) + "," + (ny - px(9)) + " Z",
+              fill: "var(--lam-ink)"});
+  txt(nx, ny + px(28), "N", "middle", 12, "var(--lam-ink)", 600, "mono");
+
+  const k5 = MM(500), ex = px(26), ey = D.H - px(30);
+  el("line", {x1: ex, y1: ey, x2: ex + k5, y2: ey,
+              stroke: "var(--lam-dim)", "stroke-width": px(1.4)});
+  [0, k5].forEach(function(o){
+    el("line", {x1: ex + o, y1: ey - px(5), x2: ex + o, y2: ey + px(5),
+                stroke: "var(--lam-dim)", "stroke-width": px(1.4)});
+  });
+  txt(ex + k5/2, ey + px(16), "500 m", "middle", 11.5, "var(--lam-dim)", 400, "mono");
+  txt(D.W - px(26), D.H - px(14), "depths in meters", "end", 10.5,
+      "var(--lam-dim)", 400, "mono");
+}
+
+function niebla(r){
+  el("path", {d: "M0,0 H" + D.W + " V" + D.H + " H0 Z"
+                + " M" + (E6.ox - r) + "," + E6.oy
+                + " a" + r + "," + r + " 0 1,0 " + (2*r) + ",0"
+                + " a" + r + "," + r + " 0 1,0 " + (-2*r) + ",0",
+              "fill-rule": "evenodd", fill: "var(--lam-linea)",
+              "fill-opacity": .40});
+
+  el("circle", {cx: E6.ox, cy: E6.oy, r: r, fill: "none",
+                stroke: "var(--lam-dim)", "stroke-width": px(1.6),
+                "stroke-dasharray": px(6) + "," + px(5), "stroke-opacity": .85,
+                "data-pieza": "visibilidad"});
+}
+
+function barraParada(largo, rVis){
+
+  const ancho = MM(34), y1 = E6.oy, y0 = y1 - largo;
+  const dentro = cabe(S6.v, S6.vis);
+  const tinta = dentro ? "var(--lam-ok)" : "var(--lam-alarm)";
+  el("rect", {x: E6.ox - ancho/2, y: y0, width: ancho, height: largo,
+              rx: px(2), fill: tinta, "fill-opacity": .30,
+              stroke: tinta, "stroke-width": px(1.6),
+              "data-pieza": "parada", "data-cabe": dentro ? "si" : "no"});
+
+  el("line", {x1: E6.ox - ancho, y1: y0, x2: E6.ox + ancho, y2: y0,
+              stroke: tinta, "stroke-width": px(2.6)});
+  return {y0: y0, tinta: tinta, dentro: dentro, ancho: ancho};
+}
+
+const PISTAS = {};
+function mando(id, x, y, w, rot, t, texto){
+  const g = el("g", {"data-mando": id});
+  const h = px(6), cy = y + px(26);
+  PISTAS[id] = {x0: x, x1: x + w};
+  txt(x, y + px(6), rot, "start", 11.5, "var(--lam-dim)", 600, "mono", g);
+  txt(x + w, y + px(6), texto, "end", 14, "var(--ink-title)", 600, "mono", g);
+
+  el("rect", {x: x - px(10), y: y - px(6), width: w + px(20), height: px(46),
+              fill: "#000", "fill-opacity": 0}, g);
+  el("rect", {x: x, y: cy - h/2, width: w, height: h, rx: h/2,
+              fill: "var(--carta)", stroke: "var(--edge-button)",
+              "stroke-width": px(1)}, g);
+  el("rect", {x: x, y: cy - h/2, width: Math.max(h, w*t), height: h, rx: h/2,
+              fill: "var(--accent-control)"}, g);
+  el("circle", {cx: x + w*t, cy: cy, r: px(11), fill: "var(--accent-control)",
+                stroke: "var(--lam-ink)", "stroke-width": px(1.6)}, g);
+  return g;
+}
+
+const P6 = {
+  h: "Safe speed",
+  arriba: "Rule 6",
+
+  lamina(){
+    fija6();
+    carta6();
+
+    const rVis = MM(alcanzasAVer(S6.vis));
+    const parada = paradaDe(S6.v);
+    niebla(rVis);
+    const b = barraParada(MM(parada), rVis);
+
+    txt(E6.ox + b.ancho + px(14), b.y0 + px(16),
+        Math.round(parada) + " m to stop", "start", 13,
+        b.tinta, 600);
+
+    txt(E6.ox, Math.min(E6.oy + rVis + px(22), D.H - px(56)), "what you can see · "
+        + Math.round(alcanzasAVer(S6.vis)) + " m", "middle", 12.5,
+        "var(--lam-dim)", 600, "mono");
+
+    plantaBarco(E6.ox, E6.oy, 0, "var(--lam-ink)", 1, MM(BUQUE.eslora));
+    txt(E6.ox - px(14), E6.oy + MM(70), "you", "end", 12,
+        "var(--lam-ink)", 600, "mono");
+
+    const M = D.W*0.030, w = (D.W - M*2 - D.W*0.05)/2;
+    mando("vel", M, px(52), w, "YOUR SPEED",
+          (S6.v - BUQUE.minimo) / (BUQUE.tope - BUQUE.minimo),
+          S6.v.toFixed(1) + " kn");
+    mando("vis", M + w + D.W*0.05, px(52), w, "VISIBILITY",
+          (S6.vis - VIS.min) / (VIS.max - VIS.min), S6.vis.toFixed(2) + " M");
+
+    txt(M, px(30), "WHAT YOU CAN SEE, AND WHAT IT TAKES TO STOP", "start", 12.5,
+        "var(--lam-dim)", 600, "mono");
+  },
+
+  mueve(id, u){
+    const p = PISTAS[id];
+    if(!p) return;
+    const t = Math.max(0, Math.min(1, (u - p.x0) / (p.x1 - p.x0)));
+    if(id === "vel")
+      S6.v = Math.round((BUQUE.minimo + t*(BUQUE.tope - BUQUE.minimo)) * 10) / 10;
+    if(id === "vis") S6.vis = Math.round((VIS.min + t*(VIS.max - VIS.min)) * 100) / 100;
+  },
+
+  panel(){
+    const parada = paradaDe(S6.v), ver = alcanzasAVer(S6.vis);
+    const bien = cabe(S6.v, S6.vis);
+    let h = "<h3>Rule 6</h3><h2>Safe speed</h2>";
+
+    h += '<div class="ahora' + (bien ? "" : " mal") + '"><b>'
+       + (bien ? "She stops inside what you can see."
+               : "She does not stop inside what you can see.")
+       + "</b><dl class=\"cifras\">"
+       + "<dt>Speed</dt><dd>" + S6.v.toFixed(1) + " kn</dd>"
+       + "<dt>Visibility</dt><dd>" + S6.vis.toFixed(2) + " M &middot; "
+       + Math.round(ver) + " m</dd>"
+       + "<dt>To stop</dt><dd>" + Math.round(parada) + " m</dd>"
+       + "<dt>" + (bien ? "To spare" : "Short by") + "</dt><dd>"
+       + Math.round(Math.abs(ver - parada)) + " m</dd>"
+       + "</dl></div>";
+
+    h += "<p>With this visibility she is inside it up to <b>"
+       + maxSegura(S6.vis).toFixed(1) + " kn</b>. At " + S6.v.toFixed(1)
+       + " kn you would need <b>" + visMinima(S6.v).toFixed(2)
+       + " M</b> to see her stop.</p>";
+
+    h += '<p class="buque">These distances are <b>' + BUQUE.n + "</b>: "
+       + BUQUE.eslora + " m, " + BUQUE.desplaza.toLocaleString("en")
+       + " tonnes loaded, " + BUQUE.tope + " knots service speed, and a crash stop of "
+       + BUQUE.esloras + " ship lengths from full ahead. <b>The Rule gives no "
+       + "distances</b> &mdash; it says <i>appropriate to the prevailing circumstances "
+       + "and conditions</i>. Another ship, another set of numbers.</p>";
+
+    h += "<h3>The Rule</h3>";
+    LEY6.forEach(function(p, i){
+      h += '<div class="ley-inciso' + (LEY6SUB.indexOf(i) >= 0 ? " sub" : "")
+         + '">' + p + "</div>";
+    });
+    h += '<p class="fuente">Navigation Rules &amp; Regulations Handbook &middot; '
+       + "Rule 6 &middot; " + LEY6CAR + " characters</p>";
+    return h;
+  }
+};
+
+function redibuja(){
+  svg = document.getElementById("svg");
+  const caja = document.getElementById("ficha").getBoundingClientRect();
+  if(!caja.width || !caja.height) return;
+  D.H = Math.max(420, Math.round(D.W * caja.height / caja.width));
+  ESC = caja.width / D.W;
+  svg.setAttribute("viewBox", "0 0 " + D.W + " " + D.H);
+  svg.setAttribute("preserveAspectRatio", "xMidYMid meet");
+  while(svg.firstChild) svg.removeChild(svg.firstChild);
+  gO = el("g", {}, svg);
+  P6.lamina();
+}
+
+function pintaPanel(){
+  document.getElementById("pane").innerHTML = P6.panel();
+  document.getElementById("barCont").textContent = "RULE 6 OF 19";
+}
+
+function toca(){ redibuja(); pintaPanel(); }
+
+(function(){
+  const f = document.getElementById("ficha");
+  let activo = null;
+
+  function valor(e){
+    const caja = f.getBoundingClientRect();
+    if(!caja.width) return;
+    const u = (e.clientX - caja.left) / caja.width * D.W;
+    P6.mueve(activo, u);
+    redibuja();
+    pintaPanel();
+  }
+
+  f.addEventListener("pointerdown", function(e){
+    const g = e.target.closest && e.target.closest("[data-mando]");
+    if(!g) return;
+    activo = g.getAttribute("data-mando");
+    f.classList.add("arrastrando");
+    try { f.setPointerCapture(e.pointerId); } catch(err){}
+
+    valor(e);
+  });
+
+  f.addEventListener("pointermove", function(e){
+    if(activo) valor(e);
+  });
+
+  ["pointerup", "pointercancel"].forEach(function(t){
+    f.addEventListener(t, function(){
+      activo = null;
+      f.classList.remove("arrastrando");
+    });
+  });
+})();
+
+const PZ = [P6];
+function vaPantalla(i){ toca(); }
+const vaA = vaPantalla;
+
+addEventListener("resize", redibuja);
+
+if(typeof ResizeObserver !== "undefined")
+  new ResizeObserver(redibuja).observe(document.getElementById("ficha"));
+toca();
+</script>
+<script data-marco="1">
+
+(function(){
+"use strict";
+
+const VISTO_CLAVE = "rya.visto";
+
+const VISTO_V = 2;
+
+function vistoAlmacen(){
+ try{ return (typeof localStorage !== "undefined" && localStorage) ? localStorage : null; }
+ catch(e){ return null; }
+}
+
+function vistoLee(){
+ const A = vistoAlmacen();
+ if(!A) return {v:VISTO_V, empezadas:{}, terminadas:{}, sinAlmacen:true};
+ try{
+  const o = JSON.parse(A.getItem(VISTO_CLAVE) || "null");
+  if(o && o.v === VISTO_V && o.empezadas && o.terminadas) return o;
+ }catch(e){}
+ return {v:VISTO_V, empezadas:{}, terminadas:{}};
+}
+
+function _vistoGuarda(o){
+ const A = vistoAlmacen();
+ if(!A) return o;
+ try{
+  A.setItem(VISTO_CLAVE, JSON.stringify(
+   {v:VISTO_V, empezadas:o.empezadas, terminadas:o.terminadas, pos:o.pos || {}}));
+ }catch(e){}
+ return o;
+}
+
+function _vistoPon(cual, fichero){
+ const o = vistoLee();
+ if(o.sinAlmacen || o[cual][fichero]) return o;
+ o[cual][fichero] = 1;
+ return _vistoGuarda(o);
+}
+
+const vistoEmpieza  = f => _vistoPon("empezadas", f);
+const vistoTermina  = f => _vistoPon("terminadas", f);
+const vistoEmpezada = f => !!vistoLee().empezadas[f];
+const vistoTerminada= f => !!vistoLee().terminadas[f];
+const vistoHayAlmacen = () => !!vistoAlmacen();
+
+function vistoPon(fichero, n){
+ const o = vistoLee();
+ if(o.sinAlmacen) return o;
+ if(!o.pos) o.pos = {};
+ if(o.pos[fichero] === n) return o;
+ o.pos[fichero] = n;
+ return _vistoGuarda(o);
+}
+
+function vistoPos(fichero, tope){
+ const p = vistoLee().pos;
+ const n = p && p[fichero];
+ if(typeof n !== "number" || !isFinite(n) || n < 0) return 0;
+ return (typeof tope === "number" && tope >= 0) ? Math.min(n, tope) : n;
+}
+
+function vistoOlvida(fichero){
+ const o = vistoLee();
+ if(o.sinAlmacen || !o.pos || !(fichero in o.pos)) return o;
+ delete o.pos[fichero];
+ return _vistoGuarda(o);
+}
+
+const MARCO = {id:"ripa", i:6, paginas:[{f:"ripa-r0-the-nineteen-rules.html",t:"The nineteen rules"},{f:"ripa-r1-application.html",t:"Rule 1 · Application"},{f:"ripa-r2-responsibility.html",t:"Rule 2 · Responsibility"},{f:"ripa-r3-general-definitions.html",t:"Rule 3 · General definitions"},{f:"ripa-r4-application.html",t:"Rule 4 · Application"},{f:"ripa-r5-look-out.html",t:"Rule 5 · Look-out"},{f:"ripa-r6-safe-speed.html",t:"Rule 6 · Safe speed"},{f:"ripa-r7-risk-of-collision.html",t:"Rule 7 · Risk of collision"},{f:"ripa-r8-action-to-avoid-collision.html",t:"Rule 8 · Action to avoid collision"},{f:"ripa-r9-narrow-channels.html",t:"Rule 9 · Narrow channels"},{f:"ripa-r10-traffic-separation-schemes.html",t:"Rule 10 · Traffic separation schemes"},{f:"ripa-r11-application.html",t:"Rule 11 · Application"},{f:"ripa-r12-sailing-vessels.html",t:"Rule 12 · Sailing vessels"},{f:"ripa-r13-overtaking.html",t:"Rule 13 · Overtaking"},{f:"ripa-r14-head-on-situation.html",t:"Rule 14 · Head-on situation"},{f:"ripa-r15-crossing-situation.html",t:"Rule 15 · Crossing situation"},{f:"ripa-r16-action-by-give-way-vessel.html",t:"Rule 16 · Action by give-way vessel"},{f:"ripa-r17-action-by-stand-on-vessel.html",t:"Rule 17 · Action by stand-on vessel"},{f:"ripa-r18-responsibilities-between-vessels.html",t:"Rule 18 · Responsibilities between vessels"},{f:"ripa-r19-restricted-visibility.html",t:"Rule 19 · Conduct of vessels in restricted visibility"}]};
+const YO = MARCO.id;
+const N = MARCO.paginas.length;
+const dosCifras = n => (n < 10 ? "0" : "") + n;
+const $ = id => document.getElementById(id);
+
+const LLAVE_NAV = "ripa.nav";
+function marcaNav(){ try{ sessionStorage.setItem(LLAVE_NAV, "1"); }catch(e){} }
+function veniaDeDentro(){
+  try{ return sessionStorage.getItem(LLAVE_NAV) === "1"; }catch(e){ return false; }
+}
+
+if(MARCO.i === 0 && !veniaDeDentro()){
+  const p = vistoPos(YO, N - 1);
+  if(p > 0){ marcaNav(); location.replace(MARCO.paginas[p].f); return; }
+}
+marcaNav();
+
+vistoEmpieza(YO);
+vistoPon(YO, MARCO.i);
+if(MARCO.i === N - 1) vistoTermina(YO);
+
+function vaA(i){
+  if(i < 0 || i >= N || i === MARCO.i) return;
+  marcaNav();
+  vistoPon(YO, i);
+  location.href = MARCO.paginas[i].f;
+}
+
+const CUENTA = dosCifras(MARCO.i + 1) + " / " + dosCifras(N);
+function ponCuenta(){
+  const b = $("barCont");
+  if(b && b.textContent !== CUENTA) b.textContent = CUENTA;
+}
+ponCuenta();
+if(typeof MutationObserver !== "undefined" && $("barCont"))
+  new MutationObserver(ponCuenta).observe($("barCont"),
+    {childList: true, characterData: true, subtree: true});
+
+(function(){
+  const pr = $("prog");
+  if(!pr) return;
+  pr.innerHTML = "";
+  MARCO.paginas.forEach(function(q, i){
+    const b = document.createElement("i");
+    if(i === MARCO.i) b.className = "on"; else if(i < MARCO.i) b.className = "done";
+    b.title = "Screen " + (i + 1) + " of " + N + " · " + q.t;
+
+    b.setAttribute("data-va", i);
+    b.onclick = function(){ vaA(i); };
+    pr.appendChild(b);
+  });
+})();
+
+const LLAVE_LOG = "ripa.log";
+function leeLog(){
+  try{ return parseInt(localStorage.getItem(LLAVE_LOG) || "0", 10) || 0; }
+  catch(e){ return 0; }
+}
+function ponLog(n){ try{ localStorage.setItem(LLAVE_LOG, String(n)); }catch(e){} }
+function pintaLog(){
+  const f = $("fLog");
+  if(!f) return;
+  const n = leeLog();
+  f.textContent = n + (n === 1 ? " answer logged" : " answers logged");
+}
+pintaLog();
+document.addEventListener("click", function(e){
+  const b = e.target.closest ? e.target.closest("[data-di]") : null;
+  if(!b) return;
+  if(b.getAttribute("data-di") === "otra") return;
+  ponLog(leeLog() + 1);
+  pintaLog();
+}, true);
+
+function hayPregunta(){
+  return !!document.querySelector("#pane [data-di]:not([data-di=otra])");
+}
+function hayOtra(){ return !!document.querySelector("#pane [data-di=otra]"); }
+
+function pintaNav(){
+  const pie = $("navPie");
+  if(!pie) return;
+  const ultima = MARCO.i >= N - 1;
+  let h = '<div class="nav">'
+    + '<button class="sec" id="atras" data-va="' + (MARCO.i - 1) + '"'
+    + (MARCO.i ? "" : " disabled") + ">Back</button>";
+  if(hayPregunta())
+    h += '<a class="skip" id="salta" data-va="' + (MARCO.i + 1) + '">Skip</a>';
+  if(hayOtra()) h += '<button id="otra">Next one</button>';
+  h += '<button id="sig" data-va="' + (MARCO.i + 1) + '"'
+    + (ultima ? " disabled" : "") + ">"
+    + (ultima ? "End of the module" : "Next") + "</button></div>";
+  pie.innerHTML = h;
+  const a = $("atras"); if(a) a.onclick = function(){ vaA(MARCO.i - 1); };
+  const s = $("sig");   if(s) s.onclick = function(){ vaA(MARCO.i + 1); };
+  const k = $("salta"); if(k) k.onclick = function(){ vaA(MARCO.i + 1); };
+  const o = $("otra");
+  if(o) o.onclick = function(){
+    const b = document.querySelector("#pane [data-di=otra]");
+    if(b) b.click();
+  };
+}
+pintaNav();
+if(typeof MutationObserver !== "undefined" && $("pane"))
+  new MutationObserver(pintaNav).observe($("pane"), {childList: true, subtree: true});
+
+(function(){
+  const d = $("deCero");
+  if(!d) return;
+  d.onclick = function(){
+    vistoOlvida(YO);
+    marcaNav();
+    location.href = MARCO.paginas[0].f;
+  };
+})();
+})();
+</script>
+</body></html>

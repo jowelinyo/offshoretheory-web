@@ -1,0 +1,594 @@
+<!doctype html><html lang="en"><head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Collision avoidance &mdash; The nineteen rules</title>
+<style>
+@font-face{font-family:'IBM Plex Mono';font-style:normal;font-weight:400;font-display:swap;
+ src:url(../assets/fonts/IBMPlexMono-400-normal-latin.woff2) format('woff2');
+ unicode-range:U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD}
+@font-face{font-family:'IBM Plex Mono';font-style:normal;font-weight:400;font-display:swap;
+ src:url(../assets/fonts/IBMPlexMono-400-normal-latin-ext.woff2) format('woff2');
+ unicode-range:U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF}
+@font-face{font-family:'IBM Plex Mono';font-style:normal;font-weight:500;font-display:swap;
+ src:url(../assets/fonts/IBMPlexMono-500-normal-latin.woff2) format('woff2');
+ unicode-range:U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD}
+@font-face{font-family:'IBM Plex Mono';font-style:normal;font-weight:500;font-display:swap;
+ src:url(../assets/fonts/IBMPlexMono-500-normal-latin-ext.woff2) format('woff2');
+ unicode-range:U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF}
+@font-face{font-family:'IBM Plex Sans';font-style:normal;font-weight:400 600;font-display:swap;
+ src:url(../assets/fonts/IBMPlexSans-400-normal-latin.woff2) format('woff2');
+ unicode-range:U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD}
+@font-face{font-family:'IBM Plex Sans';font-style:normal;font-weight:400 600;font-display:swap;
+ src:url(../assets/fonts/IBMPlexSans-400-normal-latin-ext.woff2) format('woff2');
+ unicode-range:U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF}
+@font-face{font-family:'Newsreader';font-style:italic;font-weight:400;font-display:swap;
+ src:url(../assets/fonts/Newsreader-400-italic-latin.woff2) format('woff2');
+ unicode-range:U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD}
+@font-face{font-family:'Newsreader';font-style:italic;font-weight:400;font-display:swap;
+ src:url(../assets/fonts/Newsreader-400-italic-latin-ext.woff2) format('woff2');
+ unicode-range:U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF}
+@font-face{font-family:'Newsreader';font-style:normal;font-weight:500;font-display:swap;
+ src:url(../assets/fonts/Newsreader-500-normal-latin.woff2) format('woff2');
+ unicode-range:U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD}
+@font-face{font-family:'Newsreader';font-style:normal;font-weight:500;font-display:swap;
+ src:url(../assets/fonts/Newsreader-500-normal-latin-ext.woff2) format('woff2');
+ unicode-range:U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF}
+</style>
+<style>
+
+:root{
+ --page:#E8EBED; --panel:#F6F7F7; --card:#FCFCFB; --inset:#F4F6F7; --bar:#1C2B36;
+ --edge-frame:#B7C0C6; --edge-card:#BCC4C9; --edge-inner:#E4E8EA;
+ --edge-panel:#CFD7DC; --edge-button:#A9B4BB;
+ --ink-title:#0F171D; --ink-strong:#141C22; --ink-lead:#20292F; --ink-body:#333D45;
+ --ink-secondary:#4A5A66; --ink-label:#5B6B77; --ink-quiet:#5E6B74;
+ --on-bar:#DCE4E9; --on-bar-strong:#F6F9FA; --on-primary:#F2F6F8;
+ --magenta:#6B2461; --ok:#3F7A56; --alarm:#B33A22;
+ --accent-text:#9A5C10;
+ --accent-graphic:#C97B1B;
+ --accent-on-bar:#E2B15C;
+ --accent-control:var(--accent-graphic);
+
+ --lam-papel:#F6F8F9; --lam-ink:#15252D; --lam-dim:#4A5A66; --lam-linea:#8FA3AB;
+ --lam-acento:var(--accent-text);
+
+ --carta-tierra:#F0C97F;
+ --carta-secante:#96A66E;
+ --carta-somera:#B2D6E9;
+ --carta-media:#D4E7F2;
+ --carta:#FFFFFF;
+ --carta-veril:#2F4A5A;
+ --carta-sonda:#263A55;
+ --sp-hair:4px; --sp-inline:8px; --sp-tight:12px; --sp-card:14px; --sp-block:16px;
+ --sp-col-y:20px; --sp-col-x:22px; --sp-panel-y:18px; --sp-panel-x:30px;
+ --sp-bar-x:24px; --sp-close:40px;
+
+ --f-mono:"IBM Plex Mono",ui-monospace,"SF Mono","Segoe UI Mono",Menlo,Consolas,monospace;
+ --f-display:"Newsreader",ui-serif,Georgia,"Palatino Linotype","Times New Roman",serif;
+ --f-ui:"IBM Plex Sans",system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;
+}
+*{box-sizing:border-box}
+html,body{margin:0;height:100%;overflow:hidden}
+body{display:flex;flex-direction:column;background:var(--page);color:var(--ink-body);
+ font:400 16px/1.68 var(--f-ui);-webkit-font-smoothing:antialiased}
+
+#barra{flex:none;height:54px;display:flex;align-items:center;gap:var(--sp-inline);
+ padding:0 var(--sp-bar-x);background:var(--bar);color:var(--on-bar)}
+#barra .marca{font:600 15px/1 var(--f-display);color:var(--on-bar-strong)}
+#barra .miga{font:400 14px/1 var(--f-ui);color:var(--on-bar)}
+#barra .crece{flex:1}
+#barCont{font:400 12px/1.4 var(--f-mono);letter-spacing:.12em;
+ color:var(--accent-on-bar);font-variant-numeric:tabular-nums}
+
+#wrap{flex:1;min-height:0;display:grid;
+ grid-template-columns:minmax(0,1fr) clamp(320px,37%,560px)}
+#side{grid-column:2}
+#lienzo{min-width:0;min-height:0;display:grid;place-items:center;
+ padding:var(--sp-col-y) var(--sp-col-x)}
+
+#ficha{width:100%;height:100%;background:var(--lam-papel);
+ border:1px solid var(--edge-card);border-radius:2px;overflow:hidden;
+ touch-action:none;
+ -webkit-user-select:none;-moz-user-select:none;user-select:none}
+#ficha *{-webkit-user-select:none;-moz-user-select:none;user-select:none}
+#svg{width:100%;height:100%;display:block}
+
+#svg [data-boton]{cursor:pointer}
+#svg [data-boton] .caza{fill:#000;fill-opacity:0}
+#svg [data-boton]:hover .caza{fill:var(--carta-media);fill-opacity:.85}
+#svg [data-boton]:hover .num{fill:var(--accent-text)}
+
+#side{min-height:0;display:flex;flex-direction:column;background:var(--panel);
+ border-left:1px solid var(--edge-frame)}
+#head{flex:none;padding:var(--sp-panel-y) var(--sp-panel-x) var(--sp-tight);
+ border-bottom:1px solid var(--edge-panel)}
+#head .rot{font:400 12px/1.4 var(--f-mono);letter-spacing:.12em;
+ text-transform:uppercase;color:var(--ink-label)}
+#pane{flex:1;min-height:0;overflow-y:auto;
+ padding:var(--sp-panel-y) var(--sp-panel-x) var(--sp-close)}
+#foot{flex:none;padding:var(--sp-tight) var(--sp-panel-x);
+ border-top:1px solid var(--edge-panel);font:400 12px/1.5 var(--f-mono);
+ color:var(--ink-label)}
+
+h2{margin:0 0 var(--sp-block);font:500 31px/1.18 var(--f-display);color:var(--ink-title)}
+h3{margin:0 0 var(--sp-tight);font:400 12px/1.4 var(--f-mono);letter-spacing:.12em;
+ text-transform:uppercase;color:var(--ink-label)}
+p{margin:0 0 var(--sp-block);max-width:62ch;color:var(--ink-body)}
+p b{color:var(--ink-title);font-weight:600}
+
+.ley-inciso{margin:0 0 var(--sp-tight);padding:var(--sp-tight) var(--sp-card);
+ background:var(--inset);border-left:3px solid var(--accent-graphic);
+ font:italic 400 15px/1.62 var(--f-display);color:var(--ink-lead);max-width:64ch}
+.fuente{margin:var(--sp-block) 0 0;font:400 11px/1.5 var(--f-mono);
+ letter-spacing:.08em;color:var(--ink-label);max-width:64ch}
+.pista{font:400 13px/1.6 var(--f-ui);color:var(--ink-secondary);max-width:62ch}
+:focus-visible{outline:2px solid var(--accent-graphic);outline-offset:2px}
+
+@media (max-width:699px){
+ :root{--sp-col-y:10px;--sp-col-x:12px;--sp-panel-x:18px}
+ #wrap{grid-template-columns:minmax(0,1fr);
+  grid-template-rows:clamp(320px,58vh,640px) minmax(0,1fr)}
+ #side{grid-column:1;grid-row:2;border-left:0;border-top:1px solid var(--edge-frame)}
+}
+</style><style data-marco="1">
+
+:root{ --link:#2F6C8F; --progress-pending:#CDD5DA; --on-bar-dim:#B8C7D0; }
+
+#barra a{text-decoration:none;cursor:pointer;
+ display:inline-flex;align-items:center;min-height:44px}
+.barlink{font:600 15px/1.45 var(--f-ui);color:var(--on-bar);white-space:nowrap;
+ flex:none}
+.barlink:hover{color:var(--on-bar-strong);text-decoration:underline}
+#barra .sep{flex:none;width:1px;height:22px;background:#3A4E5C;
+ margin:0 var(--sp-inline)}
+
+#miga b{color:var(--on-bar-strong);font-weight:500}
+#barCont{flex:none;font:400 12px/1.4 var(--f-mono);letter-spacing:.12em;
+ color:var(--accent-on-bar);font-variant-numeric:tabular-nums}
+
+#miga{font:400 17px/1.2 var(--f-display);color:var(--on-bar-dim);
+ white-space:nowrap;overflow:hidden;text-overflow:ellipsis;min-width:0}
+
+#prog{display:flex;gap:3px;margin-top:var(--sp-tight)}
+#prog i{flex:1;height:5px;background:var(--progress-pending);border-radius:0;
+ cursor:pointer}
+#prog i.done{background:var(--link)}
+#prog i.on{background:var(--accent-graphic)}
+
+#foot{padding:var(--sp-panel-y) var(--sp-panel-x);
+ font:400 16px/1.5 var(--f-ui);color:var(--ink-body)}
+#foot .pieLinea{margin-bottom:var(--sp-tight);
+ font:400 12px/1.5 var(--f-mono);color:var(--ink-label)}
+#navPie .nav{display:flex;align-items:center;gap:var(--sp-inline);flex-wrap:wrap}
+#navPie .nav button#sig,#navPie .nav button#otra{margin-left:auto}
+#navPie .nav button{font:600 15px/1.45 var(--f-ui);padding:11px 26px;
+ border:1px solid transparent;border-radius:2px;cursor:pointer;
+ background:var(--bar);color:var(--on-primary);min-height:44px}
+#navPie .nav button:hover:not(:disabled){background:#26394A}
+#navPie .nav button.sec{background:var(--card);color:var(--ink-lead);
+ border-color:var(--edge-button);padding:10px 18px}
+#navPie .nav button.sec:hover:not(:disabled){background:var(--inset)}
+a.skip{font:400 15px/1.45 var(--f-ui);color:var(--ink-secondary);cursor:pointer;
+ text-decoration:none;white-space:nowrap;padding:0 var(--sp-tight);
+ display:inline-flex;align-items:center;min-height:44px}
+a.skip:hover{color:var(--ink-title);text-decoration:underline}
+.pie2{display:flex;align-items:baseline;gap:var(--sp-tight);
+ margin-top:var(--sp-tight);font:400 12px/1.4 var(--f-mono);letter-spacing:.1em;
+ color:var(--ink-quiet);white-space:nowrap}
+.pie2>:last-child{margin-left:auto}
+a.pieLink{color:var(--link);text-decoration:none;cursor:pointer;white-space:nowrap}
+a.pieLink:hover{text-decoration:underline}
+
+.sello{display:block;margin-top:var(--sp-hair);font:400 12px/1.4 var(--f-mono);
+ letter-spacing:.1em;color:var(--ink-quiet);
+ white-space:normal;overflow-wrap:anywhere}
+.sello b{font-weight:400}
+</style>
+</head><body>
+
+<div id="barra">
+ <a class="barlink" href="../index.html">&#8592; The course</a>
+ <i class="sep"></i>
+ <div id="miga"><b>Collision avoidance</b> &middot; The nineteen rules</div>
+ <span class="crece"></span>
+ <a class="barlink" href="../chapters/balizamiento-p1-the-marks.html#flashcards">Flashcards</a>
+ <i class="sep"></i>
+ <a class="barlink" href="../index.html">Contents</a>
+ <span id="barCont"></span>
+</div>
+<div id="wrap">
+ <div id="lienzo"><div id="ficha"><svg id="svg"></svg></div></div>
+ <div id="side">
+  <div id="head"><span class="rot">The rulebook</span><div id="prog"></div></div>
+  <div id="pane"></div>
+  <div id="foot"><div class="pieLinea">rule 0 of 19 &middot; the way in</div>
+   <div id="navPie"></div>
+   <div class="pie2"><span id="fLog">0 answers logged</span><a class="pieLink" id="deCero">start over</a></div>
+   <div class="sello" id="sello" data-sello="bf4362f9">collision avoidance &middot; module &middot; 20 screens &middot; 28 Aug 2026 &middot; <b>bf4362f9</b></div></div>
+ </div>
+</div>
+
+<template id="tSig"></template>
+<script>
+"use strict";
+
+const NS = "http://www.w3.org/2000/svg";
+const D = {W: 1000, H: 620};
+let svg = null, gO = null, ESC = 1;
+const px = n => n / ESC;
+
+function el(t, at, pa){
+  const e = document.createElementNS(NS, t);
+  for(const k in at) if(at[k] !== undefined && at[k] !== null) e.setAttribute(k, at[k]);
+  (pa || gO || svg).appendChild(e);
+  return e;
+}
+function txt(x, y, s, an, tam, col, peso, fam, pa){
+  const e = el("text", {x: x, y: y, "text-anchor": an || "start",
+    "pointer-events": "none", "font-size": px(tam || 13),
+    fill: col || "var(--lam-ink)", "font-weight": peso || 400,
+    "font-family": fam === "mono" ? "var(--f-mono)" : "var(--f-ui)"}, pa);
+  e.textContent = s;
+  return e;
+}
+
+const LEY = [{"n": 1, "titulo": "Application", "texto": "(a) These Rules shall apply to all vessels upon the high seas and in all waters connected therewith navigable by seagoing vessels. (b) Nothing in these Rules shall interfere with the operation of special rules made by an appropriate authority for roadsteads, harbors, rivers, lakes or inland waterways connected with the high seas and navigable by seagoing vessels. Such special rules shall conform as closely as possible to these Rules. (c) Nothing in these Rules shall interfere with the operation of any special rules made by the Government of any State with respect to additional station or signal lights, shapes or whistle signals for ships of war and vessels proceeding under convoy, or with respect to additional station or signal lights or shapes for fishing vessels engaged in fishing as a fleet. These additional station or signal lights, shapes or whistle signals shall, so far as possible, be such that they cannot be mistaken for any light, shape or signal authorized elsewhere under these Rules . (d) Traffic separation schemes may be adopted by the Organization for the purpose of these Rules. (e) Whenever the Government concerned shall have determined that a vessel of special construction or purpose cannot comply fully with the provisions of any of these Rules with respect to the number, position, range or arc of visibility of lights or shapes, as well as to the disposition and characteristics of sound-signaling appliances, such vessel shall comply with such other provisions in regard to the number, position, range or arc of visibility of lights or shapes, as well as to the disposition and characteristics of sound-signaling appliances, as her Government shall have determined to be the closest possible compliance with these Rules in respect to that vessel.", "caracteres": 1784, "sha256": "000da16291c0cde65789f06c9b308a339590863285863b950bff23df620a1ddb", "incisos": ["a", "b", "c", "d", "e"]}, {"n": 2, "titulo": "Responsibility", "texto": "(a) Nothing in these Rules shall exonerate any vessel, or the owner, master or crew thereof, from the consequences of any neglect to comply with these Rules or of the neglect of any precaution which may be required by the ordinary practice of seamen, or by the special circumstances of the case. (b) In construing and complying with these Rules due regard shall be had to all dangers of navigation and collision and to any special circumstances, including the limitations of the vessels involved, which may make a departure from these Rules necessary to avoid immediate danger.", "caracteres": 577, "sha256": "46d06697f658bd00d428934f6dc02453b4f15e0b257d448960987a114d3d633f", "incisos": ["a", "b"]}, {"n": 3, "titulo": "General definitions", "texto": "For the purpose of these Rules, except where the context otherwise requires: (a) The word vessel includes every description of water craft, including non-displacement craft, WIG craft and seaplanes, used or capable of being used as a means of transportation on water. (b) The term power-driven vessel means any vessel propelled by machinery. (c) The term sailing vessel means any vessel under sail provided that propelling machinery, if fitted, is not being used. (d) The term vessel engaged in fishing means any vessel fishing with nets, lines, trawls or other fishing apparatus which restrict maneuverability, but does not include a vessel fishing with trolling lines or other fishing apparatus which do not restrict maneuverability. (e) The word seaplane includes any aircraft designed to maneuver on the water. (f) The term vessel not under command means a vessel which through some exceptional circumstance is unable to maneuver as required by these Rules and is therefore unable to keep out of the way of another vessel. (g) The term vessel restricted in her ability to maneuver means a vessel which from the nature of her work is restricted in her ability to maneuver as required by these Rules and is therefore unable to keep out of the way of another vessel. The term vessels restricted in their ability to maneuver shall include but not be limited to: (i) a vessel engaged in laying, servicing or picking up a navigation mark, submarine cable or pipeline; (ii) a vessel engaged in dredging, surveying or underwater operations; (iii) a vessel engaged in replenishment or transferring persons, provisions or cargo while underway; (iv) a vessel engaged in the launching or recovery of aircraft; (v) a vessel engaged in mine clearance operations; (vi) a vessel engaged in a towing operation such as severely restricts the towing vessel and her tow in their ability to deviate from their course. (h) The term vessel constrained by her draft means a power-driven vessel which, because of her draft in relation to the available depth and width of navigable water is severely restricted in her ability to deviate from the course she is following. (i) The word underway means that a vessel is not at anchor, or made fast to the shore, or aground. (j) The words length and breadth of a vessel mean her length overall and greatest breadth. (k) Vessels shall be deemed to be in sight of one another only when one can be observed visually from the other. (l) The term restricted visibility means any condition in which visibility is restricted by fog, mist, falling snow, heavy rainstorms, sandstorms or any other similar causes. (m) The term Wing-In-Ground (WIG) craft means a multimodal craft which, in its main operational mode, flies in close proximity to the surface by utilizing surface-effect action.", "caracteres": 2804, "sha256": "5b4cb8db23655fce75ff28c0dc21c02656528c60637b82fa784e84a1c8d98b44", "incisos": ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m"]}, {"n": 4, "titulo": "Application", "texto": "Rules in this Section apply in any condition of visibility.", "caracteres": 59, "sha256": "4d39727b530916732d6b36490b1f9afe79520ce86ec1774f4d19455818451ec0", "incisos": []}, {"n": 5, "titulo": "Look-out", "texto": "Every vessel shall at all times maintain a proper look-out by sight and hearing as well as by all available means appropriate in the prevailing circumstances and conditions so as to make a full appraisal of the situation and of the risk of collision.", "caracteres": 250, "sha256": "4bd1f7d57e5300cf9b79267adef3d28e5faceda0790f1bf7f555da6aaa50ddc9", "incisos": []}, {"n": 6, "titulo": "Safe speed", "texto": "Every vessel shall at all times proceed at a safe speed so that she can take proper and effective action to avoid collision and be stopped within a distance appropriate to the prevailing circumstances and conditions. In determining a safe speed the following factors shall be among those taken into account: (a) By all vessels: (i) the state of visibility; (ii) the traffic density including concentrations of fishing vessels or any other vessels; (iii) the maneuverability of the vessel with special reference to stopping distance and turning ability in the prevailing conditions; (iv) at night, the presence of background light such as from shore lights or from back scatter of her own lights; (v) the state of wind, sea and current, and the proximity of navigational hazards; (vi) the draft in relation to the available depth of water. (b) Additionally, by vessels with operational radar: (i) the characteristics, efficiency and limitations of the radar equipment; (ii) any constraints imposed by the radar range scale in use; (iii) the effect on radar detection of the sea state, weather and other sources of interference; (iv) the possibility that small vessels, ice and other floating objects may not be detected by radar at an adequate range; (v) the number, location and movement of vessels detected by radar; (vi) the more exact assessment of the visibility that may be possible when radar is used to determine the range of vessels or other objects in the vicinity.", "caracteres": 1474, "sha256": "e3e39ccbf42b4f50610f98cb8001e302923ba21f715ff2e4595b5d6cbdaabe57", "incisos": ["a", "b"]}, {"n": 7, "titulo": "Risk of collision", "texto": "(a) Every vessel shall use all available means appropriate to the prevailing circumstances and conditions to determine if risk of collision exists. If there is any doubt such risk shall be deemed to exist. (b) Proper use shall be made of radar equipment if fitted and operational, including long-range scanning to obtain early warning of risk of collision and radar plotting or equivalent systematic observation of detected objects. (c) Assumptions shall not be made on the basis of scanty information, especially scanty radar information. (d) In determining if risk of collision exists the following considerations shall be among those taken into account: (i) such risk shall be deemed to exist if the compass bearing of an approaching vessel does not appreciably change; (ii) such risk may sometimes exist even when an appreciable bearing change is evident, particularly when approaching a very large vessel or a tow or when approaching a vessel at close range.", "caracteres": 963, "sha256": "39b2cdb038a4b5e7c93336ce560fcc993bcdb756df64fd5b7248b6840e6eb390", "incisos": ["a", "b", "c", "d"]}, {"n": 8, "titulo": "Action to avoid collision", "texto": "(a) Any action taken to avoid collision shall be taken in accordance with the Rules of this Part and shall, if the circumstances of the case admit, be positive, made in ample time and with due regard to the observance of good seamanship. (b) Any alteration of course and/or speed to avoid collision shall, if the circumstances of the case admit, be large enough to be readily apparent to another vessel observing visually or by radar; a succession of small alterations of course and/or speed should be avoided. (c) If there is sufficient sea room, alteration of course alone may be the most effective action to avoid a close-quarters situation provided that it is made in good time, is substantial and does not result in another close-quarters situation. (d) Action taken to avoid collision with another vessel shall be such as to result in passing at a safe distance. The effectiveness of the action shall be carefully checked until the other vessel is finally past and clear. (e) If necessary to avoid collision or allow more time to assess the situation, a vessel shall slacken her speed or take all way off by stopping or reversing her means of propulsion. (f) (i) A vessel which, by any of these rules, is required not to impede the passage or safe passage of another vessel shall, when required by the circumstances of the case, take early action to allow sufficient sea room for the safe passage of the other vessel. (ii) A vessel required not to impede the passage or safe passage of another vessel is not relieved of this obligation if approaching the other vessel so as to involve risk of collision and shall, when taking action, have full regard to the action which may be required by the rules of this part. (iii) A vessel, the passage of which is not to be impeded remains fully obliged to comply with the rules of this part when the two vessels are approaching one another so as to involve risk of collision.", "caracteres": 1922, "sha256": "a76a6e5dc524d51c1a0f8e83f53f21b5c83956ae068ecf80f375b9ca73a44143", "incisos": ["a", "b", "c", "d", "e", "f"]}, {"n": 9, "titulo": "Narrow channels", "texto": "(a) A vessel proceeding along the course of a narrow channel or fairway shall keep as near to the outer limit of the channel or fairway which lies on her starboard side as is safe and practicable. (b) A vessel of less than 20 meters in length or a sailing vessel shall not impede the passage of a vessel which can safely navigate only within a narrow channel or fairway. (c) A vessel engaged in fishing shall not impede the passage of any other vessel navigating within a narrow channel or fairway. (d) A vessel shall not cross a narrow channel or fairway if such crossing impedes the passage of a vessel which can safely navigate only within such channel or fairway. The latter vessel may use the sound signal prescribed in Rule 34(d) if in doubt as to the intention of the crossing vessel. (e) (i) In a narrow channel or fairway when overtaking can take place only if the vessel to be overtaken has to take action to permit safe passing, the vessel intending to overtake shall indicate her intention by sounding the appropriate signal prescribed in Rule 34(c)(i). The vessel to be overtaken shall, if in agreement, sound the appropriate signal prescribed in Rule 34(c)(ii) and take steps to permit safe passing. If in doubt she may sound the signals prescribed in Rule 34(d). (ii) This Rule does not relieve the overtaking vessel of her obligation under Rule 13. (f) A vessel nearing a bend or an area of a narrow channel or fairway where other vessels may be obscured by an intervening obstruction shall navigate with particular alertness and caution and shall sound the appropriate signal prescribed in Rule 34(e). (g) Any vessel shall, if the circumstances of the case admit, avoid anchoring in a narrow channel.", "caracteres": 1717, "sha256": "84bf0fcf036ac0fa350eccdfe6e642bef13325e6b7e410d9732124b9b3ad617a", "incisos": ["a", "b", "c", "d", "e", "f", "g"]}, {"n": 10, "titulo": "Traffic separation schemes", "texto": "(a) This Rule applies to traffic separation schemes adopted by the Organization and does not relieve any vessel of her obligation under any other rule. (b) A vessel using a traffic separation scheme shall: (i) proceed in the appropriate traffic lane in the general direction of traffic flow for that lane; (ii) so far as practicable keep clear of a traffic separation line or separation zone; (iii) normally join or leave a traffic lane at the termination of the lane, but when joining or leaving from either side shall do so at as small an angle to the general direction of traffic flow as practicable. (c) A vessel shall, so far as practicable, avoid crossing traffic lanes but if obliged to do so shall cross on a heading as nearly as practicable at right angles to the general direction of traffic flow. (d) (i) A vessel shall not use an inshore traffic zone when she can safely use the appropriate traffic lane within the adjacent traffic separation scheme. However, vessels of less than 20 meters in length, sailing vessels and vessels engaged in fishing may use the inshore traffic zone. (ii) Notwithstanding subparagraph (d)(i), a vessel may use an inshore traffic zone when en route to or from a port, offshore installation or structure, pilot station or any other place situated within the inshore traffic zone, or to avoid immediate danger. (e) A vessel other than a crossing vessel or a vessel joining or leaving a lane shall not normally enter a separation zone or cross a separation line except: (i) in cases of emergency to avoid immediate danger; (ii) to engage in fishing within a separation zone. (f) A vessel navigating in areas near the terminations of traffic separation schemes shall do so with particular caution. (g) A vessel shall so far as practicable avoid anchoring in a traffic separation scheme or in areas near its terminations. (h) A vessel not using a traffic separation scheme shall avoid it by as wide a margin as is practicable. (i) A vessel engaged in fishing shall not impede the passage of any vessel following a traffic lane. (j) A vessel of less than 20 meters in length or a sailing vessel shall not impede the safe passage of a power-driven vessel following a traffic lane. (k) A vessel restricted in her ability to maneuver when engaged in an operation for the maintenance of safety of navigation in a traffic separation scheme is exempted from complying with this Rule to the extent necessary to carry out the operation. (l) A vessel restricted in her ability to maneuver when engaged in an operation for the laying, servicing or picking up of a submarine cable, within a traffic separation scheme, is exempted from complying with this Rule to the extent necessary to carry out the operation.", "caracteres": 2737, "sha256": "2c2eb7d3c9f685d1d3b69a022358ed3ed03381b281a52a8a1fb8d593e4b8a7ed", "incisos": ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l"]}, {"n": 11, "titulo": "Application", "texto": "Rules in this section apply to vessels in sight of one another.", "caracteres": 63, "sha256": "b0d59bc354308a9fbc77bdea1d70f40ed3baa59d8f09106e1fd805093a6e3493", "incisos": []}, {"n": 12, "titulo": "Sailing vessels", "texto": "(a) When two sailing vessels are approaching one another, so as to involve risk of collision, one of them shall keep out of the way of the other as follows: (i) when each has the wind on a different side, the vessel which has the wind on the port side shall keep out of the way of the other; (ii) when both have the wind on the same side, the vessel which is to windward shall keep out of the way of the vessel which is to leeward; (iii) if a vessel with the wind on the port side sees a vessel to windward and cannot determine with certainty whether the other vessel has the wind on the port or on the starboard side, she shall keep out of the way of the other. (b) For the purposes of this Rule the windward side shall be deemed to be the side opposite to that on which the mainsail is carried or, in the case of a square-rigged vessel, the side opposite to that on which the largest fore-and-aft sail is carried.", "caracteres": 915, "sha256": "2c320235ab24c97576b412eed8bdada19bde314a82f67bd16610733bb78b9dbe", "incisos": ["a", "b"]}, {"n": 13, "titulo": "Overtaking", "texto": "(a) Notwithstanding anything contained in the Rules of Part B, Sections I and II, any vessel overtaking any other shall keep out of the way of the vessel being overtaken. (b) A vessel shall be deemed to be overtaking when coming up with another vessel from a direction more than 22.5° abaft her beam, that is, in such a position with reference to the vessel she is overtaking, that at night she would be able to see only the sternlight of that vessel but neither of her sidelights. (c) When a vessel is in any doubt as to whether she is overtaking another, she shall assume that this is the case and act accordingly. (d) Any subsequent alteration of the bearing between the two vessels shall not make the overtaking vessel a crossing vessel within the meaning of these Rules or relieve her of the duty of keeping clear of the overtaken vessel until she is finally past and clear.", "caracteres": 879, "sha256": "869be007c623ef3e0362d93943c1973fb6d629764cac34b253a4a53094504f68", "incisos": ["a", "b", "c", "d"]}, {"n": 14, "titulo": "Head-on situation", "texto": "(a) When two power-driven vessels are meeting on reciprocal or nearly reciprocal courses so as to involve risk of collision each shall alter her course to starboard so that each shall pass on the port side of the other. (b) Such a situation shall be deemed to exist when a vessel sees the other ahead or nearly ahead and by night she could see the masthead lights of the other in a line or nearly in a line and/or both sidelights and by day she observes the corresponding aspect of the other vessel. (c) When a vessel is in any doubt as to whether such a situation exists she shall assume that it does exist and act accordingly.", "caracteres": 628, "sha256": "78cc674c4bd6afcefae9aaf62ea480c0985656efd81c40cb068ca134770280c6", "incisos": ["a", "b", "c"]}, {"n": 15, "titulo": "Crossing situation", "texto": "When two power-driven vessels are crossing so as to involve risk of collision, the vessel which has the other on her own starboard side shall keep out of the way and shall, if the circumstances of the case admit, avoid crossing ahead of the other vessel.", "caracteres": 254, "sha256": "e4c6d851e175c63e783a8415053595fc72c02561672baa04ba5553a3fd0a5a3d", "incisos": []}, {"n": 16, "titulo": "Action by give-way vessel", "texto": "Every vessel which is directed to keep out of the way of another vessel shall, so far as possible, take early and substantial action to keep well clear.", "caracteres": 152, "sha256": "2178e779fa56ea0d201ecc214b923ddf67caf0d61b999d1be49493c073b369d1", "incisos": []}, {"n": 17, "titulo": "Action by stand-on vessel", "texto": "(a) (i) Where one of two vessels is to keep out of the way the other shall keep her course and speed. (ii) The latter vessel may, however, take action to avoid collision by her maneuver alone, as soon as it becomes apparent to her that the vessel required to keep out of the way is not taking appropriate action in compliance with these Rules. (b) When, from any cause, the vessel required to keep her course and speed finds herself so close that collision cannot be avoided by the action of the give-way vessel alone, she shall take such action as will best aid to avoid collision. (c) A power-driven vessel which takes action in a crossing situation in accordance with subparagraph (a)(ii) of this Rule to avoid collision with another power-driven vessel shall, if the circumstances of the case admit, not alter course to port for a vessel on her own port side. (d) This Rule does not relieve the give-way vessel of her obligation to keep out of the way.", "caracteres": 956, "sha256": "9071a8900259f7c155bf50abdd10d32eea0c582b7c1962ed77bc51670b14a1cd", "incisos": ["a", "b", "c", "d"]}, {"n": 18, "titulo": "Responsibilities between vessels", "texto": "Except where Rules 9, 10 and 13 otherwise require: (a) A power-driven vessel underway shall keep out of the way of: (i) a vessel not under command; (ii) a vessel restricted in her ability to maneuver; (iii) a vessel engaged in fishing; (iv) a sailing vessel. (b) A sailing vessel underway shall keep out of the way of: (i) a vessel not under command; (ii) a vessel restricted in her ability to maneuver; (iii) a vessel engaged in fishing. (c) A vessel engaged in fishing when underway shall, so far as possible, keep out of the way of: (i) a vessel not under command; (ii) a vessel restricted in her ability to maneuver. (d) (i) Any vessel other than a vessel not under command or a vessel restricted in her ability to maneuver shall, if the circumstances of the case admit, avoid impeding the safe passage of a vessel constrained by her draft, exhibiting the signals in Rule 28. (ii) A vessel constrained by her draft shall navigate with particular caution having full regard to her special condition. (e) A seaplane on the water shall, in general, keep well clear of all vessels and avoid impeding their navigation. In circumstances, however, where risk of collision exists, she shall comply with the Rules of this Part. (f) (i) A WIG craft shall, when taking off, landing and in flight near the surface, keep well clear of all other vessels and avoid impeding their navigation; (ii) A WIG craft operating on the water surface shall comply with the Rules of this Part as a power-driven vessel.", "caracteres": 1495, "sha256": "77b82a35017f2678747cae8916c44fd2a299598993bed6dca7f4cd2d066cbd15", "incisos": ["a", "b", "c", "d", "e", "f"]}, {"n": 19, "titulo": "Conduct of vessels in restricted visibility", "texto": "(a) This Rule applies to vessels not in sight of one another when navigating in or near an area of restricted visibility. (b) Every vessel shall proceed at a safe speed adapted to the prevailing circumstances and conditions of restricted visibility. A power-driven vessel shall have her engines ready for immediate maneuver. (c) Every vessel shall have due regard to the prevailing circumstances and conditions of restricted visibility when complying with the Rules of Section I of this part. (d) A vessel which detects by radar alone the presence of another vessel shall determine if a close-quarters situation is developing and/or risk of collision exists. If so, she shall take avoiding action in ample time, provided that when such action consists of an alteration of course, so far as possible the following shall be avoided: (i) an alteration of course to port for a vessel forward of the beam, other than for a vessel being overtaken; (ii) an alteration of course towards a vessel abeam or abaft the beam. (e) Except where it has been determined that a risk of collision does not exist, every vessel which hears apparently forward of her beam the fog signal of another vessel, or which cannot avoid a close-quarters situation with another vessel forward of her beam, shall reduce her speed to the minimum at which she can be kept on her course. She shall if necessary take all her way off and in any event navigate with extreme caution until danger of collision is over.", "caracteres": 1477, "sha256": "e5e315908c21212b5233dd4ddd9d2019044af8c5bf525218bd49c5202b54c343", "incisos": ["a", "b", "c", "d", "e"]}];
+
+const GRUPOS = [
+  {col: 0, t: "Part A · General",                 n: [1, 2, 3]},
+  {col: 0, t: "Any condition of visibility",      n: [4, 5, 6, 7, 8, 9, 10]},
+  {col: 1, t: "In sight of one another",          n: [11, 12, 13, 14, 15, 16, 17, 18]},
+  {col: 1, t: "Restricted visibility",            n: [19]}
+];
+
+function reglaDe(n){
+  return LEY.filter(function(r){ return r.n === n; })[0];
+}
+
+const P0 = {
+  h: "The nineteen rules",
+  arriba: "The rulebook",
+  sel: null,
+
+  lamina(){
+    const M = px(30);
+    const anchoCol = (D.W - M*2 - px(34)) / 2;
+    const alto = px(46), altoCab = px(54);
+
+    const altoLista = 2*altoCab + 10*alto + 2*px(16);
+    const y0 = Math.max(px(52), px(46) + (D.H - px(46) - altoLista)/2);
+
+    txt(M, px(32), "THE RULEBOOK, IN ORDER", "start", 12.5,
+        "var(--lam-dim)", 600, "mono");
+
+    [0, 1].forEach(function(col){
+      const x = M + col*(anchoCol + px(34));
+      let y = y0;
+      GRUPOS.filter(function(g){ return g.col === col; }).forEach(function(g){
+
+        txt(x, y + px(20), g.t.toUpperCase(), "start", 11.5,
+            "var(--lam-dim)", 600, "mono");
+        el("line", {x1: x, y1: y + px(30), x2: x + anchoCol, y2: y + px(30),
+                    stroke: "var(--lam-linea)", "stroke-width": px(1), opacity: .6});
+        y += altoCab;
+
+        g.n.forEach(function(n){
+          const r = reglaDe(n);
+          const on = P0.sel === n;
+          const g2 = el("g", {"data-boton": "r:" + n});
+
+          el("rect", {x: x - px(6), y: y, width: anchoCol + px(12), height: alto,
+                      rx: px(2), class: "caza"}, g2);
+          if(on){
+            el("rect", {x: x - px(6), y: y, width: anchoCol + px(12), height: alto,
+                        rx: px(2), fill: "var(--carta-somera)", opacity: .9}, g2);
+            el("rect", {x: x - px(6), y: y, width: px(3), height: alto,
+                        fill: "var(--accent-graphic)"}, g2);
+          }
+          txt(x + px(20), y + alto*0.66, String(n), "end",
+              14, on ? "var(--ink-title)" : "var(--lam-dim)", 600, "mono", g2)
+            .setAttribute("class", "num");
+          txt(x + px(32), y + alto*0.66, r.titulo, "start", 15.5,
+              on ? "var(--ink-title)" : "var(--lam-ink)", on ? 600 : 400, null, g2);
+          y += alto;
+        });
+        y += px(16);
+      });
+    });
+
+    if(P0.sel === null)
+      txt(D.W/2, D.H - px(18), "pick a rule", "middle", 12.5,
+          "var(--lam-dim)", 400, "mono");
+  },
+
+  pulsa(clave){
+    if(clave.indexOf("r:") !== 0) return;
+    P0.sel = parseInt(clave.slice(2), 10);
+    toca();
+  },
+
+  panel(){
+    if(P0.sel === null){
+
+      let h = "<h2>" + P0.h + "</h2>";
+      h += "<p>Nineteen rules, and they are in this order for a reason. The first "
+         + "three say who they apply to and what the words mean. Then two sections of "
+         + "steering rules: the ones that apply <b>whatever the visibility</b>, and "
+         + "the ones that only apply <b>when you can see each other</b>. And one rule "
+         + "on its own for when you cannot.</p>";
+      h += '<p class="pista">Three of them are called <b>Application</b> &mdash; Rule '
+         + "1, Rule 4 and Rule 11. Each one opens its section, which is why the "
+         + "sections are drawn in. Pick any rule and you get its text, whole and "
+         + "unabridged.</p>";
+      return h;
+    }
+    const r = reglaDe(P0.sel);
+    let h = "<h3>Rule " + r.n + "</h3><h2>" + r.titulo + "</h2>";
+
+    partesDeLey(r.texto, r.incisos).forEach(function(p){
+      h += '<div class="ley-inciso">' + p + "</div>";
+    });
+    h += '<p class="fuente">Navigation Rules &amp; Regulations Handbook &middot; '
+       + r.caracteres + " characters &middot; sha256 " + r.sha256.slice(0, 12)
+       + "&hellip;</p>";
+    return h;
+  }
+};
+
+function partesDeLey(t, incisos){
+  if(!incisos || !incisos.length) return [t];
+  const marcas = [];
+  let desde = 0;
+  for(const letra of incisos){
+    const i = t.indexOf("(" + letra + ") ", desde);
+    if(i < 0) return [t];
+    if(i > 0 && !/\s/.test(t[i - 1])) return [t];
+    marcas.push(i);
+    desde = i + 3;
+  }
+  const trozos = [];
+  if(marcas[0] > 0) trozos.push(t.slice(0, marcas[0]).trim());
+  for(let k = 0; k < marcas.length; k++){
+    const fin = k + 1 < marcas.length ? marcas[k + 1] : t.length;
+    trozos.push(t.slice(marcas[k], fin).trim());
+  }
+  const junto = trozos.join(" ").replace(/\s+/g, " ").trim();
+  const orig = t.replace(/\s+/g, " ").trim();
+  return junto === orig ? trozos : [t];
+}
+
+function cabecera(s){
+  return "<h3>" + (s.arriba || "The rulebook") + "</h3><h2>" + s.h + "</h2>";
+}
+
+function redibuja(){
+  svg = document.getElementById("svg");
+  const caja = document.getElementById("ficha").getBoundingClientRect();
+  if(!caja.width || !caja.height) return;
+
+  D.H = Math.max(420, Math.round(D.W * caja.height / caja.width));
+  ESC = caja.width / D.W;
+  svg.setAttribute("viewBox", "0 0 " + D.W + " " + D.H);
+  svg.setAttribute("preserveAspectRatio", "xMidYMid meet");
+  while(svg.firstChild) svg.removeChild(svg.firstChild);
+  gO = el("g", {}, svg);
+  el("rect", {x: 0, y: 0, width: D.W, height: D.H, fill: "var(--lam-papel)"});
+  P0.lamina();
+  cableaLamina();
+}
+
+function cableaLamina(){
+  svg.querySelectorAll("[data-boton]").forEach(function(g){
+    g.addEventListener("click", function(){
+      P0.pulsa(g.getAttribute("data-boton"));
+    });
+  });
+}
+
+function pintaPanel(){
+  const pane = document.getElementById("pane");
+  pane.innerHTML = P0.panel();
+  document.getElementById("barCont").textContent = "19 RULES";
+}
+
+function toca(){ redibuja(); pintaPanel(); }
+
+const PZ = [P0];
+function vaPantalla(i){ toca(); }
+const vaA = vaPantalla;
+
+addEventListener("resize", redibuja);
+
+if(typeof ResizeObserver !== "undefined")
+  new ResizeObserver(redibuja).observe(document.getElementById("ficha"));
+toca();
+</script>
+<script data-marco="1">
+
+(function(){
+"use strict";
+
+const VISTO_CLAVE = "rya.visto";
+
+const VISTO_V = 2;
+
+function vistoAlmacen(){
+ try{ return (typeof localStorage !== "undefined" && localStorage) ? localStorage : null; }
+ catch(e){ return null; }
+}
+
+function vistoLee(){
+ const A = vistoAlmacen();
+ if(!A) return {v:VISTO_V, empezadas:{}, terminadas:{}, sinAlmacen:true};
+ try{
+  const o = JSON.parse(A.getItem(VISTO_CLAVE) || "null");
+  if(o && o.v === VISTO_V && o.empezadas && o.terminadas) return o;
+ }catch(e){}
+ return {v:VISTO_V, empezadas:{}, terminadas:{}};
+}
+
+function _vistoGuarda(o){
+ const A = vistoAlmacen();
+ if(!A) return o;
+ try{
+  A.setItem(VISTO_CLAVE, JSON.stringify(
+   {v:VISTO_V, empezadas:o.empezadas, terminadas:o.terminadas, pos:o.pos || {}}));
+ }catch(e){}
+ return o;
+}
+
+function _vistoPon(cual, fichero){
+ const o = vistoLee();
+ if(o.sinAlmacen || o[cual][fichero]) return o;
+ o[cual][fichero] = 1;
+ return _vistoGuarda(o);
+}
+
+const vistoEmpieza  = f => _vistoPon("empezadas", f);
+const vistoTermina  = f => _vistoPon("terminadas", f);
+const vistoEmpezada = f => !!vistoLee().empezadas[f];
+const vistoTerminada= f => !!vistoLee().terminadas[f];
+const vistoHayAlmacen = () => !!vistoAlmacen();
+
+function vistoPon(fichero, n){
+ const o = vistoLee();
+ if(o.sinAlmacen) return o;
+ if(!o.pos) o.pos = {};
+ if(o.pos[fichero] === n) return o;
+ o.pos[fichero] = n;
+ return _vistoGuarda(o);
+}
+
+function vistoPos(fichero, tope){
+ const p = vistoLee().pos;
+ const n = p && p[fichero];
+ if(typeof n !== "number" || !isFinite(n) || n < 0) return 0;
+ return (typeof tope === "number" && tope >= 0) ? Math.min(n, tope) : n;
+}
+
+function vistoOlvida(fichero){
+ const o = vistoLee();
+ if(o.sinAlmacen || !o.pos || !(fichero in o.pos)) return o;
+ delete o.pos[fichero];
+ return _vistoGuarda(o);
+}
+
+const MARCO = {id:"ripa", i:0, paginas:[{f:"ripa-r0-the-nineteen-rules.html",t:"The nineteen rules"},{f:"ripa-r1-application.html",t:"Rule 1 · Application"},{f:"ripa-r2-responsibility.html",t:"Rule 2 · Responsibility"},{f:"ripa-r3-general-definitions.html",t:"Rule 3 · General definitions"},{f:"ripa-r4-application.html",t:"Rule 4 · Application"},{f:"ripa-r5-look-out.html",t:"Rule 5 · Look-out"},{f:"ripa-r6-safe-speed.html",t:"Rule 6 · Safe speed"},{f:"ripa-r7-risk-of-collision.html",t:"Rule 7 · Risk of collision"},{f:"ripa-r8-action-to-avoid-collision.html",t:"Rule 8 · Action to avoid collision"},{f:"ripa-r9-narrow-channels.html",t:"Rule 9 · Narrow channels"},{f:"ripa-r10-traffic-separation-schemes.html",t:"Rule 10 · Traffic separation schemes"},{f:"ripa-r11-application.html",t:"Rule 11 · Application"},{f:"ripa-r12-sailing-vessels.html",t:"Rule 12 · Sailing vessels"},{f:"ripa-r13-overtaking.html",t:"Rule 13 · Overtaking"},{f:"ripa-r14-head-on-situation.html",t:"Rule 14 · Head-on situation"},{f:"ripa-r15-crossing-situation.html",t:"Rule 15 · Crossing situation"},{f:"ripa-r16-action-by-give-way-vessel.html",t:"Rule 16 · Action by give-way vessel"},{f:"ripa-r17-action-by-stand-on-vessel.html",t:"Rule 17 · Action by stand-on vessel"},{f:"ripa-r18-responsibilities-between-vessels.html",t:"Rule 18 · Responsibilities between vessels"},{f:"ripa-r19-restricted-visibility.html",t:"Rule 19 · Conduct of vessels in restricted visibility"}]};
+const YO = MARCO.id;
+const N = MARCO.paginas.length;
+const dosCifras = n => (n < 10 ? "0" : "") + n;
+const $ = id => document.getElementById(id);
+
+const LLAVE_NAV = "ripa.nav";
+function marcaNav(){ try{ sessionStorage.setItem(LLAVE_NAV, "1"); }catch(e){} }
+function veniaDeDentro(){
+  try{ return sessionStorage.getItem(LLAVE_NAV) === "1"; }catch(e){ return false; }
+}
+
+if(MARCO.i === 0 && !veniaDeDentro()){
+  const p = vistoPos(YO, N - 1);
+  if(p > 0){ marcaNav(); location.replace(MARCO.paginas[p].f); return; }
+}
+marcaNav();
+
+vistoEmpieza(YO);
+vistoPon(YO, MARCO.i);
+if(MARCO.i === N - 1) vistoTermina(YO);
+
+function vaA(i){
+  if(i < 0 || i >= N || i === MARCO.i) return;
+  marcaNav();
+  vistoPon(YO, i);
+  location.href = MARCO.paginas[i].f;
+}
+
+const CUENTA = dosCifras(MARCO.i + 1) + " / " + dosCifras(N);
+function ponCuenta(){
+  const b = $("barCont");
+  if(b && b.textContent !== CUENTA) b.textContent = CUENTA;
+}
+ponCuenta();
+if(typeof MutationObserver !== "undefined" && $("barCont"))
+  new MutationObserver(ponCuenta).observe($("barCont"),
+    {childList: true, characterData: true, subtree: true});
+
+(function(){
+  const pr = $("prog");
+  if(!pr) return;
+  pr.innerHTML = "";
+  MARCO.paginas.forEach(function(q, i){
+    const b = document.createElement("i");
+    if(i === MARCO.i) b.className = "on"; else if(i < MARCO.i) b.className = "done";
+    b.title = "Screen " + (i + 1) + " of " + N + " · " + q.t;
+
+    b.setAttribute("data-va", i);
+    b.onclick = function(){ vaA(i); };
+    pr.appendChild(b);
+  });
+})();
+
+const LLAVE_LOG = "ripa.log";
+function leeLog(){
+  try{ return parseInt(localStorage.getItem(LLAVE_LOG) || "0", 10) || 0; }
+  catch(e){ return 0; }
+}
+function ponLog(n){ try{ localStorage.setItem(LLAVE_LOG, String(n)); }catch(e){} }
+function pintaLog(){
+  const f = $("fLog");
+  if(!f) return;
+  const n = leeLog();
+  f.textContent = n + (n === 1 ? " answer logged" : " answers logged");
+}
+pintaLog();
+document.addEventListener("click", function(e){
+  const b = e.target.closest ? e.target.closest("[data-di]") : null;
+  if(!b) return;
+  if(b.getAttribute("data-di") === "otra") return;
+  ponLog(leeLog() + 1);
+  pintaLog();
+}, true);
+
+function hayPregunta(){
+  return !!document.querySelector("#pane [data-di]:not([data-di=otra])");
+}
+function hayOtra(){ return !!document.querySelector("#pane [data-di=otra]"); }
+
+function pintaNav(){
+  const pie = $("navPie");
+  if(!pie) return;
+  const ultima = MARCO.i >= N - 1;
+  let h = '<div class="nav">'
+    + '<button class="sec" id="atras" data-va="' + (MARCO.i - 1) + '"'
+    + (MARCO.i ? "" : " disabled") + ">Back</button>";
+  if(hayPregunta())
+    h += '<a class="skip" id="salta" data-va="' + (MARCO.i + 1) + '">Skip</a>';
+  if(hayOtra()) h += '<button id="otra">Next one</button>';
+  h += '<button id="sig" data-va="' + (MARCO.i + 1) + '"'
+    + (ultima ? " disabled" : "") + ">"
+    + (ultima ? "End of the module" : "Next") + "</button></div>";
+  pie.innerHTML = h;
+  const a = $("atras"); if(a) a.onclick = function(){ vaA(MARCO.i - 1); };
+  const s = $("sig");   if(s) s.onclick = function(){ vaA(MARCO.i + 1); };
+  const k = $("salta"); if(k) k.onclick = function(){ vaA(MARCO.i + 1); };
+  const o = $("otra");
+  if(o) o.onclick = function(){
+    const b = document.querySelector("#pane [data-di=otra]");
+    if(b) b.click();
+  };
+}
+pintaNav();
+if(typeof MutationObserver !== "undefined" && $("pane"))
+  new MutationObserver(pintaNav).observe($("pane"), {childList: true, subtree: true});
+
+(function(){
+  const d = $("deCero");
+  if(!d) return;
+  d.onclick = function(){
+    vistoOlvida(YO);
+    marcaNav();
+    location.href = MARCO.paginas[0].f;
+  };
+})();
+})();
+</script>
+</body></html>

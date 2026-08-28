@@ -1,0 +1,1656 @@
+<!doctype html><html lang="en"><head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Collision avoidance &mdash; Rule 14 &middot; Head-on situation</title>
+<style>
+@font-face{font-family:'IBM Plex Mono';font-style:normal;font-weight:400;font-display:swap;
+ src:url(../assets/fonts/IBMPlexMono-400-normal-latin.woff2) format('woff2');
+ unicode-range:U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD}
+@font-face{font-family:'IBM Plex Mono';font-style:normal;font-weight:400;font-display:swap;
+ src:url(../assets/fonts/IBMPlexMono-400-normal-latin-ext.woff2) format('woff2');
+ unicode-range:U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF}
+@font-face{font-family:'IBM Plex Mono';font-style:normal;font-weight:500;font-display:swap;
+ src:url(../assets/fonts/IBMPlexMono-500-normal-latin.woff2) format('woff2');
+ unicode-range:U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD}
+@font-face{font-family:'IBM Plex Mono';font-style:normal;font-weight:500;font-display:swap;
+ src:url(../assets/fonts/IBMPlexMono-500-normal-latin-ext.woff2) format('woff2');
+ unicode-range:U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF}
+@font-face{font-family:'IBM Plex Sans';font-style:normal;font-weight:400 600;font-display:swap;
+ src:url(../assets/fonts/IBMPlexSans-400-normal-latin.woff2) format('woff2');
+ unicode-range:U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD}
+@font-face{font-family:'IBM Plex Sans';font-style:normal;font-weight:400 600;font-display:swap;
+ src:url(../assets/fonts/IBMPlexSans-400-normal-latin-ext.woff2) format('woff2');
+ unicode-range:U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF}
+@font-face{font-family:'Newsreader';font-style:italic;font-weight:400;font-display:swap;
+ src:url(../assets/fonts/Newsreader-400-italic-latin.woff2) format('woff2');
+ unicode-range:U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD}
+@font-face{font-family:'Newsreader';font-style:italic;font-weight:400;font-display:swap;
+ src:url(../assets/fonts/Newsreader-400-italic-latin-ext.woff2) format('woff2');
+ unicode-range:U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF}
+@font-face{font-family:'Newsreader';font-style:normal;font-weight:500;font-display:swap;
+ src:url(../assets/fonts/Newsreader-500-normal-latin.woff2) format('woff2');
+ unicode-range:U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD}
+@font-face{font-family:'Newsreader';font-style:normal;font-weight:500;font-display:swap;
+ src:url(../assets/fonts/Newsreader-500-normal-latin-ext.woff2) format('woff2');
+ unicode-range:U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF}
+</style>
+<style>
+
+:root{
+ --page:#E8EBED; --panel:#F6F7F7; --card:#FCFCFB; --inset:#F4F6F7; --bar:#1C2B36;
+ --edge-frame:#B7C0C6; --edge-card:#BCC4C9; --edge-inner:#E4E8EA;
+ --edge-panel:#CFD7DC; --edge-button:#A9B4BB;
+ --ink-title:#0F171D; --ink-strong:#141C22; --ink-lead:#20292F; --ink-body:#333D45;
+ --ink-secondary:#4A5A66; --ink-label:#5B6B77; --ink-quiet:#5E6B74;
+ --on-bar:#DCE4E9; --on-bar-strong:#F6F9FA; --on-primary:#F2F6F8;
+ --magenta:#6B2461; --ok:#3F7A56; --alarm:#B33A22;
+ --accent-text:#9A5C10;
+ --accent-graphic:#C97B1B;
+ --accent-on-bar:#E2B15C;
+ --accent-control:var(--accent-graphic);
+
+ --lam-papel:#F6F8F9;
+ --lam-ink:#15252D; --lam-dim:#4A5A66; --lam-linea:#8FA3AB;
+ --lam-acento:var(--accent-text); --lam-magenta:var(--magenta);
+ --lam-ok:#3F7A56; --lam-alarm:#B33A22;
+
+ --lam-tibio:var(--accent-text);
+
+ --baliza-roja:#c8102e; --baliza-verde:#0A7D3A;
+
+ --carta-tierra:#F0C97F;
+ --carta-secante:#96A66E;
+ --carta-somera:#B2D6E9;
+ --carta-media:#D4E7F2;
+ --carta:#FFFFFF;
+ --carta-veril:#2F4A5A;
+ --carta-sonda:#263A55;
+ --sp-hair:4px; --sp-inline:8px; --sp-tight:12px; --sp-card:14px; --sp-block:16px;
+ --sp-col-y:20px; --sp-col-x:22px; --sp-panel-y:18px; --sp-panel-x:30px;
+ --sp-bar-x:24px; --sp-close:40px;
+
+ --f-mono:"IBM Plex Mono",ui-monospace,"SF Mono","Segoe UI Mono",Menlo,Consolas,monospace;
+ --f-display:"Newsreader",ui-serif,Georgia,"Palatino Linotype","Times New Roman",serif;
+ --f-ui:"IBM Plex Sans",system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;
+}
+*{box-sizing:border-box}
+html,body{margin:0;height:100%;overflow:hidden}
+body{display:flex;flex-direction:column;background:var(--page);color:var(--ink-body);
+ font:400 16px/1.68 var(--f-ui);-webkit-font-smoothing:antialiased}
+
+#barra{flex:none;height:54px;display:flex;align-items:center;gap:var(--sp-inline);
+ padding:0 var(--sp-bar-x);background:var(--bar);color:var(--on-bar)}
+#barra .marca{font:600 15px/1 var(--f-display);color:var(--on-bar-strong)}
+#barra .miga{font:400 14px/1 var(--f-ui);color:var(--on-bar)}
+#barra .crece{flex:1}
+#barCont{font:400 12px/1.4 var(--f-mono);letter-spacing:.12em;
+ color:var(--accent-on-bar);font-variant-numeric:tabular-nums}
+
+#wrap{flex:1;min-height:0;display:grid;
+ grid-template-columns:minmax(0,1fr) clamp(320px,37%,560px)}
+#side{grid-column:2}
+#lienzo{min-width:0;min-height:0;display:grid;place-items:center;
+ padding:var(--sp-col-y) var(--sp-col-x)}
+
+#ficha{width:100%;height:100%;background:var(--carta);
+ border:1px solid var(--edge-card);border-radius:2px;overflow:hidden;
+ touch-action:none;
+ -webkit-user-select:none;-moz-user-select:none;user-select:none}
+#ficha *{-webkit-user-select:none;-moz-user-select:none;user-select:none}
+#ficha.arrastrando{cursor:grabbing}
+#svg{width:100%;height:100%;display:block}
+#svg [data-mando]{cursor:pointer}
+#svg [data-boton]{cursor:pointer}
+#svg [data-boton]:hover .caza{fill:var(--carta-media);fill-opacity:.55}
+
+#side{min-height:0;display:flex;flex-direction:column;background:var(--panel);
+ border-left:1px solid var(--edge-frame)}
+#head{flex:none;padding:var(--sp-panel-y) var(--sp-panel-x) var(--sp-tight);
+ border-bottom:1px solid var(--edge-panel)}
+#head .rot{font:400 12px/1.4 var(--f-mono);letter-spacing:.12em;
+ text-transform:uppercase;color:var(--ink-label)}
+#pane{flex:1;min-height:0;overflow-y:auto;
+ padding:var(--sp-panel-y) var(--sp-panel-x) var(--sp-close)}
+#foot{flex:none;padding:var(--sp-tight) var(--sp-panel-x);
+ border-top:1px solid var(--edge-panel);font:400 12px/1.5 var(--f-mono);
+ color:var(--ink-label)}
+
+h2{margin:0 0 var(--sp-block);font:500 31px/1.18 var(--f-display);color:var(--ink-title)}
+h3{margin:0 0 var(--sp-tight);font:400 12px/1.4 var(--f-mono);letter-spacing:.12em;
+ text-transform:uppercase;color:var(--ink-label)}
+p{margin:0 0 var(--sp-block);max-width:62ch;color:var(--ink-body)}
+p b{color:var(--ink-title);font-weight:600}
+
+.siempre{margin:0 0 var(--sp-block);padding:var(--sp-tight) var(--sp-card);
+ border:1px dashed var(--edge-panel);border-radius:2px;
+ font:400 12.5px/1.6 var(--f-mono);color:var(--ink-secondary);max-width:62ch}
+.ahora{margin:0 0 var(--sp-block);padding:var(--sp-tight) var(--sp-card);
+ background:var(--inset);border-left:3px solid var(--ok);border-radius:2px}
+.ahora.mal{border-left-color:var(--alarm)}
+.ahora.tibio{border-left-color:var(--accent-text)}
+
+.ahora.pide{border-left-color:var(--accent-graphic);background:var(--card)}
+.pregunta{display:flex;flex-wrap:wrap;gap:var(--sp-inline);
+ margin:0 0 var(--sp-block)}
+.pregunta button{flex:1 1 auto;padding:var(--sp-tight) var(--sp-card);
+ border:1px solid var(--edge-button);border-radius:2px;background:var(--card);
+ font:600 14px/1.35 var(--f-ui);color:var(--ink-strong);cursor:pointer;
+ text-align:left}
+.pregunta button:hover{border-color:var(--accent-graphic);
+ background:var(--inset)}
+.pregunta button.otra{flex:1 1 100%;font-weight:400;color:var(--ink-secondary);
+ border-style:dashed}
+.ahora p{margin:0 0 var(--sp-inline);font:400 15px/1.6 var(--f-ui);
+ color:var(--ink-lead);max-width:62ch}
+.ahora p:last-child{margin-bottom:0}
+.ahora p.uno{font-weight:600;color:var(--ink-title)}
+
+.ahora p.riesgo{padding:0 0 var(--sp-inline);border-bottom:1px solid var(--edge-inner);
+ color:var(--ink-body)}
+
+.notas{margin:var(--sp-tight) 0 0;padding:var(--sp-tight) 0 0;
+ border-top:1px solid var(--edge-inner)}
+.nota{display:grid;grid-template-columns:64px 1fr;gap:var(--sp-inline);
+ margin:0 0 var(--sp-tight)}
+.nota:last-child{margin-bottom:0}
+.nota .nl{font:600 11px/1.75 var(--f-mono);letter-spacing:.04em;
+ color:var(--ink-label);white-space:nowrap}
+.nota .nt{margin:0;font:400 14px/1.65 var(--f-ui);color:var(--ink-body);
+ max-width:58ch}
+.nota .nt b{color:var(--ink-title);font-weight:600}
+.cifras{display:grid;grid-template-columns:auto 1fr;gap:var(--sp-hair) var(--sp-card);
+ margin:0}
+.cifras dt{margin:0;font:400 11px/1.6 var(--f-mono);letter-spacing:.08em;
+ text-transform:uppercase;color:var(--ink-label)}
+.cifras dd{margin:0;font:600 15px/1.6 var(--f-ui);color:var(--ink-strong);
+ font-variant-numeric:tabular-nums}
+
+.buque{margin:0 0 var(--sp-block);font:400 13px/1.65 var(--f-ui);
+ color:var(--ink-secondary);max-width:62ch}
+.buque b{color:var(--ink-title);font-weight:600}
+
+.ley-inciso{margin:0 0 var(--sp-tight);padding:var(--sp-tight) var(--sp-card);
+ background:var(--inset);border-left:3px solid var(--accent-graphic);
+ font:italic 400 15px/1.62 var(--f-display);color:var(--ink-lead);max-width:64ch}
+.ley-inciso.sub{margin-left:var(--sp-col-x);border-left-color:var(--lam-linea);
+ font-size:14.5px}
+.fuente{margin:var(--sp-block) 0 0;font:400 11px/1.5 var(--f-mono);
+ letter-spacing:.08em;color:var(--ink-label);max-width:64ch}
+:focus-visible{outline:2px solid var(--accent-graphic);outline-offset:2px}
+
+@media (max-width:699px){
+ :root{--sp-col-y:10px;--sp-col-x:12px;--sp-panel-x:18px}
+ #wrap{grid-template-columns:minmax(0,1fr);
+  grid-template-rows:clamp(320px,56vh,640px) minmax(0,1fr)}
+ #side{grid-column:1;grid-row:2;border-left:0;border-top:1px solid var(--edge-frame)}
+}
+</style><style data-marco="1">
+
+:root{ --link:#2F6C8F; --progress-pending:#CDD5DA; --on-bar-dim:#B8C7D0; }
+
+#barra a{text-decoration:none;cursor:pointer;
+ display:inline-flex;align-items:center;min-height:44px}
+.barlink{font:600 15px/1.45 var(--f-ui);color:var(--on-bar);white-space:nowrap;
+ flex:none}
+.barlink:hover{color:var(--on-bar-strong);text-decoration:underline}
+#barra .sep{flex:none;width:1px;height:22px;background:#3A4E5C;
+ margin:0 var(--sp-inline)}
+
+#miga b{color:var(--on-bar-strong);font-weight:500}
+#barCont{flex:none;font:400 12px/1.4 var(--f-mono);letter-spacing:.12em;
+ color:var(--accent-on-bar);font-variant-numeric:tabular-nums}
+
+#miga{font:400 17px/1.2 var(--f-display);color:var(--on-bar-dim);
+ white-space:nowrap;overflow:hidden;text-overflow:ellipsis;min-width:0}
+
+#prog{display:flex;gap:3px;margin-top:var(--sp-tight)}
+#prog i{flex:1;height:5px;background:var(--progress-pending);border-radius:0;
+ cursor:pointer}
+#prog i.done{background:var(--link)}
+#prog i.on{background:var(--accent-graphic)}
+
+#foot{padding:var(--sp-panel-y) var(--sp-panel-x);
+ font:400 16px/1.5 var(--f-ui);color:var(--ink-body)}
+#foot .pieLinea{margin-bottom:var(--sp-tight);
+ font:400 12px/1.5 var(--f-mono);color:var(--ink-label)}
+#navPie .nav{display:flex;align-items:center;gap:var(--sp-inline);flex-wrap:wrap}
+#navPie .nav button#sig,#navPie .nav button#otra{margin-left:auto}
+#navPie .nav button{font:600 15px/1.45 var(--f-ui);padding:11px 26px;
+ border:1px solid transparent;border-radius:2px;cursor:pointer;
+ background:var(--bar);color:var(--on-primary);min-height:44px}
+#navPie .nav button:hover:not(:disabled){background:#26394A}
+#navPie .nav button.sec{background:var(--card);color:var(--ink-lead);
+ border-color:var(--edge-button);padding:10px 18px}
+#navPie .nav button.sec:hover:not(:disabled){background:var(--inset)}
+a.skip{font:400 15px/1.45 var(--f-ui);color:var(--ink-secondary);cursor:pointer;
+ text-decoration:none;white-space:nowrap;padding:0 var(--sp-tight);
+ display:inline-flex;align-items:center;min-height:44px}
+a.skip:hover{color:var(--ink-title);text-decoration:underline}
+.pie2{display:flex;align-items:baseline;gap:var(--sp-tight);
+ margin-top:var(--sp-tight);font:400 12px/1.4 var(--f-mono);letter-spacing:.1em;
+ color:var(--ink-quiet);white-space:nowrap}
+.pie2>:last-child{margin-left:auto}
+a.pieLink{color:var(--link);text-decoration:none;cursor:pointer;white-space:nowrap}
+a.pieLink:hover{text-decoration:underline}
+
+.sello{display:block;margin-top:var(--sp-hair);font:400 12px/1.4 var(--f-mono);
+ letter-spacing:.1em;color:var(--ink-quiet);
+ white-space:normal;overflow-wrap:anywhere}
+.sello b{font-weight:400}
+</style>
+</head><body>
+
+<div id="barra">
+ <a class="barlink" href="../index.html">&#8592; The course</a>
+ <i class="sep"></i>
+ <div id="miga"><b>Collision avoidance</b> &middot; Rule 14 &middot; Head-on situation</div>
+ <span class="crece"></span>
+ <a class="barlink" href="../chapters/balizamiento-p1-the-marks.html#flashcards">Flashcards</a>
+ <i class="sep"></i>
+ <a class="barlink" href="../index.html">Contents</a>
+ <span id="barCont"></span>
+</div>
+<div id="wrap">
+ <div id="lienzo"><div id="ficha"><svg id="svg"></svg></div></div>
+ <div id="side">
+  <div id="head"><span class="rot">Her course is the reciprocal of yours. Only where she lies changes</span><div id="prog"></div></div>
+  <div id="pane"></div>
+  <div id="foot"><div class="pieLinea">rule 14 of 19 &middot; if you doubt it is head-on, it is</div>
+   <div id="navPie"></div>
+   <div class="pie2"><span id="fLog">0 answers logged</span><a class="pieLink" id="deCero">start over</a></div>
+   <div class="sello" id="sello" data-sello="bf4362f9">collision avoidance &middot; module &middot; 20 screens &middot; 28 Aug 2026 &middot; <b>bf4362f9</b></div></div>
+ </div>
+</div>
+
+<template id="tSig"></template>
+<script>
+"use strict";
+
+const NS = "http://www.w3.org/2000/svg";
+const D = {W: 1000, H: 620};
+let svg = null, gO = null, ESC = 1;
+const px = n => n / ESC;
+
+function el(t, at, pa){
+  const e = document.createElementNS(NS, t);
+  for(const k in at) if(at[k] !== undefined && at[k] !== null) e.setAttribute(k, at[k]);
+  (pa || gO || svg).appendChild(e);
+  return e;
+}
+function txt(x, y, s, an, tam, col, peso, fam, pa){
+  const e = el("text", {x: x, y: y, "text-anchor": an || "start",
+    "pointer-events": "none", "font-size": px(tam || 13),
+    fill: col || "var(--lam-ink)", "font-weight": peso || 400,
+    "font-family": fam === "mono" ? "var(--f-mono)" : "var(--f-ui)"}, pa);
+  e.textContent = s;
+  return e;
+}
+
+function sondaDe(i, j){
+  const s = Math.sin(i*12.9898 + j*78.233) * 43758.5453;
+  return s - Math.floor(s);
+}
+function sonda(x, y, v){
+  const ent = Math.floor(v), dec = Math.round((v - ent)*10);
+  const t = el("text", {x: x, y: y, "text-anchor": "middle",
+    "pointer-events": "none", "font-size": px(11.5), "font-style": "italic",
+    fill: "var(--carta-sonda)", "font-family": "var(--f-ui)", opacity: .78});
+  t.appendChild(document.createTextNode(String(ent)));
+  if(dec){
+    const u = document.createElementNS(NS, "tspan");
+    u.setAttribute("font-size", px(8));
+    u.setAttribute("dy", px(3));
+    u.textContent = String(dec);
+    t.appendChild(u);
+  }
+}
+
+function plantaBarco(x, y, rumbo, tinta, op, largo, padre){
+  const g = rumbo*Math.PI/180, sn = Math.sin(g), cs = Math.cos(g);
+  const L = largo || px(24), M = L*0.34;
+  const P = (av, tr) => [x + sn*av + cs*tr, y - cs*av + sn*tr];
+  const q = [P(L*0.5, 0), P(L*0.14, M), P(-L*0.46, M*0.8),
+             P(-L*0.5, -M*0.8), P(L*0.14, -M)];
+
+  el("path", {d: "M" + q.map(p => p[0].toFixed(1) + "," + p[1].toFixed(1)).join(" L")
+                + " Z", fill: tinta, opacity: op === undefined ? .95 : op,
+              "data-buque": "1"}, padre);
+}
+
+const LEY14 = ["(a) When two power-driven vessels are meeting on reciprocal or nearly reciprocal courses so as to involve risk of collision each shall alter her course to starboard so that each shall pass on the port side of the other.", "(b) Such a situation shall be deemed to exist when a vessel sees the other ahead or nearly ahead and by night she could see the masthead lights of the other in a line or nearly in a line and/or both sidelights and by day she observes the corresponding aspect of the other vessel.", "(c) When a vessel is in any doubt as to whether such a situation exists she shall assume that it does exist and act accordingly."];
+const LEY14CAR = 628;
+
+const ARC = {
+  masthead: 112.5,
+  sidelight:112.5,
+  stern:    112.5,
+  allRound: 180
+};
+
+const CUTOFF = 1.5;
+
+const visible = (arc, aspect) => {
+  const a = Math.abs(aspect);
+  switch(arc.kind){
+    case "masthead": return a <= ARC.masthead;
+    case "starboard":return aspect >= -CUTOFF && aspect <= ARC.sidelight;
+    case "port":     return aspect <=  CUTOFF && aspect >= -ARC.sidelight;
+
+    case "stern":    return a > ARC.stern;
+    case "allround": return true;
+  }
+  return false;
+};
+
+const HGT = {
+
+  mast1: L => Math.max(1.6, 0.62 * Math.pow(L, 0.72)),
+  mast2: L => HGT.mast1(L) + Math.max(4.5, HGT.mast1(L)*0.22),
+  side:  L => L >= 20 ? HGT.mast1(L)*0.72 : Math.max(0.9, HGT.mast1(L)*0.55),
+  stern: L => L >= 20 ? HGT.mast1(L)*0.42 : Math.max(0.7, HGT.mast1(L)*0.40),
+  allr:  L => Math.max(2.2, HGT.mast1(L)*0.90),
+  mast:  L => Math.max(1.6, 0.62 * Math.pow(L, 0.72))
+};
+
+function ranges(L){
+  if (L >= 50) return {masthead:6, side:3, stern:3, allround:3, towing:3};
+  if (L >= 20) return {masthead:5, side:2, stern:2, allround:2, towing:2};
+  if (L >= 12) return {masthead:3, side:2, stern:2, allround:2, towing:2};
+  return          {masthead:2, side:1, stern:2, allround:2, towing:2};
+}
+
+const L = (kind, colour, h, x, rangeKey, extra={}) =>
+  ({kind, colour, h, x, rangeKey, ...extra});
+
+function configuration(v){
+  const LEN = v.length || 12;
+  const L50 = LEN >= 50;
+  const making = v.makingWay !== false;
+  const under  = v.underway  !== false;
+
+  const sideX  = L50 ? -0.30 : 0.80;
+  const side   = [L("starboard","green",HGT.side(LEN), sideX,"side"),
+                  L("port",     "red",  HGT.side(LEN), sideX,"side")];
+  const stern  = [L("stern","white",HGT.stern(LEN),-0.96,"stern")];
+  const mast1  = [L("masthead","white",HGT.mast1(LEN), 0.55,"masthead")];
+  const mast2  = L50 ? [L("masthead","white",HGT.mast2(LEN),-0.40,"masthead")] : [];
+
+  if (!under) {
+    return LEN >= 50
+      ? [L("allround","white",HGT.allr(LEN)*0.9, 0.88,"allround"),
+         L("allround","white",HGT.stern(LEN)*1.4,-0.88,"allround")]
+      : [L("allround","white",HGT.allr(LEN), 0.0,"allround")];
+  }
+
+  switch(v.type){
+    case "power": case "pilotUnderway":
+
+      if(LEN < 12 && v.combined !== false)
+        return [L("allround","white",Math.max(2.2,LEN*0.22),0.10,"allround"), ...side];
+      return [...mast1, ...mast2, ...side, ...stern];
+
+    case "sailing":
+
+      const mastTop = LEN*1.30;
+      return v.tricolour && LEN < 20
+        ? [L("starboard","green",mastTop,0.05,"side"), L("port","red",mastTop,0.05,"side"),
+           L("stern","white",mastTop,0.05,"stern")]
+        : [L("starboard","green",HGT.side(LEN),0.86,"side"),
+           L("port","red",      HGT.side(LEN),0.86,"side"), ...stern,
+           ...(v.optionalRedGreen ? [L("allround","red",  mastTop,0.05,"allround"),
+                                     L("allround","green",mastTop*0.94,0.05,"allround")] : [])];
+
+    case "fishingTrawl":
+      return [L("allround","green",HGT.allr(LEN)*1.25,0.28,"allround"),
+              L("allround","white",HGT.allr(LEN)*0.95,0.28,"allround"),
+              ...(L50?[L("masthead","white",HGT.mast2(LEN),-0.40,"masthead")]:[]),
+              ...(making?[...side,...stern]:[])];
+
+    case "fishingOther":
+      return [L("allround","red",HGT.allr(LEN)*1.25,0.28,"allround"),
+              L("allround","white",HGT.allr(LEN)*0.95,0.28,"allround"),
+              ...(making?[...side,...stern]:[])];
+
+    case "nuc":
+      return [L("allround","red",HGT.allr(LEN)*1.25,0.20,"allround"),
+              L("allround","red",HGT.allr(LEN)*0.95,0.20,"allround"),
+              ...(making?[...side,...stern]:[])];
+
+    case "ram":
+      return [L("allround","red",  HGT.allr(LEN)*1.45,0.20,"allround"),
+              L("allround","white",HGT.allr(LEN)*1.20,0.20,"allround"),
+              L("allround","red",  HGT.allr(LEN)*0.95,0.20,"allround"),
+              ...(making?[...mast1,...mast2,...side,...stern]:[])];
+
+    case "cbd":
+      return [...mast1, ...mast2, ...side, ...stern,
+
+              L("allround","red",HGT.allr(LEN)*1.35,0.14,"allround"),
+              L("allround","red",HGT.allr(LEN)*1.15,0.14,"allround"),
+              L("allround","red",HGT.allr(LEN)*0.95,0.14,"allround")];
+
+    case "pilot":
+
+      return [L("allround","white",HGT.allr(LEN)*1.25,0.20,"allround"),
+              L("allround","red",  HGT.allr(LEN)*0.95,0.20,"allround"),
+              ...side, ...stern];
+
+    case "towing": {
+      const TL   = v.towLength || 120;
+      const long = TL > 200;
+      const stack = [];
+      const step = Math.max(2, LEN*0.055);
+      for (let i=0;i<(long?3:2);i++)
+        stack.push(L("masthead","white",HGT.mast1(LEN)+i*step,0.55,"masthead"));
+      const tug = [...stack, ...(L50?[L("masthead","white",HGT.mast2(LEN)+step*2,-0.40,"masthead")]:[]),
+                   ...side, ...stern,
+                   L("stern","yellow",HGT.stern(LEN)*1.5,-0.96,"towing")];
+
+      const back = -(TL + LEN*0.5);
+      const towed = [
+        L("starboard","green",2.0,0,"side",  {xm:back, tow:true}),
+        L("port",     "red",  2.0,0,"side",  {xm:back, tow:true}),
+        L("stern",    "white",1.6,0,"stern", {xm:back - 20, tow:true})
+      ];
+      return [...tug, ...towed];
+    }
+  }
+  return [...side, ...stern];
+}
+
+function seenFrom(v, aspect, rangeNm){
+  const R = ranges(v.length || 12);
+  return configuration(v)
+    .filter(l => visible(l, aspect))
+    .filter(l => rangeNm === undefined || rangeNm <= R[l.rangeKey])
+    .map(l => ({...l, nominal:R[l.rangeKey]}));
+}
+
+const norm    = a => ((a % 360) + 360) % 360;
+const diff    = (a,b) => { let d = norm(a) - norm(b); if (d > 180) d -= 360; if (d < -180) d += 360; return d; };
+const toRad   = d => d * Math.PI / 180;
+
+const VESSEL = {
+  nuc:      {rank:5, label:"not under command",            power:false},
+  ram:      {rank:5, label:"restricted in ability to manoeuvre", power:false},
+  fishing:  {rank:4, label:"engaged in fishing",           power:false},
+  sailing:  {rank:3, label:"under sail",                   power:false},
+  power:    {rank:2, label:"power-driven",                 power:true},
+  cbd:      {rank:2, label:"constrained by draught",       power:true, noImpede:true},
+  pilot:    {rank:2, label:"pilot vessel",                 power:true}
+};
+
+const VESSEL_ALIAS = {
+  fishingTrawl:"fishing", fishingOther:"fishing",
+  pilotUnderway:"pilot", towing:"power", seaplane:"power"
+};
+
+const OVERTAKING_ARC = 112.5;
+
+const BEARING_THRESHOLD = 0.5;
+
+const MAY_TCPA   = 12;
+
+const SHALL_TCPA = 4;
+
+function bearingTo(from, to){
+  return norm(Math.atan2(to.x - from.x, to.y - from.y) * 180 / Math.PI);
+}
+
+function rangeTo(from, to){
+  return Math.hypot(to.x - from.x, to.y - from.y);
+}
+
+function relativeBearing(own, contact){
+  return diff(bearingTo(own, contact), own.heading);
+}
+
+function aspect(own, contact){
+  return diff(bearingTo(contact, own), contact.heading);
+}
+
+function isOvertaking(own, contact){
+  if (Math.abs(aspect(own, contact)) <= OVERTAKING_ARC) return false;
+  const dt = 1/60;
+  return rangeTo(step(own, dt), step(contact, dt)) < rangeTo(own, contact);
+}
+
+function tackOf(v){
+  if (v.wind === undefined) return null;
+  const d = diff(v.wind, v.heading);
+  if (Math.abs(d) < 1e-9) return null;
+  return d < 0 ? "port" : "starboard";
+}
+
+function windwardOf(a, b){
+
+  const w = a.wind;
+  if (w === undefined || w === null || !isFinite(w)) return null;
+  const pa = a.x * Math.sin(toRad(w)) + a.y * Math.cos(toRad(w));
+  const pb = b.x * Math.sin(toRad(w)) + b.y * Math.cos(toRad(w));
+  if (Math.abs(pa - pb) < 1e-9) return null;
+  return pa > pb ? a : b;
+}
+
+function step(v, hours){
+  return {...v,
+    x: v.x + Math.sin(toRad(v.heading)) * v.speed * hours,
+    y: v.y + Math.cos(toRad(v.heading)) * v.speed * hours};
+}
+
+function bearingRate(own, contact, dt = 1/60){
+  const b0 = bearingTo(own, contact);
+  const p1 = step(own, dt), q1 = step(contact, dt);
+  return diff(bearingTo(p1, q1), b0) / dt / 60;
+}
+
+function cpaTcpa(own, contact){
+  const rx = contact.x - own.x, ry = contact.y - own.y;
+  const vx = Math.sin(toRad(contact.heading)) * contact.speed - Math.sin(toRad(own.heading)) * own.speed;
+  const vy = Math.cos(toRad(contact.heading)) * contact.speed - Math.cos(toRad(own.heading)) * own.speed;
+  const vv = vx*vx + vy*vy;
+  if (vv < 1e-9) return {cpa: Math.hypot(rx,ry), tcpa: Infinity};
+  const tcpa = -(rx*vx + ry*vy) / vv;
+  const cx = rx + vx*tcpa, cy = ry + vy*tcpa;
+  return {cpa: Math.hypot(cx,cy), tcpa};
+}
+
+function riskOfCollision(own, contact){
+  const {cpa, tcpa} = cpaTcpa(own, contact);
+  const R = rangeTo(own, contact);
+  const rate = Math.abs(bearingRate(own, contact));
+  const L = (contact.length || 20) / 1852;
+  const limit = BEARING_THRESHOLD * (1 + (contact.length||20)/200) * (1 + 1/Math.max(R,0.2));
+
+  const dt = 1/60;
+  const approaching = rangeTo(step(own, dt), step(contact, dt)) < R;
+  return {
+    risk: approaching && tcpa > 0 && (rate < limit || cpa < (L*2 + 0.1)),
+    steadyBearing: rate < limit,
+    approaching,
+    rate, limit, cpa, tcpa
+  };
+}
+
+function standOnThresholds(own, contact, opts = {}){
+  const {tcpa} = cpaTcpa(own, contact);
+  const min = tcpa * 60;
+  const restricted = opts.narrowWaters ? 0.66 : 1;
+  return {
+    tcpaMin: min,
+    mayAct:   min <= MAY_TCPA   * restricted,
+    mustAct:  min <= SHALL_TCPA * restricted,
+    mayAtMin:  MAY_TCPA   * restricted,
+    mustAtMin: SHALL_TCPA * restricted
+  };
+}
+
+function headingForCPA(own, contact, wantCPA){
+  let best=null;
+  for(let hd=0; hd<360; hd+=0.25){
+    const c={...contact, heading:hd};
+    const {cpa,tcpa} = cpaTcpa(own,c);
+    if(tcpa<=0.02) continue;
+    const err = Math.abs(cpa - wantCPA);
+    if(!best || err < best.err) best={hd, err, cpa, tcpa};
+  }
+  return best;
+}
+
+function category(type){
+  const t = VESSEL_ALIAS[type] || type;
+  if(!VESSEL[t]) throw new Error("colregs-engine: unknown vessel type \""+type+"\"");
+  return VESSEL[t];
+}
+
+function project(v, aspect, rangeNm, opts={}){
+  const th = aspect * Math.PI / 180;
+  const R  = Math.max(rangeNm, 0.05);
+  const k  = opts.scale || 1;
+  const M  = 1852;
+  const LEN  = v.length || 12;
+  const beam = LEN * (LEN>=50 ? 0.145 : 0.30);
+  return seenFrom(v, aspect, rangeNm).map(l => {
+    const foreAft = l.xm !== undefined ? l.xm
+                  : l.x * LEN/2;
+
+    const lx = l.kind==="starboard" ?  beam/2
+             : l.kind==="port"      ? -beam/2 : 0;
+    const across  = foreAft * Math.sin(th) - lx * Math.cos(th);
+    return {
+      ...l,
+      dx: k * (across / (R*M)) * 3437.75,
+      dy: k * (l.h / (R*M)) * 3437.75,
+
+      brightness: Math.max(0, Math.min(1, 1.25 - rangeNm / l.nominal)),
+
+      subtends: (LEN / (R*M)) * 3437.75
+    };
+  });
+}
+
+function evaluate(own, contact, cond = {}){
+  const vis      = cond.visibility === undefined ? 10 : cond.visibility;
+  const R        = rangeTo(own, contact);
+  const inSight  = R <= vis;
+  const relB     = relativeBearing(own, contact);
+  const risk     = riskOfCollision(own, contact);
+  const base     = {relativeBearing: relB, aspect: aspect(own, contact), range: R,
+                    inSight, ...risk};
+
+  if (!inSight) return {...base,
+    situation: "restricted-visibility",
+    obligation: "both-act",
+    rule: 19,
+    why: "Neither of you can see the other. There is no give-way vessel and no "
+       + "stand-on vessel: "
+       + "you both navigate with care, at a speed you can stop in, and neither of you "
+       + "has anything to hold.",
+    restrictions: ["no turn to port for a contact forward of the beam, unless you are overtaking",
+                   "no turn towards a contact abeam or abaft the beam"]};
+
+  if (isOvertaking(own, contact)) return {...base,
+    situation: "overtaking", role: "overtaking",
+    obligation: "give-way", rule: 13,
+    why: "You are coming up on her from behind her beam, so you keep out of the way — "
+       + "whatever either of you is. Sail over power does not apply here."};
+  if (isOvertaking(contact, own)) return {...base,
+    situation: "overtaken", role: "overtaken",
+    obligation: "stand-on", rule: 13,
+    thresholds: standOnThresholds(own, contact, cond),
+    why: "She is overtaking you. You hold your course and speed — until she shows you she is not going to clear you."};
+
+  const A = category(own.type), B = category(contact.type);
+
+  if (B.noImpede && !A.noImpede && A.rank < 5) {
+    return {...base, situation: "constrained-by-draught",
+      obligation: "do-not-impede", rule: 18,
+      why: "She can only stay safe inside the deep water she is in. You do not take her "
+         + "water away in the first place — that is a different thing from giving way, "
+         + "and it starts much earlier."};
+  }
+
+  if (A.rank !== B.rank) {
+    const iGiveWay = A.rank < B.rank;
+    return {...base,
+      situation: "different-types",
+      obligation: iGiveWay ? "give-way" : "stand-on",
+      rule: 18,
+      thresholds: iGiveWay ? null : standOnThresholds(own, contact, cond),
+      why: iGiveWay
+        ? `She is ${B.label} and you are ${A.label}. You keep out of her way.`
+        : `You are ${A.label} and she is ${B.label}. She keeps out of your way.`};
+  }
+
+  if (category(own.type) === VESSEL.sailing && category(contact.type) === VESSEL.sailing) {
+    const ta = tackOf(own), tb = tackOf(contact);
+    if (ta && tb && ta !== tb) {
+      const iGiveWay = ta === "port";
+      return {...base, situation: "sailing-different-tacks",
+        obligation: iGiveWay ? "give-way" : "stand-on", rule: 12,
+        thresholds: iGiveWay ? null : standOnThresholds(own, contact, cond),
+        why: iGiveWay ? "You have the wind on your port side and she does not. You keep out of the way."
+                      : "She has the wind on her port side and you do not. She keeps out of the way."};
+    }
+    const wind = windwardOf(own, contact);
+
+    if (!wind) return {...base,
+      situation: "no-allocation", obligation: "both-act", rule: 2,
+      why: "Same tack, and which of you is to windward is not established, so Rule 12 "
+         + "has nobody to point at. There is no stand-on vessel here: you both act, "
+         + "and Rule 2 says you depart from the rules as far as the immediate danger "
+         + "requires."};
+    const iGiveWay = wind === own;
+    return {...base, situation: "sailing-same-tack",
+      obligation: iGiveWay ? "give-way" : "stand-on", rule: 12,
+      thresholds: iGiveWay ? null : standOnThresholds(own, contact, cond),
+      why: iGiveWay ? "Same tack and you are the windward boat. You keep out of the way."
+                    : "Same tack and she is to windward. She keeps out of the way."};
+  }
+
+  if (!A.power || !B.power) return {...base,
+    situation: "no-allocation", obligation: "both-act", rule: 2,
+    why: "Neither of you is a power-driven vessel and the rules do not rank you "
+       + "against each other, so Rules 15 and 17 have nobody to point at. There is no "
+       + "stand-on vessel here: you both act, and Rule 2 says you depart from the "
+       + "rules as far as the immediate danger requires."};
+
+  const reciprocal = Math.abs(Math.abs(diff(own.heading, contact.heading)) - 180) < 6;
+  const nearlyAhead = Math.abs(relB) < 6;
+  if (reciprocal && nearlyAhead) return {...base,
+    situation: "head-on", obligation: "both-give-way", rule: 14,
+    why: "You are meeting nearly head on. You BOTH alter to starboard, and you both do it early "
+       + "and obviously enough that the other can see it."};
+
+  const heOnMyStarboard = relB > 0;
+
+  if (!heOnMyStarboard && !(relativeBearing(contact, own) > 0)) return {...base,
+    situation: "no-allocation", obligation: "both-act", rule: 2,
+    why: "Neither of you has the other on your own starboard side, so Rule 15 has "
+       + "nobody to point at. There is no stand-on vessel here: you both act, and "
+       + "Rule 2 says you depart from the rules as far as the immediate danger "
+       + "requires."};
+  return {...base,
+    situation: "crossing",
+    obligation: heOnMyStarboard ? "give-way" : "stand-on",
+    rule: 15,
+    thresholds: heOnMyStarboard ? null : standOnThresholds(own, contact, cond),
+    why: heOnMyStarboard
+      ? "She is crossing from your starboard side. You keep out of the way — and you do not cross ahead of her."
+      : "She is crossing from your port side. She keeps out of the way. You hold, and you watch her to see whether she does."};
+}
+
+"use strict";
+
+const ELLA14 = {n: "A power-driven vessel of 90 m", eslora: 90, nudos: 12, rumbo: 180};
+const TU14 = {n: "your own vessel", eslora: 40, nudos: 12, rumbo: 0};
+
+const EMPIEZAS = {millas: 2};
+
+const MANDO = {grados: 15};
+
+const VIRADA = {grados: 30, n: "thirty degrees, which is a turn she can see"};
+
+const DUDA = {grados: 3,
+              n: "three degrees either side of the line, where her masthead lights "
+               + "are still too nearly in line to swear to"};
+
+const gr = a => ((a % 360) + 360) % 360;
+
+function tuEn(giro){
+  return {x: 0, y: 0, heading: gr(TU14.rumbo + (giro || 0)), speed: TU14.nudos,
+          type: "power", length: TU14.eslora, underway: true, makingWay: true};
+}
+function ellaEn(brg, giro){
+  const g = brg*Math.PI/180;
+  return {x: EMPIEZAS.millas*Math.sin(g), y: EMPIEZAS.millas*Math.cos(g),
+          heading: gr(ELLA14.rumbo + (giro || 0)), speed: ELLA14.nudos,
+          type: "power", length: ELLA14.eslora, underway: true, makingWay: true};
+}
+
+function filoDelMotor(){
+  let ultimo = 0;
+  for(let b = 0; b <= 60; b += 0.05)
+    if(evaluate(tuEn(), ellaEn(b)).situation === "head-on") ultimo = b;
+  return Math.round(ultimo*20)/20;
+}
+const FILO = filoDelMotor();
+
+function zonaDe(brg){
+  const a = Math.abs(brg);
+  if(a <= FILO - DUDA.grados) return "frente";
+  if(a >= FILO + DUDA.grados) return "no";
+  return "duda";
+}
+
+function respuestaBuena(brg){
+  const z = zonaDe(brg);
+  return z === "frente" ? "si" : z === "no" ? "no" : "duda";
+}
+
+function leVes(brg){
+  const t = tuEn(), e = ellaEn(brg);
+  const asp = aspect(t, e), dist = rangeTo(t, e);
+  const luces = seenFrom(e, asp, dist);
+  const topes = luces.filter(l => l.kind === "masthead");
+  const costados = luces.filter(l => l.kind === "starboard" || l.kind === "port");
+  return {aspecto: asp, dist: dist, luces: luces, topes: topes, costados: costados,
+          losDos: costados.length === 2,
+          separacion: separacionDeTopes(e, t)};
+}
+
+function separacionDeTopes(v, desde){
+  const t = configuration(v).filter(l => l.kind === "masthead");
+  if(t.length < 2) return null;
+
+  const proa = t[0].x > t[1].x ? t[0] : t[1];
+  const popa = proa === t[0] ? t[1] : t[0];
+  const largo = (proa.x - popa.x)*(v.length || 0);
+
+  const g = v.heading*Math.PI/180, mi = 1/1852;
+  const en = f => ({x: v.x + Math.sin(g)*f*(v.length || 0)*mi,
+                    y: v.y + Math.cos(g)*f*(v.length || 0)*mi});
+  const bp = bearingTo(desde, en(proa.x)), bq = bearingTo(desde, en(popa.x));
+  let ab = bp - bq; if(ab > 180) ab -= 360; if(ab < -180) ab += 360;
+  return {minutos: Math.abs(ab)*60, sentido: ab === 0 ? 0 : (ab > 0 ? 1 : -1),
+          entreTopes: Math.abs(largo),
+          alto: Math.abs(proa.h - popa.h), proa: proa, popa: popa};
+}
+
+function pasadaCon(brg, giroTuyo, giroSuyo){
+  const t = tuEn(giroTuyo), e = ellaEn(brg, giroSuyo);
+  const q = cpaTcpa(t, e);
+
+  const h = Math.max(0, q.tcpa);
+  const tc = step(t, h), ec = step(e, h);
+  const rb = relativeBearing(tc, ec);
+  return {cpa: q.cpa, tcpa: q.tcpa, t: t, e: e, tc: tc, ec: ec,
+
+          entreMarcas: rangeTo(tc, ec),
+          costado: rb < 0 ? "port" : "starboard",
+
+          suCostado: relativeBearing(ec, tc) < 0 ? "port" : "starboard"};
+}
+
+function estado14(brg, giro){
+  const t = tuEn(), e = ellaEn(brg);
+  const v = evaluate(t, e);
+  const riesgo = riscoDe(t, e);
+  const zona = zonaDe(brg);
+  const visto = leVes(brg);
+
+  const derecho = pasadaCon(brg, 0, 0);
+
+  const bien = pasadaCon(brg, VIRADA.grados, VIRADA.grados);
+
+  const roto = pasadaCon(brg, -VIRADA.grados, VIRADA.grados);
+
+  return {
+    brg: brg, giro: giro || null,
+    tu: t, ella: e, ley: v, riesgo: riesgo,
+    zona: zona, deFrente: zona !== "no", buena: respuestaBuena(brg),
+    visto: visto, filo: FILO, banda: DUDA.grados,
+    derecho: derecho, bien: bien, roto: roto,
+
+    cede: zona !== "no" ? "los-dos" : null,
+    porLaDuda: zona === "duda"
+  };
+}
+
+function riscoDe(t, e){
+  const r = riskOfCollision(t, e);
+  return r && r.risk !== undefined ? r.risk : !!r;
+}
+
+function dilo14(e, dicho1, dicho2){
+  if(!dicho1)
+    return {momento: "pregunta",
+      titulo: "Is this a head-on situation?",
+      cuerpo: "Two power-driven vessels, and she is holding the reciprocal of your "
+            + "course. Before the screen tells you anything: <b>is this a head-on "
+            + "situation?</b> Look at what you can see of her &mdash; her masthead "
+            + "lights, and how many of her sidelights are showing.",
+      cede: e.cede};
+
+  const acerto = dicho1 === e.buena;
+  let titulo, cuerpo, nota = null;
+
+  if(e.zona === "duda"){
+    titulo = acerto ? "Right &mdash; and nobody could have told you."
+                    : "You could not have known that.";
+    cuerpo = "You are within a few degrees of the line, and <b>from here nobody could "
+           + "say</b>. Her two masthead lights are open by a hair, and a hair at this "
+           + "range is nothing you could measure from a moving deck. That is not a "
+           + "failure of your eyesight: <b>it is the ordinary condition of the test</b>, "
+           + "and the Rule knows it.";
+    nota = {ley: "c", texto:
+      "<b>And the Rule settles it for you.</b> When a vessel is in any doubt as to "
+      + "whether such a situation exists she shall assume that it does exist and act "
+      + "accordingly. So you treat this as head-on &mdash; not because you measured "
+      + "it, but because you could not."};
+  } else if(e.zona === "frente"){
+    titulo = acerto ? "Right." : "No &mdash; this is head-on.";
+
+    cuerpo = (e.visto.losDos
+        ? "She is right ahead of you, and <b>you can see both of her sidelights at "
+        + "once</b> &mdash; which only happens on the line of her keel. "
+        : "She is right ahead of you. ")
+           + "Her two masthead lights are <b>as near in line as makes no "
+           + "difference</b>, and that half of the Rule's test is met on its own: it "
+           + "reads <i>in a line or nearly in a line <b>and/or</b> both sidelights</i>.";
+    nota = {ley: "b", texto:
+      "<b>Such a situation shall be deemed to exist</b> when a vessel sees the other "
+      + "ahead or nearly ahead and by night she could see the masthead lights of the "
+      + "other in a line or nearly in a line <b>and/or both sidelights</b> and by day "
+      + "she observes the corresponding aspect of the other vessel."};
+  } else {
+    titulo = acerto ? "Right." : "No &mdash; this is not head-on.";
+    cuerpo = "She is on your bow, but not ahead or nearly ahead. <b>Her masthead "
+           + "lights are open and only one of her sidelights is showing</b>, and one "
+           + "sidelight is the whole answer: you are off her centerline, so your "
+           + "courses are not the reciprocal pair the Rule is talking about.";
+    nota = {ley: "b", texto:
+      "<b>The test is what you can see, not what you can work out.</b> The Rule asks "
+      + "for the other <i>ahead or nearly ahead</i>, with her masthead lights <i>in a "
+      + "line or nearly in a line and/or both sidelights</i>. One sidelight, and two "
+      + "lights plainly open, is neither. <b>Rule 14 does not decide this one.</b>"};
+  }
+
+  if(e.deFrente && !dicho2)
+    return {momento: "gira", titulo: titulo, cuerpo: cuerpo, nota: nota,
+      acerto: acerto,
+      pregunta: "Which way do you alter?",
+      cede: e.cede};
+
+  if(e.deFrente){
+    const bien2 = dicho2 === "estribor";
+    return {momento: "girado", titulo: titulo, cuerpo: cuerpo, nota: nota,
+      acerto: acerto, acerto2: bien2,
+      titulo2: bien2 ? "To starboard. And so does she."
+                     : "To starboard &mdash; and here is why it is not a preference.",
+      cuerpo2: bien2
+        ? "You both alter to starboard, you both do it early enough and far enough to "
+          + "be seen, and <b>you pass port side to port side</b>. Neither of you is "
+          + "the give-way vessel here and neither of you holds: <b>this is the one "
+          + "Rule in the section that tells both of you to act</b>."
+        : "Turning to port is not wrong because it would fail to clear her. If you "
+          + "<i>both</i> went to port you would clear each other perfectly well. "
+          + "<b>It is wrong because she is going to starboard</b> &mdash; she is "
+          + "obeying the Rule. And look at what the two of you have then done: "
+          + "<b>you have turned an equal amount in opposite directions, so you close "
+          + "on exactly the track you were on before</b>. Your helm has bought you "
+          + "nothing at all, and you have spent the time. The whole job of Rule 14 is "
+          + "that <b>you both make the same choice without asking</b>.",
+      nota2: {ley: "a", texto:
+        "When two power-driven vessels are meeting on reciprocal or nearly reciprocal "
+        + "courses so as to involve risk of collision <b>each shall alter her course "
+        + "to starboard</b> so that <b>each shall pass on the port side of the "
+        + "other</b>."},
+      cede: e.cede};
+  }
+
+  return {momento: "corregido", titulo: titulo, cuerpo: cuerpo, nota: nota,
+    acerto: acerto, cede: e.cede};
+}
+
+const AIRE14 = {x: 120, y: 92};
+let E14 = {ox: 0, oy: 0, k: 1, y0: 0, y1: 0};
+
+const DERROTA = 1.45;
+
+const AX = p => E14.ox + p.y*E14.k;
+const AY = p => E14.oy + p.x*E14.k;
+const AM = m => m*E14.k;
+
+const CAJA_MIN = {largo: 2.3, ancho: 1.05};
+
+function puntaDe(v, largo){
+  const g = v.heading*Math.PI/180;
+  return {x: v.x + largo*Math.sin(g), y: v.y + largo*Math.cos(g)};
+}
+
+function fija14(e){
+  E14.y0 = px(150);
+  E14.y1 = D.H - px(58);
+  const cs = caras14(e);
+
+  let a0 = 0, a1 = 0, t0 = 0, t1 = 0;
+  const mete = p => { a0 = Math.min(a0, p.y); a1 = Math.max(a1, p.y);
+                      t0 = Math.min(t0, p.x); t1 = Math.max(t1, p.x); };
+  mete(e.tu); mete(e.ella);
+  cs.forEach(function(q){
+    mete(q.v); mete(puntaDe(q.v, DERROTA));
+    if(q.cpa){ mete(q.cpa.tc); mete(q.cpa.ec); }
+  });
+
+  const yArriba = E14.y0 + px(CAJA_LUZ.alto) + px(34);
+  const w = Math.max(px(80), D.W - px(AIRE14.x)*2);
+  const h = Math.max(px(80), (E14.y1 - yArriba) - px(AIRE14.y));
+  const bw = Math.max(a1 - a0, CAJA_MIN.largo), bh = Math.max(t1 - t0, CAJA_MIN.ancho);
+
+  E14.k = Math.min(w/bw, h/bh);
+  E14.ox = D.W/2 - (a0 + a1)/2*E14.k;
+  E14.oy = (yArriba + E14.y1)/2 - (t0 + t1)/2*E14.k;
+}
+
+function caras14(e){
+  if(!S14.dicho2)
+    return [{v: e.derecho.t, quien: "tu", cpa: e.derecho, tinta: "var(--lam-ink)"},
+            {v: e.derecho.e, quien: "ella", cpa: null, tinta: "var(--lam-dim)"}];
+  if(S14.dicho2 === "estribor")
+    return [{v: e.bien.t, quien: "tu", cpa: e.bien, tinta: "var(--lam-ok)"},
+            {v: e.bien.e, quien: "ella", cpa: null, tinta: "var(--lam-dim)"}];
+  return [{v: e.roto.t, quien: "tu", cpa: e.roto, tinta: "var(--lam-alarm)"},
+          {v: e.roto.e, quien: "ella", cpa: null, tinta: "var(--lam-alarm)"}];
+}
+
+let VETADO14 = [];
+function vetado14(x, y){
+  return VETADO14.some(function(c){
+    return x > c[0] && x < c[2] && y > c[1] && y < c[3];
+  });
+}
+
+function carta14(){
+  const h = E14.y1 - E14.y0;
+  el("rect", {x: 0, y: E14.y0, width: D.W, height: h, fill: "var(--carta)",
+              "data-banda": "honda"});
+  const cel = px(195);
+  for(let i = 0; i*cel < D.W + cel; i++){
+    for(let j = 0; j*cel < D.H + cel; j++){
+      const r1 = sondaDe(i, j), r2 = sondaDe(i + 11, j + 47), r3 = sondaDe(i + 5, j + 23);
+      if(r3 < 0.55) continue;
+      const x = i*cel + r1*cel*0.7, y = j*cel + r2*cel*0.7;
+      if(x < px(26) || x > D.W - px(26)) continue;
+      if(y < E14.y0 + px(30) || y > E14.y1 - px(30)) continue;
+      if(vetado14(x, y)) continue;
+      sonda(x, y, 30 + r1*22);
+    }
+  }
+  const k1 = AM(0.5), ex = px(26), ey = E14.y1 - px(34);
+  el("line", {x1: ex, y1: ey, x2: ex + k1, y2: ey,
+              stroke: "var(--lam-dim)", "stroke-width": px(1.4)});
+  [0, k1].forEach(function(o){
+    el("line", {x1: ex + o, y1: ey - px(5), x2: ex + o, y2: ey + px(5),
+                stroke: "var(--lam-dim)", "stroke-width": px(1.4)});
+  });
+  txt(ex + k1 + px(10), ey + px(4), "half a mile", "start", 10,
+      "var(--lam-dim)", 400, "mono");
+  txt(px(26), E14.y1 - px(10), "hulls not to scale", "start", 10,
+      "var(--lam-dim)", 400, "mono");
+  txt(D.W - px(24), E14.y1 - px(12), "depths in meters", "end", 10,
+      "var(--lam-dim)", 400, "mono");
+}
+
+const CAJA_LUZ = {ancho: 300, alto: 132};
+function cajaDeLuces(){
+  const w = px(CAJA_LUZ.ancho), h = px(CAJA_LUZ.alto);
+  const x = D.W - w - px(24), y = E14.y0 + px(14);
+  return [x - px(6), y - px(6), x + w + px(6), y + h + px(6)];
+}
+function marcaLuz(n){ n.setAttribute("data-luz", "1"); return n; }
+
+const LUZ_POR_MINUTO = 2.4;
+function luces14(e){
+  const w = px(CAJA_LUZ.ancho), h = px(CAJA_LUZ.alto);
+  const x = D.W - w - px(24), y = E14.y0 + px(14);
+  const s = e.visto.separacion, duda = e.zona === "duda";
+
+  el("rect", {"data-entera": "luces", x: x, y: y, width: w, height: h, rx: px(3),
+              fill: "var(--bar)", stroke: "var(--edge-card)", "stroke-width": px(1)});
+
+  marcaLuz(txt(x + px(13), y + px(19), "WHAT YOU SEE OF HER", "start", 9.5,
+               "var(--on-bar)", 600, "mono"));
+  marcaLuz(txt(x + w - px(13), y + px(19), "at night", "end", 9.5,
+               "var(--on-bar)", 400, "mono"));
+
+  const cx = x + w/2, cy = y + px(70);
+
+  const ab = Math.min(px(104), px(LUZ_POR_MINUTO)*s.minutos)*s.sentido;
+
+  el("circle", {cx: cx + ab/2, cy: cy - px(22), r: px(4), fill: "var(--carta)",
+                opacity: duda ? .45 : 1});
+  el("circle", {cx: cx - ab/2, cy: cy - px(36), r: px(4), fill: "var(--carta)",
+                opacity: duda ? .45 : 1});
+
+  const tinta = {starboard: "var(--baliza-verde)", port: "var(--baliza-roja)"};
+  e.visto.costados.forEach(function(l, i, todos){
+    const off = todos.length === 2 ? (l.kind === "starboard" ? px(12) : -px(12)) : 0;
+    el("circle", {cx: cx + off, cy: cy + px(4), r: px(4.6), fill: tinta[l.kind],
+                  opacity: duda ? .45 : 1});
+  });
+
+  const pie = duda ? ["her masthead lights are open by a hair",
+                      "could you swear to that?"]
+            : e.visto.losDos ? ["both her sidelights at once,",
+                                "and her masthead lights in one"]
+            : e.zona === "frente" ? ["one sidelight, and her masthead",
+                                     "lights as good as in line"]
+            : ["one sidelight, and her masthead",
+               "lights plainly open"];
+  if(duda)
+    el("rect", {x: x + px(1), y: y + px(26), width: w - px(2), height: px(58),
+                fill: "var(--lam-linea)", "fill-opacity": .30});
+  pie.forEach(function(t, i){
+    marcaLuz(txt(cx, y + px(100) + i*px(14), t, "middle", 9.5,
+                 duda ? "var(--on-bar-strong)" : "var(--on-bar)", 600, "mono"));
+  });
+}
+
+const DIBUJO14 = {suelo: 44, referencia: 40, exponente: 1/3};
+function esloraDibujada14(m){
+  return DIBUJO14.suelo * Math.pow(m/DIBUJO14.referencia, DIBUJO14.exponente);
+}
+
+function casco14(x, y, rumbo, tinta, eslora, quien){
+  const L = esloraDibujada14(eslora);
+  const g = rumbo*Math.PI/180, sn = Math.sin(g), cs = Math.cos(g);
+  const P = (av, tr) => [x + cs*av - sn*tr, y + sn*av + cs*tr];
+  const M = L*0.09;
+  const q = [P(L*0.50, 0), P(L*0.26, M*0.85), P(L*0.10, M),
+             P(-L*0.44, M*0.9), P(-L*0.50, M*0.55),
+             P(-L*0.50, -M*0.55), P(-L*0.44, -M*0.9),
+             P(L*0.10, -M), P(L*0.26, -M*0.85)];
+  const gr = el("g", {"data-barco": quien});
+  el("path", {d: "M" + q.map(p => p[0].toFixed(1) + "," + p[1].toFixed(1)).join(" L")
+                + " Z", fill: tinta, opacity: .95, "data-buque": "1"}, gr);
+  return L;
+}
+
+const PISTAS14 = {};
+
+function cabenLosDos14(rot, texto, w){
+  const anchoDe = (t, z) => px(z)*0.60*t.length;
+  let a = 11, b = 13.5;
+  while(b > 8 && anchoDe(rot, a) + anchoDe(texto, b) + px(12) > w){
+    b -= 0.5; if(a > 8) a -= 0.5;
+  }
+  if(anchoDe(rot, a) + anchoDe(texto, b) + px(12) <= w) return [a, b];
+  return [0, b];
+}
+
+function mando14(id, x, y, w, rot, t, texto){
+  const g = el("g", {"data-mando": id});
+  const h = px(6), cy = y + px(24);
+  PISTAS14[id] = {x0: x, x1: x + w};
+  const [zRot14, zTxt14] = cabenLosDos14(rot, texto, w);
+  if(zRot14) txt(x, y + px(5), rot, "start", zRot14, "var(--lam-dim)", 600, "mono", g);
+  txt(x + w, y + px(5), texto, "end", zTxt14, "var(--ink-title)", 600, "mono", g);
+  el("rect", {x: x - px(10), y: y - px(6), width: w + px(20), height: px(42),
+              fill: "#000", "fill-opacity": 0}, g);
+  el("rect", {x: x, y: cy - h/2, width: w, height: h, rx: h/2,
+              fill: "var(--carta)", stroke: "var(--edge-button)",
+              "stroke-width": px(1)}, g);
+  el("rect", {x: x, y: cy - h/2, width: Math.max(h, w*t), height: h, rx: h/2,
+              fill: "var(--accent-control)"}, g);
+  el("circle", {cx: x + w*t, cy: cy, r: px(10), fill: "var(--accent-control)",
+                stroke: "var(--lam-ink)", "stroke-width": px(1.6)}, g);
+}
+
+function dondeEstaElla(brg){
+  if(brg === 0) return "right ahead of you";
+  const lado = brg > 0 ? "starboard" : "port";
+  return (Math.abs(brg) <= MANDO.grados/2 ? "fine on your " : "on your ")
+       + lado + " bow";
+}
+
+let PUESTOS14 = [];
+function rotula14En(x0, y0, lineas, tinta){
+  const alto = lineas.length*px(15);
+  const x = Math.max(px(76), Math.min(x0, D.W - px(76)));
+  const ancho = px(6.6)*Math.max.apply(null, lineas.map(t => t.length));
+  const suelo = E14.y1 - px(28) - alto, techo = E14.y0 + px(20);
+  const c = cajaDeLuces();
+  const choca = y => (x + ancho/2 > c[0] && x - ancho/2 < c[2]
+                      && y + alto > c[1] && y - px(12) < c[3])
+    || PUESTOS14.some(q => x + ancho/2 > q[0] && x - ancho/2 < q[2]
+                        && y + alto + px(4) > q[1] && y - px(12) - px(4) < q[3]);
+  let y = Math.max(techo, Math.min(y0, suelo));
+  if(choca(y)){
+    let puesto = false;
+
+    for(let v = y; v <= suelo && !puesto; v += px(9))
+      if(!choca(v)){ y = v; puesto = true; }
+    for(let v = y; v >= techo && !puesto; v -= px(9))
+      if(!choca(v)){ y = v; puesto = true; }
+  }
+  PUESTOS14.push([x - ancho/2, y - px(12), x + ancho/2, y + alto]);
+  lineas.forEach(function(t, i){
+    txt(x, y + i*px(15), t, "middle", 10.5, tinta, 600, "mono");
+  });
+}
+
+const S14 = {brg: 1, dicho1: null, dicho2: null};
+
+const P14 = {
+  h: "Head-on situation",
+  arriba: "Rule 14",
+
+  lamina(){
+    const e = estado14(S14.brg, S14.dicho2);
+    fija14(e);
+    const cs = caras14(e);
+
+    const tx = AX(e.tu), ty = AY(e.tu);
+    const ex = AX(e.ella), ey = AY(e.ella);
+    VETADO14 = [cajaDeLuces(),
+                [tx - px(120), ty - px(64), tx + px(120), ty + px(64)],
+                [ex - px(120), ey - px(64), ex + px(120), ey + px(64)],
+                [0, E14.y0, px(300), E14.y0 + px(40)],
+                [0, E14.y1 - px(52), px(430), E14.y1]];
+
+    carta14();
+
+    cs.forEach(function(q){
+      const p = puntaDe(q.v, DERROTA);
+      el("line", {x1: AX(q.v), y1: AY(q.v), x2: AX(p), y2: AY(p),
+                  stroke: q.tinta, "stroke-width": px(1.5), "stroke-opacity": .55});
+    });
+
+    let deSpues = [];
+    if(S14.dicho2 === "babor"){
+      const b = e.bien.t, p = puntaDe(b, DERROTA);
+      el("line", {x1: AX(b), y1: AY(b), x2: AX(p), y2: AY(p),
+                  stroke: "var(--lam-ok)", "stroke-width": px(1.5),
+                  "stroke-opacity": .8, "stroke-dasharray": px(7) + "," + px(5)});
+      deSpues.push([AX(p), AY(p) + px(18), ["what the Rule asked for"],
+                    "var(--lam-ok)"]);
+    }
+
+    const q = cs[0].cpa;
+    if(q){
+      const a = [AX(q.tc), AY(q.tc)], b = [AX(q.ec), AY(q.ec)];
+      [a, b].forEach(function(p){
+        el("circle", {cx: p[0], cy: p[1], r: px(4.5), fill: "none",
+                      stroke: cs[0].tinta, "stroke-width": px(1.4),
+                      "stroke-opacity": .85});
+      });
+      el("line", {x1: a[0], y1: a[1], x2: b[0], y2: b[1], stroke: cs[0].tinta,
+                  "stroke-width": px(1.2), "stroke-dasharray": px(3) + "," + px(3),
+                  "stroke-opacity": .85});
+      if(S14.dicho2)
+        deSpues.push([(a[0] + b[0])/2, (a[1] + b[1])/2 - px(20),
+                      ["closest approach"], cs[0].tinta]);
+    }
+
+    const rE = casco14(ex, ey, cs[1].v.heading, cs[1].tinta, ELLA14.eslora, "ella")*0.5;
+    const rT = casco14(tx, ty, cs[0].v.heading, cs[0].tinta, TU14.eslora, "tu")*0.5;
+
+    PUESTOS14 = [];
+    rotula14En(ex, ey + rE + px(22), ["her"], cs[1].tinta);
+    rotula14En(tx, ty + rT + px(22), ["you"], cs[0].tinta);
+    deSpues.forEach(q => rotula14En(q[0], q[1], q[2], q[3]));
+
+    luces14(e);
+
+    const M = D.W*0.028, w = D.W - M*2;
+    el("rect", {x: 0, y: 0, width: D.W, height: E14.y0, fill: "var(--lam-papel)"});
+    el("line", {x1: 0, y1: E14.y0, x2: D.W, y2: E14.y0, stroke: "var(--edge-card)",
+                "stroke-width": px(1)});
+    el("rect", {x: 0, y: E14.y1, width: D.W, height: D.H - E14.y1,
+                fill: "var(--lam-papel)"});
+    el("line", {x1: 0, y1: E14.y1, x2: D.W, y2: E14.y1, stroke: "var(--edge-card)",
+                "stroke-width": px(1)});
+
+    txt(M, px(24), "SHE HOLDS THE RECIPROCAL OF YOUR COURSE · "
+      + "ONLY WHERE SHE LIES CHANGES", "start", 12, "var(--lam-dim)", 600, "mono");
+    mando14("donde", M, px(54), w*0.60, "WHERE SHE LIES ON YOUR BOW",
+            (S14.brg + MANDO.grados)/(2*MANDO.grados), dondeEstaElla(S14.brg));
+
+    txt(M, px(118),
+        !S14.dicho1 ? "her lights are drawn · the answer is in them"
+          : !S14.dicho2 && e.deFrente ? "now decide which way you alter"
+          : S14.dicho2 === "estribor" ? "port side to port side, and she does the same"
+          : S14.dicho2 === "babor" ? "she went to starboard, because the Rule told her to"
+          : "Rule 14 does not decide this one",
+        "start", 12, "var(--lam-dim)", 400, "mono");
+
+    txt(D.W/2, E14.y1 + px(34),
+        !S14.dicho1 ? "two power-driven vessels, and only one of them is you"
+          : e.deFrente
+            ? "a head-on situation · you BOTH alter to starboard"
+            : "not a head-on situation · Rule 14 asks for her ahead or nearly ahead",
+        "middle", 12.5, "var(--lam-dim)", 400, "mono");
+  },
+
+  mueve(id, u){
+    const p = PISTAS14[id];
+    if(!p) return;
+    const t = Math.max(0, Math.min(1, (u - p.x0)/(p.x1 - p.x0)));
+    if(id === "donde"){
+      const antes = S14.brg;
+      S14.brg = Math.round(-MANDO.grados + t*2*MANDO.grados);
+
+      if(S14.brg !== antes){ S14.dicho1 = null; S14.dicho2 = null; }
+    }
+  },
+  pulsa(){ },
+  responde(q){
+    if(q === "si" || q === "no" || q === "duda"){ S14.dicho1 = q; toca(); return; }
+    if(q === "estribor" || q === "babor"){ S14.dicho2 = q; toca(); return; }
+    if(q === "otra"){ S14.dicho1 = null; S14.dicho2 = null; toca(); }
+  },
+
+  panel(){
+    const e = estado14(S14.brg, S14.dicho2);
+    const t = dilo14(e, S14.dicho1, S14.dicho2);
+    let h = "<h3>Rule 14</h3><h2>Head-on situation</h2>";
+
+    h += '<div data-cede="' + (!S14.dicho1 ? "sin-decir" : t.cede || "nadie") + '"'
+       + ' data-momento="' + t.momento + '"'
+       + ' class="ahora' + (t.momento === "pregunta" ? " pide"
+                          : t.cede ? " mal" : "") + '">'
+       + '<p class="uno">' + t.titulo + "</p><p>" + t.cuerpo + "</p>";
+    if(t.nota)
+      h += '<div class="notas"><div class="nota"><span class="nl">(' + t.nota.ley
+         + ')</span><p class="nt">' + t.nota.texto + "</p></div></div>";
+    h += "</div>";
+
+    if(t.momento === "pregunta")
+      h += '<div class="pregunta"><button data-di="si">Yes, this is head-on</button>'
+         + '<button data-di="no">No, it is not</button>'
+         + '<button data-di="duda">I cannot tell from here</button></div>';
+
+    if(t.momento === "gira")
+      h += '<div class="ahora pide"><p class="uno">' + t.pregunta + "</p>"
+         + "<p>She is a power-driven vessel too, and she is reading the same Rule you "
+         + "are. <b>Which way do you put your helm?</b></p></div>"
+         + '<div class="pregunta"><button data-di="estribor">To starboard</button>'
+         + '<button data-di="babor">To port</button></div>';
+
+    if(t.momento === "girado"){
+      h += '<div class="ahora' + (t.acerto2 ? "" : " mal") + '">'
+         + '<p class="uno">' + t.titulo2 + "</p><p>" + t.cuerpo2 + "</p>";
+      if(t.nota2)
+        h += '<div class="notas"><div class="nota"><span class="nl">(' + t.nota2.ley
+           + ')</span><p class="nt">' + t.nota2.texto + "</p></div></div>";
+      h += "</div>";
+    }
+    if(S14.dicho1)
+      h += '<div class="pregunta"><button class="otra" data-di="otra">'
+         + "Start again from somewhere else</button></div>";
+
+    const s = e.visto.separacion;
+    h += "<h3>The readings</h3><dl class=\"cifras\">"
+       + "<dt>She is</dt><dd>" + ELLA14.n + ", making " + ELLA14.nudos + " knots</dd>"
+       + "<dt>You make</dt><dd>" + TU14.nudos + " knots</dd>"
+       + "<dt>Her course</dt><dd>the reciprocal of yours, exactly &mdash; that never "
+       + "changes on this screen</dd>"
+       + "<dt>She lies</dt><dd>"
+       + (S14.dicho1 ? Math.abs(e.brg) + "&deg; "
+            + (e.brg === 0 ? "&mdash; right ahead"
+               : "on your " + (e.brg > 0 ? "starboard" : "port") + " bow")
+            + ", " + EMPIEZAS.millas + " M off"
+          : EMPIEZAS.millas + " M off, somewhere on your bow")
+       + "</dd>";
+    if(S14.dicho1)
+      h += "<dt>Her masthead lights</dt><dd>" + s.minutos.toFixed(1)
+         + "&prime; apart &mdash; " + Math.round(s.entreTopes)
+         + " m of her deck, seen from two miles</dd>"
+         + "<dt>&ldquo;Nearly ahead&rdquo;</dt><dd>taken as " + e.filo
+         + "&deg; off your bow. <b>That figure is not the Rule's</b> &mdash; the Rule "
+         + "says only <i>ahead or nearly ahead</i> and leaves it there. It is where "
+         + "this course draws the line, and the band below is why you should not lean "
+         + "on it</dd>"
+         + "<dt>Closest approach</dt><dd>"
+         + (S14.dicho2
+            ? (S14.dicho2 === "estribor" ? e.bien.cpa.toFixed(2) + " M, "
+                 + e.bien.costado + " side to " + e.bien.suCostado + " side"
+               : e.roto.cpa.toFixed(2) + " M &mdash; the same as if neither of you had "
+                 + "touched a thing, which is " + e.derecho.cpa.toFixed(2) + " M")
+            : e.derecho.cpa.toFixed(2) + " M as things stand")
+         + "</dd>";
+    h += "</dl>";
+
+    h += '<p class="buque">The Rule gives no figures at all, so everything here is '
+       + "declared. <b>Her course is the exact reciprocal of yours</b> and stays that "
+       + "way, so that only one thing changes at a time. She lies " + EMPIEZAS.millas
+       + " M off, which leaves about five minutes at a closing speed of "
+       + (TU14.nudos + ELLA14.nudos) + " knots. <b>The alteration is " + VIRADA.n
+       + "</b>, because Rule 8(b) asks for one large enough to be readily apparent and "
+       + "ten degrees at two miles is not. <b>Where &ldquo;nearly ahead&rdquo; stops "
+       + "is this course's own line</b>, not the Rule's: the Rule gives no angle, so "
+       + "one had to be chosen, and <b>the band where nobody could tell</b> is taken "
+       + "as " + DUDA.n + " &mdash; which is to say the line is drawn and then "
+       + "immediately admitted to be unreadable, because that is the truth of it. <b>Her lights are not drawn to scale</b> and neither "
+       + "are the hulls: what she shows at each aspect comes from the same lights "
+       + "module the lights chapters use, and the separation of her masthead lights is "
+       + "measured, not drawn. <b>The plate is turned a quarter turn</b> so that your "
+       + "course runs across the paper: it is the same chart, north no longer up.</p>";
+
+    h += "<h3>The Rule</h3>";
+    LEY14.forEach(function(p){
+      h += '<div class="ley-inciso">' + p + "</div>";
+    });
+    h += '<p class="fuente">Navigation Rules &amp; Regulations Handbook &middot; '
+       + "Rule 14 &middot; " + LEY14CAR + " characters</p>";
+    return h;
+  }
+};
+
+function redibuja(){
+  svg = document.getElementById("svg");
+  const caja = document.getElementById("ficha").getBoundingClientRect();
+  if(!caja.width || !caja.height) return;
+  D.H = Math.max(420, Math.round(D.W * caja.height / caja.width));
+  ESC = caja.width / D.W;
+  svg.setAttribute("viewBox", "0 0 " + D.W + " " + D.H);
+  svg.setAttribute("preserveAspectRatio", "xMidYMid meet");
+  while(svg.firstChild) svg.removeChild(svg.firstChild);
+  gO = el("g", {}, svg);
+  P14.lamina();
+}
+
+function pintaPanel(){
+  const pane = document.getElementById("pane");
+  pane.innerHTML = P14.panel();
+  document.getElementById("barCont").textContent = "RULE 14 OF 19";
+
+  pane.querySelectorAll("[data-di]").forEach(function(b){
+    b.addEventListener("click", function(){
+      if(P14.responde) P14.responde(b.getAttribute("data-di"));
+    });
+  });
+}
+
+function toca(){ redibuja(); pintaPanel(); }
+
+(function(){
+  const f = document.getElementById("ficha");
+  let activo = null;
+
+  function valor(e){
+    const caja = f.getBoundingClientRect();
+    if(!caja.width) return;
+    const u = (e.clientX - caja.left) / caja.width * D.W;
+    P14.mueve(activo, u);
+    redibuja();
+    pintaPanel();
+  }
+
+  f.addEventListener("pointerdown", function(e){
+    const b = e.target.closest && e.target.closest("[data-boton]");
+    if(b){
+      P14.pulsa(b.getAttribute("data-boton"));
+      return;
+    }
+    const g = e.target.closest && e.target.closest("[data-mando]");
+    if(!g) return;
+    activo = g.getAttribute("data-mando");
+    f.classList.add("arrastrando");
+    try { f.setPointerCapture(e.pointerId); } catch(err){}
+
+    valor(e);
+  });
+
+  f.addEventListener("pointermove", function(e){
+    if(activo) valor(e);
+  });
+
+  ["pointerup", "pointercancel"].forEach(function(t){
+    f.addEventListener(t, function(){
+      activo = null;
+      f.classList.remove("arrastrando");
+    });
+  });
+})();
+
+const PZ = [P14];
+function vaPantalla(i){ toca(); }
+const vaA = vaPantalla;
+
+addEventListener("resize", redibuja);
+
+if(typeof ResizeObserver !== "undefined")
+  new ResizeObserver(redibuja).observe(document.getElementById("ficha"));
+toca();
+</script>
+<script data-marco="1">
+
+(function(){
+"use strict";
+
+const VISTO_CLAVE = "rya.visto";
+
+const VISTO_V = 2;
+
+function vistoAlmacen(){
+ try{ return (typeof localStorage !== "undefined" && localStorage) ? localStorage : null; }
+ catch(e){ return null; }
+}
+
+function vistoLee(){
+ const A = vistoAlmacen();
+ if(!A) return {v:VISTO_V, empezadas:{}, terminadas:{}, sinAlmacen:true};
+ try{
+  const o = JSON.parse(A.getItem(VISTO_CLAVE) || "null");
+  if(o && o.v === VISTO_V && o.empezadas && o.terminadas) return o;
+ }catch(e){}
+ return {v:VISTO_V, empezadas:{}, terminadas:{}};
+}
+
+function _vistoGuarda(o){
+ const A = vistoAlmacen();
+ if(!A) return o;
+ try{
+  A.setItem(VISTO_CLAVE, JSON.stringify(
+   {v:VISTO_V, empezadas:o.empezadas, terminadas:o.terminadas, pos:o.pos || {}}));
+ }catch(e){}
+ return o;
+}
+
+function _vistoPon(cual, fichero){
+ const o = vistoLee();
+ if(o.sinAlmacen || o[cual][fichero]) return o;
+ o[cual][fichero] = 1;
+ return _vistoGuarda(o);
+}
+
+const vistoEmpieza  = f => _vistoPon("empezadas", f);
+const vistoTermina  = f => _vistoPon("terminadas", f);
+const vistoEmpezada = f => !!vistoLee().empezadas[f];
+const vistoTerminada= f => !!vistoLee().terminadas[f];
+const vistoHayAlmacen = () => !!vistoAlmacen();
+
+function vistoPon(fichero, n){
+ const o = vistoLee();
+ if(o.sinAlmacen) return o;
+ if(!o.pos) o.pos = {};
+ if(o.pos[fichero] === n) return o;
+ o.pos[fichero] = n;
+ return _vistoGuarda(o);
+}
+
+function vistoPos(fichero, tope){
+ const p = vistoLee().pos;
+ const n = p && p[fichero];
+ if(typeof n !== "number" || !isFinite(n) || n < 0) return 0;
+ return (typeof tope === "number" && tope >= 0) ? Math.min(n, tope) : n;
+}
+
+function vistoOlvida(fichero){
+ const o = vistoLee();
+ if(o.sinAlmacen || !o.pos || !(fichero in o.pos)) return o;
+ delete o.pos[fichero];
+ return _vistoGuarda(o);
+}
+
+const MARCO = {id:"ripa", i:14, paginas:[{f:"ripa-r0-the-nineteen-rules.html",t:"The nineteen rules"},{f:"ripa-r1-application.html",t:"Rule 1 · Application"},{f:"ripa-r2-responsibility.html",t:"Rule 2 · Responsibility"},{f:"ripa-r3-general-definitions.html",t:"Rule 3 · General definitions"},{f:"ripa-r4-application.html",t:"Rule 4 · Application"},{f:"ripa-r5-look-out.html",t:"Rule 5 · Look-out"},{f:"ripa-r6-safe-speed.html",t:"Rule 6 · Safe speed"},{f:"ripa-r7-risk-of-collision.html",t:"Rule 7 · Risk of collision"},{f:"ripa-r8-action-to-avoid-collision.html",t:"Rule 8 · Action to avoid collision"},{f:"ripa-r9-narrow-channels.html",t:"Rule 9 · Narrow channels"},{f:"ripa-r10-traffic-separation-schemes.html",t:"Rule 10 · Traffic separation schemes"},{f:"ripa-r11-application.html",t:"Rule 11 · Application"},{f:"ripa-r12-sailing-vessels.html",t:"Rule 12 · Sailing vessels"},{f:"ripa-r13-overtaking.html",t:"Rule 13 · Overtaking"},{f:"ripa-r14-head-on-situation.html",t:"Rule 14 · Head-on situation"},{f:"ripa-r15-crossing-situation.html",t:"Rule 15 · Crossing situation"},{f:"ripa-r16-action-by-give-way-vessel.html",t:"Rule 16 · Action by give-way vessel"},{f:"ripa-r17-action-by-stand-on-vessel.html",t:"Rule 17 · Action by stand-on vessel"},{f:"ripa-r18-responsibilities-between-vessels.html",t:"Rule 18 · Responsibilities between vessels"},{f:"ripa-r19-restricted-visibility.html",t:"Rule 19 · Conduct of vessels in restricted visibility"}]};
+const YO = MARCO.id;
+const N = MARCO.paginas.length;
+const dosCifras = n => (n < 10 ? "0" : "") + n;
+const $ = id => document.getElementById(id);
+
+const LLAVE_NAV = "ripa.nav";
+function marcaNav(){ try{ sessionStorage.setItem(LLAVE_NAV, "1"); }catch(e){} }
+function veniaDeDentro(){
+  try{ return sessionStorage.getItem(LLAVE_NAV) === "1"; }catch(e){ return false; }
+}
+
+if(MARCO.i === 0 && !veniaDeDentro()){
+  const p = vistoPos(YO, N - 1);
+  if(p > 0){ marcaNav(); location.replace(MARCO.paginas[p].f); return; }
+}
+marcaNav();
+
+vistoEmpieza(YO);
+vistoPon(YO, MARCO.i);
+if(MARCO.i === N - 1) vistoTermina(YO);
+
+function vaA(i){
+  if(i < 0 || i >= N || i === MARCO.i) return;
+  marcaNav();
+  vistoPon(YO, i);
+  location.href = MARCO.paginas[i].f;
+}
+
+const CUENTA = dosCifras(MARCO.i + 1) + " / " + dosCifras(N);
+function ponCuenta(){
+  const b = $("barCont");
+  if(b && b.textContent !== CUENTA) b.textContent = CUENTA;
+}
+ponCuenta();
+if(typeof MutationObserver !== "undefined" && $("barCont"))
+  new MutationObserver(ponCuenta).observe($("barCont"),
+    {childList: true, characterData: true, subtree: true});
+
+(function(){
+  const pr = $("prog");
+  if(!pr) return;
+  pr.innerHTML = "";
+  MARCO.paginas.forEach(function(q, i){
+    const b = document.createElement("i");
+    if(i === MARCO.i) b.className = "on"; else if(i < MARCO.i) b.className = "done";
+    b.title = "Screen " + (i + 1) + " of " + N + " · " + q.t;
+
+    b.setAttribute("data-va", i);
+    b.onclick = function(){ vaA(i); };
+    pr.appendChild(b);
+  });
+})();
+
+const LLAVE_LOG = "ripa.log";
+function leeLog(){
+  try{ return parseInt(localStorage.getItem(LLAVE_LOG) || "0", 10) || 0; }
+  catch(e){ return 0; }
+}
+function ponLog(n){ try{ localStorage.setItem(LLAVE_LOG, String(n)); }catch(e){} }
+function pintaLog(){
+  const f = $("fLog");
+  if(!f) return;
+  const n = leeLog();
+  f.textContent = n + (n === 1 ? " answer logged" : " answers logged");
+}
+pintaLog();
+document.addEventListener("click", function(e){
+  const b = e.target.closest ? e.target.closest("[data-di]") : null;
+  if(!b) return;
+  if(b.getAttribute("data-di") === "otra") return;
+  ponLog(leeLog() + 1);
+  pintaLog();
+}, true);
+
+function hayPregunta(){
+  return !!document.querySelector("#pane [data-di]:not([data-di=otra])");
+}
+function hayOtra(){ return !!document.querySelector("#pane [data-di=otra]"); }
+
+function pintaNav(){
+  const pie = $("navPie");
+  if(!pie) return;
+  const ultima = MARCO.i >= N - 1;
+  let h = '<div class="nav">'
+    + '<button class="sec" id="atras" data-va="' + (MARCO.i - 1) + '"'
+    + (MARCO.i ? "" : " disabled") + ">Back</button>";
+  if(hayPregunta())
+    h += '<a class="skip" id="salta" data-va="' + (MARCO.i + 1) + '">Skip</a>';
+  if(hayOtra()) h += '<button id="otra">Next one</button>';
+  h += '<button id="sig" data-va="' + (MARCO.i + 1) + '"'
+    + (ultima ? " disabled" : "") + ">"
+    + (ultima ? "End of the module" : "Next") + "</button></div>";
+  pie.innerHTML = h;
+  const a = $("atras"); if(a) a.onclick = function(){ vaA(MARCO.i - 1); };
+  const s = $("sig");   if(s) s.onclick = function(){ vaA(MARCO.i + 1); };
+  const k = $("salta"); if(k) k.onclick = function(){ vaA(MARCO.i + 1); };
+  const o = $("otra");
+  if(o) o.onclick = function(){
+    const b = document.querySelector("#pane [data-di=otra]");
+    if(b) b.click();
+  };
+}
+pintaNav();
+if(typeof MutationObserver !== "undefined" && $("pane"))
+  new MutationObserver(pintaNav).observe($("pane"), {childList: true, subtree: true});
+
+(function(){
+  const d = $("deCero");
+  if(!d) return;
+  d.onclick = function(){
+    vistoOlvida(YO);
+    marcaNav();
+    location.href = MARCO.paginas[0].f;
+  };
+})();
+})();
+</script>
+</body></html>

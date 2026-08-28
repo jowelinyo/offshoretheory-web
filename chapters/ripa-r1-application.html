@@ -1,0 +1,880 @@
+<!doctype html><html lang="en"><head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Collision avoidance &mdash; Rule 1 · Application</title>
+<style>
+@font-face{font-family:'IBM Plex Mono';font-style:normal;font-weight:400;font-display:swap;
+ src:url(../assets/fonts/IBMPlexMono-400-normal-latin.woff2) format('woff2');
+ unicode-range:U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD}
+@font-face{font-family:'IBM Plex Mono';font-style:normal;font-weight:400;font-display:swap;
+ src:url(../assets/fonts/IBMPlexMono-400-normal-latin-ext.woff2) format('woff2');
+ unicode-range:U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF}
+@font-face{font-family:'IBM Plex Mono';font-style:normal;font-weight:500;font-display:swap;
+ src:url(../assets/fonts/IBMPlexMono-500-normal-latin.woff2) format('woff2');
+ unicode-range:U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD}
+@font-face{font-family:'IBM Plex Mono';font-style:normal;font-weight:500;font-display:swap;
+ src:url(../assets/fonts/IBMPlexMono-500-normal-latin-ext.woff2) format('woff2');
+ unicode-range:U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF}
+@font-face{font-family:'IBM Plex Sans';font-style:normal;font-weight:400 600;font-display:swap;
+ src:url(../assets/fonts/IBMPlexSans-400-normal-latin.woff2) format('woff2');
+ unicode-range:U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD}
+@font-face{font-family:'IBM Plex Sans';font-style:normal;font-weight:400 600;font-display:swap;
+ src:url(../assets/fonts/IBMPlexSans-400-normal-latin-ext.woff2) format('woff2');
+ unicode-range:U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF}
+@font-face{font-family:'Newsreader';font-style:italic;font-weight:400;font-display:swap;
+ src:url(../assets/fonts/Newsreader-400-italic-latin.woff2) format('woff2');
+ unicode-range:U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD}
+@font-face{font-family:'Newsreader';font-style:italic;font-weight:400;font-display:swap;
+ src:url(../assets/fonts/Newsreader-400-italic-latin-ext.woff2) format('woff2');
+ unicode-range:U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF}
+@font-face{font-family:'Newsreader';font-style:normal;font-weight:500;font-display:swap;
+ src:url(../assets/fonts/Newsreader-500-normal-latin.woff2) format('woff2');
+ unicode-range:U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD}
+@font-face{font-family:'Newsreader';font-style:normal;font-weight:500;font-display:swap;
+ src:url(../assets/fonts/Newsreader-500-normal-latin-ext.woff2) format('woff2');
+ unicode-range:U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF}
+</style>
+<style>
+
+:root{
+ --page:#E8EBED; --panel:#F6F7F7; --card:#FCFCFB; --inset:#F4F6F7; --bar:#1C2B36;
+ --edge-frame:#B7C0C6; --edge-card:#BCC4C9; --edge-inner:#E4E8EA;
+ --edge-panel:#CFD7DC; --edge-button:#A9B4BB;
+ --ink-title:#0F171D; --ink-strong:#141C22; --ink-lead:#20292F; --ink-body:#333D45;
+ --ink-secondary:#4A5A66; --ink-label:#5B6B77; --ink-quiet:#5E6B74;
+ --on-bar:#DCE4E9; --on-bar-strong:#F6F9FA; --on-primary:#F2F6F8;
+ --magenta:#6B2461; --ok:#3F7A56; --alarm:#B33A22;
+ --accent-text:#9A5C10;
+ --accent-graphic:#C97B1B;
+ --accent-on-bar:#E2B15C;
+ --accent-control:var(--accent-graphic);
+ --lam-ink:#15252D; --lam-dim:#4A5A66; --lam-linea:#8FA3AB;
+ --lam-acento:var(--accent-text); --lam-magenta:var(--magenta);
+
+ --carta-tierra:#F0C97F;
+ --carta-secante:#96A66E;
+ --carta-somera:#B2D6E9;
+ --carta-media:#D4E7F2;
+ --carta:#FFFFFF;
+ --carta-veril:#2F4A5A;
+ --carta-sonda:#263A55;
+ --sp-hair:4px; --sp-inline:8px; --sp-tight:12px; --sp-card:14px; --sp-block:16px;
+ --sp-col-y:20px; --sp-col-x:22px; --sp-panel-y:18px; --sp-panel-x:30px;
+ --sp-bar-x:24px; --sp-close:40px;
+
+ --f-mono:"IBM Plex Mono",ui-monospace,"SF Mono","Segoe UI Mono",Menlo,Consolas,monospace;
+ --f-display:"Newsreader",ui-serif,Georgia,"Palatino Linotype","Times New Roman",serif;
+ --f-ui:"IBM Plex Sans",system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;
+}
+*{box-sizing:border-box}
+html,body{margin:0;height:100%;overflow:hidden}
+body{display:flex;flex-direction:column;background:var(--page);color:var(--ink-body);
+ font:400 16px/1.68 var(--f-ui);-webkit-font-smoothing:antialiased}
+
+#barra{flex:none;height:54px;display:flex;align-items:center;gap:var(--sp-inline);
+ padding:0 var(--sp-bar-x);background:var(--bar);color:var(--on-bar)}
+#barra .marca{font:600 15px/1 var(--f-display);color:var(--on-bar-strong)}
+#barra .miga{font:400 14px/1 var(--f-ui);color:var(--on-bar)}
+#barra .crece{flex:1}
+#barCont{font:400 12px/1.4 var(--f-mono);letter-spacing:.12em;
+ color:var(--accent-on-bar);font-variant-numeric:tabular-nums}
+
+#wrap{flex:1;min-height:0;display:grid;
+ grid-template-columns:minmax(0,1fr) clamp(320px,37%,560px)}
+#side{grid-column:2}
+#lienzo{min-width:0;min-height:0;display:grid;place-items:center;
+ padding:var(--sp-col-y) var(--sp-col-x)}
+
+#ficha{width:100%;height:100%;background:var(--carta);
+ border:1px solid var(--edge-card);border-radius:2px;overflow:hidden;
+ touch-action:none;
+ -webkit-user-select:none;-moz-user-select:none;user-select:none}
+#ficha *{-webkit-user-select:none;-moz-user-select:none;user-select:none}
+#svg{width:100%;height:100%;display:block}
+#svg [data-boton]{cursor:pointer}
+
+#side{min-height:0;display:flex;flex-direction:column;background:var(--panel);
+ border-left:1px solid var(--edge-frame)}
+#head{flex:none;padding:var(--sp-panel-y) var(--sp-panel-x) var(--sp-tight);
+ border-bottom:1px solid var(--edge-panel)}
+#head .rot{font:400 12px/1.4 var(--f-mono);letter-spacing:.12em;
+ text-transform:uppercase;color:var(--ink-label)}
+#pane{flex:1;min-height:0;overflow-y:auto;
+ padding:var(--sp-panel-y) var(--sp-panel-x) var(--sp-close)}
+#foot{flex:none;padding:var(--sp-tight) var(--sp-panel-x);
+ border-top:1px solid var(--edge-panel);font:400 12px/1.5 var(--f-mono);
+ color:var(--ink-label)}
+
+h2{margin:0 0 var(--sp-block);font:500 31px/1.18 var(--f-display);color:var(--ink-title)}
+h3{margin:0 0 var(--sp-tight);font:400 12px/1.4 var(--f-mono);letter-spacing:.12em;
+ text-transform:uppercase;color:var(--ink-label)}
+p{margin:0 0 var(--sp-block);max-width:62ch;color:var(--ink-body)}
+p b{color:var(--ink-title);font-weight:600}
+em.ley{font-style:italic;color:var(--ink-lead)}
+
+.regla{margin:0 0 var(--sp-block);padding:var(--sp-tight) var(--sp-card);
+ background:var(--inset);border-left:3px solid var(--accent-graphic);
+ font:italic 400 15px/1.6 var(--f-display);color:var(--ink-lead);max-width:62ch}
+.regla b{font-style:normal;font-weight:600;color:var(--ink-title)}
+.regla .cita{display:block;margin-top:var(--sp-hair);font:400 11px/1.4 var(--f-mono);
+ letter-spacing:.1em;font-style:normal;color:var(--ink-label)}
+
+.lect{display:grid;grid-template-columns:auto 1fr;gap:var(--sp-hair) var(--sp-card);
+ margin:0 0 var(--sp-block);padding:var(--sp-tight) var(--sp-card);
+ background:var(--inset);border:1px solid var(--edge-inner);border-radius:2px}
+.lect dt{margin:0;font:400 11px/1.5 var(--f-mono);letter-spacing:.08em;
+ text-transform:uppercase;color:var(--ink-label)}
+.lect dd{margin:0;font:600 15px/1.5 var(--f-ui);color:var(--ink-strong)}
+.ver{margin:0 0 var(--sp-block);padding:var(--sp-tight) var(--sp-card);
+ border-left:3px solid var(--ok);background:var(--inset);color:var(--ink-body)}
+.ver.mal{border-left-color:var(--alarm)}
+.ver b{display:block;color:var(--ink-title);margin-bottom:var(--sp-hair)}
+.pista{font:400 13px/1.6 var(--f-ui);color:var(--ink-secondary);max-width:62ch}
+.et{display:block;font:600 11px/1.3 var(--f-ui);letter-spacing:.06em;
+ text-transform:uppercase;color:var(--ink-label);margin:0 0 var(--sp-inline)}
+
+.opciones{display:flex;flex-direction:column;gap:var(--sp-inline);
+ margin:0 0 var(--sp-block);max-width:62ch}
+.opciones button{font:400 15px/1.4 var(--f-ui);min-height:44px;
+ padding:var(--sp-tight) var(--sp-card);text-align:left;
+ border:1px solid var(--edge-button);border-radius:2px;background:var(--card);
+ color:var(--ink-strong);cursor:pointer}
+.opciones button:hover{background:var(--inset);border-color:var(--accent-graphic)}
+.otra{font:400 14px/1 var(--f-ui);min-height:44px;padding:0 var(--sp-card);
+ border:1px solid var(--accent-control);border-radius:2px;
+ background:var(--accent-control);color:var(--ink-title);font-weight:600;cursor:pointer}
+:focus-visible{outline:2px solid var(--accent-graphic);outline-offset:2px}
+
+@media (max-width:699px){
+ :root{--sp-col-y:10px;--sp-col-x:12px;--sp-panel-x:18px}
+ #wrap{grid-template-columns:minmax(0,1fr);
+  grid-template-rows:clamp(300px,54vh,600px) minmax(0,1fr)}
+ #side{grid-column:1;grid-row:2;border-left:0;border-top:1px solid var(--edge-frame)}
+}
+</style><style data-marco="1">
+
+:root{ --link:#2F6C8F; --progress-pending:#CDD5DA; --on-bar-dim:#B8C7D0; }
+
+#barra a{text-decoration:none;cursor:pointer;
+ display:inline-flex;align-items:center;min-height:44px}
+.barlink{font:600 15px/1.45 var(--f-ui);color:var(--on-bar);white-space:nowrap;
+ flex:none}
+.barlink:hover{color:var(--on-bar-strong);text-decoration:underline}
+#barra .sep{flex:none;width:1px;height:22px;background:#3A4E5C;
+ margin:0 var(--sp-inline)}
+
+#miga b{color:var(--on-bar-strong);font-weight:500}
+#barCont{flex:none;font:400 12px/1.4 var(--f-mono);letter-spacing:.12em;
+ color:var(--accent-on-bar);font-variant-numeric:tabular-nums}
+
+#miga{font:400 17px/1.2 var(--f-display);color:var(--on-bar-dim);
+ white-space:nowrap;overflow:hidden;text-overflow:ellipsis;min-width:0}
+
+#prog{display:flex;gap:3px;margin-top:var(--sp-tight)}
+#prog i{flex:1;height:5px;background:var(--progress-pending);border-radius:0;
+ cursor:pointer}
+#prog i.done{background:var(--link)}
+#prog i.on{background:var(--accent-graphic)}
+
+#foot{padding:var(--sp-panel-y) var(--sp-panel-x);
+ font:400 16px/1.5 var(--f-ui);color:var(--ink-body)}
+#foot .pieLinea{margin-bottom:var(--sp-tight);
+ font:400 12px/1.5 var(--f-mono);color:var(--ink-label)}
+#navPie .nav{display:flex;align-items:center;gap:var(--sp-inline);flex-wrap:wrap}
+#navPie .nav button#sig,#navPie .nav button#otra{margin-left:auto}
+#navPie .nav button{font:600 15px/1.45 var(--f-ui);padding:11px 26px;
+ border:1px solid transparent;border-radius:2px;cursor:pointer;
+ background:var(--bar);color:var(--on-primary);min-height:44px}
+#navPie .nav button:hover:not(:disabled){background:#26394A}
+#navPie .nav button.sec{background:var(--card);color:var(--ink-lead);
+ border-color:var(--edge-button);padding:10px 18px}
+#navPie .nav button.sec:hover:not(:disabled){background:var(--inset)}
+a.skip{font:400 15px/1.45 var(--f-ui);color:var(--ink-secondary);cursor:pointer;
+ text-decoration:none;white-space:nowrap;padding:0 var(--sp-tight);
+ display:inline-flex;align-items:center;min-height:44px}
+a.skip:hover{color:var(--ink-title);text-decoration:underline}
+.pie2{display:flex;align-items:baseline;gap:var(--sp-tight);
+ margin-top:var(--sp-tight);font:400 12px/1.4 var(--f-mono);letter-spacing:.1em;
+ color:var(--ink-quiet);white-space:nowrap}
+.pie2>:last-child{margin-left:auto}
+a.pieLink{color:var(--link);text-decoration:none;cursor:pointer;white-space:nowrap}
+a.pieLink:hover{text-decoration:underline}
+
+.sello{display:block;margin-top:var(--sp-hair);font:400 12px/1.4 var(--f-mono);
+ letter-spacing:.1em;color:var(--ink-quiet);
+ white-space:normal;overflow-wrap:anywhere}
+.sello b{font-weight:400}
+</style>
+</head><body>
+
+<div id="barra">
+ <a class="barlink" href="../index.html">&#8592; The course</a>
+ <i class="sep"></i>
+ <div id="miga"><b>Collision avoidance</b> &middot; Rule 1 &middot; Application</div>
+ <span class="crece"></span>
+ <a class="barlink" href="../chapters/balizamiento-p1-the-marks.html#flashcards">Flashcards</a>
+ <i class="sep"></i>
+ <a class="barlink" href="../index.html">Contents</a>
+ <span id="barCont"></span>
+</div>
+<div id="wrap">
+ <div id="lienzo"><div id="ficha"><svg id="svg"></svg></div></div>
+ <div id="side">
+  <div id="head"><span class="rot">Where these Rules apply</span><div id="prog"></div></div>
+  <div id="pane"></div>
+  <div id="foot"><div class="pieLinea">rule 1 of 19 &middot; where they apply, and where they stop</div>
+   <div id="navPie"></div>
+   <div class="pie2"><span id="fLog">0 answers logged</span><a class="pieLink" id="deCero">start over</a></div>
+   <div class="sello" id="sello" data-sello="bf4362f9">collision avoidance &middot; module &middot; 20 screens &middot; 28 Aug 2026 &middot; <b>bf4362f9</b></div></div>
+ </div>
+</div>
+
+<template id="tSig"></template>
+<script>
+
+let RND = 1;
+
+window.azarSemilla = n => {
+ RND = (n >>> 0) || 1;
+ for(let k = 0; k < 8; k++) azar();
+};
+function azar(){
+ RND ^= RND << 13; RND >>>= 0;
+ RND ^= RND >>> 17;
+ RND ^= RND << 5;  RND >>>= 0;
+ return RND / 4294967296;
+}
+function baraja(a){
+ const b = a.slice();
+ for(let i = b.length - 1; i > 0; i--){
+  const j = Math.floor(azar() * (i + 1));
+  const t = b[i]; b[i] = b[j]; b[j] = t;
+ }
+ return b;
+}
+azarSemilla(Date.now());
+
+function bolsaNueva(){ return {i:[], ultima:null}; }
+function saca(bolsa, banco){
+
+ if(bolsa.n!==banco.length){ bolsa.i=[]; bolsa.n=banco.length; }
+ if(!bolsa.i.length){
+  bolsa.i = baraja(banco.map((x, k) => k));
+  if(bolsa.i.length > 1 && banco[bolsa.i[bolsa.i.length - 1]].id === bolsa.ultima){
+   const t = bolsa.i[bolsa.i.length - 1];
+   bolsa.i[bolsa.i.length - 1] = bolsa.i[0]; bolsa.i[0] = t;
+  }
+ }
+ const x = banco[bolsa.i.pop()];
+ bolsa.ultima = x.id;
+ return x;
+}
+</script>
+<script>
+"use strict";
+
+const NS = "http://www.w3.org/2000/svg";
+const D = {W: 1000, H: 620};
+let svg = null, gO = null, ESC = 1;
+const px = n => n / ESC;
+
+function el(t, at, pa){
+  const e = document.createElementNS(NS, t);
+  for(const k in at) if(at[k] !== undefined && at[k] !== null) e.setAttribute(k, at[k]);
+  (pa || gO || svg).appendChild(e);
+  return e;
+}
+function txt(x, y, s, an, tam, col, peso, fam, pa){
+  const e = el("text", {x: x, y: y, "text-anchor": an || "start",
+    "pointer-events": "none", "font-size": px(tam || 13),
+    fill: col || "var(--lam-ink)", "font-weight": peso || 400,
+    "font-family": fam === "mono" ? "var(--f-mono)" : "var(--f-ui)"}, pa);
+  e.textContent = s;
+  return e;
+}
+function parte(s, ancho, tam){
+  const porLinea = Math.max(6, Math.floor(ancho / (px(tam) * 0.62)));
+  const pal = String(s).split(/\s+/);
+  const out = [];
+  let linea = "";
+  pal.forEach(function(p){
+    const q = linea ? linea + " " + p : p;
+    if(q.length > porLinea && linea){ out.push(linea); linea = p; }
+    else linea = q;
+  });
+  if(linea) out.push(linea);
+  return out;
+}
+function txtCabe(cx, y, s, ancho, tam, col, peso, fam, an){
+  const lineas = parte(s, ancho, tam);
+  lineas.forEach((t, i) => txt(cx, y + i*px(tam*1.35), t, an || "middle", tam, col,
+                               peso, fam));
+  return lineas.length;
+}
+
+function boton(cx, cy, ancho, rotulo, clave, o){
+  o = o || {};
+  const w = ancho, h = px(o.alto || 44);
+  const g = el("g", {"data-boton": clave, cursor: o.off ? "default" : "pointer",
+                     opacity: o.off ? .40 : 1});
+  el("rect", {x: cx - w/2, y: cy - h/2, width: w, height: h, rx: px(2),
+              fill: o.suave ? "var(--carta)" : "var(--accent-control)",
+              stroke: o.suave ? "var(--lam-dim)" : "var(--accent-control)",
+              "stroke-width": px(1.2)}, g);
+  txt(cx, cy + px(5), rotulo, "middle", o.tam || 14,
+      o.suave ? "var(--lam-ink)" : "var(--ink-title)", 600, null, g);
+  return g;
+}
+
+function sondaDe(i, j){
+  const s = Math.sin(i*12.9898 + j*78.233) * 43758.5453;
+  return s - Math.floor(s);
+}
+function sonda(x, y, v){
+  const ent = Math.floor(v), dec = Math.round((v - ent)*10);
+  const t = el("text", {x: x, y: y, "text-anchor": "middle",
+    "pointer-events": "none", "font-size": px(11.5), "font-style": "italic",
+    fill: "var(--carta-sonda)", "font-family": "var(--f-ui)", opacity: .78});
+  t.appendChild(document.createTextNode(String(ent)));
+  if(dec){
+    const u = document.createElementNS(NS, "tspan");
+    u.setAttribute("font-size", px(8));
+    u.setAttribute("dy", px(3));
+    u.textContent = String(dec);
+    t.appendChild(u);
+  }
+}
+
+function barcoEn(x, y){
+  const L = px(26), M = L*0.34;
+  const g = el("g", {});
+  el("circle", {cx: x, cy: y, r: px(17), fill: "var(--accent-graphic)", opacity: .16}, g);
+  el("path", {d: "M" + (x + L*0.52) + "," + (y - L*0.20)
+                + " L" + (x + L*0.06) + "," + (y + M*0.62)
+                + " L" + (x - L*0.46) + "," + (y + M*0.42)
+                + " L" + (x - L*0.34) + "," + (y - M*0.66)
+
+                + " L" + (x + L*0.10) + "," + (y - M*0.86) + " Z",
+              fill: "var(--lam-ink)", opacity: .95, "data-buque": "1"}, g);
+  return g;
+}
+
+const LEY1 = {"a": "(a) These Rules shall apply to all vessels upon the high seas and in all waters connected therewith navigable by seagoing vessels.", "b": "(b) Nothing in these Rules shall interfere with the operation of special rules made by an appropriate authority for roadsteads, harbors, rivers, lakes or inland waterways connected with the high seas and navigable by seagoing vessels. Such special rules shall conform as closely as possible to these Rules."};
+
+function cita(t, ref){
+  return '<div class="regla">&ldquo;' + t + '&rdquo;'
+       + '<span class="cita">Rule 1' + (ref || "") + '</span></div>';
+}
+
+const TRAMOS_X = [0.00, 0.17, 0.31, 0.44, 0.55, 0.66, 0.745, 0.792, 0.86, 0.945, 1.00];
+const TRAMOS_W = [0.78, 0.62, 0.255, 0.150, 0.100, 0.054, 0.030, 0.011, 0.092, 0.030, 0.000];
+const TRAMOS_Y = [0.62, 0.605, 0.560, 0.515, 0.455, 0.378, 0.305, 0.262, 0.195, 0.170, 0.165];
+
+function interp(u, xs, vs){
+  if(u <= xs[0]) return vs[0];
+  if(u >= xs[xs.length - 1]) return vs[vs.length - 1];
+  for(let k = 1; k < xs.length; k++){
+    if(u <= xs[k]){
+      const t = (u - xs[k-1]) / (xs[k] - xs[k-1]);
+      const s = t*t*(3 - 2*t);
+      return vs[k-1] + (vs[k] - vs[k-1])*s;
+    }
+  }
+  return vs[vs.length - 1];
+}
+const ejeY = u => interp(u, TRAMOS_X, TRAMOS_Y);
+const anchoY = u => interp(u, TRAMOS_X, TRAMOS_W);
+
+function sobreAgua(y0, y1, f){
+  const alto = y1 - y0, n = 78, arr = [], vol = [];
+  for(let k = 0; k <= n; k++){
+    const u = k/n;
+    const x = u*D.W, c = y0 + ejeY(u)*alto, w = anchoY(u)*alto*f;
+    arr.push(x.toFixed(1) + "," + (c - w).toFixed(1));
+    vol.push(x.toFixed(1) + "," + (c + w).toFixed(1));
+  }
+  vol.reverse();
+  return "M" + arr.join(" L") + " L" + vol.join(" L") + " Z";
+}
+function orillaArr(y0, y1, f, lado){
+  const alto = y1 - y0, n = 78, arr = [];
+  for(let k = 0; k <= n; k++){
+    const u = k/n;
+    arr.push((u*D.W).toFixed(1) + ","
+      + (y0 + ejeY(u)*alto + lado*anchoY(u)*alto*f).toFixed(1));
+  }
+  return "M" + arr.join(" L");
+}
+
+const SITIOS = [
+  {id: "mar",   u: 0.05, n: "The high seas",
+   conectada: true,  navegable: true,  nombrada: false,
+   por: "Rule 1(a) names it first: the high seas."},
+  {id: "aguas", u: 0.255, n: "Waters connected to the high seas",
+   conectada: true,  navegable: true,  nombrada: false,
+   por: "Connected, and a seagoing vessel can get here. That is the whole test."},
+  {id: "rada",  u: 0.425, n: "The roadstead",
+   conectada: true,  navegable: true,  nombrada: true,
+   por: "A roadstead is the first thing Rule 1(b) lists."},
+  {id: "puerto", u: 0.565, n: "The harbor",
+   conectada: true,  navegable: true,  nombrada: true,
+   por: "Still connected, still navigable — and a harbor is on the (b) list."},
+  {id: "rio",   u: 0.705, n: "The river",
+   conectada: true,  navegable: true,  nombrada: true,
+   por: "A river, connected and navigable: the same two answers apply."},
+  {id: "lago",  u: 0.865, n: "A lake with no way out to sea",
+   conectada: true,  navegable: false, nombrada: true,
+   por: "You got in through a creek no seagoing vessel could use."}
+];
+
+function rige(s){
+  const alcanza = s.conectada && s.navegable;
+  if(!alcanza) return "ninguna";
+  return s.nombrada ? "ambas" : "solas";
+}
+const DICE = {
+  solas:   "These Rules, all of them",
+  ambas:   "These Rules — and local rules on top",
+  ninguna: "Not these Rules"
+};
+
+const S1 = {i: 0, fase: "viaje", pregunta: null, dicho: null};
+const BOLSA_LLAVE = "r1.bolsa";
+const BOLSA = (function(){
+  try{
+    const g = JSON.parse(localStorage.getItem(BOLSA_LLAVE) || "null");
+    if(g && Array.isArray(g.i)) return g;
+  }catch(e){}
+  return bolsaNueva();
+})();
+function guardaBolsa(){
+  try{ localStorage.setItem(BOLSA_LLAVE, JSON.stringify(BOLSA)); }catch(e){}
+}
+function nuevaPregunta(){
+  S1.pregunta = saca(BOLSA, SITIOS);
+  guardaBolsa();
+  S1.dicho = null;
+  S1.i = SITIOS.indexOf(S1.pregunta);
+  S1.fase = "pregunta";
+}
+
+const P1 = {
+  h: "Application",
+  arriba: "Rule 1",
+
+  lamina(){
+    const y0 = 0, y1 = D.H;
+
+    el("rect", {x: 0, y: y0, width: D.W, height: y1 - y0, fill: "var(--carta-tierra)",
+                "data-banda": "tierra"});
+
+    el("path", {d: sobreAgua(y0, y1, 1.09), fill: "var(--carta-secante)", opacity: .85,
+                "data-banda": "secante"});
+    el("path", {d: sobreAgua(y0, y1, 1.00), fill: "var(--carta-somera)",
+                "data-banda": "somera"});
+    el("path", {d: sobreAgua(y0, y1, 0.72), fill: "var(--carta-media)",
+                "data-banda": "media"});
+    el("path", {d: sobreAgua(y0, y1, 0.42), fill: "var(--carta)",
+                "data-banda": "honda"});
+
+    [[0.72, .55], [0.42, .20]].forEach(function(q){
+      [-1, 1].forEach(function(lado){
+        el("path", {d: orillaArr(y0, y1, q[0], lado), fill: "none",
+                    stroke: "var(--carta-veril)", "stroke-width": px(2),
+                    "stroke-opacity": q[1], "stroke-linejoin": "round"});
+      });
+    });
+
+    [-1, 1].forEach(function(lado){
+      el("path", {d: orillaArr(y0, y1, 1.00, lado), fill: "none",
+                  stroke: "var(--carta-veril)", "stroke-width": px(1.6),
+                  "stroke-linejoin": "round"});
+    });
+
+    [-1, 1].forEach(function(lado){
+      const u = 0.515, alto = y1 - y0;
+      const cx = u*D.W, cy = y0 + ejeY(u)*alto, w = anchoY(u)*alto;
+      el("line", {x1: cx, y1: cy + lado*w*1.06, x2: cx + px(26),
+                  y2: cy + lado*w*0.34, stroke: "var(--lam-ink)",
+                  "stroke-width": px(5), "stroke-linecap": "round"});
+    });
+
+    const cel = px(74);
+    for(let i = 0; i*cel < D.W + cel; i++){
+      for(let j = 0; (y0 + j*cel) < y1 + cel; j++){
+        const r1 = sondaDe(i, j), r2 = sondaDe(i + 41, j + 17), r3 = sondaDe(i + 7, j + 91);
+        if(r3 < 0.44) continue;
+        const x = i*cel + r1*cel*0.7, y = y0 + j*cel + r2*cel*0.7;
+        if(x < px(20) || x > D.W - px(20) || y < y0 + px(52) || y > y1 - px(66)) continue;
+        const u = x/D.W, alto = y1 - y0;
+        const dist = Math.abs(y - (y0 + ejeY(u)*alto)) / (anchoY(u)*alto);
+        if(dist > 0.95) continue;
+
+        const hondo = (1 - dist*0.75) * (4 + (1 - u)*34) + r1*3;
+        sonda(x, y, Math.max(1.2, hondo));
+      }
+    }
+
+    const alto = y1 - y0;
+    const px_ = u => u*D.W, py_ = u => y0 + ejeY(u)*alto;
+    const linea = [];
+    for(let k = 0; k <= 90; k++){
+      const u = k/90;
+      linea.push(px_(u).toFixed(1) + "," + py_(u).toFixed(1));
+    }
+    el("path", {d: "M" + linea.join(" L"), fill: "none", stroke: "var(--lam-ink)",
+                "stroke-width": px(1.4), "stroke-dasharray": px(7) + " " + px(5),
+                opacity: .45});
+
+    SITIOS.forEach(function(s, k){
+      const aqui = k === S1.i;
+      const x = px_(s.u), y = py_(s.u);
+      el("circle", {cx: x, cy: y, r: px(aqui ? 5 : 3.4),
+                    fill: aqui ? "var(--accent-graphic)" : "var(--lam-dim)",
+                    opacity: aqui ? 1 : .65});
+      if(aqui) el("circle", {cx: x, cy: y, r: px(13), fill: "none",
+                            stroke: "var(--accent-graphic)", "stroke-width": px(1.6)});
+
+      const arriba = k >= 3;
+      const ty = y + (arriba ? -px(30) : px(36));
+      const ren = parte(s.n, px(200), 12.5);
+      const anc = Math.min(px(210), Math.max.apply(null,
+        ren.map(function(t){ return t.length; })) * px(12.5) * 0.62 + px(14));
+
+      const cx2 = Math.min(D.W - anc/2 - px(8), Math.max(anc/2 + px(8), x));
+      el("rect", {x: cx2 - anc/2, y: ty - px(13),
+                  width: anc, height: px(4) + ren.length*px(17),
+                  rx: px(2), fill: "var(--carta)", opacity: aqui ? .95 : .82});
+      txtCabe(cx2, ty, s.n, px(200), 12.5,
+              aqui ? "var(--ink-title)" : "var(--lam-dim)", aqui ? 600 : 400);
+    });
+
+    const s = SITIOS[S1.i];
+    barcoEn(px_(s.u), py_(s.u));
+
+    const yB = D.H - px(38);
+    if(S1.fase === "viaje"){
+      const fin = S1.i >= SITIOS.length - 1;
+      boton(D.W*0.5, yB, px(320),
+            fin ? "Now ask me" : "Sail on ▸",
+            fin ? "pregunta" : "sigue");
+    } else {
+      boton(D.W*0.5, yB, px(320), "Another place", "otra", {suave: !!S1.dicho});
+    }
+
+    el("rect", {x: 0, y: 0, width: D.W, height: px(42), fill: "var(--carta)",
+                opacity: .88});
+    txt(px(22), px(27), S1.fase === "viaje"
+        ? "FROM THE HIGH SEAS, INWARDS"
+        : "WHERE DOES SHE LIE?", "start", 12.5, "var(--lam-dim)", 600, "mono");
+  },
+
+  pulsa(clave){
+    if(clave === "sigue"){ S1.i = Math.min(SITIOS.length - 1, S1.i + 1); toca(); return; }
+    if(clave === "pregunta" || clave === "otra"){ nuevaPregunta(); toca(); return; }
+  },
+
+  responde(q){
+    if(q === "otra"){ nuevaPregunta(); toca(); return; }
+    S1.dicho = q;
+    toca();
+  },
+
+  panel(){
+    const s = SITIOS[S1.i];
+    let h = "<h3>Rule 1</h3><h2>Application</h2>";
+
+    if(S1.fase === "viaje"){
+      h += "<p>Before any of the steering rules mean anything, one question has to be "
+         + "settled: <b>do they apply where you are?</b> Rule 1 is the only rule in the "
+         + "book that answers it, and it is the first for that reason.</p>";
+      h += cita(LEY1.a, "(a)");
+      h += '<dl class="lect"><dt>you are in</dt><dd>' + s.n + "</dd>"
+        +  "<dt>what applies</dt><dd>" + DICE[rige(s)] + "</dd></dl>";
+      h += '<p class="pista">' + s.por + "</p>";
+      if(rige(s) === "ambas")
+        h += cita(LEY1.b, "(b)")
+          +  '<p class="pista">Read that twice. <b>Nothing in these Rules shall '
+          +  "interfere</b>, and the local rules <b>shall conform as closely as "
+          +  "possible to these Rules</b>. Local rules are added on top. <b>They do "
+          +  "not cancel anything.</b></p>";
+      if(rige(s) === "ninguna")
+        h += '<p class="pista">Rule 1(a) asks for two things: <b>connected</b>, and '
+          +  "<b>navigable by seagoing vessels</b>. This water is connected &mdash; but "
+          +  "not by anything a seagoing vessel could use. Whatever governs here, it is "
+          +  "not this book.</p>";
+      h += '<p class="pista">Sail on and see what changes. When you have been the whole '
+        +  "way, ask to be tested.</p>";
+      return h;
+    }
+
+    const q = S1.pregunta;
+    h += "<p>She is lying in <b>" + q.n.toLowerCase() + "</b>.</p>";
+    h += cita(LEY1.a, "(a)");
+    if(!S1.dicho){
+      h += '<span class="et">What applies to her here?</span>'
+        +  '<div class="opciones">'
+        +  '<button data-di="solas">' + DICE.solas + "</button>"
+        +  '<button data-di="ambas">' + DICE.ambas + "</button>"
+        +  '<button data-di="ninguna">' + DICE.ninguna + "</button></div>";
+      return h;
+    }
+    const bien = rige(q);
+    const acerto = S1.dicho === bien;
+    h += '<div class="ver' + (bien === "ninguna" ? " mal" : "") + '"><b>' + DICE[bien]
+      +  "</b>" + q.por + "</div>";
+    if(bien === "ambas")
+      h += cita(LEY1.b, "(b)")
+        +  '<p class="pista"><b>Nothing in these Rules shall interfere</b>, and the '
+        +  "local rules <b>shall conform as closely as possible to these Rules</b>. "
+        +  "Inside a harbor both are in force. Local rules are added on top; they do "
+        +  "not cancel anything &mdash; and that is the one people get wrong.</p>";
+    else if(bien === "ninguna")
+      h += '<p class="pista">Rule 1(a) asks for two things and this water only has '
+        +  "one: connected, yes &mdash; <b>navigable by seagoing vessels</b>, no.</p>";
+    else
+      h += '<p class="pista">No local authority in sight, and nothing on top. Rule '
+        +  "1(a) on its own.</p>";
+    h += '<p class="pista">' + (acerto ? "You called it right." : "You called it wrong.")
+      +  "</p>";
+    h += '<button class="otra" data-di="otra">Another place</button>';
+    return h;
+  }
+};
+
+const PZ = [P1];
+
+function redibuja(){
+  svg = document.getElementById("svg");
+  const caja = document.getElementById("ficha").getBoundingClientRect();
+  if(!caja.width || !caja.height) return;
+
+  D.H = Math.max(420, Math.round(D.W * caja.height / caja.width));
+  ESC = caja.width / D.W;
+  svg.setAttribute("viewBox", "0 0 " + D.W + " " + D.H);
+  svg.setAttribute("preserveAspectRatio", "xMidYMid meet");
+  while(svg.firstChild) svg.removeChild(svg.firstChild);
+  gO = el("g", {}, svg);
+  P1.lamina();
+  cableaLamina();
+}
+
+function cableaLamina(){
+  svg.querySelectorAll("[data-boton]").forEach(function(g){
+    g.addEventListener("click", function(){
+      P1.pulsa(g.getAttribute("data-boton"));
+    });
+  });
+}
+
+function pintaPanel(){
+  const pane = document.getElementById("pane");
+  pane.innerHTML = P1.panel();
+  document.getElementById("barCont").textContent = "RULE 1 OF 19";
+  pane.querySelectorAll("[data-di]").forEach(function(b){
+    b.addEventListener("click", function(){
+      P1.responde(b.getAttribute("data-di"));
+    });
+  });
+}
+
+function toca(){ redibuja(); pintaPanel(); }
+
+function vaPantalla(i){ toca(); }
+const vaA = vaPantalla;
+
+addEventListener("resize", redibuja);
+
+if(typeof ResizeObserver !== "undefined")
+  new ResizeObserver(redibuja).observe(document.getElementById("ficha"));
+toca();
+</script>
+<script data-marco="1">
+
+(function(){
+"use strict";
+
+const VISTO_CLAVE = "rya.visto";
+
+const VISTO_V = 2;
+
+function vistoAlmacen(){
+ try{ return (typeof localStorage !== "undefined" && localStorage) ? localStorage : null; }
+ catch(e){ return null; }
+}
+
+function vistoLee(){
+ const A = vistoAlmacen();
+ if(!A) return {v:VISTO_V, empezadas:{}, terminadas:{}, sinAlmacen:true};
+ try{
+  const o = JSON.parse(A.getItem(VISTO_CLAVE) || "null");
+  if(o && o.v === VISTO_V && o.empezadas && o.terminadas) return o;
+ }catch(e){}
+ return {v:VISTO_V, empezadas:{}, terminadas:{}};
+}
+
+function _vistoGuarda(o){
+ const A = vistoAlmacen();
+ if(!A) return o;
+ try{
+  A.setItem(VISTO_CLAVE, JSON.stringify(
+   {v:VISTO_V, empezadas:o.empezadas, terminadas:o.terminadas, pos:o.pos || {}}));
+ }catch(e){}
+ return o;
+}
+
+function _vistoPon(cual, fichero){
+ const o = vistoLee();
+ if(o.sinAlmacen || o[cual][fichero]) return o;
+ o[cual][fichero] = 1;
+ return _vistoGuarda(o);
+}
+
+const vistoEmpieza  = f => _vistoPon("empezadas", f);
+const vistoTermina  = f => _vistoPon("terminadas", f);
+const vistoEmpezada = f => !!vistoLee().empezadas[f];
+const vistoTerminada= f => !!vistoLee().terminadas[f];
+const vistoHayAlmacen = () => !!vistoAlmacen();
+
+function vistoPon(fichero, n){
+ const o = vistoLee();
+ if(o.sinAlmacen) return o;
+ if(!o.pos) o.pos = {};
+ if(o.pos[fichero] === n) return o;
+ o.pos[fichero] = n;
+ return _vistoGuarda(o);
+}
+
+function vistoPos(fichero, tope){
+ const p = vistoLee().pos;
+ const n = p && p[fichero];
+ if(typeof n !== "number" || !isFinite(n) || n < 0) return 0;
+ return (typeof tope === "number" && tope >= 0) ? Math.min(n, tope) : n;
+}
+
+function vistoOlvida(fichero){
+ const o = vistoLee();
+ if(o.sinAlmacen || !o.pos || !(fichero in o.pos)) return o;
+ delete o.pos[fichero];
+ return _vistoGuarda(o);
+}
+
+const MARCO = {id:"ripa", i:1, paginas:[{f:"ripa-r0-the-nineteen-rules.html",t:"The nineteen rules"},{f:"ripa-r1-application.html",t:"Rule 1 · Application"},{f:"ripa-r2-responsibility.html",t:"Rule 2 · Responsibility"},{f:"ripa-r3-general-definitions.html",t:"Rule 3 · General definitions"},{f:"ripa-r4-application.html",t:"Rule 4 · Application"},{f:"ripa-r5-look-out.html",t:"Rule 5 · Look-out"},{f:"ripa-r6-safe-speed.html",t:"Rule 6 · Safe speed"},{f:"ripa-r7-risk-of-collision.html",t:"Rule 7 · Risk of collision"},{f:"ripa-r8-action-to-avoid-collision.html",t:"Rule 8 · Action to avoid collision"},{f:"ripa-r9-narrow-channels.html",t:"Rule 9 · Narrow channels"},{f:"ripa-r10-traffic-separation-schemes.html",t:"Rule 10 · Traffic separation schemes"},{f:"ripa-r11-application.html",t:"Rule 11 · Application"},{f:"ripa-r12-sailing-vessels.html",t:"Rule 12 · Sailing vessels"},{f:"ripa-r13-overtaking.html",t:"Rule 13 · Overtaking"},{f:"ripa-r14-head-on-situation.html",t:"Rule 14 · Head-on situation"},{f:"ripa-r15-crossing-situation.html",t:"Rule 15 · Crossing situation"},{f:"ripa-r16-action-by-give-way-vessel.html",t:"Rule 16 · Action by give-way vessel"},{f:"ripa-r17-action-by-stand-on-vessel.html",t:"Rule 17 · Action by stand-on vessel"},{f:"ripa-r18-responsibilities-between-vessels.html",t:"Rule 18 · Responsibilities between vessels"},{f:"ripa-r19-restricted-visibility.html",t:"Rule 19 · Conduct of vessels in restricted visibility"}]};
+const YO = MARCO.id;
+const N = MARCO.paginas.length;
+const dosCifras = n => (n < 10 ? "0" : "") + n;
+const $ = id => document.getElementById(id);
+
+const LLAVE_NAV = "ripa.nav";
+function marcaNav(){ try{ sessionStorage.setItem(LLAVE_NAV, "1"); }catch(e){} }
+function veniaDeDentro(){
+  try{ return sessionStorage.getItem(LLAVE_NAV) === "1"; }catch(e){ return false; }
+}
+
+if(MARCO.i === 0 && !veniaDeDentro()){
+  const p = vistoPos(YO, N - 1);
+  if(p > 0){ marcaNav(); location.replace(MARCO.paginas[p].f); return; }
+}
+marcaNav();
+
+vistoEmpieza(YO);
+vistoPon(YO, MARCO.i);
+if(MARCO.i === N - 1) vistoTermina(YO);
+
+function vaA(i){
+  if(i < 0 || i >= N || i === MARCO.i) return;
+  marcaNav();
+  vistoPon(YO, i);
+  location.href = MARCO.paginas[i].f;
+}
+
+const CUENTA = dosCifras(MARCO.i + 1) + " / " + dosCifras(N);
+function ponCuenta(){
+  const b = $("barCont");
+  if(b && b.textContent !== CUENTA) b.textContent = CUENTA;
+}
+ponCuenta();
+if(typeof MutationObserver !== "undefined" && $("barCont"))
+  new MutationObserver(ponCuenta).observe($("barCont"),
+    {childList: true, characterData: true, subtree: true});
+
+(function(){
+  const pr = $("prog");
+  if(!pr) return;
+  pr.innerHTML = "";
+  MARCO.paginas.forEach(function(q, i){
+    const b = document.createElement("i");
+    if(i === MARCO.i) b.className = "on"; else if(i < MARCO.i) b.className = "done";
+    b.title = "Screen " + (i + 1) + " of " + N + " · " + q.t;
+
+    b.setAttribute("data-va", i);
+    b.onclick = function(){ vaA(i); };
+    pr.appendChild(b);
+  });
+})();
+
+const LLAVE_LOG = "ripa.log";
+function leeLog(){
+  try{ return parseInt(localStorage.getItem(LLAVE_LOG) || "0", 10) || 0; }
+  catch(e){ return 0; }
+}
+function ponLog(n){ try{ localStorage.setItem(LLAVE_LOG, String(n)); }catch(e){} }
+function pintaLog(){
+  const f = $("fLog");
+  if(!f) return;
+  const n = leeLog();
+  f.textContent = n + (n === 1 ? " answer logged" : " answers logged");
+}
+pintaLog();
+document.addEventListener("click", function(e){
+  const b = e.target.closest ? e.target.closest("[data-di]") : null;
+  if(!b) return;
+  if(b.getAttribute("data-di") === "otra") return;
+  ponLog(leeLog() + 1);
+  pintaLog();
+}, true);
+
+function hayPregunta(){
+  return !!document.querySelector("#pane [data-di]:not([data-di=otra])");
+}
+function hayOtra(){ return !!document.querySelector("#pane [data-di=otra]"); }
+
+function pintaNav(){
+  const pie = $("navPie");
+  if(!pie) return;
+  const ultima = MARCO.i >= N - 1;
+  let h = '<div class="nav">'
+    + '<button class="sec" id="atras" data-va="' + (MARCO.i - 1) + '"'
+    + (MARCO.i ? "" : " disabled") + ">Back</button>";
+  if(hayPregunta())
+    h += '<a class="skip" id="salta" data-va="' + (MARCO.i + 1) + '">Skip</a>';
+  if(hayOtra()) h += '<button id="otra">Next one</button>';
+  h += '<button id="sig" data-va="' + (MARCO.i + 1) + '"'
+    + (ultima ? " disabled" : "") + ">"
+    + (ultima ? "End of the module" : "Next") + "</button></div>";
+  pie.innerHTML = h;
+  const a = $("atras"); if(a) a.onclick = function(){ vaA(MARCO.i - 1); };
+  const s = $("sig");   if(s) s.onclick = function(){ vaA(MARCO.i + 1); };
+  const k = $("salta"); if(k) k.onclick = function(){ vaA(MARCO.i + 1); };
+  const o = $("otra");
+  if(o) o.onclick = function(){
+    const b = document.querySelector("#pane [data-di=otra]");
+    if(b) b.click();
+  };
+}
+pintaNav();
+if(typeof MutationObserver !== "undefined" && $("pane"))
+  new MutationObserver(pintaNav).observe($("pane"), {childList: true, subtree: true});
+
+(function(){
+  const d = $("deCero");
+  if(!d) return;
+  d.onclick = function(){
+    vistoOlvida(YO);
+    marcaNav();
+    location.href = MARCO.paginas[0].f;
+  };
+})();
+})();
+</script>
+</body></html>
