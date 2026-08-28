@@ -245,7 +245,7 @@ a.pieLink:hover{text-decoration:underline}
  <i class="sep"></i>
  <div id="miga"><b>Collision avoidance</b> &middot; Rule 13 &middot; Overtaking</div>
  <span class="crece"></span>
- <a class="barlink" href="balizamiento-p1-the-marks.html#flashcards">Flashcards</a>
+ <a class="barlink" href="ripa-r0-the-nineteen-rules.html#flashcards">Flashcards</a>
  <i class="sep"></i>
  <a class="barlink" href="../index.html">Contents</a>
  <span id="barCont"></span>
@@ -783,6 +783,22 @@ function dilo13(e, dicho1, dicho2){
     acerto: acerto, cede: e.cede};
 }
 
+function cascoEnPlanta(x, y, rumbo, tinta, L, quien, opt){
+  const o = opt || {};
+  const g = rumbo*Math.PI/180, sn = Math.sin(g), cs = Math.cos(g);
+  const P = o.este ? (av, tr) => [x + cs*av - sn*tr, y + sn*av + cs*tr]
+                   : (av, tr) => [x + sn*av + cs*tr, y - cs*av + sn*tr];
+  const M = L*0.09;
+  const q = [P(L*0.50, 0), P(L*0.26, M*0.85), P(L*0.10, M),
+             P(-L*0.44, M*0.9), P(-L*0.50, M*0.55),
+             P(-L*0.50, -M*0.55), P(-L*0.44, -M*0.9),
+             P(L*0.10, -M), P(L*0.26, -M*0.85)];
+  const gr = el("g", {"data-barco": quien});
+  el("path", {d: "M" + q.map(p => p[0].toFixed(1) + "," + p[1].toFixed(1)).join(" L")
+                + " Z", fill: tinta, opacity: .95, "data-buque": "1"}, gr);
+  return L;
+}
+
 const AIRE13 = {x: 132, y: 108};
 let E13 = {ox: 0, oy: 0, k: 1, y0: 0, y1: 0};
 
@@ -911,18 +927,8 @@ function clave13(){
 }
 
 function casco13(x, y, rumbo, tinta, eslora, quien){
-  const L = esloraDibujada13(eslora);
-  const g = rumbo*Math.PI/180, sn = Math.sin(g), cs = Math.cos(g);
-  const P = (av, tr) => [x + sn*av + cs*tr, y - cs*av + sn*tr];
-  const M = L*0.09;
-  const q = [P(L*0.50, 0), P(L*0.26, M*0.85), P(L*0.10, M),
-             P(-L*0.44, M*0.9), P(-L*0.50, M*0.55),
-             P(-L*0.50, -M*0.55), P(-L*0.44, -M*0.9),
-             P(L*0.10, -M), P(L*0.26, -M*0.85)];
-  const gr = el("g", {"data-barco": quien});
-  el("path", {d: "M" + q.map(p => p[0].toFixed(1) + "," + p[1].toFixed(1)).join(" L")
-                + " Z", fill: tinta, opacity: .95, "data-buque": "1"}, gr);
-  return L;
+  return cascoEnPlanta(x, y, rumbo, tinta, esloraDibujada13(eslora),
+                       quien);
 }
 
 const DIBUJO13 = {suelo: 44, referencia: 40, exponente: 1/3};

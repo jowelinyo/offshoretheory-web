@@ -183,6 +183,50 @@ a.pieLink:hover{text-decoration:underline}
  letter-spacing:.1em;color:var(--ink-quiet);
  white-space:normal;overflow-wrap:anywhere}
 .sello b{font-weight:400}
+</style><style>
+
+#fcWrap{flex:1;min-height:0;display:grid;
+ grid-template-columns:minmax(0,1fr) clamp(320px,37%,560px)}
+#fcLienzo{min-width:0;min-height:0;display:grid;place-items:center;
+ padding:var(--sp-col-y) var(--sp-col-x)}
+#fcSvg{width:100%;height:100%;max-height:100%;display:block}
+#fcSide{grid-column:2;min-width:0;display:flex;flex-direction:column;
+ border-left:1px solid var(--edge-frame);background:var(--panel);
+ padding:var(--sp-panel-y) var(--sp-panel-x);overflow:auto}
+#fcPane .hd h3{font-family:var(--f-mono);font-size:.72rem;letter-spacing:.08em;
+ text-transform:uppercase;color:var(--ink-label);margin:0 0 var(--sp-block)}
+#fcPane .prl{display:block;font-family:var(--f-mono);font-size:.74rem;
+ color:var(--accent-text);margin-bottom:var(--sp-hair)}
+#fcPane .q{display:block;font-family:var(--f-display);font-size:1.28rem;
+ color:var(--ink-title);margin-bottom:var(--sp-block);line-height:1.25}
+#fcPane .premisa{margin:0 0 var(--sp-block);color:var(--ink-body);line-height:1.5}
+#fcPane .res{border-left:3px solid var(--accent-graphic);padding:var(--sp-card);
+ background:var(--card);margin-bottom:var(--sp-block)}
+#fcPane .res b{color:var(--ink-title)}
+#fcPane .res p{margin:var(--sp-hair) 0 0;color:var(--ink-body);line-height:1.5}
+#fcPane .res.no{border-left-color:var(--alarm)}
+#fcPane .pista{margin-top:var(--sp-block);padding-top:var(--sp-hair);
+ border-top:1px solid var(--edge-inner);color:var(--ink-secondary);
+ font-size:.92rem;line-height:1.45}
+#fcPane .ops{display:flex;flex-direction:column;gap:var(--sp-hair);
+ margin-bottom:var(--sp-block)}
+#fcPane .ops button{text-align:left;padding:var(--sp-card);line-height:1.4;
+ border:1px solid var(--edge-button);background:var(--card);color:var(--ink-body);
+ font-family:var(--f-ui);font-size:.96rem;cursor:pointer}
+#fcPane .ops button b{color:var(--ink-title)}
+#fcPane .ops button:disabled{color:var(--ink-quiet);cursor:default}
+#fcPane .nav{display:flex;gap:var(--sp-inline);margin-top:var(--sp-block)}
+#fcPane .nav button{padding:var(--sp-hair) var(--sp-card);font-family:var(--f-ui);
+ font-size:.96rem;cursor:pointer;border:1px solid var(--edge-button);
+ background:var(--card);color:var(--ink-body)}
+#fcPane .nav button#fcV,#fcPane .nav button.show{background:var(--accent-control);
+ border-color:var(--accent-control);color:var(--on-primary);font-weight:600}
+
+@media (max-width:699px){
+ #fcWrap{grid-template-columns:minmax(0,1fr);
+  grid-template-rows:clamp(200px,44vh,520px) minmax(0,1fr)}
+ #fcSide{grid-column:1;border-left:0;border-top:1px solid var(--edge-frame)}
+}
 </style>
 </head><body>
 
@@ -191,7 +235,7 @@ a.pieLink:hover{text-decoration:underline}
  <i class="sep"></i>
  <div id="miga"><b>Collision avoidance</b> &middot; The nineteen rules</div>
  <span class="crece"></span>
- <a class="barlink" href="balizamiento-p1-the-marks.html#flashcards">Flashcards</a>
+ <a class="barlink" href="ripa-r0-the-nineteen-rules.html#flashcards">Flashcards</a>
  <i class="sep"></i>
  <a class="barlink" href="../index.html">Contents</a>
  <span id="barCont"></span>
@@ -589,6 +633,625 @@ if(typeof MutationObserver !== "undefined" && $("pane"))
     location.href = MARCO.paginas[0].f;
   };
 })();
+})();
+</script><script>
+(function(){
+
+const VISTO_CLAVE = "rya.visto";
+
+const VISTO_V = 2;
+
+function vistoAlmacen(){
+ try{ return (typeof localStorage !== "undefined" && localStorage) ? localStorage : null; }
+ catch(e){ return null; }
+}
+
+function vistoLee(){
+ const A = vistoAlmacen();
+ if(!A) return {v:VISTO_V, empezadas:{}, terminadas:{}, sinAlmacen:true};
+ try{
+  const o = JSON.parse(A.getItem(VISTO_CLAVE) || "null");
+  if(o && o.v === VISTO_V && o.empezadas && o.terminadas) return o;
+ }catch(e){}
+ return {v:VISTO_V, empezadas:{}, terminadas:{}};
+}
+
+function _vistoGuarda(o){
+ const A = vistoAlmacen();
+ if(!A) return o;
+ try{
+  A.setItem(VISTO_CLAVE, JSON.stringify(
+   {v:VISTO_V, empezadas:o.empezadas, terminadas:o.terminadas, pos:o.pos || {}}));
+ }catch(e){}
+ return o;
+}
+
+function _vistoPon(cual, fichero){
+ const o = vistoLee();
+ if(o.sinAlmacen || o[cual][fichero]) return o;
+ o[cual][fichero] = 1;
+ return _vistoGuarda(o);
+}
+
+const vistoEmpieza  = f => _vistoPon("empezadas", f);
+const vistoTermina  = f => _vistoPon("terminadas", f);
+const vistoEmpezada = f => !!vistoLee().empezadas[f];
+const vistoTerminada= f => !!vistoLee().terminadas[f];
+const vistoHayAlmacen = () => !!vistoAlmacen();
+
+function vistoPon(fichero, n){
+ const o = vistoLee();
+ if(o.sinAlmacen) return o;
+ if(!o.pos) o.pos = {};
+ if(o.pos[fichero] === n) return o;
+ o.pos[fichero] = n;
+ return _vistoGuarda(o);
+}
+
+function vistoPos(fichero, tope){
+ const p = vistoLee().pos;
+ const n = p && p[fichero];
+ if(typeof n !== "number" || !isFinite(n) || n < 0) return 0;
+ return (typeof tope === "number" && tope >= 0) ? Math.min(n, tope) : n;
+}
+
+function vistoOlvida(fichero){
+ const o = vistoLee();
+ if(o.sinAlmacen || !o.pos || !(fichero in o.pos)) return o;
+ delete o.pos[fichero];
+ return _vistoGuarda(o);
+}
+
+const AZAR=20260828;
+const CARTAS=[{"id": "rule-01", "modo": "rule", "delante": {"texto": "(a) These Rules shall apply to all vessels upon the high seas and in all waters connected therewith navigable by seagoing vessels. (b) Nothing in these Rules shall interfere with the operation of special rules made by an appropriate authority for roadsteads, harbors, rivers, lakes or inland waterways connected with the high seas and navigable by seagoing vessels."}, "detras": {"n": 1, "titulo": "Application", "porque": "Where the Rules reach, and where they stop. Get this one wrong and every rule after it is being applied in the wrong water."}}, {"id": "rule-02", "modo": "rule", "delante": {"texto": "(a) Nothing in these Rules shall exonerate any vessel, or the owner, master or crew thereof, from the consequences of any neglect to comply with these Rules or of the neglect of any precaution which may be required by the ordinary practice of seamen, or by the special circumstances of the case."}, "detras": {"n": 2, "titulo": "Responsibility", "porque": "The rule that stops you hiding behind the other eighteen. Being in the right has never yet prevented a collision."}}, {"id": "rule-03", "modo": "rule", "delante": {"texto": "For the purpose of these Rules, except where the context otherwise requires: (a) The word vessel includes every description of water craft, including non-displacement craft, WIG craft and seaplanes, used or capable of being used as a means of transportation on water. (b) The term power-driven vessel means any vessel propelled by machinery."}, "detras": {"n": 3, "titulo": "General definitions", "porque": "A glossary, not a maneuver — and every rule after it leans on these words, so one of them read loosely reads loosely sixteen more times."}}, {"id": "rule-04", "modo": "rule", "delante": {"texto": "Rules in this Section apply in any condition of visibility."}, "detras": {"n": 4, "titulo": "Application", "porque": "One line, and the whole of Section I hangs on it: these rules are the ones that do not care whether you can see her."}}, {"id": "rule-05", "modo": "rule", "delante": {"texto": "Every vessel shall at all times maintain a proper look-out by sight and hearing as well as by all available means appropriate in the prevailing circumstances and conditions so as to make a full appraisal of the situation and of the risk of collision."}, "detras": {"n": 5, "titulo": "Look-out", "porque": "The rule broken in almost every collision report, and the cheapest one to keep."}}, {"id": "rule-06", "modo": "rule", "delante": {"texto": "Every vessel shall at all times proceed at a safe speed so that she can take proper and effective action to avoid collision and be stopped within a distance appropriate to the prevailing circumstances and conditions. In determining a safe speed the following factors shall be among those taken into account: (a) By all vessels: (i) the state of visibility;"}, "detras": {"n": 6, "titulo": "Safe speed", "porque": "There is no number in it. What makes a speed safe is what you can still do with it when something happens."}}, {"id": "rule-07", "modo": "rule", "delante": {"texto": "(a) Every vessel shall use all available means appropriate to the prevailing circumstances and conditions to determine if risk of collision exists. If there is any doubt such risk shall be deemed to exist."}, "detras": {"n": 7, "titulo": "Risk of collision", "porque": "The rule that says when all the others start. Until you have settled this one, none of them is running yet."}}, {"id": "rule-08", "modo": "rule", "delante": {"texto": "(a) Any action taken to avoid collision shall be taken in accordance with the Rules of this Part and shall, if the circumstances of the case admit, be positive, made in ample time and with due regard to the observance of good seamanship."}, "detras": {"n": 8, "titulo": "Action to avoid collision", "porque": "How you act, not who acts. Large enough to be seen from her bridge, and early enough to be understood there."}}, {"id": "rule-09", "modo": "rule", "delante": {"texto": "(a) A vessel proceeding along the course of a narrow channel or fairway shall keep as near to the outer limit of the channel or fairway which lies on her starboard side as is safe and practicable. (b) A vessel of less than 20 meters in length or a sailing vessel shall not impede the passage of a vessel which can safely navigate only within a narrow channel or fairway."}, "detras": {"n": 9, "titulo": "Narrow channels", "porque": "The one place in the Rules where your own side of the road is written down. And not impeding is not keeping out of the way: it starts earlier and asks less."}}, {"id": "rule-10", "modo": "rule", "delante": {"texto": "(a) This Rule applies to traffic separation schemes adopted by the Organization and does not relieve any vessel of her obligation under any other rule. (b) A vessel using a traffic separation scheme shall: (i) proceed in the appropriate traffic lane in the general direction of traffic flow for that lane; (ii) so far as practicable keep clear of a traffic separation line or separation zone;"}, "detras": {"n": 10, "titulo": "Traffic separation schemes", "porque": "It measures your heading and not your track, and that is the sentence the examiner asks about."}}, {"id": "rule-11", "modo": "rule", "delante": {"texto": "Rules in this section apply to vessels in sight of one another."}, "detras": {"n": 11, "titulo": "Application", "porque": "One line, and it opens the eight rules the exam spends most of its time on."}}, {"id": "rule-12", "modo": "rule", "delante": {"texto": "(a) When two sailing vessels are approaching one another, so as to involve risk of collision, one of them shall keep out of the way of the other as follows: (i) when each has the wind on a different side, the vessel which has the wind on the port side shall keep out of the way of the other;"}, "detras": {"n": 12, "titulo": "Sailing vessels", "porque": "The wind decides and the compass does not. The boom shows you which tack she is on; when you are both on the same one, it is the windward vessel that keeps out of the way."}}, {"id": "rule-13", "modo": "rule", "delante": {"texto": "(a) Notwithstanding anything contained in the Rules of Part B, Sections I and II, any vessel overtaking any other shall keep out of the way of the vessel being overtaken."}, "detras": {"n": 13, "titulo": "Overtaking", "porque": "It overrides the rest of the Section. Whatever either of you is, the one coming up from astern keeps out of the way."}}, {"id": "rule-14", "modo": "rule", "delante": {"texto": "(a) When two power-driven vessels are meeting on reciprocal or nearly reciprocal courses so as to involve risk of collision each shall alter her course to starboard so that each shall pass on the port side of the other."}, "detras": {"n": 14, "titulo": "Head-on situation", "porque": "The only rule that puts the same duty on both of you — and the only one where being in doubt is itself the answer."}}, {"id": "rule-15", "modo": "rule", "delante": {"texto": "When two power-driven vessels are crossing so as to involve risk of collision, the vessel which has the other on her own starboard side shall keep out of the way and shall, if the circumstances of the case admit, avoid crossing ahead of the other vessel."}, "detras": {"n": 15, "titulo": "Crossing situation", "porque": "The rule everybody remembers, and the one people reach for when it does not apply."}}, {"id": "rule-16", "modo": "rule", "delante": {"texto": "Every vessel which is directed to keep out of the way of another vessel shall, so far as possible, take early and substantial action to keep well clear."}, "detras": {"n": 16, "titulo": "Action by give-way vessel", "porque": "Two lines, and both are about time. Early and substantial, or it is neither."}}, {"id": "rule-17", "modo": "rule", "delante": {"texto": "(a) (i) Where one of two vessels is to keep out of the way the other shall keep her course and speed. (ii) The latter vessel may, however, take action to avoid collision by her maneuver alone, as soon as it becomes apparent to her that the vessel required to keep out of the way is not taking appropriate action in compliance with these Rules."}, "detras": {"n": 17, "titulo": "Action by stand-on vessel", "porque": "Holding your course is a duty and not a right, and it stops being lawful well before the collision would."}}, {"id": "rule-18", "modo": "rule", "delante": {"texto": "Except where Rules 9, 10 and 13 otherwise require: (a) A power-driven vessel underway shall keep out of the way of: (i) a vessel not under command; (ii) a vessel restricted in her ability to maneuver; (iii) a vessel engaged in fishing; (iv) a sailing vessel. (b) A sailing vessel underway shall keep out of the way of: (i) a vessel not under command; (ii) a vessel restricted in her ability to maneuver;"}, "detras": {"n": 18, "titulo": "Responsibilities between vessels", "porque": "Not a situation but a table: what each of you is, and nothing else."}}, {"id": "rule-19", "modo": "rule", "delante": {"texto": "(a) This Rule applies to vessels not in sight of one another when navigating in or near an area of restricted visibility. (b) Every vessel shall proceed at a safe speed adapted to the prevailing circumstances and conditions of restricted visibility. A power-driven vessel shall have her engines ready for immediate maneuver."}, "detras": {"n": 19, "titulo": "Conduct of vessels in restricted visibility", "porque": "Nobody can see anybody, so nobody stands on. Everything Section II taught you is switched off."}}, {"id": "who-lad-power-nuc", "modo": "who", "delante": {"escena": {"yo": {"type": "power", "heading": 0, "x": 0, "y": 0, "speed": 10, "length": 30}, "ella": {"type": "nuc", "heading": 270, "x": 2.2, "y": 2.2, "speed": 4, "length": 30}, "vis": 8}, "premisa": "You are a power-driven vessel. She is a vessel not under command, 45° on your starboard bow, 3.1 M off, and her bearing is steady."}, "detras": {"dice": "You keep out of the way.", "regla": "Rule 18", "parece": "Rule 15"}}, {"id": "who-lad-nuc-power", "modo": "who", "delante": {"escena": {"yo": {"type": "nuc", "heading": 0, "x": 0, "y": 0, "speed": 4, "length": 30}, "ella": {"type": "power", "heading": 270, "x": 2.2, "y": 2.2, "speed": 10, "length": 30}, "vis": 8}, "premisa": "You are a vessel not under command. She is a power-driven vessel, 45° on your starboard bow, 3.1 M off, and her bearing is steady."}, "detras": {"dice": "She keeps out of your way.", "regla": "Rule 18", "parece": "Rule 15"}}, {"id": "who-lad-power-ram", "modo": "who", "delante": {"escena": {"yo": {"type": "power", "heading": 0, "x": 0, "y": 0, "speed": 10, "length": 30}, "ella": {"type": "ram", "heading": 270, "x": 2.2, "y": 2.2, "speed": 4, "length": 30}, "vis": 8}, "premisa": "You are a power-driven vessel. She is a vessel restricted in her ability to maneuver, 45° on your starboard bow, 3.1 M off, and her bearing is steady."}, "detras": {"dice": "You keep out of the way.", "regla": "Rule 18", "parece": "Rule 15"}}, {"id": "who-lad-ram-power", "modo": "who", "delante": {"escena": {"yo": {"type": "ram", "heading": 0, "x": 0, "y": 0, "speed": 4, "length": 30}, "ella": {"type": "power", "heading": 270, "x": 2.2, "y": 2.2, "speed": 10, "length": 30}, "vis": 8}, "premisa": "You are a vessel restricted in her ability to maneuver. She is a power-driven vessel, 45° on your starboard bow, 3.1 M off, and her bearing is steady."}, "detras": {"dice": "She keeps out of your way.", "regla": "Rule 18", "parece": "Rule 15"}}, {"id": "who-lad-power-fishing", "modo": "who", "delante": {"escena": {"yo": {"type": "power", "heading": 0, "x": 0, "y": 0, "speed": 10, "length": 30}, "ella": {"type": "fishing", "heading": 270, "x": 2.2, "y": 2.2, "speed": 4, "length": 30}, "vis": 8}, "premisa": "You are a power-driven vessel. She is a vessel engaged in fishing, 45° on your starboard bow, 3.1 M off, and her bearing is steady."}, "detras": {"dice": "You keep out of the way.", "regla": "Rule 18", "parece": "Rule 15"}}, {"id": "who-lad-fishing-power", "modo": "who", "delante": {"escena": {"yo": {"type": "fishing", "heading": 0, "x": 0, "y": 0, "speed": 4, "length": 30}, "ella": {"type": "power", "heading": 270, "x": 2.2, "y": 2.2, "speed": 10, "length": 30}, "vis": 8}, "premisa": "You are a vessel engaged in fishing. She is a power-driven vessel, 45° on your starboard bow, 3.1 M off, and her bearing is steady."}, "detras": {"dice": "She keeps out of your way.", "regla": "Rule 18", "parece": "Rule 15"}}, {"id": "who-lad-power-sailing", "modo": "who", "delante": {"escena": {"yo": {"type": "power", "heading": 0, "x": 0, "y": 0, "speed": 10, "length": 30}, "ella": {"type": "sailing", "heading": 270, "x": 2.2, "y": 2.2, "speed": 4, "length": 30}, "vis": 8}, "premisa": "You are a power-driven vessel. She is a sailing vessel, 45° on your starboard bow, 3.1 M off, and her bearing is steady."}, "detras": {"dice": "You keep out of the way.", "regla": "Rule 18", "parece": "Rule 15"}}, {"id": "who-lad-sailing-power", "modo": "who", "delante": {"escena": {"yo": {"type": "sailing", "heading": 0, "x": 0, "y": 0, "speed": 4, "length": 30}, "ella": {"type": "power", "heading": 270, "x": 2.2, "y": 2.2, "speed": 10, "length": 30}, "vis": 8}, "premisa": "You are a sailing vessel. She is a power-driven vessel, 45° on your starboard bow, 3.1 M off, and her bearing is steady."}, "detras": {"dice": "She keeps out of your way.", "regla": "Rule 18", "parece": "Rule 15"}}, {"id": "who-lad-sail-nuc", "modo": "who", "delante": {"escena": {"yo": {"type": "sailing", "heading": 0, "x": 0, "y": 0, "speed": 6, "length": 30}, "ella": {"type": "nuc", "heading": 270, "x": 2.2, "y": 2.2, "speed": 4, "length": 30}, "vis": 8}, "premisa": "You are a sailing vessel. She is a vessel not under command, 45° on your starboard bow, 3.1 M off, and her bearing is steady."}, "detras": {"dice": "You keep out of the way.", "regla": "Rule 18", "parece": "Rule 15"}}, {"id": "who-lad-sail-ram", "modo": "who", "delante": {"escena": {"yo": {"type": "sailing", "heading": 0, "x": 0, "y": 0, "speed": 6, "length": 30}, "ella": {"type": "ram", "heading": 270, "x": 2.2, "y": 2.2, "speed": 4, "length": 30}, "vis": 8}, "premisa": "You are a sailing vessel. She is a vessel restricted in her ability to maneuver, 45° on your starboard bow, 3.1 M off, and her bearing is steady."}, "detras": {"dice": "You keep out of the way.", "regla": "Rule 18", "parece": "Rule 15"}}, {"id": "who-lad-sail-fishing", "modo": "who", "delante": {"escena": {"yo": {"type": "sailing", "heading": 0, "x": 0, "y": 0, "speed": 6, "length": 30}, "ella": {"type": "fishing", "heading": 270, "x": 2.2, "y": 2.2, "speed": 4, "length": 30}, "vis": 8}, "premisa": "You are a sailing vessel. She is a vessel engaged in fishing, 45° on your starboard bow, 3.1 M off, and her bearing is steady."}, "detras": {"dice": "You keep out of the way.", "regla": "Rule 18", "parece": "Rule 15"}}, {"id": "who-lad-fish-ram", "modo": "who", "delante": {"escena": {"yo": {"type": "fishing", "heading": 0, "x": 0, "y": 0, "speed": 4, "length": 30}, "ella": {"type": "ram", "heading": 270, "x": 2.2, "y": 2.2, "speed": 3, "length": 30}, "vis": 8}, "premisa": "You are a vessel engaged in fishing. She is a vessel restricted in her ability to maneuver, 45° on your starboard bow, 3.1 M off, and her bearing is steady."}, "detras": {"dice": "You keep out of the way.", "regla": "Rule 18", "parece": "Rule 15"}}, {"id": "who-cross-stbd-0", "modo": "who", "delante": {"escena": {"yo": {"type": "power", "heading": 0, "x": 0, "y": 0, "speed": 10, "length": 30}, "ella": {"type": "power", "heading": 270, "x": 2.2, "y": 2.2, "speed": 10, "length": 30}, "vis": 8}, "premisa": "You are a power-driven vessel. She is a power-driven vessel, 45° on your starboard bow, 3.1 M off, and her bearing is steady."}, "detras": {"dice": "You keep out of the way.", "regla": "Rule 15", "parece": null}}, {"id": "who-cross-stbd-1", "modo": "who", "delante": {"escena": {"yo": {"type": "power", "heading": 0, "x": 0, "y": 0, "speed": 10, "length": 30}, "ella": {"type": "power", "heading": 285, "x": 2.8, "y": 1.2, "speed": 10, "length": 30}, "vis": 8}, "premisa": "You are a power-driven vessel. She is a power-driven vessel, 67° on your starboard bow, 3.0 M off, and her bearing is steady."}, "detras": {"dice": "You keep out of the way.", "regla": "Rule 15", "parece": null}}, {"id": "who-cross-stbd-2", "modo": "who", "delante": {"escena": {"yo": {"type": "power", "heading": 0, "x": 0, "y": 0, "speed": 10, "length": 30}, "ella": {"type": "power", "heading": 250, "x": 1.4, "y": 2.8, "speed": 10, "length": 30}, "vis": 8}, "premisa": "You are a power-driven vessel. She is a power-driven vessel, 27° on your starboard bow, 3.1 M off, and her bearing is steady."}, "detras": {"dice": "You keep out of the way.", "regla": "Rule 15", "parece": null}}, {"id": "who-cross-stbd-3", "modo": "who", "delante": {"escena": {"yo": {"type": "power", "heading": 0, "x": 0, "y": 0, "speed": 10, "length": 30}, "ella": {"type": "power", "heading": 300, "x": 3.0, "y": 0.5, "speed": 10, "length": 30}, "vis": 8}, "premisa": "You are a power-driven vessel. She is a power-driven vessel, 81° on your starboard bow, 3.0 M off, and her bearing is steady."}, "detras": {"dice": "You keep out of the way.", "regla": "Rule 15", "parece": null}}, {"id": "who-cross-port-0", "modo": "who", "delante": {"escena": {"yo": {"type": "power", "heading": 0, "x": 0, "y": 0, "speed": 10, "length": 30}, "ella": {"type": "power", "heading": 90, "x": -2.2, "y": 2.2, "speed": 10, "length": 30}, "vis": 8}, "premisa": "You are a power-driven vessel. She is a power-driven vessel, 45° on your port bow, 3.1 M off, and her bearing is steady."}, "detras": {"dice": "She keeps out of your way.", "regla": "Rule 15", "parece": null}}, {"id": "who-cross-port-1", "modo": "who", "delante": {"escena": {"yo": {"type": "power", "heading": 0, "x": 0, "y": 0, "speed": 10, "length": 30}, "ella": {"type": "power", "heading": 75, "x": -2.8, "y": 1.2, "speed": 10, "length": 30}, "vis": 8}, "premisa": "You are a power-driven vessel. She is a power-driven vessel, 67° on your port bow, 3.0 M off, and her bearing is steady."}, "detras": {"dice": "She keeps out of your way.", "regla": "Rule 15", "parece": null}}, {"id": "who-cross-port-2", "modo": "who", "delante": {"escena": {"yo": {"type": "power", "heading": 0, "x": 0, "y": 0, "speed": 10, "length": 30}, "ella": {"type": "power", "heading": 110, "x": -1.4, "y": 2.8, "speed": 10, "length": 30}, "vis": 8}, "premisa": "You are a power-driven vessel. She is a power-driven vessel, 27° on your port bow, 3.1 M off, and her bearing is steady."}, "detras": {"dice": "She keeps out of your way.", "regla": "Rule 15", "parece": null}}, {"id": "who-cross-port-3", "modo": "who", "delante": {"escena": {"yo": {"type": "power", "heading": 0, "x": 0, "y": 0, "speed": 10, "length": 30}, "ella": {"type": "power", "heading": 60, "x": -3.0, "y": 0.5, "speed": 10, "length": 30}, "vis": 8}, "premisa": "You are a power-driven vessel. She is a power-driven vessel, 81° on your port bow, 3.0 M off, and her bearing is steady."}, "detras": {"dice": "She keeps out of your way.", "regla": "Rule 15", "parece": null}}, {"id": "who-ovt-you-stbd-power", "modo": "who", "delante": {"escena": {"yo": {"type": "power", "heading": 0, "x": 0, "y": 0, "speed": 15, "length": 30}, "ella": {"type": "power", "heading": 0, "x": 0.35, "y": 2.2, "speed": 6, "length": 30}, "vis": 8}, "premisa": "You are a power-driven vessel. She is a power-driven vessel, 9° on your starboard bow, 2.2 M off, and her bearing is steady."}, "detras": {"dice": "You keep out of the way.", "regla": "Rule 13", "parece": null}}, {"id": "who-ovt-her-stbd-power", "modo": "who", "delante": {"escena": {"yo": {"type": "power", "heading": 0, "x": 0, "y": 0, "speed": 6, "length": 30}, "ella": {"type": "power", "heading": 0, "x": 0.35, "y": -2.2, "speed": 15, "length": 30}, "vis": 8}, "premisa": "You are a power-driven vessel. She is a power-driven vessel, 171° on your starboard quarter, 2.2 M off, and her bearing is steady."}, "detras": {"dice": "She keeps out of your way.", "regla": "Rule 13", "parece": null}}, {"id": "who-ovt-you-stbd-sailing", "modo": "who", "delante": {"escena": {"yo": {"type": "power", "heading": 0, "x": 0, "y": 0, "speed": 15, "length": 30}, "ella": {"type": "sailing", "heading": 0, "x": 0.35, "y": 2.2, "speed": 6, "length": 30}, "vis": 8}, "premisa": "You are a power-driven vessel. She is a sailing vessel, 9° on your starboard bow, 2.2 M off, and her bearing is steady."}, "detras": {"dice": "You keep out of the way.", "regla": "Rule 13", "parece": null}}, {"id": "who-ovt-her-stbd-sailing", "modo": "who", "delante": {"escena": {"yo": {"type": "power", "heading": 0, "x": 0, "y": 0, "speed": 6, "length": 30}, "ella": {"type": "sailing", "heading": 0, "x": 0.35, "y": -2.2, "speed": 15, "length": 30}, "vis": 8}, "premisa": "You are a power-driven vessel. She is a sailing vessel, 171° on your starboard quarter, 2.2 M off, and her bearing is steady."}, "detras": {"dice": "She keeps out of your way.", "regla": "Rule 13", "parece": null}}, {"id": "who-ovt-you-port-power", "modo": "who", "delante": {"escena": {"yo": {"type": "power", "heading": 0, "x": 0, "y": 0, "speed": 15, "length": 30}, "ella": {"type": "power", "heading": 0, "x": -0.35, "y": 2.2, "speed": 6, "length": 30}, "vis": 8}, "premisa": "You are a power-driven vessel. She is a power-driven vessel, 9° on your port bow, 2.2 M off, and her bearing is steady."}, "detras": {"dice": "You keep out of the way.", "regla": "Rule 13", "parece": null}}, {"id": "who-ovt-her-port-power", "modo": "who", "delante": {"escena": {"yo": {"type": "power", "heading": 0, "x": 0, "y": 0, "speed": 6, "length": 30}, "ella": {"type": "power", "heading": 0, "x": -0.35, "y": -2.2, "speed": 15, "length": 30}, "vis": 8}, "premisa": "You are a power-driven vessel. She is a power-driven vessel, 171° on your port quarter, 2.2 M off, and her bearing is steady."}, "detras": {"dice": "She keeps out of your way.", "regla": "Rule 13", "parece": null}}, {"id": "who-ovt-you-port-sailing", "modo": "who", "delante": {"escena": {"yo": {"type": "power", "heading": 0, "x": 0, "y": 0, "speed": 15, "length": 30}, "ella": {"type": "sailing", "heading": 0, "x": -0.35, "y": 2.2, "speed": 6, "length": 30}, "vis": 8}, "premisa": "You are a power-driven vessel. She is a sailing vessel, 9° on your port bow, 2.2 M off, and her bearing is steady."}, "detras": {"dice": "You keep out of the way.", "regla": "Rule 13", "parece": null}}, {"id": "who-ovt-her-port-sailing", "modo": "who", "delante": {"escena": {"yo": {"type": "power", "heading": 0, "x": 0, "y": 0, "speed": 6, "length": 30}, "ella": {"type": "sailing", "heading": 0, "x": -0.35, "y": -2.2, "speed": 15, "length": 30}, "vis": 8}, "premisa": "You are a power-driven vessel. She is a sailing vessel, 171° on your port quarter, 2.2 M off, and her bearing is steady."}, "detras": {"dice": "She keeps out of your way.", "regla": "Rule 13", "parece": null}}, {"id": "who-fog-315", "modo": "who", "delante": {"escena": {"yo": {"type": "power", "heading": 0, "x": 0, "y": 0, "speed": 10, "length": 30}, "ella": {"type": "power", "heading": 135, "x": -2.121320343559643, "y": 2.121320343559642, "speed": 10, "length": 30}, "vis": 0.5}, "premisa": "You are a power-driven vessel. Visibility has closed in and you have not seen her: there is an echo on the screen, 45° on your port bow, 3.0 M off, closing."}, "detras": {"dice": "Neither of you stands on. Both of you act.", "regla": "Rule 19", "parece": null}}, {"id": "who-fog-045", "modo": "who", "delante": {"escena": {"yo": {"type": "power", "heading": 0, "x": 0, "y": 0, "speed": 10, "length": 30}, "ella": {"type": "power", "heading": 225, "x": 2.121320343559643, "y": 2.121320343559643, "speed": 10, "length": 30}, "vis": 0.5}, "premisa": "You are a power-driven vessel. Visibility has closed in and you have not seen her: there is an echo on the screen, 45° on your starboard bow, 3.0 M off, closing."}, "detras": {"dice": "Neither of you stands on. Both of you act.", "regla": "Rule 19", "parece": null}}, {"id": "who-fog-090", "modo": "who", "delante": {"escena": {"yo": {"type": "power", "heading": 0, "x": 0, "y": 0, "speed": 10, "length": 30}, "ella": {"type": "power", "heading": 270, "x": 3.0, "y": 1.8369701987210297e-16, "speed": 10, "length": 30}, "vis": 0.5}, "premisa": "You are a power-driven vessel. Visibility has closed in and you have not seen her: there is an echo on the screen, 90° on your starboard bow, 3 M off, closing."}, "detras": {"dice": "Neither of you stands on. Both of you act.", "regla": "Rule 19", "parece": null}}, {"id": "who-fog-160", "modo": "who", "delante": {"escena": {"yo": {"type": "power", "heading": 0, "x": 0, "y": 0, "speed": 10, "length": 30}, "ella": {"type": "power", "heading": 340, "x": 1.0260604299770066, "y": -2.819077862357725, "speed": 10, "length": 30}, "vis": 0.5}, "premisa": "You are a power-driven vessel. Visibility has closed in and you have not seen her: there is an echo on the screen, 160° on your starboard quarter, 3 M off, closing."}, "detras": {"dice": "Neither of you stands on. Both of you act.", "regla": "Rule 19", "parece": null}}, {"id": "who-fog-200", "modo": "who", "delante": {"escena": {"yo": {"type": "power", "heading": 0, "x": 0, "y": 0, "speed": 10, "length": 30}, "ella": {"type": "power", "heading": 20, "x": -1.026060429977006, "y": -2.8190778623577253, "speed": 10, "length": 30}, "vis": 0.5}, "premisa": "You are a power-driven vessel. Visibility has closed in and you have not seen her: there is an echo on the screen, 160° on your port quarter, 3 M off, closing."}, "detras": {"dice": "Neither of you stands on. Both of you act.", "regla": "Rule 19", "parece": null}}, {"id": "who-head-000", "modo": "who", "delante": {"escena": {"yo": {"type": "power", "heading": 0, "x": 0, "y": 0, "speed": 10, "length": 30}, "ella": {"type": "power", "heading": 180, "x": 0.0, "y": 3.5, "speed": 10, "length": 30}, "vis": 8}, "premisa": "You are a power-driven vessel. She is a power-driven vessel, right ahead, 3.5 M off, and her bearing is steady."}, "detras": {"dice": "Both of you keep out of the way of the other.", "regla": "Rule 14", "parece": null}}, {"id": "who-head-184", "modo": "who", "delante": {"escena": {"yo": {"type": "power", "heading": 0, "x": 0, "y": 0, "speed": 10, "length": 30}, "ella": {"type": "power", "heading": 184, "x": 0.05, "y": 3.5, "speed": 10, "length": 30}, "vis": 8}, "premisa": "You are a power-driven vessel. She is a power-driven vessel, 1° on your starboard bow, 3.5 M off, and her bearing is steady."}, "detras": {"dice": "Both of you keep out of the way of the other.", "regla": "Rule 14", "parece": null}}];
+const CARTAS_MODOS=[{"id": "rule", "titulo": "The rule", "lema": "Read it, name it", "pregunta": "Which rule is this?", "requiere": "ripa", "comoSeLlama": "the module", "bloqueado": "Open the module once &mdash; any screen of it &mdash; and all nineteen are yours."}, {"id": "who", "titulo": "The encounter", "lema": "Read it, resolve it", "pregunta": "Who keeps out of the way?", "requiere": "ripa", "comoSeLlama": "the module", "bloqueado": "Open the module once &mdash; any screen of it &mdash; and the thirty-five are yours."}];
+const CARTAS_ORDEN=["rule-01", "rule-02", "rule-03", "rule-04", "rule-05", "rule-06", "rule-07", "rule-08", "rule-09", "rule-10", "rule-11", "rule-12", "rule-13", "rule-14", "rule-15", "rule-16", "rule-17", "rule-18", "rule-19", "who-lad-power-nuc", "who-lad-nuc-power", "who-lad-power-ram", "who-lad-ram-power", "who-lad-power-fishing", "who-lad-fishing-power", "who-lad-power-sailing", "who-lad-sailing-power", "who-lad-sail-nuc", "who-lad-sail-ram", "who-lad-sail-fishing", "who-lad-fish-ram", "who-cross-stbd-0", "who-cross-stbd-1", "who-cross-stbd-2", "who-cross-stbd-3", "who-cross-port-0", "who-cross-port-1", "who-cross-port-2", "who-cross-port-3", "who-ovt-you-stbd-power", "who-ovt-her-stbd-power", "who-ovt-you-stbd-sailing", "who-ovt-her-stbd-sailing", "who-ovt-you-port-power", "who-ovt-her-port-power", "who-ovt-you-port-sailing", "who-ovt-her-port-sailing", "who-fog-315", "who-fog-045", "who-fog-090", "who-fog-160", "who-fog-200", "who-head-000", "who-head-184"];
+const POR_SESION=10;
+
+"use strict";
+
+function cascoEnPlanta(x, y, rumbo, tinta, L, quien, opt){
+  const o = opt || {};
+  const g = rumbo*Math.PI/180, sn = Math.sin(g), cs = Math.cos(g);
+  const P = o.este ? (av, tr) => [x + cs*av - sn*tr, y + sn*av + cs*tr]
+                   : (av, tr) => [x + sn*av + cs*tr, y - cs*av + sn*tr];
+  const M = L*0.09;
+  const q = [P(L*0.50, 0), P(L*0.26, M*0.85), P(L*0.10, M),
+             P(-L*0.44, M*0.9), P(-L*0.50, M*0.55),
+             P(-L*0.50, -M*0.55), P(-L*0.44, -M*0.9),
+             P(L*0.10, -M), P(L*0.26, -M*0.85)];
+  const gr = el("g", {"data-barco": quien});
+  el("path", {d: "M" + q.map(p => p[0].toFixed(1) + "," + p[1].toFixed(1)).join(" L")
+                + " Z", fill: tinta, opacity: .95, "data-buque": "1"}, gr);
+  return L;
+}
+
+"use strict";
+
+const FC = {on:false, modo:null, ses:null, i:0, vuelta:false, primera:null, desde:0,
+ rit:null, luz:null};
+
+function fcRitmoPara(){
+ if(FC.rit){ FC.rit.para(); FC.rit = null; }
+ FC.luz = null;
+ if(typeof ritmoPara === "function") ritmoPara();
+}
+const FC_CLAVE = "ripa.cards", FC_V = 1;
+
+function fcAlmacen(){
+ try{ return (typeof localStorage !== "undefined" && localStorage) ? localStorage : null; }
+ catch(e){ return null; }
+}
+
+const _objeto = o => !!o && typeof o === "object" && !Array.isArray(o);
+
+function fcLee(){
+ const A = fcAlmacen();
+ if(A) try{
+  const o = JSON.parse(A.getItem(FC_CLAVE) || "null");
+
+  if(_objeto(o) && o.v === FC_V && _objeto(o.cartas)){
+
+   const limpio = {};
+   for(const k in o.cartas){
+    const c = o.cartas[k];
+    if(!_objeto(c)) continue;
+    const peso = Number(c.peso);
+    limpio[k] = {ok: Number(c.ok) || 0, mal: Number(c.mal) || 0,
+                 peso: (isFinite(peso) && peso >= 1) ? Math.min(peso, 3) : 1};
+   }
+   return {v: FC_V, cartas: limpio};
+  }
+ }catch(e){}
+ return {v:FC_V, cartas:{}};
+}
+function fcGuarda(o){
+ const A = fcAlmacen();
+ if(A) try{ A.setItem(FC_CLAVE, JSON.stringify(o)); }catch(e){}
+}
+const fcPeso = id => { const c = fcLee().cartas[id]; return (c && c.peso) || 1; };
+
+function fcAnota(id, bien){
+ const o = fcLee(), c = o.cartas[id] || {ok:0, mal:0, peso:1};
+ if(bien){ c.ok++; c.peso = Math.max(1, c.peso - 1); }
+ else    { c.mal++; c.peso = 3; }
+ o.cartas[id] = c; fcGuarda(o);
+}
+
+let FCR = ((typeof AZAR === "number" ? AZAR : 1) >>> 0) || 1;
+function fcAzar(){ FCR ^= FCR<<13; FCR >>>= 0; FCR ^= FCR>>>17; FCR ^= FCR<<5;
+ FCR >>>= 0; return FCR / 4294967296; }
+
+const fcModo = id => CARTAS_MODOS.filter(m => m.id === id)[0];
+const fcDelModo = id => CARTAS.filter(c => c.modo === id);
+
+const fcAbierto = id => vistoEmpezada(fcModo(id).requiere);
+
+function fcReparte(modo, n){
+ const pool = fcDelModo(modo).slice(), out = [];
+ while(out.length < n && pool.length){
+  let tot = 0; for(const c of pool) tot += fcPeso(c.id);
+  let r = fcAzar() * tot, k = 0;
+  while(k < pool.length - 1 && (r -= fcPeso(pool[k].id)) > 0) k++;
+  out.push(pool.splice(k, 1)[0].id);
+ }
+ return out;
+}
+
+function fcEmpieza(modo){
+ FC.modo = modo; FC.ses = fcReparte(modo, POR_SESION);
+ FC.i = 0; FC.vuelta = false; FC.primera = {}; FC.repes = {};
+ fcRitmoPara(); pinta();
+}
+
+const fcCarta = () => CARTAS.filter(c => c.id === FC.ses[FC.i])[0];
+const fcFin = () => !!FC.ses && FC.i >= FC.ses.length;
+
+const FC_VUELTAS = 1;
+
+function fcJuzga(bien){
+ const id = FC.ses[FC.i];
+ if(!(id in FC.primera)) FC.primera[id] = bien;
+ fcAnota(id, bien);
+ FC.repes = FC.repes || {};
+ if(!bien && (FC.repes[id] || 0) < FC_VUELTAS && FC.ses.indexOf(id, FC.i + 1) < 0){
+  FC.repes[id] = (FC.repes[id] || 0) + 1;
+  FC.ses.splice(Math.min(FC.i + 4, FC.ses.length), 0, id);
+ }
+ FC.i++; FC.vuelta = false; fcRitmoPara(); pinta();
+}
+
+window.fcAbre = () => { FC.on = true; FC.desde = iP; FC.modo = null; FC.ses = null;
+ fcRitmoPara(); pinta(); };
+window.fcCierra = () => { FC.on = false; fcRitmoPara(); vaA(FC.desde); };
+
+function fcRejilla(ids, titulo){
+ fcRitmoPara();
+ lamina(titulo || "");
+ const n = ids.length; if(!n) return;
+ const fila = Math.min(n, 6), filas = Math.ceil(n / fila);
+ const k0 = n <= 3 ? 96 : n <= 6 ? 74 : 60;
+ const arriba = px(46), abajo = px(30);
+ const k = kQueCabe(k0 * filas, arriba, abajo) / filas;
+ const alto = px(2 * k) + px(30), sep = px(20);
+ const bloque = filas * alto + (filas - 1) * sep;
+ const h = HOJA();
+ const y0 = h.y0 + arriba + ((h.al - arriba - abajo) - bloque) / 2 + px(2 * k);
+ const dx = (D.W - px(2 * MARGEN) - px(30)) / fila;
+ ids.forEach((id, i) => {
+  const m = marcaDe(id); if(!m) return;
+  marca(m, px(MARGEN) + px(15) + dx * (i % fila) + dx / 2,
+        y0 + (alto + sep) * Math.floor(i / fila), k,
+        {agua:false, nombre:m.corto});
+ });
+}
+
+function fcLuz(cx, cy, r, rt){
+ const halo = el("circle", {cx:cx, cy:cy, r:r*2.4, fill:rt.hex, "fill-opacity":0});
+ const lam  = el("circle", {cx:cx, cy:cy, r:r, fill:LUZ_APAGADA,
+                            stroke:C.raya, "stroke-width":px(1.4)});
+ FC.luz = {on:rt.on, per:rt.per, cols:rt.cols, lam:lam, halo:halo};
+ FC.rit = ritmoMotor((_, t) => fcPinta(t));
+ FC.rit.luz(rt.on, rt.per);
+ FC.rit.arranca();
+}
+
+function fcPinta(t){
+ const L = FC.luz; if(!L) return;
+ const k = ritmoTramo(L.on, L.per, t);
+ L.lam.setAttribute("fill", k < 0 ? LUZ_APAGADA : L.cols[k]);
+ L.halo.setAttribute("fill-opacity", k < 0 ? 0 : .30);
+ if(k >= 0) L.halo.setAttribute("fill", L.cols[k]);
+}
+
+function fcLienzo(){
+ if(!FC.modo || fcFin()){
+  const ids = fcFin()
+   ? FC.ses.filter((id,i,a) => a.indexOf(id)===i && FC.primera[id]===false)
+           .map(id => CARTAS.filter(c=>c.id===id)[0].marca)
+   : CARTAS_ORDEN;
+  fcRejilla(ids, fcFin() ? "the ones you missed" : "the deck");
+  return;
+ }
+
+ lamina("");
+ const c = fcCarta(); if(!c) return;
+ const rt = c.ritmo;
+
+ if(rt && !c.marca){
+  const h = HOJA();
+  el("rect", {x:h.x0, y:h.y0, width:h.an, height:h.al, rx:px(3), fill:"#08161D"});
+  fcLuz(D.W / 2, h.y0 + h.al * 0.46, px(26), rt);
+  txt(D.W / 2, h.y1 - px(16), "watch one whole cycle", "middle",
+      T.rot, "#4E6B78", 600, "ui", .8);
+  return;
+ }
+
+ const m = marcaDe(c.marca); if(!m) return;
+
+ const alto = rt ? px(34) : 0;
+ const k = kQueCabe(230, px(24) + alto, px(40));
+ const base = lineaAgua(k, px(24) + alto, px(40));
+ marca(m, D.W / 2, base, k, {agua:false});
+ if(rt) fcLuz(D.W / 2, base - px(2 * k) - px(16), px(11), rt);
+}
+
+function fcPanel(p){
+ const hd = document.createElement("div"); hd.className = "hd";
+ hd.innerHTML = "<h3>Flashcards</h3>";
+ p.appendChild(hd);
+
+ if(!FC.modo){ fcElector(p); return; }
+ if(fcFin()){ fcRecuento(p); return; }
+
+ const c = fcCarta(), md = fcModo(FC.modo), d = c.detras;
+ p.insertAdjacentHTML("beforeend",
+  '<span class="prl">' + md.titulo + " · card " + (FC.i + 1) + " of " + FC.ses.length
+  + "</span>");
+ p.insertAdjacentHTML("beforeend", '<b class="q">' + md.pregunta + "</b>");
+
+ if(!FC.vuelta){
+  const nav = document.createElement("div"); nav.className = "nav";
+  nav.innerHTML = '<button class="sec" id="fcSal">Leave</button>'
+   + '<button id="fcV">Turn it over</button>';
+  p.appendChild(nav);
+
+  nav.querySelector("#fcV").onclick = () => { FC.vuelta = true; pinta(); };
+  nav.querySelector("#fcSal").onclick = window.fcCierra;
+  return;
+ }
+
+ p.insertAdjacentHTML("beforeend",
+  '<div class="res ver"><b>' + d.nombre + "</b>"
+  + "<p>" + d.senas.join(" &middot; ") + "</p>"
+  + "<p>" + d.hace + "</p>"
+
+  + '<div class="calc">' + d.luz
+     + (d.fuente === "memoria" ? "  <b>(from memory, not the chart)</b>" : "")
+     + "</div>"
+
+  + (d.libre ? '<div class="pista">' + d.libre + "</div>" : "")
+  + "</div>");
+
+ const nav = document.createElement("div"); nav.className = "nav";
+ nav.innerHTML = '<button class="sec" id="fcMal">Missed it</button>'
+  + '<button class="show" id="fcBien">Got it</button>';
+ p.appendChild(nav);
+ nav.querySelector("#fcBien").onclick = () => fcJuzga(true);
+ nav.querySelector("#fcMal").onclick = () => fcJuzga(false);
+}
+
+function fcElector(p){
+ p.insertAdjacentHTML("beforeend",
+  "<p> <b>Pick what you want to practise</b> — they are "
+  + "different things to remember, so they are never mixed in one run.</p>"
+  + "<p><em> Mixing them trains both "
+  + "worse: you answer with whichever comes first and the other never gets its "
+  + "turn. <b></em></p>");
+
+ if(!vistoHayAlmacen())
+  p.insertAdjacentHTML("beforeend",
+   '<div class="res no">This browser is not letting the course remember what you '
+   + "have finished, so nothing can unlock.</div>");
+ const ops = document.createElement("div"); ops.className = "ops";
+ CARTAS_MODOS.forEach(md => {
+  const abierto = fcAbierto(md.id), n = fcDelModo(md.id).length;
+  const b = document.createElement("button");
+  b.innerHTML = "<b>" + md.titulo + "</b> &middot; " + md.lema
+   + (abierto ? "<br>" + n + " cards" : "<br>" + md.bloqueado);
+  b.disabled = !abierto;
+  b.onclick = () => fcEmpieza(md.id);
+  ops.appendChild(b);
+ });
+ p.appendChild(ops);
+ const nav = document.createElement("div"); nav.className = "nav";
+ nav.innerHTML = '<button class="sec" id="fcSal">Back to the screens</button>';
+ p.appendChild(nav);
+ nav.querySelector("#fcSal").onclick = window.fcCierra;
+}
+
+function fcRecuento(p){
+ const vistas = FC.ses.filter((id,i,a) => a.indexOf(id) === i);
+ const bien = vistas.filter(id => FC.primera[id]).length;
+ const mal = vistas.filter(id => FC.primera[id] === false);
+ p.insertAdjacentHTML("beforeend",
+  '<div class="res ' + (mal.length ? "" : "si") + '"><b>' + bien + " of "
+  + vistas.length + "</b>"
+  + (mal.length
+     ? "<p>You missed these " + (mal.length === 1 ? "one" : mal.length)
+       + ". <b>They will come round more often</b> until you do not.</p>"
+       + "<p>" + mal.map(id => CARTAS.filter(c=>c.id===id)[0].detras.nombre)
+                   .join(" &middot; ") + "</p>"
+     : "<p><b>All of them, first time.</b></p>") + "</div>");
+ const nav = document.createElement("div"); nav.className = "nav";
+ nav.innerHTML = '<button class="sec" id="fcSal">Back to the screens</button>'
+  + '<button id="fcOtra">Another ten</button>';
+ p.appendChild(nav);
+ nav.querySelector("#fcOtra").onclick = () => fcEmpieza(FC.modo);
+ nav.querySelector("#fcSal").onclick = window.fcCierra;
+}
+
+window.FCEST = () => ({on:FC.on, modo:FC.modo, i:FC.i, vuelta:FC.vuelta,
+ largo:FC.ses ? FC.ses.length : 0, fin:fcFin(),
+ carta:(FC.ses && !fcFin()) ? FC.ses[FC.i] : null,
+ luz:FC.luz ? {per:FC.luz.per, tramos:FC.luz.on.length,
+               color:FC.luz.lam.getAttribute("fill")} : null,
+ anda:!!(FC.rit && FC.rit.anda()),
+ vueltas:FC.repes ? Object.keys(FC.repes).length : 0,
+ distintas:FC.ses ? new Set(FC.ses).size : 0,
+ abiertos:CARTAS_MODOS.filter(m => fcAbierto(m.id)).map(m => m.id)});
+window.fcEmpieza = fcEmpieza; window.fcJuzga = fcJuzga; window.fcPeso = fcPeso;
+
+"use strict";
+
+const FCP_NS = "http://www.w3.org/2000/svg";
+const FCP = {D: {W: 1000, H: 640}, svg: null, capa: null, panel: null};
+
+function fcrEl(t, a, p){
+ const n = document.createElementNS(FCP_NS, t);
+ for(const k in a) if(a[k] !== null && a[k] !== undefined) n.setAttribute(k, a[k]);
+ (p || FCP.svg).appendChild(n);
+ return n;
+}
+function fcrTxt(x, y, s, anc, tam, col, peso, fam, p){
+ const n = fcrEl("text", {x: x, y: y, "text-anchor": anc || "start",
+  "font-size": tam, fill: col || "var(--ink-strong)", "font-weight": peso || 400,
+  "font-family": fam === "mono" ? "var(--f-mono)" : "var(--f-ui)",
+  "pointer-events": "none"}, p);
+ n.textContent = s;
+ return n;
+}
+
+function fcrLineas(s, ancho, tam, f){
+ const cabe = Math.max(8, Math.floor(ancho / (tam * f)));
+ const out = []; let l = "";
+ for(const w of String(s).split(/\s+/)){
+  if(l && (l + " " + w).length > cabe){ out.push(l); l = w; } else l = l ? l + " " + w : w;
+ }
+ if(l) out.push(l);
+ return out;
+}
+
+const el = fcrEl;
+function fcrCasco(x, y, rumbo, tinta, L, quien){
+  return cascoEnPlanta(x, y, rumbo, tinta, L, quien);
+}
+
+function fcrHoja(){
+ const m = 26;
+ return {x0: m, y0: m, x1: FCP.D.W - m, y1: FCP.D.H - m,
+         an: FCP.D.W - m * 2, al: FCP.D.H - m * 2};
+}
+function fcrPapel(rot){
+ FCP.svg.innerHTML = "";
+ const h = fcrHoja();
+ fcrEl("rect", {x: h.x0, y: h.y0, width: h.an, height: h.al, rx: 4,
+                fill: "var(--lam-papel)", stroke: "var(--edge-card)", "stroke-width": 1});
+ if(rot) fcrTxt(h.x0 + 16, h.y0 + 24, rot, "start", 13, "var(--lam-dim)", 700, "mono");
+ return h;
+}
+
+function fcrLienzoRegla(c){
+ const h = fcrPapel("THE RULE, AS IT IS WRITTEN");
+ const anc = h.an - 72;
+
+ let tam = 27, L;
+ for(; tam > 13; tam -= 0.5){
+  L = fcrLineas(c.delante.texto, anc, tam, 0.52);
+  if(L.length * tam * 1.42 <= h.al - 96) break;
+ }
+ const y0 = h.y0 + (h.al - L.length * tam * 1.42) / 2 + tam;
+ L.forEach((l, i) => fcrTxt(FCP.D.W / 2, y0 + i * tam * 1.42, l, "middle", tam,
+                            "var(--ink-strong)", 400, "ui"));
+}
+
+function fcrLienzoQuien(c){
+ const e = c.delante.escena;
+ const niebla = e.vis < 1;
+ const h = fcrPapel(niebla ? "NOBODY HAS SEEN ANYBODY" : "THE ENCOUNTER");
+
+ const R = Math.max(Math.abs(e.ella.x), Math.abs(e.ella.y), 1) * 1.35;
+ const cx = FCP.D.W / 2, cy = h.y0 + h.al * 0.62;
+ const k = Math.min((h.an * 0.42) / R, (h.al * 0.42) / R);
+ const X = mx => cx + mx * k, Y = my => cy - my * k;
+
+ const sep = Math.hypot(X(e.ella.x) - cx, Y(e.ella.y) - cy);
+ const L = Math.max(52, Math.min(sep * 0.34, 130));
+
+ fcrEl("line", {x1: cx, y1: cy, x2: X(e.ella.x), y2: Y(e.ella.y),
+              stroke: "var(--lam-dim)", "stroke-width": 1.2,
+              "stroke-dasharray": "4,5", opacity: .8});
+ if(niebla){
+
+  fcrEl("circle", {cx: cx, cy: cy, r: Math.max(e.vis * k, 14), fill: "none",
+                   stroke: "var(--lam-dim)", "stroke-width": 1.4,
+                   "stroke-dasharray": "5,6", "data-limite": "1"});
+ }
+
+ if(niebla){
+  fcrEl("circle", {cx: X(e.ella.x), cy: Y(e.ella.y), r: Math.max(9, L * 0.13),
+                   fill: "var(--accent-control)", "data-buque": "1"});
+ } else {
+  fcrCasco(X(e.ella.x), Y(e.ella.y), e.ella.heading, "var(--lam-ink)", L, "ella");
+ }
+ fcrCasco(cx, cy, e.yo.heading, "var(--accent-graphic)", L, "tu");
+ fcrTxt(cx, cy + L * 0.62 + 20, "you", "middle", 13,
+        "var(--ink-strong)", 700, "mono");
+
+ fcrTxt(h.x1 - 14, h.y1 - 12, "hulls not to scale", "end", 11,
+        "var(--lam-dim)", 400, "mono");
+}
+
+fcLienzo = function(){
+ if(!FC.modo || fcFin()){
+  fcRejilla(null, fcFin() ? "the ones you missed" : "the deck");
+  return;
+ }
+ const c = fcCarta(); if(!c) return;
+ if(c.modo === "rule") fcrLienzoRegla(c); else fcrLienzoQuien(c);
+};
+
+fcRejilla = function(ids, titulo){
+ const h = fcrPapel((titulo || "").toUpperCase());
+ const fin = fcFin();
+ const falladas = fin
+  ? FC.ses.filter((id, i, a) => a.indexOf(id) === i && FC.primera[id] === false)
+  : [];
+ const L = fin
+  ? (falladas.length
+      ? falladas.map(id => (CARTAS.filter(c => c.id === id)[0] || {}).modo === "rule"
+          ? "a rule you could not name" : "an encounter you did not resolve")
+      : ["nothing. You had every one of them."])
+  : ["nineteen rules, one card each",
+     "thirty-five encounters, resolved by the Rules themselves",
+     "ten to a session, and the ones you miss come back"];
+ const tam = 21;
+ const y0 = h.y0 + (h.al - L.length * tam * 1.9) / 2 + tam * 2;
+ L.forEach((l, i) => fcrTxt(FCP.D.W / 2, y0 + i * tam * 1.9, l, "middle", tam,
+                            "var(--lam-dim)", 400, "ui"));
+};
+
+fcPanel = function(p){
+ const hd = document.createElement("div"); hd.className = "hd";
+ hd.innerHTML = "<h3>Flashcards</h3>";
+ p.appendChild(hd);
+ if(!FC.modo){ fcElector(p); return; }
+ if(fcFin()){ fcRecuento(p); return; }
+
+ const c = fcCarta(), md = fcModo(FC.modo), d = c.detras;
+ p.insertAdjacentHTML("beforeend",
+  '<span class="prl">' + md.titulo + " \u00b7 card " + (FC.i + 1) + " of "
+  + FC.ses.length + "</span>");
+ p.insertAdjacentHTML("beforeend", '<b class="q">' + md.pregunta + "</b>");
+
+ if(c.modo === "who")
+  p.insertAdjacentHTML("beforeend", '<p class="premisa">' + c.delante.premisa + "</p>");
+
+ if(!FC.vuelta){
+  const nav = document.createElement("div"); nav.className = "nav";
+  nav.innerHTML = '<button class="sec" id="fcSal">Leave</button>'
+   + '<button id="fcV">Turn it over</button>';
+  p.appendChild(nav);
+  nav.querySelector("#fcV").onclick = () => { FC.vuelta = true; pinta(); };
+  nav.querySelector("#fcSal").onclick = window.fcCierra;
+  return;
+ }
+
+ const cuerpo = c.modo === "rule"
+  ? "<b>Rule " + d.n + " \u00b7 " + d.titulo + "</b><p>" + d.porque + "</p>"
+  : "<b>" + d.dice + "</b><p>" + d.regla + " decides it.</p>"
+    + (d.parece
+        ? '<div class="pista">Not ' + d.parece
+          + ", which is what the same picture would say if you were both "
+          + "power-driven vessels. What each of you <b>is</b> settles it first.</div>"
+        : "");
+ p.insertAdjacentHTML("beforeend", '<div class="res ver">' + cuerpo + "</div>");
+ const nav = document.createElement("div"); nav.className = "nav";
+ nav.innerHTML = '<button class="sec" id="fcMal">Missed it</button>'
+  + '<button class="show" id="fcBien">Got it</button>';
+ p.appendChild(nav);
+ nav.querySelector("#fcBien").onclick = () => fcJuzga(true);
+ nav.querySelector("#fcMal").onclick = () => fcJuzga(false);
+};
+
+fcElector = function(p){
+ p.insertAdjacentHTML("beforeend",
+  "<p><b>Nineteen rules</b> and <b>thirty-five encounters</b>. Pick what you want "
+  + "to practise &mdash; they are two different things to remember, so they are "
+  + "never mixed in one run.</p>"
+  + "<p><em>Naming a rule and resolving an encounter are separate memories. Put "
+  + "them in one run and you answer with whichever comes first, and the other "
+  + "never gets its turn.</em></p>");
+ if(!vistoHayAlmacen())
+  p.insertAdjacentHTML("beforeend",
+   '<div class="res no">This browser is not letting the course remember what you '
+   + "have opened, so nothing can unlock.</div>");
+ const ops = document.createElement("div"); ops.className = "ops";
+ CARTAS_MODOS.forEach(md => {
+  const abierto = fcAbierto(md.id), n = fcDelModo(md.id).length;
+  const b = document.createElement("button");
+  b.innerHTML = "<b>" + md.titulo + "</b> &middot; " + md.lema
+   + (abierto ? "<br>" + n + " cards" : "<br>" + md.bloqueado);
+  b.disabled = !abierto;
+  b.onclick = () => fcEmpieza(md.id);
+  ops.appendChild(b);
+ });
+ p.appendChild(ops);
+ const nav = document.createElement("div"); nav.className = "nav";
+ nav.innerHTML = '<button class="sec" id="fcSal">Back to the screens</button>';
+ p.appendChild(nav);
+ nav.querySelector("#fcSal").onclick = window.fcCierra;
+};
+
+function fcrCapa(){
+ if(FCP.capa) return FCP.capa;
+ const w = document.getElementById("wrap");
+ const c = document.createElement("div");
+ c.id = "fcWrap";
+ c.innerHTML = '<div id="fcLienzo"><svg id="fcSvg" viewBox="0 0 ' + FCP.D.W + " "
+  + FCP.D.H + '" preserveAspectRatio="xMidYMid meet"></svg></div>'
+  + '<div id="fcSide"><div id="fcPane"></div></div>';
+ w.parentNode.insertBefore(c, w.nextSibling);
+ FCP.capa = c;
+ FCP.svg = c.querySelector("#fcSvg");
+ FCP.panel = c.querySelector("#fcPane");
+ return c;
+}
+
+function pinta(){
+ if(!FC.on){
+  if(FCP.capa){ FCP.capa.remove(); FCP.capa = null; FCP.svg = null; FCP.panel = null; }
+  document.getElementById("wrap").style.display = "";
+  return;
+ }
+ fcrCapa();
+ document.getElementById("wrap").style.display = "none";
+ fcLienzo();
+ FCP.panel.innerHTML = "";
+ fcPanel(FCP.panel);
+}
+
+let iP = 0;
+function vaA(){ pinta(); }
+
+function fcrEnlace(){
+ if(location.hash === "#flashcards" && !FC.on) window.fcAbre();
+}
+window.addEventListener("hashchange", fcrEnlace);
+fcrEnlace();
+
+window.FCRIPA = {
+ cartas: () => CARTAS,
+ pon: (id) => {
+  const c = CARTAS.filter(x => x.id === id)[0];
+  if(!c) return false;
+  FC.on = true; FC.modo = c.modo; FC.ses = [id]; FC.i = 0; FC.vuelta = false;
+  FC.primera = {}; FC.repes = {}; pinta();
+  return true;
+ },
+ voltea: () => { FC.vuelta = true; pinta(); },
+};
+
 })();
 </script>
 </body></html>
