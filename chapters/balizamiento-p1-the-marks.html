@@ -1,5 +1,7 @@
 <meta charset="utf-8"><title>Buoyage — The marks</title>
 
+<meta name="viewport" content="width=device-width,initial-scale=1">
+
 
 
 <style>
@@ -266,6 +268,15 @@ a.skip:hover,a.volver:hover,#foot a:hover{color:var(--ink-title);
  border-radius:0;padding:var(--sp-tight) var(--sp-block);margin:0 0 var(--sp-block);
  font:400 14px/1.7 var(--f-mono)}
 .calc b{font-family:var(--f-ui);font-weight:600;color:var(--ink-title)}
+
+@media (max-width:699px){
+ :root{ --sp-col-y:10px; --sp-col-x:12px; }
+ #wrap{grid-template-columns:minmax(0,1fr);
+       grid-template-rows:clamp(200px,46vh,520px) minmax(0,1fr)}
+ #side{border-left:0;border-top:1px solid var(--edge-frame)}
+
+ #barra .sep, #barra a[href="../index.html"]:last-of-type{display:none}
+}
 </style>
 
 <div id="barra">
@@ -299,7 +310,10 @@ const D={W:1000,H:640}, MARGEN=24;
 const svg=document.getElementById("svg");
 const pane=()=>document.getElementById("pane");
 let ESC=1, gO=null;
+
+const CAJA_MIN=80;
 function esc(){const r=svg.getBoundingClientRect();
+ if(!(r.width>=CAJA_MIN)||!(r.height>=CAJA_MIN)) return 1;
  return Math.min(r.width/D.W, r.height/D.H)||1;}
 const px=n=>n/ESC;
 function el(t,at,pa){const e=document.createElementNS("http://www.w3.org/2000/svg",t);
