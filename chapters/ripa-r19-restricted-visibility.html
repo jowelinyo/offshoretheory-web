@@ -248,6 +248,25 @@ a.pieLink:hover{text-decoration:underline}
  letter-spacing:.1em;color:var(--ink-quiet);
  white-space:normal;overflow-wrap:anywhere}
 .sello b{font-weight:400}
+
+/* --- Cierre de modulo: invitacion a la lista del curso completo ------------
+   Va dentro de <template id="tSig">, que el codigo inyecta SOLO en la
+   pantalla de cierre. Sin script, sin campos de formulario y sin oyentes:
+   es marcado puro, asi que sobrevive a cada repintado del panel.
+   Clases con prefijo ot- para no chocar con las de la pantalla.          */
+.ot-cierre{margin:26px 0 0;padding:22px 0 4px;border-top:1px solid var(--edge-panel)}
+.ot-rotulo{font-family:var(--f-mono);font-size:11px;letter-spacing:.16em;
+ text-transform:uppercase;color:var(--accent-text);margin:0 0 10px}
+.ot-tit{font-family:var(--f-display);font-size:21px;line-height:1.25;font-weight:600;
+ color:var(--ink-title);margin:0 0 8px}
+.ot-p{font-family:var(--f-ui);font-size:14px;line-height:1.6;color:var(--ink-body);
+ margin:0 0 18px}
+.ot-boton{display:inline-block;background:var(--accent-graphic);color:var(--ink-title);
+ text-decoration:none;padding:12px 28px;border-radius:6px;
+ font-family:var(--f-ui);font-size:14px;font-weight:600}
+.ot-boton:hover,.ot-boton:focus-visible{filter:brightness(1.08)}
+.ot-nota{font-family:var(--f-ui);font-size:12px;line-height:1.5;color:var(--ink-quiet);
+ margin:12px 0 0}
 </style>
 </head><body>
 
@@ -256,7 +275,7 @@ a.pieLink:hover{text-decoration:underline}
  <i class="sep"></i>
  <div id="miga"><b>Collision avoidance</b> &middot; Rule 19 &middot; Conduct of vessels in restricted visibility</div>
  <span class="crece"></span>
- <a class="barlink" href="../chapters/balizamiento-p1-the-marks.html#flashcards">Flashcards</a>
+ <a class="barlink" href="balizamiento-p1-the-marks.html#flashcards">Flashcards</a>
  <i class="sep"></i>
  <a class="barlink" href="../index.html">Contents</a>
  <span id="barCont"></span>
@@ -273,7 +292,7 @@ a.pieLink:hover{text-decoration:underline}
  </div>
 </div>
 
-<template id="tSig"></template>
+<template id="tSig"><div class="ot-cierre"><p class="ot-rotulo">END OF RULES OF THE ROAD</p><p class="ot-tit">That&rsquo;s the rules of the road.</p><p class="ot-p">The full course &mdash; tides, chartwork, passage planning and the rest &mdash; opens later this year.</p><a class="ot-boton" href="../waitlist.html">Tell me when it opens</a><p class="ot-nota">One email when the course opens. Nothing else.</p></div></template>
 <script>
 "use strict";
 
@@ -1139,6 +1158,17 @@ if(typeof MutationObserver !== "undefined" && $("pane"))
     marcaNav();
     location.href = MARCO.paginas[0].f;
   };
+})();
+
+/* Cierre de modulo. El bloque de <template id="tSig"> se inserta una sola vez
+   DETRAS de #pane, no dentro: pintaPanel() reescribe #pane en cada toque y se
+   lo llevaria por delante. Queda donde lo ponen balizamiento y luces, entre el
+   panel y el pie. */
+(function(){
+  const t = $("tSig"), pane = $("pane");
+  if(!t || !pane || !t.innerHTML.trim()) return;
+  if(document.querySelector(".ot-cierre")) return;
+  pane.insertAdjacentHTML("afterend", t.innerHTML);
 })();
 })();
 </script>
