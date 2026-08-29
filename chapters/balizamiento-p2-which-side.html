@@ -137,6 +137,7 @@ a.volver:hover{color:var(--paper-ink);text-decoration:underline}
  --ink-title:#0F171D; --ink-strong:#141C22; --ink-lead:#20292F; --ink-body:#333D45;
  --ink-secondary:#4A5A66; --ink-label:#5B6B77; --ink-quiet:#5E6B74;
  --accent-text:#9A5C10; --accent-graphic:#C97B1B; --accent-on-bar:#E2B15C;
+ --accent-control:var(--accent-graphic);
  --link:#2F6C8F; --progress-pending:#CDD5DA;
  --on-bar:#DCE4E9; --on-bar-dim:#B8C7D0; --on-bar-strong:#F6F9FA; --on-primary:#F2F6F8;
  --sp-hair:4px; --sp-inline:8px; --sp-tight:12px; --sp-card:14px; --sp-block:16px;
@@ -298,12 +299,12 @@ a.skip:hover,a.volver:hover,#foot a:hover{color:var(--ink-title);
    <div id="prog"></div></div>
   <div id="pane"></div>
   <div id="foot"><span id="fLog">0 answers logged</span><a class="volver" id="deCero" onclick="deCero()">start over</a>
-   <div class="sello" id="sello" data-sello="3cae227c">buoyage · part 2 · <b>24 of 24 screens</b> · 24 Aug 2026</div></div>
+   <div class="sello" id="sello" data-sello="3cae227c">buoyage · part 2 · <b>24 of 24 screens</b> · 29 Aug 2026</div></div>
  </div>
 </div>
 <template id="tSig"><div class="calc"><b>Next: At night, and on the chart.</b><br>
    The rhythm of every mark, the cardinals' three-six-nine clock, and how the chart writes it next to the buoy.</div></template>
-<script>
+<script>const SIGUIENTE="balizamiento-p3-at-night.html";
 "use strict";
 
 const D={W:1000,H:640}, MARGEN=24;
@@ -759,7 +760,6 @@ let PZ=[{"id": "0.S1", "tema": "What «pass it» actually means", "obra": "enmar
 const TOT=24;
 
 const FICHERO="balizamiento-p2-which-side.html";
-const SIGUIENTE="balizamiento-p3-at-night.html";
 let iP=0, EJ={i:0,marca:null,var:0}, PR={q:null,n:0,meta:2,fallos:0,hecho:false};
 const LOG=[];
 const esPractica=s=>!!s&&s.obra==="practica";
@@ -955,7 +955,10 @@ function barra(){
  if(fb)fb.textContent=FC.on?("Back to screen "+(FC.desde+1)):"Flashcards";}
 
 function vaA(i){
- if(i >= PZ.length && SIGUIENTE){ location.href = SIGUIENTE; return; }
+
+ if(i >= PZ.length && typeof SIGUIENTE === "string" && SIGUIENTE){
+  location.href = SIGUIENTE; return;
+ }
  if(i<0||i>=PZ.length)return;
  iP=i; EJ={i:0,marca:null,var:0}; guardaDonde(i);
  if(PZ[i].obra==="explora")EX={sel:null,vistas:{}};

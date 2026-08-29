@@ -137,6 +137,7 @@ a.volver:hover{color:var(--paper-ink);text-decoration:underline}
  --ink-title:#0F171D; --ink-strong:#141C22; --ink-lead:#20292F; --ink-body:#333D45;
  --ink-secondary:#4A5A66; --ink-label:#5B6B77; --ink-quiet:#5E6B74;
  --accent-text:#9A5C10; --accent-graphic:#C97B1B; --accent-on-bar:#E2B15C;
+ --accent-control:var(--accent-graphic);
  --link:#2F6C8F; --progress-pending:#CDD5DA;
  --on-bar:#DCE4E9; --on-bar-dim:#B8C7D0; --on-bar-strong:#F6F9FA; --on-primary:#F2F6F8;
  --sp-hair:4px; --sp-inline:8px; --sp-tight:12px; --sp-card:14px; --sp-block:16px;
@@ -298,12 +299,12 @@ a.skip:hover,a.volver:hover,#foot a:hover{color:var(--ink-title);
    <div id="prog"></div></div>
   <div id="pane"></div>
   <div id="foot"><span id="fLog">0 answers logged</span><a class="volver" id="deCero" onclick="deCero()">start over</a>
-   <div class="sello" id="sello" data-sello="7ca9888b">buoyage · part 1 · <b>16 of 16 screens</b> · 22 Aug 2026</div></div>
+   <div class="sello" id="sello" data-sello="7ca9888b">buoyage · part 1 · <b>16 of 16 screens</b> · 29 Aug 2026</div></div>
  </div>
 </div>
 <template id="tSig"><div class="calc"><b>Next: Which side you pass.</b><br>
    A cardinal names the clear water; a lateral tells you which side of the channel you are on. The direction of buoyage, and why the same red can changes sides.</div></template>
-<script>
+<script>const SIGUIENTE="balizamiento-p2-which-side.html";
 "use strict";
 
 const D={W:1000,H:640}, MARGEN=24;
@@ -626,7 +627,6 @@ let PZ=[{"id": "1.S1", "tema": "What a mark is · topic 1", "obra": "enmarca", "
 const TOT=16;
 
 const FICHERO="balizamiento-p1-the-marks.html";
-const SIGUIENTE="balizamiento-p2-which-side.html";
 let iP=0, EJ={i:0,marca:null,var:0}, PR={q:null,n:0,meta:2,fallos:0,hecho:false};
 const LOG=[];
 const esPractica=s=>!!s&&s.obra==="practica";
@@ -808,7 +808,10 @@ function barra(){
  if(fb)fb.textContent=FC.on?("Back to screen "+(FC.desde+1)):"Flashcards";}
 
 function vaA(i){
- if(i >= PZ.length && SIGUIENTE){ location.href = SIGUIENTE; return; }
+
+ if(i >= PZ.length && typeof SIGUIENTE === "string" && SIGUIENTE){
+  location.href = SIGUIENTE; return;
+ }
  if(i<0||i>=PZ.length)return;
  iP=i; EJ={i:0,marca:null,var:0}; guardaDonde(i);
  if(PZ[i].obra==="explora")EX={sel:null,vistas:{}};

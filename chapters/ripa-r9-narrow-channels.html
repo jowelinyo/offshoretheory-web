@@ -206,6 +206,10 @@ a.pieLink:hover{text-decoration:underline}
  letter-spacing:.1em;color:var(--ink-quiet);
  white-space:normal;overflow-wrap:anywhere}
 .sello b{font-weight:400}
+
+@media (max-width:699px){
+ #barra .sep, #barra a[href="../index.html"]:last-of-type{display:none}
+}
 </style>
 </head><body>
 
@@ -227,7 +231,7 @@ a.pieLink:hover{text-decoration:underline}
   <div id="foot"><div class="pieLinea">rule 9 of 19 &middot; not impeding is not keeping out of the way</div>
    <div id="navPie"></div>
    <div class="pie2"><span id="fLog">0 answers logged</span><a class="pieLink" id="deCero">start over</a></div>
-   <div class="sello" id="sello" data-sello="bf4362f9">collision avoidance &middot; module &middot; 20 screens &middot; 28 Aug 2026 &middot; <b>bf4362f9</b></div></div>
+   <div class="sello" id="sello" data-sello="bf4362f9">collision avoidance &middot; module &middot; 20 screens &middot; 29 Aug 2026 &middot; <b>bf4362f9</b></div></div>
  </div>
 </div>
 
@@ -274,23 +278,9 @@ function sonda(x, y, v){
   }
 }
 
-function plantaBarco(x, y, rumbo, tinta, op, largo){
-  const g = rumbo*Math.PI/180, sn = Math.sin(g), cs = Math.cos(g);
-  const L = largo || px(24), M = L*0.34;
-  const P = (av, tr) => [x + sn*av + cs*tr, y - cs*av + sn*tr];
-  const q = [P(L*0.5, 0), P(L*0.14, M), P(-L*0.46, M*0.8),
-             P(-L*0.5, -M*0.8), P(L*0.14, -M)];
-
-  el("path", {d: "M" + q.map(p => p[0].toFixed(1) + "," + p[1].toFixed(1)).join(" L")
-                + " Z", fill: tinta, opacity: op === undefined ? .95 : op,
-              "data-buque": "1"});
-}
-
 const LEY9 = ["(a) A vessel proceeding along the course of a narrow channel or fairway shall keep as near to the outer limit of the channel or fairway which lies on her starboard side as is safe and practicable.", "(b) A vessel of less than 20 meters in length or a sailing vessel shall not impede the passage of a vessel which can safely navigate only within a narrow channel or fairway.", "(c) A vessel engaged in fishing shall not impede the passage of any other vessel navigating within a narrow channel or fairway.", "(d) A vessel shall not cross a narrow channel or fairway if such crossing impedes the passage of a vessel which can safely navigate only within such channel or fairway. The latter vessel may use the sound signal prescribed in Rule 34(d) if in doubt as to the intention of the crossing vessel.", "(e)", "(i) In a narrow channel or fairway when overtaking can take place only if the vessel to be overtaken has to take action to permit safe passing, the vessel intending to overtake shall indicate her intention by sounding the appropriate signal prescribed in Rule 34(c)(i). The vessel to be overtaken shall, if in agreement, sound the appropriate signal prescribed in Rule 34(c)(ii) and take steps to permit safe passing. If in doubt she may sound the signals prescribed in Rule 34(d).", "(ii) This Rule does not relieve the overtaking vessel of her obligation under Rule 13.", "(f) A vessel nearing a bend or an area of a narrow channel or fairway where other vessels may be obscured by an intervening obstruction shall navigate with particular alertness and caution and shall sound the appropriate signal prescribed in Rule 34(e).", "(g) Any vessel shall, if the circumstances of the case admit, avoid anchoring in a narrow channel."];
 const LEY9SUB = [5, 6];
 const LEY9CAR = 1717;
-
-"use strict";
 
 const CANAL = {
   dragado: 12.0,
@@ -575,6 +565,84 @@ function dilo9(e){
           + "the steering rules then apply to you as well.";
 
   return {donde: donde, toca: toca, aviso: aviso, letra: e.sit.ley};
+}
+
+function cascoEnPlanta(x, y, rumbo, tinta, L, quien, opt){
+  const o = opt || {};
+  const g = rumbo*Math.PI/180, sn = Math.sin(g), cs = Math.cos(g);
+  const P = o.este ? (av, tr) => [x + cs*av - sn*tr, y + sn*av + cs*tr]
+                   : (av, tr) => [x + sn*av + cs*tr, y - cs*av + sn*tr];
+  const M = L*0.09;
+  const q = [P(L*0.50, 0), P(L*0.26, M*0.85), P(L*0.10, M),
+             P(-L*0.44, M*0.9), P(-L*0.50, M*0.55),
+             P(-L*0.50, -M*0.55), P(-L*0.44, -M*0.9),
+             P(L*0.10, -M), P(L*0.26, -M*0.85)];
+  const gr = el("g", {"data-barco": quien});
+  el("path", {d: "M" + q.map(p => p[0].toFixed(1) + "," + p[1].toFixed(1)).join(" L")
+                + " Z", fill: tinta, opacity: .95, "data-buque": "1"}, gr);
+  return L;
+}
+
+function plantaBarco(x, y, rumbo, tinta, op, largo, padre){
+  const g = rumbo*Math.PI/180, sn = Math.sin(g), cs = Math.cos(g);
+  const L = largo || px(24), M = L*0.34;
+  const P = (av, tr) => [x + sn*av + cs*tr, y - cs*av + sn*tr];
+  const q = [P(L*0.5, 0), P(L*0.14, M), P(-L*0.5, M*0.8),
+             P(-L*0.5, -M*0.8), P(L*0.14, -M)];
+
+  el("path", {d: "M" + q.map(p => p[0].toFixed(1) + "," + p[1].toFixed(1)).join(" L")
+                + " Z", fill: tinta, opacity: op === undefined ? .95 : op,
+              "data-buque": "1"}, padre);
+}
+
+function cascoVelero(x, y, rumbo, tinta, L, padre){
+  const g = rumbo*Math.PI/180, sn = Math.sin(g), cs = Math.cos(g);
+  const P = (av, tr) => [x + sn*av + cs*tr, y - cs*av + sn*tr];
+  const B2 = L*0.085;
+  const casco = [P(L*0.52, 0), P(L*0.10, B2), P(-L*0.40, B2*0.85),
+                 P(-L*0.46, 0), P(-L*0.40, -B2*0.85), P(L*0.10, -B2)];
+  el("path", {d: "M" + casco.map(p => p[0].toFixed(1) + "," + p[1].toFixed(1))
+                          .join(" L") + " Z", fill: tinta, opacity: .95,
+              "data-buque": "1"}, padre);
+}
+
+function aparejoDeVelero(x, y, rumbo, tinta, L, lado, opt){
+  const o = opt || {};
+  const g = rumbo*Math.PI/180, sn = Math.sin(g), cs = Math.cos(g);
+  const P = (av, tr) => [x + sn*av + cs*tr, y - cs*av + sn*tr];
+  const a = P(L*0.10, 0), b = P(-L*0.30, lado*L*0.62);
+  const grueso = o.grueso === undefined ? 3 : o.grueso;
+  const palo   = o.palo   === undefined ? 3 : o.palo;
+  el("circle", {cx: a[0], cy: a[1], r: palo, fill: tinta}, o.padre);
+  el("line", {x1: a[0], y1: a[1], x2: b[0], y2: b[1], stroke: tinta,
+              "stroke-width": grueso, "stroke-linecap": "round",
+              "data-botavara": o.marca}, o.padre);
+}
+
+function perfilDeCostado(x, y, L, H, b, tinta, padre){
+  el("path", {d: "M" + (x - L*0.5) + "," + (y - H*b)
+                + " L" + (x + L*0.44) + "," + (y - H*b)
+                + " L" + (x + L*0.5) + "," + y
+                + " L" + (x - L*0.42) + "," + y + " Z",
+              fill: tinta, opacity: .95, "data-buque": "1"}, padre);
+}
+
+function fuselajeDeCostado(x, y, L, H, tinta, padre){
+  el("path", {d: "M" + (x - L*0.46) + "," + y + " L" + (x + L*0.40) + "," + y
+                + " L" + (x + L*0.50) + "," + (y - H*0.5)
+                + " L" + (x - L*0.30) + "," + (y - H*0.7)
+                + " L" + (x - L*0.50) + "," + (y - H*0.1) + " Z",
+              fill: tinta, opacity: .95, "data-buque": "1"}, padre);
+}
+
+function cascoLadeado(x, y, L, tinta, padre){
+  const M = L*0.34;
+  el("path", {d: "M" + (x + L*0.52) + "," + (y - L*0.20)
+                + " L" + (x + L*0.06) + "," + (y + M*0.62)
+                + " L" + (x - L*0.46) + "," + (y + M*0.42)
+                + " L" + (x - L*0.34) + "," + (y - M*0.66)
+                + " L" + (x + L*0.10) + "," + (y - M*0.86) + " Z",
+              fill: tinta, opacity: .95, "data-buque": "1"}, padre);
 }
 
 const ANCHO = 950;
@@ -1176,6 +1244,13 @@ if(typeof MutationObserver !== "undefined" && $("pane"))
     marcaNav();
     location.href = MARCO.paginas[0].f;
   };
+})();
+
+(function(){
+  const t = $("tSig"), pane = $("pane");
+  if(!t || !pane || !t.innerHTML.trim()) return;
+  if(document.querySelector(".ot-cierre")) return;
+  pane.insertAdjacentHTML("afterend", t.innerHTML);
 })();
 })();
 </script>

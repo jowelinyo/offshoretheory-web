@@ -237,6 +237,10 @@ a.pieLink:hover{text-decoration:underline}
  letter-spacing:.1em;color:var(--ink-quiet);
  white-space:normal;overflow-wrap:anywhere}
 .sello b{font-weight:400}
+
+@media (max-width:699px){
+ #barra .sep, #barra a[href="../index.html"]:last-of-type{display:none}
+}
 </style>
 </head><body>
 
@@ -258,7 +262,7 @@ a.pieLink:hover{text-decoration:underline}
   <div id="foot"><div class="pieLinea">rule 13 of 19 &middot; the line is drawn by her lights, not by a protractor</div>
    <div id="navPie"></div>
    <div class="pie2"><span id="fLog">0 answers logged</span><a class="pieLink" id="deCero">start over</a></div>
-   <div class="sello" id="sello" data-sello="bf4362f9">collision avoidance &middot; module &middot; 20 screens &middot; 28 Aug 2026 &middot; <b>bf4362f9</b></div></div>
+   <div class="sello" id="sello" data-sello="bf4362f9">collision avoidance &middot; module &middot; 20 screens &middot; 29 Aug 2026 &middot; <b>bf4362f9</b></div></div>
  </div>
 </div>
 
@@ -303,18 +307,6 @@ function sonda(x, y, v){
     u.textContent = String(dec);
     t.appendChild(u);
   }
-}
-
-function plantaBarco(x, y, rumbo, tinta, op, largo, padre){
-  const g = rumbo*Math.PI/180, sn = Math.sin(g), cs = Math.cos(g);
-  const L = largo || px(24), M = L*0.34;
-  const P = (av, tr) => [x + sn*av + cs*tr, y - cs*av + sn*tr];
-  const q = [P(L*0.5, 0), P(L*0.14, M), P(-L*0.46, M*0.8),
-             P(-L*0.5, -M*0.8), P(L*0.14, -M)];
-
-  el("path", {d: "M" + q.map(p => p[0].toFixed(1) + "," + p[1].toFixed(1)).join(" L")
-                + " Z", fill: tinta, opacity: op === undefined ? .95 : op,
-              "data-buque": "1"}, padre);
 }
 
 const LEY13 = ["(a) Notwithstanding anything contained in the Rules of Part B, Sections I and II, any vessel overtaking any other shall keep out of the way of the vessel being overtaken.", "(b) A vessel shall be deemed to be overtaking when coming up with another vessel from a direction more than 22.5° abaft her beam, that is, in such a position with reference to the vessel she is overtaking, that at night she would be able to see only the sternlight of that vessel but neither of her sidelights.", "(c) When a vessel is in any doubt as to whether she is overtaking another, she shall assume that this is the case and act accordingly.", "(d) Any subsequent alteration of the bearing between the two vessels shall not make the overtaking vessel a crossing vessel within the meaning of these Rules or relieve her of the duty of keeping clear of the overtaken vessel until she is finally past and clear."];
@@ -483,14 +475,87 @@ function project(v, aspect, rangeNm, opts={}){
   });
 }
 
+const CANAL_A_LO_LARGO = 45;
+
+const VIA_A_FAVOR = 45;
+
+const CORTO = 20;
+
+function esCorto(v){ return v.length !== undefined && v.length < CORTO; }
+function vaALoLargo(v, rumboCanal){
+  const d = Math.abs(diff(v.heading, rumboCanal));
+  return d <= CANAL_A_LO_LARGO || d >= 180 - CANAL_A_LO_LARGO;
+}
+function cruza(v, rumboCanal){ return !vaALoLargo(v, rumboCanal); }
+function sigueLaVia(v, via){ return Math.abs(diff(v.heading, via)) <= VIA_A_FAVOR; }
+
+function deberesDeNoEstorbar(own, contact, cond){
+  const D = [];
+  const A = category(own.type), B = category(contact.type);
+  const pon = (rule, para, quien, why) => D.push({rule, para, quien, why});
+
+  const canal = cond.canal;
+  if (canal && canal.rumbo !== undefined) {
+    const dentroA = vaALoLargo(own, canal.rumbo), dentroB = vaALoLargo(contact, canal.rumbo);
+
+    if ((A === VESSEL.sailing || esCorto(own)) && contact.soloEnCanal)
+      pon(9, "b", "own", "She can only stay safe inside this channel. You are "
+        + (A === VESSEL.sailing ? "under sail" : "under 20 meters")
+        + ", so you do not impede her passage — which is not the same as keeping out "
+        + "of her way, and it starts much earlier.");
+    if ((B === VESSEL.sailing || esCorto(contact)) && own.soloEnCanal)
+      pon(9, "b", "contact", "You can only stay safe inside this channel, and she is "
+        + (B === VESSEL.sailing ? "under sail" : "under 20 meters")
+        + ". She does not impede your passage.");
+
+    if (A === VESSEL.fishing && dentroB)
+      pon(9, "c", "own", "You are engaged in fishing and she is navigating within the "
+        + "channel. You do not impede her passage, whatever she is.");
+    if (B === VESSEL.fishing && dentroA)
+      pon(9, "c", "contact", "She is engaged in fishing and you are navigating within "
+        + "the channel. She does not impede your passage.");
+
+    if (cruza(own, canal.rumbo) && contact.soloEnCanal)
+      pon(9, "d", "own", "You are crossing the channel and she can only stay safe "
+        + "inside it. You do not cross if crossing impedes her passage.");
+    if (cruza(contact, canal.rumbo) && own.soloEnCanal)
+      pon(9, "d", "contact", "She is crossing the channel and you can only stay safe "
+        + "inside it. She does not cross if crossing impedes your passage.");
+  }
+
+  const disp = cond.dispositivo;
+  if (disp && disp.via !== undefined) {
+    const sigueA = sigueLaVia(own, disp.via), sigueB = sigueLaVia(contact, disp.via);
+
+    if (A === VESSEL.fishing && sigueB)
+      pon(10, "i", "own", "You are engaged in fishing and she is following the traffic "
+        + "lane. You do not impede her passage.");
+    if (B === VESSEL.fishing && sigueA)
+      pon(10, "i", "contact", "She is engaged in fishing and you are following the "
+        + "traffic lane. She does not impede your passage.");
+
+    if ((A === VESSEL.sailing || esCorto(own)) && B.power && sigueB)
+      pon(10, "j", "own", "She is a power-driven vessel following the traffic lane. "
+        + "You are " + (A === VESSEL.sailing ? "under sail" : "under 20 meters")
+        + ", so you do not impede her safe passage.");
+    if ((B === VESSEL.sailing || esCorto(contact)) && A.power && sigueA)
+      pon(10, "j", "contact", "You are a power-driven vessel following the traffic "
+        + "lane, and she is " + (B === VESSEL.sailing ? "under sail" : "under 20 meters")
+        + ". She does not impede your safe passage.");
+  }
+  return D;
+}
 function evaluate(own, contact, cond = {}){
   const vis      = cond.visibility === undefined ? 10 : cond.visibility;
   const R        = rangeTo(own, contact);
   const inSight  = R <= vis;
   const relB     = relativeBearing(own, contact);
   const risk     = riskOfCollision(own, contact);
+
+  const noEstorbar = deberesDeNoEstorbar(own, contact, cond);
   const base     = {relativeBearing: relB, aspect: aspect(own, contact), range: R,
-                    inSight, ...risk};
+                    inSight, ...risk,
+                    ...(noEstorbar.length ? {notImpeding: noEstorbar} : {})};
 
   if (!inSight) return {...base,
     situation: "restricted-visibility",
@@ -546,6 +611,17 @@ function evaluate(own, contact, cond = {}){
         why: iGiveWay ? "You have the wind on your port side and she does not. You keep out of the way."
                       : "She has the wind on her port side and you do not. She keeps out of the way."};
     }
+
+    const bar = windwardOf(own, contact);
+    if (ta === "port" && contact.amuraIncierta && bar === contact) return {...base,
+      situation: "sailing-doubtful-tack", obligation: "give-way", rule: 12,
+      why: "You have the wind on your port side, she is to windward, and you cannot "
+         + "tell with certainty which tack she is on. You keep out of the way."};
+    if (tb === "port" && own.amuraIncierta && bar === own) return {...base,
+      situation: "sailing-doubtful-tack", obligation: "stand-on", rule: 12,
+      thresholds: standOnThresholds(own, contact, cond),
+      why: "She has the wind on her port side, you are to windward, and she cannot "
+         + "tell with certainty which tack you are on. She keeps out of the way."};
     const wind = windwardOf(own, contact);
 
     if (!wind) return {...base,
@@ -593,8 +669,6 @@ function evaluate(own, contact, cond = {}){
       ? "She is crossing from your starboard side. You keep out of the way — and you do not cross ahead of her."
       : "She is crossing from your port side. She keeps out of the way. You hold, and you watch her to see whether she does."};
 }
-
-"use strict";
 
 const ELLA13 = {n: "A power-driven vessel of 90 m", eslora: 90, nudos: 0, rumbo: 0};
 const TU13 = {n: "your own vessel", eslora: 40, nudos: 13};
@@ -797,6 +871,68 @@ function cascoEnPlanta(x, y, rumbo, tinta, L, quien, opt){
   el("path", {d: "M" + q.map(p => p[0].toFixed(1) + "," + p[1].toFixed(1)).join(" L")
                 + " Z", fill: tinta, opacity: .95, "data-buque": "1"}, gr);
   return L;
+}
+
+function plantaBarco(x, y, rumbo, tinta, op, largo, padre){
+  const g = rumbo*Math.PI/180, sn = Math.sin(g), cs = Math.cos(g);
+  const L = largo || px(24), M = L*0.34;
+  const P = (av, tr) => [x + sn*av + cs*tr, y - cs*av + sn*tr];
+  const q = [P(L*0.5, 0), P(L*0.14, M), P(-L*0.5, M*0.8),
+             P(-L*0.5, -M*0.8), P(L*0.14, -M)];
+
+  el("path", {d: "M" + q.map(p => p[0].toFixed(1) + "," + p[1].toFixed(1)).join(" L")
+                + " Z", fill: tinta, opacity: op === undefined ? .95 : op,
+              "data-buque": "1"}, padre);
+}
+
+function cascoVelero(x, y, rumbo, tinta, L, padre){
+  const g = rumbo*Math.PI/180, sn = Math.sin(g), cs = Math.cos(g);
+  const P = (av, tr) => [x + sn*av + cs*tr, y - cs*av + sn*tr];
+  const B2 = L*0.085;
+  const casco = [P(L*0.52, 0), P(L*0.10, B2), P(-L*0.40, B2*0.85),
+                 P(-L*0.46, 0), P(-L*0.40, -B2*0.85), P(L*0.10, -B2)];
+  el("path", {d: "M" + casco.map(p => p[0].toFixed(1) + "," + p[1].toFixed(1))
+                          .join(" L") + " Z", fill: tinta, opacity: .95,
+              "data-buque": "1"}, padre);
+}
+
+function aparejoDeVelero(x, y, rumbo, tinta, L, lado, opt){
+  const o = opt || {};
+  const g = rumbo*Math.PI/180, sn = Math.sin(g), cs = Math.cos(g);
+  const P = (av, tr) => [x + sn*av + cs*tr, y - cs*av + sn*tr];
+  const a = P(L*0.10, 0), b = P(-L*0.30, lado*L*0.62);
+  const grueso = o.grueso === undefined ? 3 : o.grueso;
+  const palo   = o.palo   === undefined ? 3 : o.palo;
+  el("circle", {cx: a[0], cy: a[1], r: palo, fill: tinta}, o.padre);
+  el("line", {x1: a[0], y1: a[1], x2: b[0], y2: b[1], stroke: tinta,
+              "stroke-width": grueso, "stroke-linecap": "round",
+              "data-botavara": o.marca}, o.padre);
+}
+
+function perfilDeCostado(x, y, L, H, b, tinta, padre){
+  el("path", {d: "M" + (x - L*0.5) + "," + (y - H*b)
+                + " L" + (x + L*0.44) + "," + (y - H*b)
+                + " L" + (x + L*0.5) + "," + y
+                + " L" + (x - L*0.42) + "," + y + " Z",
+              fill: tinta, opacity: .95, "data-buque": "1"}, padre);
+}
+
+function fuselajeDeCostado(x, y, L, H, tinta, padre){
+  el("path", {d: "M" + (x - L*0.46) + "," + y + " L" + (x + L*0.40) + "," + y
+                + " L" + (x + L*0.50) + "," + (y - H*0.5)
+                + " L" + (x - L*0.30) + "," + (y - H*0.7)
+                + " L" + (x - L*0.50) + "," + (y - H*0.1) + " Z",
+              fill: tinta, opacity: .95, "data-buque": "1"}, padre);
+}
+
+function cascoLadeado(x, y, L, tinta, padre){
+  const M = L*0.34;
+  el("path", {d: "M" + (x + L*0.52) + "," + (y - L*0.20)
+                + " L" + (x + L*0.06) + "," + (y + M*0.62)
+                + " L" + (x - L*0.46) + "," + (y + M*0.42)
+                + " L" + (x - L*0.34) + "," + (y - M*0.66)
+                + " L" + (x + L*0.10) + "," + (y - M*0.86) + " Z",
+              fill: tinta, opacity: .95, "data-buque": "1"}, padre);
 }
 
 const AIRE13 = {x: 132, y: 108};
@@ -1476,6 +1612,13 @@ if(typeof MutationObserver !== "undefined" && $("pane"))
     marcaNav();
     location.href = MARCO.paginas[0].f;
   };
+})();
+
+(function(){
+  const t = $("tSig"), pane = $("pane");
+  if(!t || !pane || !t.innerHTML.trim()) return;
+  if(document.querySelector(".ot-cierre")) return;
+  pane.insertAdjacentHTML("afterend", t.innerHTML);
 })();
 })();
 </script>

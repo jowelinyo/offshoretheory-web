@@ -249,11 +249,10 @@ a.pieLink:hover{text-decoration:underline}
  white-space:normal;overflow-wrap:anywhere}
 .sello b{font-weight:400}
 
-/* --- Cierre de modulo: invitacion a la lista del curso completo ------------
-   Va dentro de <template id="tSig">, que el codigo inyecta SOLO en la
-   pantalla de cierre. Sin script, sin campos de formulario y sin oyentes:
-   es marcado puro, asi que sobrevive a cada repintado del panel.
-   Clases con prefijo ot- para no chocar con las de la pantalla.          */
+@media (max-width:699px){
+ #barra .sep, #barra a[href="../index.html"]:last-of-type{display:none}
+}
+</style><style>
 .ot-cierre{margin:26px 0 0;padding:22px 0 4px;border-top:1px solid var(--edge-panel)}
 .ot-rotulo{font-family:var(--f-mono);font-size:11px;letter-spacing:.16em;
  text-transform:uppercase;color:var(--accent-text);margin:0 0 10px}
@@ -288,7 +287,7 @@ a.pieLink:hover{text-decoration:underline}
   <div id="foot"><div class="pieLinea">rule 19 of 19 &middot; the beam cuts both halves of this Rule with the same cut</div>
    <div id="navPie"></div>
    <div class="pie2"><span id="fLog">0 answers logged</span><a class="pieLink" id="deCero">start over</a></div>
-   <div class="sello" id="sello" data-sello="bf4362f9">collision avoidance &middot; module &middot; 20 screens &middot; 28 Aug 2026 &middot; <b>bf4362f9</b></div></div>
+   <div class="sello" id="sello" data-sello="bf4362f9">collision avoidance &middot; module &middot; 20 screens &middot; 29 Aug 2026 &middot; <b>bf4362f9</b></div></div>
  </div>
 </div>
 
@@ -314,18 +313,6 @@ function txt(x, y, s, an, tam, col, peso, fam, pa){
     "font-family": fam === "mono" ? "var(--f-mono)" : "var(--f-ui)"}, pa);
   e.textContent = s;
   return e;
-}
-
-function plantaBarco(x, y, rumbo, tinta, op, largo, padre){
-  const g = rumbo*Math.PI/180, sn = Math.sin(g), cs = Math.cos(g);
-  const L = largo || px(24), M = L*0.34;
-  const P = (av, tr) => [x + sn*av + cs*tr, y - cs*av + sn*tr];
-  const q = [P(L*0.5, 0), P(L*0.14, M), P(-L*0.46, M*0.8),
-             P(-L*0.5, -M*0.8), P(L*0.14, -M)];
-
-  el("path", {d: "M" + q.map(p => p[0].toFixed(1) + "," + p[1].toFixed(1)).join(" L")
-                + " Z", fill: tinta, opacity: op === undefined ? .95 : op,
-              "data-buque": "1"}, padre);
 }
 
 const LEY19 = ["(a) This Rule applies to vessels not in sight of one another when navigating in or near an area of restricted visibility.", "(b) Every vessel shall proceed at a safe speed adapted to the prevailing circumstances and conditions of restricted visibility. A power-driven vessel shall have her engines ready for immediate maneuver.", "(c) Every vessel shall have due regard to the prevailing circumstances and conditions of restricted visibility when complying with the Rules of Section I of this part.", "(d) A vessel which detects by radar alone the presence of another vessel shall determine if a close-quarters situation is developing and/or risk of collision exists. If so, she shall take avoiding action in ample time, provided that when such action consists of an alteration of course, so far as possible the following shall be avoided: (i) an alteration of course to port for a vessel forward of the beam, other than for a vessel being overtaken; (ii) an alteration of course towards a vessel abeam or abaft the beam.", "(e) Except where it has been determined that a risk of collision does not exist, every vessel which hears apparently forward of her beam the fog signal of another vessel, or which cannot avoid a close-quarters situation with another vessel forward of her beam, shall reduce her speed to the minimum at which she can be kept on her course. She shall if necessary take all her way off and in any event navigate with extreme caution until danger of collision is over."];
@@ -368,8 +355,6 @@ function saca(bolsa, banco){
  bolsa.ultima = x.id;
  return x;
 }
-
-"use strict";
 
 const N19 = a => ((a % 360) + 360) % 360;
 
@@ -613,6 +598,84 @@ function dilo19(rb, rama, dicho){
 
   return {momento: "corregido", titulo: titulo, cuerpo: cuerpo, nota: nota,
           ademas: ademas, sobra: null, acerto: bien, buena: b, borde: false};
+}
+
+function cascoEnPlanta(x, y, rumbo, tinta, L, quien, opt){
+  const o = opt || {};
+  const g = rumbo*Math.PI/180, sn = Math.sin(g), cs = Math.cos(g);
+  const P = o.este ? (av, tr) => [x + cs*av - sn*tr, y + sn*av + cs*tr]
+                   : (av, tr) => [x + sn*av + cs*tr, y - cs*av + sn*tr];
+  const M = L*0.09;
+  const q = [P(L*0.50, 0), P(L*0.26, M*0.85), P(L*0.10, M),
+             P(-L*0.44, M*0.9), P(-L*0.50, M*0.55),
+             P(-L*0.50, -M*0.55), P(-L*0.44, -M*0.9),
+             P(L*0.10, -M), P(L*0.26, -M*0.85)];
+  const gr = el("g", {"data-barco": quien});
+  el("path", {d: "M" + q.map(p => p[0].toFixed(1) + "," + p[1].toFixed(1)).join(" L")
+                + " Z", fill: tinta, opacity: .95, "data-buque": "1"}, gr);
+  return L;
+}
+
+function plantaBarco(x, y, rumbo, tinta, op, largo, padre){
+  const g = rumbo*Math.PI/180, sn = Math.sin(g), cs = Math.cos(g);
+  const L = largo || px(24), M = L*0.34;
+  const P = (av, tr) => [x + sn*av + cs*tr, y - cs*av + sn*tr];
+  const q = [P(L*0.5, 0), P(L*0.14, M), P(-L*0.5, M*0.8),
+             P(-L*0.5, -M*0.8), P(L*0.14, -M)];
+
+  el("path", {d: "M" + q.map(p => p[0].toFixed(1) + "," + p[1].toFixed(1)).join(" L")
+                + " Z", fill: tinta, opacity: op === undefined ? .95 : op,
+              "data-buque": "1"}, padre);
+}
+
+function cascoVelero(x, y, rumbo, tinta, L, padre){
+  const g = rumbo*Math.PI/180, sn = Math.sin(g), cs = Math.cos(g);
+  const P = (av, tr) => [x + sn*av + cs*tr, y - cs*av + sn*tr];
+  const B2 = L*0.085;
+  const casco = [P(L*0.52, 0), P(L*0.10, B2), P(-L*0.40, B2*0.85),
+                 P(-L*0.46, 0), P(-L*0.40, -B2*0.85), P(L*0.10, -B2)];
+  el("path", {d: "M" + casco.map(p => p[0].toFixed(1) + "," + p[1].toFixed(1))
+                          .join(" L") + " Z", fill: tinta, opacity: .95,
+              "data-buque": "1"}, padre);
+}
+
+function aparejoDeVelero(x, y, rumbo, tinta, L, lado, opt){
+  const o = opt || {};
+  const g = rumbo*Math.PI/180, sn = Math.sin(g), cs = Math.cos(g);
+  const P = (av, tr) => [x + sn*av + cs*tr, y - cs*av + sn*tr];
+  const a = P(L*0.10, 0), b = P(-L*0.30, lado*L*0.62);
+  const grueso = o.grueso === undefined ? 3 : o.grueso;
+  const palo   = o.palo   === undefined ? 3 : o.palo;
+  el("circle", {cx: a[0], cy: a[1], r: palo, fill: tinta}, o.padre);
+  el("line", {x1: a[0], y1: a[1], x2: b[0], y2: b[1], stroke: tinta,
+              "stroke-width": grueso, "stroke-linecap": "round",
+              "data-botavara": o.marca}, o.padre);
+}
+
+function perfilDeCostado(x, y, L, H, b, tinta, padre){
+  el("path", {d: "M" + (x - L*0.5) + "," + (y - H*b)
+                + " L" + (x + L*0.44) + "," + (y - H*b)
+                + " L" + (x + L*0.5) + "," + y
+                + " L" + (x - L*0.42) + "," + y + " Z",
+              fill: tinta, opacity: .95, "data-buque": "1"}, padre);
+}
+
+function fuselajeDeCostado(x, y, L, H, tinta, padre){
+  el("path", {d: "M" + (x - L*0.46) + "," + y + " L" + (x + L*0.40) + "," + y
+                + " L" + (x + L*0.50) + "," + (y - H*0.5)
+                + " L" + (x - L*0.30) + "," + (y - H*0.7)
+                + " L" + (x - L*0.50) + "," + (y - H*0.1) + " Z",
+              fill: tinta, opacity: .95, "data-buque": "1"}, padre);
+}
+
+function cascoLadeado(x, y, L, tinta, padre){
+  const M = L*0.34;
+  el("path", {d: "M" + (x + L*0.52) + "," + (y - L*0.20)
+                + " L" + (x + L*0.06) + "," + (y + M*0.62)
+                + " L" + (x - L*0.46) + "," + (y + M*0.42)
+                + " L" + (x - L*0.34) + "," + (y - M*0.66)
+                + " L" + (x + L*0.10) + "," + (y - M*0.86) + " Z",
+              fill: tinta, opacity: .95, "data-buque": "1"}, padre);
 }
 
 let E19 = {y0: 0, y1: 0, cx: 0, cy: 0, R: 1};
@@ -1160,10 +1223,6 @@ if(typeof MutationObserver !== "undefined" && $("pane"))
   };
 })();
 
-/* Cierre de modulo. El bloque de <template id="tSig"> se inserta una sola vez
-   DETRAS de #pane, no dentro: pintaPanel() reescribe #pane en cada toque y se
-   lo llevaria por delante. Queda donde lo ponen balizamiento y luces, entre el
-   panel y el pie. */
 (function(){
   const t = $("tSig"), pane = $("pane");
   if(!t || !pane || !t.innerHTML.trim()) return;

@@ -187,6 +187,10 @@ a.pieLink:hover{text-decoration:underline}
  letter-spacing:.1em;color:var(--ink-quiet);
  white-space:normal;overflow-wrap:anywhere}
 .sello b{font-weight:400}
+
+@media (max-width:699px){
+ #barra .sep, #barra a[href="../index.html"]:last-of-type{display:none}
+}
 </style>
 </head><body>
 
@@ -208,7 +212,7 @@ a.pieLink:hover{text-decoration:underline}
   <div id="foot"><div class="pieLinea">rule 3 of 19 &middot; thirteen words, and the Rules lean on them</div>
    <div id="navPie"></div>
    <div class="pie2"><span id="fLog">0 answers logged</span><a class="pieLink" id="deCero">start over</a></div>
-   <div class="sello" id="sello" data-sello="bf4362f9">collision avoidance &middot; module &middot; 20 screens &middot; 28 Aug 2026 &middot; <b>bf4362f9</b></div></div>
+   <div class="sello" id="sello" data-sello="bf4362f9">collision avoidance &middot; module &middot; 20 screens &middot; 29 Aug 2026 &middot; <b>bf4362f9</b></div></div>
  </div>
 </div>
 
@@ -590,6 +594,13 @@ if(typeof MutationObserver !== "undefined" && $("pane"))
     marcaNav();
     location.href = MARCO.paginas[0].f;
   };
+})();
+
+(function(){
+  const t = $("tSig"), pane = $("pane");
+  if(!t || !pane || !t.innerHTML.trim()) return;
+  if(document.querySelector(".ot-cierre")) return;
+  pane.insertAdjacentHTML("afterend", t.innerHTML);
 })();
 })();
 </script>

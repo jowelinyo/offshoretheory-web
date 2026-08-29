@@ -225,6 +225,10 @@ a.pieLink:hover{text-decoration:underline}
  letter-spacing:.1em;color:var(--ink-quiet);
  white-space:normal;overflow-wrap:anywhere}
 .sello b{font-weight:400}
+
+@media (max-width:699px){
+ #barra .sep, #barra a[href="../index.html"]:last-of-type{display:none}
+}
 </style>
 </head><body>
 
@@ -246,7 +250,7 @@ a.pieLink:hover{text-decoration:underline}
   <div id="foot"><div class="pieLinea">rule 12 of 19 &middot; the tack is the side the wind is on, and the boom shows it</div>
    <div id="navPie"></div>
    <div class="pie2"><span id="fLog">0 answers logged</span><a class="pieLink" id="deCero">start over</a></div>
-   <div class="sello" id="sello" data-sello="bf4362f9">collision avoidance &middot; module &middot; 20 screens &middot; 28 Aug 2026 &middot; <b>bf4362f9</b></div></div>
+   <div class="sello" id="sello" data-sello="bf4362f9">collision avoidance &middot; module &middot; 20 screens &middot; 29 Aug 2026 &middot; <b>bf4362f9</b></div></div>
  </div>
 </div>
 
@@ -293,23 +297,9 @@ function sonda(x, y, v){
   }
 }
 
-function plantaBarco(x, y, rumbo, tinta, op, largo, padre){
-  const g = rumbo*Math.PI/180, sn = Math.sin(g), cs = Math.cos(g);
-  const L = largo || px(24), M = L*0.34;
-  const P = (av, tr) => [x + sn*av + cs*tr, y - cs*av + sn*tr];
-  const q = [P(L*0.5, 0), P(L*0.14, M), P(-L*0.46, M*0.8),
-             P(-L*0.5, -M*0.8), P(L*0.14, -M)];
-
-  el("path", {d: "M" + q.map(p => p[0].toFixed(1) + "," + p[1].toFixed(1)).join(" L")
-                + " Z", fill: tinta, opacity: op === undefined ? .95 : op,
-              "data-buque": "1"}, padre);
-}
-
 const LEY12 = ["(a) When two sailing vessels are approaching one another, so as to involve risk of collision, one of them shall keep out of the way of the other as follows:", "(i) when each has the wind on a different side, the vessel which has the wind on the port side shall keep out of the way of the other;", "(ii) when both have the wind on the same side, the vessel which is to windward shall keep out of the way of the vessel which is to leeward;", "(iii) if a vessel with the wind on the port side sees a vessel to windward and cannot determine with certainty whether the other vessel has the wind on the port or on the starboard side, she shall keep out of the way of the other.", "(b) For the purposes of this Rule the windward side shall be deemed to be the side opposite to that on which the mainsail is carried or, in the case of a square-rigged vessel, the side opposite to that on which the largest fore-and-aft sail is carried."];
 const LEY12SUB = [1, 2, 3];
 const LEY12CAR = 915;
-
-"use strict";
 
 const VIENTO = {de: 0, n: "from the north"};
 
@@ -555,6 +545,84 @@ function dilo12(e){
           caso: q.caso, quien: q.quien, seguro: q.seguro};
 }
 
+function cascoEnPlanta(x, y, rumbo, tinta, L, quien, opt){
+  const o = opt || {};
+  const g = rumbo*Math.PI/180, sn = Math.sin(g), cs = Math.cos(g);
+  const P = o.este ? (av, tr) => [x + cs*av - sn*tr, y + sn*av + cs*tr]
+                   : (av, tr) => [x + sn*av + cs*tr, y - cs*av + sn*tr];
+  const M = L*0.09;
+  const q = [P(L*0.50, 0), P(L*0.26, M*0.85), P(L*0.10, M),
+             P(-L*0.44, M*0.9), P(-L*0.50, M*0.55),
+             P(-L*0.50, -M*0.55), P(-L*0.44, -M*0.9),
+             P(L*0.10, -M), P(L*0.26, -M*0.85)];
+  const gr = el("g", {"data-barco": quien});
+  el("path", {d: "M" + q.map(p => p[0].toFixed(1) + "," + p[1].toFixed(1)).join(" L")
+                + " Z", fill: tinta, opacity: .95, "data-buque": "1"}, gr);
+  return L;
+}
+
+function plantaBarco(x, y, rumbo, tinta, op, largo, padre){
+  const g = rumbo*Math.PI/180, sn = Math.sin(g), cs = Math.cos(g);
+  const L = largo || px(24), M = L*0.34;
+  const P = (av, tr) => [x + sn*av + cs*tr, y - cs*av + sn*tr];
+  const q = [P(L*0.5, 0), P(L*0.14, M), P(-L*0.5, M*0.8),
+             P(-L*0.5, -M*0.8), P(L*0.14, -M)];
+
+  el("path", {d: "M" + q.map(p => p[0].toFixed(1) + "," + p[1].toFixed(1)).join(" L")
+                + " Z", fill: tinta, opacity: op === undefined ? .95 : op,
+              "data-buque": "1"}, padre);
+}
+
+function cascoVelero(x, y, rumbo, tinta, L, padre){
+  const g = rumbo*Math.PI/180, sn = Math.sin(g), cs = Math.cos(g);
+  const P = (av, tr) => [x + sn*av + cs*tr, y - cs*av + sn*tr];
+  const B2 = L*0.085;
+  const casco = [P(L*0.52, 0), P(L*0.10, B2), P(-L*0.40, B2*0.85),
+                 P(-L*0.46, 0), P(-L*0.40, -B2*0.85), P(L*0.10, -B2)];
+  el("path", {d: "M" + casco.map(p => p[0].toFixed(1) + "," + p[1].toFixed(1))
+                          .join(" L") + " Z", fill: tinta, opacity: .95,
+              "data-buque": "1"}, padre);
+}
+
+function aparejoDeVelero(x, y, rumbo, tinta, L, lado, opt){
+  const o = opt || {};
+  const g = rumbo*Math.PI/180, sn = Math.sin(g), cs = Math.cos(g);
+  const P = (av, tr) => [x + sn*av + cs*tr, y - cs*av + sn*tr];
+  const a = P(L*0.10, 0), b = P(-L*0.30, lado*L*0.62);
+  const grueso = o.grueso === undefined ? 3 : o.grueso;
+  const palo   = o.palo   === undefined ? 3 : o.palo;
+  el("circle", {cx: a[0], cy: a[1], r: palo, fill: tinta}, o.padre);
+  el("line", {x1: a[0], y1: a[1], x2: b[0], y2: b[1], stroke: tinta,
+              "stroke-width": grueso, "stroke-linecap": "round",
+              "data-botavara": o.marca}, o.padre);
+}
+
+function perfilDeCostado(x, y, L, H, b, tinta, padre){
+  el("path", {d: "M" + (x - L*0.5) + "," + (y - H*b)
+                + " L" + (x + L*0.44) + "," + (y - H*b)
+                + " L" + (x + L*0.5) + "," + y
+                + " L" + (x - L*0.42) + "," + y + " Z",
+              fill: tinta, opacity: .95, "data-buque": "1"}, padre);
+}
+
+function fuselajeDeCostado(x, y, L, H, tinta, padre){
+  el("path", {d: "M" + (x - L*0.46) + "," + y + " L" + (x + L*0.40) + "," + y
+                + " L" + (x + L*0.50) + "," + (y - H*0.5)
+                + " L" + (x - L*0.30) + "," + (y - H*0.7)
+                + " L" + (x - L*0.50) + "," + (y - H*0.1) + " Z",
+              fill: tinta, opacity: .95, "data-buque": "1"}, padre);
+}
+
+function cascoLadeado(x, y, L, tinta, padre){
+  const M = L*0.34;
+  el("path", {d: "M" + (x + L*0.52) + "," + (y - L*0.20)
+                + " L" + (x + L*0.06) + "," + (y + M*0.62)
+                + " L" + (x - L*0.46) + "," + (y + M*0.42)
+                + " L" + (x - L*0.34) + "," + (y - M*0.66)
+                + " L" + (x + L*0.10) + "," + (y - M*0.86) + " Z",
+              fill: tinta, opacity: .95, "data-buque": "1"}, padre);
+}
+
 const AIRE12 = {x: 118, y: 104};
 
 let E12 = {ox: 0, oy: 0, k: 1, y0: 0, y1: 0, millas: 0};
@@ -653,21 +721,13 @@ function velero12(x, y, am, tinta, eslora, rumbo, quien){
 
   const gr = el("g", {"data-barco": quien,
                       "data-amura": am ? am.id : "sin-determinar"});
-  const B2 = L*0.085;
-  const casco = [P(L*0.52, 0), P(L*0.10, B2), P(-L*0.40, B2*0.85),
-                 P(-L*0.46, 0), P(-L*0.40, -B2*0.85), P(L*0.10, -B2)];
 
-  el("path", {d: "M" + casco.map(p => p[0].toFixed(1) + "," + p[1].toFixed(1))
-                          .join(" L") + " Z", fill: tinta, opacity: .95,
-              "data-buque": "1"}, gr);
+  cascoVelero(x, y, rumbo, tinta, L, gr);
   if(am){
 
     const lado = am.mayor === "estribor" ? 1 : -1;
-    const a = P(L*0.10, 0), b = P(-L*0.30, lado*L*0.62);
-    el("circle", {cx: a[0], cy: a[1], r: px(3), fill: tinta}, gr);
-    el("line", {x1: a[0], y1: a[1], x2: b[0], y2: b[1], stroke: tinta,
-                "stroke-width": px(3), "stroke-linecap": "round",
-                "data-botavara": am.mayor}, gr);
+    aparejoDeVelero(x, y, rumbo, tinta, L, lado,
+                    {grueso: px(3), palo: px(3), marca: am.mayor, padre: gr});
   }
   return L;
 }
@@ -1177,6 +1237,13 @@ if(typeof MutationObserver !== "undefined" && $("pane"))
     marcaNav();
     location.href = MARCO.paginas[0].f;
   };
+})();
+
+(function(){
+  const t = $("tSig"), pane = $("pane");
+  if(!t || !pane || !t.innerHTML.trim()) return;
+  if(document.querySelector(".ot-cierre")) return;
+  pane.insertAdjacentHTML("afterend", t.innerHTML);
 })();
 })();
 </script>
