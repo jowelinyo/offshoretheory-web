@@ -164,18 +164,32 @@ h1{font-family:var(--f-display);font-weight:500;font-size:clamp(34px,4.2vw,68px)
   .dots i{transition:none}
 }
 
-/* --- BLOQUE 2 · los tres modulos ------------------------------------------ */
+/* --- BLOQUE 2 · los cuatro modulos ----------------------------------------- */
 /* Sin fondo propio y sin relleno lateral: el bloque arranca pegado al borde
    de la cabecera y llega de lado a lado de la ventana. Los bordes de 3px de
    color hacen de linea superior; no hace falta filete. */
 .modules{background:var(--night);padding:0 0 80px}
 /* Tres columnas pegadas, sin hueco y a todo el ancho. */
-.modules__grid{display:grid;gap:0;grid-template-columns:repeat(3,1fr)}
+.modules__grid{display:grid;gap:0;grid-template-columns:repeat(4,1fr)}
 
 /* Cada tarjeta lleva su color en --mod y todo lo suyo se refiere a esa var. */
 .card--buoyage{--mod:var(--blue)}
 .card--lights {--mod:var(--magenta)}
 .card--rules  {--mod:var(--accent)}
+/* El verde del motor. NO es decorativo: es el color con el que el alumno ha visto
+   la figura durante cinco partes, y la tarjeta lo lleva por reconocimiento. Va
+   literal y no como var porque es el unico de los cuatro que no sale de la paleta
+   del escaparate: sale del capitulo.
+
+   Y NO ES EL VERDE DE LA PINTURA, QUE ES #2f5e48. Ese se aprobo primero y se midio
+   despues: contra el fondo daba 2,54:1 — por debajo del 3,0 que la WCAG pide hasta
+   para texto grande, con los otros tres a 9,89, 6,30 y 5,70. Se distinguia de los
+   tres por muchisimo y no se leia.
+
+   Este es el MISMO tono (152 grados) y la MISMA saturacion (33 %), solo mas claro:
+   5,32:1, entre el ambar y el magenta. Y ademas es mas fiel: #2f5e48 es la pintura
+   A OSCURAS, y en la figura el alumno la ve ILUMINADA — un verde menta claro. */
+.card--engine {--mod:#4b9673}
 
 /* Columna, no tarjeta: sin fondo, sin redondeo, y separada de la vecina
    por un filete vertical. Al pasar el raton se aclara lo justo para que se
@@ -280,7 +294,7 @@ footer a:hover,footer a:focus-visible{color:var(--ink-soft)}
       </div>
     </div>
 
-    <a class="scroll-cue" href="#modules">↓ See the three modules</a>
+    <a class="scroll-cue" href="#modules">↓ See the four modules</a>
 
   </div>
 
@@ -346,6 +360,18 @@ footer a:hover,footer a:focus-visible{color:var(--ink-soft)}
       <ul>
         <li><a href="chapters/ripa-r0-the-nineteen-rules.html">The nineteen rules</a></li>
         <li><a href="chapters/ripa-r1-application.html">Rule 1 · Application</a></li>
+      </ul>
+    </article>
+
+    <article class="card card--engine">
+      <h2><a href="chapters/c31-p1a-the-engine.html">The diesel engine</a></h2>
+      <p class="meta">5 parts · 77 screens</p>
+      <ul>
+        <li><a href="chapters/c31-p1a-the-engine.html">The engine</a></li>
+        <li><a href="chapters/c31-p1b-what-keeps-it-alive.html">What keeps it alive</a></li>
+        <li><a href="chapters/c31-p1c-starting-her.html">Starting her, and moving her</a></li>
+        <li><a href="chapters/c31-p2-the-jobs.html">The jobs</a></li>
+        <li><a href="chapters/c31-p3-reading-her.html">Reading her</a></li>
       </ul>
     </article>
 

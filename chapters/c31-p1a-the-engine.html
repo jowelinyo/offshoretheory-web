@@ -1,0 +1,867 @@
+<meta charset="utf-8"><title>The engine — Structure and combustion</title>
+
+<meta name="viewport" content="width=device-width,initial-scale=1">
+
+<style>
+
+@font-face{font-family:'IBM Plex Mono';font-style:normal;font-weight:400;font-display:swap;
+ src:url(../assets/fonts/IBMPlexMono-400-normal-latin.woff2) format('woff2');
+ unicode-range:U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD}
+@font-face{font-family:'IBM Plex Mono';font-style:normal;font-weight:400;font-display:swap;
+ src:url(../assets/fonts/IBMPlexMono-400-normal-latin-ext.woff2) format('woff2');
+ unicode-range:U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF}
+@font-face{font-family:'IBM Plex Mono';font-style:normal;font-weight:500;font-display:swap;
+ src:url(../assets/fonts/IBMPlexMono-500-normal-latin.woff2) format('woff2');
+ unicode-range:U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD}
+@font-face{font-family:'IBM Plex Mono';font-style:normal;font-weight:500;font-display:swap;
+ src:url(../assets/fonts/IBMPlexMono-500-normal-latin-ext.woff2) format('woff2');
+ unicode-range:U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF}
+@font-face{font-family:'IBM Plex Sans';font-style:normal;font-weight:400 600;font-display:swap;
+ src:url(../assets/fonts/IBMPlexSans-400-normal-latin.woff2) format('woff2');
+ unicode-range:U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD}
+@font-face{font-family:'IBM Plex Sans';font-style:normal;font-weight:400 600;font-display:swap;
+ src:url(../assets/fonts/IBMPlexSans-400-normal-latin-ext.woff2) format('woff2');
+ unicode-range:U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF}
+@font-face{font-family:'Newsreader';font-style:italic;font-weight:400;font-display:swap;
+ src:url(../assets/fonts/Newsreader-400-italic-latin.woff2) format('woff2');
+ unicode-range:U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD}
+@font-face{font-family:'Newsreader';font-style:italic;font-weight:400;font-display:swap;
+ src:url(../assets/fonts/Newsreader-400-italic-latin-ext.woff2) format('woff2');
+ unicode-range:U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF}
+@font-face{font-family:'Newsreader';font-style:normal;font-weight:500;font-display:swap;
+ src:url(../assets/fonts/Newsreader-500-normal-latin.woff2) format('woff2');
+ unicode-range:U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD}
+@font-face{font-family:'Newsreader';font-style:normal;font-weight:500;font-display:swap;
+ src:url(../assets/fonts/Newsreader-500-normal-latin-ext.woff2) format('woff2');
+ unicode-range:U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF}
+
+:root{
+
+ --page:#E8EBED;
+ --panel:#F6F7F7;
+ --card:#FCFCFB;
+ --inset:#F4F6F7;
+ --bar:#1C2B36;
+
+ --edge-frame:#B7C0C6;
+ --edge-card:#BCC4C9;
+ --edge-inner:#E4E8EA;
+ --edge-panel:#CFD7DC;
+ --edge-leader:#C1C9CE;
+ --edge-button:#A9B4BB;
+ --rule-heavy:#1C2B36;
+
+ --ink-title:#0F171D;
+ --ink-strong:#141C22;
+ --ink-lead:#20292F;
+ --ink-body:#333D45;
+ --ink-secondary:#4A5A66;
+ --ink-label:#5B6B77;
+ --ink-quiet:#5E6B74;
+
+ --accent-text:#9A5C10;
+ --accent-graphic:#C97B1B;
+ --accent-control:var(--accent-graphic);
+ --accent-on-bar:#E2B15C;
+ --link:#2F6C8F;
+ --progress-pending:#CDD5DA;
+ --on-bar:#DCE4E9; --on-bar-dim:#B8C7D0; --on-bar-strong:#F6F9FA;
+ --on-primary:#F2F6F8;
+
+ --sp-hair:4px; --sp-inline:8px; --sp-tight:12px; --sp-card:14px; --sp-block:16px;
+ --sp-col-y:20px; --sp-col-x:22px; --sp-panel-y:18px; --sp-panel-c:22px;
+ --sp-panel-x:30px; --sp-bar-x:24px; --sp-close:40px;
+
+ --f-display:"Newsreader",ui-serif,Georgia,"Palatino Linotype","Times New Roman",serif;
+ --f-ui:"IBM Plex Sans",system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;
+ --f-mono:"IBM Plex Mono",ui-monospace,"SF Mono","Segoe UI Mono",Menlo,Consolas,monospace;
+
+ --sea-deep:#0A1E27; --sea:#102B36; --sea-line:#1E4453;
+ --paper:#E3EAEE; --paper-ink:#EFE6D2; --paper-2:#D2DDE3; --paper-line:#A6B3BA;
+ --ink:#15252D; --ink-soft:#5C7079; --dim:#829AA3;
+ --magenta:#6B2461; --magenta-soft:#B07FA6;
+ --water:#8FC3DA; --alarm:#B33A22; --ok:#3F7A56;
+
+ --ink-glosa:#4A5C65;
+ --alarm-noche:#D9744E;
+ --dim-banda:#93A9B1;
+}
+*{box-sizing:border-box}
+html,body{margin:0;height:100%;overflow:hidden}
+body{display:flex;flex-direction:column;background:var(--page);color:var(--ink-body);
+ font:400 16px/1.68 var(--f-ui);-webkit-font-smoothing:antialiased;
+ text-rendering:optimizeLegibility}
+
+#barra{flex:none;height:54px;display:flex;align-items:center;gap:var(--sp-inline);
+ padding:0 var(--sp-bar-x);background:var(--bar);
+ box-shadow:inset 0 1px 0 rgba(255,255,255,.08)}
+
+#barra a{text-decoration:none;cursor:pointer;
+ display:inline-flex;align-items:center;min-height:44px}
+.barlink{font:600 15px/1.45 var(--f-ui);color:var(--on-bar);white-space:nowrap;flex:none}
+.barlink:hover{color:var(--on-bar-strong);text-decoration:underline}
+#barra .sep{flex:none;width:1px;height:22px;background:#3A4E5C;margin:0 var(--sp-inline)}
+
+#miga{font:400 17px/1.2 var(--f-display);color:var(--on-bar-dim);
+ white-space:nowrap;overflow:hidden;text-overflow:ellipsis;min-width:0}
+#miga b{color:var(--on-bar-strong);font-weight:500}
+#barra .crece{flex:1;min-width:var(--sp-inline)}
+#barCont{flex:none;font:400 12px/1.4 var(--f-mono);letter-spacing:.12em;
+ color:var(--accent-on-bar);font-variant-numeric:tabular-nums}
+
+#wrap{flex:1;min-height:0;display:grid;
+ grid-template-columns:minmax(0,1fr) clamp(320px,37%,560px)}
+#lienzo{min-width:0;min-height:0;display:flex;flex-direction:column;
+ justify-content:center;align-items:center;
+ padding:var(--sp-col-y) var(--sp-col-x)}
+
+#ficha.sinCaja{background:transparent;border:0;box-shadow:none}
+
+#ficha{--lam-ink:var(--paper-ink);--lam-dim:var(--dim);--lam-alarm:var(--alarm-noche);--lam-magenta:var(--magenta-soft)}
+#ficha.sinCaja{--lam-ink:var(--ink-title);--lam-dim:var(--ink-glosa);--lam-alarm:var(--alarm);--lam-magenta:var(--magenta)}
+
+#fichas .ficha{--lam-ink:var(--ink-title);--lam-dim:var(--ink-glosa);--lam-alarm:var(--alarm);--lam-magenta:var(--magenta)}
+#fichas .escena{--lam-ink:var(--paper-ink);--lam-dim:var(--dim);--lam-alarm:var(--alarm-noche);--lam-magenta:var(--magenta-soft)}
+#ficha{flex:1;align-self:stretch;min-height:0;position:relative;background:var(--sea-deep);
+ border:1px solid var(--edge-card);border-radius:0;
+ box-shadow:0 2px 3px rgba(28,43,54,.07);overflow:hidden}
+
+#fichas{flex:1;min-height:0;display:grid;gap:var(--sp-card);
+ grid-template-columns:1fr;justify-content:center;width:100%}
+#cierre{flex:none;margin-top:var(--sp-close);padding-top:var(--sp-tight);
+ border-top:2px solid var(--rule-heavy)}
+#cierre .cf{font:500 24px/1.25 var(--f-display);color:var(--ink-title)}
+#cierre .cp{margin-top:2px;font:italic 400 15px/1.45 var(--f-display);
+ color:var(--ink-secondary)}
+
+.ficha{flex:1;min-height:0;display:grid;
+ background:var(--card);border:1px solid var(--edge-card);border-radius:0;
+ box-shadow:0 2px 3px rgba(28,43,54,.07)}
+.ficha.conpie{grid-template-columns:none;grid-template-rows:auto minmax(0,1fr) auto}
+.ficha.conpie .bcab{border-bottom:1px solid var(--edge-inner)}
+.ficha.conpie .bpie{border-top:1px solid var(--edge-inner)}
+.ficha.allado{grid-template-rows:auto minmax(0,1fr)}
+.ficha.allado .escena{grid-area:1/1/3/2}
+.ficha.allado .bcab{grid-area:1/2/2/3;border-left:1px solid var(--edge-inner);
+ align-self:end}
+.ficha.allado .bpie{grid-area:2/2/3/3;border-left:1px solid var(--edge-inner);
+ align-self:start}
+.bcab,.bpie{padding:10px 18px;min-width:0}
+
+.ficha.marcada{box-shadow:0 2px 3px rgba(28,43,54,.07),-3px 0 0 var(--accent-graphic)}
+.escena{position:relative;background:var(--sea-deep);overflow:hidden}
+
+.escena.dia{background:var(--paper)}
+.escena.dia,#fichas .escena.dia{--lam-ink:var(--ink-title);--lam-dim:var(--ink-glosa);
+ --lam-alarm:var(--alarm);--lam-magenta:var(--magenta)}
+#fichas{width:100%}
+.escena svg{position:absolute;inset:0;width:100%;height:100%}
+.bcab{display:flex;align-items:baseline;gap:var(--sp-inline)}
+
+.bcab .k{font:500 19px/1.2 var(--f-display);color:var(--ink-title);flex:none}
+.ficha.marcada .bcab .k{color:var(--accent-text)}
+.bcab .guia{flex:1;border-bottom:1px dotted var(--edge-leader);min-width:10px}
+.bcab .v{font:400 12px/1.4 var(--f-mono);letter-spacing:.06em;color:var(--ink-label);
+ flex:none;font-variant-numeric:tabular-nums;white-space:nowrap}
+.btit{font:600 16px/1.35 var(--f-ui);color:var(--ink-title)}
+
+.btit.alarma{color:var(--accent-text)}
+
+.res-col{background:var(--card);border:1px solid var(--edge-card);
+ box-shadow:0 2px 3px rgba(28,43,54,.07);display:flex;flex-direction:column;
+ min-width:0;overflow:hidden}
+.res-col>h5{margin:0;padding:10px 16px;border-bottom:1px solid var(--edge-inner);
+ font:400 12px/1.4 var(--f-mono);letter-spacing:.12em;text-transform:uppercase;
+ color:var(--ink-label)}
+.res-col>div{padding:12px 16px;overflow:auto}
+.res-col dl{margin:0}
+.res-col dt{font:600 15px/1.35 var(--f-ui);color:var(--ink-title);margin-top:10px}
+.res-col dt:first-child{margin-top:0}
+.res-col dd{margin:1px 0 0;font:400 15px/1.4 var(--f-ui);color:var(--ink-secondary)}
+.bglo{margin-top:2px;font:italic 400 16px/1.35 var(--f-display);
+ color:var(--ink-secondary)}
+#obj{position:absolute;inset:0}
+#svg{position:absolute;inset:0;width:100%;height:100%;touch-action:none}
+#obj,#svg,#svg *{-webkit-user-select:none;-moz-user-select:none;user-select:none;
+ -webkit-user-drag:none;-webkit-tap-highlight-color:transparent}
+#obj svg .boton{cursor:pointer}
+
+#side{min-height:0;display:flex;flex-direction:column;background:var(--panel);
+ border-left:1px solid var(--edge-frame)}
+#head{flex:none;padding:var(--sp-panel-y) var(--sp-panel-x);
+ border-bottom:1px solid var(--edge-panel)}
+.hd{display:flex;align-items:baseline;gap:var(--sp-tight)}
+.hd>:last-child{margin-left:auto}
+
+#hTit{font:400 12px/1.4 var(--f-mono);letter-spacing:.12em;text-transform:uppercase;
+ color:var(--ink-label);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+#hN{flex:none;font:400 12px/1.4 var(--f-mono);letter-spacing:.12em;
+ color:var(--ink-quiet);font-variant-numeric:tabular-nums}
+#prog{display:flex;gap:3px;margin-top:var(--sp-tight)}
+#prog i{flex:1;height:5px;background:var(--progress-pending);border-radius:0;
+ cursor:pointer}
+#prog i.done{background:var(--link)}
+#prog i.on{background:var(--accent-graphic)}
+#pane{flex:1;min-height:0;overflow-y:auto;
+ padding:var(--sp-panel-c) var(--sp-panel-x)}
+
+h2{margin:0 0 var(--sp-block);font:500 31px/1.18 var(--f-display);
+ color:var(--ink-title)}
+h3{margin:0 0 var(--sp-tight);font:400 12px/1.4 var(--f-mono);letter-spacing:.12em;
+ text-transform:uppercase;color:var(--ink-label)}
+p{margin:0 0 var(--sp-block);max-width:62ch;color:var(--ink-body)}
+p:last-child{margin-bottom:0}
+p b{color:var(--ink-title);font-weight:600}
+
+p em{font-style:normal;color:var(--ink-secondary)}
+
+button{font:600 15px/1.45 var(--f-ui);padding:11px 26px;border:1px solid transparent;
+ border-radius:2px;cursor:pointer;background:var(--bar);color:var(--on-primary);
+ min-height:44px}
+button:hover:not(:disabled){background:#26394A}
+button.sec{background:var(--card);color:var(--ink-lead);border-color:var(--edge-button);
+ padding:10px 18px}
+button.sec:hover:not(:disabled){background:var(--inset)}
+button.show{background:transparent;color:var(--accent-text);
+ border-color:var(--edge-button);padding:10px 18px}
+
+a.skip{font:400 15px/1.45 var(--f-ui);color:var(--ink-secondary);cursor:pointer;
+ text-decoration:none;white-space:nowrap;padding:0 var(--sp-tight);
+ display:inline-flex;align-items:center;min-height:44px}
+a.skip:hover{color:var(--ink-title);text-decoration:underline}
+
+.prl{font:400 12px/1.4 var(--f-mono);letter-spacing:.12em;color:var(--accent-text);
+ margin-left:auto;white-space:nowrap;font-variant-numeric:tabular-nums}
+
+b.q{display:block;margin:0 0 var(--sp-block);font:400 17px/1.6 var(--f-ui);
+ color:var(--ink-lead);font-weight:400}
+.ops{display:flex;flex-direction:column;gap:var(--sp-inline);
+ margin:0 0 var(--sp-block);counter-reset:op}
+
+.ops button{display:block;position:relative;width:100%;
+ min-height:52px;padding:15px var(--sp-block) 15px 46px;text-align:left;
+ background:var(--card);color:var(--ink-lead);border:1px solid var(--edge-card);
+ font:400 17px/1.45 var(--f-ui)}
+.ops button b{font-weight:600;color:var(--ink-title)}
+.ops button::before{counter-increment:op;content:counter(op,upper-alpha);
+ position:absolute;left:var(--sp-block);top:15px;
+ font:500 15px/1.45 var(--f-mono);color:var(--accent-text)}
+.ops button:hover:not(:disabled){background:var(--inset);
+ border-color:var(--edge-button)}
+.ops button:disabled{opacity:1;cursor:default;color:var(--ink-secondary)}
+
+.res{margin:0 0 var(--sp-block);padding:var(--sp-tight) var(--sp-block);
+ background:var(--inset);border:1px solid var(--edge-inner);
+ border-left:3px solid var(--edge-panel);color:var(--ink-body);font-size:16px}
+.res b{color:var(--ink-title);font-weight:600}
+.res.si{border-left-color:var(--link)}
+.res.no{border-left-color:var(--accent-graphic)}
+.res.ver{border-left-color:var(--accent-graphic)}
+
+.pista{margin:0 0 var(--sp-block);font:italic 400 19px/1.5 var(--f-display);
+ color:var(--ink-secondary);border:0;padding:0}
+
+.calc{margin:0 0 var(--sp-block);padding:var(--sp-tight) var(--sp-block);
+ background:var(--inset);border:1px solid var(--edge-inner);
+ font:400 15px/1.45 var(--f-ui);color:var(--ink-body);
+ font-variant-numeric:tabular-nums}
+.calc b{color:var(--ink-title);font-weight:600}
+
+#foot{flex:none;border-top:1px solid var(--edge-panel);
+ padding:var(--sp-panel-y) var(--sp-panel-x)}
+#navPie .nav{display:flex;align-items:center;gap:var(--sp-inline);flex-wrap:wrap}
+#navPie .nav button#sig,#navPie .nav button#otra{margin-left:auto}
+
+.pie2{display:flex;align-items:baseline;gap:var(--sp-tight);
+ margin-top:var(--sp-tight);font:400 12px/1.4 var(--f-mono);letter-spacing:.1em;
+ color:var(--ink-quiet);white-space:nowrap}
+.pie2>:last-child{margin-left:auto}
+a.pieLink{color:var(--link);text-decoration:none;cursor:pointer;white-space:nowrap}
+a.pieLink:hover{text-decoration:underline}
+.sello{display:block;margin-top:var(--sp-hair);font:400 12px/1.4 var(--f-mono);
+
+ letter-spacing:.1em;color:var(--ink-quiet);
+
+ white-space:normal;overflow-wrap:anywhere}
+.sello b{font-weight:400}
+
+@media (max-width:1099px){
+ #wrap{grid-template-columns:minmax(0,1fr) clamp(320px,34%,346px)}
+ #miga{font-size:15px}
+}
+
+@media (max-width:999px){ #barra{height:50px} }
+
+@media (max-width:699px){
+ :root{ --sp-col-y:10px; --sp-col-x:12px; }
+ #wrap{grid-template-columns:minmax(0,1fr);
+       grid-template-rows:clamp(200px,46vh,520px) minmax(0,1fr)}
+ #side{border-left:0;border-top:1px solid var(--edge-frame)}
+
+ #barra .sep, #barra a[href="../index.html"]:last-of-type{display:none}
+}
+
+#escena{position:relative;flex:1;align-self:stretch;width:100%;min-height:0;
+  border-radius:var(--r-card,10px);overflow:hidden;background:var(--sea-deep);
+  border:1px solid var(--edge-frame)}
+#escena canvas{display:block;width:100%;height:100%;touch-action:none}
+
+#cargando{position:absolute;inset:0;display:flex;align-items:center;
+  justify-content:center;font:400 14px/1.4 var(--f-ui);color:var(--dim);
+  text-align:center;padding:var(--sp-tight)}
+#escena.listo #cargando{display:none}
+
+.montaje{display:grid;grid-template-columns:1fr auto;grid-template-areas:
+  "et et" "sl v";align-items:center;gap:var(--sp-inline);margin-top:var(--sp-tight)}
+.montaje .et{grid-area:et;display:block;font:400 12px/1.4 var(--f-mono);
+  letter-spacing:.12em;text-transform:uppercase;color:var(--ink-label);
+  margin-bottom:var(--sp-hair)}
+.montaje input{grid-area:sl;width:100%;min-height:44px;
+  accent-color:var(--accent-control,#C97B1B)}
+.montaje .v{grid-area:v;font:400 13px/1.4 var(--f-mono);color:var(--ink-secondary);
+  min-width:9em;text-align:right}
+
+.humoSel{grid-template-areas:"et et" "sl sl" "v v"}
+.humoBtns{grid-area:sl;display:flex;gap:var(--sp-hair);flex-wrap:wrap}
+.humoBtn{flex:1 1 5.5em;min-height:44px;min-width:44px;
+  font:400 14px/1.4 var(--f-ui);color:var(--ink-primary);
+  background:var(--surface-raised,transparent);
+  border:1px solid var(--rule);border-radius:2px;cursor:pointer}
+.humoBtn[aria-pressed="true"]{border-color:var(--accent-control,#C97B1B);
+  box-shadow:inset 0 0 0 1px var(--accent-control,#C97B1B)}
+.humoSel .v{grid-area:v;text-align:left;min-width:0;margin-top:var(--sp-hair)}
+
+.pregunta{margin-top:var(--sp-tight);font:400 16px/1.5 var(--f-ui);
+  color:var(--ink-body)}
+.veredicto{margin-top:var(--sp-tight);padding:var(--sp-tight);
+  border-radius:var(--r-card,8px);border:1px solid var(--edge-card);
+  background:var(--card);font:400 15px/1.5 var(--f-ui);color:var(--ink-secondary)}
+.veredicto.bien{border-left:3px solid var(--link)}
+
+.caso{margin-top:var(--sp-tight);font:400 12px/1.4 var(--f-mono);
+  letter-spacing:.06em;text-transform:uppercase;color:var(--ink-secondary)}
+.caso b{color:var(--ink-body)}
+
+#panelMotor{flex:none;width:100%;max-width:520px;margin-top:var(--sp-tight);
+  display:flex;align-items:center;gap:var(--sp-inline);
+  padding:var(--sp-hair) var(--sp-tight);
+  background:var(--sea-deep);border:1px solid var(--edge-card);border-radius:8px}
+#panelMotor[hidden]{display:none}
+.pmLuces{display:flex;gap:var(--sp-inline);flex:none}
+.pmLuz{display:flex;flex-direction:column;align-items:center;justify-content:center;
+  min-width:44px;min-height:44px;gap:3px}
+.pmLuz i{width:14px;height:14px;border-radius:50%;display:block;
+  background:#2b3034;border:1px solid #454c51}
+.pmLuz b{font:400 9px/1 var(--f-mono);letter-spacing:.1em;color:#8d979d}
+
+.pmLuz.on[data-luz="oil"] i,
+.pmLuz.on[data-luz="temp"] i{background:#e2402c;border-color:#f08a78;
+  box-shadow:0 0 7px 2px rgba(226,64,44,.75)}
+.pmLuz.on[data-luz="charge"] i{background:#e8a521;border-color:#f5c76e;
+  box-shadow:0 0 7px 2px rgba(232,165,33,.75)}
+.pmLuz.on b{color:#d8e0e4}
+
+.pmAguja{position:relative;flex:1;min-width:90px;height:44px}
+.pmAguja i{position:absolute;left:0;right:0;top:19px;height:6px;border-radius:3px;
+  display:block;background:linear-gradient(90deg,#3f6f8c 0%,#7fa08a 55%,#e2402c 100%)}
+.pmAguja b{position:absolute;top:10px;width:3px;height:24px;border-radius:2px;
+  background:#f2f6f8;box-shadow:0 0 0 1px rgba(20,30,36,.55);
+  transform:translateX(-1.5px)}
+
+.taller{margin-top:var(--sp-tight);padding:var(--sp-tight);
+  background:var(--card);border:1px solid var(--edge-card);border-radius:8px}
+.tPaso{font:400 12px/1.4 var(--f-mono);letter-spacing:.1em;color:var(--ink-label);
+  text-transform:uppercase;margin-bottom:var(--sp-hair)}
+.tTexto{font:400 16px/1.55 var(--f-text);color:var(--ink-body)}
+.tNav{display:flex;gap:var(--sp-inline);margin-top:var(--sp-tight)}
+.tBtn{flex:1;min-height:44px;padding:0 var(--sp-tight);
+  border:1px solid var(--edge-card);border-radius:8px;background:var(--paper);
+  font:600 15px/1.2 var(--f-ui);color:var(--ink-title);cursor:pointer}
+.tBtn[disabled]{opacity:.4;cursor:default}
+
+.orden{display:flex;flex-direction:column;gap:var(--sp-hair);
+.orden-it{display:flex;align-items:center;gap:var(--sp-inline);width:100%;
+  min-height:44px;padding:var(--sp-hair) var(--sp-tight);text-align:left;
+  border:1px solid var(--edge-card);border-radius:var(--r-card,8px);
+  background:var(--card);font:400 15px/1.4 var(--f-ui);color:var(--ink-body);
+  cursor:pointer}
+.orden-it .n{display:inline-flex;align-items:center;justify-content:center;
+  min-width:26px;height:26px;border-radius:50%;font:400 13px/1 var(--f-mono);
+  border:1px solid var(--edge-card);color:var(--ink-label);flex:0 0 auto}
+.orden-it.puesto{border-color:var(--link)}
+.orden-it.puesto .n{background:var(--link);border-color:var(--link);color:#fff}
+.veredicto.mal{border-left:3px solid var(--accent-graphic)}
+</style>
+
+<div id="barra">
+ <a class="barlink" href="../index.html">&#8592; The course</a>
+ <i class="sep"></i>
+ <div id="miga">The diesel engine <b>·</b> The engine</div>
+ <span class="crece"></span>
+ <a class="barlink" href="../index.html">Contents</a>
+ <span id="barCont"></span>
+</div>
+<div id="wrap">
+ <div id="lienzo">
+  <div id="escena"><div id="cargando">Building the engine&hellip;</div></div>
+  
+  <div id="panelMotor" hidden>
+   <div class="pmLuces"></div>
+   <div class="pmAguja"><i></i><b></b></div>
+  </div>
+ </div>
+ <div id="side">
+  <div id="head">
+   <div class="hd"><b id="hTit" data-rotulo="1">The engine</b><span id="hN"></span></div>
+   <div id="prog"></div></div>
+  <div id="pane"></div>
+  <div id="foot">
+   <div id="navPie"></div>
+   <div class="pie2"><span id="fLog">0 answers logged</span>
+    <a class="pieLink" id="deCero">start over</a></div>
+   <div class="sello" id="sello" data-sello="">phases 1-3 of 8</div>
+  </div>
+ </div>
+</div>
+<template id="tSig"></template>
+<script src="../assets/js/three.min.js"></script>
+<script src="../assets/js/motor3d.js"></script>
+<script src="../assets/js/mecanicas-motor.js"></script>
+<script>
+
+"use strict";
+const VISTO_CLAVE = "rya.visto";
+
+const VISTO_V = 2;
+
+function vistoAlmacen(){
+ try{ return (typeof localStorage !== "undefined" && localStorage) ? localStorage : null; }
+ catch(e){ return null; }
+}
+
+function vistoLee(){
+ const A = vistoAlmacen();
+ if(!A) return {v:VISTO_V, empezadas:{}, terminadas:{}, sinAlmacen:true};
+ try{
+  const o = JSON.parse(A.getItem(VISTO_CLAVE) || "null");
+  if(o && o.v === VISTO_V && o.empezadas && o.terminadas) return o;
+ }catch(e){}
+ return {v:VISTO_V, empezadas:{}, terminadas:{}};
+}
+
+function _vistoGuarda(o){
+ const A = vistoAlmacen();
+ if(!A) return o;
+ try{
+  A.setItem(VISTO_CLAVE, JSON.stringify(
+   {v:VISTO_V, empezadas:o.empezadas, terminadas:o.terminadas, pos:o.pos || {}}));
+ }catch(e){}
+ return o;
+}
+
+function _vistoPon(cual, fichero){
+ const o = vistoLee();
+ if(o.sinAlmacen || o[cual][fichero]) return o;
+ o[cual][fichero] = 1;
+ return _vistoGuarda(o);
+}
+
+const vistoEmpieza  = f => _vistoPon("empezadas", f);
+const vistoTermina  = f => _vistoPon("terminadas", f);
+const vistoEmpezada = f => !!vistoLee().empezadas[f];
+const vistoTerminada= f => !!vistoLee().terminadas[f];
+const vistoHayAlmacen = () => !!vistoAlmacen();
+
+function vistoPon(fichero, n){
+ const o = vistoLee();
+ if(o.sinAlmacen) return o;
+ if(!o.pos) o.pos = {};
+ if(o.pos[fichero] === n) return o;
+ o.pos[fichero] = n;
+ return _vistoGuarda(o);
+}
+
+function vistoPos(fichero, tope){
+ const p = vistoLee().pos;
+ const n = p && p[fichero];
+ if(typeof n !== "number" || !isFinite(n) || n < 0) return 0;
+ return (typeof tope === "number" && tope >= 0) ? Math.min(n, tope) : n;
+}
+
+function vistoOlvida(fichero){
+ const o = vistoLee();
+ if(o.sinAlmacen || !o.pos || !(fichero in o.pos)) return o;
+ delete o.pos[fichero];
+ return _vistoGuarda(o);
+}
+
+const MINIMO_TACTIL = 44;
+const MECANICAS_CSS = `
+.mx{font:14px/1.45 var(--f-ui);color:var(--ink-body)}
+.mx-et{display:block;font:600 11px/1.3 var(--f-ui);letter-spacing:.06em;
+  text-transform:uppercase;color:var(--ink-label);margin-bottom:var(--sp-hair)}
+.mx-eje{display:grid;grid-template-columns:1fr auto;grid-template-areas:
+  "et et" "sl v";align-items:center;gap:var(--sp-inline)}
+.mx-eje .mx-et{grid-area:et}
+/*  el mando va de ambar y el boton de magenta. El porque, entero, encima de esta
+    cadena: aqui dentro un backtick la cerraria.  */
+.mx-sl{grid-area:sl;width:100%;min-height:${MINIMO_TACTIL}px;
+  accent-color:var(--accent-control, #C97B1B)}
+.mx-v{grid-area:v;font:600 15px/1 var(--f-mono);color:var(--ink-strong);
+  min-width:4.5em;text-align:right}
+.mx-ops{display:flex;flex-wrap:wrap;gap:var(--sp-hair)}
+.mx-op{min-height:${MINIMO_TACTIL}px;padding:0 var(--sp-tight);
+  border:1px solid var(--edge-button);border-radius:3px;background:var(--card);
+  font:500 14px/1 var(--f-ui);color:var(--ink-body);cursor:pointer}
+.mx-op.on{background:var(--magenta);border-color:var(--magenta);color:var(--on-primary)}
+.mx-op:disabled{cursor:default;opacity:.72}
+.mx-grande{min-width:${MINIMO_TACTIL * 2}px}
+.mx-q{margin:0 0 var(--sp-inline);font:500 15px/1.4 var(--f-ui);color:var(--ink-strong)}
+.mx-vd{display:flex;gap:var(--sp-inline);align-items:baseline;
+  padding:var(--sp-tight);border-left:3px solid var(--edge-leader);
+  background:var(--inset)}
+.mx-vd-r{font:600 11px/1.3 var(--f-mono);letter-spacing:.04em;color:var(--ink-label);
+  white-space:nowrap}
+.mx-vd.ok{border-left-color:var(--ok)} .mx-vd.no{border-left-color:var(--alarm)}
+.mx-pr-r,.mx-rl-r{margin-top:var(--sp-inline);padding:var(--sp-tight);
+  background:var(--inset);border-left:3px solid var(--edge-leader)}
+.mx-pr-r.ok,.mx-rl-r.ok{border-left-color:var(--ok)}
+.mx-pr-r.no,.mx-rl-r.no{border-left-color:var(--alarm)}
+.mx-reloj{display:flex;gap:var(--sp-tight);align-items:center;flex-wrap:wrap}
+.mx-rl-t{font:600 26px/1 var(--f-mono);color:var(--ink-title);min-width:3.2em}
+.mx-rl-r{flex:1 0 100%}
+.mx-barco{display:grid;gap:var(--sp-hair)}
+.mx-slot+.mx-slot{margin-top:var(--sp-tight)}
+`;
+
+(function(){
+  if (typeof MECANICAS_CSS !== "string") return;
+  const h = document.createElement("style");
+  h.id = "mx-css"; h.textContent = MECANICAS_CSS;
+  document.head.appendChild(h);
+})();
+
+const PZ = [{"id": "1.1", "tema": "The engine · Phase 1 · The structure", "pos": 0, "tope": 0, "mando": null, "h": "Where an engine lives", "p": ["<b>Before there is an engine, there is a hole.</b>", "This is an engine compartment, cut open so you can see into it. The hull narrows to a V at the bottom. The gray padding on the sides is acoustic foam, and it is the reason you can hold a conversation on deck.", "Running fore and aft are the two <b>bearers</b> — the beams the engine will sit on. They are part of the structure of the boat, not part of the engine.", "Below them is the <b>bilge</b>, and there is nearly always a little water in it.", "Remember where that bilge is. Everything this engine ever leaks — oil, coolant, seawater, diesel — ends up down there. Gravity sees to it. The bilge is the first place that tells you something has gone wrong, and it tells you for free, every time you lift the boards.", "<b>One thing about the engine you are going to build.</b> It is a generic four-cylinder marine diesel, and it has a turbocharger and a heat exchanger. Yours may well not. A small engine of twenty or thirty horsepower is often atmospheric, with no turbo at all, and it may be raw-water cooled or keel-cooled instead. That changes which parts are there. It does not change where any of them go, or what any of them do."], "q": "Nothing has leaked yet. Where will you find out about it when something does? <b>Click the place.</b>", "acierto": ["Bilge"], "bien": "<b>The bilge.</b> It is the lowest thing in the compartment, and everything above it leaks downward. A dry bilge is a whole check on its own.", "mal": {}, "malOtro": "Look lower. Whatever leaks runs down, and there is only one place below everything else."}, {"id": "1.2", "tema": "The engine · Phase 1 · The structure", "pos": 1, "tope": 1, "mando": "montaje", "h": "Four blocks of rubber", "p": ["<b>Four blocks of rubber, and nothing else.</b>", "These are the <b>flexible mounts</b>. The engine bolts down onto them, and they bolt down onto the bearers. That is the entire connection between a running diesel and your hull.", "The rubber is there to keep the engine's vibration out of the boat. Bolt an engine solidly to a hull and you feel every firing stroke through the soles of your feet, and so does everything else on board.", "<b>But rubber sags, and a sagging mount is a quiet fault.</b> When one collapses the engine settles, and the propeller shaft bolted to the back of it stops lining up with the stern gland it runs through.", "<b>There is a flexible coupling in that shaft, and absorbing small misalignment is exactly what it is for.</b> It will take up a sagging mount without complaint. That is why the fault takes so long to announce itself — and it is why it does so much damage by the time it does. The coupling does not fail and warn you. It goes on working, permanently outside the range it was built for, wearing itself out quietly, and passing on down the shaft the load it can no longer absorb. What finally tells you is a stern gland running hot at the other end of the engine, caused by a piece of rubber nobody looked at.", "<b>A fault that a component hides is worse than one that stops you.</b>", "<b>Check them for cracked or crushed rubber, and check the nuts are tight.</b> It takes ten seconds. Almost nobody does it."], "q": "Run the assembly control forward and back. What is the only thing between the engine and the boat?", "opciones": ["The bearers", "The flexible mounts", "The sump", "The bilge water"], "acierto": ["The flexible mounts"], "bien": "<b>The mounts.</b> Everything the engine does to the boat, and everything the sea does to the engine, passes through four pieces of rubber.", "mal": {"The bearers": "Watch the engine as it lands. It never touches the bearers — something sits between them, and that something is the answer.", "The sump": "The sump is part of the engine, so it cannot be between the engine and the boat. Look at what the engine comes to rest on.", "The bilge water": "Nothing touches that, and you want to keep it that way."}, "malOtro": "Look at what the engine comes to rest on."}, {"id": "1.3", "tema": "The engine · Phase 1 · The structure", "pos": 2, "tope": 2, "mando": "montaje", "camara": "port", "h": "The skeleton", "p": ["<b>The block is the engine.</b> Everything else on it bolts to this.", "It is one large casting. Inside it, where you cannot see any of it, are the bores the pistons run in, the bearings the crankshaft turns in, and a set of drilled passages carrying oil one way and coolant the other. You will meet all of that later. At sea none of it is your business, and none of it can be reached without lifting the engine out.", "Bolted underneath is the <b>sump</b>. It is the tray the engine's oil lives in, and it comes back when we build the oil system. For now, all you need is its name and where it is.", "<b>What is your business is the outside.</b> Run your eye along the line where the sump meets the block. That is a joint, there is a gasket in it, and it is the lowest joint on the engine — sitting directly over the bilge you looked at two screens ago.", "A stain under an engine almost always starts at a joint."], "q": "The block is one casting. <b>Click the part bolted to the bottom of it.</b>", "acierto": ["Oil sump"], "bien": "<b>The sump.</b> Its only job for now is to be the bottom of the engine and to be directly above the bilge.", "mal": {"Engine block": "That is the casting itself. Look at what hangs below it.", "Engine mount (flexible mount)": "A mount holds the engine up, but it is not bolted to the block — the engine sits down onto it. Look for the part that is part of the engine.", "Bilge": "That belongs to the boat, not to the engine."}, "malOtro": "Look at what hangs below the block."}, {"id": "1.4", "tema": "The engine · Phase 1 · The structure", "pos": 3, "tope": 3, "mando": "montaje", "h": "What the examiner points at", "p": ["<b>Now it is shut.</b> Three castings closed it up, and each has a name you will be asked for.", "The <b>cylinder head</b> goes on the block. It closes the top of the cylinders and forms the space the fuel burns in. The valves and the injectors live inside it, and so do more coolant passages.", "The <b>rocker cover</b> goes on the head. It is a lid. It holds in the oil that lubricates the valve gear, and the oil filler cap is screwed into it.", "The <b>bell housing</b> closes the back of the block. The flywheel spins inside it, and the gearbox bolts onto its far face.", "At the other end there is one more, and it is worth a name and nothing else. The <b>timing cover</b> closes the front of the engine. Behind it are the gears or the belt that keep the valve gear turning in step with the crankshaft. It is sealed, it is not a service item, and unlike the rocker cover you will never have it off at sea. If that cover is ever removed, the engine is in a workshop and somebody else has the spanner.", "<b>This is how the engine is examined.</b> The compartment is opened, and you are asked what things are. Not how they work — what they are called. <b>Bearers, mounts, sump, block, head, rocker cover, bell housing, timing cover.</b> Eight names, and you have now watched every one of them arrive or been shown where it is."], "q": "Your examiner points at the part that closes the top of the engine and carries the oil filler cap. <b>Click it.</b>", "acierto": ["Rocker cover"], "bien": "<b>The rocker cover.</b> It is a lid, it comes off with a wrench, and it is the only part of the engine most owners ever open.", "mal": {"Cylinder head & valves": "One casting too low. The head is under the lid, it is heavy, and it holds the valves — you would not open it to top up oil.", "Engine block": "That is the engine itself, not a cover. Go to the very top.", "Bell housing": "That closes the back, not the top. Turn the model and look down on it.", "Timing cover": "That closes the front, and it stays closed. The part you want is on top."}, "malOtro": "Go to the very top of the engine. The piece you are looking for is a lid, and the oil filler cap is screwed into it."}, {"id": "1.5", "tema": "The engine · Phase 1 · The structure", "pos": 3, "tope": 3, "mando": null, "h": "Three joints, three gaskets", "p": ["<b>Look at the engine from the side and you will see that it is a stack.</b>", "Sump, then block, then head, then rocker cover. <b>Three horizontal joints, and a gasket in every one.</b> They do not fail in the same way, and that is the useful part.", "<b>Sump to block.</b> Engine oil, and only engine oil. It is the lowest joint on the engine, so what comes out of it drips straight down and gathers in the bilge as a puddle. Clean oil, no water in it, and nothing wet on the sides of the engine.", "<b>Block to head — the head gasket, and the serious one.</b> Burning gas, coolant and oil all cross this joint, kept apart from one another by a single sheet of steel and fiber. When it goes, they mix. You get <b>white smoke</b> at the exhaust, <b>milky oil</b> on the dipstick, and a temperature gauge that climbs for no reason you can find on deck. It is the one failure on this list that ends the passage.", "<b>Head to rocker cover.</b> Oil again, but this one weeps instead of dripping. It runs down the side of the head, collects dust and dries there, so what you see is a dirty streak long before you ever see a drop — and the bilge below it stays dry.", "<b>So a leak tells you where it came from by two things: what it is, and where it lands.</b> Learn those three joints and you can read most of what an engine will ever tell you from the outside, without a tool in your hand. It works on every diesel you will ever meet."], "q": "One of the three joints has burning gas, coolant and oil crossing it at the same time. <b>Click the casting that sits immediately above it.</b>", "acierto": ["Cylinder head & valves"], "bien": "<b>The head</b>, and the joint under it is the head gasket. It is the only joint on the engine with all three of those on opposite sides of it, which is exactly why its failure shows up three different ways at once.", "mal": {"Rocker cover": "Under that one there is oil, and nothing else. Go one casting lower — you want the joint in the middle of the stack.", "Engine block": "Under the block is the sump, and that joint has oil and nothing else. Look at the joint above the block, not below it.", "Oil sump": "Oil only, and the lowest joint on the engine. The one you want is higher, and much more serious."}, "malOtro": "Only one joint has coolant, oil and burning gas all crossing it. Look at the middle of the stack, not the ends."}, {"id": "1.6", "tema": "The engine · Phase 1 · The structure", "pos": 3, "tope": 3, "mando": null, "camara": "port", "h": "Read the leak", "p": ["<b>You lift the engine box and find this. Work out which joint let go before you touch anything.</b>", "<i>A puddle of clean engine oil in the bilge, under the middle of the engine. Nothing on the sides of the engine is wet, and the oil has no water in it.</i>"], "q": "<b>Click the casting that sits directly on top of the joint that has failed.</b>", "acierto": ["Oil sump"], "bien": "<b>The sump gasket.</b> Clean oil, a puddle rather than a streak, and nothing wet above it — that is a joint low enough to drip straight down, and there is only one.", "mal": {"Cylinder head & valves": "Two things point away from the head gasket here. The oil is <b>clean</b>, so nothing has mixed — and a head gasket that fails mixes. Ask which joint is low enough to drip straight into the bilge.", "Rocker cover": "That one weeps down the side, and you were told the sides are dry. A puddle with dry sides came from lower down."}, "malOtro": "Two things point downward here. The oil is clean, so nothing has mixed; and the sides of the engine are dry, so it never ran down anything. Ask which joint is low enough to drip straight into the bilge."}, {"id": "2.1", "tema": "The engine · Phase 2 · Combustion", "pos": 4, "tope": 4, "mando": "montaje", "corte": 1, "camara": "stbd", "h": "What is inside the block", "p": ["<b>Now the block is open, and there is a machine inside it.</b>", "Four <b>pistons</b>, one above the other end of each <b>connecting rod</b>, and along the bottom the <b>crankshaft</b> they all turn.", "A piston can only do one thing: go up and down. A propeller needs something that goes round. Everything in this picture exists to get from the first to the second, and the crankshaft is where it happens — its throws are offset from its center line, so a rod pushing straight down on one of them turns it, the way your leg turns a bicycle pedal.", "<b>Look at the four pistons and notice that they are not level.</b> Two are up and two are down. That is not an accident and it is not a fault. It is built into the shape of the crankshaft, and in a few screens it will turn out to be the reason a four-cylinder engine runs smoothly at all.", "None of this is reachable at sea. You will never see it, never touch it, and never fix it on board. <b>You need it because everything you can reach only makes sense once you know what it is feeding.</b>"], "q": "A piston goes up and down. A propeller goes round. <b>Click the part where one becomes the other.</b>", "acierto": ["Crankshaft"], "bien": "<b>The crankshaft.</b> Every part above it moves in a straight line; everything after it turns. It is the only place on the engine where that changes.", "mal": {"Connecting rod": "The rod carries the push, but both of its ends move with the piston's line, not around it. Follow it down to what it pushes on.", "Piston": "That is the part going up and down. You want what it is pushing.", "Engine block": "The block holds it all still. Look for the part that is meant to move."}, "malOtro": "Follow the push downward. One part turns; everything above it only goes up and down."}, {"id": "2.2", "tema": "The engine · Phase 2 · Combustion", "pos": 5, "tope": 5, "mando": "montaje", "corte": 1, "camara": "stbd", "h": "The chamber closes", "p": ["<b>A cylinder is a sealed box with a moving floor.</b>", "The <b>liner</b> is the bore the piston runs in — a replaceable sleeve, not a hole in the casting. Around the piston, three rings press against it and seal the gap.", "Above, in the head you bolted on two screens ago, are <b>two valves</b> — one to let air in, one to let the burnt gases out — and the <b>injector</b>, which is how fuel gets in.", "<b>Look at the top of that chamber, and count what is up there. Two valves, and an injector. That is all. There is no spark plug, and there is no room for one.</b>", "A gasoline engine — <b>petrol</b>, which is the word your examiner will use — draws in a mixture of fuel and air, and needs a spark at the right instant to set it off. <b>A diesel does neither.</b> It takes in nothing but air, squeezes it until it is hot enough to light fuel on its own, and then sprays the fuel in. Nothing ignites it. It ignites.", "That single difference explains most of what follows — why a diesel has no ignition key to switch off, why it is hard to start when it is cold, and why the injector is the part that decides everything."], "q": "Only one thing puts fuel into this chamber. <b>Click it.</b>", "acierto": ["Injector"], "bien": "<b>The injector.</b> On a gasoline engine you would now go looking for the spark plug next to it. Look. There isn't one, and there is nowhere to put one.", "mal": {"Valve spring": "Valves let air in and gases out. Neither of them carries fuel — the fuel arrives on its own, and late.", "Cylinder / liner": "That is the wall of the chamber. Look at what comes through the roof.", "Piston": "That is the floor, and it is what does the squeezing. The fuel comes in from above."}, "malOtro": "Two valves and one more thing come through the roof of that chamber. The valves move air. The other one moves fuel."}, {"id": "2.3", "tema": "The engine · Phase 2 · Combustion", "pos": 6, "tope": 6, "mando": "angulo", "corte": 0, "camara": "port", "angulo": 360, "tiempo": "intake", "h": "Air, and nothing else", "p": ["<b>Stroke one. The inlet valve opens and the piston travels down, and the cylinder fills.</b>", "<b>With air. Only air.</b> Not a drop of fuel comes in on this stroke. It arrives through an air filter, down the intake manifold you can see along this side, past the inlet valve, and that is the whole of it.", "<b>Stroke two. Both valves shut, and the piston comes back up.</b> Now the air has nowhere to go, and it gets squeezed into a space a small fraction of the one it filled. Squeeze a gas and it gets hot — hard. By the top of this stroke the air in there is hotter than an oven will ever go, and it got there with no flame anywhere near it.", "<b>That is the whole trick of a diesel, and it is done by now.</b> The fuel has not even arrived and the engine has already made the thing that will light it.", "Turn the control slowly through these two strokes and watch the chamber shrink. What you are watching is the engine building its own match."], "q": "The cylinder is filling on this stroke. <b>Click the part it is filling from.</b>", "acierto": ["Intake manifold"], "bien": "<b>The intake manifold</b>, and behind it the air filter. Nothing joins the air on the way in — no fuel, no mixture, nothing. That is the first thing that separates a diesel from a gasoline engine.", "mal": {"Injector": "Not yet. The injector fires near the top of the next stroke, and the air is already in by then.", "Exhaust manifold": "That is the way out, and it is shut right now. Look at the other side of the head."}, "malOtro": "Follow the open valve outward, and keep going until you are outside the engine."}, {"id": "2.4", "tema": "The engine · Phase 2 · Combustion", "pos": 6, "tope": 6, "mando": "angulo", "corte": 1, "camara": "stbd", "angulo": 0, "tiempo": "power", "h": "It lights itself", "p": ["<b>Stroke three, and it happens in about a thousandth of a second.</b>", "Near the top of the compression stroke, with the air at its hottest, the injector sprays a fine mist of diesel into it. The mist catches the instant it meets the air. The gases expand hard and shove the piston back down, and <b>that push is the only power this engine ever makes.</b>", "<b>Nothing lit it.</b> No spark, no flame, no glow. The air was already hot enough, and the fuel did the rest by arriving. This is what <i>compression ignition</i> means, and it is why the whole engine is built heavy: to survive doing that, four times, every two turns, hour after hour.", "<b>Three of the four strokes take power out of the engine and only this one puts any in.</b> The engine coasts through the other three on what this one gave it.", "And this is why timing matters more on a diesel than almost anything else. The injector does not decide <i>whether</i> the fuel burns. It decides <i>when</i>, and it decides it alone."], "q": "Something has to set that fuel alight. Look around the top of the cylinder, then answer: <b>what does it?</b>", "opciones": ["A spark plug", "The heat of the compressed air", "A glow plug, burning all the time", "The exhaust gases"], "acierto": ["The heat of the compressed air"], "bien": "<b>Nothing lights it.</b> The air is already hot enough — from being squeezed and from nothing else — and the diesel catches the moment it is sprayed in. That is the whole difference from a gasoline engine, and it is the question you will be asked first.", "mal": {"A spark plug": "Go back and look at the top of that cylinder. Two valves and an injector, and nothing else. There is no spark plug on this engine and there never was one.", "A glow plug, burning all the time": "Some engines do have glow plugs, and they help when it is cold. They warm the chambers before you start and then switch off. Nothing burns continuously in there.", "The exhaust gases": "Those left on the last stroke, and the valve shut behind them. Nothing in the chamber right now came from outside except air."}, "malOtro": "Look at the top of that cylinder and count what is there."}, {"id": "2.5", "tema": "The engine · Phase 2 · Combustion", "pos": 6, "tope": 6, "mando": "angulo", "corte": 1, "camara": "stbd", "angulo": 180, "tiempo": "exhaust", "h": "Out, and twice round", "p": ["<b>Stroke four. The exhaust valve opens, the piston comes back up, and it sweeps the burnt gas out.</b>", "It goes into the exhaust manifold — the branched casting down the side of the head — and from there it leaves the engine. On this engine it has one more job to do before it goes, and that is the next screen.", "<b>And now count what has happened.</b> Down, up, down, up. Four strokes, one for each half turn of the crankshaft. <b>So one complete cycle takes the crankshaft round twice, and every cylinder fires once in those two turns and no more.</b>", "That catches people out, because an engine at fifteen hundred revolutions a minute sounds like it is firing far more often than that. It is — but it has four cylinders, and each of them is doing this on its own schedule.", "Turn the control all the way through and watch cylinder one. Bring it back to where it started drawing air in, and see how far you had to go."], "q": "Turn the control until cylinder 1 is back at the start of the same stroke it began on. <b>How far did the crankshaft have to go?</b>", "opciones": ["Half a turn", "One turn", "Twice round", "Four turns"], "acierto": ["Twice round"], "bien": "<b>Twice round.</b> Four strokes, one per half turn — so a full cycle takes two complete turns of the crankshaft, and this is the single most-asked question about a diesel engine.", "mal": {"Half a turn": "That is one stroke, not four. Keep going and watch the valves — you have not had both of them open yet.", "One turn": "One turn gives you two strokes. You have filled it and squeezed it, and you have not burned or emptied anything.", "Four turns": "That would be eight strokes, and you would be doing the whole thing twice."}, "malOtro": "Count the strokes, and remember each one is half a turn."}, {"id": "2.6", "tema": "The engine · Phase 2 · Combustion", "pos": 6, "tope": 6, "mando": "angulo", "corte": 1, "camara": "stbd", "angulo": 90, "cuatroDistintos": true, "h": "Four cylinders, never alone", "p": ["<b>Everything so far has been one cylinder. Now look at all four.</b>", "The row along the bottom tells you what each one is doing right now. Turn the control and watch it. <b>No two of them are ever on the same stroke.</b>", "That is what the offset crankshaft was for. Cylinders 1 and 4 rise together while 2 and 3 fall, and the throws are arranged so that the four power strokes come round evenly: <b>one every half turn, in the order 1, 3, 4, 2.</b>", "Nobody chose that order out of a book. It is what the shape of that crankshaft makes happen, and it is why the engine pulls steadily instead of in four lurches.", "Between the power strokes the engine is being pushed round by momentum, and the part that stores it is the <b>flywheel</b> — a heavy disc bolted to the back of the crankshaft, spinning inside the bell housing you closed the engine with in the last phase. You cannot see it yet. It arrives with the gearbox, at the end.", "<b>A single-cylinder diesel gives one push every two turns and shakes the boat doing it. Four cylinders give four, evenly spaced, and you can leave a mug of tea on the engine box.</b>"], "q": "Turn the control and watch the row: no two cylinders are ever doing the same thing. <b>Put the four in the order they fire, starting with cylinder 1.</b>", "circuito": "encendido", "orden": ["Cylinder 1", "Cylinder 3", "Cylinder 4", "Cylinder 2"], "bien": "<b>1-3-4-2.</b> And you did not have to learn it — you read it off the engine. Each cylinder fires half a turn after the one before, and the order is chosen so that the firing is spread along the crankshaft instead of hammering one end of it. Every four-cylinder diesel you meet will be 1-3-4-2 or 1-2-4-3, and it will say so on the rocker cover.", "mal": "<b>Not that order.</b> Go back to the control and take it slowly: find the one on <i>compression</i>, because compression is what comes immediately before a power stroke — that is the one that fires next. Then move on a quarter turn and ask the same question again. The row tells you the whole order if you read it four times."}, {"id": "2.7", "tema": "The engine · Phase 2 · Combustion", "pos": 6, "tope": 6, "mando": "montaje", "corte": 0, "camara": "stbd", "enfoque": "Exhaust manifold", "h": "The gas does one more job", "p": ["<b>The gas you just pushed out is still hot and still moving fast, and on this engine it is made to work on its way past.</b>", "It goes through a small turbine wheel and spins it — hard, tens of thousands of revolutions a minute. On the same shaft, in a separate housing, is a compressor wheel, and that one is in the intake side. So the exhaust gas leaving the engine drives a fan that pushes more air <i>into</i> the engine.", "<b>More air means more fuel can be burned in the same cylinder, and more fuel burned means more power out of the same engine.</b> That is the whole of it. <b>The four strokes do not change at all.</b> Same intake, same compression, same ignition, same exhaust — just more air in the cylinder each time round.", "Larger engines cool that compressed air before it goes in, with a heat exchanger called an <b>intercooler</b>, because air that has been squeezed comes out hot and hot air is thinner. Cooler air is denser, and denser air is more of it. <b>This engine does not have one</b>, and plenty of boat engines do not.", "<b>What it costs you is one habit.</b> The turbo spins in a film of engine oil and it is still spinning when you shut down. Stop a hot turbocharged engine straight off full power and the oil sitting in it bakes. <b>Let it idle before you turn the fuel off, every time</b>, until it has run long enough to carry its own heat away — your engine's book will tell you how long, and it is always less time than a new turbocharger takes to fit."], "q": "The turbocharger pushes air into the engine. <b>Click the part that gives it the power to do that.</b>", "acierto": ["Exhaust manifold"], "bien": "<b>The exhaust.</b> A turbo costs the engine almost nothing, because it runs on the energy that was about to go out of the back of the boat as noise and heat.", "mal": {"Intake manifold": "That is the side it delivers to, not the side it is driven from. Follow the turbo the other way.", "Crankshaft": "That is how a supercharger is driven, and it costs the engine power to do it. A turbo is not driven by the engine at all.", "Alternator": "That makes electricity, and it is a belt away on the front of the engine. Nothing electrical drives a turbo."}, "malOtro": "The turbo is driven by something the engine was throwing away."}, {"id": "2.8", "tema": "The engine · Phase 2 · Combustion", "pos": 6, "tope": 6, "mando": "montaje", "corte": 0, "camara": "iso", "h": "Cold, it needs help", "p": ["<b>A diesel starts by squeezing air until it is hot. Everything about a cold engine works against that.</b>", "Cold metal takes the heat straight out of the air as it is compressed, so the air never quite gets hot enough, and the fuel goes in and does not catch. Add a worn liner letting a little of the squeeze escape past the rings, and a cold morning, and the engine turns over and over and does nothing.", "<b>Most engines carry heaters for exactly this.</b> They are called <b>glow plugs</b> — small electric elements screwed into each chamber. You hold the key at a preheat position for a few seconds, a light comes on, the chambers warm, and then you crank. They switch themselves off once it is running. <i>This model does not have them, but yours very probably does, and finding out which position of your key does it is worth doing before you need it.</i>", "<b>And there is the other way, which is on this engine.</b> The lever on top is a <b>decompressor</b>. It holds the exhaust valves open, so the pistons cannot build any compression at all and the engine spins freely. With it lifted you can turn a diesel by hand — a crank handle, or a rope round the pulley — and no one can turn one against full compression.", "<b>You get it spinning, and then you drop the lever.</b> Compression comes back all at once against a crankshaft that is already moving, and it fires. It is how you start an engine with a flat battery, and it is worth knowing whether your engine has decompressors before the morning you need them.", "<b>And take this seriously, because it is the one thing in this course that can injure you.</b> When compression comes back, the engine can kick backwards before it settles into running, and it takes the handle with it. A starting handle that comes back has broken wrists and thumbs, and it does it faster than you can let go.", "<b>Grip the handle with your thumb alongside your fingers, never wrapped around it, so a kick throws your hand off instead of taking it with the handle. Stand where the handle cannot reach you if it lets go. And know how to get the handle clear before you start turning, not after.</b>", "It is also the quiet trick for bleeding fuel: lift them and the engine spins over easily while you push air out of the system, without asking the starter to fight compression the whole time."], "q": "The starter is dead and you are going to turn her over by hand. <b>What do you do first?</b>", "opciones": ["Lift the decompressors", "Slacken an injector on each cylinder", "Take the air filter off so she breathes freely", "Warm the chambers with the glow plugs first"], "acierto": ["Lift the decompressors"], "bien": "<b>Lift the decompressors.</b> They hold the exhaust valves open, so there is no compression to fight and the engine spins freely. Nobody turns a diesel by hand against full compression — that is not a question of being strong enough. You get her spinning, then you drop the lever, and the compression comes back all at once against a crankshaft that is already moving.", "mal": {"Slacken an injector on each cylinder": "That does drop the compression, and it is a real workshop measure — but you have just let air into the fuel system and you will be bleeding it before she runs. There is a lever on top made for exactly this, and it undoes itself.", "Take the air filter off so she breathes freely": "Breathing is not the problem: compression is. Taking it off does not make her one turn easier, and it lets dirt straight into the intake.", "Warm the chambers with the glow plugs first": "<b>Glow plugs are real and they do help.</b> Most engines carry them — small electric elements in each chamber that warm the air before you crank — and yours very probably has them. <b>But look at what you were told: the starter is dead.</b> Glow plugs draw heavily from the same battery that will not turn the engine, so the one thing you cannot spend here is electricity. And even warm, the air still has to be compressed: what stops you turning her by hand is the compression, and warming the chamber does not take any of it away."}, "malOtro": "Compression is what you are fighting. Ask what on this engine is built to take it away."}, {"id": "2.9", "tema": "The engine · Phase 2 · Combustion", "pos": 6, "tope": 6, "mando": "angulo", "corte": 1, "camara": "stbd", "angulo": 0, "enfoque": "Cylinder head & valves", "cerca": true, "h": "Read the symptom", "p": ["<b>Three engines, three complaints. In each one, a part inside the cylinder is doing its job badly. Click the part.</b>"], "banco": "CICLO", "casos": [{"caso": "A", "q": "<i>She starts badly from cold and has lost power, but runs well once she is warm. She is an old engine and compression is down.</i>", "acierto": ["Cylinder / liner", "Piston"], "bien": "<b>The liner.</b> It wears oval over the years and the rings can no longer seal against it, so some of the squeeze escapes instead of heating the air. Warm metal hides it; cold metal shows it up. That is why an old engine starts worse from cold and runs fine once it has warmed.", "mal": {}, "malOtro": "Lost compression means the squeeze is escaping somewhere. Ask what the rings have to seal against, and what happens to it after a few thousand hours."}, {"caso": "B", "q": "<i>Blue smoke from the exhaust, and the oil level drops between services with no leak anywhere.</i>", "acierto": ["Piston", "Cylinder / liner"], "bien": "<b>The rings and the bore, and you cannot tell which from here.</b> Blue smoke is burning oil, and oil reaches the chamber past worn rings <i>or</i> up a worn liner — <b>the two wear together and the symptom is the same</b>. The level drops with no puddle anywhere because it is not leaking out of the engine: it is going out of the exhaust.", "mal": {}, "malOtro": "Oil is disappearing and nothing is leaking, so it is being burned. Ask what is supposed to keep oil on the cylinder wall and out of the chamber — and remember there are two parts doing that job, not one."}, {"caso": "C", "q": "<i>Black smoke under load, hesitation when you open the throttle, and hard starting. The air filter is clean.</i>", "acierto": ["Injector", "Turbocharger"], "bien": "<b>The injectors.</b> Black smoke is fuel that has not burned properly, and with the air side clean, the fault is on the fuel side — a worn injector dribbles instead of atomizing, and fuel that arrives in drops does not burn cleanly.", "mal": {"Piston": "The piston is on the list for <b>blue</b> smoke, not black. Blue is oil getting into the chamber; black is fuel not burning properly, and rings have nothing to do with that."}, "malOtro": "Black smoke means fuel burning badly. There are only two ways that happens: not enough air, or fuel arriving wrong. You were told the air is clean."}]}, {"id": "3.1", "tema": "The engine · Phase 3 · The fuel", "pos": 7, "tope": 7, "mando": "montaje", "camara": "port", "h": "Clean, and dry", "p": ["<b>Everything that goes wrong with a diesel's fuel goes wrong for one of two reasons: water in it, or air in it.</b> This screen is about the first one.", "The <b>tank</b> is where it starts, and it is the one part of this circuit that is not on the engine at all. Diesel sits in it for months. Air above the fuel cools every night and condenses onto the walls, water runs down and settles under the diesel because it is heavier, and given warmth and time, things grow in the layer between the two. <b>That is what people mean by diesel bug.</b> Keeping the tank full leaves less room for air, and less air means less water. It is the cheapest maintenance on the boat.", "<b>The first thing the fuel meets is the primary filter, and it does two jobs.</b> It catches the big dirt, and it separates the water — which is what the clear bowl underneath is for. Water and heavy dirt drop out of the moving fuel and sit in the bottom of the bowl, where <b>you can see them</b>, and there is a plug under the bowl to let them out.", "<b>Look at that bowl every day.</b> It takes two seconds, and it is where you find out about a problem while it is still sitting in a jar instead of stopping the engine in a shipping lane."], "q": "One part of this circuit is built to stop the water before it reaches the engine. <b>What does it do with the water it catches?</b>", "opciones": ["It lets it settle in a bowl underneath, where you can see it and drain it off", "It holds it in the paper element until you change the filter", "It sends it back to the tank down the return line", "It mixes it fine enough for the engine to burn it"], "acierto": ["It lets it settle in a bowl underneath, where you can see it and drain it off"], "bien": "<b>It lets it fall out and sit where you can see it.</b> Water is heavier than diesel, so if you slow the fuel down and give it somewhere to drop, it drops — into a clear bowl with a plug under it. That is the whole trick, and it is why this is the one part of the fuel system you look at every day.", "mal": {"It holds it in the paper element until you change the filter": "That is the second filter, further on, and it is paper with no window. This one is built to let the water fall out, not to hold it — which is why it has a bowl you can see into and a plug underneath.", "It sends it back to the tank down the return line": "The return line runs from the injectors back to the tank, at the far end of the circuit. Nothing goes backwards from here.", "It mixes it fine enough for the engine to burn it": "Water does not burn, and an engine will not run on it. Everything in this circuit is built to keep it away from the cylinders, not to feed it in."}, "malOtro": "Water is heavier than diesel. Ask what happens to something heavier when you slow the fuel down and give it somewhere to fall."}, {"id": "3.2", "tema": "The engine · Phase 3 · The fuel", "pos": 7, "tope": 7, "mando": "montaje", "camara": "port", "h": "The pump that pulls", "p": ["<b>Nothing so far moves on its own.</b> The tank is lower than the engine on most boats, and diesel does not climb. The <b>lift pump</b> is what pulls it up.", "It sits on the side of the block and it is driven by the engine, and it does two things at once: it <b>sucks</b> fuel through the primary filter behind it, and it <b>pushes</b> fuel on towards the fine filter and the injection pump in front of it.", "<b>Hold that word — sucks.</b> Everything between the tank and this pump is under suction, not pressure. It matters more than it sounds, and in three screens it will explain something that catches out almost everyone.", "<b>And it has a lever on it that you can work by hand.</b> That is not decoration. With the engine stopped, that lever lets you move fuel through the circuit yourself — to fill it after a filter change, or after the tank has run dry. <b>It is the only part of the fuel system you will ever operate with your own hand, and it is the one that gets you home.</b>"], "q": "The engine is stopped, so nothing the engine drives is turning. <b>What moves fuel through the circuit now?</b>", "opciones": ["The lever on the lift pump, worked by hand", "The injection pump", "Gravity, from the tank down to the engine", "The starter motor, spinning the engine over"], "acierto": ["The lever on the lift pump, worked by hand"], "bien": "<b>The lever, by hand.</b> Everything else in this circuit is driven by an engine that is not turning. That lever is the one thing you can work yourself, and it is what fills the circuit after a filter change or a dry tank — which is to say, it is what gets you home.", "mal": {"The injection pump": "Driven by the engine, like the lift pump is. With the engine stopped it does nothing at all — and in any case it is downstream: it cannot pull fuel up from a tank it is not connected to directly.", "Gravity, from the tank down to the engine": "On most boats the tank is <b>lower</b> than the engine, which is the whole reason a lift pump exists. Diesel does not climb on its own.", "The starter motor, spinning the engine over": "That would work the lift pump — and it would also be pumping seawater into an exhaust that is not blowing it out. You will meet that trap five screens from here, and it is the reason you fill the circuit by hand first."}, "malOtro": "The engine is stopped. Ask which part of this circuit does not need the engine to be turning."}, {"id": "3.3", "tema": "The engine · Phase 3 · The fuel", "pos": 8, "tope": 8, "mando": "montaje", "camara": "port", "h": "Coarse, then fine", "p": ["<b>There are two filters, and they are not the same filter twice.</b>", "The first one, back at the tank end, is the coarse one — big dirt and water, in a bowl you can see. <b>The second one is fine</b>, and it sits immediately before the injection pump. Paper, no window, nothing to look at. It catches what the first one let through.", "<b>Now look at what they are protecting.</b> The <b>injection pump</b> raises the fuel to a pressure nothing else on the boat comes close to, and meters an exact shot to each injector at exactly the right moment in the cycle. Its working clearances are finer than a hair.", "<b>You do not touch it, ever.</b> It is sealed, it is workshop equipment, and there is nothing on it for you to adjust. What you <i>can</i> do for it is everything upstream: keep the tank full, drain the bowl, change the filters. <b>The whole obsession with clean fuel exists to protect this one part</b>, because a grain of grit here is not a cleaning job, it is a bill."], "q": "Two filters, one after the other, and neither is there for its own sake. <b>What are they both protecting?</b>", "opciones": ["The injection pump, and the injectors after it", "The tank, from dirt coming back down the return line", "The lift pump and its diaphragm", "The cylinder walls, from grit in the fuel"], "acierto": ["The injection pump, and the injectors after it"], "bien": "<b>The injection pump.</b> Its clearances are finer than a hair and it is sealed for life, so nothing you can do to it helps — everything you can do happens <i>upstream</i>. That is why there are two filters, and why the obsession with clean fuel exists at all.", "mal": {"The tank, from dirt coming back down the return line": "The return runs the other way, and what comes back is fuel that has already been through both filters. A filter protects what is in front of it.", "The lift pump and its diaphragm": "The coarse filter does sit in front of the lift pump, so it does help it — but a lift pump is a simple thing that tolerates dirt. Look further along, at the part that tolerates none.", "The cylinder walls, from grit in the fuel": "Anything that reaches a cylinder has already gone through an injector, and grit would have wrecked the pump long before it got that far."}, "malOtro": "Follow the fuel forwards from the second filter, and ask which part has clearances finer than a hair."}, {"id": "3.4", "tema": "The engine · Phase 3 · The fuel", "pos": 8, "tope": 8, "mando": null, "camara": "front", "h": "And most of it comes back", "p": ["<b>Only a fraction of the fuel that reaches the injectors is burned.</b>", "The rest goes back. There is a <b>return line</b> from the injectors and the injection pump that runs all the way to the tank, and on the way it does two useful things: it carries off the heat the fuel has picked up from a hot engine, and it carries off any air that has got into the system.", "<b>So the circuit is a loop, not a line.</b> Tank, filter, lift pump, fine filter, injection pump, injectors — and back to the tank.", "<b>And it can work against you.</b> The return line is thin, it is often old rubber, and it runs the length of the engine. <b>A leak in it does not drip fuel out — it lets air in</b>, because parts of the circuit are under suction. An engine that keeps stopping for no reason anyone can find, restarts fine, and then does it again, is very often a return line or a loose union somewhere quietly breathing air into the fuel."], "q": "Most of the fuel that reaches the injectors is never burned. It goes back. <b>Click where it ends up.</b>", "acierto": ["Fuel tank"], "bien": "<b>The tank.</b> The circuit is a loop: what is not burned goes back where it came from, carrying the heat and any air with it. That is also why a leak in that thin return line does not drip — it breathes air in.", "mal": {"Primary filter / water separator": "That is on the way out, not on the way back. The return runs past everything and all the way to the tank.", "Injection pump": "That is where the return starts, not where it ends.", "Secondary fuel filter": "Filters sit on the way to the engine. The fuel coming back has already been through both of them."}, "malOtro": "Follow the return line and keep going. It does not stop on the engine."}, {"id": "3.5", "tema": "The engine · Phase 3 · The fuel", "pos": 8, "tope": 8, "mando": "montaje", "camara": "port", "h": "How you stop it, and how you cut it off", "p": ["<b>A diesel has no ignition to switch off.</b> There is no spark to stop, and turning off electricity does not stop it — the engine you built in the last phase lights its own fuel, and it will go on doing it as long as fuel arrives.", "<b>You stop a diesel by cutting its fuel, and nothing else does it.</b> The <b>stop control</b> at the helm pulls a cable to the governor on the injection pump, the pump stops delivering, and the engine dies within a couple of turns. The other cable beside it is the throttle, which tells the same governor how much to deliver.", "<b>Never stop an engine with the battery isolator.</b> It does not stop it, and it can destroy the alternator — which is charging into a circuit you have just disconnected.", "<b>And there is a second one, which is not on the engine at all.</b> Somewhere between the tank and the primary filter there is a <b>fuel shut-off valve</b>. That is not for stopping the engine. <b>It is for fire, and for a burst fuel line.</b> A diesel fire is fed by the tank, and the tank will go on feeding it until somebody closes that valve.", "<b>Find yours before you need it, and find it in the dark.</b> The day it matters, the compartment will be full of smoke and you will not be reading labels."], "q": "She is running, and there are two ways to take her fuel away. <b>Which is which?</b>", "opciones": ["The stop control shuts her down; the fuel cock is for a fire or a burst line", "The fuel cock shuts her down; the stop control is for a fire", "Either one — they both stop her the same way", "The stop control shuts her down; the fuel cock is for changing filters"], "acierto": ["The stop control shuts her down; the fuel cock is for a fire or a burst line"], "bien": "<b>The stop control stops her; the cock is for an emergency.</b> One pulls a cable to the governor and she dies in a couple of turns. The other sits between the tank and the filter, and it exists for the day the fuel line is burning or burst — because a diesel fire is fed by the tank until somebody closes it.", "mal": {"The fuel cock shuts her down; the stop control is for a fire": "The other way round. Closing the cock <i>would</i> stop her eventually — when the circuit between the cock and the pump ran dry — and it would leave you with an airlocked engine to bleed. That is not how you shut down.", "Either one — they both stop her the same way": "They both end in no fuel, but not the same way. The stop control leaves the circuit full and she starts again on the key; the cock empties it and leaves you bleeding air out of it.", "The stop control shuts her down; the fuel cock is for changing filters": "Closing it for a filter change is sensible, and it is not what it is <i>for</i>. It is there for fire and for a burst line, which is why you find it in daylight and remember it in the dark."}, "malOtro": "One of the two is at the helm and stops her in a couple of turns. Ask what the other one is for on the worst day."}, {"id": "3.6", "tema": "The engine · Phase 3 · The fuel", "pos": 8, "tope": 8, "mando": null, "camara": "port", "circuito": "fuel", "h": "The other enemy is air", "p": ["<b>A fuel circuit only works when it is completely full of liquid.</b>", "The injection pump is built to squeeze a liquid, and a liquid will not compress. <b>Air will.</b> Let air into the circuit and the pump spends its stroke squashing a bubble instead of pushing fuel, and the engine turns over and over and never fires. It is not broken. It is airlocked, and it will stay that way until somebody pushes the air out.", "<b>Air gets in four ways</b>, and you should know all four: you changed a filter and the housing filled with air; you ran the tank dry and the pump drew air instead of diesel; a union worked loose; or that thin return line is leaking somewhere on a circuit that is partly under suction.", "<b>Getting it out is called bleeding, and it goes in one direction only: from the tank end towards the engine.</b> You open a screw, push fuel through with the lift-pump lever until what comes out is fuel and not froth, and close it. Then you move on to the next one further downstream and do it again.", "<b>And here is the one nobody tells you.</b> That first stretch of circuit is under suction. <b>So you tighten the screw while you are still pumping, not after you stop</b> — because a loose screw with the lever at rest does not dribble fuel out, it draws air back in, and you have just undone the work."], "q": "The circuit is full of air, and air will not push. <b>Put these three in the order you would bleed them.</b>", "orden": ["Secondary fine filter", "Injection pump", "Injectors"], "bien": "<b>From the tank towards the engine, always.</b> You are pushing the air ahead of you, and every screw you open lets the fuel behind it drive the air out in front. Work the other way and you pull air back into the part you have just bled.", "mal": "<b>You started at the engine end.</b> Think about which way the fuel is travelling: if you bleed the injectors first, the air still sitting in the filter has nowhere to go but forwards — into what you have just finished. Start where the fuel starts, and drive the air out in front of it."}, {"id": "3.7", "tema": "The engine · Phase 3 · The fuel", "pos": 8, "tope": 8, "mando": null, "camara": "port", "h": "Do not just keep cranking", "p": ["<b>You have bled it, and it still will not start, so you go on cranking. Stop.</b>", "The raw-water pump is driven by the engine, and it does not know or care whether the engine has fired. <b>Every turn of the starter pumps seawater into the exhaust</b>, the same as it would if the engine were running.", "<b>When the engine runs, that water is blown out of the back of the boat by the exhaust gases. When it does not, nothing blows it anywhere.</b> It fills the silencer, and then it keeps coming. Given enough cranking it backs up the exhaust pipe, reaches an open exhaust valve, and runs into a cylinder.", "<b>Water does not compress.</b> The next time that engine turns against a cylinder full of it, something bends — and it is usually a connecting rod. That is an engine out, not a morning lost.", "<i>You have not built the seawater circuit yet. That is on purpose: the worst thing that can happen to a fuel job comes from a system you do not know about, and this is where you meet it.</i>"], "q": "You have bled the system, you have been cranking for a while, and it still will not start. <b>What do you do before you crank any more?</b>", "opciones": ["Close the raw-water seacock, or take the impeller out", "Keep cranking — it will catch eventually", "Open all the bleed screws at once", "Take the filler cap off the tank"], "acierto": ["Close the raw-water seacock, or take the impeller out"], "bien": "<b>Either one.</b> No seawater goes in, so none can back up into a cylinder while you work. Then tie a note to the key — because an impeller run dry is destroyed in under a minute, and you have just made that easy to forget.", "mal": {"Keep cranking — it will catch eventually": "<b>This is the answer that wrecks engines.</b> Every turn is putting more seawater into an exhaust that is not blowing it out, and it has nowhere to go but back towards a cylinder.", "Open all the bleed screws at once": "That does not bleed anything. Air comes out where fuel is being pushed through, one opening at a time, in order.", "Take the filler cap off the tank": "That does nothing for the circuit, and on a rough day it is a way to get water into the one place you least want it."}, "malOtro": "Something else is turning every time the starter turns, and it is not pumping fuel. Ask what the raw-water pump is doing while you crank."}, {"id": "3.8", "tema": "The engine · Phase 3 · The fuel", "pos": 8, "tope": 8, "mando": null, "camara": "port", "h": "Read the symptom", "p": ["<b>Three complaints, and every one of them is fuel. Say what has happened.</b>"], "banco": "GASOLEO", "casos": [{"caso": "A", "q": "<i>She has been hesitating and cutting out in a lumpy sea all afternoon, then picking up again on her own. Flat calm this morning and she was perfect.</i>", "opciones": ["Water and dirt lying in the tank, stirred up by the sea", "Air getting in through the return line", "The injection pump wearing out", "The fuel filter blocked solid"], "acierto": ["Water and dirt lying in the tank, stirred up by the sea"], "bien": "<b>The tank, and the primary filter is where you will see it.</b> Flat water lets dirt and water lie quietly in the bottom of the tank; a seaway stirs it all up and feeds it to the engine. She recovers on her own because the muck settles again between one lurch and the next. Look at the bowl — you will find the answer sitting in it.", "mal": {"Air getting in through the return line": "Air does that too, and it does not care whether the sea is rough. Something changed between yesterday and today, and it was not the engine.", "The injection pump wearing out": "A worn pump does not come and go with the weather, and it does not get better on its own between waves.", "The fuel filter blocked solid": "A blocked filter stops her and keeps her stopped. This one keeps picking up again."}, "malOtro": "Ask what a rough sea does to a tank that has been standing still, and which part of the circuit is built to catch exactly that."}, {"caso": "B", "q": "<i>You changed both filters this morning. Now she cranks and cranks and will not fire, and nothing else has been touched.</i>", "opciones": ["Air, left in the filter housings when you opened them", "Water in the tank", "The stop control left pulled out", "A flat starting battery"], "acierto": ["Air, left in the filter housings when you opened them"], "bien": "<b>Air.</b> Both housings were opened this morning and both filled with air, and the pump cannot squeeze air. She is not broken, she is airlocked — and the cure is the bleed you have just learned, from the tank end towards the engine.", "mal": {"Water in the tank": "Possible on another day, but nothing about the tank changed this morning. What changed is that two sealed housings were opened and closed again.", "The stop control left pulled out": "Worth checking always, and it would not explain why this started the moment the filters were changed.", "A flat starting battery": "She is cranking. A flat battery does not crank."}, "malOtro": "Nothing has been touched except two filter housings, and both of them were full of something before you filled them with fuel."}, {"caso": "C", "q": "<i>She stopped at the end of a long passage and will not restart. The gauge has been reading low since yesterday and nobody wrote down the hours.</i>", "opciones": ["She ran the tank dry, and drew air in behind the last of the fuel", "The primary filter has blocked with dirt", "The injectors are worn", "The fuel cock has vibrated shut"], "acierto": ["She ran the tank dry, and drew air in behind the last of the fuel"], "bien": "<b>Dry tank, and now an airlock.</b> Running out is not the end of it: the pump goes on pulling after the fuel stops, and what it pulls is air, all the way up the circuit. Putting fuel in the tank does not start her — you have to bleed what the empty tank let in.", "mal": {"The primary filter has blocked with dirt": "A blocking filter starves her gradually and the gauge has nothing to do with it. You were told the gauge has been low since yesterday.", "The injectors are worn": "Worn injectors give black smoke and poor running for weeks. They do not stop an engine dead at the end of a passage.", "The fuel cock has vibrated shut": "That would do it, and it is worth a look — but you have a gauge reading low and a passage long enough that nobody counted the hours. Believe the gauge."}, "malOtro": "The gauge has been low since yesterday and nobody counted the hours. Take that seriously, and then ask what the pump was drawing after the fuel ran out."}]}];
+const TOT = 23;
+const FICHERO = "c31-p1a-the-engine.html";
+
+let FIG = null, MONTAJE = null, ANGULO = null, ORDEN = null, TALLER = null, HUMO = null;
+
+let iPaso = 0;
+let iPZ = 0, iCaso = 0, RESP = 0;
+
+function barajaEstable(lista, semilla) {
+  const out = lista.slice();
+  let n = 0;
+  for (let k = 0; k < semilla.length; k++) n = (n * 31 + semilla.charCodeAt(k)) >>> 0;
+  for (let i = out.length - 1; i > 0; i--) {
+    n = (n * 1103515245 + 12345) >>> 0;
+    const j = n % (i + 1);
+    const t = out[i]; out[i] = out[j]; out[j] = t;
+  }
+
+  let igual = true;
+  for (let k = 0; k < out.length; k++) if (out[k] !== lista[k]) { igual = false; break; }
+  if (igual) out.push(out.shift());
+  return out;
+}
+
+function arrancaFigura(){
+  if (typeof Motor3D === "undefined" || Motor3D.error) {
+    document.getElementById("cargando").textContent =
+      "The 3-D engine could not start in this browser.";
+    return false;
+  }
+  FIG = Motor3D.montar(document.getElementById("escena"));
+  document.getElementById("escena").classList.add("listo");
+  return true;
+}
+
+const PM_LUCES = [["oil","OIL"], ["temp","TEMP"], ["charge","CHG"]];
+function pintaPanel(cfg){
+  const caja = document.getElementById("panelMotor");
+  if (!caja) return;
+  const antes = caja.hidden;
+  if (!cfg) { caja.hidden = true; if (!antes) avisaDelTamano(); return; }
+  const fila = caja.querySelector(".pmLuces");
+  if (!fila.children.length) {
+    for (const [k, rot] of PM_LUCES) {
+      const d = document.createElement("div");
+      d.className = "pmLuz"; d.setAttribute("data-luz", k);
+      d.innerHTML = '<i></i><b>' + rot + '</b>';
+      fila.appendChild(d);
+    }
+  }
+  for (const [k] of PM_LUCES)
+    fila.querySelector('[data-luz="' + k + '"]').classList.toggle("on", !!cfg[k]);
+  const f = Math.max(0, Math.min(1, cfg.aguja == null ? 0 : cfg.aguja));
+  caja.querySelector(".pmAguja b").style.left = (f * 100).toFixed(1) + "%";
+  caja.hidden = false;
+  if (antes) avisaDelTamano();
+}
+
+function avisaDelTamano(){
+  if (typeof window.dispatchEvent === "function")
+    window.dispatchEvent(new Event("resize"));
+}
+
+function pinta(){
+  const p = PZ[iPZ];
+  pintaPanel(p.panel || null);
+  document.getElementById("hTit").textContent = p.tema;
+  document.getElementById("hN").textContent = (iPZ + 1) + " / " + TOT;
+
+  if (FIG) {
+    MONTAJE = MMontaje({ figura: FIG, tope: p.tope, inicio: p.pos });
+
+    ANGULO = null;
+    HUMO = null;
+    if (p.mando === "humo" && typeof MHumo === "function") {
+      HUMO = MHumo({ figura: FIG, inicio: p.humo || null });
+    }
+    if (p.mando === "angulo") {
+      ANGULO = MAngulo({ figura: FIG, inicio: p.angulo || 0 });
+    } else if (p.angulo != null && FIG.verAngulo) {
+      FIG.verAngulo(p.angulo);
+    }
+
+    if (FIG.corte) FIG.corte(p.corte ? 1 : 0);
+    if (FIG.verCamara) FIG.verCamara(p.camara || "iso", false);
+
+    if (p.enfoque && FIG.enfocar) FIG.enfocar(p.enfoque, false, !!p.cerca);
+
+    if (FIG.enMarcha) FIG.enMarcha(!!p.marcha);
+
+    if (FIG.verResaltadas) FIG.verResaltadas(p.marcas || []);
+
+    if (FIG.verHumo && p.mando !== "humo") FIG.verHumo(p.humo || null);
+  }
+
+  const caso = (p.casos && p.casos[iCaso]) || null;
+
+  if (FIG && p.pasos && typeof MTaller === "function") {
+
+    const quiero = iPaso;
+    TALLER = MTaller({ figura: FIG, pasos: p.pasos, fijo: p.fijo, camara: p.camara,
+                       alPaso: function (n) { iPaso = n; } });
+    TALLER.vaA(quiero);
+  }
+
+  let html = p.pasos ? "" : ("<h2>" + p.h + "</h2>");
+
+  if (p.pasos && TALLER) {
+    const n = TALLER.donde(), tot = TALLER.cuantos();
+    html += '<div class="taller">'
+      + '<div class="tPaso"><b>Step ' + (n + 1) + ' of ' + tot + '</b></div>'
+      + '<div class="tTexto">' + p.pasos[n].t + '</div>'
+      + '<div class="tNav">'
+      + '<button class="tBtn" id="tAnt"' + (n ? "" : " disabled") + '>&larr; Back</button>'
+      + '<button class="tBtn" id="tSig"'
+      + (n === tot - 1 ? " disabled" : "") + '>Next step &rarr;</button>'
+      + '</div></div>';
+  }
+  for (const t of p.p) html += "<p>" + t + "</p>";
+
+  if (FIG && p.mando === "montaje") {
+    html += '<div class="montaje"><span class="et">Assembly</span>'
+      + '<input type="range" id="mSl" min="0" max="' + p.tope
+      + '" step="1" value="' + p.pos + '" aria-label="Assembly step">'
+      + '<span class="v" id="mV"></span></div>';
+  }
+
+  if (FIG && p.mando === "humo" && HUMO) {
+    html += '<div class="montaje humoSel"><span class="et">Smoke</span>'
+      + '<div class="humoBtns" id="hB">';
+    for (const c of HUMO.colores()) {
+      html += '<button class="humoBtn" data-c="' + c + '"'
+        + (c === HUMO.cual() ? ' aria-pressed="true"' : ' aria-pressed="false"')
+        + '>' + c.charAt(0).toUpperCase() + c.slice(1) + '</button>';
+    }
+    html += '</div><span class="v" id="hV"></span></div>';
+  }
+  if (FIG && p.mando === "angulo") {
+
+    html += '<div class="montaje"><span class="et">Crank</span>'
+      + '<input type="range" id="aSl" min="0" max="720" step="5" value="'
+      + (p.angulo || 0) + '" aria-label="Crank angle">'
+      + '<span class="v" id="aV"></span></div>';
+  }
+
+  if (p.orden && typeof MOrden === "function") {
+    ORDEN = MOrden({ piezas: barajaEstable(p.orden, p.id), orden: p.orden });
+  }
+
+  const q = caso ? caso.q : p.q;
+  if (p.orden && ORDEN) {
+    html += '<div class="pregunta">' + p.q + "</div>";
+    html += '<div class="orden" id="ord">';
+    for (const it of ORDEN.lista()) {
+      html += '<button class="orden-it" data-it="' + it.replace(/"/g, "&quot;") + '">'
+        + '<span class="n"></span>' + it + "</button>";
+    }
+    html += "</div>";
+    html += '<div class="veredicto" id="ver" hidden></div>';
+  }
+
+  if (q && !p.orden) {
+    if (caso) {
+      html += '<div class="caso"><b>Case ' + caso.caso + '</b> &#183; '
+        + (iCaso + 1) + " of " + p.casos.length + "</div>";
+    }
+    html += '<div class="pregunta">' + q + "</div>";
+    if (p.opciones) {
+      html += '<div class="mx-ops">';
+      for (let k = 0; k < p.opciones.length; k++) {
+        html += '<button class="mx-op" data-k="' + k + '">'
+          + p.opciones[k] + "</button>";
+      }
+      html += "</div>";
+    }
+    html += '<div class="veredicto" id="ver" hidden></div>';
+    if (caso && iCaso < p.casos.length - 1) {
+      html += '<div class="nav"><button id="otroCaso" hidden>'
+        + "Next case &#8594;</button></div>";
+    }
+  }
+  const pane = document.getElementById("pane");
+  pane.innerHTML = html;
+  pane.scrollTop = 0;
+
+  const tS = document.getElementById("tSig"), tA = document.getElementById("tAnt");
+  if (tS) tS.addEventListener("click", function () {
+    if (TALLER) { iPaso = TALLER.siguiente(); pinta(); }
+  });
+  if (tA) tA.addEventListener("click", function () {
+    if (TALLER) { iPaso = TALLER.anterior(); pinta(); }
+  });
+
+  const sl = document.getElementById("mSl");
+  if (sl && MONTAJE) {
+    const v = document.getElementById("mV");
+    const di = () => { v.textContent = MONTAJE.ensena(); };
+    di();
+    sl.addEventListener("input", () => { MONTAJE.mueve(+sl.value); di(); });
+  }
+  const al = document.getElementById("aSl");
+  if (al && ANGULO) {
+    const v = document.getElementById("aV");
+    const di = () => { v.textContent = ANGULO.ensena(); };
+    di();
+    al.addEventListener("input", () => { ANGULO.mueve(+al.value); di(); });
+  }
+
+  const hb = document.getElementById("hB");
+  if (hb && HUMO) {
+    const v = document.getElementById("hV");
+    const di = () => {
+      v.textContent = HUMO.ensena();
+      hb.querySelectorAll(".humoBtn").forEach(function (b) {
+        b.setAttribute("aria-pressed", b.dataset.c === HUMO.cual() ? "true" : "false");
+      });
+    };
+    di();
+    hb.addEventListener("click", function (e) {
+      const b = e.target.closest(".humoBtn");
+      if (!b) return;
+      HUMO.mueve(b.dataset.c);
+      di();
+    });
+  }
+  const oc = document.getElementById("otroCaso");
+  if (oc) oc.addEventListener("click", function () { iCaso++; pinta(); });
+
+  if (ORDEN) {
+    const pinta1 = () => {
+      document.querySelectorAll(".orden-it").forEach(function (b) {
+        const n = ORDEN.numeroDe(b.dataset.it);
+        b.querySelector(".n").textContent = n ? n : "";
+        b.classList.toggle("puesto", n > 0);
+      });
+    };
+    pinta1();
+    document.querySelectorAll(".orden-it").forEach(function (b) {
+      b.addEventListener("click", function () {
+        ORDEN.toca(b.dataset.it);
+        pinta1();
+        if (ORDEN.completo()) juzgaOrden();
+      });
+    });
+  }
+
+  if (FIG && q && !p.opciones && FIG.alSeleccionar) {
+    FIG.alSeleccionar(function (nombre) { juzga(nombre); });
+  }
+  document.querySelectorAll(".mx-op").forEach(function (b) {
+    b.addEventListener("click", function () { juzga(p.opciones[+b.dataset.k]); });
+  });
+
+  if (typeof vistoPon === "function") vistoPon(FICHERO, iPZ);
+  progreso();
+  navega();
+}
+
+function juzgaOrden(){
+  const p = PZ[iPZ];
+  const bien = ORDEN.acierta();
+  if (bien === null) return;
+  const caja = document.getElementById("ver");
+  if (!caja) return;
+  caja.hidden = false;
+  caja.className = "veredicto " + (bien ? "bien" : "mal");
+  caja.innerHTML = bien ? p.bien : p.mal;
+  RESP++;
+  document.getElementById("fLog").textContent = RESP + " answers logged";
+}
+
+function juzga(dada){
+  const p = PZ[iPZ];
+  const caso = (p.casos && p.casos[iCaso]) || null;
+  const fuente = caso || p;
+  if (!fuente.q) return;
+  const bien = (fuente.acierto || []).indexOf(dada) >= 0;
+  const caja = document.getElementById("ver");
+  if (!caja) return;
+  caja.hidden = false;
+  caja.className = "veredicto " + (bien ? "bien" : "mal");
+  caja.innerHTML = bien ? fuente.bien
+    : ((fuente.mal && fuente.mal[dada]) || fuente.malOtro);
+
+  const oc = document.getElementById("otroCaso");
+  if (oc && bien) oc.hidden = false;
+  RESP++;
+  document.getElementById("fLog").textContent = RESP + " answers logged";
+}
+
+function progreso(){
+  let h = "";
+  for (let k = 0; k < TOT; k++) {
+    h += '<i class="' + (k === iPZ ? "on" : (k < iPZ ? "done" : "")) + '"></i>';
+  }
+  document.getElementById("prog").innerHTML = h;
+  document.getElementById("barCont").textContent = (iPZ + 1) + " / " + TOT;
+}
+
+function navega(){
+  let h = '<div class="nav">';
+  if (iPZ > 0) h += '<button id="ant">&#8592; Back</button>';
+  if (iPZ < TOT - 1) h += '<button id="sig">Next &#8594;</button>';
+  h += "</div>";
+  document.getElementById("navPie").innerHTML = h;
+  const a = document.getElementById("ant"), s = document.getElementById("sig");
+
+  if (a) a.addEventListener("click", function () { iPZ--; iCaso = 0; pinta(); });
+  if (s) s.addEventListener("click", function () { iPZ++; iCaso = 0; pinta(); });
+}
+
+document.getElementById("deCero").addEventListener("click", function () {
+  if (typeof vistoOlvida === "function") vistoOlvida(FICHERO);
+  iPZ = 0; iCaso = 0; RESP = 0;
+  document.getElementById("fLog").textContent = "0 answers logged";
+  pinta();
+});
+
+if (typeof vistoEmpieza === "function") vistoEmpieza(FICHERO);
+arrancaFigura();
+iPZ = (typeof vistoPos === "function") ? vistoPos(FICHERO, TOT - 1) : 0;
+pinta();
+</script>

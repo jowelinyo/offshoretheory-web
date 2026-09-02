@@ -1,0 +1,820 @@
+<meta charset="utf-8"><title>The jobs — With your hands</title>
+
+<meta name="viewport" content="width=device-width,initial-scale=1">
+
+<style>
+
+@font-face{font-family:'IBM Plex Mono';font-style:normal;font-weight:400;font-display:swap;
+ src:url(../assets/fonts/IBMPlexMono-400-normal-latin.woff2) format('woff2');
+ unicode-range:U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD}
+@font-face{font-family:'IBM Plex Mono';font-style:normal;font-weight:400;font-display:swap;
+ src:url(../assets/fonts/IBMPlexMono-400-normal-latin-ext.woff2) format('woff2');
+ unicode-range:U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF}
+@font-face{font-family:'IBM Plex Mono';font-style:normal;font-weight:500;font-display:swap;
+ src:url(../assets/fonts/IBMPlexMono-500-normal-latin.woff2) format('woff2');
+ unicode-range:U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD}
+@font-face{font-family:'IBM Plex Mono';font-style:normal;font-weight:500;font-display:swap;
+ src:url(../assets/fonts/IBMPlexMono-500-normal-latin-ext.woff2) format('woff2');
+ unicode-range:U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF}
+@font-face{font-family:'IBM Plex Sans';font-style:normal;font-weight:400 600;font-display:swap;
+ src:url(../assets/fonts/IBMPlexSans-400-normal-latin.woff2) format('woff2');
+ unicode-range:U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD}
+@font-face{font-family:'IBM Plex Sans';font-style:normal;font-weight:400 600;font-display:swap;
+ src:url(../assets/fonts/IBMPlexSans-400-normal-latin-ext.woff2) format('woff2');
+ unicode-range:U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF}
+@font-face{font-family:'Newsreader';font-style:italic;font-weight:400;font-display:swap;
+ src:url(../assets/fonts/Newsreader-400-italic-latin.woff2) format('woff2');
+ unicode-range:U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD}
+@font-face{font-family:'Newsreader';font-style:italic;font-weight:400;font-display:swap;
+ src:url(../assets/fonts/Newsreader-400-italic-latin-ext.woff2) format('woff2');
+ unicode-range:U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF}
+@font-face{font-family:'Newsreader';font-style:normal;font-weight:500;font-display:swap;
+ src:url(../assets/fonts/Newsreader-500-normal-latin.woff2) format('woff2');
+ unicode-range:U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD}
+@font-face{font-family:'Newsreader';font-style:normal;font-weight:500;font-display:swap;
+ src:url(../assets/fonts/Newsreader-500-normal-latin-ext.woff2) format('woff2');
+ unicode-range:U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF}
+
+:root{
+
+ --page:#E8EBED;
+ --panel:#F6F7F7;
+ --card:#FCFCFB;
+ --inset:#F4F6F7;
+ --bar:#1C2B36;
+
+ --edge-frame:#B7C0C6;
+ --edge-card:#BCC4C9;
+ --edge-inner:#E4E8EA;
+ --edge-panel:#CFD7DC;
+ --edge-leader:#C1C9CE;
+ --edge-button:#A9B4BB;
+ --rule-heavy:#1C2B36;
+
+ --ink-title:#0F171D;
+ --ink-strong:#141C22;
+ --ink-lead:#20292F;
+ --ink-body:#333D45;
+ --ink-secondary:#4A5A66;
+ --ink-label:#5B6B77;
+ --ink-quiet:#5E6B74;
+
+ --accent-text:#9A5C10;
+ --accent-graphic:#C97B1B;
+ --accent-control:var(--accent-graphic);
+ --accent-on-bar:#E2B15C;
+ --link:#2F6C8F;
+ --progress-pending:#CDD5DA;
+ --on-bar:#DCE4E9; --on-bar-dim:#B8C7D0; --on-bar-strong:#F6F9FA;
+ --on-primary:#F2F6F8;
+
+ --sp-hair:4px; --sp-inline:8px; --sp-tight:12px; --sp-card:14px; --sp-block:16px;
+ --sp-col-y:20px; --sp-col-x:22px; --sp-panel-y:18px; --sp-panel-c:22px;
+ --sp-panel-x:30px; --sp-bar-x:24px; --sp-close:40px;
+
+ --f-display:"Newsreader",ui-serif,Georgia,"Palatino Linotype","Times New Roman",serif;
+ --f-ui:"IBM Plex Sans",system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;
+ --f-mono:"IBM Plex Mono",ui-monospace,"SF Mono","Segoe UI Mono",Menlo,Consolas,monospace;
+
+ --sea-deep:#0A1E27; --sea:#102B36; --sea-line:#1E4453;
+ --paper:#E3EAEE; --paper-ink:#EFE6D2; --paper-2:#D2DDE3; --paper-line:#A6B3BA;
+ --ink:#15252D; --ink-soft:#5C7079; --dim:#829AA3;
+ --magenta:#6B2461; --magenta-soft:#B07FA6;
+ --water:#8FC3DA; --alarm:#B33A22; --ok:#3F7A56;
+
+ --ink-glosa:#4A5C65;
+ --alarm-noche:#D9744E;
+ --dim-banda:#93A9B1;
+}
+*{box-sizing:border-box}
+html,body{margin:0;height:100%;overflow:hidden}
+body{display:flex;flex-direction:column;background:var(--page);color:var(--ink-body);
+ font:400 16px/1.68 var(--f-ui);-webkit-font-smoothing:antialiased;
+ text-rendering:optimizeLegibility}
+
+#barra{flex:none;height:54px;display:flex;align-items:center;gap:var(--sp-inline);
+ padding:0 var(--sp-bar-x);background:var(--bar);
+ box-shadow:inset 0 1px 0 rgba(255,255,255,.08)}
+
+#barra a{text-decoration:none;cursor:pointer;
+ display:inline-flex;align-items:center;min-height:44px}
+.barlink{font:600 15px/1.45 var(--f-ui);color:var(--on-bar);white-space:nowrap;flex:none}
+.barlink:hover{color:var(--on-bar-strong);text-decoration:underline}
+#barra .sep{flex:none;width:1px;height:22px;background:#3A4E5C;margin:0 var(--sp-inline)}
+
+#miga{font:400 17px/1.2 var(--f-display);color:var(--on-bar-dim);
+ white-space:nowrap;overflow:hidden;text-overflow:ellipsis;min-width:0}
+#miga b{color:var(--on-bar-strong);font-weight:500}
+#barra .crece{flex:1;min-width:var(--sp-inline)}
+#barCont{flex:none;font:400 12px/1.4 var(--f-mono);letter-spacing:.12em;
+ color:var(--accent-on-bar);font-variant-numeric:tabular-nums}
+
+#wrap{flex:1;min-height:0;display:grid;
+ grid-template-columns:minmax(0,1fr) clamp(320px,37%,560px)}
+#lienzo{min-width:0;min-height:0;display:flex;flex-direction:column;
+ justify-content:center;align-items:center;
+ padding:var(--sp-col-y) var(--sp-col-x)}
+
+#ficha.sinCaja{background:transparent;border:0;box-shadow:none}
+
+#ficha{--lam-ink:var(--paper-ink);--lam-dim:var(--dim);--lam-alarm:var(--alarm-noche);--lam-magenta:var(--magenta-soft)}
+#ficha.sinCaja{--lam-ink:var(--ink-title);--lam-dim:var(--ink-glosa);--lam-alarm:var(--alarm);--lam-magenta:var(--magenta)}
+
+#fichas .ficha{--lam-ink:var(--ink-title);--lam-dim:var(--ink-glosa);--lam-alarm:var(--alarm);--lam-magenta:var(--magenta)}
+#fichas .escena{--lam-ink:var(--paper-ink);--lam-dim:var(--dim);--lam-alarm:var(--alarm-noche);--lam-magenta:var(--magenta-soft)}
+#ficha{flex:1;align-self:stretch;min-height:0;position:relative;background:var(--sea-deep);
+ border:1px solid var(--edge-card);border-radius:0;
+ box-shadow:0 2px 3px rgba(28,43,54,.07);overflow:hidden}
+
+#fichas{flex:1;min-height:0;display:grid;gap:var(--sp-card);
+ grid-template-columns:1fr;justify-content:center;width:100%}
+#cierre{flex:none;margin-top:var(--sp-close);padding-top:var(--sp-tight);
+ border-top:2px solid var(--rule-heavy)}
+#cierre .cf{font:500 24px/1.25 var(--f-display);color:var(--ink-title)}
+#cierre .cp{margin-top:2px;font:italic 400 15px/1.45 var(--f-display);
+ color:var(--ink-secondary)}
+
+.ficha{flex:1;min-height:0;display:grid;
+ background:var(--card);border:1px solid var(--edge-card);border-radius:0;
+ box-shadow:0 2px 3px rgba(28,43,54,.07)}
+.ficha.conpie{grid-template-columns:none;grid-template-rows:auto minmax(0,1fr) auto}
+.ficha.conpie .bcab{border-bottom:1px solid var(--edge-inner)}
+.ficha.conpie .bpie{border-top:1px solid var(--edge-inner)}
+.ficha.allado{grid-template-rows:auto minmax(0,1fr)}
+.ficha.allado .escena{grid-area:1/1/3/2}
+.ficha.allado .bcab{grid-area:1/2/2/3;border-left:1px solid var(--edge-inner);
+ align-self:end}
+.ficha.allado .bpie{grid-area:2/2/3/3;border-left:1px solid var(--edge-inner);
+ align-self:start}
+.bcab,.bpie{padding:10px 18px;min-width:0}
+
+.ficha.marcada{box-shadow:0 2px 3px rgba(28,43,54,.07),-3px 0 0 var(--accent-graphic)}
+.escena{position:relative;background:var(--sea-deep);overflow:hidden}
+
+.escena.dia{background:var(--paper)}
+.escena.dia,#fichas .escena.dia{--lam-ink:var(--ink-title);--lam-dim:var(--ink-glosa);
+ --lam-alarm:var(--alarm);--lam-magenta:var(--magenta)}
+#fichas{width:100%}
+.escena svg{position:absolute;inset:0;width:100%;height:100%}
+.bcab{display:flex;align-items:baseline;gap:var(--sp-inline)}
+
+.bcab .k{font:500 19px/1.2 var(--f-display);color:var(--ink-title);flex:none}
+.ficha.marcada .bcab .k{color:var(--accent-text)}
+.bcab .guia{flex:1;border-bottom:1px dotted var(--edge-leader);min-width:10px}
+.bcab .v{font:400 12px/1.4 var(--f-mono);letter-spacing:.06em;color:var(--ink-label);
+ flex:none;font-variant-numeric:tabular-nums;white-space:nowrap}
+.btit{font:600 16px/1.35 var(--f-ui);color:var(--ink-title)}
+
+.btit.alarma{color:var(--accent-text)}
+
+.res-col{background:var(--card);border:1px solid var(--edge-card);
+ box-shadow:0 2px 3px rgba(28,43,54,.07);display:flex;flex-direction:column;
+ min-width:0;overflow:hidden}
+.res-col>h5{margin:0;padding:10px 16px;border-bottom:1px solid var(--edge-inner);
+ font:400 12px/1.4 var(--f-mono);letter-spacing:.12em;text-transform:uppercase;
+ color:var(--ink-label)}
+.res-col>div{padding:12px 16px;overflow:auto}
+.res-col dl{margin:0}
+.res-col dt{font:600 15px/1.35 var(--f-ui);color:var(--ink-title);margin-top:10px}
+.res-col dt:first-child{margin-top:0}
+.res-col dd{margin:1px 0 0;font:400 15px/1.4 var(--f-ui);color:var(--ink-secondary)}
+.bglo{margin-top:2px;font:italic 400 16px/1.35 var(--f-display);
+ color:var(--ink-secondary)}
+#obj{position:absolute;inset:0}
+#svg{position:absolute;inset:0;width:100%;height:100%;touch-action:none}
+#obj,#svg,#svg *{-webkit-user-select:none;-moz-user-select:none;user-select:none;
+ -webkit-user-drag:none;-webkit-tap-highlight-color:transparent}
+#obj svg .boton{cursor:pointer}
+
+#side{min-height:0;display:flex;flex-direction:column;background:var(--panel);
+ border-left:1px solid var(--edge-frame)}
+#head{flex:none;padding:var(--sp-panel-y) var(--sp-panel-x);
+ border-bottom:1px solid var(--edge-panel)}
+.hd{display:flex;align-items:baseline;gap:var(--sp-tight)}
+.hd>:last-child{margin-left:auto}
+
+#hTit{font:400 12px/1.4 var(--f-mono);letter-spacing:.12em;text-transform:uppercase;
+ color:var(--ink-label);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+#hN{flex:none;font:400 12px/1.4 var(--f-mono);letter-spacing:.12em;
+ color:var(--ink-quiet);font-variant-numeric:tabular-nums}
+#prog{display:flex;gap:3px;margin-top:var(--sp-tight)}
+#prog i{flex:1;height:5px;background:var(--progress-pending);border-radius:0;
+ cursor:pointer}
+#prog i.done{background:var(--link)}
+#prog i.on{background:var(--accent-graphic)}
+#pane{flex:1;min-height:0;overflow-y:auto;
+ padding:var(--sp-panel-c) var(--sp-panel-x)}
+
+h2{margin:0 0 var(--sp-block);font:500 31px/1.18 var(--f-display);
+ color:var(--ink-title)}
+h3{margin:0 0 var(--sp-tight);font:400 12px/1.4 var(--f-mono);letter-spacing:.12em;
+ text-transform:uppercase;color:var(--ink-label)}
+p{margin:0 0 var(--sp-block);max-width:62ch;color:var(--ink-body)}
+p:last-child{margin-bottom:0}
+p b{color:var(--ink-title);font-weight:600}
+
+p em{font-style:normal;color:var(--ink-secondary)}
+
+button{font:600 15px/1.45 var(--f-ui);padding:11px 26px;border:1px solid transparent;
+ border-radius:2px;cursor:pointer;background:var(--bar);color:var(--on-primary);
+ min-height:44px}
+button:hover:not(:disabled){background:#26394A}
+button.sec{background:var(--card);color:var(--ink-lead);border-color:var(--edge-button);
+ padding:10px 18px}
+button.sec:hover:not(:disabled){background:var(--inset)}
+button.show{background:transparent;color:var(--accent-text);
+ border-color:var(--edge-button);padding:10px 18px}
+
+a.skip{font:400 15px/1.45 var(--f-ui);color:var(--ink-secondary);cursor:pointer;
+ text-decoration:none;white-space:nowrap;padding:0 var(--sp-tight);
+ display:inline-flex;align-items:center;min-height:44px}
+a.skip:hover{color:var(--ink-title);text-decoration:underline}
+
+.prl{font:400 12px/1.4 var(--f-mono);letter-spacing:.12em;color:var(--accent-text);
+ margin-left:auto;white-space:nowrap;font-variant-numeric:tabular-nums}
+
+b.q{display:block;margin:0 0 var(--sp-block);font:400 17px/1.6 var(--f-ui);
+ color:var(--ink-lead);font-weight:400}
+.ops{display:flex;flex-direction:column;gap:var(--sp-inline);
+ margin:0 0 var(--sp-block);counter-reset:op}
+
+.ops button{display:block;position:relative;width:100%;
+ min-height:52px;padding:15px var(--sp-block) 15px 46px;text-align:left;
+ background:var(--card);color:var(--ink-lead);border:1px solid var(--edge-card);
+ font:400 17px/1.45 var(--f-ui)}
+.ops button b{font-weight:600;color:var(--ink-title)}
+.ops button::before{counter-increment:op;content:counter(op,upper-alpha);
+ position:absolute;left:var(--sp-block);top:15px;
+ font:500 15px/1.45 var(--f-mono);color:var(--accent-text)}
+.ops button:hover:not(:disabled){background:var(--inset);
+ border-color:var(--edge-button)}
+.ops button:disabled{opacity:1;cursor:default;color:var(--ink-secondary)}
+
+.res{margin:0 0 var(--sp-block);padding:var(--sp-tight) var(--sp-block);
+ background:var(--inset);border:1px solid var(--edge-inner);
+ border-left:3px solid var(--edge-panel);color:var(--ink-body);font-size:16px}
+.res b{color:var(--ink-title);font-weight:600}
+.res.si{border-left-color:var(--link)}
+.res.no{border-left-color:var(--accent-graphic)}
+.res.ver{border-left-color:var(--accent-graphic)}
+
+.pista{margin:0 0 var(--sp-block);font:italic 400 19px/1.5 var(--f-display);
+ color:var(--ink-secondary);border:0;padding:0}
+
+.calc{margin:0 0 var(--sp-block);padding:var(--sp-tight) var(--sp-block);
+ background:var(--inset);border:1px solid var(--edge-inner);
+ font:400 15px/1.45 var(--f-ui);color:var(--ink-body);
+ font-variant-numeric:tabular-nums}
+.calc b{color:var(--ink-title);font-weight:600}
+
+#foot{flex:none;border-top:1px solid var(--edge-panel);
+ padding:var(--sp-panel-y) var(--sp-panel-x)}
+#navPie .nav{display:flex;align-items:center;gap:var(--sp-inline);flex-wrap:wrap}
+#navPie .nav button#sig,#navPie .nav button#otra{margin-left:auto}
+
+.pie2{display:flex;align-items:baseline;gap:var(--sp-tight);
+ margin-top:var(--sp-tight);font:400 12px/1.4 var(--f-mono);letter-spacing:.1em;
+ color:var(--ink-quiet);white-space:nowrap}
+.pie2>:last-child{margin-left:auto}
+a.pieLink{color:var(--link);text-decoration:none;cursor:pointer;white-space:nowrap}
+a.pieLink:hover{text-decoration:underline}
+.sello{display:block;margin-top:var(--sp-hair);font:400 12px/1.4 var(--f-mono);
+
+ letter-spacing:.1em;color:var(--ink-quiet);
+
+ white-space:normal;overflow-wrap:anywhere}
+.sello b{font-weight:400}
+
+@media (max-width:1099px){
+ #wrap{grid-template-columns:minmax(0,1fr) clamp(320px,34%,346px)}
+ #miga{font-size:15px}
+}
+
+@media (max-width:999px){ #barra{height:50px} }
+
+@media (max-width:699px){
+ :root{ --sp-col-y:10px; --sp-col-x:12px; }
+ #wrap{grid-template-columns:minmax(0,1fr);
+       grid-template-rows:clamp(200px,46vh,520px) minmax(0,1fr)}
+ #side{border-left:0;border-top:1px solid var(--edge-frame)}
+
+ #barra .sep, #barra a[href="../index.html"]:last-of-type{display:none}
+}
+
+#escena{position:relative;flex:1;align-self:stretch;width:100%;min-height:0;
+  border-radius:var(--r-card,10px);overflow:hidden;background:var(--sea-deep);
+  border:1px solid var(--edge-frame)}
+#escena canvas{display:block;width:100%;height:100%;touch-action:none}
+
+#cargando{position:absolute;inset:0;display:flex;align-items:center;
+  justify-content:center;font:400 14px/1.4 var(--f-ui);color:var(--dim);
+  text-align:center;padding:var(--sp-tight)}
+#escena.listo #cargando{display:none}
+
+.montaje{display:grid;grid-template-columns:1fr auto;grid-template-areas:
+  "et et" "sl v";align-items:center;gap:var(--sp-inline);margin-top:var(--sp-tight)}
+.montaje .et{grid-area:et;display:block;font:400 12px/1.4 var(--f-mono);
+  letter-spacing:.12em;text-transform:uppercase;color:var(--ink-label);
+  margin-bottom:var(--sp-hair)}
+.montaje input{grid-area:sl;width:100%;min-height:44px;
+  accent-color:var(--accent-control,#C97B1B)}
+.montaje .v{grid-area:v;font:400 13px/1.4 var(--f-mono);color:var(--ink-secondary);
+  min-width:9em;text-align:right}
+
+.pregunta{margin-top:var(--sp-tight);font:400 16px/1.5 var(--f-ui);
+  color:var(--ink-body)}
+.veredicto{margin-top:var(--sp-tight);padding:var(--sp-tight);
+  border-radius:var(--r-card,8px);border:1px solid var(--edge-card);
+  background:var(--card);font:400 15px/1.5 var(--f-ui);color:var(--ink-secondary)}
+.veredicto.bien{border-left:3px solid var(--link)}
+
+.caso{margin-top:var(--sp-tight);font:400 12px/1.4 var(--f-mono);
+  letter-spacing:.06em;text-transform:uppercase;color:var(--ink-secondary)}
+.caso b{color:var(--ink-body)}
+
+#panelMotor{flex:none;width:100%;max-width:520px;margin-top:var(--sp-tight);
+  display:flex;align-items:center;gap:var(--sp-inline);
+  padding:var(--sp-hair) var(--sp-tight);
+  background:var(--sea-deep);border:1px solid var(--edge-card);border-radius:8px}
+#panelMotor[hidden]{display:none}
+.pmLuces{display:flex;gap:var(--sp-inline);flex:none}
+.pmLuz{display:flex;flex-direction:column;align-items:center;justify-content:center;
+  min-width:44px;min-height:44px;gap:3px}
+.pmLuz i{width:14px;height:14px;border-radius:50%;display:block;
+  background:#2b3034;border:1px solid #454c51}
+.pmLuz b{font:400 9px/1 var(--f-mono);letter-spacing:.1em;color:#8d979d}
+
+.pmLuz.on[data-luz="oil"] i,
+.pmLuz.on[data-luz="temp"] i{background:#e2402c;border-color:#f08a78;
+  box-shadow:0 0 7px 2px rgba(226,64,44,.75)}
+.pmLuz.on[data-luz="charge"] i{background:#e8a521;border-color:#f5c76e;
+  box-shadow:0 0 7px 2px rgba(232,165,33,.75)}
+.pmLuz.on b{color:#d8e0e4}
+
+.pmAguja{position:relative;flex:1;min-width:90px;height:44px}
+.pmAguja i{position:absolute;left:0;right:0;top:19px;height:6px;border-radius:3px;
+  display:block;background:linear-gradient(90deg,#3f6f8c 0%,#7fa08a 55%,#e2402c 100%)}
+.pmAguja b{position:absolute;top:10px;width:3px;height:24px;border-radius:2px;
+  background:#f2f6f8;box-shadow:0 0 0 1px rgba(20,30,36,.55);
+  transform:translateX(-1.5px)}
+
+.taller{margin-top:var(--sp-tight);padding:var(--sp-tight);
+  background:var(--card);border:1px solid var(--edge-card);border-radius:8px}
+.tPaso{font:400 12px/1.4 var(--f-mono);letter-spacing:.1em;color:var(--ink-label);
+  text-transform:uppercase;margin-bottom:var(--sp-hair)}
+.tTexto{font:400 16px/1.55 var(--f-text);color:var(--ink-body)}
+.tNav{display:flex;gap:var(--sp-inline);margin-top:var(--sp-tight)}
+.tBtn{flex:1;min-height:44px;padding:0 var(--sp-tight);
+  border:1px solid var(--edge-card);border-radius:8px;background:var(--paper);
+  font:600 15px/1.2 var(--f-ui);color:var(--ink-title);cursor:pointer}
+.tBtn[disabled]{opacity:.4;cursor:default}
+
+.orden{display:flex;flex-direction:column;gap:var(--sp-hair);
+.orden-it{display:flex;align-items:center;gap:var(--sp-inline);width:100%;
+  min-height:44px;padding:var(--sp-hair) var(--sp-tight);text-align:left;
+  border:1px solid var(--edge-card);border-radius:var(--r-card,8px);
+  background:var(--card);font:400 15px/1.4 var(--f-ui);color:var(--ink-body);
+  cursor:pointer}
+.orden-it .n{display:inline-flex;align-items:center;justify-content:center;
+  min-width:26px;height:26px;border-radius:50%;font:400 13px/1 var(--f-mono);
+  border:1px solid var(--edge-card);color:var(--ink-label);flex:0 0 auto}
+.orden-it.puesto{border-color:var(--link)}
+.orden-it.puesto .n{background:var(--link);border-color:var(--link);color:#fff}
+.veredicto.mal{border-left:3px solid var(--accent-graphic)}
+</style>
+
+<div id="barra">
+ <a class="barlink" href="../index.html">&#8592; The course</a>
+ <i class="sep"></i>
+ <div id="miga">The diesel engine <b>·</b> The jobs</div>
+ <span class="crece"></span>
+ <a class="barlink" href="../index.html">Contents</a>
+ <span id="barCont"></span>
+</div>
+<div id="wrap">
+ <div id="lienzo">
+  <div id="escena"><div id="cargando">Building the engine&hellip;</div></div>
+  
+  <div id="panelMotor" hidden>
+   <div class="pmLuces"></div>
+   <div class="pmAguja"><i></i><b></b></div>
+  </div>
+ </div>
+ <div id="side">
+  <div id="head">
+   <div class="hd"><b id="hTit" data-rotulo="1">The jobs</b><span id="hN"></span></div>
+   <div id="prog"></div></div>
+  <div id="pane"></div>
+  <div id="foot">
+   <div id="navPie"></div>
+   <div class="pie2"><span id="fLog">0 answers logged</span>
+    <a class="pieLink" id="deCero">start over</a></div>
+   <div class="sello" id="sello" data-sello="">the jobs · 11 of 11</div>
+  </div>
+ </div>
+</div>
+<template id="tSig"></template>
+<script src="../assets/js/three.min.js"></script>
+<script src="../assets/js/motor3d.js"></script>
+<script src="../assets/js/mecanicas-motor.js"></script>
+<script>
+
+"use strict";
+const VISTO_CLAVE = "rya.visto";
+
+const VISTO_V = 2;
+
+function vistoAlmacen(){
+ try{ return (typeof localStorage !== "undefined" && localStorage) ? localStorage : null; }
+ catch(e){ return null; }
+}
+
+function vistoLee(){
+ const A = vistoAlmacen();
+ if(!A) return {v:VISTO_V, empezadas:{}, terminadas:{}, sinAlmacen:true};
+ try{
+  const o = JSON.parse(A.getItem(VISTO_CLAVE) || "null");
+  if(o && o.v === VISTO_V && o.empezadas && o.terminadas) return o;
+ }catch(e){}
+ return {v:VISTO_V, empezadas:{}, terminadas:{}};
+}
+
+function _vistoGuarda(o){
+ const A = vistoAlmacen();
+ if(!A) return o;
+ try{
+  A.setItem(VISTO_CLAVE, JSON.stringify(
+   {v:VISTO_V, empezadas:o.empezadas, terminadas:o.terminadas, pos:o.pos || {}}));
+ }catch(e){}
+ return o;
+}
+
+function _vistoPon(cual, fichero){
+ const o = vistoLee();
+ if(o.sinAlmacen || o[cual][fichero]) return o;
+ o[cual][fichero] = 1;
+ return _vistoGuarda(o);
+}
+
+const vistoEmpieza  = f => _vistoPon("empezadas", f);
+const vistoTermina  = f => _vistoPon("terminadas", f);
+const vistoEmpezada = f => !!vistoLee().empezadas[f];
+const vistoTerminada= f => !!vistoLee().terminadas[f];
+const vistoHayAlmacen = () => !!vistoAlmacen();
+
+function vistoPon(fichero, n){
+ const o = vistoLee();
+ if(o.sinAlmacen) return o;
+ if(!o.pos) o.pos = {};
+ if(o.pos[fichero] === n) return o;
+ o.pos[fichero] = n;
+ return _vistoGuarda(o);
+}
+
+function vistoPos(fichero, tope){
+ const p = vistoLee().pos;
+ const n = p && p[fichero];
+ if(typeof n !== "number" || !isFinite(n) || n < 0) return 0;
+ return (typeof tope === "number" && tope >= 0) ? Math.min(n, tope) : n;
+}
+
+function vistoOlvida(fichero){
+ const o = vistoLee();
+ if(o.sinAlmacen || !o.pos || !(fichero in o.pos)) return o;
+ delete o.pos[fichero];
+ return _vistoGuarda(o);
+}
+
+const MINIMO_TACTIL = 44;
+const MECANICAS_CSS = `
+.mx{font:14px/1.45 var(--f-ui);color:var(--ink-body)}
+.mx-et{display:block;font:600 11px/1.3 var(--f-ui);letter-spacing:.06em;
+  text-transform:uppercase;color:var(--ink-label);margin-bottom:var(--sp-hair)}
+.mx-eje{display:grid;grid-template-columns:1fr auto;grid-template-areas:
+  "et et" "sl v";align-items:center;gap:var(--sp-inline)}
+.mx-eje .mx-et{grid-area:et}
+/*  el mando va de ambar y el boton de magenta. El porque, entero, encima de esta
+    cadena: aqui dentro un backtick la cerraria.  */
+.mx-sl{grid-area:sl;width:100%;min-height:${MINIMO_TACTIL}px;
+  accent-color:var(--accent-control, #C97B1B)}
+.mx-v{grid-area:v;font:600 15px/1 var(--f-mono);color:var(--ink-strong);
+  min-width:4.5em;text-align:right}
+.mx-ops{display:flex;flex-wrap:wrap;gap:var(--sp-hair)}
+.mx-op{min-height:${MINIMO_TACTIL}px;padding:0 var(--sp-tight);
+  border:1px solid var(--edge-button);border-radius:3px;background:var(--card);
+  font:500 14px/1 var(--f-ui);color:var(--ink-body);cursor:pointer}
+.mx-op.on{background:var(--magenta);border-color:var(--magenta);color:var(--on-primary)}
+.mx-op:disabled{cursor:default;opacity:.72}
+.mx-grande{min-width:${MINIMO_TACTIL * 2}px}
+.mx-q{margin:0 0 var(--sp-inline);font:500 15px/1.4 var(--f-ui);color:var(--ink-strong)}
+.mx-vd{display:flex;gap:var(--sp-inline);align-items:baseline;
+  padding:var(--sp-tight);border-left:3px solid var(--edge-leader);
+  background:var(--inset)}
+.mx-vd-r{font:600 11px/1.3 var(--f-mono);letter-spacing:.04em;color:var(--ink-label);
+  white-space:nowrap}
+.mx-vd.ok{border-left-color:var(--ok)} .mx-vd.no{border-left-color:var(--alarm)}
+.mx-pr-r,.mx-rl-r{margin-top:var(--sp-inline);padding:var(--sp-tight);
+  background:var(--inset);border-left:3px solid var(--edge-leader)}
+.mx-pr-r.ok,.mx-rl-r.ok{border-left-color:var(--ok)}
+.mx-pr-r.no,.mx-rl-r.no{border-left-color:var(--alarm)}
+.mx-reloj{display:flex;gap:var(--sp-tight);align-items:center;flex-wrap:wrap}
+.mx-rl-t{font:600 26px/1 var(--f-mono);color:var(--ink-title);min-width:3.2em}
+.mx-rl-r{flex:1 0 100%}
+.mx-barco{display:grid;gap:var(--sp-hair)}
+.mx-slot+.mx-slot{margin-top:var(--sp-tight)}
+`;
+
+(function(){
+  if (typeof MECANICAS_CSS !== "string") return;
+  const h = document.createElement("style");
+  h.id = "mx-css"; h.textContent = MECANICAS_CSS;
+  document.head.appendChild(h);
+})();
+
+const PZ = [{"id": "5.1", "tema": "The jobs · Clean the raw-water strainer", "h": "Clean the raw-water strainer", "p": ["<b>The basket in that clear bowl is the only thing between the sea and your impeller.</b> It fills with weed, and it fills fastest on the days you are working hardest."], "pos": 16, "tope": 16, "mando": null, "camara": "front", "fijo": "Raw-water strainer", "pasos": [{"t": "<b>Close the seacock.</b> That bowl is below the waterline and there is an open valve under it. Take the lid off with the sea connected and the sea comes up into the boat — and the valve you need is now underneath it.", "gesto": null, "toca": "Seacock"}, {"t": "<b>Undo the lid.</b> A knurled ring on most, a clamp on some. It will be full of water: have somewhere for it to go.", "gesto": ["tapa-filtro", "fuera"]}, {"t": "<b>Lift the basket out.</b> Straight up, and look at what is in it before you empty it — weed says one thing, a shredded plastic bag says another, and black rubber crumbs say your impeller has already failed.", "gesto": ["cesta", "fuera"]}, {"t": "<b>Empty it and rinse it.</b> Overboard or in a bucket, not into the bilge. Check the mesh for splits while it is in your hand.", "gesto": ["suciedad", "vaciada"]}, {"t": "<b>Basket back, lid on, and OPEN THE SEACOCK.</b> Then start her and look over the stern for water within half a minute. <b>An engine started with the seacock shut is an engine whose pump is running dry</b>, and that is seconds, not minutes.", "gesto": ["tapa-filtro", "puesta"]}], "q": "The basket is back and the lid is on. <b>What is the step people forget?</b>", "opciones": ["Opening the seacock again", "Tightening the lid with a wrench", "Running the engine to prime the pump", "Checking the oil before you start"], "acierto": ["Opening the seacock again"], "bien": "<b>The seacock.</b> You closed it in step one and nothing on the boat reminds you. Starting her with it shut runs the impeller dry, and rubber against dry bronze at engine speed is finished in seconds — <b>the commonest way this job destroys the part it was protecting.</b> Look over the stern for water within half a minute; that is the check that catches it.", "mal": {"Tightening the lid with a wrench": "Hand tight is what the seal wants. A wrench on a plastic bowl cracks it, and then you have a leak below the waterline instead of a clean job.", "Running the engine to prime the pump": "The impeller primes itself — that is what the flexible vanes are for. And running it is exactly what you must not do until one other thing is done.", "Checking the oil before you start": "Always worth doing and it has nothing to do with this job. Something you did in step one is still undone."}, "malOtro": "Read the step again: the answer is in what your hands just did."}, {"id": "6.1", "tema": "The jobs · Change the raw-water impeller", "h": "Change the raw-water impeller", "p": ["<b>The first spare on everybody's list, and a lump of rubber.</b> It is cooled and lubricated by the water it pumps and by nothing else, so it fails from running dry — and when it fails, the pieces go somewhere."], "pos": 16, "tope": 16, "mando": null, "camara": "front", "fijo": "Raw-water pump (impeller)", "pasos": [{"t": "<b>Close the seacock.</b> Same reason as the strainer, and the same consequence if you forget to open it afterwards.", "gesto": null, "toca": "Seacock"}, {"t": "<b>Undo the cover screws.</b> Usually six, and they are small: <b>a bowl or a rag under the pump before you start</b>, because one in the bilge is one you are not going to find.", "gesto": ["tapa-bomba", "fuera"]}, {"t": "<b>Pull the old impeller out.</b> Two screwdrivers levering gently on opposite sides, or a proper extractor. It will be stiff and it will come.", "gesto": ["rodete", "fuera"]}, {"t": "<b>Count the vanes.</b> Count what came out against what should be there — the new one in your hand tells you the number. <b>Two are missing.</b>", "gesto": ["palas", "faltan-dos"]}, {"t": "<b>So go and find them.</b> They went downstream with the water, and the first thing narrow enough to stop them is the tube bundle in the heat exchanger. <b>Until they are out of it, the job is not finished</b> and she will still overheat with a brand-new impeller in her.", "gesto": null, "camara": "port", "enfoque": "Heat exchanger", "toca": "Heat exchanger"}, {"t": "<b>New impeller in, cover on, seacock OPEN.</b> Smear the new one with washing-up liquid or glycerine — never grease, which attacks the rubber — and turn it the right way as it goes in. Then start her and look astern.", "gesto": ["tapa-bomba", "puesta"], "camara": "front", "enfoque": "Raw-water pump (impeller)"}], "q": "You have the old impeller in your hand and two vanes are missing. <b>Where are they?</b>", "opciones": ["In the heat exchanger, blocking tubes", "Still in the pump housing", "They went out with the exhaust water", "They dissolved — old rubber crumbles away"], "acierto": ["In the heat exchanger, blocking tubes"], "bien": "<b>In the heat exchanger.</b> They left the pump with the water and the tube bundle is the first thing narrow enough to stop them. <b>Fit a new impeller without going to find them and she still overheats</b> — and you will do the whole job again believing the new impeller was faulty. <i>The people who know this are the people who have done it twice.</i>", "mal": {"Still in the pump housing": "Worth a look and they are rarely there: the water is moving and the outlet is right beside them. Follow the flow.", "They went out with the exhaust water": "That would be convenient and the passage narrows long before the transom. Something catches them first.", "They dissolved — old rubber crumbles away": "A perished impeller crumbles at the edges; a failed one tears its vanes off whole. You are holding the evidence."}, "malOtro": "Read the step again: the answer is in what your hands just did."}, {"id": "7.1", "tema": "The jobs · Take the impeller out before you crank", "h": "Take the impeller out before you crank", "p": ["<b>She will not start and you are about to spend a while finding out why.</b> Every turn of the starter turns the seawater pump — it does not know whether the engine has fired — and every turn puts more sea into an exhaust with no gas to blow it out. <b>It collects in the waterlock at the low point, and when that drum fills it backs up to the mixing elbow and runs down towards an exhaust valve standing open. Water does not compress.</b>"], "pos": 16, "tope": 16, "mando": null, "camara": "front", "fijo": "Raw-water pump (impeller)", "pasos": [{"t": "<b>Close the seacock.</b> That alone stops any more sea coming in, and on most boats it is all you need for a few more attempts.", "gesto": null, "toca": "Seacock"}, {"t": "<b>If you are going to crank for long, take the impeller out.</b> Cover off, impeller out, and now the pump cannot move anything even if the seacock is opened by somebody helpful.", "gesto": ["tapa-bomba", "fuera"]}, {"t": "<b>Tie a note to the ignition key.</b> «NO IMPELLER». You have just made it possible to start the engine with nothing cooling it, and an impeller run dry is finished in seconds — <b>you swapped one way of wrecking her for another, and the note is what closes it.</b>", "gesto": ["rodete", "fuera"]}], "q": "The impeller is out and you are still trying to start her. <b>What have you just made possible?</b>", "opciones": ["Starting her with nothing cooling the engine", "Flooding the cylinders with fuel", "Draining the batteries faster than before", "Nothing — with the impeller out she cannot start at all"], "acierto": ["Starting her with nothing cooling the engine"], "bien": "<b>You have made a dry start possible</b>, and that is why the note goes on the key. She will start perfectly well with no impeller — nothing stops her — and the first thing you will know is a temperature needle climbing with no water at the transom. <b>Every safety measure that removes a part has to end with something that reminds you it is out.</b>", "mal": {"Flooding the cylinders with fuel": "That is a real risk of long cranking and it has nothing to do with the impeller. Ask what the impeller was doing that nothing is doing now.", "Draining the batteries faster than before": "The batteries drain the same either way, and that is the reason for the ten-second rule rather than for this one.", "Nothing — with the impeller out she cannot start at all": "She starts fine. <b>That is exactly the problem</b>: nothing on the boat stops you, and nothing tells you until she is hot."}, "malOtro": "Read the step again: the answer is in what your hands just did."}, {"id": "9.1", "tema": "The jobs · Check the stern gland", "h": "Check the stern gland", "p": ["<b>A turning steel bar through a hole in the bottom of the boat, and a box of greased packing squeezed around it.</b> This is the check, and it is one you do with the engine running and again with it stopped."], "pos": 16, "tope": 16, "mando": null, "camara": "iso", "fijo": "Stern gland (stuffing box)", "pasos": [{"t": "<b>Look at it stopped, before you go anywhere.</b> A packed gland at rest should be still — a drip now and then is fine, a steady run is not. Dry crusty salt around it says it has been leaking and drying for a while.", "gesto": ["goteo", "seco"]}, {"t": "<b>Now with the shaft turning: it should drip.</b> A few drops a minute, and that is not a fault — <b>it is the cooling and the lubrication</b>. Those drops are the only thing carrying heat out of packing being rubbed at cruising revs.", "gesto": ["goteo", "gotas"]}, {"t": "<b>Feel it after a run.</b> Warm is right. <b>Too hot to keep your hand on is too tight</b>, and a gland that has been run hot has hardened packing that will score the shaft — a five-pound job turned into a haul-out.", "gesto": ["goteo", "seco"]}, {"t": "<b>And this is what too loose looks like.</b> A run rather than a drip, filling the bilge slowly all passage. It needs the nut nipping down a flat at a time, running her between each, <b>until it drips again — not until it stops.</b>", "gesto": ["goteo", "chorro"]}, {"t": "<b>Leave it dripping, and turn the greaser down a couple of turns.</b> That is the state you want to walk away from: a few drops a minute with the shaft turning, and nothing at rest.", "gesto": ["goteo", "gotas"]}], "q": "After an hour under way the gland is too hot to keep your hand on and it is not dripping at all. <b>What is wrong?</b>", "opciones": ["It is too tight — no drip means no cooling, and the packing is cooking", "It is too loose, and the friction of the leak is heating it", "That is normal after an hour: glands run hot", "The shaft is misaligned"], "acierto": ["It is too tight — no drip means no cooling, and the packing is cooking"], "bien": "<b>Too tight, and bone dry is not better.</b> Those few drops a minute are the only thing carrying heat out of the packing, so no drip means no cooling — the packing hardens, burns, and then stops sealing at all. <b>And hard packing running dry scores the shaft</b>, which turns a five-pound job into a haul-out. <i>Squeeze the drip out of it and you have not fixed a leak: you have arranged a bigger one.</i>", "mal": {"It is too loose, and the friction of the leak is heating it": "Water does not heat anything by leaking — it is the only thing taking heat away. A loose gland runs cool and fills your bilge.", "That is normal after an hour: glands run hot": "Warm is normal. <b>Too hot to keep your hand on is not</b>, and the missing drip tells you why.", "The shaft is misaligned": "That is a real cause of a gland that wears out fast, and it shows as uneven packing wear over a season. This one is hot right now and not dripping."}, "malOtro": "Read the step again: the answer is in what your hands just did."}, {"id": "1.1", "tema": "The jobs · Check the engine oil", "h": "Check the engine oil", "p": ["<b>The dipstick is the only window into the whole lubrication circuit, and it is a stick.</b> It has two marks on it and <b>both of them are limits</b> — and it is read cold, before you start, with the boat sitting level."], "pos": 16, "tope": 16, "mando": null, "camara": "iso", "fijo": "Oil dipstick", "pasos": [{"t": "<b>Pull it out.</b> Cold engine, boat level. Oil that has been running is up in the galleries and not in the tray, so a stick read after a passage reads low and sends you looking for a leak that is not there.", "gesto": ["varilla", "fuera"]}, {"t": "<b>Wipe it clean.</b> The first reading is worthless: oil has run down the stick and smeared it. <b>This is the step people skip</b>, and skipping it is how a full engine reads over the top mark.", "gesto": ["varilla", "limpia"]}, {"t": "<b>Push it all the way home, and pull it out again.</b> All the way — a stick that stops on its seal reads short. <i>That</i> is the reading.", "gesto": ["varilla", "fuera"]}, {"t": "<b>Read it between the marks, and put it back.</b> Between, not at the top: too much oil is as bad as too little, because the crankshaft whips it into foam and a pump cannot pump foam. <b>And the gearbox has its own stick, its own oil and its own rules</b> — that one is a different job.", "gesto": ["varilla", "dentro"]}], "q": "You pull the stick out and read it straight away. <b>Why is that reading no good?</b>", "opciones": ["Oil has smeared up the stick on the way out — the first reading is always high", "The engine has to be warm for the reading to mean anything", "The stick has to be read in the tube, not out of it", "It is fine — that is how you read a dipstick"], "acierto": ["Oil has smeared up the stick on the way out — the first reading is always high"], "bien": "<b>Wipe it, put it back, and read the second one.</b> Coming out through the tube smears oil all the way up the stick, so the first reading is whatever the tube left on it. <b>It is the step everybody skips and it is the reason a healthy engine reads over the top mark</b> — and somebody then drains oil out of an engine that did not need it.", "mal": {"The engine has to be warm for the reading to mean anything": "The opposite: cold, before you start, with the oil down in the tray. A warm engine has oil up in the galleries and reads low.", "The stick has to be read in the tube, not out of it": "You cannot read it in the tube, and pushing it home is the middle of the job rather than the reading.", "It is fine — that is how you read a dipstick": "It is how most people do it, and it is why so many engines look overfull."}, "malOtro": "Read the step again: the answer is in what your hands just did."}, {"id": "2.1", "tema": "The jobs · Change the oil and its filter", "h": "Change the oil and its filter", "p": ["<b>Most marine engines have no drain plug you can reach</b>, so the oil comes out the way the stick goes in. Run her until she is warm first — warm oil is thin oil and it all comes out, where cold oil leaves a third of itself on the walls. <i>Warm, not hot: you are about to have it running down your arm.</i>"], "pos": 16, "tope": 16, "mando": null, "camara": "port", "fijo": "Oil filter", "pasos": [{"t": "<b>Pump the old oil out through the dipstick tube.</b> A hand pump or a drill pump down the tube. <b>Get it all</b> — what you leave behind is the dirtiest of it, sitting in the bottom.", "gesto": ["varilla", "fuera"], "toca": "Oil extraction pump"}, {"t": "<b>Unscrew the old filter.</b> It will be full and it will run down your arm. <b>A bag or a tray under it first</b>, and a filter wrench if it will not start by hand.", "gesto": ["filtro-aceite", "fuera"]}, {"t": "<b>Check the old sealing ring came off with it.</b> Look at the engine face. <b>If the old rubber ring is still stuck there and you screw a new filter onto it, you have two seals where there should be one</b> — and it will pump the sump out through the gap the first time you start her.", "gesto": null, "toca": "Oil filter"}, {"t": "<b>Smear the new ring with clean oil and fit it by hand.</b> Screw it on until the ring touches the face, and then however much further the side of the can tells you — it differs between makes. <b>By hand, whatever it says: a wrench belongs on the old one, not on the new one.</b>", "gesto": ["filtro-aceite", "puesto"]}, {"t": "<b>Fill through the filler cap, and stop short.</b> A little less than the book says, because the new filter is empty and will take some.", "gesto": null, "toca": "Oil filler cap"}, {"t": "<b>Run her thirty seconds, stop, and wait a minute.</b> That fills the filter and lets it drain back. <b>And look underneath while she runs: a filter that is going to leak leaks now.</b>", "gesto": ["varilla", "dentro"]}, {"t": "<b>Now read the stick and top up to between the marks.</b> This is the reading that counts — the one after the filter has taken its share.", "gesto": ["varilla", "fuera"]}], "q": "You have the old filter off. <b>What do you check before the new one goes anywhere near the engine?</b>", "opciones": ["That the old rubber sealing ring came off with it", "That the new one is the right part number", "That the oil has finished draining", "That the new filter is full of oil before it goes on"], "acierto": ["That the old rubber sealing ring came off with it"], "bien": "<b>The old ring.</b> It sticks to the engine face perhaps one time in twenty, and if you screw a new filter down onto it you have two rings, a gap between them, and <b>the whole sump on the floor about ten seconds after you start her</b>. It is thirty seconds of looking and it is the commonest way this job goes wrong.", "mal": {"That the new one is the right part number": "Worth doing, and you should have done it in the chandlery. It will not empty your engine into the bilge.", "That the oil has finished draining": "Also worth doing, and the consequence of getting it wrong is a slower job — not a lost engine.", "That the new filter is full of oil before it goes on": "You cannot fill a filter that mounts sideways, and the thirty seconds of running fills it anyway. Look at the face the old one came off."}, "malOtro": "Read the step again: the answer is in what your hands just did."}, {"id": "3.1", "tema": "The jobs · Change the fuel filters", "h": "Change the fuel filters", "p": ["<b>Two filters, and they are not the same job.</b> The first is the pre-filter with the clear bowl — it catches water and the big dirt, and you can see into it. The second is the fine filter on the engine, and it is the last thing between your tank and an injection pump built to a thousandth of a millimetre."], "pos": 16, "tope": 16, "mando": null, "camara": "port", "fijo": "Secondary fuel filter", "pasos": [{"t": "<b>Close the valve at the tank.</b> Everything downstream is now a closed system with a bowl you are about to open, and diesel finds its way to the bilge faster than you can find a tray.", "gesto": ["llave-deposito", "cerrada"]}, {"t": "<b>Open the pre-filter bowl and take the element out.</b> Look at what comes out with it: <b>water sits under the diesel in the bottom of that bowl</b>, and a black slime on the element is diesel bug rather than dirt.", "gesto": ["elemento-decantador", "fuera"]}, {"t": "<b>New element, new seals, bowl back on.</b> The seals come in the box and they are the part people leave in it. <b>A hardened old O-ring is an air leak on the suction side</b>, and an air leak there does not drip — it sucks.", "gesto": ["elemento-decantador", "puesto"]}, {"t": "<b>Now the fine filter: unscrew it.</b> Spin-on, like the oil one, and it comes off full of diesel. Tray underneath.", "gesto": ["filtro-fino", "fuera"]}, {"t": "<b>The new one on, by hand.</b> Smear the ring with clean diesel and screw it until the ring touches, then as far as the can says. <i>Some people fill the new one with clean diesel first — it makes the bleeding shorter and it is not possible on every engine.</i>", "gesto": ["filtro-fino", "puesto"]}, {"t": "<b>Open the tank valve again.</b> Same trap as the seacock: you closed it in step one and nothing on the boat reminds you.", "gesto": ["llave-deposito", "abierta"]}, {"t": "<b>And now bleed her, because you have just filled the system with air.</b> That is the next job and it is not optional — <b>a diesel with air in the line will not start, and changing filters always puts air in the line.</b>", "gesto": ["palanca-cebado", "abajo"]}], "q": "The new pre-filter element is in the box with a bag of rubber seals. <b>What happens if you reuse the old ones?</b>", "opciones": ["A hardened seal lets air in on the suction side, and air stops a diesel", "Diesel drips out of the bowl and you see it straight away", "Nothing — the seals are a spare in case you damage yours", "The bowl will not tighten down properly"], "acierto": ["A hardened seal lets air in on the suction side, and air stops a diesel"], "bien": "<b>Air, and it does not announce itself.</b> That bowl is on the <i>suction</i> side of the lift pump, so a tired seal does not drip — <b>it sucks air in</b>, and you get an engine that runs, stumbles, and dies twenty minutes later with nothing to see. The seals are in the box because they are part of the job.", "mal": {"Diesel drips out of the bowl and you see it straight away": "That is what you would get on the pressure side, and it would be the easy version. This one is upstream of the pump.", "Nothing — the seals are a spare in case you damage yours": "They are in the box because rubber that has been squeezed and soaked in diesel for a season does not go back to its shape.", "The bowl will not tighten down properly": "It will tighten perfectly and still leak air. That is what makes this one nasty."}, "malOtro": "Read the step again: the answer is in what your hands just did."}, {"id": "4.1", "tema": "The jobs · Bleed the fuel system", "h": "Bleed the fuel system", "p": ["<b>A diesel has no spark: it lights the fuel by squeezing air until it is hot enough.</b> Air in the fuel line squashes instead of pushing, so the injection pump cannot build pressure and she will not start. <b>Any time you open the fuel system, you put air in it.</b>"], "pos": 16, "tope": 16, "mando": null, "camara": "port", "fijo": "Lift / priming pump", "pasos": [{"t": "<b>Find the priming lever on the lift pump.</b> A little hand lever on the side of the pump, and on some engines a plunger on top instead. <i>If it feels dead, turn the engine over a few degrees by hand: the cam under it may be at the top of its lift.</i>", "gesto": null, "toca": "Lift / priming pump"}, {"t": "<b>Open the bleed screw on the fine filter</b> — the one nearest the tank in the order of the circuit. Rag underneath: what comes out is diesel and it goes in the bilge otherwise.", "gesto": null, "toca": "Bleed screw (fine filter)"}, {"t": "<b>Pump the lever until what comes out has no bubbles in it.</b> Bubbles mean there is still air behind them. <b>Watch the froth, not the clock</b> — it takes as long as it takes.", "gesto": ["burbujas", "con-aire"]}, {"t": "<b>Clean diesel, no bubbles: close that screw and move to the next one.</b> The order is the order of the circuit — from the tank towards the injectors, never backwards, or you push the air you just chased back where it came from.", "gesto": ["burbujas", "limpias"]}, {"t": "<b>Now the screw on the injection pump, the same way.</b> Pump, watch, close when it runs clean. <i>On many modern engines this is the last one and the system self-bleeds past it.</i>", "gesto": null, "toca": "Bleed screw (injection pump)"}, {"t": "<b>And if she still will not start, the last air is at the injectors.</b> Slacken a union, turn her over until fuel comes, tighten it. <b>Ten seconds of cranking at a time</b> — you are spending the battery, and with the seacock open you are also filling the exhaust with water.", "gesto": ["palanca-cebado", "arriba"]}], "q": "You are pumping the lever and what comes out is frothy. <b>What tells you when to close that screw?</b>", "opciones": ["The bubbles stopping — clean diesel with no froth in it", "Thirty seconds of pumping, which is the standard", "The lever going hard, which means the line is full", "Fuel coming out under pressure rather than dribbling"], "acierto": ["The bubbles stopping — clean diesel with no froth in it"], "bien": "<b>The bubbles, and nothing else.</b> Every bubble is air that was in the line, and air is exactly what stops a diesel starting. <b>Watch the froth, not the clock</b> — one engine takes ten strokes and another takes eighty, and the only thing that knows which is what is coming out of the screw.", "mal": {"Thirty seconds of pumping, which is the standard": "There is no standard, and a number invites you to stop while there is still air in there. The froth is the instrument.", "The lever going hard, which means the line is full": "It does go harder as the line fills and it goes hard with air in it too. Air compresses; that is the whole problem.", "Fuel coming out under pressure rather than dribbling": "You are working on the low-pressure side with a hand lever — there is no pressure to feel. Look at what comes out."}, "malOtro": "Read the step again: the answer is in what your hands just did."}, {"id": "8.1", "tema": "The jobs · Check and tension the drive belt", "h": "Check and tension the drive belt", "p": ["<b>One belt, three jobs.</b> It turns the alternator, the freshwater pump and the seawater pump off one pulley on the nose of the crankshaft — so when it goes you lose the charging, the cooling and the sea, all at once. <i>That is why it is checked before every trip and why a spare belt is the first spare on anybody's list.</i>"], "pos": 16, "tope": 16, "mando": null, "camara": "front", "fijo": "Drive belt", "pasos": [{"t": "<b>Engine stopped, isolator off.</b> Your hand is going between two pulleys that turn without warning if the starter gets a stray signal.", "gesto": null, "toca": "Battery isolator switch"}, {"t": "<b>Look at it before you touch it.</b> Cracks across the ribs, a glazed shiny face, frayed edges — and <b>black dust on the block underneath</b>, which is the belt wearing away and the clearest sign there is.", "gesto": null, "toca": "Drive belt"}, {"t": "<b>Press it with your thumb, midway on the longest run.</b> <b>About a centimetre or two of give is right</b> — much more and it slips, much less and it eats the pump and alternator bearings.", "gesto": ["correa", "pulsada"]}, {"t": "<b>Too slack: tension it by moving the alternator.</b> Slacken its pivot bolt and its adjusting bolt, lever the alternator outwards with a piece of wood —never a screwdriver against the casing— and do the bolts up again. <b>The alternator is the tensioner</b>, and that is why it is the part you take hold of.", "gesto": null, "toca": "Alternator"}, {"t": "<b>Check again, and run her.</b> A new belt beds in and stretches: <b>re-check it after the first hour</b>, which is the step that gets forgotten and the reason new belts fail.", "gesto": ["correa", "quieta"]}], "q": "You press the belt and it gives about four centimetres. <b>What is happening while you motor?</b>", "opciones": ["It is slipping — you lose charging and cooling before it breaks", "Nothing yet: a loose belt only matters when it comes off", "It is over-tensioned and the bearings are taking it", "It will tighten up as it warms and takes up its slack"], "acierto": ["It is slipping — you lose charging and cooling before it breaks"], "bien": "<b>It slips long before it breaks.</b> A slack belt turns the pulleys slower than the engine turns it, so the alternator charges less and both pumps move less water — <b>you lose the systems gradually and there is nothing dramatic to notice</b>. A squeal on start-up and black dust under the pulleys are what it looks like. <i>And the other end of the range is just as bad: too tight eats the pump and alternator bearings.</i>", "mal": {"Nothing yet: a loose belt only matters when it comes off": "By the time it comes off you have been running warm and undercharged for a while. The slipping is the fault, not the breaking.", "It is over-tensioned and the bearings are taking it": "That is the other end of the range — four centimetres of give is the opposite of tight.", "It will tighten up as it warms and takes up its slack": "Belts stretch with use and heat, they do not shrink. A new one needs re-checking after the first hour for exactly that reason."}, "malOtro": "Read the step again: the answer is in what your hands just did."}, {"id": "10.1", "tema": "The jobs · The engine will not turn over", "h": "The engine will not turn over", "p": ["<b>You turn the key and nothing happens, or one loud click and nothing turns.</b> Almost always this is a connection rather than a part — and the half of the circuit that nobody checks is the way back."], "pos": 16, "tope": 16, "mando": null, "camara": "front", "fijo": "Engine-start battery", "pasos": [{"t": "<b>Start with the switch.</b> Nothing at all — not even a click — is usually the isolator off or the key circuit dead. It costs two seconds and no tools.", "gesto": null, "toca": "Battery isolator switch"}, {"t": "<b>Look at the terminals.</b> Green or white powder on a post is resistance, and resistance is where a large current turns into heat instead of turning an engine.", "gesto": ["bornes", "sucios"]}, {"t": "<b>Isolator OFF, then clean them and tighten them.</b> Off first, always: there is no fuse between that battery and the starter, so a spanner across a live post welds itself in place.", "gesto": ["bornes", "limpios"]}, {"t": "<b>Now the half nobody checks: the earth strap.</b> Follow the heavy black cable from the battery to where it bolts to the block. <b>Green powder, a loose bolt, or paint under the terminal will all do it</b> — and the battery will test perfectly on a meter while it does.", "gesto": null, "toca": "Earth (ground) strap"}, {"t": "<b>Then the heavy positive, both ends.</b> Same treatment: clean, tight, and smeared with petroleum jelly when you put it back.", "gesto": null, "toca": "Main positive cable"}, {"t": "<b>And if it all checks out, it is the battery or the starter — in that order.</b> A battery that turns cabin lights bright and an engine not at all is still a suspect: lights draw amps, a starter draws hundreds. <i>If you have nothing left, there is one more way to start her, and it is the last job in this part.</i>", "gesto": ["bornes", "limpios"]}], "q": "One loud click, nothing turns, the cabin lights stay bright and the battery tests fine. <b>Where do you look?</b>", "opciones": ["The earth strap where it bolts to the block", "The starter motor, which has failed", "The battery, which must be flat under load", "The isolator switch, which is off"], "acierto": ["The earth strap where it bolts to the block"], "bien": "<b>The way back.</b> Bright lights and a clean test both say the battery has plenty in it, so the current is not failing to leave — <b>it is failing to get home.</b> The way out is a red cable everybody looks at; the way back is a black strap bolted to the block, and that is the one that corrodes. <i>A click with a good battery is a connection until proved otherwise.</i>", "mal": {"The starter motor, which has failed": "It is the most expensive thing to replace and the least likely to be wrong, and the click says the solenoid at least is getting a signal.", "The battery, which must be flat under load": "You have been told twice that it is not — bright lights and a clean test. Believe the two measurements you have.", "The isolator switch, which is off": "Then you would get nothing at all. A click means current reached the solenoid, so the switch is on."}, "malOtro": "Read the step again: the answer is in what your hands just did."}, {"id": "11.1", "tema": "The jobs · Hand-start with decompressors", "h": "Hand-start with decompressors", "p": ["<b>A diesel has far too much compression to turn by hand.</b> The decompressors hold the exhaust valves open so the cylinders cannot build any, and then one person can spin the engine up to speed. <i>Few modern engines have accessible decompressors and few boats carry a handle — but if yours does, this is the only thing that starts her with no electricity at all.</i>"], "pos": 16, "tope": 16, "mando": null, "camara": "stbd", "fijo": "Decompressor lever", "pasos": [{"t": "<b>Fuel on, seacock open, gear lever in neutral.</b> The same three as any start, and here they matter more: you are not going to get a second chance at this without a rest.", "gesto": null, "toca": "Fuel tank valve"}, {"t": "<b>Lift the decompressors.</b> All of them, and check they have stayed up. <b>With them lifted the engine turns almost freely</b>; with one down you will not get it up to speed.", "gesto": ["descompresores", "levantados"]}, {"t": "<b>Fit the handle on the nose of the crankshaft</b>, and make sure it is home before you pull on it.", "gesto": ["manivela", "encajada"]}, {"t": "<b>Grip it with your thumb on the same side as your fingers.</b> <b>Never wrap your thumb round.</b> If the engine fires while the handle is on it, the handle comes back the other way — <b>and a handle that kicks back breaks wrists.</b> A thumb alongside lets it go; a thumb wrapped round does not.", "gesto": ["manivela", "encajada"]}, {"t": "<b>Wind her up to speed.</b> Faster than feels necessary, and keep going — the flywheel is storing what you are putting in, and you need it spinning properly before the next step.", "gesto": ["descompresores", "levantados"]}, {"t": "<b>Drop the decompressors while she is still spinning.</b> That is the whole trick: the flywheel's momentum carries her through the first compression, the air gets hot, and she fires. <b>Let go of the handle as you do it.</b>", "gesto": ["descompresores", "cerrados"]}, {"t": "<b>Take the handle off and stow it.</b> A handle left on a running engine is a thing that spins at engine speed a foot from your knee.", "gesto": ["manivela", "guardada"]}], "q": "<b>Why does your thumb go on the same side as your fingers?</b>", "opciones": ["So the handle can be thrown clear if the engine kicks back", "So you can grip it harder and wind faster", "So the handle does not slip off the shaft", "So your wrist stays straight while you wind"], "acierto": ["So the handle can be thrown clear if the engine kicks back"], "bien": "<b>So it can leave your hand.</b> If she fires while the handle is still on, the handle comes back the other way with the whole engine behind it. <b>A thumb alongside lets it go; a thumb wrapped round holds on to it, and that is how wrists get broken.</b> It is the only injury in this module that happens to you rather than to the engine.", "mal": {"So you can grip it harder and wind faster": "It is a weaker grip on purpose. Gripping harder is exactly what you do not want when it comes back.", "So the handle does not slip off the shaft": "The handle staying on is the dangerous case, not the safe one.", "So your wrist stays straight while you wind": "Good practice and not the reason. The reason is what happens in the half second after she fires."}, "malOtro": "Read the step again: the answer is in what your hands just did."}];
+const TOT = 11;
+const FICHERO = "c31-p2-the-jobs.html";
+
+let FIG = null, MONTAJE = null, ANGULO = null, ORDEN = null, TALLER = null;
+
+let iPaso = 0;
+let iPZ = 0, iCaso = 0, RESP = 0;
+
+function barajaEstable(lista, semilla) {
+  const out = lista.slice();
+  let n = 0;
+  for (let k = 0; k < semilla.length; k++) n = (n * 31 + semilla.charCodeAt(k)) >>> 0;
+  for (let i = out.length - 1; i > 0; i--) {
+    n = (n * 1103515245 + 12345) >>> 0;
+    const j = n % (i + 1);
+    const t = out[i]; out[i] = out[j]; out[j] = t;
+  }
+
+  let igual = true;
+  for (let k = 0; k < out.length; k++) if (out[k] !== lista[k]) { igual = false; break; }
+  if (igual) out.push(out.shift());
+  return out;
+}
+
+function arrancaFigura(){
+  if (typeof Motor3D === "undefined" || Motor3D.error) {
+    document.getElementById("cargando").textContent =
+      "The 3-D engine could not start in this browser.";
+    return false;
+  }
+  FIG = Motor3D.montar(document.getElementById("escena"));
+  document.getElementById("escena").classList.add("listo");
+  return true;
+}
+
+const PM_LUCES = [["oil","OIL"], ["temp","TEMP"], ["charge","CHG"]];
+function pintaPanel(cfg){
+  const caja = document.getElementById("panelMotor");
+  if (!caja) return;
+  const antes = caja.hidden;
+  if (!cfg) { caja.hidden = true; if (!antes) avisaDelTamano(); return; }
+  const fila = caja.querySelector(".pmLuces");
+  if (!fila.children.length) {
+    for (const [k, rot] of PM_LUCES) {
+      const d = document.createElement("div");
+      d.className = "pmLuz"; d.setAttribute("data-luz", k);
+      d.innerHTML = '<i></i><b>' + rot + '</b>';
+      fila.appendChild(d);
+    }
+  }
+  for (const [k] of PM_LUCES)
+    fila.querySelector('[data-luz="' + k + '"]').classList.toggle("on", !!cfg[k]);
+  const f = Math.max(0, Math.min(1, cfg.aguja == null ? 0 : cfg.aguja));
+  caja.querySelector(".pmAguja b").style.left = (f * 100).toFixed(1) + "%";
+  caja.hidden = false;
+  if (antes) avisaDelTamano();
+}
+
+function avisaDelTamano(){
+  if (typeof window.dispatchEvent === "function")
+    window.dispatchEvent(new Event("resize"));
+}
+
+function pinta(){
+  const p = PZ[iPZ];
+  pintaPanel(p.panel || null);
+  document.getElementById("hTit").textContent = p.tema;
+  document.getElementById("hN").textContent = (iPZ + 1) + " / " + TOT;
+
+  if (FIG) {
+    MONTAJE = MMontaje({ figura: FIG, tope: p.tope, inicio: p.pos });
+
+    ANGULO = null;
+    if (p.mando === "angulo") {
+      ANGULO = MAngulo({ figura: FIG, inicio: p.angulo || 0 });
+    } else if (p.angulo != null && FIG.verAngulo) {
+      FIG.verAngulo(p.angulo);
+    }
+
+    if (FIG.corte) FIG.corte(p.corte ? 1 : 0);
+    if (FIG.verCamara) FIG.verCamara(p.camara || "iso", false);
+
+    if (p.enfoque && FIG.enfocar) FIG.enfocar(p.enfoque, false, !!p.cerca);
+
+    if (FIG.enMarcha) FIG.enMarcha(!!p.marcha);
+  }
+
+  const caso = (p.casos && p.casos[iCaso]) || null;
+
+  if (FIG && p.pasos && typeof MTaller === "function") {
+
+    const quiero = iPaso;
+    TALLER = MTaller({ figura: FIG, pasos: p.pasos, fijo: p.fijo, camara: p.camara,
+                       alPaso: function (n) { iPaso = n; } });
+    TALLER.vaA(quiero);
+  }
+
+  let html = p.pasos ? "" : ("<h2>" + p.h + "</h2>");
+
+  if (p.pasos && TALLER) {
+    const n = TALLER.donde(), tot = TALLER.cuantos();
+    html += '<div class="taller">'
+      + '<div class="tPaso"><b>Step ' + (n + 1) + ' of ' + tot + '</b></div>'
+      + '<div class="tTexto">' + p.pasos[n].t + '</div>'
+      + '<div class="tNav">'
+      + '<button class="tBtn" id="tAnt"' + (n ? "" : " disabled") + '>&larr; Back</button>'
+      + '<button class="tBtn" id="tSig"'
+      + (n === tot - 1 ? " disabled" : "") + '>Next step &rarr;</button>'
+      + '</div></div>';
+  }
+  for (const t of p.p) html += "<p>" + t + "</p>";
+
+  if (FIG && p.mando === "montaje") {
+    html += '<div class="montaje"><span class="et">Assembly</span>'
+      + '<input type="range" id="mSl" min="0" max="' + p.tope
+      + '" step="1" value="' + p.pos + '" aria-label="Assembly step">'
+      + '<span class="v" id="mV"></span></div>';
+  }
+  if (FIG && p.mando === "angulo") {
+
+    html += '<div class="montaje"><span class="et">Crank</span>'
+      + '<input type="range" id="aSl" min="0" max="720" step="5" value="'
+      + (p.angulo || 0) + '" aria-label="Crank angle">'
+      + '<span class="v" id="aV"></span></div>';
+  }
+
+  if (p.orden && typeof MOrden === "function") {
+    ORDEN = MOrden({ piezas: barajaEstable(p.orden, p.id), orden: p.orden });
+  }
+
+  const q = caso ? caso.q : p.q;
+  if (p.orden && ORDEN) {
+    html += '<div class="pregunta">' + p.q + "</div>";
+    html += '<div class="orden" id="ord">';
+    for (const it of ORDEN.lista()) {
+      html += '<button class="orden-it" data-it="' + it.replace(/"/g, "&quot;") + '">'
+        + '<span class="n"></span>' + it + "</button>";
+    }
+    html += "</div>";
+    html += '<div class="veredicto" id="ver" hidden></div>';
+  }
+
+  if (q && !p.orden) {
+    if (caso) {
+      html += '<div class="caso"><b>Case ' + caso.caso + '</b> &#183; '
+        + (iCaso + 1) + " of " + p.casos.length + "</div>";
+    }
+    html += '<div class="pregunta">' + q + "</div>";
+    if (p.opciones) {
+      html += '<div class="mx-ops">';
+      for (let k = 0; k < p.opciones.length; k++) {
+        html += '<button class="mx-op" data-k="' + k + '">'
+          + p.opciones[k] + "</button>";
+      }
+      html += "</div>";
+    }
+    html += '<div class="veredicto" id="ver" hidden></div>';
+    if (caso && iCaso < p.casos.length - 1) {
+      html += '<div class="nav"><button id="otroCaso" hidden>'
+        + "Next case &#8594;</button></div>";
+    }
+  }
+  const pane = document.getElementById("pane");
+  pane.innerHTML = html;
+  pane.scrollTop = 0;
+
+  const tS = document.getElementById("tSig"), tA = document.getElementById("tAnt");
+  if (tS) tS.addEventListener("click", function () {
+    if (TALLER) { iPaso = TALLER.siguiente(); pinta(); }
+  });
+  if (tA) tA.addEventListener("click", function () {
+    if (TALLER) { iPaso = TALLER.anterior(); pinta(); }
+  });
+
+  const sl = document.getElementById("mSl");
+  if (sl && MONTAJE) {
+    const v = document.getElementById("mV");
+    const di = () => { v.textContent = MONTAJE.ensena(); };
+    di();
+    sl.addEventListener("input", () => { MONTAJE.mueve(+sl.value); di(); });
+  }
+  const al = document.getElementById("aSl");
+  if (al && ANGULO) {
+    const v = document.getElementById("aV");
+    const di = () => { v.textContent = ANGULO.ensena(); };
+    di();
+    al.addEventListener("input", () => { ANGULO.mueve(+al.value); di(); });
+  }
+  const oc = document.getElementById("otroCaso");
+  if (oc) oc.addEventListener("click", function () { iCaso++; pinta(); });
+
+  if (ORDEN) {
+    const pinta1 = () => {
+      document.querySelectorAll(".orden-it").forEach(function (b) {
+        const n = ORDEN.numeroDe(b.dataset.it);
+        b.querySelector(".n").textContent = n ? n : "";
+        b.classList.toggle("puesto", n > 0);
+      });
+    };
+    pinta1();
+    document.querySelectorAll(".orden-it").forEach(function (b) {
+      b.addEventListener("click", function () {
+        ORDEN.toca(b.dataset.it);
+        pinta1();
+        if (ORDEN.completo()) juzgaOrden();
+      });
+    });
+  }
+
+  if (FIG && q && !p.opciones && FIG.alSeleccionar) {
+    FIG.alSeleccionar(function (nombre) { juzga(nombre); });
+  }
+  document.querySelectorAll(".mx-op").forEach(function (b) {
+    b.addEventListener("click", function () { juzga(p.opciones[+b.dataset.k]); });
+  });
+
+  if (typeof vistoPon === "function") vistoPon(FICHERO, iPZ);
+  progreso();
+  navega();
+}
+
+function juzgaOrden(){
+  const p = PZ[iPZ];
+  const bien = ORDEN.acierta();
+  if (bien === null) return;
+  const caja = document.getElementById("ver");
+  if (!caja) return;
+  caja.hidden = false;
+  caja.className = "veredicto " + (bien ? "bien" : "mal");
+  caja.innerHTML = bien ? p.bien : p.mal;
+  RESP++;
+  document.getElementById("fLog").textContent = RESP + " answers logged";
+}
+
+function juzga(dada){
+  const p = PZ[iPZ];
+  const caso = (p.casos && p.casos[iCaso]) || null;
+  const fuente = caso || p;
+  if (!fuente.q) return;
+  const bien = (fuente.acierto || []).indexOf(dada) >= 0;
+  const caja = document.getElementById("ver");
+  if (!caja) return;
+  caja.hidden = false;
+  caja.className = "veredicto " + (bien ? "bien" : "mal");
+  caja.innerHTML = bien ? fuente.bien
+    : ((fuente.mal && fuente.mal[dada]) || fuente.malOtro);
+
+  const oc = document.getElementById("otroCaso");
+  if (oc && bien) oc.hidden = false;
+  RESP++;
+  document.getElementById("fLog").textContent = RESP + " answers logged";
+}
+
+function progreso(){
+  let h = "";
+  for (let k = 0; k < TOT; k++) {
+    h += '<i class="' + (k === iPZ ? "on" : (k < iPZ ? "done" : "")) + '"></i>';
+  }
+  document.getElementById("prog").innerHTML = h;
+  document.getElementById("barCont").textContent = (iPZ + 1) + " / " + TOT;
+}
+
+function navega(){
+  let h = '<div class="nav">';
+  if (iPZ > 0) h += '<button id="ant">&#8592; Back</button>';
+  if (iPZ < TOT - 1) h += '<button id="sig">Next &#8594;</button>';
+  h += "</div>";
+  document.getElementById("navPie").innerHTML = h;
+  const a = document.getElementById("ant"), s = document.getElementById("sig");
+
+  if (a) a.addEventListener("click", function () { iPZ--; iCaso = 0; pinta(); });
+  if (s) s.addEventListener("click", function () { iPZ++; iCaso = 0; pinta(); });
+}
+
+document.getElementById("deCero").addEventListener("click", function () {
+  if (typeof vistoOlvida === "function") vistoOlvida(FICHERO);
+  iPZ = 0; iCaso = 0; RESP = 0;
+  document.getElementById("fLog").textContent = "0 answers logged";
+  pinta();
+});
+
+if (typeof vistoEmpieza === "function") vistoEmpieza(FICHERO);
+arrancaFigura();
+iPZ = (typeof vistoPos === "function") ? vistoPos(FICHERO, TOT - 1) : 0;
+pinta();
+</script>
