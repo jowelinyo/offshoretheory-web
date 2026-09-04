@@ -178,7 +178,7 @@ stage.appendChild(renderer.domElement);
     var pmrem=new THREE.PMREMGenerator(renderer);
     scene.environment = pmrem.fromScene(envScene, 0.022).texture;
     pmrem.dispose();
-  }catch(e){ /* si PMREM no está disponible, el modelo se ve igualmente con las luces */ }
+  }catch(e){ /* si PMREM no esta disponible, el modelo se ve igualmente con las luces */ }
 })();
 
 /* ---------- luces ---------- */
@@ -317,7 +317,7 @@ function reg(mesh, sys, meta){
   if(meta.cut) markCut(mesh);
   return mesh;
 }
-/*  REGISTRAR SIN MOVER · para lo que no puede salir de donde está.
+/*  REGISTRAR SIN MOVER · para lo que no puede salir de donde esta.
     `reg()` acaba con `groups[sys].add(mesh)`, y eso REPARENTA. Da igual cuando la
     pieza ya vive en su grupo, y **es un fallo cuando vive en otro sitio**:
 
@@ -624,11 +624,33 @@ var DECK_Y = 0.7;                     // plano junta bloque/culata
     if(p===0) num(11,'Piston','com', grp);
     ANIM.pistons.push({m:grp, c:p, x:px});
 
-    // biela suelta (para poder orientarla cada fotograma)
+    /*  ── LA BIELA · MAS GORDA Y DE OTRO ACERO, Y LAS DOS COSAS SON REALES ──────
+        **Estaba mal dibujada, no mal iluminada.** El vastago medía 0,17 contra un
+        piston de 1,24, o sea **0,14 del diametro**; una biela de verdad anda entre
+        **0,20 y 0,25**. Es el caso del engrasador que resulto ser de 5 cm y no de 2,7:
+        no se agranda para que se vea — se dibuja bien.
+
+        MEDIDO ANTES DE TOCARLA, proyectando su caja a pantalla en el encuadre de `2.1`:
+        una biela ocupaba **9,1 x 29,6 px**, un piston 21,8 x 16,4 y el ciguenal 98,2 x
+        14,6. Nueve pixeles de ancho es el limite de lo legible, y ademas se solapa con
+        el piston por arriba y con el ciguenal por abajo: **de los ~800 px de silueta
+        que suman las cuatro solo se veian 32 a 44.**
+
+        0,28 la deja en **0,23 del diametro** —dentro de la banda real— y en unos 15 px
+        de ancho. *No la hace grande: la hace la que es.*
+
+        Y EL TONO TAMBIEN ES REAL. La biela llevaba el mismo `steelDk` que el ciguenal, y
+        **son dos piezas distintas que en un motor abierto se distinguen a simple
+        vista**: la biela es una forja pulida y el ciguenal una pieza mas mate. Con
+        `polish` se separan sin que ninguna deje de ser acero.
+
+        LO QUE ESTO NO ARREGLA, y conviene saberlo: con el encuadre de `2.1` —que se
+        eligio por medida y no se toca— la biela sigue midiendo quince pixeles de ancho.
+        Se vera **el doble y medio** que antes, y seguira siendo pequeña.            */
     var rod=new THREE.Group();
-    rod.add(box(0.17,ANIM.L,0.3, M.steelDk));
-    var be=cyl(0.26,0.26,0.44,16,{material:M.steelDk}); be.rotation.z=Math.PI/2; be.position.y=-ANIM.L/2; rod.add(be);
-    var se=cyl(0.14,0.14,0.34,14,{material:M.steelDk}); se.rotation.z=Math.PI/2; se.position.y=ANIM.L/2; rod.add(se);
+    rod.add(box(0.28,ANIM.L,0.34, M.polish));
+    var be=cyl(0.30,0.30,0.48,16,{material:M.polish}); be.rotation.z=Math.PI/2; be.position.y=-ANIM.L/2; rod.add(be);
+    var se=cyl(0.17,0.17,0.38,14,{material:M.polish}); se.rotation.z=Math.PI/2; se.position.y=ANIM.L/2; rod.add(se);
     if(p===1){
       reg(rod,'com',{name:'Connecting rod', ex:V(0,1,0), exMag:2.3,
         desc:'Links the piston to the crankshaft and converts the piston’s linear thrust into turning torque. It works in tension and compression thousands of times a minute.',
@@ -741,16 +763,43 @@ var DECK_Y = 0.7;                     // plano junta bloque/culata
   /*  LA MANIVELA · `handstart` no tenia nada que agarrar. Va en la nariz del ciguenal,
       que es donde encaja: un eje corto, un brazo y un puño.
       **Nace oculta**: una manivela no vive puesta en el motor, se trae y se encaja, y
-      el taller la enseña cuando toca. `visBase` recuerda que nacio apagada, asi que el
+      el taller la ensena cuando toca. `visBase` recuerda que nacio apagada, asi que el
       montaje no la enciende sin querer.                                            */
+  /*  ── ERA UNA CHAPA, Y UNA MANIVELA ES UNA BARRA ────────────────────────────
+      Medida con la vara de la biela —seccion contra el diametro del piston, que son
+      1,24—: el eje daba **0,10 de diametro, o sea 0,081**, y el brazo **0,06 en
+      seccion, o sea 0,048**. La biela estaba mal a 0,14 y se llevo a 0,23; el
+      inyector, que es de verdad delgado, esta en 0,28. *El brazo de la manivela era
+      la mitad de delgado que la pieza mas delgada del motor, y es la que se agarra
+      con las dos manos.*
+
+      Y habia un segundo defecto que la seccion escondia: **el brazo iba PARALELO al
+      eje**, adelantado y desplazado 0,16 en Z, asi que la pieza no era una manivela
+      sino una barra con un recodo. Un brazo de manivela va **radial**, que es lo que
+      permite girarla.
+
+      Puesta a su proporcion, con 1 unidad = 72,6 mm si el diametro es 90:
+        · eje y brazo **0,30 de diametro y seccion** — 24 mm de verdad, **0,24 del
+          piston**, entre la biela (0,23) y el inyector (0,28)
+        · puno **0,40** — 29 mm, que es lo que se agarra
+        · y el brazo, **radial y de 1,10 de vuelo**, para que sea una barra y no un
+          taco: a la seccion nueva, el de antes habria sido un cubo.                */
   var manivela=new THREE.Group();
-  manivela.add(cyl(0.05,0.05,0.3,10,{material:M.steelDk}));
-  var mBrazo=box(0.06,0.4,0.06,M.steelDk); mBrazo.position.set(0,0.2,-0.16);
-  var mPuno=cyl(0.055,0.055,0.16,10,{material:mat(0x2c2a28,{metal:0.1,rough:0.9})});
-  mPuno.rotation.x=Math.PI/2; mPuno.position.set(0,0.4,-0.24);
-  manivela.add(mBrazo,mPuno);
+  var mEje=cyl(0.15,0.15,0.55,12,{material:M.steelDk}); mEje.position.set(0,0.27,0);
+  /*  EL VUELO VA HACIA ARRIBA, y las tres direcciones se midieron antes de elegir:
+      hacia **+Z** el puño entra 0,49 x 0,21 x 0,67 en el `Fuel tank`; hacia **-Z**
+      —que es donde iba el recodo de antes— entra 1,02 x 0,39 x 0,37 en el
+      `Main positive cable` y 0,77 x 0,16 x 0,25 en la `Earth (ground) strap`.
+      **Delante del motor y por encima de la nariz del ciguenal no hay nada**, y ademas
+      es donde una manivela se agarra de verdad: se empieza abajo y se tira hacia arriba. */
+  var mBrazo=box(1.10,0.30,0.30,M.steelDk); mBrazo.position.set(0.55,0.55,0);
+  var mPuno=cyl(0.20,0.20,0.85,12,{material:mat(0x2c2a28,{metal:0.1,rough:0.9})});
+  mPuno.position.set(1.10,0.98,0);
+  manivela.add(mEje,mBrazo,mPuno);
   manivela.rotation.z=Math.PI/2;
-  manivela.position.set(FX-0.62,CRANK_Y,0);
+  //  0,15 mas a proa que antes: con el brazo hacia arriba, su raiz rozaba la bomba de
+  //  agua dulce por 0,09 en X. Medido, y con esto no toca nada.
+  manivela.position.set(FX-0.77,CRANK_Y,0);
   manivela.visible=false; groups.est.add(manivela);
   regEnSitio(manivela,'est',{name:'Starting handle', ex:V(-1,0,0), exMag:1.6,
     desc:'A crank that engages the nose of the crankshaft, for starting a small diesel by hand with the decompressors lifted.',
@@ -828,10 +877,10 @@ var DECK_Y = 0.7;                     // plano junta bloque/culata
     V(BX,0.5,0.5), V(BX,0.0,-0.6), V(BX,-0.55,-0.78), V(BX,CRANK_Y+0.2,-0.45), V(BX,CRANK_Y-0.46,0)
   ];
   var beltCurve=new THREE.CatmullRomCurve3(beltPts, true, 'catmullrom', 0.5);
-  var belt=new THREE.Mesh(new THREE.TubeGeometry(beltCurve, 120, 0.05, 10, true), M.rubber);
+  var belt=new THREE.Mesh(new THREE.TubeGeometry(beltCurve, 120, 0.075, 10, true), M.rubber);
   groups.est.add(belt);
   /*  LA CORREA. Ya estaba en `groups.est`. Es la que más renta de las siete: mejora
-      dos preguntas de la fase 5 y el taller de tensarla, que ya está construido.  */
+      dos preguntas de la fase 5 y el taller de tensarla, que ya esta construido.  */
   reg(belt,'est',{name:'Drive belt', ex:V(-1,0,0), exMag:1.4,
     desc:'One belt from the crankshaft pulley drives the alternator, the freshwater pump and the raw-water pump.',
     yacht:'The B in WOBBLE. About a centimetre of give at the longest span, no cracks, no glaze, no black dust. When it goes you lose both cooling circuits AND your charging at the same moment.'});
@@ -930,13 +979,32 @@ var DECK_Y = 0.7;                     // plano junta bloque/culata
   for(var ef=0;ef<4;ef++){ var fl=flange(0.22,0.06,'z',M.steelDk,4); fl.position.set(CYL_X[ef],DECK_Y+0.45,-0.78); groups.com.add(fl); }
 
   // TURBOCOMPRESOR (#9) — popa, lado escape
+  /*  ── LAS CARACOLAS ENCIERRAN EL EJE · era orientacion, no tamaño ────────────
+      **La pieza estaba bien dimensionada y mal orientada**, y es un caso nuevo del
+      criterio. Las dos volutas eran toros con `rotation.y = PI/2`, o sea **con el eje
+      en X** — anillos de canto—, mientras que **el eje del turbo va en Z**, que es lo
+      que hace el cuerpo central que las une. Una voluta ENCIERRA el eje: es el caracol
+      por el que el gas entra en espiral hasta la rueda. De canto no es una voluta.
+
+      Por eso desde `port` —que mira a lo largo de Z— el turbo daba **8,7 x 19,3 px**:
+      se le estaba viendo el filo a las dos caracolas.
+
+      **Y por eso no habia que engordarlo.** Con el eje puesto donde va, el turbo pasa
+      de 0,44 a 0,96 de ancho aparente **sin tocarle una medida** — que es exactamente
+      lo que el criterio pide: *antes de engordar, comprobar que esta puesta como va.*
+
+      ── Y SE APOYA EN EL COLECTOR EN VEZ DE ATRAVESARLO ────────────────────
+      Medido: el turbo ocupaba z [-2,07 · -0,63] y el colector de escape z [-1,49 ·
+      -0,81] — o sea que **lo llevaba clavado por el medio**. Un turbo va atornillado a
+      la CARA DE FUERA del colector, no ensartado en el. Se retira a z = -2,04, que lo
+      deja tocandolo y no dentro. *Tocarse no es un error; atravesarlo si.*         */
   var turbo=new THREE.Group();
-  var hot=tor(0.3,0.18,mat(COL.exh,{metal:0.35,rough:0.9,env:0.5}),12); hot.rotation.y=Math.PI/2; hot.position.z=-0.24;
-  var cold=tor(0.3,0.18,mat(COL.alu,{metal:0.8,rough:0.45}),12); cold.rotation.y=Math.PI/2; cold.position.z=0.24;
+  var hot=tor(0.3,0.18,mat(COL.exh,{metal:0.35,rough:0.9,env:0.5}),12); hot.position.z=-0.24;
+  var cold=tor(0.3,0.18,mat(COL.alu,{metal:0.8,rough:0.45}),12); cold.position.z=0.24;
   var chra=cyl(0.16,0.16,0.46,16,{material:M.steel}); chra.rotation.x=Math.PI/2;
   var mouth=cyl(0.22,0.22,0.18,16,{material:M.steelDk}); mouth.rotation.x=Math.PI/2; mouth.position.z=0.46;
   turbo.add(hot,cold,chra,mouth);
-  turbo.position.set(2.7, DECK_Y+0.55, -1.35);
+  turbo.position.set(2.7, DECK_Y+0.55, -2.04);
   reg(turbo,'com',{name:'Turbocharger', ex:V(0.4,0.4,-0.6), exMag:2.6, cut:true,
     desc:'Uses the energy of the exhaust gases to drive a turbine that compresses the intake air. More air = more fuel burned = more power.',
     yacht:'Let it idle to cool before shutting down after running under load: stopping it hot “bakes” the turbo oil and shortens its life.'});
@@ -947,7 +1015,10 @@ var DECK_Y = 0.7;                     // plano junta bloque/culata
   var afCan=cyl(0.42,0.42,0.6,24,{material:mat(COL.air,{metal:0.45,rough:0.6})}); afCan.rotation.x=Math.PI/2;
   var afCap=cyl(0.46,0.34,0.14,24,{material:M.steelDk}); afCap.rotation.x=Math.PI/2; afCap.position.z=0.36;
   af.add(afCan,afCap);
-  af.position.set(2.7, DECK_Y+0.55, -0.55);
+  /*  el filtro va EN LA BOCA DEL COMPRESOR y se mueve con el turbo: la boca paso de
+      z = -0,89 a -1,58 al retirar el turbo, asi que el filtro la sigue. Dejarlo donde
+      estaba lo habria dejado suelto en el aire a mas de un diametro de su boca.  */
+  af.position.set(2.7, DECK_Y+0.55, -1.24);
   reg(af,'com',{name:'Air filter', ex:V(0.2,0.3,0.6), exMag:2.4, cut:true,
     desc:'Cleans the air before it enters the engine, trapping dust and salt. On a boat it also guards against water droplets.',
     yacht:'Keep it clean and dry: a dirty filter chokes the engine (black smoke, lack of power). Check it after rough weather.'});
@@ -1111,7 +1182,7 @@ var DECK_Y = 0.7;                     // plano junta bloque/culata
       sin él ese taller es una secuencia sin objeto.
 
       Lleva `cut:true` porque **sólo se ve con el corte puesto**, igual que las camisas
-      o la galería de aceite: está dentro de algo.                                */
+      o la galería de aceite: esta dentro de algo.                                */
   var rElem=cyl(0.17,0.17,0.30,16,{material:mat(0xcfae6a,{metal:0.05, rough:0.85})});
   rElem.position.y=-0.30;
   var rPlisado=cyl(0.175,0.175,0.30,20,{material:mat(0xb99a56,{metal:0.0, rough:0.95,
@@ -1242,7 +1313,10 @@ var DECK_Y = 0.7;                     // plano junta bloque/culata
     yacht:'It has no adjustment. What you monitor is its result: oil pressure. If the alarm sounds, stop the engine at once.'});
 
   // GALERÍA PRINCIPAL dentro del bloque (translúcida, se ve en corte)
-  var gal=cyl(0.085,0.085,6.2,14,{material:mat(0xd8a63a,{metal:0.3, rough:0.35, opacity:0.5})});
+  /*  0,155 de radio y no 0,085: la galeria daba 0,17 de diametro, el **0,14 del
+      piston**, y un taladro principal anda por **0,25**. Medido en el barrido de las
+      noventa y una y corregido por Joel con la cifra delante.  */
+  var gal=cyl(0.155,0.155,6.2,14,{material:mat(0xd8a63a,{metal:0.3, rough:0.35, opacity:0.5})});
   gal.rotation.z=Math.PI/2; gal.position.set(0,-1.02,0.42);
   reg(gal,'est',{name:'Main oil gallery', noShadow:true, ex:V(0,1,0), exMag:1.2, cut:true,
     desc:'The main drilled passage running the length of the block. From it, smaller drillings feed every main bearing, the big ends and the camshaft.',
@@ -1441,7 +1515,9 @@ var DECK_Y = 0.7;                     // plano junta bloque/culata
 
   // VOLANTE DE INERCIA (#25) — dentro de la campana (visible en corte/despiece)
   var fly=new THREE.Group();
-  var disc=cyl(0.98,0.98,0.3,40,{material:mat(0x6b7782,{metal:0.95,rough:0.3})}); disc.rotation.z=Math.PI/2; fly.add(disc);
+  /*  0,42 de grueso y no 0,30: el volante daba **0,14 de su propio diametro** y un
+     volante anda por **0,15-0,25**. A 0,20, que es 0,42 sobre 2,12.  */
+  var disc=cyl(0.98,0.98,0.42,40,{material:mat(0x6b7782,{metal:0.95,rough:0.3})}); disc.rotation.z=Math.PI/2; fly.add(disc);
   var ring=tor(0.98,0.08,mat(0x596573,{metal:0.85,rough:0.35}),16); ring.rotation.y=Math.PI/2; fly.add(ring);
   for(var z=0;z<52;z++){ var tooth=box(0.055,0.1,0.15,mat(0x596573,{metal:0.85,rough:0.4})); var za=(z/52)*Math.PI*2; tooth.position.set(0,Math.cos(za)*1.0,Math.sin(za)*1.0); tooth.rotation.x=za; fly.add(tooth); }
   fly.position.set(4.0, SY, 0); ANIM.spin.push({o:fly, r:1.0});
@@ -1482,7 +1558,9 @@ var DECK_Y = 0.7;                     // plano junta bloque/culata
   num(27,'Flexible coupling','tra', coup);
 
   // EJE DE LA HÉLICE (#29)
-  var shaft=cyl(0.15,0.15,3.0,20,{material:M.steel}); shaft.rotation.z=Math.PI/2; shaft.position.set(8.0, SY+0.05, 0);
+  /*  0,23 de radio y no 0,15: el eje daba 0,30 de diametro, el **0,24 del piston**, y
+     un eje en un motor de este tamaño anda por **0,35-0,40**. Corregido a 0,37.  */
+  var shaft=cyl(0.23,0.23,3.0,20,{material:M.steel}); shaft.rotation.z=Math.PI/2; shaft.position.set(8.0, SY+0.05, 0);
   reg(shaft,'tra',{name:'Propeller shaft', ex:V(0.4,0,0), exMag:1.4,
     desc:'Stainless-steel bar that carries the drive from the gearbox to the propeller, passing through the hull at the stern gland.',
     yacht:'Make sure it isn’t bent (vibration) or corroded. The shaft anode protects it galvanically: replace it when it’s half consumed.'});
@@ -1728,7 +1806,7 @@ var bayGroup = new THREE.Group(); bayGroup.name = "bayGroup"; scene.add(bayGroup
 
   // bancadas longitudinales bajo las patas del motor
   /*  ══ EL PANEL DEL MOTOR · mamparo de popa ═══════════════════════════════════
-      POR QUE EXISTE, y llevaba tres fases pedido. `4.7` enseña la alarma de presion
+      POR QUE EXISTE, y llevaba tres fases pedido. `4.7` ensena la alarma de presion
       de aceite, `6.5` y `6.6` la aguja de temperatura y `7.4` el testigo de carga —
       **tres instrumentos que el alumno no habia visto nunca**, explicados con
       palabras sobre una figura que no los tenia. Y la P3 entera habla de alarmas.
@@ -1739,7 +1817,7 @@ var bayGroup = new THREE.Group(); bayGroup.name = "bayGroup"; scene.add(bayGroup
       ── DONDE VA, Y POR QUE NO DONDE SE VERIA MEJOR ───────────────
       En el **mamparo de popa**, mirando hacia proa. La pared de babor de la bancada
       se veria desde mas camaras y **es un sitio que no existe en ningun barco**: un
-      modulo que enseña un motor que el alumno va a reconocer en el suyo no puede
+      modulo que ensena un motor que el alumno va a reconocer en el suyo no puede
       poner las cosas donde se ven mejor. Es la misma decision que se tomo con las
       tres salidas de escape.
 
@@ -1797,6 +1875,32 @@ var bayGroup = new THREE.Group(); bayGroup.name = "bayGroup"; scene.add(bayGroup
   regEnSitio(placa,'est',{name:'Engine panel', ex:V(-1,0,0), exMag:0.0,
     desc:'The engine instrument panel: a temperature gauge and the three warning lights — oil pressure, temperature and charge. On a real boat it is in the cockpit or on the bulkhead, where you can see it from the helm.',
     yacht:'The lights come on with the key and go out when she fires. One that stays on, or comes on under way, is telling you to stop and look — and the oil one you obey before you understand it.'});
+  /*  ── LA NOTA ATADA A LA LLAVE · la sexta de las que pedia la P2 ────────────────
+      **Es el ultimo paso de `nowater`, y era la unica de las seis que no existia.** El
+      taller saca el rodete para poder dar al arranque sin llenar el escape de agua, y
+      con eso deja el motor listo para arrancar SIN NADA QUE LO REFRIGERE: la nota es lo
+      que cierra ese agujero. *Una medida de seguridad que quita una pieza tiene que
+      acabar en algo que recuerde que falta.*
+
+      NACE OCULTA, como la manivela: una nota no vive colgada del panel, se ata cuando
+      hace falta. Va donde va de verdad —colgando de la llave, en el panel del
+      mamparo— y a la escala del panel, que en esta figura esta dibujado esquematico:
+      la tarjeta es un tercio de su alto.                                            */
+  var notaG = new THREE.Group();
+  var cordel = cyl(0.008, 0.008, 0.20, 8, {material: mat(0x8a8f94,{metal:0.1, rough:0.9})});
+  cordel.position.set(0, 0.10, 0);
+  var tarjeta = box(0.02, 0.22, 0.30, mat(0xf0e6c8, {metal:0.0, rough:0.95}));
+  tarjeta.position.set(0, -0.11, 0);
+  notaG.add(cordel, tarjeta);
+  notaG.position.set(BAY_X1 - 0.61, 1.90, -1.25);
+  notaG.visible = false; bayGroup.add(notaG);
+  regEnSitio(notaG,'est',{name:'Note on the ignition key', ex:V(-1,0,0), exMag:0.9,
+    desc:'A tag tied to the ignition key. It is what you write on when you have taken '
+       + 'something off the engine that has to go back before she runs.',
+    yacht:'«NO IMPELLER». An impeller run dry is finished in seconds, and nothing on '
+       + 'the boat stops you starting her without one — so the note is the only thing '
+       + 'between taking it out and cooking her.'});
+
   var bearM=mat(0x2b3138,{metal:0.08, rough:0.85, env:0.4});
   for(var b=0;b<2;b++){
     var rail=box(11.6, 0.75, 0.62, bearM);
@@ -1818,7 +1922,7 @@ var gridGroup=new THREE.Group(); gridGroup.name="gridGroup"; gridGroup.visible=f
 })();
 
 /* Los flujos se construyen a partir de los MISMOS tramos que usan los recorridos
-   guiados, así el trazado siempre coincide con lo que se enseña paso a paso.
+   guiados, así el trazado siempre coincide con lo que se ensena paso a paso.
    Se dibuja la ruta completa (tubo translúcido) + partículas en movimiento. */
 var flowGroup=new THREE.Group(); flowGroup.name="flowGroup"; flowGroup.visible=false; scene.add(flowGroup);
 var flows=[], flowsBuilt=false, flowSolo=null;
@@ -2126,7 +2230,7 @@ var PRESETS={
       queda fuera de las seis: `stern` mira al motor desde atras, o sea **de espaldas al
       escape**. Lo sabiamos y estaba escrito — la mirilla `__humo` tiene que apuntar
       ella misma antes de medir, y la nota decia «a 375 px se sale del encuadre, y los
-      tres humos daban 0,0,0»— y aun asi construi `9.3` sin preajuste que lo enseñara.
+      tres humos daban 0,0,0»— y aun asi construi `9.3` sin preajuste que lo ensenara.
       **Lo dijo la foto: una pantalla del color del humo, sin humo.**
 
       Estos valores son los de la mirilla, que es la unica vista de la que sabemos que
@@ -2447,7 +2551,7 @@ NUMS.forEach(function(x){
 });
 var _wp=new THREE.Vector3();
 /* ---------- OCLUSIÓN DE LOS NÚMEROS ----------
-   Es un mapa 3D: solo debe verse el número de lo que está realmente a la vista.
+   Es un mapa 3D: solo debe verse el número de lo que esta realmente a la vista.
    Rayo cámara -> pieza; si algo se interpone, el número se esconde. */
 var OCCLUDERS_BY_NAME=['Engine block','Oil sump','Cylinder head & valves','Rocker cover',
   'Bell housing','Gearbox / reverse gear','Heat exchanger','Intake manifold','Exhaust manifold',
@@ -3060,6 +3164,7 @@ function beltDeflect(mm){
 /* burbujas de aire saliendo por el tornillo de purga */
 function updateBubbles(dt){
   if(!INTER.bubbles) return;
+  if(CONGELADO) dt=0;      //  por lo mismo que el goteo
   var on=INTER.bubbleOn>0;
   for(var i=0;i<INTER.bubbles.length;i++){
     var B=INTER.bubbles[i];
@@ -3111,6 +3216,11 @@ function updateJets(dt){
 /* goteo del prensaestopas */
 function updateDrips(dt){
   if(!INTER.drips) return;
+  //  CONGELADA, LA FASE NO AVANZA. `quieto()` la pone a cero y dibuja, pero **puede
+  //  quedar un `requestAnimationFrame` pedido de antes**: ese fotograma entraba aqui
+  //  con un `dt` real y volvia a mover las gotas, asi que dos fotos congeladas salian
+  //  distintas por ~1 000 pixeles. Medido: seca 0, sin tocar 0, goteando 1 019.
+  if(CONGELADO) dt=0;
   var on=INTER.dripRate>0;
   for(var i=0;i<INTER.drips.length;i++){
     var D=INTER.drips[i];
@@ -3181,7 +3291,30 @@ var clock=new THREE.Clock();
                                                                                     */
 var bucleVivo = false;
 
+/*  ── CONGELADO · la figura deja de pedir fotogramas, sin deshacer nada ───────────
+    **Para qué existe, y no es para el alumno.** Hay estados de esta figura que son
+    correctos y no terminan nunca: el prensaestopas gotea siempre, el motor en marcha
+    anda siempre. Para quien la mira eso esta bien. Para quien la MIDE no: un arnés
+    saca su foto con `--virtual-time-budget`, y **el tiempo virtual sólo avanza cuando
+    la cola de tareas se vacía**, así que una página que nunca se queda quieta obliga a
+    Chrome a pintar miles de fotogramas antes de darse por terminada.
+
+    Medido con el gesto `goteo`: seis llamadas idénticas daban **8,4 · 8,5 · 23,3 ·
+    59,0 · 19,1 · 50,5 s**, y alguna cruzaba los 120 y se perdía. El mismo gesto en
+    `seco` —lo único distinto es que la figura se para— daba **4,4 a 5,7**. *Y eso
+    hacía que `walk-motor3d` acusara a un gesto distinto en cada pasada.*
+
+    **Y `reposo()` no sirve para esto**, que es lo que lo hace una puerta nueva y no un
+    parámetro: `reposo()` devuelve todos los gestos a su primer estado, o sea que
+    deshace justo lo que se quiere fotografiar.
+
+    QUÉ HACE Y QUÉ NO. Dibuja un fotograma más —para que la foto sea del estado que se
+    pidió— y deja de pedir el siguiente. **No toca ningún estado**: `gestos()`,
+    `marcha()` y todo lo demás siguen diciendo lo mismo. `quieto(false)` lo suelta.  */
+var CONGELADO = false;
+
 function hayQueMover(){
+  if (CONGELADO) return false;
   if (ANIM.run || ANIM.dirty || strokePlaying) return true;
   if (camAnim || (spinOn && !dragging && !panning)) return true;
   if (dragging || panning) return true;
@@ -3200,7 +3333,9 @@ function hayQueMover(){
     si esta vivo, no cuesta nada. **Un despertar de mas sólo gasta un fotograma; uno
     de menos deja la figura congelada**, asi que se llama de sobra.               */
 function despierta(){
-  if (bucleVivo) return;
+  //  congelada, un despertar no arranca nada: si arrancara, la primera orden de la API
+  //  posterior a `quieto()` deshacia el congelado sin que nadie lo pidiera.
+  if (CONGELADO || bucleVivo) return;
   bucleVivo = true;
   requestAnimationFrame(tick);
 }
@@ -3250,7 +3385,7 @@ function tick(){
   else bucleVivo = false;
 }
 function onResize(){ W=stage.clientWidth; H=stage.clientHeight; camera.aspect=W/H; camera.updateProjectionMatrix(); renderer.setSize(W,H);  renderer.setPixelRatio(Math.min(window.devicePixelRatio||1,2)); }  /*  EL TOPE DE DENSIDAD, y en un teléfono no es cosmético: a 3x un lienzo de
-    375 px son 1125 píxeles reales, y eso en una GPU de móvil se nota al primer
+    375 px son 1125 pixeles reales, y eso en una GPU de móvil se nota al primer
     giro. Dos es de sobra para que no se vean escalones.  */
 window.addEventListener('resize', onResize);
 
@@ -3276,7 +3411,7 @@ window.addEventListener('resize', onResize);
 /*  ══ EL HUMO ═══════════════════════════════════════════════════════════════════
     Tres estados de un mismo penacho, en la salida del espejo. **Una salida, no tres**
     — decidido por Joel: tres chimeneas por el espejo no existen en un barco, y una
-    figura que muestra algo imposible enseña a esperar algo imposible. El mapa de
+    figura que muestra algo imposible ensena a esperar algo imposible. El mapa de
     `9.4` lo hace la tabla del panel.
 
     ── POR QUÉ GEOMETRÍA Y NO PARTÍCULAS ──────────────────────────────
@@ -3294,7 +3429,7 @@ window.addEventListener('resize', onResize);
       blanco  claro sobre fondo oscuro, y el de más volumen
 
     Tres capas concéntricas de radio creciente y opacidad decreciente dan volumen sin
-    partículas **y se pueden medir en píxeles**, que es lo que decide si de verdad se
+    partículas **y se pueden medir en pixeles**, que es lo que decide si de verdad se
     distinguen. Lo mide `walk-humo`.
 
     ── Y SE PARA ──────────────────────────────────────────────────────
@@ -3386,8 +3521,8 @@ function updateHumo(dt){
     de 0,07 que apuntaban aquí sin ambigüedad.
 
     **Es la segunda vez que una pieza del 3D estaba escrita fuera del bloque del 3D**
-    —la primera fue `applyCut`—. Los bloques del capítulo viejo no están separados por
-    función: están separados por cuándo se escribieron.
+    —la primera fue `applyCut`—. Los bloques del capítulo viejo no estan separados por
+    función: estan separados por cuándo se escribieron.
 
     Y no es cosmético: **es lo que `enfocar(pieza)` dibuja.**                     */
 var spotGroup=new THREE.Group(); spotGroup.name="spotGroup"; scene.add(spotGroup);
@@ -3435,10 +3570,10 @@ function updateSpot(dt){
     no por poco.** Medido con `mide-resalte.js` y su control negativo, teñir la pieza de
     azul y otra de blanco las separa **15,5** en RGB; barriendo la intensidad de 0,25 a
     2,6 va de **35,1 a 20,4** — *nunca llega a 40 y empeora cuanto más se tiñe*. La causa
-    es de construcción: el emisivo **suma luz** sobre una superficie que ya está
+    es de construcción: el emisivo **suma luz** sobre una superficie que ya esta
     iluminada, así que todo tiende al blanco pálido. **No es cuestión de ajuste.**
 
-    El aro, en cambio, se dibuja con `MeshBasicMaterial`, que no recibe luz. Como está
+    El aro, en cambio, se dibuja con `MeshBasicMaterial`, que no recibe luz. Como esta
     hoy el señalador —fino y a 0,95 y 0,5 de opacidad— azul contra blanco da **38,3**, a
     un pelo del suelo. **Opaco y con colores saturados: azul-ámbar 101,3 · azul-blanco
     61,0 · ámbar-blanco 83,8.** Los tres distintos, y por eso las marcas nacen opacas.
@@ -3448,19 +3583,24 @@ function updateSpot(dt){
     rayo, un ancla fija por pieza— y **sigue en este fichero**. Pero cuelga de
     `DOC.getElementById('badges')`, y en la figura extraída `DOC` devuelve un panel de
     mentira: las chapas se crean, se posicionan y **no se ven**, porque su contenedor no
-    está en el DOM de verdad. *Es la quinta vez en este módulo que algo estaba dibujado y
+    esta en el DOM de verdad. *Es la quinta vez en este módulo que algo estaba dibujado y
     no alcanzable, y la primera en que lo dibujado tampoco servía.*
 
     Así que la marca lleva su letra en una capa que **la figura se crea a sí misma**
     dentro de su nodo, sin pedirle nada a la plantilla: una parte nueva la tiene el día
     que se construye.                                                              */
+/*  EL COLOR AL QUE SE APAGA LO QUE YA ESTABA. No es un gris inventado: es el gris
+    claro del propio compartimento, para que lo atenuado se funda con lo que tiene
+    detras en vez de teñirse de algo que no esta en la escena. */
+var FONDO_APAGADO = new THREE.Color(0xdfe4e8);
+
 var marcaGroup = new THREE.Group(); marcaGroup.name = "marcaGroup"; scene.add(marcaGroup);
 var MARCAS = [], capaLetras = null;
 /*  ── Y LA MARCA SE PINCHA ────────────────────────────────────────────────────────
     **Esto no es un adorno: es lo que hace posibles tres pantallas de la P3.** El
     encuadre por zona resuelve el suelo del dedo acercandose, y **una pantalla que marca
     piezas repartidas por todo el motor no puede acercarse**: dejaria fuera de cuadro la
-    mitad de lo que enseña. Las dos soluciones se estorban.
+    mitad de lo que ensena. Las dos soluciones se estorban.
 
     Medido: en `9.6` la respuesta —el rodete— ocupa **566 px** con el motor entero, y el
     suelo son 1 000. Pero en esa pantalla **el rodete lleva un aro encima**, y un aro es
@@ -3474,7 +3614,7 @@ var MARCAS = [], capaLetras = null;
 
 /*  la capa de letras: se crea una vez, dentro del nodo de la figura, y por encima del
     lienzo. `pointer-events:none` porque una letra que se pincha se comería el pinchazo
-    de la pieza que está señalando — que es justo lo que `9.4` pregunta.  */
+    de la pieza que esta señalando — que es justo lo que `9.4` pregunta.  */
 function capa() {
   if (capaLetras) return capaLetras;
   var host = NODO || (LIENZO && LIENZO.parentNode);
@@ -3548,8 +3688,25 @@ function ponMarcas(lista) {
     var g = new THREE.Group();
     /*  OPACO, y el grosor tambien sube: lo medido es que un aro fino y translucido
         pierde el color contra lo que tiene detras.  */
-    var aro = new THREE.Mesh(new THREE.TorusGeometry(1, 0.055, 10, 44), mat(1));
-    var aro2 = new THREE.Mesh(new THREE.TorusGeometry(1, 0.028, 10, 44), mat(0.55));
+    /*  ── Y UN CUARTO MAS DE GROSOR CUANDO EL COLOR NO TIENE SATURACION ────────────
+        En `9.4` los tres grupos del humo van en ambar, azul y blanco, y **el blanco cae
+        sobre la pared blanca del compartimento**. Medido aislando la pieza —marcada ella
+        sola, con el control sin marca dando CERO pixeles—, la tinta que pone cada aro
+        en la misma geometria y el mismo encuadre: **blanco 24, azul 30, ambar 48**.
+
+        Probadas las tres palancas, **dos no hacen nada**: el TONO da x0,6 a x1,1 —blanco
+        puro, blanco frio, gris azulado, gris humo— y apagar mas el FONDO da x1,1. Lo
+        unico que mueve es el GROSOR: x1,5 -> x3,1, x2 -> x5,0, x3 -> x9,4.
+
+        **Se sube x1,25 y no mas**, porque ya x1,5 pone 74 contra los 48 del ambar e
+        invertiria el problema: el humo blanco pasaria a ser el mas gritado de los tres.
+        *El umbral de saturacion es el mismo 0,18 que ya usa `atenua`, y por eso separa
+        limpio: el blanco `0xf2f4f6` da 0,016, el ambar 0,898 y el azul 0,797.*         */
+    var _r = (hex >> 16 & 255) / 255, _g = (hex >> 8 & 255) / 255, _b = (hex & 255) / 255;
+    var _mx = Math.max(_r, _g, _b), _mn = Math.min(_r, _g, _b);
+    var grueso = (_mx > 0 ? (_mx - _mn) / _mx : 0) < 0.18 ? 1.25 : 1;
+    var aro = new THREE.Mesh(new THREE.TorusGeometry(1, 0.055 * grueso, 10, 44), mat(1));
+    var aro2 = new THREE.Mesh(new THREE.TorusGeometry(1, 0.028 * grueso, 10, 44), mat(0.55));
     aro.renderOrder = 998; aro2.renderOrder = 998;
     aro.scale.setScalar(r); aro2.scale.setScalar(r * 1.34);
     g.add(aro, aro2);
@@ -3676,9 +3833,9 @@ raiz.Motor3D = {
   /*  UNA MIRILLA PARA MEDIR, y no una función del curso.
       `walk-motor-movil` necesita ver el ángulo y el radio de la cámara para
       comprobar que un dedo gira y dos dedos acercan. **Sin esto la única forma de
-      medir un gesto sería mirar píxeles, que es frágil y lento.**
+      medir un gesto sería mirar pixeles, que es frágil y lento.**
       Los dos guiones bajos son la señal: no se llama desde una pantalla.       */
-  /*  LA MIRILLA DEL HUMO. Pinta cada penacho solo, lee los píxeles de la ventana
+  /*  LA MIRILLA DEL HUMO. Pinta cada penacho solo, lee los pixeles de la ventana
       donde vive, y devuelve el color medio, cuánto cubre y cuánto se separa del
       fondo. **Es lo que decide si azul y negro son el mismo penacho**, que era la
       duda de Joel, y se contesta midiendo y no mirando.
@@ -3690,7 +3847,7 @@ raiz.Motor3D = {
     var W = renderer.domElement.width, H = renderer.domElement.height;
 
     /*  SE APUNTA AL PENACHO ANTES DE MEDIR. La cámara por defecto mira al motor, y la
-        salida del espejo está muy a popa: a 375 px se sale del encuadre, y los tres
+        salida del espejo esta muy a popa: a 375 px se sale del encuadre, y los tres
         humos daban 0,0,0 — **y el fondo también**, que es lo que lo delató, porque un
         compartimento es #0c131c y no negro puro.
 
@@ -3730,7 +3887,7 @@ raiz.Motor3D = {
       setHumo(k);
       humo.mov = 0;                       //  quieto, para que la medida no baile
       var px = lee(), col = medio(px);
-      /*  cobertura: cuántos píxeles cambiaron respecto del fondo  */
+      /*  cobertura: cuántos pixeles cambiaron respecto del fondo  */
       var cambia = 0;
       for (var i = 0; i < px.length; i += 4) {
         var d = Math.abs(px[i] - base[i]) + Math.abs(px[i+1] - base[i+1])
@@ -3924,7 +4081,7 @@ raiz.Motor3D = {
       while (LIENZO.firstChild) nodo.appendChild(LIENZO.firstChild);
     }
     /*  Y SE REAPUNTA `stage`, que es una variable capturada al cargar y sigue
-        señalando al div suelto. Mover los hijos arregla DÓNDE está el lienzo;
+        señalando al div suelto. Mover los hijos arregla DÓNDE esta el lienzo;
         esto arregla CONTRA QUÉ se mide, que es lo que `onResize` necesita.  */
     stage = nodo;
     if (typeof onResize === "function") onResize();
@@ -4059,10 +4216,10 @@ raiz.Motor3D = {
       /*  ── EL TOPE ERA PARA INFERIR, NO PARA VETAR ─────────────
           `CERCA` existe porque cuando el sistema **se adivina por los vecinos**, un
           vecino lejano no prueba nada: hay que exigir que los dos extremos toquen
-          algo. Pero cuando el sistema **ya está declarado** —por `userData.sys` o por
-          el grupo del que cuelga— no se está adivinando nada, y entonces la distancia
+          algo. Pero cuando el sistema **ya esta declarado** —por `userData.sys` o por
+          el grupo del que cuelga— no se esta adivinando nada, y entonces la distancia
           sólo sirve para **ordenar**: cuál de las piezas de ese sistema entra más
-          tarde. Vetar por distancia ahí es dejar fuera una pieza cuyo sistema no está
+          tarde. Vetar por distancia ahí es dejar fuera una pieza cuyo sistema no esta
           en duda.
 
           Primero se hizo mal de dos maneras seguidas, y las dos medidas:
@@ -4078,13 +4235,13 @@ raiz.Motor3D = {
           Así que el tope se queda **sólo donde hace falta**: cuando el sistema se
           infiere.                                                                */
       if (propio) {
-        //  el sistema no está en duda: se ordena con las piezas de ese sistema, y
+        //  el sistema no esta en duda: se ordena con las piezas de ese sistema, y
         //  la distancia no veta.
         var aa = masCerca(bb.min, propio), zz = masCerca(bb.max, propio);
         if (!aa.p || !zz.p) { anota("sin piezas de su sistema"); return; }
         a = aa; z = zz;
       } else {
-        //  el sistema se está infiriendo: los dos extremos tienen que TOCAR algo, y
+        //  el sistema se esta infiriendo: los dos extremos tienen que TOCAR algo, y
         //  tienen que tocar lo mismo.
         if (!a.p || !z.p || a.d > CERCA || z.d > CERCA) { anota("lejos"); return; }
         if (!(a.p.s && a.p.s === z.p.s)) { anota("cruza"); return; }
@@ -4371,6 +4528,56 @@ raiz.Motor3D = {
   /*  TODO A SU REPOSO · lo pide `MTaller` cada vez que repinta un paso, para que
       retroceder en un taller no deje puesto lo que hizo un paso posterior. **Es el
       primer estado de cada gesto**, que por eso se declara primero en su lista.     */
+  /*  ── QUIETO · congela el dibujo sin deshacer nada ────────────────────────────
+      **Es una puerta para quien MIDE, no para quien ensena.** Un capítulo no la
+      necesita: el goteo tiene que gotear. Un arnés sí, porque su foto la toma Chrome
+      cuando se agota el tiempo virtual, y una página que nunca se queda quieta hace
+      que eso tarde entre cinco y treinta veces más — y a veces más que el plazo.
+
+      Dibuja UN fotograma antes de parar, para que la foto sea del estado que se pidió
+      y no del anterior. Y **no toca ningún estado**: `gestos()` y `marcha()` siguen
+      contestando lo mismo. `quieto(false)` la suelta y vuelve a andar.             */
+  quieto: function (v) {
+    if (typeof renderer === "undefined" || !renderer) {
+      falta("renderer", "sin el lienzo montado no hay bucle que congelar");
+      return this;
+    }
+    CONGELADO = (v === false) ? false : true;
+    if (CONGELADO) {
+      /*  ── Y LAS FASES QUE CORREN CON EL RELOJ VUELVEN A SU PRINCIPIO ───────────
+          **Parar el bucle no basta para que una foto sea repetible.** Las gotas y las
+          burbujas llevan una fase que se acumula con el tiempo real —`D.t += dt*rate`—
+          asi que congelar deja cada gota donde le pillo, y **dos fotos del mismo estado
+          salen distintas**. Medido por el control de dos lados de `walk-motor3d` en su
+          primera vuelta: **1 258 pixeles de diferencia entre dos capturas congeladas**.
+
+          *Para una foto, donde va la gota es arbitrario; que sea la misma cada vez no
+          lo es.* Asi que al congelar se ponen al principio de su recorrido: el estado
+          es el mismo —gotea o no gotea— y el dibujo pasa a ser el mismo tambien.     */
+      try {
+        /*  ── Y NO A CERO: REPARTIDAS ─────────────────────────────────────────────
+            La primera version las pon\u00eda todas en `t = 0`, y **a cero la gota est\u00e1
+            todav\u00eda dentro del prensaestopas**: se apilaban donde no se ven, y el gesto
+            `goteo` pas\u00f3 a mover **0 p\u00edxeles** — el arn\u00e9s lo caz\u00f3 al instante y dijo que
+            no mov\u00eda nada. *Determinista no basta: tiene que ser determinista Y ser lo
+            que la pantalla ense\u00f1a.* Repartidas por su recorrido son las dos cosas, y
+            adem\u00e1s es como se ve un goteo de verdad: un reguero, no una gota.        */
+        if (INTER.drips) for (var _d = 0; _d < INTER.drips.length; _d++)
+          INTER.drips[_d].t = _d / INTER.drips.length;
+        if (INTER.bubbles) for (var _b = 0; _b < INTER.bubbles.length; _b++)
+          INTER.bubbles[_b].t = _b / INTER.bubbles.length;
+        updateDrips(0); updateBubbles(0);
+      } catch (e) {}
+      try { renderer.render(scene, camera); } catch (e) {}
+    }
+    else despierta();
+    return this;
+  },
+
+  /*  Y SE PUEDE PREGUNTAR, porque un arnés que congela tiene que poder comprobar que
+      lo consiguió: **pedirlo no es hacerlo** es la regla de esta casa.            */
+  congelado: function () { return !!CONGELADO; },
+
   reposo: function () {
     for (var k in GESTOS) {
       GESTOS[k].pon(GESTOS[k].estados[0]);
@@ -4572,7 +4779,7 @@ raiz.Motor3D = {
       `verResaltadas([])` o `sinResaltar()` las quita.
 
       **El color no se elige a ojo:** teñir la pieza no separa tres colores y marcar con
-      aro opaco sí, y las dos cosas están medidas en `mide-resalte.js`. Lo que la
+      aro opaco sí, y las dos cosas estan medidas en `mide-resalte.js`. Lo que la
       pantalla pasa aquí son colores saturados.
 
       Devuelve **cuántas marcó**, que no tiene por qué ser cuántas se le pidieron: una
@@ -4596,6 +4803,202 @@ raiz.Motor3D = {
     return MARCAS.map(function (m) {
       return { pieza: m.pieza, color: m.hex, letra: m.letra,
                puesta: !!m.mesh.visible }; });
+  },
+
+  /*  ══ ATENUAR LO QUE YA ESTABA ════════════════════════════════════
+      **Lo que una pantalla monta va solido; lo montado antes, apagado.** Con el motor
+      medio montado el alumno no sabe donde mirar: la pieza que la pantalla explica
+      tiene el mismo peso visual que las cuarenta que ya estaban.
+
+      No es el resaltado de la P3. Aquel señala una RESPUESTA y va con aro; esto es la
+      VISTA POR DEFECTO de cada pantalla, y va con opacidad.
+
+      ── SE CLONA EL MATERIAL, Y NO ES UN DETALLE ───────────────────
+      Medido antes de escribir una linea: **663 mallas comparten 320 materiales, 33 de
+      ellos entre varias, y uno lo usan 101 mallas.** Tocar `material.opacity` a secas
+      atenuaria piezas que la pantalla no ha nombrado —hasta cien de golpe— y el fallo
+      se veria como «se apaga medio motor al azar». Asi que la primera vez que una
+      malla se atenua se le CLONA el material y se guarda el original; al restaurar se
+      devuelve. Clonar cuesta una vez por malla y por sesion.
+
+      ── Y SE MULTIPLICA, NO SE FIJA ────────────────────────────────
+      **35 mallas ya son transparentes** —los vasos de los filtros, la camisa de agua—,
+      y fijarles 0,25 las volveria mas opacas que su vaso de cristal. Se multiplica su
+      opacidad de base, que es lo unico que conserva lo que ya significaba.        */
+  /*  el color al que se lleva lo apagado: el del propio compartimento, para que lo
+      atenuado se funda con el fondo en vez de teñirse de un gris que no esta en la
+      escena  */
+  __fondo: function () { return FONDO_APAGADO.getHex(); },
+
+  atenua: function (destacadas, alfa) {
+    var enc = {};
+    if (destacadas) for (var i = 0; i < destacadas.length; i++) enc[destacadas[i]] = true;
+    /*  ── EL 0,55 SALE DE UNA MEDIDA, Y LA MEDIDA DICE ALGO QUE NO ESPERABA ────
+        Medido con `mide-atenuado.js` sobre la posicion 13 —tres piezas nuevas contra
+        cuarenta ya puestas, que es el caso malo—, comparando el color y la luz de lo
+        que cubre cada grupo:
+
+            apagado      lo nuevo destaca en color      el contexto conserva
+            ninguno              x1,1                        100 %
+            95 %                 x4,9                         99 %
+            70 %                 x4,7                         95 %
+            55 %                 x4,6                         92 %
+            40 %                 x4,4                         88 %
+            28 %                 x4,2                         84 %
+
+        **El trabajo lo hace quitar el color, no bajar la luz.** La separacion salta de
+        x1,1 a x4,9 en cuanto se desatura, y a partir de ahi **empeora** cuanto mas se
+        oscurece: oscurecer aplasta tambien la poca saturacion que queda. Lo unico que
+        aporta bajar la luz es un segundo indicio, y cuesta contexto.
+
+        0,55 es donde las dos dejan de competir en brillo —la luz de lo nuevo y la de lo
+        viejo se igualan, x1,00— asi que **toda la diferencia es el color**, con el
+        contexto todavia al 92 %.                                                    */
+    var a = alfa == null ? 0.55 : alfa;
+
+    /*  ── Y SI LO DESTACADO NO TIENE COLOR, SE APAGA MAS ────────────────────
+        **El limite del metodo, encontrado con una foto.** En `2.3` el atenuado
+        funcionaba —616 mallas apagadas, dos destacadas a la vista— y la pantalla salia
+        entera gris: lo que esa pantalla añade es el lado del aire —filtro, colectores,
+        turbo, descompresores— y **esas piezas son grises por diseño**. El destacado les
+        conserva su color, y su color es el gris.
+
+        El criterio no cambia: **lo que distingue es el contraste**, y el color es la
+        forma de conseguirlo cuando la pieza tiene color. Cuando no lo tiene, el unico
+        canal que queda es la luz — y entonces si hay que oscurecer mas, que es
+        justamente lo que la medida desaconsejaba para las piezas con color.
+
+        Se mira la saturacion media de lo destacado y se decide con ella. No es un caso
+        especial escrito a mano: **es la misma regla leida en la pieza que toca**.    */
+    if (alfa == null && !quita) {
+      var sSum = 0, sN = 0;
+      for (var y = 0; y < parts.length; y++) {
+        var pq = parts[y];
+        if (!pq.userData || !enc[pq.userData.name]) continue;
+        pq.traverse(function (o) {
+          if (!o.isMesh || !o.material || Array.isArray(o.material) || !o.material.color) return;
+          var cb = o.userData._colBase || o.material.color;
+          var hi = Math.max(cb.r, cb.g, cb.b), lo = Math.min(cb.r, cb.g, cb.b);
+          sSum += hi ? (hi - lo) / hi : 0; sN++;
+        });
+      }
+      var sat = sN ? sSum / sN : 1;
+      //  el umbral sale de la paleta: el verde del bloque satura 0,50 y el gris del
+      //  aire 0,08. Por debajo de 0,18 no hay color que conservar.
+      if (sat < 0.18) a = 0.24;
+      this.__satDestacado = Math.round(sat * 1000) / 1000;
+      this.__alfaUsado = a;
+    }
+    var quita = !destacadas || !destacadas.length;
+
+    function escenario(o) {
+      for (var b = o; b; b = b.parent) if (FUERA_DEL_MONTAJE[b.name]) return true;
+      return false;
+    }
+    /*  ¿esta malla cuelga de una pieza destacada? se sube por los padres, porque una
+        pieza registrada puede ser un `Group` con veinte mallas dentro  */
+    function esDestacada(o) {
+      for (var b = o; b; b = b.parent)
+        if (b.userData && b.userData.name && enc[b.userData.name]) return true;
+      return false;
+    }
+    scene.traverse(function (o) {
+      if (!o.isMesh || !o.material || Array.isArray(o.material)) return;
+      if (escenario(o)) return;
+      if (quita || esDestacada(o)) {
+        if (o.userData._matVivo) { o.material = o.userData._matVivo; o.userData._matVivo = null; }
+        return;
+      }
+      if (!o.userData._matVivo) {
+        o.userData._matVivo = o.material;
+        o.material = o.material.clone();
+        o.userData._opBase = o.userData._matVivo.opacity != null ? o.userData._matVivo.opacity : 1;
+        o.userData._colBase = o.userData._matVivo.color
+          ? o.userData._matVivo.color.clone() : new THREE.Color(0x808080);
+        o.userData._metBase = o.userData._matVivo.metalness != null
+          ? o.userData._matVivo.metalness : 0;
+      }
+      /*  ── SE APAGA, NO SE VUELVE DE CRISTAL ──────────────────────────────
+          La primera version bajaba la OPACIDAD, y la foto la tumbo: al 28 % el motor
+          se convertia en una radiografia — se veian los pistones y el cigueñal a
+          traves del bloque—. Destacaba lo nuevo, si, **y a costa de volver el motor
+          una cosa que no es**, y encima empeorando el amasijo de las bielas que Joel
+          trae como tercer fallo.
+
+          «Apagado» no es «transparente». Lo que se hace es **llevar el color hacia el
+          fondo del compartimento y apagarle el brillo propio**: la pieza sigue siendo
+          solida, sigue tapando lo que hay detras y sigue diciendo donde va — solo que
+          en voz baja. La opacidad de base no se toca, asi que los vasos de cristal
+          siguen siendo de cristal.                                                */
+      /*  ── NI TRANSPARENTE NI MAS CLARO: SIN COLOR Y CON MENOS LUZ ────────
+          La segunda version llevaba el color hacia el gris claro del compartimento, y
+          **la foto volvio a tumbarla**: el motor atenuado salia MAS BRILLANTE que sin
+          atenuar — la cosa mas luminosa del cuadro era justamente la que se queria
+          callar. *Apagar no es aclarar.*
+
+          Lo que se hace es lo que hace el ojo cuando algo pasa a segundo plano: **se
+          le quita el color y se le baja la luz.** El color se lleva a su propio gris
+          —su luminancia, asi que una pieza clara sigue siendo clara respecto de una
+          oscura y no se pierde la forma— y ese gris se multiplica. El color se
+          convierte entonces en lo que distingue lo nuevo, que es todo el punto.    */
+      var b0 = o.userData._colBase;
+      var gris = 0.2126 * b0.r + 0.7152 * b0.g + 0.0722 * b0.b;
+      var k = 0.30 + 0.70 * a;
+      o.material.color.setRGB(gris * k, gris * k, gris * k);
+      if (o.material.emissive) o.material.emissive.setRGB(0, 0, 0);
+      /*  el metal apagado sigue reflejando y devuelve el brillo que se le acaba de
+          quitar: un cromado atenuado sale mas claro que el bloque sin atenuar  */
+      if (o.material.metalness != null) o.material.metalness = o.userData._metBase * a;
+    });
+    ANIM.dirty = true; despierta();
+
+    /*  ── ¿SE VE LO QUE SE HA DESTACADO? ────────────────────────────────────
+        **No se apaga el motor entero para señalar algo que no se ve.** `2.3` añade los
+        pistones, las camisas y el cigueñal —o sea la posicion 6 entera— y los ensena
+        con el motor CERRADO desde babor: atenuar dejaba la pantalla en gris con el
+        destacado dentro del bloque, invisible. *Lo canto la foto, no una comprobacion.*
+
+        Se usa el mismo rayo que decide si se ve la chapa de una pieza: se tira desde la
+        camara a la cara delantera de cada destacada y se mira si algo se interpone.
+        **Devuelve cuantas se ven de verdad**, y quien llama decide: cero destacadas a
+        la vista, atenuar no arregla nada y estorba.                                 */
+    var seVen = 0;
+    if (!quita && typeof rayClear === "function" && typeof occluders !== "undefined") {
+      var _p = new THREE.Vector3(), _d = new THREE.Vector3(), _a = new THREE.Vector3();
+      for (var z = 0; z < parts.length; z++) {
+        var pz = parts[z];
+        if (!pz.visible || !pz.userData || !enc[pz.userData.name]) continue;
+        pz.getWorldPosition(_p);
+        _d.copy(camera.position).sub(_p);
+        var dd = _d.length();
+        if (dd < 0.6) { seVen++; continue; }
+        _d.multiplyScalar(1 / dd);
+        var bb2 = new THREE.Box3(), bs2 = new THREE.Sphere();
+        var rr2 = 0.3;
+        try { bb2.setFromObject(pz); bb2.getBoundingSphere(bs2);
+              if (isFinite(bs2.radius) && bs2.radius > 0) rr2 = Math.min(1.1, bs2.radius * 0.8); }
+        catch (e) {}
+        _a.copy(_p).addScaledVector(_d, rr2);
+        if (rayClear(_a, pz, occluders)) seVen++;
+      }
+    }
+    this.__seVen = seVen;
+    return this;
+  },
+
+  /*  CUANTAS DE LAS DESTACADAS SE VEN DE VERDAD · lo deja `atenua`.  */
+  seVenDestacadas: function () { return this.__seVen || 0; },
+
+  /*  LA SATURACION DE LO DESTACADO Y EL APAGADO QUE SE USO · para el arnes.  */
+  __apagado: function () {
+    return { satDestacado: this.__satDestacado, alfa: this.__alfaUsado };
+  },
+
+  /*  QUE HAY ATENUADO · para el arnes y para el boton de la pantalla.  */
+  atenuadas: function () {
+    var n = 0;
+    scene.traverse(function (o) { if (o.isMesh && o.userData && o.userData._matVivo) n++; });
+    return n;
   },
 
   queFalta: function () { return LO_QUE_FALTA.slice(); },
