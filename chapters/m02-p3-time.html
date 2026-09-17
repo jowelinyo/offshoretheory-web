@@ -1,0 +1,4810 @@
+﻿<meta charset="utf-8"><title>Module 02 &middot; Time</title>
+<style>
+html,body{margin:0;height:100%;font:14px/1.5 system-ui,-apple-system,sans-serif;
+ background:#dde5ea;overflow:hidden;color:#12202b}
+#wrap{display:flex;height:100%}
+#obj{flex:1;position:relative}
+
+#obj svg .carta{cursor:grab}
+body.arrastrando #obj svg .carta{cursor:grabbing}
+#svg{position:absolute;inset:0;width:100%;height:100%;touch-action:none}
+#obj,#svg,#svg *{-webkit-user-select:none;-moz-user-select:none;user-select:none;
+ -webkit-user-drag:none;-webkit-tap-highlight-color:transparent}
+#wrap.arrastrando *{-webkit-user-select:none!important;user-select:none!important}
+#side{width:392px;background:#f7fafb;border-left:1px solid #a8bcc8;display:flex;
+ flex-direction:column;box-shadow:-2px 0 12px #0002}
+#head{padding:11px 15px;background:#2F4A5A;color:#fff}
+#head b{font-size:15px;letter-spacing:.4px}
+#hTit{font-size:12px;opacity:.85;margin-top:2px}
+.hd{display:flex;justify-content:space-between;align-items:baseline;gap:14px}
+.hd h3{margin-bottom:10px}
+a.skip{font:12px system-ui;color:#5a6b78;text-decoration:underline;cursor:pointer;
+ white-space:nowrap;flex:none}
+#prog{display:flex;gap:4px;margin-top:8px}
+#prog i{flex:1;height:5px;background:#ffffff33;border-radius:3px;cursor:pointer}
+#prog i.on{background:#fff;box-shadow:0 0 0 2px #ffffff55}
+#prog i.done{background:#8fc7a4}
+#pane{flex:1;overflow:auto;padding:16px 15px}
+#foot{border-top:1px solid #a8bcc8;padding:9px 15px;background:#eef4f7;font-size:11px;
+ color:#5a6b78;display:flex;justify-content:space-between;align-items:center}
+h2{margin:0 0 4px;font-size:17px;letter-spacing:-.2px}
+h3{margin:0 0 10px;font-size:12px;text-transform:uppercase;letter-spacing:.7px;color:#5a6b78}
+p{margin:0 0 11px}
+b.q{font-size:15px}
+button{font:600 13px system-ui;padding:8px 14px;border:0;border-radius:5px;cursor:pointer;
+ background:#2F4A5A;color:#fff;margin:4px 5px 0 0}
+button:disabled{opacity:.4;cursor:default}
+button.sec{background:#e7eef3;color:#12202b;border:1px solid #9fb3c0}
+button.show{background:#0a6b52}
+.calc{background:#fff;border:1px solid #cddae2;border-radius:6px;padding:10px 12px;margin:9px 0;
+ font:13px/1.7 ui-monospace,monospace}
+.calc b{font-family:system-ui}
+.big{font-size:26px;font-weight:600;letter-spacing:-.5px}
+.res{background:#fff;border:1px solid #cddae2;border-radius:6px;padding:11px 13px;margin:9px 0}
+.res.no{background:#fff4f4;border-color:#e8bebe}
+.res.si{background:#f2f9f4;border-color:#bcdcc6}
+.res.ver{background:#f1f8f5;border-color:#a9cfbe}
+.res.ver b{display:block;font-size:15px;margin-bottom:6px;color:#0a6b52}
+.pista{margin-top:9px;padding-top:9px;border-top:1px dashed #d9c3c3;color:#8a3535}
+.nav{display:flex;gap:8px;align-items:center;margin-top:14px;padding-top:11px;
+ border-top:1px solid #dde5ea}
+.gu{display:flex;gap:10px;margin:10px 0}
+.gu b{flex:1;min-width:0;overflow-wrap:anywhere;background:#2F4A5A;color:#fff;
+ border-radius:5px;padding:7px 9px;font:600 13px ui-monospace,monospace;text-align:center}
+.ejli{font-size:15px;line-height:1.5;margin:10px 0 4px}
+
+.crow{display:flex;flex-wrap:wrap;align-items:center;gap:8px;margin:10px 0}
+.cl{font-size:12px;color:#5a6b78;width:96px;flex:none}
+.cu{font-size:12px;color:#5a6b78}
+
+button.opt2{background:#fff;color:#12202b;border:1px solid #bccdd7;font-weight:600;
+ padding:7px 15px;margin:0 6px 6px 0;white-space:normal;line-height:1.25}
+#prD, #elO{display:flex;flex-wrap:wrap;gap:6px}
+#prD button.opt2, #elO button.opt2{flex:1 1 auto;min-width:0;margin:0}
+button.opt2.sel{background:#2F4A5A;color:#fff;border-color:#2F4A5A}
+.prl{font-size:12px;color:#5a6b78}
+.sello{font-size:11px;color:#5a6b78;letter-spacing:.3px;margin:2px 0 0}
+.sello b{font-weight:600;color:#12202b}
+.viejo{background:#c8102e;color:#fff;padding:2px 7px;border-radius:3px;
+ font-weight:600;letter-spacing:.2px}
+input{width:70px}
+small{color:#5a6b78}
+
+input::placeholder{color:#829AA3;font-style:italic;font-weight:400}
+
+a.volver{font:12px system-ui;color:#5a6b78;text-decoration:none;cursor:pointer;
+ white-space:nowrap;flex:none;letter-spacing:.06em}
+a.volver:hover{color:#12202b;text-decoration:underline}
+
+.hd{justify-content:flex-start}
+.hd>:last-child{margin-left:auto}
+
+#foot{display:flex;justify-content:space-between;align-items:baseline;gap:14px}
+
+:root{
+ --page:#E8EBED; --panel:#F6F7F7; --card:#FCFCFB; --inset:#F4F6F7; --bar:#1C2B36;
+ --edge-frame:#B7C0C6; --edge-card:#BCC4C9; --edge-inner:#E4E8EA;
+ --edge-panel:#CFD7DC; --edge-leader:#C1C9CE; --edge-button:#A9B4BB;
+ --rule-heavy:#1C2B36;
+ --ink-title:#0F171D; --ink-strong:#141C22; --ink-lead:#20292F; --ink-body:#333D45;
+ --ink-secondary:#4A5A66; --ink-label:#5B6B77; --ink-quiet:#5E6B74;
+ --accent-text:#9A5C10; --accent-graphic:#C97B1B; --accent-on-bar:#E2B15C;
+ --accent-control:var(--accent-graphic);
+ --link:#2F6C8F; --progress-pending:#CDD5DA;
+ --on-bar:#DCE4E9; --on-bar-dim:#B8C7D0; --on-bar-strong:#F6F9FA; --on-primary:#F2F6F8;
+ --sp-hair:4px; --sp-inline:8px; --sp-tight:12px; --sp-card:14px; --sp-block:16px;
+ --sp-col-y:20px; --sp-col-x:22px; --sp-panel-y:18px; --sp-panel-c:22px;
+ --sp-panel-x:30px; --sp-bar-x:24px; --sp-close:40px;
+ --ink-glosa:#4A5C65; --alarm-noche:#D9744E; --dim-banda:#93A9B1;
+ --f-display:"Newsreader",ui-serif,Georgia,"Palatino Linotype","Times New Roman",serif;
+ --f-ui:"IBM Plex Sans",system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;
+ --f-mono:"IBM Plex Mono",ui-monospace,"SF Mono","Segoe UI Mono",Menlo,Consolas,monospace;
+}
+
+html,body{background:var(--page);color:var(--ink-body);
+ font:15px/1.55 var(--f-ui);overflow:hidden}
+body{display:flex;flex-direction:column}
+
+#barra{flex:none;height:54px;display:flex;align-items:center;gap:var(--sp-inline);
+ padding:0 var(--sp-bar-x);background:var(--bar);
+ box-shadow:inset 0 1px 0 rgba(255,255,255,.08)}
+#barra a{text-decoration:none;cursor:pointer;
+ display:inline-flex;align-items:center;min-height:44px}
+#barra .barlink{font:600 15px/1.45 var(--f-ui);color:var(--on-bar);
+ white-space:nowrap;flex:none}
+#barra .barlink:hover{color:var(--on-bar-strong);text-decoration:underline}
+#barra .sep{flex:none;width:1px;height:22px;background:#3A4E5C;margin:0 var(--sp-inline)}
+#miga{font:400 17px/1.2 var(--f-display);color:var(--on-bar-dim);
+ white-space:nowrap;overflow:hidden;text-overflow:ellipsis;min-width:0}
+#miga b{color:var(--on-bar-strong);font-weight:500}
+#barra .crece{flex:1;min-width:var(--sp-inline)}
+#barCont{flex:none;font:400 12px/1.4 var(--f-mono);letter-spacing:.12em;
+ color:var(--accent-on-bar);font-variant-numeric:tabular-nums}
+
+#wrap{flex:1;min-height:0;display:grid;
+ grid-template-columns:minmax(0,1fr) clamp(320px,37%,560px)}
+
+#lienzo{min-width:0;min-height:0;display:grid;place-items:center;
+ padding:var(--sp-col-y) var(--sp-col-x)}
+
+#ficha{--ar:1000/640;aspect-ratio:var(--ar);width:100%;
+ max-width:100%;max-height:100%;min-height:0;position:relative;
+ background:var(--card);border:1px solid var(--edge-card);border-radius:0;
+ box-shadow:0 2px 3px rgba(28,43,54,.07);overflow:hidden}
+#obj{position:absolute;inset:0}
+
+#side{min-height:0;display:flex;flex-direction:column;background:var(--panel);
+ border-left:1px solid var(--edge-frame);width:auto}
+#head{flex:none;padding:var(--sp-panel-y) var(--sp-panel-x);
+ border-bottom:1px solid var(--edge-panel);background:none}
+#head b{font:400 12px/1.4 var(--f-mono);letter-spacing:.12em;text-transform:uppercase;
+ color:var(--ink-label)}
+.hd{display:flex;align-items:baseline;gap:var(--sp-tight)}
+.hd>:last-child{margin-left:auto}
+#hTit{font:400 12px/1.4 var(--f-mono);letter-spacing:.12em;text-transform:uppercase;
+ color:var(--ink-label);margin-top:0;white-space:nowrap;overflow:hidden;
+ text-overflow:ellipsis}
+#prog{display:flex;gap:3px;margin-top:var(--sp-tight)}
+#prog i{flex:1;height:5px;background:var(--progress-pending);border-radius:0;
+ cursor:pointer;box-shadow:none}
+#prog i.done{background:var(--link)}
+#prog i.on{background:var(--accent-graphic);box-shadow:none}
+#pane{flex:1;min-height:0;overflow-y:auto;
+ padding:var(--sp-panel-c) var(--sp-panel-x)}
+#foot{flex:none;border-top:1px solid var(--edge-panel);
+ padding:var(--sp-tight) var(--sp-panel-x);
+ font:400 12px/1.4 var(--f-mono);letter-spacing:.12em;color:var(--ink-quiet);
+ display:flex;align-items:center;gap:var(--sp-tight);flex-wrap:wrap}
+#foot .volver{margin-left:auto}
+.sello{font:400 12px/1.4 var(--f-mono);letter-spacing:.1em;color:var(--ink-quiet);
+ margin-top:var(--sp-hair);width:100%}
+.sello b{color:var(--ink-label);font-weight:500}
+
+h2{margin:0 0 var(--sp-block);font:500 31px/1.18 var(--f-display);
+ color:var(--ink-title)}
+h3{margin:0 0 var(--sp-tight);font:400 12px/1.4 var(--f-mono);letter-spacing:.12em;
+ text-transform:uppercase;color:var(--ink-label)}
+p{margin:0 0 var(--sp-block);max-width:62ch;color:var(--ink-body)}
+p b{color:var(--ink-title);font-weight:600}
+p em{font-style:normal;color:var(--ink-secondary)}
+b.q{display:block;margin:0 0 var(--sp-block);font:400 17px/1.6 var(--f-ui);
+ color:var(--ink-lead);font-weight:400}
+.prl{font:400 12px/1.4 var(--f-mono);letter-spacing:.12em;color:var(--accent-text);
+ margin-left:auto;white-space:nowrap;font-variant-numeric:tabular-nums}
+
+button{font:600 15px/1.45 var(--f-ui);padding:11px 26px;border:1px solid transparent;
+ border-radius:2px;cursor:pointer;background:var(--bar);color:var(--on-primary);
+ min-height:44px;margin:0}
+button:hover:not(:disabled){background:#26394A;filter:none}
+button:disabled{opacity:.45;cursor:default;filter:none}
+button.sec{background:var(--card);color:var(--ink-lead);border-color:var(--edge-button);
+ padding:10px 18px}
+button.sec:hover:not(:disabled){background:var(--inset);filter:none}
+button.show{background:transparent;color:var(--accent-text);
+ border-color:var(--edge-button);padding:10px 18px}
+a.skip,a.volver,#foot a{font:400 15px/1.45 var(--f-ui);color:var(--ink-secondary);
+ cursor:pointer;text-decoration:none;white-space:nowrap;
+ display:inline-flex;align-items:center;min-height:44px;padding:0 var(--sp-tight)}
+a.skip:hover,a.volver:hover,#foot a:hover{color:var(--ink-title);
+ text-decoration:underline}
+.nav{display:flex;gap:var(--sp-inline);align-items:center;flex-wrap:wrap;
+ margin-top:var(--sp-block);padding-top:var(--sp-tight);
+ border-top:1px solid var(--edge-panel)}
+:focus-visible{outline:2px solid var(--accent-graphic);outline-offset:2px}
+
+.ops{display:flex;flex-direction:column;gap:var(--sp-inline);
+ margin:0 0 var(--sp-block)}
+.ops button{display:block;position:relative;width:100%;min-height:52px;
+ padding:15px var(--sp-block);text-align:left;background:var(--card);
+ color:var(--ink-lead);border:1px solid var(--edge-card);
+ font:400 17px/1.45 var(--f-ui);white-space:normal}
+.ops button b{font-weight:600;color:var(--ink-title);font-family:var(--f-ui)}
+.ops button:hover:not(:disabled){background:var(--inset);
+ border-color:var(--edge-button);filter:none}
+.ops button:disabled{opacity:1;cursor:default;color:var(--ink-secondary)}
+.res{margin:0 0 var(--sp-block);padding:var(--sp-tight) var(--sp-block);
+ background:var(--inset);border:1px solid var(--edge-inner);
+ border-left:3px solid var(--edge-panel);color:var(--ink-body);font-size:16px}
+.res b{color:var(--ink-title);font-weight:600}
+.res.si{background:var(--inset);border-color:var(--edge-inner);
+ border-left-color:var(--link)}
+.res.no{background:var(--inset);border-color:var(--edge-inner);
+ border-left-color:var(--accent-graphic)}
+.res.ver{background:var(--inset);border-color:var(--edge-inner);
+ border-left-color:var(--accent-graphic)}
+.res.ver>b{font:500 19px/1.3 var(--f-display);color:var(--ink-title);
+ display:block;margin-bottom:var(--sp-inline)}
+.pista{margin:var(--sp-tight) 0 0;padding:0;border:0;
+ font:italic 400 17px/1.5 var(--f-display);color:var(--ink-secondary)}
+.calc{background:var(--card);color:var(--ink-body);border:1px solid var(--edge-card);
+ border-radius:0;padding:var(--sp-tight) var(--sp-block);margin:0 0 var(--sp-block);
+ font:400 14px/1.7 var(--f-mono)}
+.calc b{font-family:var(--f-ui);font-weight:600;color:var(--ink-title)}
+</style>
+
+<div id="barra">
+ <a class="barlink" href="../index.html">&#8592; The course</a>
+ <i class="sep"></i>
+ <div id="miga">Module 02 <span>&middot;</span> <b>Time</b></div>
+ <span class="crece"></span>
+ <a class="barlink" href="../index.html">Contents</a>
+ <span id="barCont"></span>
+</div>
+<div id="wrap">
+ 
+ <div id="lienzo"><div id="ficha"><div id="obj"><svg id="svg"></svg></div></div></div>
+ <div id="side">
+  <div id="head">
+   <div class="hd"><div id="hTit">One instant, several clocks</div></div>
+   
+   <div class="sello" id="sello" data-sello="20260917-173156">module 02 &middot; part 3 &middot; <b>24 of 24 screens</b> &middot; 17 Sep 2026</div>
+   <div id="prog"></div></div>
+  <div id="pane"></div>
+  <div id="foot"><span id="fLog">0 answers logged</span><a class="volver" id="deCero" onclick="deCero()">start over</a></div>
+ </div>
+</div>
+<script>
+
+"use strict";
+const VISTO_CLAVE = "rya.visto";
+
+const VISTO_V = 2;
+
+function vistoAlmacen(){
+ try{ return (typeof localStorage !== "undefined" && localStorage) ? localStorage : null; }
+ catch(e){ return null; }
+}
+
+function vistoLee(){
+ const A = vistoAlmacen();
+ if(!A) return {v:VISTO_V, empezadas:{}, terminadas:{}, sinAlmacen:true};
+ try{
+  const o = JSON.parse(A.getItem(VISTO_CLAVE) || "null");
+  if(o && o.v === VISTO_V && o.empezadas && o.terminadas) return o;
+ }catch(e){}
+ return {v:VISTO_V, empezadas:{}, terminadas:{}};
+}
+
+function _vistoGuarda(o){
+ const A = vistoAlmacen();
+ if(!A) return o;
+ try{
+  A.setItem(VISTO_CLAVE, JSON.stringify(
+   {v:VISTO_V, empezadas:o.empezadas, terminadas:o.terminadas, pos:o.pos || {}}));
+ }catch(e){}
+ return o;
+}
+
+function _vistoPon(cual, fichero){
+ const o = vistoLee();
+ if(o.sinAlmacen || o[cual][fichero]) return o;
+ o[cual][fichero] = 1;
+ return _vistoGuarda(o);
+}
+
+const vistoEmpieza  = f => _vistoPon("empezadas", f);
+const vistoTermina  = f => _vistoPon("terminadas", f);
+const vistoEmpezada = f => !!vistoLee().empezadas[f];
+const vistoTerminada= f => !!vistoLee().terminadas[f];
+const vistoHayAlmacen = () => !!vistoAlmacen();
+
+function vistoPon(fichero, n){
+ const o = vistoLee();
+ if(o.sinAlmacen) return o;
+ if(!o.pos) o.pos = {};
+ if(o.pos[fichero] === n) return o;
+ o.pos[fichero] = n;
+ return _vistoGuarda(o);
+}
+
+function vistoPos(fichero, tope){
+ const p = vistoLee().pos;
+ const n = p && p[fichero];
+ if(typeof n !== "number" || !isFinite(n) || n < 0) return 0;
+ return (typeof tope === "number" && tope >= 0) ? Math.min(n, tope) : n;
+}
+
+function vistoOlvida(fichero){
+ const o = vistoLee();
+ if(o.sinAlmacen || !o.pos || !(fichero in o.pos)) return o;
+ delete o.pos[fichero];
+ return _vistoGuarda(o);
+}
+
+let RND = 1;
+
+window.azarSemilla = n => {
+ RND = (n >>> 0) || 1;
+ for(let k = 0; k < 8; k++) azar();
+};
+function azar(){
+ RND ^= RND << 13; RND >>>= 0;
+ RND ^= RND >>> 17;
+ RND ^= RND << 5;  RND >>>= 0;
+ return RND / 4294967296;
+}
+function baraja(a){
+ const b = a.slice();
+ for(let i = b.length - 1; i > 0; i--){
+  const j = Math.floor(azar() * (i + 1));
+  const t = b[i]; b[i] = b[j]; b[j] = t;
+ }
+ return b;
+}
+azarSemilla(Date.now());
+
+function bolsaNueva(){ return {i:[], ultima:null}; }
+function saca(bolsa, banco){
+
+ if(bolsa.n!==banco.length){ bolsa.i=[]; bolsa.n=banco.length; }
+ if(!bolsa.i.length){
+  bolsa.i = baraja(banco.map((x, k) => k));
+  if(bolsa.i.length > 1 && banco[bolsa.i[bolsa.i.length - 1]].id === bolsa.ultima){
+   const t = bolsa.i[bolsa.i.length - 1];
+   bolsa.i[bolsa.i.length - 1] = bolsa.i[0]; bolsa.i[0] = t;
+  }
+ }
+ const x = banco[bolsa.i.pop()];
+ bolsa.ultima = x.id;
+ return x;
+}
+
+const PZ=[
+ {
+  "t": "One instant, several clocks",
+  "s": [
+   {
+    "id": "1.S1",
+    "h": "The skipper who waited an hour",
+    "b": "Next",
+    "lt": {
+     "escena": {
+      "tipo": "dos",
+      "medio": "the same moment",
+      "a": {
+       "v": "15:00",
+       "etq": "her clock"
+      },
+      "b": {
+       "v": "14:00",
+       "etq": "his clock"
+      },
+      "pie": "Two people. One arrival. Two numbers, and both of them right."
+     }
+    },
+    "p": [
+     "A boat crossed to a port in another country and told the harbour she would be in at <b>1500</b>. She arrived at 1500. The skipper who had come to meet her had been on the quay since <b>1400</b>, an hour in the rain, and was not pleased.",
+     "Nobody had got the passage wrong. The distance was right, the speed was right, the time it took was right. <b>Both of them did the arithmetic perfectly and neither of them was talking about the same moment.</b>",
+     "This part is about that hour.",
+     "<div class=\"calc\">the passage &nbsp;&rarr;&nbsp; <b>right</b><br>the arithmetic &nbsp;&rarr;&nbsp; <b>right</b><br>the clock they said it in &nbsp;&rarr;&nbsp; <b>not the same one</b></div>",
+     "It is the error that costs the most and gets taught the least. Almost every course meets it halfway through the tides, when your head is already full. <b>You are going to meet it on its own, first, and with something you can move with your hand.</b>"
+    ]
+   },
+   {
+    "id": "1.S2",
+    "h": "UTC: the clock that never changes",
+    "b": "Now watch one",
+    "lt": {
+     "escena": {
+      "tipo": "uno",
+      "a": {
+       "v": "09:40",
+       "etq": "UTC"
+      },
+      "pie": "Same clock, same reading, all year. Nothing you do to it moves the sea."
+     }
+    },
+    "p": [
+     "There is one clock that never moves, never springs forward, never falls back, and is the same in Plymouth, La Coru&ntilde;a and Nuuk. It is called <b>UTC</b> &mdash; you will also see it written <b>UT</b>, and older books call it <b>GMT</b>. For everything you will do, those are the same clock.",
+     "<b>Almost everything at sea is written in it</b>, and for a good reason: a tide table that changed with the seasons would be useless.",
+     "<div class=\"calc\"><b>UTC</b> &nbsp;·&nbsp; never changes &nbsp;·&nbsp; no summer, no winter<br>tide tables &nbsp;·&nbsp; almanacs &nbsp;·&nbsp; weather &nbsp;·&nbsp; the log</div>",
+     "<b>The clock on your wrist is a different thing.</b> It shows whatever the country you are standing in has decided to call this moment, and countries change their minds twice a year.",
+     "Two clocks, one moment. <b>Learning to hold both at once is the whole of this part.</b>"
+    ]
+   },
+   {
+    "id": "1.E1",
+    "h": "One instant, three labels",
+    "t": "ejemplo",
+    "b": "Now you try",
+    "vars": [
+     {
+      "id": "1.E1/a",
+      "pasos": [
+       {
+        "li": "<b>Here is a line of time.</b> Along it, three rows of clock: UTC, British Summer Time, and the clock on a wall in France.",
+        "lt": {
+         "base": {
+          "a": 2026,
+          "m": 7,
+          "d": 14
+         },
+         "viaje": {
+          "t": 420,
+          "dur": 300
+         },
+         "eje": [
+          360,
+          1020
+         ],
+         "zona": 60,
+         "verano": {
+          "aqui": true,
+          "alli": true
+         },
+         "filas": [
+          "ut",
+          "bst",
+          "local"
+         ],
+         "muda": "todas",
+         "sinMarca": true,
+         "t0": 360
+        }
+       },
+       {
+        "li": "<b>Put one instant on it.</b> Not a time &mdash; an <b>instant</b>. A moment when something actually happened, before anybody put a number on it.",
+        "lt": {
+         "base": {
+          "a": 2026,
+          "m": 7,
+          "d": 14
+         },
+         "viaje": {
+          "t": 420,
+          "dur": 300
+         },
+         "eje": [
+          360,
+          1020
+         ],
+         "zona": 60,
+         "verano": {
+          "aqui": true,
+          "alli": true
+         },
+         "filas": [
+          "ut",
+          "bst",
+          "local"
+         ],
+         "muda": "todas",
+         "t0": 432
+        }
+       },
+       {
+        "li": "<b>The UTC row reads 0712.</b>",
+        "lt": {
+         "base": {
+          "a": 2026,
+          "m": 7,
+          "d": 14
+         },
+         "viaje": {
+          "t": 420,
+          "dur": 300
+         },
+         "eje": [
+          360,
+          1020
+         ],
+         "zona": 60,
+         "verano": {
+          "aqui": true,
+          "alli": true
+         },
+         "filas": [
+          "ut"
+         ],
+         "muda": null,
+         "t0": 432
+        }
+       },
+       {
+        "li": "<b>The same instant, read on the summer row: 0812.</b> Nothing has moved. The instant is exactly where you put it.",
+        "lt": {
+         "base": {
+          "a": 2026,
+          "m": 7,
+          "d": 14
+         },
+         "viaje": {
+          "t": 420,
+          "dur": 300
+         },
+         "eje": [
+          360,
+          1020
+         ],
+         "zona": 60,
+         "verano": {
+          "aqui": true,
+          "alli": true
+         },
+         "filas": [
+          "ut",
+          "bst"
+         ],
+         "muda": null,
+         "t0": 432
+        }
+       },
+       {
+        "li": "<b>And on that wall in France, 0912.</b> Three rows, three numbers, one instant.",
+        "lt": {
+         "base": {
+          "a": 2026,
+          "m": 7,
+          "d": 14
+         },
+         "viaje": {
+          "t": 420,
+          "dur": 300
+         },
+         "eje": [
+          360,
+          1020
+         ],
+         "zona": 60,
+         "verano": {
+          "aqui": true,
+          "alli": true
+         },
+         "filas": [
+          "ut",
+          "bst",
+          "local"
+         ],
+         "muda": null,
+         "t0": 432
+        }
+       },
+       {
+        "li": "<b>That is the whole of this part.</b> The instant does not move; only the labels do. Everything that follows is reading a different row of the same line. <b>And from here the marker is yours: you take hold of it and slide it, or you take hold of the boat &mdash; they are the same thing.</b>",
+        "lt": {
+         "base": {
+          "a": 2026,
+          "m": 7,
+          "d": 14
+         },
+         "viaje": {
+          "t": 420,
+          "dur": 300
+         },
+         "eje": [
+          360,
+          1020
+         ],
+         "zona": 60,
+         "verano": {
+          "aqui": true,
+          "alli": true
+         },
+         "filas": [
+          "ut",
+          "bst",
+          "local",
+          "transcurrido"
+         ],
+         "muda": null,
+         "t0": 432
+        }
+       }
+      ]
+     }
+    ]
+   },
+   {
+    "id": "1.P1",
+    "h": "Move the instant",
+    "t": "arrastra",
+    "b": "Next",
+    "lt": {
+     "base": {
+      "a": 2026,
+      "m": 7,
+      "d": 14
+     },
+     "viaje": {
+      "t": 480,
+      "dur": 300
+     },
+     "eje": [
+      480,
+      780
+     ],
+     "zona": 60,
+     "verano": {
+      "aqui": true,
+      "alli": true
+     },
+     "filas": [
+      "ut",
+      "bst",
+      "local",
+      "transcurrido"
+     ],
+     "muda": null,
+     "t0": 510,
+     "encaje": 10
+    },
+    "ay": "Drag the marker along the line &mdash; or drag the boat. They are the same thing.",
+    "p": [
+     "The marker is yours now. <b>Drag it along the line</b> &mdash; or take hold of the boat and move that instead. Either one moves the other, because there is only one instant to move.",
+     "Watch what happens to the three rows as you go: they all move, they all move together, and they never stop being one hour apart from each other.",
+     "<b class='q'>Put the instant at 1130 UTC.</b>"
+    ],
+    "ck": function(t){if(t==690)return {ok:true,m:'<span class="big">1130 UTC</span><br>And without being asked, you have also put it at <b>1230</b> on the summer row and <b>1330</b> in France. One hand, three answers, because there was only ever one instant.'};if(t>690)return {ok:false,m:'That is past it. The rows are still right &mdash; they always are &mdash; but the question asked for 1130 on the <b>top</b> row.'};return {ok:false,m:'Not there yet. Keep going: the question asked for 1130 on the <b>top</b> row.'};},
+    "pista": "The row you are aiming at is the <b>UTC</b> one, the top. Ignore the other two while you drag; they will look after themselves.",
+    "show": {
+     "obra": function(L){var h=function(m){m=((m%1440)+1440)%1440;return ('0'+Math.floor(m/60)).slice(-2)+('0'+(m%60)).slice(-2);};return ['where you left it: <b>'+h(L.t0)+' UT</b>','the summer row is reading '+h(L.t0+60)+', one hour on','you were asked for <b>1130</b> &mdash; drag until the top row says it'];},
+     "txt": "<p>Notice what you did <b>not</b> have to do: you did not convert anything. You moved one instant and read three labels. Every screen after this one is that, with one of the labels hidden.</p>"
+    }
+   }
+  ]
+ },
+ {
+  "t": "BST, and the two Sundays",
+  "s": [
+   {
+    "id": "2.S1",
+    "h": "+1 all summer",
+    "b": "Next",
+    "lt": {
+     "base": {
+      "a": 2026,
+      "m": 7,
+      "d": 14
+     },
+     "viaje": {
+      "t": 420,
+      "dur": 300
+     },
+     "eje": [
+      360,
+      1020
+     ],
+     "zona": 60,
+     "verano": {
+      "aqui": true,
+      "alli": true
+     },
+     "filas": [
+      "ut",
+      "bst",
+      "local",
+      "transcurrido"
+     ],
+     "muda": null,
+     "t0": 600,
+     "boton": {
+      "verano": {
+       "a": 2026,
+       "m": 7,
+       "d": 14
+      },
+      "invierno": {
+       "a": 2026,
+       "m": 1,
+       "d": 14
+      }
+     }
+    },
+    "p": [
+     "For about seven months of the year the United Kingdom does not run on UTC. It runs on <b>British Summer Time</b>, which is UTC with <b>one hour added</b> &mdash; and everybody's wrist, phone and kitchen wall goes with it.",
+     "<b>BST is not another time. It is another label for the same moment.</b> Nothing at sea changes when the clocks go forward. The tide comes in when it was always going to come in.",
+     "<b>Wind the clocks and watch.</b> The marker does not move. The boat does not move. The elapsed row does not move. <b>Only the labels do</b> &mdash; and the one over there moves with them, because they change on the same night.",
+     "So before you can say what any clock reads, there is a smaller question to settle first, and it has nothing to do with arithmetic:",
+     "<b>Is the country on BST on this date, or is it not?</b>",
+     "That depends on the <b>date</b>, and the date is where this goes wrong. Notice that the button does not switch summer on and off: <b>it changes the day</b>. You never get to choose whether it is summer &mdash; the calendar chooses."
+    ]
+   },
+   {
+    "id": "2.S2",
+    "h": "Where those two dates come from",
+    "b": "Next",
+    "lt": {
+     "escena": {
+      "tipo": "anyo",
+      "pagina": {
+       "tit": "SUMMER TIME 2026",
+       "a1": "Summer Time (BST) is one hour ahead of UT.",
+       "d1": "from · 0100 UT · Sunday 29 March",
+       "d2": "until · 0100 UT · Sunday 25 October"
+      },
+      "pie": "Printed, not worked out."
+     }
+    },
+    "p": [
+     "The clocks change on <b>two Sundays a year</b>: the last Sunday in March, when they go <b>forward</b>, and the last Sunday in October, when they go <b>back</b>. Between those two Sundays the country is on BST. Outside them, on UTC.",
+     "<b>You do not work those dates out.</b> They are printed &mdash; one line, in the almanac, for the year on its cover. Nobody on a boat counts backwards from the 31st of March looking for a Sunday, and neither will you.",
+     "<b>That is the page.</b> You are not reading it yet; you are learning to recognise it, so that when the question comes up you know it has an answer and you know where the answer lives.",
+     "And two things about those two mornings, because they are the only nights of the year when a clock time is not enough on its own. In <b>March</b> one hour of that morning <b>never happens at all</b> &mdash; there is no 0130 on any wall in the country. In <b>October</b> one hour <b>happens twice</b>, and &ldquo;half past one&rdquo; does not say which of the two you mean.",
+     "<b>The almanac gets a module of its own, later: module 06</b>, after the tides and before the passage plan. There is far more in it than this one line &mdash; port entries, radio, lights, and the tide tables themselves. For now: the two dates are in there, and the book is where you look them up."
+    ]
+   }
+  ]
+ },
+ {
+  "t": "The sign",
+  "s": [
+   {
+    "id": "3.E1",
+    "h": "Which way does the +1 go?",
+    "t": "ejemplo",
+    "b": "Now you try",
+    "vars": [
+     {
+      "id": "3.E1/1540",
+      "pasos": [
+       {
+        "li": "<b>It is summer, and the country is on BST.</b> One instant on the line, the same object as before &mdash; and this time the row you care about is <b>blank</b>, because it is the one about to be worked out.",
+        "ca": [
+         "summer &nbsp;·&nbsp; the country is on <b>BST</b>"
+        ],
+        "lt": {
+         "base": {
+          "a": 2026,
+          "m": 6,
+          "d": 18
+         },
+         "filas": [
+          "ut",
+          "bst"
+         ],
+         "muda": "bst",
+         "eje": [
+          0,
+          1440
+         ],
+         "pais": true,
+         "zona": 60,
+         "verano": {
+          "aqui": true,
+          "alli": true
+         },
+         "t0": 940
+        }
+       },
+       {
+        "li": "<b>Your tables are in UT, and the table says 1540.</b> That is the number in front of you, and it is the only one you have.",
+        "ca": [
+         "the table, in UT &nbsp;=&nbsp; <b>1540</b>"
+        ],
+        "lt": {
+         "base": {
+          "a": 2026,
+          "m": 6,
+          "d": 18
+         },
+         "filas": [
+          "ut",
+          "bst"
+         ],
+         "muda": "bst",
+         "eje": [
+          0,
+          1440
+         ],
+         "pais": true,
+         "zona": 60,
+         "verano": {
+          "aqui": true,
+          "alli": true
+         },
+         "t0": 940
+        }
+       },
+       {
+        "li": "<b>The same instant, read on the summer row: 1640.</b> Later by one &mdash; because in summer <b>the label on the wall is the bigger number</b>. The marker did not move.",
+        "ca": [
+         "the table, in UT &nbsp;=&nbsp; <b>1540</b>",
+         "the wall, in BST &nbsp;=&nbsp; <b>1640</b>"
+        ],
+        "lt": {
+         "base": {
+          "a": 2026,
+          "m": 6,
+          "d": 18
+         },
+         "filas": [
+          "ut",
+          "bst"
+         ],
+         "muda": null,
+         "eje": [
+          0,
+          1440
+         ],
+         "pais": true,
+         "zona": 60,
+         "verano": {
+          "aqui": true,
+          "alli": true
+         },
+         "t0": 940
+        }
+       },
+       {
+        "li": "<b>The rule, said so that it cannot be turned round:</b> the instant does not move, and in summer the wall label is the <b>bigger</b> number. Not &ldquo;add one&rdquo;, not &ldquo;take one&rdquo; &mdash; those depend on which way you are going, and that is exactly the bit that gets forgotten.",
+        "ca": [
+         "in summer &nbsp;&rarr;&nbsp; the <b>wall</b> is the bigger number",
+         "table &rarr; wall: <b>up</b> &nbsp;·&nbsp; wall &rarr; table: <b>down</b>"
+        ],
+        "lt": {
+         "base": {
+          "a": 2026,
+          "m": 6,
+          "d": 18
+         },
+         "filas": [
+          "ut",
+          "bst"
+         ],
+         "muda": null,
+         "eje": [
+          0,
+          1440
+         ],
+         "pais": true,
+         "zona": 60,
+         "verano": {
+          "aqui": true,
+          "alli": true
+         },
+         "t0": 940
+        }
+       },
+       {
+        "li": "<b>Now slide the instant along to 2345 UT.</b> Late in the evening, and the date row is showing the day it is in UT.",
+        "ca": [
+         "the table, in UT &nbsp;=&nbsp; <b>2345</b>"
+        ],
+        "lt": {
+         "base": {
+          "a": 2026,
+          "m": 6,
+          "d": 18
+         },
+         "filas": [
+          "ut",
+          "bst",
+          "fecha"
+         ],
+         "muda": "bst",
+         "eje": [
+          0,
+          1440
+         ],
+         "pais": true,
+         "zona": 60,
+         "verano": {
+          "aqui": true,
+          "alli": true
+         },
+         "t0": 1425,
+         "refFecha": "ut"
+        }
+       },
+       {
+        "li": "<b>The summer row reads 0045 &mdash; and the date has gone forward a day.</b> Same instant. Now even the calendar disagrees, and that is the half of this error nobody warns you about.",
+        "ca": [
+         "the table, in UT &nbsp;=&nbsp; <b>2345</b>",
+         "the wall, in BST &nbsp;=&nbsp; <b>0045</b>, and it is <b>tomorrow</b>"
+        ],
+        "lt": {
+         "base": {
+          "a": 2026,
+          "m": 6,
+          "d": 18
+         },
+         "filas": [
+          "ut",
+          "bst",
+          "fecha"
+         ],
+         "muda": null,
+         "eje": [
+          0,
+          1440
+         ],
+         "pais": true,
+         "zona": 60,
+         "verano": {
+          "aqui": true,
+          "alli": true
+         },
+         "t0": 1425,
+         "refFecha": "bst"
+        }
+       }
+      ]
+     },
+     {
+      "id": "3.E1/0910",
+      "pasos": [
+       {
+        "li": "<b>It is summer, and the country is on BST.</b> One instant on the line, the same object as before &mdash; and this time the row you care about is <b>blank</b>, because it is the one about to be worked out.",
+        "ca": [
+         "summer &nbsp;·&nbsp; the country is on <b>BST</b>"
+        ],
+        "lt": {
+         "base": {
+          "a": 2026,
+          "m": 8,
+          "d": 11
+         },
+         "filas": [
+          "ut",
+          "bst"
+         ],
+         "muda": "bst",
+         "eje": [
+          0,
+          1440
+         ],
+         "pais": true,
+         "zona": 60,
+         "verano": {
+          "aqui": true,
+          "alli": true
+         },
+         "t0": 550
+        }
+       },
+       {
+        "li": "<b>Your tables are in UT, and the table says 0910.</b> That is the number in front of you, and it is the only one you have.",
+        "ca": [
+         "the table, in UT &nbsp;=&nbsp; <b>0910</b>"
+        ],
+        "lt": {
+         "base": {
+          "a": 2026,
+          "m": 8,
+          "d": 11
+         },
+         "filas": [
+          "ut",
+          "bst"
+         ],
+         "muda": "bst",
+         "eje": [
+          0,
+          1440
+         ],
+         "pais": true,
+         "zona": 60,
+         "verano": {
+          "aqui": true,
+          "alli": true
+         },
+         "t0": 550
+        }
+       },
+       {
+        "li": "<b>The same instant, read on the summer row: 1010.</b> Later by one &mdash; because in summer <b>the label on the wall is the bigger number</b>. The marker did not move.",
+        "ca": [
+         "the table, in UT &nbsp;=&nbsp; <b>0910</b>",
+         "the wall, in BST &nbsp;=&nbsp; <b>1010</b>"
+        ],
+        "lt": {
+         "base": {
+          "a": 2026,
+          "m": 8,
+          "d": 11
+         },
+         "filas": [
+          "ut",
+          "bst"
+         ],
+         "muda": null,
+         "eje": [
+          0,
+          1440
+         ],
+         "pais": true,
+         "zona": 60,
+         "verano": {
+          "aqui": true,
+          "alli": true
+         },
+         "t0": 550
+        }
+       },
+       {
+        "li": "<b>The rule, said so that it cannot be turned round:</b> the instant does not move, and in summer the wall label is the <b>bigger</b> number. Not &ldquo;add one&rdquo;, not &ldquo;take one&rdquo; &mdash; those depend on which way you are going, and that is exactly the bit that gets forgotten.",
+        "ca": [
+         "in summer &nbsp;&rarr;&nbsp; the <b>wall</b> is the bigger number",
+         "table &rarr; wall: <b>up</b> &nbsp;·&nbsp; wall &rarr; table: <b>down</b>"
+        ],
+        "lt": {
+         "base": {
+          "a": 2026,
+          "m": 8,
+          "d": 11
+         },
+         "filas": [
+          "ut",
+          "bst"
+         ],
+         "muda": null,
+         "eje": [
+          0,
+          1440
+         ],
+         "pais": true,
+         "zona": 60,
+         "verano": {
+          "aqui": true,
+          "alli": true
+         },
+         "t0": 550
+        }
+       },
+       {
+        "li": "<b>Now slide the instant along to 2335 UT.</b> Late in the evening, and the date row is showing the day it is in UT.",
+        "ca": [
+         "the table, in UT &nbsp;=&nbsp; <b>2335</b>"
+        ],
+        "lt": {
+         "base": {
+          "a": 2026,
+          "m": 8,
+          "d": 11
+         },
+         "filas": [
+          "ut",
+          "bst",
+          "fecha"
+         ],
+         "muda": "bst",
+         "eje": [
+          0,
+          1440
+         ],
+         "pais": true,
+         "zona": 60,
+         "verano": {
+          "aqui": true,
+          "alli": true
+         },
+         "t0": 1415,
+         "refFecha": "ut"
+        }
+       },
+       {
+        "li": "<b>The summer row reads 0035 &mdash; and the date has gone forward a day.</b> Same instant. Now even the calendar disagrees, and that is the half of this error nobody warns you about.",
+        "ca": [
+         "the table, in UT &nbsp;=&nbsp; <b>2335</b>",
+         "the wall, in BST &nbsp;=&nbsp; <b>0035</b>, and it is <b>tomorrow</b>"
+        ],
+        "lt": {
+         "base": {
+          "a": 2026,
+          "m": 8,
+          "d": 11
+         },
+         "filas": [
+          "ut",
+          "bst",
+          "fecha"
+         ],
+         "muda": null,
+         "eje": [
+          0,
+          1440
+         ],
+         "pais": true,
+         "zona": 60,
+         "verano": {
+          "aqui": true,
+          "alli": true
+         },
+         "t0": 1415,
+         "refFecha": "bst"
+        }
+       }
+      ]
+     },
+     {
+      "id": "3.E1/1230",
+      "pasos": [
+       {
+        "li": "<b>It is summer, and the country is on BST.</b> One instant on the line, the same object as before &mdash; and this time the row you care about is <b>blank</b>, because it is the one about to be worked out.",
+        "ca": [
+         "summer &nbsp;·&nbsp; the country is on <b>BST</b>"
+        ],
+        "lt": {
+         "base": {
+          "a": 2026,
+          "m": 9,
+          "d": 24
+         },
+         "filas": [
+          "ut",
+          "bst"
+         ],
+         "muda": "bst",
+         "eje": [
+          0,
+          1440
+         ],
+         "pais": true,
+         "zona": 60,
+         "verano": {
+          "aqui": true,
+          "alli": true
+         },
+         "t0": 750
+        }
+       },
+       {
+        "li": "<b>Your tables are in UT, and the table says 1230.</b> That is the number in front of you, and it is the only one you have.",
+        "ca": [
+         "the table, in UT &nbsp;=&nbsp; <b>1230</b>"
+        ],
+        "lt": {
+         "base": {
+          "a": 2026,
+          "m": 9,
+          "d": 24
+         },
+         "filas": [
+          "ut",
+          "bst"
+         ],
+         "muda": "bst",
+         "eje": [
+          0,
+          1440
+         ],
+         "pais": true,
+         "zona": 60,
+         "verano": {
+          "aqui": true,
+          "alli": true
+         },
+         "t0": 750
+        }
+       },
+       {
+        "li": "<b>The same instant, read on the summer row: 1330.</b> Later by one &mdash; because in summer <b>the label on the wall is the bigger number</b>. The marker did not move.",
+        "ca": [
+         "the table, in UT &nbsp;=&nbsp; <b>1230</b>",
+         "the wall, in BST &nbsp;=&nbsp; <b>1330</b>"
+        ],
+        "lt": {
+         "base": {
+          "a": 2026,
+          "m": 9,
+          "d": 24
+         },
+         "filas": [
+          "ut",
+          "bst"
+         ],
+         "muda": null,
+         "eje": [
+          0,
+          1440
+         ],
+         "pais": true,
+         "zona": 60,
+         "verano": {
+          "aqui": true,
+          "alli": true
+         },
+         "t0": 750
+        }
+       },
+       {
+        "li": "<b>The rule, said so that it cannot be turned round:</b> the instant does not move, and in summer the wall label is the <b>bigger</b> number. Not &ldquo;add one&rdquo;, not &ldquo;take one&rdquo; &mdash; those depend on which way you are going, and that is exactly the bit that gets forgotten.",
+        "ca": [
+         "in summer &nbsp;&rarr;&nbsp; the <b>wall</b> is the bigger number",
+         "table &rarr; wall: <b>up</b> &nbsp;·&nbsp; wall &rarr; table: <b>down</b>"
+        ],
+        "lt": {
+         "base": {
+          "a": 2026,
+          "m": 9,
+          "d": 24
+         },
+         "filas": [
+          "ut",
+          "bst"
+         ],
+         "muda": null,
+         "eje": [
+          0,
+          1440
+         ],
+         "pais": true,
+         "zona": 60,
+         "verano": {
+          "aqui": true,
+          "alli": true
+         },
+         "t0": 750
+        }
+       },
+       {
+        "li": "<b>Now slide the instant along to 2350 UT.</b> Late in the evening, and the date row is showing the day it is in UT.",
+        "ca": [
+         "the table, in UT &nbsp;=&nbsp; <b>2350</b>"
+        ],
+        "lt": {
+         "base": {
+          "a": 2026,
+          "m": 9,
+          "d": 24
+         },
+         "filas": [
+          "ut",
+          "bst",
+          "fecha"
+         ],
+         "muda": "bst",
+         "eje": [
+          0,
+          1440
+         ],
+         "pais": true,
+         "zona": 60,
+         "verano": {
+          "aqui": true,
+          "alli": true
+         },
+         "t0": 1430,
+         "refFecha": "ut"
+        }
+       },
+       {
+        "li": "<b>The summer row reads 0050 &mdash; and the date has gone forward a day.</b> Same instant. Now even the calendar disagrees, and that is the half of this error nobody warns you about.",
+        "ca": [
+         "the table, in UT &nbsp;=&nbsp; <b>2350</b>",
+         "the wall, in BST &nbsp;=&nbsp; <b>0050</b>, and it is <b>tomorrow</b>"
+        ],
+        "lt": {
+         "base": {
+          "a": 2026,
+          "m": 9,
+          "d": 24
+         },
+         "filas": [
+          "ut",
+          "bst",
+          "fecha"
+         ],
+         "muda": null,
+         "eje": [
+          0,
+          1440
+         ],
+         "pais": true,
+         "zona": 60,
+         "verano": {
+          "aqui": true,
+          "alli": true
+         },
+         "t0": 1430,
+         "refFecha": "bst"
+        }
+       }
+      ]
+     }
+    ]
+   },
+   {
+    "id": "3.P1",
+    "h": "Table to wrist",
+    "t": "problema",
+    "caso": "aMuneca",
+    "n": 2,
+    "sube": true,
+    "b": "Next",
+    "pie": "your watch",
+    "uni": "on the wall",
+    "lt": {
+     "base": {
+      "a": 2026,
+      "m": 7,
+      "d": 14
+     },
+     "viaje": {
+      "t": 420,
+      "dur": 300
+     },
+     "eje": [
+      0,
+      1440
+     ],
+     "zona": 60,
+     "verano": {
+      "aqui": true,
+      "alli": true
+     },
+     "filas": [
+      "ut",
+      "bst"
+     ],
+     "muda": "bst",
+     "pais": true
+    },
+    "caja": function(q){return [['the date',q.fecha],['the table says',q.hhmm+' UT']];},
+    "ay": "<b>Two of them.</b> Get both out and you are done; slip on one and a third comes along.",
+    "p": [
+     "Summer, and the country is on BST. <b>Your tables are in UT</b> &mdash; every one of them, all year, because that is what tables do.",
+     "The row you need is the one left blank. Work it out, write it, and watch it appear.",
+     "<b class='q'>What will your watch say?</b>"
+    ],
+    "resp": function(q){return q.min+60;},
+    "bien": "Same instant, bigger label &mdash; which is what summer means.",
+    "mal": function(q,dio,bien){if(dio==q.min)return '<b>That is the table&rsquo;s own number.</b> The question asked what the <b>wall</b> says, and in summer the wall is one ahead.';if(((dio-q.min)%1440+1440)%1440==1380)return '<b>You have gone the wrong way.</b> In summer the <b>wall</b> is the bigger number, so coming <b>from</b> the table you go <b>up</b>. Take the hour off here and you are two hours from where you should be, not one.';return '<b>Not that one.</b> The table says '+q.hhmm+' UT, and in summer the wall label is the bigger number &mdash; by exactly one hour, never more and never less.';},
+    "pista": "One rule, read from the end you are standing at: in summer the wall label is the <b>bigger</b> number. You are starting at the table, so you are going <b>up</b>.",
+    "show": {
+     "obra": function(q,bien){var h=function(m){m=((m%1440)+1440)%1440;return ('0'+Math.floor(m/60)).slice(-2)+('0'+(m%60)).slice(-2);};return ['the table, in UT: <b>'+q.hhmm+'</b>','summer, so the wall label is the bigger one','<b>'+q.hhmm+' + 1 h = '+h(bien)+'</b> on your wrist'];},
+     "txt": "<p>Nothing moved. You did not sail anywhere, the tide did not change, the instant is the one it always was. <b>You read a different row.</b></p>"
+    }
+   },
+   {
+    "id": "3.E2",
+    "h": "The other way: wrist to table",
+    "t": "ejemplo",
+    "b": "Now you try",
+    "vars": [
+     {
+      "id": "3.E2/0930",
+      "pasos": [
+       {
+        "li": "<b>This time you start on the wall.</b> Your watch says <b>0930</b>, and the country is on BST. The marker goes where <i>that</i> reading puts it &mdash; and the table&rsquo;s row is the blank one now.",
+        "ca": [
+         "your watch, on BST &nbsp;=&nbsp; <b>0930</b>"
+        ],
+        "lt": {
+         "base": {
+          "a": 2026,
+          "m": 5,
+          "d": 20
+         },
+         "filas": [
+          "ut",
+          "bst"
+         ],
+         "muda": "ut",
+         "eje": [
+          0,
+          1440
+         ],
+         "pais": true,
+         "zona": 60,
+         "verano": {
+          "aqui": true,
+          "alli": true
+         },
+         "t0": 510
+        }
+       },
+       {
+        "li": "<b>The instant is the same instant.</b> It did not move because you looked at a different clock. Nothing about the sea changed when you turned your wrist over.",
+        "ca": [
+         "your watch, on BST &nbsp;=&nbsp; <b>0930</b>",
+         "the instant &nbsp;&rarr;&nbsp; <b>where it always was</b>"
+        ],
+        "lt": {
+         "base": {
+          "a": 2026,
+          "m": 5,
+          "d": 20
+         },
+         "filas": [
+          "ut",
+          "bst"
+         ],
+         "muda": "ut",
+         "eje": [
+          0,
+          1440
+         ],
+         "pais": true,
+         "zona": 60,
+         "verano": {
+          "aqui": true,
+          "alli": true
+         },
+         "t0": 510
+        }
+       },
+       {
+        "li": "<b>Read the UT row: 0830.</b> Going <b>to</b> the table, in summer, the number gets <b>smaller</b>.",
+        "ca": [
+         "your watch, on BST &nbsp;=&nbsp; <b>0930</b>",
+         "the table, in UT &nbsp;=&nbsp; <b>0830</b>"
+        ],
+        "lt": {
+         "base": {
+          "a": 2026,
+          "m": 5,
+          "d": 20
+         },
+         "filas": [
+          "ut",
+          "bst"
+         ],
+         "muda": null,
+         "eje": [
+          0,
+          1440
+         ],
+         "pais": true,
+         "zona": 60,
+         "verano": {
+          "aqui": true,
+          "alli": true
+         },
+         "t0": 510
+        }
+       },
+       {
+        "li": "<b>Same rule, not a second one.</b> In summer the wall label is the bigger number &mdash; so coming off the wall you go <b>down</b>, and going to the wall you go <b>up</b>. One rule, read from whichever end you are standing at.",
+        "ca": [
+         "wall &rarr; table: <b>down</b>",
+         "table &rarr; wall: <b>up</b>"
+        ],
+        "lt": {
+         "base": {
+          "a": 2026,
+          "m": 5,
+          "d": 20
+         },
+         "filas": [
+          "ut",
+          "bst"
+         ],
+         "muda": null,
+         "eje": [
+          0,
+          1440
+         ],
+         "pais": true,
+         "zona": 60,
+         "verano": {
+          "aqui": true,
+          "alli": true
+         },
+         "t0": 510
+        }
+       },
+       {
+        "li": "<b>And here is why this direction is the one that hurts.</b> Add the hour here instead of taking it and you are <b>two hours</b> out, not one: you have moved a whole hour the wrong way, and the right way was a whole hour the other side.",
+        "ca": [
+         "<s>0930 + 1 h = 1030 UT</s>",
+         "<b>two hours adrift</b>, and every number after it"
+        ],
+        "lt": {
+         "base": {
+          "a": 2026,
+          "m": 5,
+          "d": 20
+         },
+         "filas": [
+          "ut",
+          "bst"
+         ],
+         "muda": null,
+         "eje": [
+          0,
+          1440
+         ],
+         "pais": true,
+         "zona": 60,
+         "verano": {
+          "aqui": true,
+          "alli": true
+         },
+         "t0": 510
+        }
+       },
+       {
+        "li": "<b>One more thing about this direction, and it is not arithmetic.</b> Going from the instant to a label always works &mdash; every instant has exactly one reading on every clock. <b>Coming back does not.</b> On the October morning when the clocks go back, <b>one hour of wall time happens twice</b>: say &ldquo;half past one&rdquo; that night and you have not said which of the two you mean. That is why this way round is the one that needs care &mdash; the label is not always enough.",
+        "ca": [
+         "instant &nbsp;&rarr;&nbsp; label &nbsp;·&nbsp; <b>always</b>",
+         "label &nbsp;&rarr;&nbsp; instant &nbsp;·&nbsp; <b>not always</b>"
+        ],
+        "lt": {
+         "base": {
+          "a": 2026,
+          "m": 5,
+          "d": 20
+         },
+         "filas": [
+          "ut",
+          "bst"
+         ],
+         "muda": null,
+         "eje": [
+          0,
+          1440
+         ],
+         "pais": true,
+         "zona": 60,
+         "verano": {
+          "aqui": true,
+          "alli": true
+         },
+         "t0": 510
+        }
+       }
+      ]
+     },
+     {
+      "id": "3.E2/1745",
+      "pasos": [
+       {
+        "li": "<b>This time you start on the wall.</b> Your watch says <b>1745</b>, and the country is on BST. The marker goes where <i>that</i> reading puts it &mdash; and the table&rsquo;s row is the blank one now.",
+        "ca": [
+         "your watch, on BST &nbsp;=&nbsp; <b>1745</b>"
+        ],
+        "lt": {
+         "base": {
+          "a": 2026,
+          "m": 8,
+          "d": 27
+         },
+         "filas": [
+          "ut",
+          "bst"
+         ],
+         "muda": "ut",
+         "eje": [
+          0,
+          1440
+         ],
+         "pais": true,
+         "zona": 60,
+         "verano": {
+          "aqui": true,
+          "alli": true
+         },
+         "t0": 1005
+        }
+       },
+       {
+        "li": "<b>The instant is the same instant.</b> It did not move because you looked at a different clock. Nothing about the sea changed when you turned your wrist over.",
+        "ca": [
+         "your watch, on BST &nbsp;=&nbsp; <b>1745</b>",
+         "the instant &nbsp;&rarr;&nbsp; <b>where it always was</b>"
+        ],
+        "lt": {
+         "base": {
+          "a": 2026,
+          "m": 8,
+          "d": 27
+         },
+         "filas": [
+          "ut",
+          "bst"
+         ],
+         "muda": "ut",
+         "eje": [
+          0,
+          1440
+         ],
+         "pais": true,
+         "zona": 60,
+         "verano": {
+          "aqui": true,
+          "alli": true
+         },
+         "t0": 1005
+        }
+       },
+       {
+        "li": "<b>Read the UT row: 1645.</b> Going <b>to</b> the table, in summer, the number gets <b>smaller</b>.",
+        "ca": [
+         "your watch, on BST &nbsp;=&nbsp; <b>1745</b>",
+         "the table, in UT &nbsp;=&nbsp; <b>1645</b>"
+        ],
+        "lt": {
+         "base": {
+          "a": 2026,
+          "m": 8,
+          "d": 27
+         },
+         "filas": [
+          "ut",
+          "bst"
+         ],
+         "muda": null,
+         "eje": [
+          0,
+          1440
+         ],
+         "pais": true,
+         "zona": 60,
+         "verano": {
+          "aqui": true,
+          "alli": true
+         },
+         "t0": 1005
+        }
+       },
+       {
+        "li": "<b>Same rule, not a second one.</b> In summer the wall label is the bigger number &mdash; so coming off the wall you go <b>down</b>, and going to the wall you go <b>up</b>. One rule, read from whichever end you are standing at.",
+        "ca": [
+         "wall &rarr; table: <b>down</b>",
+         "table &rarr; wall: <b>up</b>"
+        ],
+        "lt": {
+         "base": {
+          "a": 2026,
+          "m": 8,
+          "d": 27
+         },
+         "filas": [
+          "ut",
+          "bst"
+         ],
+         "muda": null,
+         "eje": [
+          0,
+          1440
+         ],
+         "pais": true,
+         "zona": 60,
+         "verano": {
+          "aqui": true,
+          "alli": true
+         },
+         "t0": 1005
+        }
+       },
+       {
+        "li": "<b>And here is why this direction is the one that hurts.</b> Add the hour here instead of taking it and you are <b>two hours</b> out, not one: you have moved a whole hour the wrong way, and the right way was a whole hour the other side.",
+        "ca": [
+         "<s>1745 + 1 h = 1845 UT</s>",
+         "<b>two hours adrift</b>, and every number after it"
+        ],
+        "lt": {
+         "base": {
+          "a": 2026,
+          "m": 8,
+          "d": 27
+         },
+         "filas": [
+          "ut",
+          "bst"
+         ],
+         "muda": null,
+         "eje": [
+          0,
+          1440
+         ],
+         "pais": true,
+         "zona": 60,
+         "verano": {
+          "aqui": true,
+          "alli": true
+         },
+         "t0": 1005
+        }
+       },
+       {
+        "li": "<b>One more thing about this direction, and it is not arithmetic.</b> Going from the instant to a label always works &mdash; every instant has exactly one reading on every clock. <b>Coming back does not.</b> On the October morning when the clocks go back, <b>one hour of wall time happens twice</b>: say &ldquo;half past one&rdquo; that night and you have not said which of the two you mean. That is why this way round is the one that needs care &mdash; the label is not always enough.",
+        "ca": [
+         "instant &nbsp;&rarr;&nbsp; label &nbsp;·&nbsp; <b>always</b>",
+         "label &nbsp;&rarr;&nbsp; instant &nbsp;·&nbsp; <b>not always</b>"
+        ],
+        "lt": {
+         "base": {
+          "a": 2026,
+          "m": 8,
+          "d": 27
+         },
+         "filas": [
+          "ut",
+          "bst"
+         ],
+         "muda": null,
+         "eje": [
+          0,
+          1440
+         ],
+         "pais": true,
+         "zona": 60,
+         "verano": {
+          "aqui": true,
+          "alli": true
+         },
+         "t0": 1005
+        }
+       }
+      ]
+     }
+    ]
+   },
+   {
+    "id": "3.P2",
+    "h": "Wrist to table",
+    "t": "problema",
+    "caso": "aTabla",
+    "n": 2,
+    "sube": true,
+    "b": "Next",
+    "pie": "the table wants",
+    "uni": "UT",
+    "lt": {
+     "base": {
+      "a": 2026,
+      "m": 7,
+      "d": 14
+     },
+     "viaje": {
+      "t": 420,
+      "dur": 300
+     },
+     "eje": [
+      0,
+      1440
+     ],
+     "zona": 60,
+     "verano": {
+      "aqui": true,
+      "alli": true
+     },
+     "filas": [
+      "ut",
+      "bst"
+     ],
+     "muda": "ut",
+     "pais": true,
+     "rot": {
+      "ut": "the table · UT",
+      "bst": "your watch"
+     }
+    },
+    "caja": function(q){var m=q.min+(q.bst?60:0);var h=('0'+Math.floor(m/60)).slice(-2)+('0'+m%60).slice(-2);return [['the date',q.fecha],['your watch says',h+' on the wall']];},
+    "ay": "<b>Two of them.</b> Get both out and you are done; slip on one and a third comes along.",
+    "p": [
+     "You are going the other way now: <b>you have the time off your wrist and you need the one your tables understand.</b>",
+     "<b>Nobody tells you the season.</b> The date is on the line with the reading, and it is the date that decides whether the country is on BST at all. Settle that first; then convert.",
+     "<b class='q'>What is that in UT?</b>"
+    ],
+    "resp": function(q){return q.min;},
+    "bien": "Off the wall, in summer, the number comes <b>down</b> &mdash; and in winter it does not move at all.",
+    "mal": function(q,dio,bien,reloj){var pared=q.min+(q.bst?60:0);if(!q.bst&&reloj==pared-60)return '<b>That date is in winter.</b> There is no summer time to take off &mdash; the wall and the table are the same number. You have taken an hour off a clock that never had it added.';if(!q.bst&&reloj!=pared)return '<b>That date is in winter.</b> Check the month before you touch the number: outside late March to late October the wall and the table read the same.';if(q.bst&&reloj==pared+60)return '<b>That is two hours out, not one.</b> You have moved a whole hour the wrong way, and the right way was a whole hour the other side. In summer the wall label is the <b>bigger</b> number, so leaving the wall you go <b>down</b>.';if(q.bst&&reloj==pared)return '<b>That is your watch&rsquo;s own number.</b> The table does not know about summer.';return '<b>Not that one.</b> Your watch says '+('0'+Math.floor(pared/60)).slice(-2)+('0'+pared%60).slice(-2)+', and the question is what the <b>table</b> says on that date.';},
+    "pista": "Two questions, in this order. <b>Is that date in summer time?</b> Late March to late October, and nowhere else. If it is, you are standing on the wall and the wall is the bigger number, so going to the table you go <b>down</b>. If it is not, you do nothing.",
+    "show": {
+     "obra": function(q,bien){var h=function(m){m=((m%1440)+1440)%1440;return ('0'+Math.floor(m/60)).slice(-2)+('0'+(m%60)).slice(-2);};var pared=q.min+(q.bst?60:0);return ['the date: <b>'+q.fecha+'</b>'+(q.bst?' &mdash; that is inside summer time':' &mdash; that is outside summer time'),'your watch says <b>'+h(pared)+'</b>',(q.bst?'summer, so the wall is the bigger label and the table the smaller: <b>'+h(pared)+' &minus; 1 h = '+h(bien)+' UT</b>':'winter, so there is nothing to take off: <b>'+h(bien)+' UT</b>')];},
+     "txt": "<p>This is the direction people get wrong, and they get it wrong knowing the rule. Adding here does not put you an hour out &mdash; <b>it puts you two</b>, because the hour you added should have come off.</p>"
+    }
+   },
+   {
+    "id": "3.P3",
+    "h": "The one that changes the date",
+    "t": "problema",
+    "caso": "fecha",
+    "n": 2,
+    "sube": true,
+    "b": "Next",
+    "pie": "your watch",
+    "uni": "on the wall",
+    "dia": [
+     "same day",
+     "next day"
+    ],
+    "lt": {
+     "base": {
+      "a": 2026,
+      "m": 7,
+      "d": 14
+     },
+     "viaje": {
+      "t": 420,
+      "dur": 300
+     },
+     "eje": [
+      0,
+      1440
+     ],
+     "zona": 60,
+     "verano": {
+      "aqui": true,
+      "alli": true
+     },
+     "filas": [
+      "ut",
+      "bst",
+      "fecha"
+     ],
+     "muda": [
+      "bst",
+      "fecha"
+     ],
+     "refFecha": "bst",
+     "pais": true,
+     "rot": {
+      "ut": "the table · UT",
+      "bst": "your watch"
+     }
+    },
+    "caja": function(q){return [['the date',q.fecha],['the table says',q.hhmm+' UT']];},
+    "ay": "<b>Two of them.</b> Get both out and you are done; slip on one and a third comes along. Give the time <b>and the day</b>.",
+    "p": [
+     "Late in the evening, and the table has given you a time and a date.",
+     "<b>The season is not written down anywhere.</b> Work it out from the date, then convert &mdash; and then look at where the number landed.",
+     "<b class='q'>What will your watch say, and on what day?</b>"
+    ],
+    "resp": function(q){return q.min+(q.bst?60:0);},
+    "bien": "Same instant, and the calendar moved with the label &mdash; because the label went past midnight and the instant never did.",
+    "mal": function(q,dio,bien,reloj){var salta=bien>=1440, dijo=Math.floor(dio/1440);if(reloj==bien%1440&&dijo!=(salta?1:0)) return salta?'<b>The time is right and the day is not.</b> That reading is after midnight, so on the wall it is already <b>tomorrow</b>. The instant did not cross anything; the label did.':'<b>The time is right and the day is not.</b> This one is in <b>winter</b>: nothing was added, so nothing went past midnight. It is still the same day.';if(!q.bst&&reloj==q.min+60)return '<b>That date is in winter.</b> There is no hour to add &mdash; the wall and the table read the same, and the day does not move either.';if(q.bst&&reloj==q.min)return '<b>That is the table&rsquo;s own number.</b> In summer the wall is one ahead, and here that is what pushes it past midnight.';if(q.bst&&reloj==((q.min-60)%1440+1440)%1440)return '<b>You have gone the wrong way.</b> In summer the wall label is the bigger number, so coming from the table you go <b>up</b>.';return '<b>Not that one.</b> The table says '+q.hhmm+' UT on '+q.dia+'. Settle the season from the date first, then add what it tells you, then see which day the answer landed on.';},
+    "pista": "Settle the season from the date, add the hour if there is one, and see where it lands. If it lands after midnight, the wall has gone into the next day &mdash; and the table has not.",
+    "show": {
+     "obra": function(q,bien){var h=function(m){m=((m%1440)+1440)%1440;return ('0'+Math.floor(m/60)).slice(-2)+('0'+(m%60)).slice(-2);};return ['the table: <b>'+q.hhmm+' UT on '+q.dia+'</b>',(q.bst?'that date is inside summer time, so the wall is one bigger: <b>'+q.hhmm+' + 1 h</b>':'that date is outside summer time: <b>nothing to add</b>'),(bien>=1440?'that is past midnight, so the wall reads <b>'+h(bien)+' the next day</b>':'and it is still <b>'+h(bien)+' on the same day</b>')];},
+     "txt": "<p>Two things moved and neither of them was the instant: the number and the date. Write the right time under the wrong day in a log and you have made a passage that never happened.</p>"
+    }
+   },
+   {
+    "id": "3.P4",
+    "h": "One instant, two numbers",
+    "b": "Next",
+    "lt": {
+     "base": {
+      "a": 2026,
+      "m": 7,
+      "d": 14
+     },
+     "viaje": {
+      "t": 420,
+      "dur": 300
+     },
+     "eje": [
+      360,
+      1020
+     ],
+     "zona": 60,
+     "verano": {
+      "aqui": true,
+      "alli": true
+     },
+     "filas": [
+      "ut",
+      "bst",
+      "local"
+     ],
+     "muda": null,
+     "t0": 600
+    },
+    "p": [
+     "Look at the line once more with everything showing.",
+     "<b>The marker has not moved since you started this topic.</b> You have converted in both directions, you have pushed it past midnight, you have changed the date &mdash; and the instant is where it always was.",
+     "Everything that goes wrong here goes wrong the same way: somebody writes a number down and forgets to write down <b>which clock it came off</b>.",
+     "So the habit worth having is small and it never costs anything: <b>write the clock next to the number</b>. <i>1130 UT</i>, not <i>1130</i>. Every log, every plan, every time."
+    ]
+   }
+  ]
+ },
+ {
+  "t": "How the almanac writes it",
+  "s": [
+   {
+    "id": "4.S1",
+    "h": "The almanac does not tell you the zone",
+    "b": "Now watch one",
+    "lt": {
+     "base": {
+      "a": 2026,
+      "m": 11,
+      "d": 17
+     },
+     "viaje": {
+      "t": 420,
+      "dur": 300
+     },
+     "eje": [
+      360,
+      1020
+     ],
+     "zona": 60,
+     "verano": {
+      "aqui": false,
+      "alli": false
+     },
+     "filas": [
+      "ut",
+      "local"
+     ],
+     "muda": null,
+     "t0": 600,
+     "rot": {
+      "local": "zone −0100"
+     }
+    },
+    "p": [
+     "Open an almanac at a foreign port and the heading says something like <code>TIMES ARE IN ZONE &minus;0100</code>. France is <b>one hour ahead</b> of UT. So why the minus?",
+     "<b>Because it is not telling you the zone. It is telling you the correction that takes the printed times back to UT.</b> The table is in local time; take an hour off and you are in UT. That is what the minus is: an instruction pointing <b>home</b>.",
+     "<b>The sign points one way and you will need it in both.</b> Read it as &ldquo;minus one to get home&rdquo; and it never inverts on you. More than one instructor will tell you this single line confuses students more than anything else on the course. It is not because it is hard. <b>It is because it is written backwards from the way you are about to use it.</b>",
+     "<b>And you have almost certainly seen it written the other way round.</b> Set the clock on a phone and France is <b>UTC+1</b>. Open the almanac at the same port and it says <b>&minus;0100</b>. <b>They agree.</b> One counts the way there, the other counts the way home. Neither is wrong and you will meet both, sometimes on the same passage.",
+     "<b>And a way to check yourself that needs no memory at all.</b> They are <b>east</b> of you. The earth turns that way, so the sun gets there first: their morning starts before yours, and <b>their clock is ahead of yours</b>.",
+     "Whenever the sign starts arguing with you, ask which way the sun went. <b>It settles it every time, and it is the one thing about this that cannot be misremembered.</b>"
+    ]
+   },
+   {
+    "id": "4.E1",
+    "h": "Reading the minus sign",
+    "t": "ejemplo",
+    "b": "Now you try",
+    "vars": [
+     {
+      "id": "4.E1/−0100/1400",
+      "pasos": [
+       {
+        "li": "<b>Two countries, and a stretch of water.</b> Yours keeps UT today. Theirs is <b>one hour ahead</b> &mdash; their morning starts before yours, because the sun gets there first.",
+        "ca": [
+         "here &nbsp;=&nbsp; <b>UT</b>",
+         "over there &nbsp;=&nbsp; <b>one hour ahead</b>"
+        ],
+        "lt": {
+         "base": {
+          "a": 2026,
+          "m": 11,
+          "d": 17
+         },
+         "filas": [
+          "ut",
+          "local"
+         ],
+         "muda": "local",
+         "eje": [
+          0,
+          1440
+         ],
+         "zona": 60,
+         "verano": {
+          "aqui": false,
+          "alli": false
+         },
+         "t0": 840,
+         "rot": {
+          "local": "zone −0100"
+         }
+        }
+       },
+       {
+        "li": "<b>Their almanac page says <code>ZONE −0100</code>.</b> That minus is not a mistake, and it does <b>not</b> mean they are behind you. They are ahead, and the page still says minus.",
+        "ca": [
+         "the page says &nbsp;<b>ZONE −0100</b>",
+         "and they are &nbsp;<b>ahead</b>"
+        ],
+        "lt": {
+         "base": {
+          "a": 2026,
+          "m": 11,
+          "d": 17
+         },
+         "filas": [
+          "ut",
+          "local"
+         ],
+         "muda": "local",
+         "eje": [
+          0,
+          1440
+         ],
+         "zona": 60,
+         "verano": {
+          "aqui": false,
+          "alli": false
+         },
+         "t0": 840,
+         "rot": {
+          "local": "▸ zone −0100 ◂"
+         }
+        }
+       },
+       {
+        "li": "<b>It is the way home.</b> Take one hour off anything printed in their table and you have it in UT. The sign is an instruction, and it points at <b>you</b>.",
+        "ca": [
+         "their table &nbsp;<b>1500</b>",
+         "−0100 &nbsp;&rarr;&nbsp; <b>1400 UT</b>"
+        ],
+        "lt": {
+         "base": {
+          "a": 2026,
+          "m": 11,
+          "d": 17
+         },
+         "filas": [
+          "ut",
+          "local"
+         ],
+         "muda": null,
+         "eje": [
+          0,
+          1440
+         ],
+         "zona": 60,
+         "verano": {
+          "aqui": false,
+          "alli": false
+         },
+         "t0": 840,
+         "rot": {
+          "local": "zone −0100"
+         }
+        }
+       },
+       {
+        "li": "<b>Which means going the other way you add it.</b> You have <b>1400 UT</b> and you want to know what their harbour clock says: <b>1500</b>.",
+        "ca": [
+         "you have &nbsp;<b>1400 UT</b>",
+         "their clock &nbsp;&rarr;&nbsp; <b>1500</b>"
+        ],
+        "lt": {
+         "base": {
+          "a": 2026,
+          "m": 11,
+          "d": 17
+         },
+         "filas": [
+          "ut",
+          "local"
+         ],
+         "muda": null,
+         "eje": [
+          0,
+          1440
+         ],
+         "zona": 60,
+         "verano": {
+          "aqui": false,
+          "alli": false
+         },
+         "t0": 840,
+         "rot": {
+          "local": "zone −0100"
+         }
+        }
+       },
+       {
+        "li": "<b>Same sign, both directions, and it never flips.</b> Minus one to get <b>home</b>; so plus one to get <b>there</b>. Say it that way round and the sign stops arguing with you &mdash; and if it ever does, ask which way the sun went.",
+        "ca": [
+         "minus to get <b>home</b>",
+         "plus to get <b>there</b>"
+        ],
+        "lt": {
+         "base": {
+          "a": 2026,
+          "m": 11,
+          "d": 17
+         },
+         "filas": [
+          "ut",
+          "local"
+         ],
+         "muda": null,
+         "eje": [
+          0,
+          1440
+         ],
+         "zona": 60,
+         "verano": {
+          "aqui": false,
+          "alli": false
+         },
+         "t0": 840,
+         "rot": {
+          "local": "zone −0100"
+         }
+        }
+       }
+      ]
+     },
+     {
+      "id": "4.E1/−0100/0745",
+      "pasos": [
+       {
+        "li": "<b>Two countries, and a stretch of water.</b> Yours keeps UT today. Theirs is <b>one hour ahead</b> &mdash; their morning starts before yours, because the sun gets there first.",
+        "ca": [
+         "here &nbsp;=&nbsp; <b>UT</b>",
+         "over there &nbsp;=&nbsp; <b>one hour ahead</b>"
+        ],
+        "lt": {
+         "base": {
+          "a": 2026,
+          "m": 1,
+          "d": 13
+         },
+         "filas": [
+          "ut",
+          "local"
+         ],
+         "muda": "local",
+         "eje": [
+          0,
+          1440
+         ],
+         "zona": 60,
+         "verano": {
+          "aqui": false,
+          "alli": false
+         },
+         "t0": 465,
+         "rot": {
+          "local": "zone −0100"
+         }
+        }
+       },
+       {
+        "li": "<b>Their almanac page says <code>ZONE −0100</code>.</b> That minus is not a mistake, and it does <b>not</b> mean they are behind you. They are ahead, and the page still says minus.",
+        "ca": [
+         "the page says &nbsp;<b>ZONE −0100</b>",
+         "and they are &nbsp;<b>ahead</b>"
+        ],
+        "lt": {
+         "base": {
+          "a": 2026,
+          "m": 1,
+          "d": 13
+         },
+         "filas": [
+          "ut",
+          "local"
+         ],
+         "muda": "local",
+         "eje": [
+          0,
+          1440
+         ],
+         "zona": 60,
+         "verano": {
+          "aqui": false,
+          "alli": false
+         },
+         "t0": 465,
+         "rot": {
+          "local": "▸ zone −0100 ◂"
+         }
+        }
+       },
+       {
+        "li": "<b>It is the way home.</b> Take one hour off anything printed in their table and you have it in UT. The sign is an instruction, and it points at <b>you</b>.",
+        "ca": [
+         "their table &nbsp;<b>0845</b>",
+         "−0100 &nbsp;&rarr;&nbsp; <b>0745 UT</b>"
+        ],
+        "lt": {
+         "base": {
+          "a": 2026,
+          "m": 1,
+          "d": 13
+         },
+         "filas": [
+          "ut",
+          "local"
+         ],
+         "muda": null,
+         "eje": [
+          0,
+          1440
+         ],
+         "zona": 60,
+         "verano": {
+          "aqui": false,
+          "alli": false
+         },
+         "t0": 465,
+         "rot": {
+          "local": "zone −0100"
+         }
+        }
+       },
+       {
+        "li": "<b>Which means going the other way you add it.</b> You have <b>0745 UT</b> and you want to know what their harbour clock says: <b>0845</b>.",
+        "ca": [
+         "you have &nbsp;<b>0745 UT</b>",
+         "their clock &nbsp;&rarr;&nbsp; <b>0845</b>"
+        ],
+        "lt": {
+         "base": {
+          "a": 2026,
+          "m": 1,
+          "d": 13
+         },
+         "filas": [
+          "ut",
+          "local"
+         ],
+         "muda": null,
+         "eje": [
+          0,
+          1440
+         ],
+         "zona": 60,
+         "verano": {
+          "aqui": false,
+          "alli": false
+         },
+         "t0": 465,
+         "rot": {
+          "local": "zone −0100"
+         }
+        }
+       },
+       {
+        "li": "<b>Same sign, both directions, and it never flips.</b> Minus one to get <b>home</b>; so plus one to get <b>there</b>. Say it that way round and the sign stops arguing with you &mdash; and if it ever does, ask which way the sun went.",
+        "ca": [
+         "minus to get <b>home</b>",
+         "plus to get <b>there</b>"
+        ],
+        "lt": {
+         "base": {
+          "a": 2026,
+          "m": 1,
+          "d": 13
+         },
+         "filas": [
+          "ut",
+          "local"
+         ],
+         "muda": null,
+         "eje": [
+          0,
+          1440
+         ],
+         "zona": 60,
+         "verano": {
+          "aqui": false,
+          "alli": false
+         },
+         "t0": 465,
+         "rot": {
+          "local": "zone −0100"
+         }
+        }
+       }
+      ]
+     },
+     {
+      "id": "4.E1/−0200/1125",
+      "pasos": [
+       {
+        "li": "<b>Two countries, and a stretch of water.</b> Yours keeps UT today. Theirs is <b>two hours ahead</b> &mdash; their morning starts before yours, because the sun gets there first.",
+        "ca": [
+         "here &nbsp;=&nbsp; <b>UT</b>",
+         "over there &nbsp;=&nbsp; <b>two hours ahead</b>"
+        ],
+        "lt": {
+         "base": {
+          "a": 2026,
+          "m": 2,
+          "d": 24
+         },
+         "filas": [
+          "ut",
+          "local"
+         ],
+         "muda": "local",
+         "eje": [
+          0,
+          1440
+         ],
+         "zona": 120,
+         "verano": {
+          "aqui": false,
+          "alli": false
+         },
+         "t0": 685,
+         "rot": {
+          "local": "zone −0200"
+         }
+        }
+       },
+       {
+        "li": "<b>Their almanac page says <code>ZONE −0200</code>.</b> That minus is not a mistake, and it does <b>not</b> mean they are behind you. They are ahead, and the page still says minus.",
+        "ca": [
+         "the page says &nbsp;<b>ZONE −0200</b>",
+         "and they are &nbsp;<b>ahead</b>"
+        ],
+        "lt": {
+         "base": {
+          "a": 2026,
+          "m": 2,
+          "d": 24
+         },
+         "filas": [
+          "ut",
+          "local"
+         ],
+         "muda": "local",
+         "eje": [
+          0,
+          1440
+         ],
+         "zona": 120,
+         "verano": {
+          "aqui": false,
+          "alli": false
+         },
+         "t0": 685,
+         "rot": {
+          "local": "▸ zone −0200 ◂"
+         }
+        }
+       },
+       {
+        "li": "<b>It is the way home.</b> Take two hours off anything printed in their table and you have it in UT. The sign is an instruction, and it points at <b>you</b>.",
+        "ca": [
+         "their table &nbsp;<b>1325</b>",
+         "−0200 &nbsp;&rarr;&nbsp; <b>1125 UT</b>"
+        ],
+        "lt": {
+         "base": {
+          "a": 2026,
+          "m": 2,
+          "d": 24
+         },
+         "filas": [
+          "ut",
+          "local"
+         ],
+         "muda": null,
+         "eje": [
+          0,
+          1440
+         ],
+         "zona": 120,
+         "verano": {
+          "aqui": false,
+          "alli": false
+         },
+         "t0": 685,
+         "rot": {
+          "local": "zone −0200"
+         }
+        }
+       },
+       {
+        "li": "<b>Which means going the other way you add it.</b> You have <b>1125 UT</b> and you want to know what their harbour clock says: <b>1325</b>.",
+        "ca": [
+         "you have &nbsp;<b>1125 UT</b>",
+         "their clock &nbsp;&rarr;&nbsp; <b>1325</b>"
+        ],
+        "lt": {
+         "base": {
+          "a": 2026,
+          "m": 2,
+          "d": 24
+         },
+         "filas": [
+          "ut",
+          "local"
+         ],
+         "muda": null,
+         "eje": [
+          0,
+          1440
+         ],
+         "zona": 120,
+         "verano": {
+          "aqui": false,
+          "alli": false
+         },
+         "t0": 685,
+         "rot": {
+          "local": "zone −0200"
+         }
+        }
+       },
+       {
+        "li": "<b>Same sign, both directions, and it never flips.</b> Minus two to get <b>home</b>; so plus two to get <b>there</b>. Say it that way round and the sign stops arguing with you &mdash; and if it ever does, ask which way the sun went.",
+        "ca": [
+         "minus to get <b>home</b>",
+         "plus to get <b>there</b>"
+        ],
+        "lt": {
+         "base": {
+          "a": 2026,
+          "m": 2,
+          "d": 24
+         },
+         "filas": [
+          "ut",
+          "local"
+         ],
+         "muda": null,
+         "eje": [
+          0,
+          1440
+         ],
+         "zona": 120,
+         "verano": {
+          "aqui": false,
+          "alli": false
+         },
+         "t0": 685,
+         "rot": {
+          "local": "zone −0200"
+         }
+        }
+       }
+      ]
+     }
+    ]
+   },
+   {
+    "id": "4.P1",
+    "h": "Which way does this one go?",
+    "t": "problema",
+    "caso": "zona",
+    "n": 2,
+    "sube": true,
+    "b": "Next",
+    "lt": {
+     "base": {
+      "a": 2026,
+      "m": 7,
+      "d": 14
+     },
+     "viaje": {
+      "t": 420,
+      "dur": 300
+     },
+     "eje": [
+      0,
+      1440
+     ],
+     "zona": 60,
+     "verano": {
+      "aqui": false,
+      "alli": false
+     },
+     "filas": [
+      "ut",
+      "local"
+     ],
+     "muda": "ut"
+    },
+    "pieDe": function(q){return (+q.id.slice(1))%2==0?'in UT':'their clock';},
+    "uniDe": function(q){return (+q.id.slice(1))%2==0?'UT':'at the harbour';},
+    "pone": function(q){var z='−0'+(q.zona/60)+'00';return {muda:((+q.id.slice(1))%2==0?'ut':'local'),rot:{local:'zone '+z}};},
+    "ay": "<b>Two of them.</b> Get both out and you are done; slip on one and a third comes along.",
+    "p": [
+     "A page from a foreign almanac, and one time to move.",
+     "<b>The heading is the whole exercise.</b> Read it as a sentence &mdash; &ldquo;minus this much gets it back to UT&rdquo; &mdash; and then ask which end you are standing at.",
+     "<b class='q'>Move the time the heading tells you to.</b>"
+    ],
+    "caja": function(q){var z='−0'+(q.zona/60)+'00';var h=function(m){m=((m%1440)+1440)%1440;return ('0'+Math.floor(m/60)).slice(-2)+('0'+m%60).slice(-2);};return (+q.id.slice(1))%2==0 ? [['the heading','TIMES ARE IN ZONE '+z],    ['high water',h(q.min+q.zona)+' (printed, local)']] : [['the heading','TIMES ARE IN ZONE '+z],    ['your time',h(q.min)+' UT']];},
+    "resp": function(q){return (+q.id.slice(1))%2==0 ? q.min : q.min+q.zona;},
+    "bien": "The sign told you which way, and it told you the truth in both directions.",
+    "mal": function(q,dio,bien,reloj){var par=(+q.id.slice(1))%2==0, z=q.zona/60;var nom=['','one','two','three','four'];var fuera=((reloj-bien)%1440+1440)%1440;if(fuera==2*q.zona||fuera==1440-2*q.zona) return '<b>That is '+nom[2*z]+' hours out, not '+nom[z]+'.</b> You have read the sign as the <b>zone</b> instead of as the <b>correction</b>. <code>−0'+z+'00</code> is the way <b>back</b> to UT: '+(par?'from their printed time you take '+nom[z]+' <b>off</b>, not on.'     :'so going the other way you put '+nom[z]+' <b>on</b>, not off.')+' Getting it backwards moves you '+nom[z]+' the wrong way and leaves '+nom[z]+' still to go: '+nom[2*z]+' hours in all.';if(fuera==0)return '';if(reloj==(par?q.min+q.zona:q.min)) return '<b>That is the printed number.</b> The heading told you it is not in UT — that is the whole point of it being there.';if(fuera==60||fuera==1380) return '<b>That is an hour of summer time, and there is none on this page.</b> Zone and summer time are two separate things, and only one of them is in this heading.';return '<b>Not that one.</b> The heading says <code>−0'+z+'00</code>. Minus to get home, plus to get there — and nothing else moves.';},
+    "pista": "Read the heading as a sentence: <i>&ldquo;minus this much gets this back to UT&rdquo;</i>. Then ask which end you are standing at &mdash; on their page, or on your own clock.",
+    "show": {
+     "obra": function(q,bien){var z='−0'+(q.zona/60)+'00', par=(+q.id.slice(1))%2==0;var h=function(m){m=((m%1440)+1440)%1440;return ('0'+Math.floor(m/60)).slice(-2)+('0'+m%60).slice(-2);};var n=q.zona/60;return ['the heading says <b>'+z+'</b>, which is the correction <b>back to UT</b>',(par?'the printed time: <b>'+h(q.min+q.zona)+'</b>, local'    :'your own time: <b>'+h(q.min)+' UT</b>'),(par?'<b>'+h(q.min+q.zona)+' − '+n+' h = '+h(bien)+' UT</b>'    :'<b>'+h(q.min)+' + '+n+' h = '+h(bien)+'</b> on their clock')];},
+     "txt": "<p>The sign is written for the direction you use least, and that is the whole trap. Read it as a route home and it works in both directions: <b>minus one to get home means plus one to get there.</b></p>"
+    }
+   }
+  ]
+ },
+ {
+  "t": "Where the times come from",
+  "s": [
+   {
+    "id": "5.S2",
+    "h": "And the country you are standing in",
+    "b": "Now you try",
+    "lt": {
+     "base": {
+      "a": 2026,
+      "m": 7,
+      "d": 17
+     },
+     "viaje": {
+      "t": 420,
+      "dur": 300
+     },
+     "eje": [
+      360,
+      1020
+     ],
+     "zona": 60,
+     "verano": {
+      "aqui": true,
+      "alli": true
+     },
+     "filas": [
+      "ut",
+      "local"
+     ],
+     "muda": null,
+     "t0": 600,
+     "rot": {
+      "local": "the wall over there"
+     }
+    },
+    "p": [
+     "One more clock, and it is the one nobody declares: <b>the wall you happen to be looking at.</b>",
+     "In France in summer that wall is <b>UT + 2</b> &mdash; one hour for the zone, one more for their summer time. Your tables have not moved. Your log is still in UT. The harbour office is on the wall.",
+     "<b>That is where two hours comes from, honestly.</b> Not a mistake &mdash; two real corrections, stacked. And it is why &ldquo;I am two hours out&rdquo; has two completely different causes, one of which is arithmetic and one of which is not reading.",
+     "<b>And one thing that has been true on every screen so far without anybody saying it: nothing changes your watch except you.</b> Sailing does not move it. Crossing a zone does not move it. You change it when you tie up, or you leave it alone and keep the log in UT &mdash; and either is fine, as long as you know which one you did.",
+     "That is the whole of it: <b>a clock is a decision, not a measurement.</b> The instant is the measurement, and it never needed a clock at all."
+    ]
+   },
+   {
+    "id": "5.P1",
+    "h": "Two corrections, no passage",
+    "t": "problema",
+    "caso": "apila",
+    "n": 2,
+    "sube": true,
+    "b": "Next",
+    "pie": "their clock",
+    "uni": "local",
+    "lt": {
+     "base": {
+      "a": 2026,
+      "m": 7,
+      "d": 14
+     },
+     "viaje": {
+      "t": 420,
+      "dur": 300
+     },
+     "eje": [
+      0,
+      1440
+     ],
+     "zona": 60,
+     "verano": {
+      "aqui": true,
+      "alli": true
+     },
+     "filas": [
+      "ut",
+      "local"
+     ],
+     "muda": "local"
+    },
+    "pone": function(q){var z='−0'+(q.zona/60)+'00';return {muda:'local', rot:{local:'zone '+z}};},
+    "ay": "<b>Two of them.</b> Get both out and you are done; slip on one and a third comes along.",
+    "p": [
+     "No passage to work out. Just a time, and a port on the other side.",
+     "<b>Count the corrections before you do any arithmetic.</b> The zone applies all year. Their summer time applies from late March to late October, and the date on the line is what decides it.",
+     "<b class='q'>What is that on the harbour clock?</b>"
+    ],
+    "caja": function(q){var z='−0'+(q.zona/60)+'00';return [['the time here',q.hhmm+' UT'],['the port&rsquo;s page','ZONE '+z],['the date',q.fecha]];},
+    "resp": function(q){return q.min+q.zona+(q.veranoAlli?60:0);},
+    "bien": "Two clocks agreeing on one instant, and every correction on the way declared by something you could read.",
+    "mal": function(q,dio,bien,reloj){var n=q.zona/60, nom=['','one','two','three','four'];var fuera=((reloj-bien)%1440+1440)%1440;if(reloj==q.min+q.zona&&q.veranoAlli) return '<b>You have applied one and there were two.</b> The zone puts them '+nom[n]+' ahead of UT <b>all year</b>; their summer time puts them another <b>from spring to autumn</b>. Check the date before you decide how many.';if(reloj==q.min+q.zona+60&&!q.veranoAlli) return '<b>In winter there is no summer time to add — on either side.</b> The zone is the only correction here, and applying two by habit is how a careful navigator ends up an hour early.';if(fuera==1440-2*(q.zona+(q.veranoAlli?60:0))||reloj==q.min-q.zona) return '<b>They are east.</b> The sun gets there first and their clock is <b>ahead</b>, so coming from UT you go <b>up</b>, not down.';if(reloj==q.min)return '<b>That is your own time, unchanged.</b> The whole question is what has to happen to it before it means anything on their quay.';return '<b>Not that one.</b> Count first: the zone is '+nom[n]+', and their summer time is '+(q.veranoAlli?'in force on that date':'not in force on that date')+'. Then add what you counted.';},
+    "pista": "Two questions, in this order. First: <b>how many corrections are due here</b> &mdash; does their summer time apply on this date? Then: which way does each one go?",
+    "show": {
+     "obra": function(q,bien){var h=function(m){m=((m%1440)+1440)%1440;return ('0'+Math.floor(m/60)).slice(-2)+('0'+m%60).slice(-2);};var n=q.zona/60;return ['the time here: <b>'+q.hhmm+' UT</b>','their zone is −0'+n+'00, so <b>+'+n+' h</b> all year','the date is '+q.fecha+', and their summer time <b>'+(q.veranoAlli?'does':'does not')+'</b> apply','<b>'+q.hhmm+' + '+(n+(q.veranoAlli?1:0))+' h = '+h(bien)+'</b> on their clock'];},
+     "txt": "<p>Count the corrections <b>before</b> you do any arithmetic. Two hours is not a bigger version of one hour &mdash; it is a different question answered right, and the way to get it right is to count first and add second.</p>"
+    }
+   },
+   {
+    "id": "5.P2",
+    "h": "Which clock is this in?",
+    "t": "elige",
+    "b": "Next",
+    "lt": {
+     "escena": {
+      "tipo": "tarjetas",
+      "fichas": [
+       {
+        "l": "A",
+        "t": [
+         "a tide table page",
+         "headed",
+         "TIMES ARE IN UT"
+        ]
+       },
+       {
+        "l": "B",
+        "t": [
+         "a harbour guide",
+         "“Office 0800–1700,",
+         "local time”"
+        ]
+       },
+       {
+        "l": "C",
+        "t": [
+         "your own watch",
+         "which you set to the harbour",
+         "clock when you tied up"
+        ]
+       }
+      ],
+      "pie": "Three things off the same chart table, the same morning."
+     }
+    },
+    "ops": [
+     "A only",
+     "A and B",
+     "A and C",
+     "all three"
+    ],
+    "ok": 0,
+    "p": [
+     "Three things in front of you, off the same chart table, on the same morning.",
+     "<b class='q'>Which of the three is in UT?</b>"
+    ],
+    "ay": "Two of them tell you what clock they are in. The third does not.",
+    "bien": "<b>B</b> says so itself, and <b>C</b> is the one that catches people: your watch is on whatever you set it to.",
+    "mal": [
+     "",
+     "<b>B declares itself as local time</b>, which is exactly the thing that is not UT. It is not hiding anything &mdash; it says so on the page.",
+     "<b>Your watch is showing the harbour&rsquo;s clock</b>, because that is what you set it to when you tied up. It is the least reliable of the three for UT, and the only one whose reading depends on something <b>you</b> did.",
+     "<b>If all three were in UT there would be nothing to learn here</b> &mdash; and no skipper waiting on a quay."
+    ],
+    "pista": "Two of them tell you what clock they are in. Read what they say &mdash; and then ask what the third one actually promises.",
+    "show": {
+     "obra": function(){return ['<b>A</b> declares UT — believe it','<b>B</b> declares local — believe that too','<b>C</b> declares nothing at all, and an undeclared clock is not evidence'];},
+     "txt": "<p>This is the screen with no sum in it, and it is the one that saves the most passages. <b>A number without its clock is not a time.</b></p>"
+    }
+   }
+  ]
+ },
+ {
+  "t": "Back to the ETA",
+  "s": [
+   {
+    "id": "6.S1",
+    "h": "The frontier, reopened",
+    "b": "Now watch one",
+    "lt": {
+     "base": {
+      "a": 2026,
+      "m": 7,
+      "d": 24
+     },
+     "viaje": {
+      "t": 420,
+      "dur": 180
+     },
+     "eje": [
+      360,
+      1020
+     ],
+     "zona": 60,
+     "verano": {
+      "aqui": true,
+      "alli": true
+     },
+     "filas": [
+      "ut",
+      "local"
+     ],
+     "muda": null,
+     "t0": 540,
+     "rot": {
+      "local": "the harbour clock"
+     }
+    },
+    "p": [
+     "At the end of the last part you were told that every time in it was a <b>duration</b> &mdash; hours and minutes, never a time of day &mdash; and that the clock was the next part.",
+     "<b>This is it.</b>",
+     "You already know how to work out how long a passage takes. You did it with a pair of dividers before you did it with a sum. What you could not do was say <b>when you would arrive</b>, because arriving happens at a time of day, and a time of day belongs to a clock.",
+     "<b>How long it takes</b> is a duration, and that was the last part. <b>When you get there</b> is an instant, in some clock, and that has been this one.",
+     "Now you have both halves. <b>The rest of this topic is putting them together</b>, which is the thing nobody shows you doing."
+    ]
+   },
+   {
+    "id": "6.E1",
+    "h": "An ETA in somebody else's clock",
+    "t": "ejemplo",
+    "b": "Now you try",
+    "vars": [
+     {
+      "id": "6.E1/0900",
+      "pasos": [
+       {
+        "li": "<b>You leave at 0900 UT.</b> Nothing to convert yet &mdash; this is your own clock, and the passage has not started.",
+        "ca": [
+         "depart &nbsp;<b>0900 UT</b>"
+        ],
+        "lt": {
+         "base": {
+          "a": 2026,
+          "m": 7,
+          "d": 24
+         },
+         "filas": [
+          "ut",
+          "local"
+         ],
+         "muda": [
+          "local"
+         ],
+         "eje": [
+          0,
+          1440
+         ],
+         "zona": 60,
+         "t0": 540,
+         "verano": {
+          "aqui": true,
+          "alli": true
+         },
+         "viaje": {
+          "t": 540,
+          "dur": 180
+         },
+         "rot": {
+          "local": "the harbour clock"
+         }
+        }
+       },
+       {
+        "li": "<b>The leg is 21 miles and you are making 7 knots. That is 3 h.</b> This is the last part of this module, unchanged: a distance over a speed, and out comes a duration.",
+        "ca": [
+         "depart &nbsp;<b>0900 UT</b>",
+         "21 M &nbsp;&divide;&nbsp; 7 kn &nbsp;=&nbsp; <b>3 h</b>"
+        ],
+        "lt": {
+         "base": {
+          "a": 2026,
+          "m": 7,
+          "d": 24
+         },
+         "filas": [
+          "ut",
+          "local"
+         ],
+         "muda": [
+          "local"
+         ],
+         "eje": [
+          0,
+          1440
+         ],
+         "zona": 60,
+         "t0": 540,
+         "verano": {
+          "aqui": true,
+          "alli": true
+         },
+         "viaje": {
+          "t": 540,
+          "dur": 180
+         },
+         "rot": {
+          "local": "the harbour clock"
+         }
+        }
+       },
+       {
+        "li": "<b>0900 plus 3 h is 1200 UT.</b> That is your ETA, and so far there is only <b>one</b> clock in it.",
+        "ca": [
+         "21 M &nbsp;&divide;&nbsp; 7 kn &nbsp;=&nbsp; <b>3 h</b>",
+         "0900 + 3 h &nbsp;=&nbsp; <b>1200 UT</b>"
+        ],
+        "lt": {
+         "base": {
+          "a": 2026,
+          "m": 7,
+          "d": 24
+         },
+         "filas": [
+          "ut",
+          "local"
+         ],
+         "muda": [
+          "local"
+         ],
+         "eje": [
+          0,
+          1440
+         ],
+         "zona": 60,
+         "t0": 720,
+         "verano": {
+          "aqui": true,
+          "alli": true
+         },
+         "viaje": {
+          "t": 540,
+          "dur": 180
+         },
+         "rot": {
+          "local": "the harbour clock"
+         }
+        }
+       },
+       {
+        "li": "<b>Now put that instant on the line.</b> The passage is finished and the arithmetic is done &mdash; what is left is a label, and labels do not take any adding.",
+        "ca": [
+         "the arrival &nbsp;<b>1200 UT</b>"
+        ],
+        "lt": {
+         "base": {
+          "a": 2026,
+          "m": 7,
+          "d": 24
+         },
+         "filas": [
+          "ut",
+          "local"
+         ],
+         "muda": [
+          "local"
+         ],
+         "eje": [
+          0,
+          1440
+         ],
+         "zona": 60,
+         "t0": 720,
+         "verano": {
+          "aqui": true,
+          "alli": true
+         },
+         "viaje": {
+          "t": 540,
+          "dur": 180
+         },
+         "rot": {
+          "local": "the harbour clock"
+         },
+         "refFecha": "ut"
+        }
+       },
+       {
+        "li": "<b>The port keeps its office hours on the local clock, and it is summer there: the same instant reads 1400.</b> Two corrections — one for the zone, one for their summer time.",
+        "ca": [
+         "the arrival &nbsp;<b>1200 UT</b>",
+         "their clock &nbsp;<b>1400</b>"
+        ],
+        "lt": {
+         "base": {
+          "a": 2026,
+          "m": 7,
+          "d": 24
+         },
+         "filas": [
+          "ut",
+          "local"
+         ],
+         "muda": null,
+         "eje": [
+          0,
+          1440
+         ],
+         "zona": 60,
+         "t0": 720,
+         "verano": {
+          "aqui": true,
+          "alli": true
+         },
+         "viaje": {
+          "t": 540,
+          "dur": 180
+         },
+         "rot": {
+          "local": "the harbour clock"
+         },
+         "refFecha": "local"
+        }
+       },
+       {
+        "li": "<b>Both numbers are your arrival.</b> 1200 and 1400 are the same moment. <b>The one you write in the log is UT. The one that decides whether the office is still open is the other.</b>",
+        "ca": [
+         "in the log &nbsp;<b>1200 UT</b>",
+         "on the quay &nbsp;<b>1400</b>"
+        ],
+        "lt": {
+         "base": {
+          "a": 2026,
+          "m": 7,
+          "d": 24
+         },
+         "filas": [
+          "ut",
+          "local"
+         ],
+         "muda": null,
+         "eje": [
+          0,
+          1440
+         ],
+         "zona": 60,
+         "t0": 720,
+         "verano": {
+          "aqui": true,
+          "alli": true
+         },
+         "viaje": {
+          "t": 540,
+          "dur": 180
+         },
+         "rot": {
+          "local": "the harbour clock"
+         },
+         "refFecha": "local"
+        }
+       }
+      ]
+     },
+     {
+      "id": "6.E1/0745",
+      "pasos": [
+       {
+        "li": "<b>You leave at 0745 UT.</b> Nothing to convert yet &mdash; this is your own clock, and the passage has not started.",
+        "ca": [
+         "depart &nbsp;<b>0745 UT</b>"
+        ],
+        "lt": {
+         "base": {
+          "a": 2026,
+          "m": 8,
+          "d": 6
+         },
+         "filas": [
+          "ut",
+          "local"
+         ],
+         "muda": [
+          "local"
+         ],
+         "eje": [
+          0,
+          1440
+         ],
+         "zona": 60,
+         "t0": 465,
+         "verano": {
+          "aqui": true,
+          "alli": true
+         },
+         "viaje": {
+          "t": 465,
+          "dur": 240
+         },
+         "rot": {
+          "local": "the harbour clock"
+         }
+        }
+       },
+       {
+        "li": "<b>The leg is 32 miles and you are making 8 knots. That is 4 h.</b> This is the last part of this module, unchanged: a distance over a speed, and out comes a duration.",
+        "ca": [
+         "depart &nbsp;<b>0745 UT</b>",
+         "32 M &nbsp;&divide;&nbsp; 8 kn &nbsp;=&nbsp; <b>4 h</b>"
+        ],
+        "lt": {
+         "base": {
+          "a": 2026,
+          "m": 8,
+          "d": 6
+         },
+         "filas": [
+          "ut",
+          "local"
+         ],
+         "muda": [
+          "local"
+         ],
+         "eje": [
+          0,
+          1440
+         ],
+         "zona": 60,
+         "t0": 465,
+         "verano": {
+          "aqui": true,
+          "alli": true
+         },
+         "viaje": {
+          "t": 465,
+          "dur": 240
+         },
+         "rot": {
+          "local": "the harbour clock"
+         }
+        }
+       },
+       {
+        "li": "<b>0745 plus 4 h is 1145 UT.</b> That is your ETA, and so far there is only <b>one</b> clock in it.",
+        "ca": [
+         "32 M &nbsp;&divide;&nbsp; 8 kn &nbsp;=&nbsp; <b>4 h</b>",
+         "0745 + 4 h &nbsp;=&nbsp; <b>1145 UT</b>"
+        ],
+        "lt": {
+         "base": {
+          "a": 2026,
+          "m": 8,
+          "d": 6
+         },
+         "filas": [
+          "ut",
+          "local"
+         ],
+         "muda": [
+          "local"
+         ],
+         "eje": [
+          0,
+          1440
+         ],
+         "zona": 60,
+         "t0": 705,
+         "verano": {
+          "aqui": true,
+          "alli": true
+         },
+         "viaje": {
+          "t": 465,
+          "dur": 240
+         },
+         "rot": {
+          "local": "the harbour clock"
+         }
+        }
+       },
+       {
+        "li": "<b>Now put that instant on the line.</b> The passage is finished and the arithmetic is done &mdash; what is left is a label, and labels do not take any adding.",
+        "ca": [
+         "the arrival &nbsp;<b>1145 UT</b>"
+        ],
+        "lt": {
+         "base": {
+          "a": 2026,
+          "m": 8,
+          "d": 6
+         },
+         "filas": [
+          "ut",
+          "local"
+         ],
+         "muda": [
+          "local"
+         ],
+         "eje": [
+          0,
+          1440
+         ],
+         "zona": 60,
+         "t0": 705,
+         "verano": {
+          "aqui": true,
+          "alli": true
+         },
+         "viaje": {
+          "t": 465,
+          "dur": 240
+         },
+         "rot": {
+          "local": "the harbour clock"
+         },
+         "refFecha": "ut"
+        }
+       },
+       {
+        "li": "<b>The port keeps its office hours on the local clock, and it is summer there: the same instant reads 1345.</b> Two corrections — one for the zone, one for their summer time.",
+        "ca": [
+         "the arrival &nbsp;<b>1145 UT</b>",
+         "their clock &nbsp;<b>1345</b>"
+        ],
+        "lt": {
+         "base": {
+          "a": 2026,
+          "m": 8,
+          "d": 6
+         },
+         "filas": [
+          "ut",
+          "local"
+         ],
+         "muda": null,
+         "eje": [
+          0,
+          1440
+         ],
+         "zona": 60,
+         "t0": 705,
+         "verano": {
+          "aqui": true,
+          "alli": true
+         },
+         "viaje": {
+          "t": 465,
+          "dur": 240
+         },
+         "rot": {
+          "local": "the harbour clock"
+         },
+         "refFecha": "local"
+        }
+       },
+       {
+        "li": "<b>Both numbers are your arrival.</b> 1145 and 1345 are the same moment. <b>The one you write in the log is UT. The one that decides whether the office is still open is the other.</b>",
+        "ca": [
+         "in the log &nbsp;<b>1145 UT</b>",
+         "on the quay &nbsp;<b>1345</b>"
+        ],
+        "lt": {
+         "base": {
+          "a": 2026,
+          "m": 8,
+          "d": 6
+         },
+         "filas": [
+          "ut",
+          "local"
+         ],
+         "muda": null,
+         "eje": [
+          0,
+          1440
+         ],
+         "zona": 60,
+         "t0": 705,
+         "verano": {
+          "aqui": true,
+          "alli": true
+         },
+         "viaje": {
+          "t": 465,
+          "dur": 240
+         },
+         "rot": {
+          "local": "the harbour clock"
+         },
+         "refFecha": "local"
+        }
+       }
+      ]
+     },
+     {
+      "id": "6.E1/2200",
+      "pasos": [
+       {
+        "li": "<b>You leave at 2200 UT.</b> Nothing to convert yet &mdash; this is your own clock, and the passage has not started.",
+        "ca": [
+         "depart &nbsp;<b>2200 UT</b>"
+        ],
+        "lt": {
+         "base": {
+          "a": 2026,
+          "m": 1,
+          "d": 16
+         },
+         "filas": [
+          "ut",
+          "local",
+          "fecha"
+         ],
+         "muda": [
+          "local",
+          "fecha"
+         ],
+         "eje": [
+          0,
+          1440
+         ],
+         "zona": 60,
+         "t0": 1320,
+         "verano": {
+          "aqui": false,
+          "alli": false
+         },
+         "viaje": {
+          "t": 1320,
+          "dur": 180
+         },
+         "rot": {
+          "local": "the harbour clock"
+         }
+        }
+       },
+       {
+        "li": "<b>The leg is 18 miles and you are making 6 knots. That is 3 h.</b> This is the last part of this module, unchanged: a distance over a speed, and out comes a duration.",
+        "ca": [
+         "depart &nbsp;<b>2200 UT</b>",
+         "18 M &nbsp;&divide;&nbsp; 6 kn &nbsp;=&nbsp; <b>3 h</b>"
+        ],
+        "lt": {
+         "base": {
+          "a": 2026,
+          "m": 1,
+          "d": 16
+         },
+         "filas": [
+          "ut",
+          "local",
+          "fecha"
+         ],
+         "muda": [
+          "local",
+          "fecha"
+         ],
+         "eje": [
+          0,
+          1440
+         ],
+         "zona": 60,
+         "t0": 1320,
+         "verano": {
+          "aqui": false,
+          "alli": false
+         },
+         "viaje": {
+          "t": 1320,
+          "dur": 180
+         },
+         "rot": {
+          "local": "the harbour clock"
+         }
+        }
+       },
+       {
+        "li": "<b>2200 plus 3 h is 0100 UT.</b> And it is <b>tomorrow</b> &mdash; the clock went past midnight while you were adding. That is your ETA, and so far there is only <b>one</b> clock in it.",
+        "ca": [
+         "18 M &nbsp;&divide;&nbsp; 6 kn &nbsp;=&nbsp; <b>3 h</b>",
+         "2200 + 3 h &nbsp;=&nbsp; <b>0100 UT</b>, next day"
+        ],
+        "lt": {
+         "base": {
+          "a": 2026,
+          "m": 1,
+          "d": 16
+         },
+         "filas": [
+          "ut",
+          "local",
+          "fecha"
+         ],
+         "muda": [
+          "local",
+          "fecha"
+         ],
+         "eje": [
+          0,
+          1440
+         ],
+         "zona": 60,
+         "t0": 1500,
+         "verano": {
+          "aqui": false,
+          "alli": false
+         },
+         "viaje": {
+          "t": 1320,
+          "dur": 180
+         },
+         "rot": {
+          "local": "the harbour clock"
+         }
+        }
+       },
+       {
+        "li": "<b>Now put that instant on the line.</b> The passage is finished and the arithmetic is done &mdash; what is left is a label, and labels do not take any adding.",
+        "ca": [
+         "the arrival &nbsp;<b>0100 UT</b>"
+        ],
+        "lt": {
+         "base": {
+          "a": 2026,
+          "m": 1,
+          "d": 16
+         },
+         "filas": [
+          "ut",
+          "local",
+          "fecha"
+         ],
+         "muda": [
+          "local",
+          "fecha"
+         ],
+         "eje": [
+          0,
+          1440
+         ],
+         "zona": 60,
+         "t0": 1500,
+         "verano": {
+          "aqui": false,
+          "alli": false
+         },
+         "viaje": {
+          "t": 1320,
+          "dur": 180
+         },
+         "rot": {
+          "local": "the harbour clock"
+         },
+         "refFecha": "ut"
+        }
+       },
+       {
+        "li": "<b>The port keeps its office hours on the local clock, and it is winter: the same instant reads 0200.</b> One correction: the zone, and nothing else is due. And on their wall the date has already turned.",
+        "ca": [
+         "the arrival &nbsp;<b>0100 UT</b>",
+         "their clock &nbsp;<b>0200</b>, next day"
+        ],
+        "lt": {
+         "base": {
+          "a": 2026,
+          "m": 1,
+          "d": 16
+         },
+         "filas": [
+          "ut",
+          "local",
+          "fecha"
+         ],
+         "muda": null,
+         "eje": [
+          0,
+          1440
+         ],
+         "zona": 60,
+         "t0": 1500,
+         "verano": {
+          "aqui": false,
+          "alli": false
+         },
+         "viaje": {
+          "t": 1320,
+          "dur": 180
+         },
+         "rot": {
+          "local": "the harbour clock"
+         },
+         "refFecha": "local"
+        }
+       },
+       {
+        "li": "<b>Both numbers are your arrival.</b> 0100 and 0200 are the same moment. <b>The one you write in the log is UT. The one that decides whether the office is still open is the other.</b> And if you write the right time under yesterday's date, you have logged a passage that never happened.",
+        "ca": [
+         "in the log &nbsp;<b>0100 UT</b>",
+         "on the quay &nbsp;<b>0200</b>, next day"
+        ],
+        "lt": {
+         "base": {
+          "a": 2026,
+          "m": 1,
+          "d": 16
+         },
+         "filas": [
+          "ut",
+          "local",
+          "fecha"
+         ],
+         "muda": null,
+         "eje": [
+          0,
+          1440
+         ],
+         "zona": 60,
+         "t0": 1500,
+         "verano": {
+          "aqui": false,
+          "alli": false
+         },
+         "viaje": {
+          "t": 1320,
+          "dur": 180
+         },
+         "rot": {
+          "local": "the harbour clock"
+         },
+         "refFecha": "local"
+        }
+       }
+      ]
+     }
+    ]
+   },
+   {
+    "id": "6.P1",
+    "h": "Arrive before the office shuts",
+    "t": "problema",
+    "n": 1,
+    "sube": false,
+    "b": "Next",
+    "pie": "you arrive at",
+    "uni": "on their clock",
+    "sit": [
+     {
+      "id": "p1a",
+      "a": 2026,
+      "m": 7,
+      "d": 24,
+      "min": 450,
+      "zona": 60,
+      "veranoAlli": true,
+      "bst": true,
+      "hhmm": "0730",
+      "fecha": "Friday 24 July 2026",
+      "dia": "Friday",
+      "usos": [],
+      "mn": 24,
+      "kn": 6,
+      "larga": 240,
+      "llega": 690
+     },
+     {
+      "id": "p1b",
+      "a": 2026,
+      "m": 8,
+      "d": 12,
+      "min": 495,
+      "zona": 60,
+      "veranoAlli": true,
+      "bst": true,
+      "hhmm": "0815",
+      "fecha": "Wednesday 12 August 2026",
+      "dia": "Wednesday",
+      "usos": [],
+      "mn": 35,
+      "kn": 7,
+      "larga": 300,
+      "llega": 795
+     },
+     {
+      "id": "p1c",
+      "a": 2026,
+      "m": 6,
+      "d": 19,
+      "min": 400,
+      "zona": 120,
+      "veranoAlli": true,
+      "bst": true,
+      "hhmm": "0640",
+      "fecha": "Friday 19 June 2026",
+      "dia": "Friday",
+      "usos": [],
+      "mn": 27,
+      "kn": 6,
+      "larga": 270,
+      "llega": 670
+     },
+     {
+      "id": "p1d",
+      "a": 2026,
+      "m": 9,
+      "d": 3,
+      "min": 520,
+      "zona": 60,
+      "veranoAlli": true,
+      "bst": true,
+      "hhmm": "0840",
+      "fecha": "Thursday 3 September 2026",
+      "dia": "Thursday",
+      "usos": [],
+      "mn": 32,
+      "kn": 8,
+      "larga": 240,
+      "llega": 760
+     }
+    ],
+    "lt": {
+     "base": {
+      "a": 2026,
+      "m": 7,
+      "d": 14
+     },
+     "viaje": {
+      "t": 420,
+      "dur": 300
+     },
+     "eje": [
+      0,
+      1440
+     ],
+     "zona": 60,
+     "verano": {
+      "aqui": true,
+      "alli": true
+     },
+     "filas": [
+      "ut",
+      "local"
+     ],
+     "muda": "local"
+    },
+    "pone": function(q){var z='−0'+(q.zona/60)+'00';return {muda:'local', rot:{local:'zone '+z},viaje:{t:q.min,dur:q.larga}, t0:q.llega};},
+    "ay": "Work the passage first, in UT. Then move the finished instant across.",
+    "p": [
+     "The office shuts at 1800 on their clock, and you would rather not find that out on the quay.",
+     "<b>Do it in the order the line does it:</b> the duration first, in UT. Then take the finished instant across &mdash; once for the zone, and once more if their summer time is in force.",
+     "<b class='q'>What time will you arrive, on the harbour's clock?</b>"
+    ],
+    "caja": function(q){var z='−0'+(q.zona/60)+'00';return [['you leave at',q.hhmm+' UT'],['the leg',q.mn+' M at '+q.kn+' kn'],['the port&rsquo;s page','ZONE '+z],['the date',q.fecha]];},
+    "resp": function(q){return q.llega+q.zona+(q.veranoAlli?60:0);},
+    "bien": "Two numbers, one arrival &mdash; and the one that decides whether the office is open is theirs, not yours.",
+    "mal": function(q,dio,bien,reloj){var n=q.zona/60, nom=['','one','two','three','four'];if(reloj==q.llega)return '<b>That is your arrival in UT, and it is right.</b> But the office does not run on UT — the question asked for <b>their</b> clock.';if(reloj==q.llega+q.zona&&q.veranoAlli) return '<b>You have applied one correction and there are two.</b> The zone puts them '+nom[n]+' ahead of UT, and their summer time puts them another. Both were due on this date.';if(reloj==q.min+q.zona+(q.veranoAlli?60:0)) return '<b>You have converted the departure, not the arrival.</b> Sail first, then move the instant — the leg happens in UT and the clock comes after.';if(((reloj-bien)%1440+1440)%1440==1440-2*(q.zona+(q.veranoAlli?60:0))) return '<b>They are east.</b> Coming from UT you go <b>up</b>, not down.';return '<b>Not that one.</b> '+q.mn+' M at '+q.kn+' kn is the duration; add it to '+q.hhmm+' UT; then count the corrections and move the answer.';},
+    "pista": "Three steps and they do not mix: the duration, the arrival in UT, and then the corrections. Count the corrections <b>before</b> you add them.",
+    "show": {
+     "obra": function(q,bien){var h=function(m){m=((m%1440)+1440)%1440;return ('0'+Math.floor(m/60)).slice(-2)+('0'+m%60).slice(-2);};var n=q.zona/60+(q.veranoAlli?1:0);return [q.mn+' M ÷ '+q.kn+' kn = <b>'+Math.floor(q.larga/60)+' h '+('0'+q.larga%60).slice(-2)+'</b>','<b>'+q.hhmm+' + '+Math.floor(q.larga/60)+' h '+('0'+q.larga%60).slice(-2)+' = '+h(q.llega)+' UT</b> — that is the arrival, in your clock','their zone is −0'+(q.zona/60)+'00 and their summer time '+(q.veranoAlli?'is':'is not')+' in force: <b>+'+n+' h</b>','<b>'+h(q.llega)+' + '+n+' h = '+h(bien)+'</b> on their clock'];},
+     "txt": "<p>The passage is arithmetic and the clock is a label, and they are done in that order every time. Do them in the other order and you convert a time you have not arrived at yet.</p>"
+    }
+   },
+   {
+    "id": "6.P2",
+    "h": "The one that lands tomorrow",
+    "t": "problema",
+    "n": 1,
+    "sube": false,
+    "b": "Next",
+    "pie": "you arrive at",
+    "uni": "on their clock",
+    "dia": [
+     "same day",
+     "next day"
+    ],
+    "sit": [
+     {
+      "id": "p2a",
+      "a": 2026,
+      "m": 12,
+      "d": 11,
+      "min": 1275,
+      "zona": 60,
+      "veranoAlli": false,
+      "bst": false,
+      "hhmm": "2115",
+      "fecha": "Friday 11 December 2026",
+      "dia": "Friday",
+      "usos": [],
+      "mn": 27,
+      "kn": 5,
+      "larga": 324,
+      "llega": 1599
+     },
+     {
+      "id": "p2b",
+      "a": 2026,
+      "m": 1,
+      "d": 23,
+      "min": 1305,
+      "zona": 60,
+      "veranoAlli": false,
+      "bst": false,
+      "hhmm": "2145",
+      "fecha": "Friday 23 January 2026",
+      "dia": "Friday",
+      "usos": [],
+      "mn": 33,
+      "kn": 6,
+      "larga": 330,
+      "llega": 1635
+     },
+     {
+      "id": "p2c",
+      "a": 2026,
+      "m": 11,
+      "d": 27,
+      "min": 1320,
+      "zona": 120,
+      "veranoAlli": false,
+      "bst": false,
+      "hhmm": "2200",
+      "fecha": "Friday 27 November 2026",
+      "dia": "Friday",
+      "usos": [],
+      "mn": 21,
+      "kn": 5,
+      "larga": 252,
+      "llega": 1572
+     },
+     {
+      "id": "p2d",
+      "a": 2026,
+      "m": 2,
+      "d": 13,
+      "min": 1290,
+      "zona": 60,
+      "veranoAlli": false,
+      "bst": false,
+      "hhmm": "2130",
+      "fecha": "Friday 13 February 2026",
+      "dia": "Friday",
+      "usos": [],
+      "mn": 40,
+      "kn": 8,
+      "larga": 300,
+      "llega": 1590
+     }
+    ],
+    "lt": {
+     "base": {
+      "a": 2026,
+      "m": 7,
+      "d": 14
+     },
+     "viaje": {
+      "t": 420,
+      "dur": 300
+     },
+     "eje": [
+      0,
+      1440
+     ],
+     "zona": 60,
+     "verano": {
+      "aqui": true,
+      "alli": true
+     },
+     "filas": [
+      "ut",
+      "local",
+      "fecha"
+     ],
+     "muda": [
+      "local",
+      "fecha"
+     ],
+     "refFecha": "local"
+    },
+    "pone": function(q){var z='−0'+(q.zona/60)+'00';return {muda:['local','fecha'], rot:{local:'zone '+z},viaje:{t:q.min,dur:q.larga}, t0:q.llega};},
+    "ay": "Give the time <b>and the day</b>. And count the corrections before you add them.",
+    "p": [
+     "A night crossing, and somebody is meeting you.",
+     "<b>Watch two things at once:</b> where the clock lands, and which day it lands on. The instant never crossed anything &mdash; the label did.",
+     "<b class='q'>What time will you arrive on their clock, and on what day?</b>"
+    ],
+    "caja": function(q){var z='−0'+(q.zona/60)+'00';return [['you leave at',q.hhmm+' UT on '+q.dia],['the leg',q.mn+' M at '+q.kn+' kn'],['the port&rsquo;s page','ZONE '+z],['the date',q.fecha]];},
+    "resp": function(q){return q.llega+q.zona+(q.veranoAlli?60:0);},
+    "bien": "Two things moved and neither of them was the instant: the label, and the date.",
+    "mal": function(q,dio,bien,reloj){var n=q.zona/60, nom=['','one','two','three','four'];var dijo=Math.floor(dio/1440), toca=Math.floor(bien/1440);if(reloj==bien%1440&&dijo!=toca) return toca?'<b>The time is right and the day is not.</b> That reading is after midnight, so on their wall it is already <b>tomorrow</b>. The instant did not cross anything; the label did.':'<b>The time is right and the day is not.</b> It has not gone past midnight on their clock, so it is still the same day.';if(reloj==((q.llega+q.zona+60)%1440+1440)%1440) return '<b>There is no summer time in this one.</b> Look at the date: it is <b>winter</b> at both ends, so the zone is the only correction due. Adding a second by habit is how you turn up an hour early in the dark.';if(reloj==q.llega%1440)return '<b>That is your arrival in UT.</b> Right number, wrong clock — the question asked for theirs.';return '<b>Not that one.</b> '+q.mn+' M at '+q.kn+' kn on top of '+q.hhmm+' UT, then the zone — and then look at which day it landed on.';},
+    "pista": "Duration first, in UT, and watch the date as you cross midnight. Then the zone &mdash; and check the heading: <b>is there any summer time in this one?</b>",
+    "show": {
+     "obra": function(q,bien){var h=function(m){m=((m%1440)+1440)%1440;return ('0'+Math.floor(m/60)).slice(-2)+('0'+m%60).slice(-2);};var n=q.zona/60+(q.veranoAlli?1:0);return [q.mn+' M ÷ '+q.kn+' kn = <b>'+Math.floor(q.larga/60)+' h '+('0'+q.larga%60).slice(-2)+'</b>','<b>'+q.hhmm+' + '+Math.floor(q.larga/60)+' h '+('0'+q.larga%60).slice(-2)+' = '+h(q.llega)+' UT</b>'+(q.llega>=1440?', and that is already the next day':''),'winter at both ends, so only the zone: <b>+'+n+' h</b>','<b>'+h(bien)+'</b> on their clock, <b>'+(bien>=1440?'the next day':'the same day')+'</b>'];},
+     "txt": "<p>Two corrections and one of them is a calendar. The one that gets missed is always the date, because it does not look like arithmetic &mdash; it looks like bookkeeping, right up until somebody meets the wrong boat on the wrong morning.</p>"
+    }
+   },
+   {
+    "id": "6.P3",
+    "h": "Out by exactly an hour. Or two.",
+    "t": "elige",
+    "b": "Next",
+    "lt": {
+     "escena": {
+      "tipo": "tarjetas",
+      "fichas": [
+       {
+        "l": "THE PLAN",
+        "t": [
+         "worked in UT",
+         "and the passage sum",
+         "was right"
+        ]
+       },
+       {
+        "l": "WHAT SHE DID",
+        "t": [
+         "converted",
+         "once"
+        ]
+       },
+       {
+        "l": "THE RESULT",
+        "t": [
+         "she is adrift",
+         "by whole hours"
+        ]
+       }
+      ],
+      "pie": "Whole hours are labels. Go and count the clocks."
+     }
+    },
+    "sit": [
+     {
+      "id": "s1",
+      "caja": [
+       "<b>she worked the passage in UT and got it right</b>",
+       "she converted <b>once</b>, for the zone",
+       "<b>she is two hours adrift</b>, in winter, abroad"
+      ],
+      "ops": [
+       "She moved the hour the wrong way",
+       "She missed a second correction that was due",
+       "She got the passage arithmetic wrong",
+       "The tables were in the wrong clock"
+      ],
+      "ok": 0,
+      "bien": "And that is why it is two and not one. Moving an hour the wrong way costs you the hour you added <b>and</b> the hour you should have taken off. <b>One mistake, double the error.</b>",
+      "mal": [
+       "",
+       "<b>Look at what she was given: it is winter.</b> There was no second correction due &mdash; only the zone. Both answers are two hours, but they are <b>opposite</b>: here an hour is in the wrong place, not missing.",
+       "<b>A wrong passage sum comes out in odd minutes, not in whole hours.</b> A whole hour is always a label, never a distance.",
+       "<b>The tables declared themselves</b>, and she read them right &mdash; she worked the passage in UT and the passage was correct."
+      ],
+      "obra": [
+       "corrections due here: <b>one</b> (the zone; it is winter)",
+       "corrections she made: <b>one</b>",
+       "same number → the error is in a <b>direction</b>"
+      ]
+     },
+     {
+      "id": "s2",
+      "caja": [
+       "<b>she worked the passage in UT and got it right</b>",
+       "she converted <b>once</b>, for the zone",
+       "<b>she is two hours adrift</b>, in July, abroad"
+      ],
+      "ops": [
+       "She moved the hour the wrong way",
+       "She missed a second correction that was due",
+       "She got the passage arithmetic wrong",
+       "The tables were in the wrong clock"
+      ],
+      "ok": 1,
+      "bien": "Both were due: the zone puts their clock an hour ahead, and their summer time puts it another. <b>Two hours, and neither of them is a mistake</b> &mdash; the mistake was stopping after one.",
+      "mal": [
+       "<b>Look at what she was given: it is July, and she is abroad.</b> Two corrections were due and she made one. Both answers are two hours, but they are <b>opposite</b>: here an hour is <b>missing</b>, not misplaced.",
+       "",
+       "<b>A wrong passage sum comes out in odd minutes, not in whole hours.</b> A whole hour is always a label, never a distance.",
+       "<b>The tables declared themselves</b>, and she read them right."
+      ],
+      "obra": [
+       "corrections due here: <b>two</b> (the zone, and their summer time in July)",
+       "corrections she made: <b>one</b>",
+       "fewer → the error is a <b>missing correction</b>"
+      ]
+     },
+     {
+      "id": "s3",
+      "caja": [
+       "<b>she worked the passage in UT and got it right</b>",
+       "she made <b>no correction at all</b> &mdash; she never left home waters",
+       "<b>she is one hour adrift</b>, in June"
+      ],
+      "ops": [
+       "She moved the hour the wrong way",
+       "She missed a correction that was due",
+       "She got the passage arithmetic wrong",
+       "The tables were in the wrong clock"
+      ],
+      "ok": 1,
+      "bien": "<b>BST.</b> Her own country was an hour ahead of her tables and she never touched the number. You do not have to leave home to owe a correction.",
+      "mal": [
+       "<b>She did not move an hour at all</b>, so there is no direction to get wrong. The question is which correction she owed and did not make.",
+       "",
+       "<b>A wrong passage sum comes out in odd minutes, not in whole hours.</b>",
+       "<b>The tables were in UT and said so</b> &mdash; that part was fine."
+      ],
+      "obra": [
+       "corrections due here: <b>one</b> (BST, in June, at home)",
+       "corrections she made: <b>none</b>",
+       "fewer → the error is a <b>missing correction</b>"
+      ]
+     }
+    ],
+    "p": [
+     "Somebody has done a passage plan and it is out. Not a little out &mdash; <b>out by a whole number of hours</b>, which always means the same kind of mistake.",
+     "<b class='q'>What happened?</b>"
+    ],
+    "ay": "Count the corrections that were <b>due</b>, then the ones she <b>made</b>.",
+    "pista": "Count the corrections that were <b>due</b>, and then count the ones she <b>made</b>. If they are the same number, the error is in a direction; if she made fewer, it is in a missing one.",
+    "show": {
+     "txt": "<p>Whole hours are always labels. When you are out by 60 minutes exactly, stop looking at the passage &mdash; the passage is fine. <b>Go and count the clocks.</b></p>"
+    }
+   },
+   {
+    "id": "6.P4",
+    "h": "What you can do now",
+    "b": "Finish this part",
+    "lt": {
+     "base": {
+      "a": 2026,
+      "m": 7,
+      "d": 14
+     },
+     "viaje": {
+      "t": 420,
+      "dur": 300
+     },
+     "eje": [
+      360,
+      1020
+     ],
+     "zona": 60,
+     "verano": {
+      "aqui": true,
+      "alli": true
+     },
+     "filas": [
+      "ut",
+      "bst",
+      "local"
+     ],
+     "muda": null,
+     "t0": 600
+    },
+    "p": [
+     "One instant. As many numbers as there are clocks looking at it.",
+     "You can put a moment on a line and read it in three. You can go from a table to a wrist and back without the sign turning round on you. You can read <code>&minus;0100</code> as what it is &mdash; the way home &mdash; and use it in both directions. You can take a passage out of the last part, land it at a time of day, and say that time in somebody else's clock, on the right day.",
+     "<b>Read the heading &middot; move the instant &middot; name the clock.</b> That is the whole of it, and it is three habits rather than three sums.",
+     "<b>And the sentence to keep</b>, because you will meet it again <b>two modules from now</b>, word for word, when the tides start moving: <b>the tide does not move; only the labels do.</b>",
+     "<b>One thing you cannot do yet.</b> Every tide table in module 04 is printed in <b>UT</b>, and every harbour you want to reach keeps its office hours on the wall. That is <b>module 04</b>, and <b>it is the reason this part came before it</b> &mdash; you will be doing tidal curves with quite enough on your mind already."
+    ]
+   }
+  ]
+ }
+];
+
+const TOT=24;
+let paso={p:0,i:0}, hecho=false, LOG=[], FALLO={}, MED={}, EST={};
+const S=()=>PZ[paso.p].s[paso.i];
+const svg=document.getElementById("svg");
+const cuerpo=document.getElementById("wrap");
+
+const D={W:1000,H:640};
+
+const COL={
+
+ papel:"#fdfdfb",
+ escrito:"#12202b",
+ tinta:"#2F4A5A",
+
+ suave:"#3E4A54",
+ raya:"#cddae2",
+ marco:"#2F4A5A",
+ rojo:"#c8102e",
+ verde:"#0a6b52",
+
+ tierra:"#F0C97F",
+ agua:"#D4E7F2",
+
+ trama:"#f4f6f7",
+ seco:"#F2E7D4",
+
+ panel:"#F7FAFB",
+ playa:"#E8D9AE",
+ muelle:"#8A7A55"};
+
+const TAM={rot:12, dato:14, lee:20, cifra:34, grande:44, hero:56};
+const CIFRA={1:TAM.hero, 2:TAM.hero, 3:TAM.grande, 4:TAM.cifra, 5:TAM.cifra};
+
+const R={papel:0, caja:3};
+
+const GR={filete:0.75, marco:1.5, mano:3};
+
+const RET=8, ret=n=>px(n*RET);
+
+const MARGEN=24;
+
+const ALTO={mapa:300, pais:210, tarjetas:190, anyo:250, dos:200, uno:220};
+
+const MAPA={y0:0,y1:0, marco:14};
+const RUTA={x0:0,y0:0, x1:0,y1:0};
+const EJE ={x0:0,x1:0, y:0};
+const MAP_T={k:1,ox:0,oy:0};
+
+const HOJA={x0:0,y0:0,x1:0,y1:0};
+const CLAVE={izq:120,der:884};
+const COLU={izq:[0,0],der:[0,0]};
+let COSTURA=0, PIE=0;
+
+function claveFilas(){
+ const f=LT.filas||[];
+ return {iz:f.indexOf("bst")>=0?"bst":(f.indexOf("ut")>=0?"ut":null),
+         de:f.indexOf("local")>=0?"local":null};}
+function piePartes(){const c=claveFilas();
+ return (LT.filas||[]).filter(q=>q!=c.iz&&q!=c.de);}
+function maqueta(){
+ const m=px(MARGEN);
+
+ EJE.x0=m+px(84); EJE.x1=D.W-m-px(84);
+
+ const e=LT.escena, s=S();
+ const cual=e?(ALTO[e.tipo]||ALTO.dos):(LT.pais?ALTO.pais:ALTO.mapa);
+
+ const nf=(LT.filas||[]).length;
+ const banda=Math.max(px(46+26+10+56+20), px(72+26*nf));
+
+ const nativo=!e&&!LT.pais;
+
+ HOJA.x0=m; HOJA.y0=m; HOJA.x1=D.W-m; HOJA.y1=D.H-m;
+
+ const altoPie=px(14+TAM.rot+18+TAM.lee+14);
+ const altoLec=px(20+TAM.cifra+22+TAM.rot+12);
+ PIE=HOJA.y1-altoPie;
+ COSTURA=PIE-altoLec;
+ MAPA.y0=HOJA.y0; MAPA.y1=COSTURA;
+
+ BANDA.y0=COSTURA; EJE.y=COSTURA; FILA.y0=COSTURA+px(30);
+
+ const semi=px(75)+px(10);
+ COLU.izq=[HOJA.x0, CLAVE.izq+semi];
+ COLU.der=[CLAVE.der-semi, HOJA.x1];
+
+ const NAT={y0:10,y1:432,w:1000};
+
+ const kNat=Math.max(1,Math.min(1.2,(MAPA.y1-MAPA.y0)/(NAT.y1-NAT.y0)));
+ MAP_T.k=nativo?kNat:Math.min((D.W-2*m)/NAT.w,(MAPA.y1-MAPA.y0)/(NAT.y1-NAT.y0));
+ MAP_T.ox=nativo?(D.W-NAT.w*MAP_T.k)/2:(D.W-NAT.w*MAP_T.k)/2;
+ MAP_T.oy=nativo?MAPA.y0-NAT.y0*MAP_T.k
+                :MAPA.y0-NAT.y0*MAP_T.k+((MAPA.y1-MAPA.y0)-(NAT.y1-NAT.y0)*MAP_T.k)/2;
+
+ const aNat=x=>(x-MAP_T.ox)/MAP_T.k;
+ RUTA.x0=aNat(EJE.x0); RUTA.x1=aNat(EJE.x1);
+ RUTA.y0=222; RUTA.y1=198;}
+
+const FILA={y0:0, get alto(){return px(26);}};
+const BANDA={y0:0};
+
+let LT=ltLimpio();
+function ltLimpio(){return{
+ t0:600, base:{a:2026,m:7,d:14},
+ filas:["ut","bst","local"], muda:null, pais:false, rot:null,
+ zona:60, verano:{aqui:true,alli:true},
+ viaje:{t:480,dur:240}, eje:[0,1440],
+ tira:null, resuelto:false};}
+
+const dos=n=>(n<10?"0":"")+n;
+const hhmm=m=>{const q=((m%1440)+1440)%1440; return dos(Math.floor(q/60))+dos(q%60);};
+const DIA=["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday"];
+const MES=["January","February","March","April","May","June","July","August",
+           "September","October","November","December"];
+const BIS=a=>a%4==0&&(a%100!=0||a%400==0);
+const DIASMES=(a,m)=>m==2?(BIS(a)?29:28):[31,28,31,30,31,30,31,31,30,31,30,31][m-1];
+function dsem(a,m,d){let yy=a,mm=m; if(mm<3){mm+=12;yy--;}
+ const k=yy%100,j=Math.floor(yy/100);
+ const h=(d+Math.floor(13*(mm+1)/5)+k+Math.floor(k/4)+Math.floor(j/4)+5*j)%7;
+ return (h+5)%7;}
+function masDias(f,n){let{a,m,d}=f; d+=n;
+ while(d>DIASMES(a,m)){d-=DIASMES(a,m); m++; if(m>12){m=1;a++;}}
+ while(d<1){m--; if(m<1){m=12;a--;} d+=DIASMES(a,m);}
+ return {a:a,m:m,d:d};}
+
+function desfase(fila){
+ if(fila=="ut")return 0;
+ if(fila=="bst")return LT.verano.aqui?60:0;
+ if(fila=="local")return LT.zona+(LT.verano.alli?60:0);
+ return 0;}
+function valorFila(fila){
+ if(fila=="transcurrido"){
+  const m=Math.max(0,LT.t0-LT.viaje.t);
+  return Math.floor(m/60)+" h "+dos(m%60);}
+ if(fila=="fecha"){
+  const t=LT.t0+desfase(LT.refFecha||"ut");
+  const f=masDias(LT.base,Math.floor(t/1440));
+  return DIA[dsem(f.a,f.m,f.d)]+" "+f.d+" "+MES[f.m-1];}
+ return hhmm(LT.t0+desfase(fila));}
+
+function rotulo(fila){
+
+ if(LT.rot&&LT.rot[fila])return LT.rot[fila];
+ if(fila=="ut")return "UTC";
+ if(fila=="transcurrido")return "time elapsed";
+ if(fila=="fecha")return "date";
+ const d=desfase(fila);
+ if(fila=="bst")return "here · "+(LT.verano.aqui?"BST":"UT");
+ return "over there · "+(d?"UT+"+(d/60):"UT");
+}
+
+function esMuda(f){const m=LT.muda;
+ if(!m)return false;
+ if(m=="todas")return true;
+ if(Array.isArray(m))return m.indexOf(f)>=0;
+ return m==f;}
+
+let ESC=1;
+function esc(){const r=svg.getBoundingClientRect();
+ return Math.min(r.width/D.W, r.height/D.H)||1;}
+const px=n=>n/ESC;
+
+let gO=null;
+function el(t,at,pa){const e=document.createElementNS("http://www.w3.org/2000/svg",t);
+ for(const k in at)e.setAttribute(k,at[k]); (pa||gO).appendChild(e); return e;}
+
+const anchoTxt=(s,tam)=>String(s).length*px(tam)*0.62;
+function txt(x,y,s,an,tam,col,peso){
+ const e=el("text",{x:x,y:y,"text-anchor":an||"start","font-size":px(tam),
+  fill:col||"#12202b","font-family":"ui-monospace,monospace",
+  "font-weight":peso||400});
+ e.appendChild(document.createTextNode(s)); return e;}
+
+function pinta(){
+ svg.setAttribute("viewBox","0 0 "+D.W+" "+D.H);
+ svg.setAttribute("preserveAspectRatio","xMidYMid meet");
+ ESC=esc();
+ while(svg.firstChild)svg.removeChild(svg.firstChild);
+ gO=el("g",{},svg);
+ maqueta();
+ const s=S();
+
+ if(LT.escena){escena(); return;}
+
+ if(!s.lt&&s.t!="ejemplo"){svg.setAttribute("viewBox","0 0 "+D.W+" "+D.H); return;}
+
+ if(LT.pais)pais();
+ else{
+  const m=px(MARGEN);
+  const cp=el("clipPath",{id:"recorte"},svg);
+
+  el("rect",{x:HOJA.x0,y:HOJA.y0,width:HOJA.x1-HOJA.x0,height:COSTURA-HOJA.y0},cp);
+
+  el("rect",{x:HOJA.x0,y:HOJA.y0,width:HOJA.x1-HOJA.x0,height:COSTURA-HOJA.y0,
+   fill:COL.agua});
+  const g=el("g",{"clip-path":"url(#recorte)",transform:
+    "translate("+MAP_T.ox+","+MAP_T.oy+") scale("+MAP_T.k+")"},gO);
+  const antes=gO; gO=g; mapa(); gO=antes;
+
+  const c=claveFilas();
+  const yR=Math.max(MAPA.y0+px(38),
+    Math.min(MAPA.y0+(MAPA.y1-MAPA.y0)*0.22, COSTURA-px(66)));
+  if(c.iz)reloj(CLAVE.izq,yR,c.iz);
+  if(c.de)reloj(CLAVE.der,yR,c.de);
+
+  const av=txt(HOJA.x0+px(10),COSTURA-px(9),"not to scale","start",11,COL.tinta);
+  av.setAttribute("opacity",".55");}
+ linea();
+ marco();
+}
+
+function marco(){
+ el("rect",{x:HOJA.x0,y:HOJA.y0,width:HOJA.x1-HOJA.x0,height:HOJA.y1-HOJA.y0,
+  rx:px(R.caja),fill:"none",stroke:COL.marco,"stroke-width":px(GR.marco)});}
+
+function display(cx,cy,v,etq,gr,apagado){
+ const An=px(gr?230:150), Al=px(gr?106:70);
+ el("rect",{x:cx-An/2,y:cy-Al/2,width:An,height:Al,rx:px(gr?13:9),
+  fill:"#16242E",stroke:COL.tinta,"stroke-width":px(2)});
+ el("rect",{x:cx-An/2+px(5),y:cy-Al/2+px(5),width:An-px(10),height:Al-px(10),
+  rx:px(gr?9:6),fill:"#1E323F"});
+
+ txt(cx,cy+px(gr?17:11),v,"middle",gr?52:34,apagado?"#8AA0B0":"#8FE3C4",600);
+ if(etq){const tam=gr?14:12, tb=px(gr?24:20);
+
+  const ta=Math.max(px(gr?150:96), anchoTxt(etq,tam)+px(18));
+
+  el("rect",{x:cx-ta/2,y:cy+Al/2-px(3),width:ta,height:tb,rx:px(4),chapa:etq,
+   fill:COL.panel,stroke:COL.tinta,"stroke-width":px(1)});
+  txt(cx,cy+Al/2+px(gr?13:11),etq,"middle",gr?14:12,COL.tinta,600);}
+}
+
+function tarjetas(E){
+ const n=E.fichas.length;
+ const AN=px(268), AL=px(150), SEP=px(20);
+ const total=n*AN+(n-1)*SEP, X0=500-total/2;
+ const T=MAPA.y0+Math.max(0,(MAPA.y1-MAPA.y0-AL)/2);
+ E.fichas.forEach((f,k)=>{
+  const x=X0+k*(AN+SEP);
+  el("rect",{x:x+px(4),y:T+px(4),width:AN,height:AL,rx:px(4),fill:"#0000001a"});
+  el("rect",{x:x,y:T,width:AN,height:AL,rx:px(4),fill:"#fff",
+   stroke:COL.tinta,"stroke-width":px(1.6)});
+  el("rect",{x:x,y:T,width:AN,height:px(30),fill:COL.tinta});
+  txt(x+px(12),T+px(21),f.l,"start",13,"#fff",600);
+  f.t.forEach((q,i)=>txt(x+AN/2,T+px(58)+i*px(24),q,"middle",13,COL.tinta,
+   i==0?600:400));});
+ if(E.pie)txt(500,T+AL+px(36),E.pie,"middle",13,"#5a6b78");}
+
+const PESO={carta:3, relojes:2, linea:2, documento:2};
+let REG=[];
+function hoja(lista){
+ const m=px(MARGEN), alto=D.H-2*m;
+ const suma=lista.reduce((a,r)=>a+PESO[r.tipo],0);
+ let y=m; REG=[];
+ lista.forEach((r,k)=>{
+  const h=alto*PESO[r.tipo]/suma;
+  REG.push({tipo:r.tipo, nom:r.nom, x0:m, x1:D.W-m, y0:y, y1:y+h});
+  y+=h;});
+
+ REG.forEach((r,k)=>{
+  if(k)el("line",{x1:r.x0,y1:r.y0,x2:r.x1,y2:r.y0,stroke:COL.raya,
+   "stroke-width":px(GR.filete)});
+  const e=txt(r.x0,r.y0+px(15),r.nom,"start",11,COL.suave,600);
+  e.setAttribute("letter-spacing",px(1.2));
+  r.c0=r.y0+px(26);});
+ return REG;}
+const registro=t2=>REG.filter(r=>r.tipo==t2)[0];
+
+function relojes(E){
+ const r=registro("relojes"); if(!r)return;
+ const n=E.uno?1:2;
+ const anc=(r.x1-r.x0), h=r.y1-r.c0;
+
+ const hayPares=!!E.pares;
+
+ const ah=Math.min(hayPares?h*0.52:h*0.74, anc*0.26);
+ const aw=Math.min(anc/(n+0.5), anc*0.42);
+ const cy=r.c0+(hayPares?h*0.31:h*0.50);
+ const xs=n==1?[500]:[r.x0+anc*0.27, r.x0+anc*0.73];
+ xs.forEach((cx,k)=>{
+  const d=n==1?E.a:(k?E.b:E.a);
+  esfera(cx,cy,aw,ah,d.v,d.etq);});
+
+ if(E.medio&&n==2){
+  const q=txt(500,cy-ah*0.60,E.medio,"middle",TAM.lee,COL.tinta,600);
+  q.setAttribute("font-family","DejaVu Serif,Georgia,serif");
+  q.setAttribute("font-style","italic");
+  el("line",{x1:500-px(70),y1:cy,x2:500+px(70),y2:cy,stroke:COL.raya,
+   "stroke-width":px(GR.filete),"stroke-dasharray":px(4)+","+px(5)});}
+
+ if(E.pares)E.pares.forEach(([q,d],k)=>{
+  const x=500+anc*(d/1000), y=r.c0+h*0.78;
+  el("rect",{x:x-anc*0.15,y:y-h*0.10,width:anc*0.30,height:h*0.20,rx:px(R.caja),
+   fill:COL.papel,stroke:COL.raya,"stroke-width":px(GR.filete)});
+  txt(x,y-h*0.055,q,"middle",TAM.rot,COL.suave);
+  txt(x,y+h*0.075,E.a.v,"middle",TAM.cifra,COL.escrito,600);});
+ if(E.pie)txt(500,r.y1-px(10),E.pie,"middle",TAM.rot,COL.suave);}
+
+function esfera(cx,cy,an,al,v,etq){
+ el("rect",{x:cx-an/2,y:cy-al/2,width:an,height:al,rx:px(R.caja),
+  fill:COL.papel,stroke:COL.marco,"stroke-width":px(GR.marco)});
+
+ el("line",{x1:cx-an/2,y1:cy-al/2+px(5),x2:cx+an/2,y2:cy-al/2+px(5),
+  stroke:COL.raya,"stroke-width":px(GR.filete)});
+
+ const cabe=Math.min(al*0.42, an*0.22)*ESC;
+ const cuerpo=cabe>=TAM.hero?TAM.hero:TAM.cifra;
+ txt(cx,cy+px(cuerpo)*0.34,v,"middle",cuerpo,COL.escrito,600);
+ if(etq){
+  el("line",{x1:cx-an/2,y1:cy+al/2-px(30),x2:cx+an/2,y2:cy+al/2-px(30),
+   stroke:COL.raya,"stroke-width":px(GR.filete)});
+  txt(cx,cy+al/2-px(11),etq,"middle",TAM.rot,COL.suave,600);}}
+
+function pais(){
+ const hueco=MAPA.y1-MAPA.y0;
+
+ const grande = hueco>=px(240);
+ const hCaja=px(48), hAire=px(28), hEsf=grande?px(106+30):px(70+26);
+ const conFecha = hueco >= hCaja+hAire+hEsf;
+ const alto=(conFecha?hCaja+hAire:0)+hEsf;
+ const T=MAPA.y0+Math.max(0,(hueco-alto)/2);
+
+ const conF=LT.filas.indexOf("fecha")>=0 && !esMuda("fecha");
+ const b=LT.base;
+ const fe=conF ? valorFila("fecha")
+               : DIA[dsem(b.a,b.m,b.d)]+" "+b.d+" "+MES[b.m-1];
+ if(conFecha){
+  const an=Math.max(px(300), anchoTxt(fe,19)+px(52));
+  el("rect",{x:500-an/2,y:T,width:an,height:hCaja,rx:px(8),
+   fill:COL.panel,stroke:COL.raya,"stroke-width":px(1)});
+  txt(500,T+px(31),fe,"middle",19,COL.tinta,600);}
+
+ const yE=T+(conFecha?hCaja+hAire:0)+(grande?px(53):px(35));
+ const fl=LT.filas.filter(q=>q!="fecha"&&q!="transcurrido");
+ fl.slice(0,2).forEach((q,k)=>{
+  const cx=500+px(fl.length<2?0:(k?165:-165));
+  const mudo=esMuda(q)||(LT.filas.indexOf(q)<0);
+  const v=mudo?"--:--":(function(z){return z.slice(0,2)+":"+z.slice(2);})(valorFila(q));
+  display(cx,yE,v,rotulo(q),grande,mudo);});
+}
+
+function escena(){
+ const E=LT.escena;
+
+ if(E.tipo=="dos"||E.tipo=="uno"){
+  hoja([{tipo:"relojes",nom:"THE CLOCKS"}]);
+  relojes(E.tipo=="uno"?Object.assign({},E,{uno:true,
+    pares:[["in summer",-160],["in winter",160]]}):E);
+  return;}
+ if(E.tipo=="dosVIEJO"){
+
+  const hueco=MAPA.y1-MAPA.y0, T=Math.max(MAPA.y0,Math.min(MAPA.y0+(hueco-px(200))/2,COSTURA-px(200)));
+  const y=n=>T+px(n), cy=y(70), dx=px(212);
+  display(500-dx,cy,E.a.v,E.a.etq,true);
+  display(500+dx,cy,E.b.v,E.b.etq,true);
+  el("line",{x1:500-px(102),y1:cy,x2:500+px(102),y2:cy,stroke:COL.tinta,
+   "stroke-width":px(1.4),"stroke-dasharray":px(7)+","+px(6),"stroke-opacity":.5});
+  const t=txt(500,cy-px(14),E.medio,"middle",17,COL.tinta,600);
+  t.setAttribute("font-family","DejaVu Serif,Georgia,serif");
+  t.setAttribute("font-style","italic");
+  if(E.pie)txt(500,y(190),E.pie,"middle",15,"#5a6b78");
+  return;}
+
+ if(E.tipo=="tarjetas"){tarjetas(E); return;}
+ if(E.tipo=="anyo"){
+
+  const ALTO=246, hueco=MAPA.y1-MAPA.y0;
+  const T=MAPA.y0+Math.max(0,(hueco-px(ALTO))/2);
+  const y=n=>T+px(n);
+  const X0=90, X1=910;
+  const cam=[X0+(X1-X0)*0.24, X0+(X1-X0)*0.82];
+  const tira0=y(18), tiraAl=px(E.pagina?42:56);
+  txt(X0,y(10),"January","start",12,"#5a6b78");
+  txt(X1,y(10),"December","end",12,"#5a6b78");
+  [[X0,cam[0],"#D9E4EB","UTC"],[cam[0],cam[1],"#F5E3B8","BST"],
+   [cam[1],X1,"#D9E4EB","UTC"]].forEach(([a,b,c,q])=>{
+   el("rect",{x:a,y:tira0,width:b-a,height:tiraAl,fill:c,stroke:COL.tinta,
+    "stroke-width":px(1.4)});
+   txt((a+b)/2,tira0+tiraAl/2+px(7),q,"middle",20,COL.tinta,600);});
+
+  [["last Sunday in March",cam[0]],["last Sunday in October",cam[1]]].forEach(([q,x])=>{
+   el("line",{x1:x,y1:tira0-px(10),x2:x,y2:tira0+tiraAl+px(10),stroke:"#c0392b",
+    "stroke-width":px(3)});
+   txt(x,y(76),q,"middle",12,COL.tinta,600);});
+  if(E.pagina)pagina(E.pagina,y(92));
+  if(E.pie)txt(500,y(E.pagina?236:120),E.pie,"middle",13,"#5a6b78");
+  return;}
+
+function pagina(P,T){
+ const AN=px(440), AL=px(128), X=500-AN/2;
+ const y=n=>T+px(n);
+ el("rect",{x:X+px(4),y:T+px(4),width:AN,height:AL,rx:px(3),fill:"#0000001a"});
+ el("rect",{x:X,y:T,width:AN,height:AL,rx:px(3),fill:"#fff",
+  stroke:COL.tinta,"stroke-width":px(1.6)});
+ el("rect",{x:X,y:T,width:AN,height:px(26),fill:COL.tinta});
+ txt(X+px(12),y(18),"ALMANAC","start",11,"#cddae2",600);
+ txt(X+AN-px(12),y(18),P.tit,"end",12,"#fff",600);
+ txt(500,y(46),P.a1,"middle",12,"#5a6b78");
+
+ [[P.d1,56],[P.d2,90]].forEach(([s,q])=>{
+  el("rect",{x:X+px(22),y:y(q),width:AN-px(44),height:px(28),rx:px(5),
+   fill:"#F5E3B8",stroke:COL.tinta,"stroke-width":px(1.2)});
+  txt(500,y(q+20),s,"middle",15,COL.tinta,600);});}
+
+ if(E.tipo=="uno"){
+
+  const hueco=MAPA.y1-MAPA.y0, T=Math.max(MAPA.y0,Math.min(MAPA.y0+(hueco-px(240))/2,COSTURA-px(240)));
+  const y=n=>T+px(n);
+  display(500,y(60),E.a.v,E.a.etq,true);
+
+  [["in summer",-160],["in winter",160]].forEach(([q,d])=>{
+   const x=500+px(d);
+   el("rect",{x:x-px(112),y:y(132),width:px(224),height:px(56),rx:px(7),
+    fill:COL.panel,stroke:COL.raya,"stroke-width":px(1)});
+   txt(x,y(158),q,"middle",14,"#5a6b78");
+   txt(x,y(184),E.a.v,"middle",22,COL.tinta,600);});
+  if(E.pie)txt(500,y(226),E.pie,"middle",15,"#5a6b78");
+  return;}
+}
+
+const COSTA_IZQ="M0,10 L150,10 L178,40 L168,74 L196,92 L244,80 L272,110 L250,146 "+
+ "L276,166 L302,156 L288,190 L246,202 L272,228 L296,220 L300,252 L262,274 L284,302 "+
+ "L244,322 L262,352 L216,370 L228,398 L186,414 L196,432 L0,432 Z";
+const COSTA_DER="M1000,10 L838,10 L806,34 L824,68 L780,78 L744,58 L722,90 L756,116 "+
+ "L724,144 L686,134 L706,170 L686,200 L718,220 L686,230 L696,264 L738,278 L714,310 "+
+ "L758,328 L740,362 L786,382 L770,414 L812,432 L1000,432 Z";
+
+const PUERTOS=[{x:214,y:196, nom:"Hallow Quay", lado:1},
+               {x:762,y:232, nom:"Port Aubigné", lado:-1}];
+
+function mapa(){
+
+ const g=el("g",{});
+ for(const d of [COSTA_IZQ,COSTA_DER]){
+  el("path",{d:d,fill:COL.tierra,stroke:COL.tinta,"stroke-width":px(1.6),
+   "stroke-linejoin":"round"},g);
+ }
+
+ for(const d of [COSTA_IZQ,COSTA_DER])
+  el("path",{d:d,fill:"none",stroke:COL.playa,"stroke-width":px(5),
+   "stroke-linejoin":"round","stroke-opacity":.55},g);
+
+ for(const p of PUERTOS){
+  el("rect",{x:p.x-px(15),y:p.y-px(11),width:px(30),height:px(22),
+   fill:COL.agua,stroke:COL.tinta,"stroke-width":px(1),rx:px(2)});
+  el("line",{x1:p.x+p.lado*px(15),y1:p.y-px(11),x2:p.x+p.lado*px(15),y2:p.y+px(11),
+   stroke:COL.muelle,"stroke-width":px(3)});
+  for(let k=-1;k<=1;k++)
+   el("line",{x1:p.x+p.lado*px(15),y1:p.y+k*px(7),x2:p.x+p.lado*px(6),y2:p.y+k*px(7),
+    stroke:COL.muelle,"stroke-width":px(1.6)});
+  const t=txt(p.x-p.lado*px(24),p.y+px(4),p.nom,p.lado>0?"end":"start",13,COL.tinta);
+  t.setAttribute("font-family","DejaVu Serif,Georgia,serif");
+  t.setAttribute("font-style","italic");
+ }
+
+ el("line",{x1:RUTA.x0,y1:RUTA.y0,x2:RUTA.x1,y2:RUTA.y1,stroke:COL.tinta,
+  "stroke-width":px(1.4),"stroke-dasharray":px(7)+","+px(6),"stroke-opacity":.45});
+
+ barco();
+
+}
+
+function barco(){
+ const fr=Math.max(0,Math.min(1,(LT.t0-LT.viaje.t)/Math.max(1,LT.viaje.dur)));
+ const bx=RUTA.x0+(RUTA.x1-RUTA.x0)*fr, by=RUTA.y0+(RUTA.y1-RUTA.y0)*fr;
+ const u=px(1);
+ const g=el("g",{id:"barco"});
+
+ el("path",{d:"M"+(bx-26*u)+","+(by+2*u)+" q "+(-16*u)+","+(3*u)+" "+(-30*u)+","+(1*u),
+  fill:"none",stroke:"#fff","stroke-width":3*u,"stroke-opacity":.75},g);
+
+ el("path",{d:"M"+(bx-17*u)+","+by+" L"+(bx+18*u)+","+by+" L"+(bx+11*u)+","+(by+8*u)
+   +" L"+(bx-12*u)+","+(by+8*u)+" Z",fill:COL.tinta},g);
+
+ el("line",{x1:bx-2*u,y1:by,x2:bx-2*u,y2:by-24*u,stroke:COL.tinta,"stroke-width":1.6*u},g);
+ el("path",{d:"M"+(bx-1*u)+","+(by-23*u)+" L"+(bx+13*u)+","+(by-2*u)+" L"+(bx-1*u)+","+(by-2*u)+" Z",
+  fill:"#fff",stroke:COL.tinta,"stroke-width":1.2*u},g);
+ el("path",{d:"M"+(bx-3*u)+","+(by-21*u)+" L"+(bx-13*u)+","+(by-2*u)+" L"+(bx-3*u)+","+(by-2*u)+" Z",
+  fill:"#fdfdfb",stroke:COL.tinta,"stroke-width":1.2*u},g);
+}
+
+function reloj(cx,cy,fila){
+ const etq=rotulo(fila);
+ const An=px(150), Al=px(70);
+ el("rect",{x:cx-An/2,y:cy-Al/2,width:An,height:Al,rx:px(9),
+  fill:"#16242E",stroke:COL.tinta,"stroke-width":px(2)});
+ el("rect",{x:cx-An/2+px(5),y:cy-Al/2+px(5),width:An-px(10),height:Al-px(10),
+  rx:px(6),fill:"#1E323F"});
+ const mudo = esMuda(fila) || (LT.filas.indexOf(fila)<0);
+ const v=mudo?"--:--":(function(q){return q.slice(0,2)+":"+q.slice(2);})(valorFila(fila));
+ txt(cx,cy+px(11),v,"middle",34,mudo?"#8AA0B0":"#8FE3C4",600);
+
+ const tam=12, tb=px(20);
+ const ta=Math.max(px(96), anchoTxt(etq,tam)+px(16));
+ el("rect",{x:cx-ta/2,y:cy+Al/2-px(3),width:ta,height:tb,rx:px(4),chapa:etq,
+  fill:COL.panel,stroke:COL.tinta,"stroke-width":px(1)});
+ txt(cx,cy+Al/2+px(11),etq,"middle",tam,COL.tinta,600);
+}
+
+function linea(){
+ COLS=[]; DISP="columnas";
+ costura();
+ const c=claveFilas();
+
+ if(conMapa()) for(const k of ["izq","der"]){
+  const q=COLU[k];
+  el("rect",{x:q[0],y:COSTURA,width:q[1]-q[0],height:PIE-COSTURA,
+   fill:COL.tierra,"fill-opacity":.14});}
+ lectura(CLAVE.izq,c.iz);
+ lectura(CLAVE.der,c.de);
+ pie();
+ marcador();}
+
+const conMapa=()=>!LT.escena&&!LT.pais&&!!LT.viaje;
+
+function costura(){
+ el("line",{x1:HOJA.x0,y1:COSTURA,x2:HOJA.x1,y2:COSTURA,stroke:COL.raya,
+  "stroke-width":px(GR.marco)});
+ const [i0,i1]=LT.eje;
+ const cada=(i1-i0)<=420?60:180;
+ for(let mm=Math.ceil(i0/60)*60;mm<=i1;mm+=60){
+  const x=xDe(mm), gordo=(mm%cada==0);
+  el("line",{x1:x,y1:COSTURA,x2:x,y2:COSTURA+ret(gordo?1:0.5),stroke:COL.raya,
+   "stroke-width":px(GR.filete)});
+  if(gordo)txt(x,COSTURA+ret(2.1),hhmm(mm),"middle",TAM.rot,COL.suave);}
+
+ for(let d=Math.ceil(i0/1440)*1440;d<=i1;d+=1440)
+  el("line",{x1:xDe(d),y1:COSTURA-ret(1.5),x2:xDe(d),y2:PIE,stroke:COL.suave,
+   "stroke-width":px(GR.filete),"stroke-opacity":.45});}
+
+function lectura(cx,fila){
+ if(!fila)return;
+ const mudo=esMuda(fila), yC=COSTURA+px(20+TAM.cifra*0.78);
+ if(mudo)
+  el("line",{x1:cx-px(46),y1:yC-px(TAM.cifra*0.28),x2:cx+px(46),
+   y2:yC-px(TAM.cifra*0.28),stroke:COL.suave,"stroke-width":px(GR.filete),
+   "stroke-dasharray":px(2)+","+px(3)});
+ else txt(cx,yC,valorFila(fila),"middle",TAM.cifra,COL.escrito,600);
+ const e=txt(cx,COSTURA+px(20+TAM.cifra+22),rotulo(fila).toUpperCase(),"middle",
+  TAM.rot,COL.suave,600);
+ e.setAttribute("letter-spacing",px(1.1));
+
+ COLS.push({fila:fila,x0:cx-px(50),x1:cx+px(50),cx:cx,yEnc:COSTURA+px(20),yCif:yC});}
+
+function pie(){
+ const partes=piePartes(); if(!partes.length)return;
+ el("line",{x1:HOJA.x0,y1:PIE,x2:HOJA.x1,y2:PIE,stroke:COL.raya,
+  "stroke-width":px(GR.filete)});
+ const an=(HOJA.x1-HOJA.x0)/partes.length;
+ partes.forEach((q,k)=>{
+  const cx=HOJA.x0+an*(k+0.5), yC=PIE+px(14+TAM.rot+18+TAM.lee*0.78);
+  if(k)el("line",{x1:HOJA.x0+an*k,y1:PIE+px(10),x2:HOJA.x0+an*k,y2:HOJA.y1-px(10),
+   stroke:COL.raya,"stroke-width":px(GR.filete)});
+  const e=txt(cx,PIE+px(14+TAM.rot),rotulo(q).toUpperCase(),"middle",TAM.rot,
+   COL.suave,600);
+  e.setAttribute("letter-spacing",px(1.1));
+  const mudo=esMuda(q);
+  if(mudo)
+   el("line",{x1:cx-px(34),y1:yC-px(TAM.lee*0.28),x2:cx+px(34),
+    y2:yC-px(TAM.lee*0.28),stroke:COL.suave,"stroke-width":px(GR.filete),
+    "stroke-dasharray":px(2)+","+px(3)});
+  else txt(cx,yC,valorFila(q),"middle",TAM.lee,COL.escrito,600);
+  COLS.push({fila:q,x0:cx-an/2+px(6),x1:cx+an/2-px(6),cx:cx,yEnc:PIE+px(4),yCif:yC});});}
+
+function marcador(){
+ if(LT.sinMarca)return;
+ const x=xDe(LT.t0);
+ if(conMapa())
+  el("line",{x1:x,y1:MAP_T.oy+RUTA.y0*MAP_T.k,x2:x,y2:COSTURA-ret(2.5),
+   stroke:COL.rojo,"stroke-width":px(GR.filete),"stroke-opacity":.5,
+   "stroke-dasharray":px(3)+","+px(4),id:"plomada"});
+ el("line",{x1:x,y1:COSTURA-ret(2.5),x2:x,y2:PIE-ret(0.75),stroke:COL.rojo,
+  "stroke-width":px(GR.mano),id:"marca"});
+
+ const r=ret(0.875);
+ el("path",{d:"M"+(x-r)+","+(COSTURA-ret(2.5)-r)+" L"+(x+r)+","+(COSTURA-ret(2.5)-r)
+   +" L"+x+","+(COSTURA-ret(2.5)+r*0.8)+" Z",fill:COL.rojo});}
+
+const xDe=m=>EJE.x0+(EJE.x1-EJE.x0)*(m-LT.eje[0])/(LT.eje[1]-LT.eje[0]);
+const mDe=x=>LT.eje[0]+(LT.eje[1]-LT.eje[0])*(x-EJE.x0)/(EJE.x1-EJE.x0);
+
+function xy(e){const r=svg.getBoundingClientRect(), s=esc();
+ return [(e.clientX-r.left-(r.width-D.W*s)/2)/s,
+         (e.clientY-r.top-(r.height-D.H*s)/2)/s];}
+svg.addEventListener("pointerdown",e=>{
+ const s=S(); if(!s.lt||LT.resuelto)return;
+ const p=xy(e); e.preventDefault();
+ svg.setPointerCapture&&svg.setPointerCapture(e.pointerId);
+ cuerpo.classList.add("arrastrando");
+ const fr=Math.max(0,Math.min(1,(LT.t0-LT.viaje.t)/Math.max(1,LT.viaje.dur)));
+
+ if(p[1]>MAPA.y0&&p[1]<MAPA.y1&&LT.viaje&&!LT.escena&&!LT.pais){
+  LT.tira="barco";mueve(p);return;}
+ if(Math.abs(p[0]-xDe(LT.t0))<px(26)||p[1]>EJE.y-px(30)){LT.tira="marcador";mueve(p);}
+});
+svg.addEventListener("pointermove",e=>{if(LT.tira){e.preventDefault();mueve(xy(e));}});
+svg.addEventListener("pointerup",()=>{LT.tira=null;cuerpo.classList.remove("arrastrando");});
+
+function mueve(p){
+ let t;
+ if(LT.tira=="barco"){
+  const nx=(p[0]-MAP_T.ox)/MAP_T.k;
+  const fr=(nx-RUTA.x0)/(RUTA.x1-RUTA.x0);
+  t=LT.viaje.t+LT.viaje.dur*Math.max(0,Math.min(1,fr));
+ }else{
+  t=mDe(p[0]);
+ }
+
+ t=Math.max(LT.eje[0],Math.min(LT.eje[1],t));
+ if(LT.encaje)t=Math.round(t/LT.encaje)*LT.encaje;
+ LT.t0=Math.max(LT.eje[0],Math.min(LT.eje[1],Math.round(t)));
+ pinta(); tira();
+}
+window.addEventListener("resize",()=>{pinta();});
+
+const pane=()=>document.getElementById("pane");
+function guarda(tipo,resp,ok){LOG.push({type:tipo,id:S().id,v:resp,correct:ok,
+  t:new Date().toISOString()});
+
+ try{localStorage.setItem("m02p3log",JSON.stringify(LOG));}catch(e){}
+ document.getElementById("fLog").textContent=LOG.length+" answers logged";}
+
+window.m02p3export=()=>{const b=new Blob([JSON.stringify(LOG,null,1)],
+  {type:"application/json"});
+ const a=document.createElement("a"); a.href=URL.createObjectURL(b);
+ a.download="m02p3-answers.json"; a.click();};
+
+window.salta=()=>{const s=S();
+ if(s.t&&s.t!="text")guarda(s.t,"skipped",null);
+ hecho=true; avanza();};
+function fb(h,c){const d=document.getElementById("fb");
+ if(d)d.innerHTML=c?'<div class="res '+c+'">'+h+'</div>':h;}
+function falla(s,html){const n=FALLO[s.id]=(FALLO[s.id]||0)+1;
+ let h='<div class="res no">'+html;
+ if(n>=2&&s.pista)h+='<div class="pista">'+s.pista+'</div>';
+ h+='</div>';
+ if(n>=3&&s.show)h+='<button class="show" onclick="showme()">Show me</button>';
+ const d=document.getElementById("fb"); if(d)d.innerHTML=h;}
+window.showme=()=>{const s=S(); guarda("showme",null,false);
+ const z=s.show||{};
+
+ if(s.t=="problema"){
+  const sub=prSube(), q=PR.q;
+  LT.muda=null; LT.resuelto=true; pinta(); tira();
+  let h='<div class="res ver"><b>Here it is.</b>'
+   +'<div class="calc">'+z.obra(q,s.resp(q)).map(x=>"&middot; "+x).join("<br>")+'</div>'
+   +(z.txt||"");
+  if(sub)h+='<div class="pista">And <b>one more after this</b>: this one you did not '
+   +'get out on your own, so it is worth doing another.</div>';
+  h+='</div>';
+  document.getElementById("fb").innerHTML=h;
+  PR.n++; prContador();
+  if(PR.n>=prMeta()){nav(true,"Try the next one"); hecho=true; return;}
+  PR.esp=true; prEspera(); return;}
+ if(s.t=="elige"){
+  const c=elCaso();
+  let h='<div class="res ver"><b>Here it is.</b>'
+   +'<div class="calc">'+(c.obra||z.obra(c)).map(x=>"&middot; "+x).join("<br>")+'</div>'
+   +(z.txt||"")+'</div>';
+  document.getElementById("fb").innerHTML=h;
+  hecho=true; nav(true); return;}
+ let h='<div class="res ver"><b>Here it is.</b>';
+ if(z.obra)h+='<div class="calc">'+z.obra(LT).map(x=>"&middot; "+x).join("<br>")+'</div>';
+ h+=(z.txt||"")+'</div>';
+ const d=document.getElementById("fb"); if(d)d.innerHTML=h;
+ hecho=true; nav(true);};
+function nav(on,etq){const d=document.getElementById("nav"); if(!d)return;
+ const s=S(), ult=paso.p==PZ.length-1&&paso.i==PZ[paso.p].s.length-1;
+ d.innerHTML=(paso.p||paso.i?'<button class="sec" onclick="atras()">Back</button>':'')
+  +'<button onclick="avanza()" '+(on?'':'disabled')+'>'+(etq||s.b||"Next")+'</button>'
+  +(ult?'':'');}
+function tira(){const d=document.getElementById("ltE"); if(!d)return;
+
+ d.innerHTML=S().lt&&S().lt.muda?"one row for you to work out"
+                               :"reading the same instant";
+ const r=document.getElementById("ltR");
+ if(r)r.innerHTML=hhmm(LT.t0)+" UT";}
+
+function prog(){
+ marcoChrome();const d=document.getElementById("prog"); d.innerHTML="";
+ PZ.forEach((z,i)=>{const b=document.createElement("i");
+  b.className=i<paso.p?"done":i==paso.p?"on":"";
+  b.title="Topic "+(i+1)+" · "+z.t;
+  b.onclick=()=>vaTema(i);
+  d.appendChild(b);});
+
+ const nTot=PZ.reduce((a,z)=>a+z.s.length,0);
+ const nAnt=PZ.slice(0,paso.p).reduce((a,z)=>a+z.s.length,0);
+ const t=document.getElementById("hTit");
+ if(t)t.textContent="Topic "+(paso.p+1)+" of "+PZ.length
+   +" · screen "+(nAnt+paso.i+1)+" of "+nTot;}
+
+window.vaTema=i=>{
+ if(i<0||i>=PZ.length)return;
+ guardaEst();
+ paso={p:i,i:0};
+ dibuja();};
+
+function guardaEst(){EST[S().id]={hecho:hecho,elg:ELG.q,
+  pr:JSON.parse(JSON.stringify(PR)),
+  lt:JSON.parse(JSON.stringify(LT)),
+  pr:JSON.parse(JSON.stringify(PR))};}
+function ponEst(){const s=S(), e=EST[s.id];
+ hecho=e?e.hecho:(!s.t);
+ LT=ltLimpio();
+ if(s.lt)for(const k in s.lt)LT[k]=JSON.parse(JSON.stringify(s.lt[k]));
+ if(e&&e.lt&&s.t=="arrastra"){LT.t0=e.lt.t0; LT.resuelto=e.lt.resuelto;}
+
+ PR=(e&&e.pr&&s.t=="problema")?e.pr:{q:null,n:0,esp:false,meta:0,reloj:null};
+
+ if(s.t=="elige"&&e&&e.elg)ELG={sel:null,q:e.elg};
+ FALLO[s.id]=FALLO[s.id]||0;}
+window.avanza=()=>{guardaEst();
+ if(paso.i<PZ[paso.p].s.length-1)paso.i++;
+ else if(paso.p<PZ.length-1){paso.p++;paso.i=0;}
+ else return fin();
+ dibuja();};
+window.atras=()=>{guardaEst();
+ if(paso.i>0)paso.i--;
+ else if(paso.p>0){paso.p--;paso.i=PZ[paso.p].s.length-1;}
+ dibuja();};
+
+function dibuja(){ guardaDonde();ponEst(); const s=S();
+ if(s.t=="ejemplo")ejEntra(s);
+
+ let h='<div class="hd"><h3>'+PZ[paso.p].t+'</h3>'
+  +(/\.P/.test(s.id)&&s.t?'<a class="skip" onclick="salta()">Skip</a>':'')
+  +'</div><h2>'+s.h+'</h2>';
+ if(s.t=="ejemplo"){
+  h+='<div class="gu"><b id="ejn">&mdash;</b></div><div id="ejli" class="ejli"></div>'
+
+    +'<div><button class="sec" id="ejA" onclick="ejAtras()">&#8592; Back a step</button>'
+    +'<button id="ejS" onclick="ejSig()">Next step &#8594;</button></div>';
+ }else{
+  h+=(s.p||[]).map(x=>"<p>"+x+"</p>").join("");
+  if(s.t=="elige"){
+   h+='<div id="elB"></div>'
+     +'<div id="elO" class="crow" style="flex-wrap:wrap"></div>'
+     +'<div><button onclick="elResp()">Answer</button></div>';}
+  if(s.t=="problema"){
+   h+='<div class="gu"><b id="prn">0 of '+s.n+' done</b></div><div id="prb"></div>'
+     +'<div class="crow"><span class="cl" id="prL"></span>'
+     +'<input id="in" inputmode="numeric" placeholder="0000">'
+     +'<button onclick="prResp()">Answer</button>'
+     +'<span class="cu" id="prU"></span></div>'
+     +(s.dia?'<div class="crow"><span class="cl">the day</span>'
+             +'<span id="prD"></span></div>':'');}
+  if(s.lt)h+='<div class="gu"><b id="ltE">&mdash;</b><b id="ltR">&mdash;</b></div>';
+
+  if(s.lt&&s.lt.boton)h+='<div id="btV"></div>';
+  if(s.t=="arrastra")h+='<div><button onclick="compruebo()">Check it</button></div>';
+  if(s.t)h+='<div id="fb"><small>'+(s.ay||"")+'</small></div>';
+ }
+ h+='<div class="nav" id="nav"></div>';
+ pane().innerHTML=h;
+ nav(hecho||!s.t); prog(); pinta(); tira();
+ if(s.lt&&s.lt.boton)botonPinta();
+ if(s.t=="elige"){elEntra(s); elPinta();}
+ if(s.t=="problema"){if(!PR.q)prNuevo(); else prPone(); prPinta();}
+
+ const cmp=document.getElementById("in");
+ if(cmp){cmp.focus(); cmp.onkeydown=e=>{if(e.key=="Enter")prResp();};}
+ if(s.t=="ejemplo")ejPinta();}
+
+let EJ={i:0,v:null}; const EJB={};
+function ejEntra(s){if(!EJB[s.id])EJB[s.id]=bolsaNueva();
+ EJ={i:0,v:saca(EJB[s.id],s.vars)};}
+const ejPasos=()=>EJ.v&&EJ.v.pasos?EJ.v.pasos:[];
+window.ejSig=()=>{if(EJ.i<ejPasos().length-1){EJ.i++;ejPinta();}};
+window.ejAtras=()=>{if(EJ.i>0){EJ.i--;ejPinta();}};
+const ejUlt=()=>EJ.i>=ejPasos().length-1;
+function ejPinta(){const P=ejPasos(), p=P[EJ.i]||{};
+ document.getElementById("ejn").innerHTML="step "+(EJ.i+1)+" of "+P.length;
+ document.getElementById("ejli").innerHTML=(p.li||"")
+
+  +((p.ca&&p.ca.length)?'<div class="calc">'+p.ca.join("<br>")+'</div>':"");
+
+ const a=document.getElementById("ejA"); if(a)a.disabled=(EJ.i==0);
+ const g=document.getElementById("ejS"); if(g)g.disabled=ejUlt();
+
+ LT=ltLimpio();
+ if(p.lt)for(const k in p.lt)LT[k]=JSON.parse(JSON.stringify(p.lt[k]));
+ pinta();
+ nav(EJ.i>=P.length-1, EJ.i>=P.length-1?S().b:"…");}
+
+const HORAS=[{"id": "t01", "a": 2026, "m": 3, "d": 23, "min": 600, "zona": 0, "veranoAlli": false, "usos": ["bst"], "bst": false, "hhmm": "1000", "fecha": "Monday 23 March 2026", "dia": "Monday"}, {"id": "t02", "a": 2026, "m": 3, "d": 28, "min": 600, "zona": 0, "veranoAlli": false, "usos": ["bst"], "bst": false, "hhmm": "1000", "fecha": "Saturday 28 March 2026", "dia": "Saturday"}, {"id": "t03", "a": 2026, "m": 3, "d": 31, "min": 600, "zona": 0, "veranoAlli": false, "usos": ["bst"], "bst": true, "hhmm": "1000", "fecha": "Tuesday 31 March 2026", "dia": "Tuesday"}, {"id": "t04", "a": 2026, "m": 10, "d": 20, "min": 600, "zona": 0, "veranoAlli": false, "usos": ["bst"], "bst": true, "hhmm": "1000", "fecha": "Tuesday 20 October 2026", "dia": "Tuesday"}, {"id": "t05", "a": 2026, "m": 10, "d": 24, "min": 600, "zona": 0, "veranoAlli": false, "usos": ["bst"], "bst": true, "hhmm": "1000", "fecha": "Saturday 24 October 2026", "dia": "Saturday"}, {"id": "t06", "a": 2026, "m": 10, "d": 27, "min": 600, "zona": 0, "veranoAlli": false, "usos": ["bst"], "bst": false, "hhmm": "1000", "fecha": "Tuesday 27 October 2026", "dia": "Tuesday"}, {"id": "t07", "a": 2026, "m": 1, "d": 15, "min": 600, "zona": 0, "veranoAlli": false, "usos": ["bst"], "bst": false, "hhmm": "1000", "fecha": "Thursday 15 January 2026", "dia": "Thursday"}, {"id": "t08", "a": 2026, "m": 7, "d": 4, "min": 600, "zona": 0, "veranoAlli": false, "usos": ["bst"], "bst": true, "hhmm": "1000", "fecha": "Saturday 4 July 2026", "dia": "Saturday"}, {"id": "t09", "a": 2026, "m": 12, "d": 2, "min": 600, "zona": 0, "veranoAlli": false, "usos": ["bst"], "bst": false, "hhmm": "1000", "fecha": "Wednesday 2 December 2026", "dia": "Wednesday"}, {"id": "t10", "a": 2026, "m": 5, "d": 19, "min": 600, "zona": 0, "veranoAlli": false, "usos": ["bst"], "bst": true, "hhmm": "1000", "fecha": "Tuesday 19 May 2026", "dia": "Tuesday"}, {"id": "t11", "a": 2027, "m": 3, "d": 27, "min": 600, "zona": 0, "veranoAlli": false, "usos": ["bst"], "bst": false, "hhmm": "1000", "fecha": "Saturday 27 March 2027", "dia": "Saturday"}, {"id": "t12", "a": 2027, "m": 10, "d": 30, "min": 600, "zona": 0, "veranoAlli": false, "usos": ["bst"], "bst": true, "hhmm": "1000", "fecha": "Saturday 30 October 2027", "dia": "Saturday"}, {"id": "t13", "a": 2027, "m": 3, "d": 28, "min": 30, "zona": 0, "veranoAlli": false, "usos": ["bst"], "bst": false, "hhmm": "0030", "fecha": "Sunday 28 March 2027", "dia": "Sunday"}, {"id": "t14", "a": 2027, "m": 10, "d": 31, "min": 30, "zona": 0, "veranoAlli": false, "usos": ["bst"], "bst": true, "hhmm": "0030", "fecha": "Sunday 31 October 2027", "dia": "Sunday"}, {"id": "t15", "a": 2027, "m": 10, "d": 31, "min": 90, "zona": 0, "veranoAlli": false, "usos": ["bst"], "bst": false, "hhmm": "0130", "fecha": "Sunday 31 October 2027", "dia": "Sunday"}, {"id": "t16", "a": 2026, "m": 6, "d": 11, "min": 260, "zona": 0, "veranoAlli": false, "usos": ["aMuneca", "aTabla"], "bst": true, "hhmm": "0420", "fecha": "Thursday 11 June 2026", "dia": "Thursday"}, {"id": "t17", "a": 2026, "m": 6, "d": 11, "min": 1095, "zona": 0, "veranoAlli": false, "usos": ["aMuneca", "aTabla"], "bst": true, "hhmm": "1815", "fecha": "Thursday 11 June 2026", "dia": "Thursday"}, {"id": "t18", "a": 2026, "m": 7, "d": 2, "min": 515, "zona": 0, "veranoAlli": false, "usos": ["aMuneca", "aTabla"], "bst": true, "hhmm": "0835", "fecha": "Thursday 2 July 2026", "dia": "Thursday"}, {"id": "t19", "a": 2026, "m": 7, "d": 21, "min": 740, "zona": 0, "veranoAlli": false, "usos": ["aMuneca", "aTabla"], "bst": true, "hhmm": "1220", "fecha": "Tuesday 21 July 2026", "dia": "Tuesday"}, {"id": "t20", "a": 2026, "m": 8, "d": 6, "min": 185, "zona": 0, "veranoAlli": false, "usos": ["aMuneca", "aTabla"], "bst": true, "hhmm": "0305", "fecha": "Thursday 6 August 2026", "dia": "Thursday"}, {"id": "t21", "a": 2026, "m": 8, "d": 25, "min": 1250, "zona": 0, "veranoAlli": false, "usos": ["aMuneca", "aTabla"], "bst": true, "hhmm": "2050", "fecha": "Tuesday 25 August 2026", "dia": "Tuesday"}, {"id": "t22", "a": 2026, "m": 9, "d": 3, "min": 935, "zona": 0, "veranoAlli": false, "usos": ["aMuneca", "aTabla"], "bst": true, "hhmm": "1535", "fecha": "Thursday 3 September 2026", "dia": "Thursday"}, {"id": "t23", "a": 2026, "m": 9, "d": 17, "min": 425, "zona": 0, "veranoAlli": false, "usos": ["aMuneca", "aTabla"], "bst": true, "hhmm": "0705", "fecha": "Thursday 17 September 2026", "dia": "Thursday"}, {"id": "t24", "a": 2026, "m": 5, "d": 8, "min": 1160, "zona": 0, "veranoAlli": false, "usos": ["aMuneca", "aTabla"], "bst": true, "hhmm": "1920", "fecha": "Friday 8 May 2026", "dia": "Friday"}, {"id": "t25", "a": 2026, "m": 5, "d": 26, "min": 605, "zona": 0, "veranoAlli": false, "usos": ["aMuneca", "aTabla"], "bst": true, "hhmm": "1005", "fecha": "Tuesday 26 May 2026", "dia": "Tuesday"}, {"id": "t26", "a": 2026, "m": 4, "d": 14, "min": 860, "zona": 0, "veranoAlli": false, "usos": ["aMuneca", "aTabla"], "bst": true, "hhmm": "1420", "fecha": "Tuesday 14 April 2026", "dia": "Tuesday"}, {"id": "t27", "a": 2026, "m": 4, "d": 30, "min": 350, "zona": 0, "veranoAlli": false, "usos": ["aMuneca", "aTabla"], "bst": true, "hhmm": "0550", "fecha": "Thursday 30 April 2026", "dia": "Thursday"}, {"id": "t28", "a": 2026, "m": 6, "d": 29, "min": 1010, "zona": 0, "veranoAlli": false, "usos": ["aMuneca", "aTabla"], "bst": true, "hhmm": "1650", "fecha": "Monday 29 June 2026", "dia": "Monday"}, {"id": "t29", "a": 2026, "m": 7, "d": 14, "min": 770, "zona": 0, "veranoAlli": false, "usos": ["aMuneca", "aTabla"], "bst": true, "hhmm": "1250", "fecha": "Tuesday 14 July 2026", "dia": "Tuesday"}, {"id": "t30", "a": 2026, "m": 7, "d": 14, "min": 1410, "zona": 0, "veranoAlli": false, "usos": ["fecha"], "bst": true, "hhmm": "2330", "fecha": "Tuesday 14 July 2026", "dia": "Tuesday"}, {"id": "t31", "a": 2026, "m": 6, "d": 18, "min": 1421, "zona": 0, "veranoAlli": false, "usos": ["fecha"], "bst": true, "hhmm": "2341", "fecha": "Thursday 18 June 2026", "dia": "Thursday"}, {"id": "t32", "a": 2026, "m": 8, "d": 9, "min": 1435, "zona": 0, "veranoAlli": false, "usos": ["fecha"], "bst": true, "hhmm": "2355", "fecha": "Sunday 9 August 2026", "dia": "Sunday"}, {"id": "t33", "a": 2026, "m": 5, "d": 30, "min": 1400, "zona": 0, "veranoAlli": false, "usos": ["fecha"], "bst": true, "hhmm": "2320", "fecha": "Saturday 30 May 2026", "dia": "Saturday"}, {"id": "t34", "a": 2026, "m": 9, "d": 12, "min": 1418, "zona": 0, "veranoAlli": false, "usos": ["fecha"], "bst": true, "hhmm": "2338", "fecha": "Saturday 12 September 2026", "dia": "Saturday"}, {"id": "t35", "a": 2026, "m": 6, "d": 5, "min": 1408, "zona": 0, "veranoAlli": false, "usos": ["fecha"], "bst": true, "hhmm": "2328", "fecha": "Friday 5 June 2026", "dia": "Friday"}, {"id": "t36", "a": 2026, "m": 7, "d": 27, "min": 1395, "zona": 0, "veranoAlli": false, "usos": ["fecha"], "bst": true, "hhmm": "2315", "fecha": "Monday 27 July 2026", "dia": "Monday"}, {"id": "t37", "a": 2026, "m": 8, "d": 20, "min": 1432, "zona": 0, "veranoAlli": false, "usos": ["fecha"], "bst": true, "hhmm": "2352", "fecha": "Thursday 20 August 2026", "dia": "Thursday"}, {"id": "t38", "a": 2026, "m": 4, "d": 23, "min": 1405, "zona": 0, "veranoAlli": false, "usos": ["fecha"], "bst": true, "hhmm": "2325", "fecha": "Thursday 23 April 2026", "dia": "Thursday"}, {"id": "t39", "a": 2026, "m": 9, "d": 30, "min": 1438, "zona": 0, "veranoAlli": false, "usos": ["fecha"], "bst": true, "hhmm": "2358", "fecha": "Wednesday 30 September 2026", "dia": "Wednesday"}, {"id": "t40", "a": 2026, "m": 5, "d": 15, "min": 1412, "zona": 0, "veranoAlli": false, "usos": ["fecha"], "bst": true, "hhmm": "2332", "fecha": "Friday 15 May 2026", "dia": "Friday"}, {"id": "t41", "a": 2026, "m": 6, "d": 26, "min": 1428, "zona": 0, "veranoAlli": false, "usos": ["fecha"], "bst": true, "hhmm": "2348", "fecha": "Friday 26 June 2026", "dia": "Friday"}, {"id": "t56", "a": 2026, "m": 7, "d": 8, "min": 1402, "zona": 0, "veranoAlli": false, "usos": ["fecha"], "bst": true, "hhmm": "2322", "fecha": "Wednesday 8 July 2026", "dia": "Wednesday"}, {"id": "t57", "a": 2026, "m": 8, "d": 14, "min": 1416, "zona": 0, "veranoAlli": false, "usos": ["fecha"], "bst": true, "hhmm": "2336", "fecha": "Friday 14 August 2026", "dia": "Friday"}, {"id": "t58", "a": 2026, "m": 9, "d": 25, "min": 1424, "zona": 0, "veranoAlli": false, "usos": ["fecha"], "bst": true, "hhmm": "2344", "fecha": "Friday 25 September 2026", "dia": "Friday"}, {"id": "t59", "a": 2026, "m": 11, "d": 12, "min": 665, "zona": 0, "veranoAlli": false, "usos": ["aTabla"], "bst": false, "hhmm": "1105", "fecha": "Thursday 12 November 2026", "dia": "Thursday"}, {"id": "t60", "a": 2026, "m": 1, "d": 22, "min": 920, "zona": 0, "veranoAlli": false, "usos": ["aTabla"], "bst": false, "hhmm": "1520", "fecha": "Thursday 22 January 2026", "dia": "Thursday"}, {"id": "t61", "a": 2026, "m": 12, "d": 3, "min": 455, "zona": 0, "veranoAlli": false, "usos": ["aTabla"], "bst": false, "hhmm": "0735", "fecha": "Thursday 3 December 2026", "dia": "Thursday"}, {"id": "t62", "a": 2026, "m": 2, "d": 11, "min": 1145, "zona": 0, "veranoAlli": false, "usos": ["aTabla"], "bst": false, "hhmm": "1905", "fecha": "Wednesday 11 February 2026", "dia": "Wednesday"}, {"id": "t63", "a": 2026, "m": 11, "d": 19, "min": 1412, "zona": 0, "veranoAlli": false, "usos": ["fecha"], "bst": false, "hhmm": "2332", "fecha": "Thursday 19 November 2026", "dia": "Thursday"}, {"id": "t64", "a": 2026, "m": 1, "d": 15, "min": 1426, "zona": 0, "veranoAlli": false, "usos": ["fecha"], "bst": false, "hhmm": "2346", "fecha": "Thursday 15 January 2026", "dia": "Thursday"}, {"id": "t65", "a": 2026, "m": 12, "d": 10, "min": 1398, "zona": 0, "veranoAlli": false, "usos": ["fecha"], "bst": false, "hhmm": "2318", "fecha": "Thursday 10 December 2026", "dia": "Thursday"}, {"id": "t66", "a": 2026, "m": 2, "d": 25, "min": 1434, "zona": 0, "veranoAlli": false, "usos": ["fecha"], "bst": false, "hhmm": "2354", "fecha": "Wednesday 25 February 2026", "dia": "Wednesday"}, {"id": "t67", "a": 2026, "m": 7, "d": 17, "min": 860, "zona": 60, "veranoAlli": true, "usos": ["apila"], "bst": true, "hhmm": "1420", "fecha": "Friday 17 July 2026", "dia": "Friday"}, {"id": "t68", "a": 2026, "m": 6, "d": 4, "min": 545, "zona": 60, "veranoAlli": true, "usos": ["apila"], "bst": true, "hhmm": "0905", "fecha": "Thursday 4 June 2026", "dia": "Thursday"}, {"id": "t69", "a": 2026, "m": 8, "d": 21, "min": 1205, "zona": 60, "veranoAlli": true, "usos": ["apila"], "bst": true, "hhmm": "2005", "fecha": "Friday 21 August 2026", "dia": "Friday"}, {"id": "t70", "a": 2026, "m": 5, "d": 12, "min": 395, "zona": 120, "veranoAlli": true, "usos": ["apila"], "bst": true, "hhmm": "0635", "fecha": "Tuesday 12 May 2026", "dia": "Tuesday"}, {"id": "t71", "a": 2026, "m": 9, "d": 8, "min": 1010, "zona": 120, "veranoAlli": true, "usos": ["apila"], "bst": true, "hhmm": "1650", "fecha": "Tuesday 8 September 2026", "dia": "Tuesday"}, {"id": "t72", "a": 2026, "m": 4, "d": 23, "min": 725, "zona": 60, "veranoAlli": true, "usos": ["apila"], "bst": true, "hhmm": "1205", "fecha": "Thursday 23 April 2026", "dia": "Thursday"}, {"id": "t73", "a": 2026, "m": 6, "d": 30, "min": 1145, "zona": 120, "veranoAlli": true, "usos": ["apila"], "bst": true, "hhmm": "1905", "fecha": "Tuesday 30 June 2026", "dia": "Tuesday"}, {"id": "t74", "a": 2026, "m": 8, "d": 6, "min": 470, "zona": 60, "veranoAlli": true, "usos": ["apila"], "bst": true, "hhmm": "0750", "fecha": "Thursday 6 August 2026", "dia": "Thursday"}, {"id": "t75", "a": 2026, "m": 12, "d": 4, "min": 830, "zona": 60, "veranoAlli": false, "usos": ["apila"], "bst": false, "hhmm": "1350", "fecha": "Friday 4 December 2026", "dia": "Friday"}, {"id": "t76", "a": 2026, "m": 1, "d": 27, "min": 515, "zona": 60, "veranoAlli": false, "usos": ["apila"], "bst": false, "hhmm": "0835", "fecha": "Tuesday 27 January 2026", "dia": "Tuesday"}, {"id": "t77", "a": 2026, "m": 11, "d": 6, "min": 1130, "zona": 120, "veranoAlli": false, "usos": ["apila"], "bst": false, "hhmm": "1850", "fecha": "Friday 6 November 2026", "dia": "Friday"}, {"id": "t78", "a": 2026, "m": 2, "d": 3, "min": 695, "zona": 60, "veranoAlli": false, "usos": ["apila"], "bst": false, "hhmm": "1135", "fecha": "Tuesday 3 February 2026", "dia": "Tuesday"}, {"id": "t79", "a": 2026, "m": 12, "d": 18, "min": 380, "zona": 120, "veranoAlli": false, "usos": ["apila"], "bst": false, "hhmm": "0620", "fecha": "Friday 18 December 2026", "dia": "Friday"}, {"id": "t80", "a": 2026, "m": 1, "d": 14, "min": 965, "zona": 60, "veranoAlli": false, "usos": ["apila"], "bst": false, "hhmm": "1605", "fecha": "Wednesday 14 January 2026", "dia": "Wednesday"}, {"id": "t42", "a": 2026, "m": 11, "d": 10, "min": 460, "zona": 60, "veranoAlli": false, "usos": ["zona"], "bst": false, "hhmm": "0740", "fecha": "Tuesday 10 November 2026", "dia": "Tuesday"}, {"id": "t43", "a": 2026, "m": 11, "d": 24, "min": 905, "zona": 60, "veranoAlli": false, "usos": ["zona"], "bst": false, "hhmm": "1505", "fecha": "Tuesday 24 November 2026", "dia": "Tuesday"}, {"id": "t44", "a": 2026, "m": 2, "d": 6, "min": 230, "zona": 60, "veranoAlli": false, "usos": ["zona"], "bst": false, "hhmm": "0350", "fecha": "Friday 6 February 2026", "dia": "Friday"}, {"id": "t45", "a": 2026, "m": 1, "d": 20, "min": 1130, "zona": 60, "veranoAlli": false, "usos": ["zona"], "bst": false, "hhmm": "1850", "fecha": "Tuesday 20 January 2026", "dia": "Tuesday"}, {"id": "t46", "a": 2026, "m": 12, "d": 8, "min": 675, "zona": 120, "veranoAlli": false, "usos": ["zona"], "bst": false, "hhmm": "1115", "fecha": "Tuesday 8 December 2026", "dia": "Tuesday"}, {"id": "t47", "a": 2026, "m": 2, "d": 17, "min": 402, "zona": 120, "veranoAlli": false, "usos": ["zona"], "bst": false, "hhmm": "0642", "fecha": "Tuesday 17 February 2026", "dia": "Tuesday"}, {"id": "t48", "a": 2026, "m": 11, "d": 3, "min": 945, "zona": 120, "veranoAlli": false, "usos": ["zona"], "bst": false, "hhmm": "1545", "fecha": "Tuesday 3 November 2026", "dia": "Tuesday"}, {"id": "t49", "a": 2026, "m": 1, "d": 9, "min": 545, "zona": 60, "veranoAlli": false, "usos": ["zona"], "bst": false, "hhmm": "0905", "fecha": "Friday 9 January 2026", "dia": "Friday"}, {"id": "t50", "a": 2026, "m": 12, "d": 15, "min": 815, "zona": 60, "veranoAlli": false, "usos": ["zona"], "bst": false, "hhmm": "1335", "fecha": "Tuesday 15 December 2026", "dia": "Tuesday"}, {"id": "t51", "a": 2026, "m": 2, "d": 25, "min": 1215, "zona": 60, "veranoAlli": false, "usos": ["zona"], "bst": false, "hhmm": "2015", "fecha": "Wednesday 25 February 2026", "dia": "Wednesday"}, {"id": "t52", "a": 2026, "m": 11, "d": 17, "min": 305, "zona": 120, "veranoAlli": false, "usos": ["zona"], "bst": false, "hhmm": "0505", "fecha": "Tuesday 17 November 2026", "dia": "Tuesday"}, {"id": "t53", "a": 2026, "m": 1, "d": 28, "min": 725, "zona": 60, "veranoAlli": false, "usos": ["zona"], "bst": false, "hhmm": "1205", "fecha": "Wednesday 28 January 2026", "dia": "Wednesday"}, {"id": "t54", "a": 2026, "m": 12, "d": 21, "min": 1055, "zona": 60, "veranoAlli": false, "usos": ["zona"], "bst": false, "hhmm": "1735", "fecha": "Monday 21 December 2026", "dia": "Monday"}, {"id": "t55", "a": 2026, "m": 2, "d": 11, "min": 495, "zona": 120, "veranoAlli": false, "usos": ["zona"], "bst": false, "hhmm": "0815", "fecha": "Wednesday 11 February 2026", "dia": "Wednesday"}];
+let PR={q:null,n:0,esp:false,meta:0,dia:null};
+const PRB={};
+const prMeta=()=>PR.meta||S().n;
+function prSube(){const s=S();
+ if(!s.sube||PR.meta)return false;
+ PR.meta=s.n+1; return true;}
+
+const prBanco=s=>s.sit||HORAS.filter(p=>p.usos.indexOf(s.caso)>=0);
+
+function prNuevo(){const s=S();
+ if(!PRB[s.id])PRB[s.id]=bolsaNueva();
+ PR.q=saca(PRB[s.id],prBanco(s));
+ PR.dia=null;
+ FALLO[s.id]=0;
+ prPone(); }
+function prPone(){const q=PR.q; if(!q)return;
+ LT.t0=q.min;
+ LT.base={a:q.a,m:q.m,d:q.d};
+
+ LT.verano={aqui:q.bst,alli:q.veranoAlli};
+ LT.zona=q.zona;
+ LT.resuelto=false;
+
+ const s=S(); LT.muda=(s.lt&&s.lt.muda)||null;
+
+ if(s.pone)for(const k in s.pone(q))LT[k]=s.pone(q)[k];
+ pinta(); tira();}
+
+const prPie=()=>{const s=S(); return typeof s.pie=="function"?s.pie(PR.q):s.pie;};
+const prUni=()=>{const s=S(); const u=s.uni||"";
+ return typeof u=="function"?u(PR.q):u;};
+function prCaja(){const q=PR.q, s=S(); if(!q)return "";
+ const li=s.caja(q).map(z=>'<span class="prl">'+z[0]+'</span> <b>'+z[1]+'</b>');
+ li.push('<span class="prl">'+prPie()+'</span> <b>&mdash;&mdash;&mdash;</b>');
+ return '<div class="calc">'+li.join("<br>")+'</div>';}
+function prPinta(){const s=S();
+ const pon=(i,h)=>{const d=document.getElementById(i); if(d)d.innerHTML=h;};
+ pon("prb",prCaja());
+ pon("prL",prPie()); pon("prU",prUni());
+ pon("prn",PR.n+" of "+prMeta()+" done");
+ prDiaPinta();
+ const i=document.getElementById("in"); if(i){i.value="";i.focus();}}
+function prContador(){const d=document.getElementById("prn");
+ if(d)d.innerHTML=PR.n+" of "+prMeta()+" done";}
+function prEspera(){const d=document.getElementById("fb");
+ if(d)d.innerHTML+='<div><button onclick="prSigue()">Next one &#8594;</button></div>';}
+
+function prDiaPinta(){const s=S(), d=document.getElementById("prD");
+ if(!d||!s.dia)return;
+ d.innerHTML=s.dia.map((q,k)=>'<button class="opt2'+(PR.dia==k?" sel":"")
+   +'" onclick="prDia('+k+')">'+q+'</button>').join("");}
+window.prDia=k=>{if(PR.esp)return; PR.dia=k; prDiaPinta();};
+window.prSigue=()=>{const s=S(); if(!PR.esp)return;
+ PR.esp=false; prNuevo(); prPinta();
+ const d=document.getElementById("fb");
+ if(d)d.innerHTML="<small>"+(s.ay||"")+"</small>";};
+
+window.prResp=()=>{const s=S(), q=PR.q;
+ if(PR.esp||!q)return;
+ const bruto=document.getElementById("in").value;
+ const n=(String(bruto).match(/\d{1,4}/)||[])[0];
+ if(n==null){fb("Give it as four figures, like <b>0000</b>.","no");return;}
+
+ if(s.dia&&PR.dia==null){fb("And the day: <b>"+s.dia.join("</b> or <b>")+"</b>.","no");
+  return;}
+ const reloj=(""+n).length<=2 ? (+n)*60 : Math.floor(+n/100)*60 + (+n)%100;
+ const pedido=reloj+(s.dia?PR.dia*1440:0);
+ const bien=s.resp(q);
+
+ const ok=s.dia ? pedido==bien : ((pedido-bien)%1440+1440)%1440==0;
+ guarda("problema",{id:q.id,dio:hhmm(reloj),dia:PR.dia},ok);
+ if(ok){
+  PR.n++; prContador();
+
+  LT.muda=null; LT.resuelto=true; pinta(); tira();
+  const m='<span class="big">'+hhmm(bien)
+   +(s.dia?' <small>'+s.dia[Math.floor(bien/1440)]+'</small>':'')+'</span><br>'+s.bien;
+  if(PR.n>=prMeta()){fb(m+"<br><b>That is "+prMeta()+" of them.</b>","si");
+   hecho=true; nav(true); return;}
+  fb(m,"si"); PR.esp=true; prEspera(); return;}
+ const sub=prSube();
+ falla(s,s.mal(q,pedido,bien,reloj)
+  +(sub?'<div class="pista">That one did not come out, so <b>there is a third</b>. '
+   +'Two was the plan; the third is here because you slipped, and it goes away as '
+   +'soon as you do not.</div>':""));
+ if(sub)prContador();};
+
+let ELG={sel:null,q:null}; const ELB={};
+const elCaso=()=>ELG.q||S();
+function elEntra(s){ELG.sel=null;
+ if(!s.sit){ELG.q=null; return;}
+ if(!ELB[s.id])ELB[s.id]=bolsaNueva();
+ ELG.q=saca(ELB[s.id],s.sit);}
+function elPinta(){const s=S(), d=document.getElementById("elO"); if(!d)return;
+ const c=elCaso();
+ const b=document.getElementById("elB");
+ if(b)b.innerHTML=c.caja?'<div class="calc">'+c.caja.join("<br>")+'</div>':"";
+ d.innerHTML=c.ops.map((q,k)=>'<button class="opt2'+(ELG.sel==k?" sel":"")
+  +'" onclick="elElige('+k+')">'+q+'</button>').join("");}
+window.elElige=k=>{if(hecho)return; ELG.sel=k; elPinta();};
+window.elResp=()=>{const s=S();
+ if(hecho)return;
+ const c=elCaso();
+ if(ELG.sel==null){fb("Pick one of them first.","no");return;}
+ const ok=ELG.sel===c.ok;
+ guarda("elige",c.ops[ELG.sel],ok);
+ if(ok){hecho=true; fb('<span class="big">'+c.ops[c.ok]+'</span><br>'+c.bien,"si");
+  nav(true); return;}
+ falla(s,c.mal[ELG.sel]);};
+
+let COLS=[], DISP="columnas", MINIMA=false;
+
+window.verano=()=>{const s=S(), b=s.lt&&s.lt.boton; if(!b)return;
+ const v=!LT.verano.aqui;
+ LT.verano={aqui:v,alli:v};
+ LT.base=JSON.parse(JSON.stringify(v?b.verano:b.invierno));
+ pinta(); botonPinta(); tira();};
+function botonPinta(){const d=document.getElementById("btV"); if(!d)return;
+ const b=S().lt.boton, f=LT.base, v=LT.verano.aqui;
+ d.innerHTML='<button onclick="verano()">'+(v?"Wind the clocks back":"Wind them forward")
+  +'</button><div style="margin-top:6px"><small>the date on the line: <b>'
+  +f.d+" "+MES[f.m-1]+" "+f.a+"</b> &mdash; "
+  +(v?"summer time is in force":"summer time is not in force")+"</small></div>";}
+window.compruebo=()=>{const s=S();
+ const r=s.ck(LT.t0);
+ guarda("arrastra",LT.t0,r.ok);
+ if(r.ok){LT.resuelto=true; hecho=true; fb(r.m,"si"); nav(true); pinta();}
+ else falla(s,r.m);};
+
+function fin(){
+
+ const hechas=PZ.reduce((a,z)=>a+z.s.length,0), faltan=TOT-hechas;
+ pane().innerHTML='<h3>'+(faltan?'End of what is built':'End of the part')+'</h3>'
+ +'<h2>'+hechas+' of '+TOT+' screens</h2>'
+ +(faltan
+   ? '<p>This part is <b>'+faltan+' screen'+(faltan==1?'':'s')+' short</b> of '
+     +'finished, and there is nothing after this one yet.</p>'
+
+   : '<p><b>This part is complete.</b> Six topics, and the frontier is open: you '
+     +'already knew how long a passage takes, and now you can say when it lands '
+     +'&mdash; on the right day, in whichever clock is asking.</p>')
+ +'<div class="calc"><b>Next: module 03 — Where you are.</b><br> You can steer a course now. This is the other half of the question — and the answer does not arrive in one piece.</div>';
+ const d=document.getElementById("nav");
+ if(d)d.innerHTML='<button class="sec" onclick="atras()">Back</button>'
+  +'<button onclick="alUltimo()">Back to the last screen</button>';}
+
+function alUltimo(){ paso.p=PZ.length-1;
+ paso.i=PZ[paso.p].s.length-1; dibuja(); }
+
+const YO = "m02-p3-time.html";
+
+function _plano(){ let n=0; for(let k=0;k<paso.p;k++) n+=PZ[k].s.length; return n+paso.i; }
+function _cuantas(){ let n=0; for(const q of PZ) n+=q.s.length; return n; }
+function _dePlano(n){ for(let p=0;p<PZ.length;p++){ if(n<PZ[p].s.length) return {p:p,i:n};
+  n-=PZ[p].s.length; } return {p:PZ.length-1, i:PZ[PZ.length-1].s.length-1}; }
+function guardaDonde(){ vistoPon(YO, _plano()); }
+function donde(){ return _dePlano(vistoPos(YO, _cuantas()-1)); }
+
+function deCero(){ vistoOlvida(YO); paso={p:0,i:0}; if(typeof ponEst==="function")ponEst(); dibuja(); }
+
+paso=donde(); if(typeof ponEst==="function")ponEst();
+dibuja();
+
+(function(){
+ const s=document.getElementById("sello"); if(!s)return;
+ const yo=s.getAttribute("data-sello")||"";
+ let visto="";
+ try{visto=localStorage.getItem("selloMax")||"";}catch(e){}
+ if(visto&&yo<visto){
+  const d=document.createElement("div");
+  d.className="sello";
+  d.innerHTML='<span class="viejo">This is a cached copy.</span> &nbsp;'
+   +'The current version is <b>'+visto+'</b> &mdash; reload with <b>Ctrl+F5</b>.';
+  s.parentNode.insertBefore(d,s.nextSibling);
+ }else if(yo>visto){
+  try{localStorage.setItem("selloMax",yo);}catch(e){}
+ }
+})();
+
+function marcoChrome(){
+ try{
+  const t = (typeof PZ !== "undefined" && PZ.length) ? PZ.length
+          : (typeof TOT !== "undefined" ? TOT : 0);
+  const i = (typeof iP !== "undefined") ? iP
+          : ((typeof paso !== "undefined" && paso && typeof paso.p === "number") ? paso.p : 0);
+  const dc = n => (n < 10 ? "0" : "") + n;
+  const b = document.getElementById("barCont");
+  if (b && t) b.textContent = dc(i + 1) + " / " + dc(t);
+  const f = document.getElementById("ficha");
+  if (f && f.style && f.style.setProperty
+      && typeof D !== "undefined" && D && D.W && D.H)
+    f.style.setProperty("--ar", D.W + " / " + D.H);
+ }catch(e){}
+}
+</script>

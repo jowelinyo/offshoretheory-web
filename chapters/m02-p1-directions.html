@@ -1,0 +1,3968 @@
+﻿<meta charset="utf-8"><title>Module 02 &middot; Directions</title>
+<style>
+html,body{margin:0;height:100%;font:14px/1.5 system-ui,-apple-system,sans-serif;
+ background:#dde5ea;overflow:hidden;color:#12202b}
+#wrap{display:flex;height:100%}
+#obj{flex:1;position:relative}
+
+#obj svg .carta{cursor:grab}
+body.arrastrando #obj svg .carta{cursor:grabbing}
+#svg{position:absolute;inset:0;width:100%;height:100%;touch-action:none}
+#obj,#svg,#svg *{-webkit-user-select:none;-moz-user-select:none;user-select:none;
+ -webkit-user-drag:none;-webkit-tap-highlight-color:transparent}
+#wrap.arrastrando *{-webkit-user-select:none!important;user-select:none!important}
+#side{width:392px;background:#f7fafb;border-left:1px solid #a8bcc8;display:flex;
+ flex-direction:column;box-shadow:-2px 0 12px #0002}
+#head{padding:11px 15px;background:#2F4A5A;color:#fff}
+#head b{font-size:15px;letter-spacing:.4px}
+#hTit{font-size:12px;opacity:.85;margin-top:2px}
+.hd{display:flex;justify-content:space-between;align-items:baseline;gap:14px}
+.hd h3{margin-bottom:10px}
+a.skip{font:12px system-ui;color:#5a6b78;text-decoration:underline;cursor:pointer;
+ white-space:nowrap;flex:none}
+#prog{display:flex;gap:4px;margin-top:8px}
+#prog i{flex:1;height:5px;background:#ffffff33;border-radius:3px;cursor:pointer}
+#prog i.on{background:#fff;box-shadow:0 0 0 2px #ffffff55}
+#prog i.done{background:#8fc7a4}
+#pane{flex:1;overflow:auto;padding:16px 15px}
+#foot{border-top:1px solid #a8bcc8;padding:9px 15px;background:#eef4f7;font-size:11px;
+ color:#5a6b78;display:flex;justify-content:space-between;align-items:center}
+h2{margin:0 0 4px;font-size:17px;letter-spacing:-.2px}
+h3{margin:0 0 10px;font-size:12px;text-transform:uppercase;letter-spacing:.7px;color:#5a6b78}
+p{margin:0 0 11px}
+b.q{font-size:15px}
+button{font:600 13px system-ui;padding:8px 14px;border:0;border-radius:5px;cursor:pointer;
+ background:#2F4A5A;color:#fff;margin:4px 5px 0 0}
+button:disabled{opacity:.4;cursor:default}
+button.sec{background:#e7eef3;color:#12202b;border:1px solid #9fb3c0}
+button.show{background:#0a6b52}
+.calc{background:#fff;border:1px solid #cddae2;border-radius:6px;padding:10px 12px;margin:9px 0;
+ font:13px/1.7 ui-monospace,monospace}
+.calc b{font-family:system-ui}
+.big{font-size:26px;font-weight:600;letter-spacing:-.5px}
+.res{background:#fff;border:1px solid #cddae2;border-radius:6px;padding:11px 13px;margin:9px 0}
+.res.no{background:#fff4f4;border-color:#e8bebe}
+.res.si{background:#f2f9f4;border-color:#bcdcc6}
+.res.ver{background:#f1f8f5;border-color:#a9cfbe}
+.res.ver b{display:block;font-size:15px;margin-bottom:6px;color:#0a6b52}
+.pista{margin-top:9px;padding-top:9px;border-top:1px dashed #d9c3c3;color:#8a3535}
+.nav{display:flex;gap:8px;align-items:center;margin-top:14px;padding-top:11px;
+ border-top:1px solid #dde5ea}
+.gu{display:flex;gap:10px;margin:10px 0}
+.gu b{flex:1;min-width:0;overflow-wrap:anywhere;background:#2F4A5A;color:#fff;
+ border-radius:5px;padding:7px 9px;font:600 13px ui-monospace,monospace;text-align:center}
+.ejli{font-size:15px;line-height:1.5;margin:10px 0 4px}
+
+.crow{display:flex;flex-wrap:wrap;align-items:center;gap:8px;margin:10px 0}
+
+.ops{margin:12px 0 4px}
+.ops button{flex:1 1 auto;min-width:0;margin:0;white-space:normal;line-height:1.25}
+.cl{font-size:12px;color:#5a6b78;width:96px;flex:none}
+.cu{font-size:12px;color:#5a6b78}
+button.opt2{background:#fff;color:#12202b;border:1px solid #bccdd7;font-weight:600;
+ padding:7px 15px;margin:0 6px 0 0}
+button.opt2.sel{background:#2F4A5A;color:#fff;border-color:#2F4A5A}
+.prl{font-size:12px;color:#5a6b78}
+.sello{font-size:11px;color:#5a6b78;letter-spacing:.3px;margin:2px 0 0}
+.sello b{font-weight:600;color:#12202b}
+.viejo{background:#c8102e;color:#fff;padding:2px 7px;border-radius:3px;
+ font-weight:600;letter-spacing:.2px}
+input{width:70px}
+small{color:#5a6b78}
+
+input::placeholder{color:#829AA3;font-style:italic;font-weight:400}
+
+a.volver{font:12px system-ui;color:#5a6b78;text-decoration:none;cursor:pointer;
+ white-space:nowrap;flex:none;letter-spacing:.06em}
+a.volver:hover{color:#12202b;text-decoration:underline}
+
+.hd{justify-content:flex-start}
+.hd>:last-child{margin-left:auto}
+
+#foot{display:flex;justify-content:space-between;align-items:baseline;gap:14px}
+
+:root{
+ --page:#E8EBED; --panel:#F6F7F7; --card:#FCFCFB; --inset:#F4F6F7; --bar:#1C2B36;
+ --edge-frame:#B7C0C6; --edge-card:#BCC4C9; --edge-inner:#E4E8EA;
+ --edge-panel:#CFD7DC; --edge-leader:#C1C9CE; --edge-button:#A9B4BB;
+ --rule-heavy:#1C2B36;
+ --ink-title:#0F171D; --ink-strong:#141C22; --ink-lead:#20292F; --ink-body:#333D45;
+ --ink-secondary:#4A5A66; --ink-label:#5B6B77; --ink-quiet:#5E6B74;
+ --accent-text:#9A5C10; --accent-graphic:#C97B1B; --accent-on-bar:#E2B15C;
+ --accent-control:var(--accent-graphic);
+ --link:#2F6C8F; --progress-pending:#CDD5DA;
+ --on-bar:#DCE4E9; --on-bar-dim:#B8C7D0; --on-bar-strong:#F6F9FA; --on-primary:#F2F6F8;
+ --sp-hair:4px; --sp-inline:8px; --sp-tight:12px; --sp-card:14px; --sp-block:16px;
+ --sp-col-y:20px; --sp-col-x:22px; --sp-panel-y:18px; --sp-panel-c:22px;
+ --sp-panel-x:30px; --sp-bar-x:24px; --sp-close:40px;
+ --ink-glosa:#4A5C65; --alarm-noche:#D9744E; --dim-banda:#93A9B1;
+ --f-display:"Newsreader",ui-serif,Georgia,"Palatino Linotype","Times New Roman",serif;
+ --f-ui:"IBM Plex Sans",system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;
+ --f-mono:"IBM Plex Mono",ui-monospace,"SF Mono","Segoe UI Mono",Menlo,Consolas,monospace;
+}
+
+html,body{background:var(--page);color:var(--ink-body);
+ font:15px/1.55 var(--f-ui);overflow:hidden}
+body{display:flex;flex-direction:column}
+
+#barra{flex:none;height:54px;display:flex;align-items:center;gap:var(--sp-inline);
+ padding:0 var(--sp-bar-x);background:var(--bar);
+ box-shadow:inset 0 1px 0 rgba(255,255,255,.08)}
+#barra a{text-decoration:none;cursor:pointer;
+ display:inline-flex;align-items:center;min-height:44px}
+#barra .barlink{font:600 15px/1.45 var(--f-ui);color:var(--on-bar);
+ white-space:nowrap;flex:none}
+#barra .barlink:hover{color:var(--on-bar-strong);text-decoration:underline}
+#barra .sep{flex:none;width:1px;height:22px;background:#3A4E5C;margin:0 var(--sp-inline)}
+#miga{font:400 17px/1.2 var(--f-display);color:var(--on-bar-dim);
+ white-space:nowrap;overflow:hidden;text-overflow:ellipsis;min-width:0}
+#miga b{color:var(--on-bar-strong);font-weight:500}
+#barra .crece{flex:1;min-width:var(--sp-inline)}
+#barCont{flex:none;font:400 12px/1.4 var(--f-mono);letter-spacing:.12em;
+ color:var(--accent-on-bar);font-variant-numeric:tabular-nums}
+
+#wrap{flex:1;min-height:0;display:grid;
+ grid-template-columns:minmax(0,1fr) clamp(320px,37%,560px)}
+
+#lienzo{min-width:0;min-height:0;display:grid;place-items:center;
+ padding:var(--sp-col-y) var(--sp-col-x)}
+
+#ficha{--ar:1000/640;aspect-ratio:var(--ar);width:100%;
+ max-width:100%;max-height:100%;min-height:0;position:relative;
+ background:var(--card);border:1px solid var(--edge-card);border-radius:0;
+ box-shadow:0 2px 3px rgba(28,43,54,.07);overflow:hidden}
+#obj{position:absolute;inset:0}
+
+#side{min-height:0;display:flex;flex-direction:column;background:var(--panel);
+ border-left:1px solid var(--edge-frame);width:auto}
+#head{flex:none;padding:var(--sp-panel-y) var(--sp-panel-x);
+ border-bottom:1px solid var(--edge-panel);background:none}
+#head b{font:400 12px/1.4 var(--f-mono);letter-spacing:.12em;text-transform:uppercase;
+ color:var(--ink-label)}
+.hd{display:flex;align-items:baseline;gap:var(--sp-tight)}
+.hd>:last-child{margin-left:auto}
+#hTit{font:400 12px/1.4 var(--f-mono);letter-spacing:.12em;text-transform:uppercase;
+ color:var(--ink-label);margin-top:0;white-space:nowrap;overflow:hidden;
+ text-overflow:ellipsis}
+#prog{display:flex;gap:3px;margin-top:var(--sp-tight)}
+#prog i{flex:1;height:5px;background:var(--progress-pending);border-radius:0;
+ cursor:pointer;box-shadow:none}
+#prog i.done{background:var(--link)}
+#prog i.on{background:var(--accent-graphic);box-shadow:none}
+#pane{flex:1;min-height:0;overflow-y:auto;
+ padding:var(--sp-panel-c) var(--sp-panel-x)}
+#foot{flex:none;border-top:1px solid var(--edge-panel);
+ padding:var(--sp-tight) var(--sp-panel-x);
+ font:400 12px/1.4 var(--f-mono);letter-spacing:.12em;color:var(--ink-quiet);
+ display:flex;align-items:center;gap:var(--sp-tight);flex-wrap:wrap}
+#foot .volver{margin-left:auto}
+.sello{font:400 12px/1.4 var(--f-mono);letter-spacing:.1em;color:var(--ink-quiet);
+ margin-top:var(--sp-hair);width:100%}
+.sello b{color:var(--ink-label);font-weight:500}
+
+h2{margin:0 0 var(--sp-block);font:500 31px/1.18 var(--f-display);
+ color:var(--ink-title)}
+h3{margin:0 0 var(--sp-tight);font:400 12px/1.4 var(--f-mono);letter-spacing:.12em;
+ text-transform:uppercase;color:var(--ink-label)}
+p{margin:0 0 var(--sp-block);max-width:62ch;color:var(--ink-body)}
+p b{color:var(--ink-title);font-weight:600}
+p em{font-style:normal;color:var(--ink-secondary)}
+b.q{display:block;margin:0 0 var(--sp-block);font:400 17px/1.6 var(--f-ui);
+ color:var(--ink-lead);font-weight:400}
+.prl{font:400 12px/1.4 var(--f-mono);letter-spacing:.12em;color:var(--accent-text);
+ margin-left:auto;white-space:nowrap;font-variant-numeric:tabular-nums}
+
+button{font:600 15px/1.45 var(--f-ui);padding:11px 26px;border:1px solid transparent;
+ border-radius:2px;cursor:pointer;background:var(--bar);color:var(--on-primary);
+ min-height:44px;margin:0}
+button:hover:not(:disabled){background:#26394A;filter:none}
+button:disabled{opacity:.45;cursor:default;filter:none}
+button.sec{background:var(--card);color:var(--ink-lead);border-color:var(--edge-button);
+ padding:10px 18px}
+button.sec:hover:not(:disabled){background:var(--inset);filter:none}
+button.show{background:transparent;color:var(--accent-text);
+ border-color:var(--edge-button);padding:10px 18px}
+a.skip,a.volver,#foot a{font:400 15px/1.45 var(--f-ui);color:var(--ink-secondary);
+ cursor:pointer;text-decoration:none;white-space:nowrap;
+ display:inline-flex;align-items:center;min-height:44px;padding:0 var(--sp-tight)}
+a.skip:hover,a.volver:hover,#foot a:hover{color:var(--ink-title);
+ text-decoration:underline}
+.nav{display:flex;gap:var(--sp-inline);align-items:center;flex-wrap:wrap;
+ margin-top:var(--sp-block);padding-top:var(--sp-tight);
+ border-top:1px solid var(--edge-panel)}
+:focus-visible{outline:2px solid var(--accent-graphic);outline-offset:2px}
+
+.ops{display:flex;flex-direction:column;gap:var(--sp-inline);
+ margin:0 0 var(--sp-block)}
+.ops button{display:block;position:relative;width:100%;min-height:52px;
+ padding:15px var(--sp-block);text-align:left;background:var(--card);
+ color:var(--ink-lead);border:1px solid var(--edge-card);
+ font:400 17px/1.45 var(--f-ui);white-space:normal}
+.ops button b{font-weight:600;color:var(--ink-title);font-family:var(--f-ui)}
+.ops button:hover:not(:disabled){background:var(--inset);
+ border-color:var(--edge-button);filter:none}
+.ops button:disabled{opacity:1;cursor:default;color:var(--ink-secondary)}
+.res{margin:0 0 var(--sp-block);padding:var(--sp-tight) var(--sp-block);
+ background:var(--inset);border:1px solid var(--edge-inner);
+ border-left:3px solid var(--edge-panel);color:var(--ink-body);font-size:16px}
+.res b{color:var(--ink-title);font-weight:600}
+.res.si{background:var(--inset);border-color:var(--edge-inner);
+ border-left-color:var(--link)}
+.res.no{background:var(--inset);border-color:var(--edge-inner);
+ border-left-color:var(--accent-graphic)}
+.res.ver{background:var(--inset);border-color:var(--edge-inner);
+ border-left-color:var(--accent-graphic)}
+.res.ver>b{font:500 19px/1.3 var(--f-display);color:var(--ink-title);
+ display:block;margin-bottom:var(--sp-inline)}
+.pista{margin:var(--sp-tight) 0 0;padding:0;border:0;
+ font:italic 400 17px/1.5 var(--f-display);color:var(--ink-secondary)}
+.calc{background:var(--card);color:var(--ink-body);border:1px solid var(--edge-card);
+ border-radius:0;padding:var(--sp-tight) var(--sp-block);margin:0 0 var(--sp-block);
+ font:400 14px/1.7 var(--f-mono)}
+.calc b{font-family:var(--f-ui);font-weight:600;color:var(--ink-title)}
+</style>
+
+<div id="barra">
+ <a class="barlink" href="../index.html">&#8592; The course</a>
+ <i class="sep"></i>
+ <div id="miga">Module 02 <span>&middot;</span> <b>Directions</b></div>
+ <span class="crece"></span>
+ <a class="barlink" href="../index.html">Contents</a>
+ <span id="barCont"></span>
+</div>
+<div id="wrap">
+ 
+ <div id="lienzo"><div id="ficha"><div id="obj"><svg id="svg"></svg></div></div></div>
+ <div id="side">
+  <div id="head">
+   <div class="hd"><div id="hTit">Three norths, one heading</div></div>
+   <div id="prog"></div></div>
+  <div id="pane"></div>
+  <div id="foot"><span id="fLog">0 answers logged</span><a class="volver" id="deCero" onclick="deCero()">start over</a>
+   <div class="sello" id="sello" data-sello="v2026-09-11 04:38">v2026-09-11 04:38</div></div>
+ </div>
+</div>
+<script>
+
+"use strict";
+const VISTO_CLAVE = "rya.visto";
+
+const VISTO_V = 2;
+
+function vistoAlmacen(){
+ try{ return (typeof localStorage !== "undefined" && localStorage) ? localStorage : null; }
+ catch(e){ return null; }
+}
+
+function vistoLee(){
+ const A = vistoAlmacen();
+ if(!A) return {v:VISTO_V, empezadas:{}, terminadas:{}, sinAlmacen:true};
+ try{
+  const o = JSON.parse(A.getItem(VISTO_CLAVE) || "null");
+  if(o && o.v === VISTO_V && o.empezadas && o.terminadas) return o;
+ }catch(e){}
+ return {v:VISTO_V, empezadas:{}, terminadas:{}};
+}
+
+function _vistoGuarda(o){
+ const A = vistoAlmacen();
+ if(!A) return o;
+ try{
+  A.setItem(VISTO_CLAVE, JSON.stringify(
+   {v:VISTO_V, empezadas:o.empezadas, terminadas:o.terminadas, pos:o.pos || {}}));
+ }catch(e){}
+ return o;
+}
+
+function _vistoPon(cual, fichero){
+ const o = vistoLee();
+ if(o.sinAlmacen || o[cual][fichero]) return o;
+ o[cual][fichero] = 1;
+ return _vistoGuarda(o);
+}
+
+const vistoEmpieza  = f => _vistoPon("empezadas", f);
+const vistoTermina  = f => _vistoPon("terminadas", f);
+const vistoEmpezada = f => !!vistoLee().empezadas[f];
+const vistoTerminada= f => !!vistoLee().terminadas[f];
+const vistoHayAlmacen = () => !!vistoAlmacen();
+
+function vistoPon(fichero, n){
+ const o = vistoLee();
+ if(o.sinAlmacen) return o;
+ if(!o.pos) o.pos = {};
+ if(o.pos[fichero] === n) return o;
+ o.pos[fichero] = n;
+ return _vistoGuarda(o);
+}
+
+function vistoPos(fichero, tope){
+ const p = vistoLee().pos;
+ const n = p && p[fichero];
+ if(typeof n !== "number" || !isFinite(n) || n < 0) return 0;
+ return (typeof tope === "number" && tope >= 0) ? Math.min(n, tope) : n;
+}
+
+function vistoOlvida(fichero){
+ const o = vistoLee();
+ if(o.sinAlmacen || !o.pos || !(fichero in o.pos)) return o;
+ delete o.pos[fichero];
+ return _vistoGuarda(o);
+}
+
+let RND = 1;
+
+window.azarSemilla = n => {
+ RND = (n >>> 0) || 1;
+ for(let k = 0; k < 8; k++) azar();
+};
+function azar(){
+ RND ^= RND << 13; RND >>>= 0;
+ RND ^= RND >>> 17;
+ RND ^= RND << 5;  RND >>>= 0;
+ return RND / 4294967296;
+}
+function baraja(a){
+ const b = a.slice();
+ for(let i = b.length - 1; i > 0; i--){
+  const j = Math.floor(azar() * (i + 1));
+  const t = b[i]; b[i] = b[j]; b[j] = t;
+ }
+ return b;
+}
+azarSemilla(Date.now());
+
+function bolsaNueva(){ return {i:[], ultima:null}; }
+function saca(bolsa, banco){
+
+ if(bolsa.n!==banco.length){ bolsa.i=[]; bolsa.n=banco.length; }
+ if(!bolsa.i.length){
+  bolsa.i = baraja(banco.map((x, k) => k));
+  if(bolsa.i.length > 1 && banco[bolsa.i[bolsa.i.length - 1]].id === bolsa.ultima){
+   const t = bolsa.i[bolsa.i.length - 1];
+   bolsa.i[bolsa.i.length - 1] = bolsa.i[0]; bolsa.i[0] = t;
+  }
+ }
+ const x = banco[bolsa.i.pop()];
+ bolsa.ultima = x.id;
+ return x;
+}
+
+const PZ=[
+ {
+  "id": "1.S1",
+  "tema": "Three norths · topic 1",
+  "h": "Two skippers, one heading",
+  "obra": "patrones",
+  "b": "Why?",
+  "p": [
+   "Two boats leave Hallow Quay together. Both point at the same tower on the point — the same tower, the same line, no argument about where they are going.",
+   "One skipper writes <b>204</b> in his log. The other writes <b>215</b>.",
+   "<b>Neither of them has made a mistake.</b>",
+   "One of them read the number off the chart. The other read it off the compass in front of him. <b>Eleven degrees apart, and both of them are right.</b> They are the same direction, counted from two different norths."
+  ]
+ },
+ {
+  "id": "1.S2",
+  "tema": "Three norths · topic 1",
+  "h": "The rose on the chart",
+  "obra": "rosa",
+  "b": "Now watch one",
+  "p": [
+   "Every chart carries one. <b>The outer ring is counted from true north</b> &mdash; the top of the paper, the meridians, the same for everybody who owns this chart.",
+   "<b>The inner ring is counted from magnetic north</b>, which is where a compass actually looks. The two are not the same, and the rose says by how much.",
+   "The legend says how far apart they are, <b>when that was measured</b>, and how fast it is moving — because it does move, and that is the next topic.",
+   "<em>Real variation in these waters is a fraction of a degree today, and drifting east. This chart uses a bigger one on purpose, the way training charts do &mdash; so that getting the sign wrong is something you can see instead of something you can only be told about.</em>"
+  ]
+ },
+ {
+  "id": "1.E1",
+  "tema": "Three norths · topic 1",
+  "h": "One heading, three norths",
+  "obra": "nortes",
+  "b": "Now you try",
+  "p": [],
+  "pasos": [
+   {
+    "h": "A direction is not a number",
+    "p": "She is pointing somewhere. That is real — you could sight along it. <b>The number is not real: it is something you have to work out</b>, and to work it out you have to say where you are counting from."
+   },
+   {
+    "h": "The first zero: true north",
+    "p": "The chart is drawn to true north, and the rose’s outer ring counts from it. Sweep from there round to her bow and you get <b>204</b>. <b>That is what you write on the chart.</b>"
+   },
+   {
+    "h": "The second zero sits 6° to the west",
+    "p": "The rose said <b>7°00&#8242;W</b>, measured in 2020; six years on it is <b>6°00&#8242;W</b>. <em>(Bringing a rose up to date is the next topic — here we just use the answer.)</em> Magnetic north is a different zero, so the same bow gets a different number: <b>210</b>. <b>Look at the boat: she has not moved a degree.</b> Only the place you started counting from."
+   },
+   {
+    "h": "And her own compass is a third zero",
+    "p": "The iron in <em>this</em> boat pulls her card another <b>5°</b> west again. So her compass reads <b>215</b> for the very same bow. That last five degrees belongs to this boat alone — take the card ashore and it is worth nothing."
+   },
+   {
+    "h": "The whole sum, written out",
+    "p": "<b>There is no formula here.</b> You add or you subtract, and the entire difficulty is knowing which — so it is worth seeing one done from top to bottom.<br><br>204 true. The variation is <b>6° west</b>, so <b>add</b> it: 210 magnetic. Her deviation is <b>5° west</b>, so <b>add</b> that too: 215 on her compass.<br><br><b>Going down from the chart to the compass, west is added every time.</b> Coming back up it comes off. Getting that backwards is the mistake that costs you twice the variation — and you will meet it again by name."
+   },
+   {
+    "h": "Now turn her yourself",
+    "p": "<b>Take hold of the handle on her bow and swing her.</b> Watch the three numbers run together and never change their spacing: six degrees, then five, always — and the sum on the right is the same sum wherever you put her.<br><br><b>Because the bow is what moves. The norths never do.</b>"
+   }
+  ]
+ },
+ {
+  "id": "1.P1",
+  "tema": "Three norths · topic 1",
+  "h": "Turn the boat",
+  "obra": "practica",
+  "b": "Next",
+  "p": [
+   "The boat is yours now. <b>Turn her</b> — take hold of the handle on her bow, or press the arrow keys.",
+   "Watch what happens to the three readings as you go: they all move, they all move together, and they never stop being six degrees and then five apart."
+  ]
+ },
+ {
+  "id": "2.S1",
+  "tema": "The rose · topic 2",
+  "h": "The rose has a date on it",
+  "obra": "fecha",
+  "b": "Now watch one",
+  "p": [
+   "Look at the middle of the rose again, at the year. <b>2020.</b> That is not decoration: it is when somebody measured the angle you are about to use.",
+   "Magnetic north moves. Not much in a year — minutes of arc — but it moves every year, always, and the rose says how fast: <b>ten minutes eastward each year</b>.",
+   "<b>So the number printed there is not the number you want.</b> It is the number somebody wanted in 2020. Yours is a short sum away, and doing that sum is the whole of this topic.",
+   "<em>It is the only number on the chart with an expiry date. Everything else — the depths, the coastline, the meridians — is as true today as the day it was printed.</em>"
+  ]
+ },
+ {
+  "id": "2.E1",
+  "tema": "The rose · topic 2",
+  "h": "Bringing the rose up to date",
+  "obra": "anyo",
+  "b": "Next",
+  "p": [],
+  "pasos": [
+   {
+    "h": "What the rose says, and when",
+    "p": "The legend gives you three things, and you need all three: <b>how far apart</b> the two norths were, <b>when</b> that was measured, and <b>how fast</b> it is moving. Start with the year."
+   },
+   {
+    "h": "How long ago was that?",
+    "p": "Take the rose’s year off this one. That is how many years the variation has been drifting since anybody measured it."
+   },
+   {
+    "h": "That many years of drift",
+    "p": "Those are the years you have to account for. Each one of them moved magnetic north a little further east."
+   },
+   {
+    "h": "At so many minutes a year",
+    "p": "Multiply. <b>Sixty minutes make a degree</b>, the same as an hour — so sixty minutes of drift is one whole degree of variation gone."
+   },
+   {
+    "h": "So what is it today?",
+    "p": "<b>The drift is eastward. That is what the rose says and it does not change.</b> What changes is what eastward <em>does</em> to your number: a westerly variation gets <b>smaller</b>, and an easterly one gets <b>bigger</b>.<br><br>That is why it is worth doing the sum instead of remembering a direction. <b>Try another rose</b>, and another: of the twenty on this button, <b>eight of them grow</b>."
+   }
+  ]
+ },
+ {
+  "id": "2.P1",
+  "tema": "The rose · topic 2",
+  "h": "What is the variation this year?",
+  "obra": "escribe",
+  "b": "Next",
+  "p": [
+   "Here is a rose from another chart, and the year you are sailing in. <b>What is the variation today?</b>",
+   "Everything you need is printed on it: how far apart the two norths were, when that was measured, and how fast it has been moving since — <b>and which way</b>."
+  ],
+  "pista": "Work out the years first, then the drift in minutes, then remember that sixty minutes make a degree. <b>The last step is the one that catches people:</b> a drift eastward makes a <em>westerly</em> variation smaller but an <em>easterly</em> one bigger."
+ },
+ {
+  "id": "3.E1",
+  "tema": "The sign · topic 3",
+  "h": "Which way does the west go?",
+  "obra": "signo",
+  "sentido": "abajo",
+  "b": "Now you try",
+  "p": [],
+  "pasos": [
+   {
+    "vivos": 1,
+    "proa": true,
+    "h": "You already have both numbers",
+    "p": "She is on <b>204</b> true — that is the number you would lay off on the chart. And you know the variation: the rose gave you <b>6°W</b>.<br><br>So her magnetic number is <b>six degrees away from 204</b>. <b>The only thing left to decide is which way.</b>"
+   },
+   {
+    "vivos": 2,
+    "proa": true,
+    "mudo": 1,
+    "h": "Guess it and you are out by twice",
+    "p": "Is it <b>210</b> or is it <b>198</b>? It is tempting to shrug and pick one — it is only six degrees.<br><br>It is not. Correct the wrong way and you are not six degrees out, you are <b>twelve</b>: once for not adding it, and once again for taking it off. <b>The size of the mistake is always double the correction.</b> That is why this topic exists."
+   },
+   {
+    "vivos": 2,
+    "proa": true,
+    "cuenta": true,
+    "h": "Look at where the second zero sits",
+    "p": "Magnetic north is <b>6° to the west</b> of true north — that is what a westerly variation means, and it is drawn up there.<br><br>You count clockwise from your zero round to her bow. Start from a zero that is further west and <b>you have further to go before you reach the same bow</b>. So the magnetic number is the bigger one: <b>210</b>."
+   },
+   {
+    "vivos": 2,
+    "proa": true,
+    "cuenta": true,
+    "regla": true,
+    "h": "The rule, once and for all",
+    "p": "<b>Going down from the chart to the compass, west is added.</b><br><b>Coming up from the compass to the chart, west comes off.</b><br><br>And east does the opposite, because east is the other side of true north. <b>The sign turns round and the rule does not</b> — only which side of true north you happen to be on. <em>There is an easterly chart waiting at the end of this example.</em>"
+   },
+   {
+    "vivos": 2,
+    "proa": true,
+    "cuenta": true,
+    "regla": true,
+    "nombre": true,
+    "h": "You have been doing this since the first example",
+    "p": "It has a name. That block is the <b>correction ladder</b> — the rungs are the numbers, the steps between them are the corrections, and the arrows say which way you are travelling. You have been writing it since the first example without being told what it was called.<br><br>Sailors also have a phrase: <b>error west, compass best</b> — when the variation is west, the compass number is the bigger one. It is worth knowing because you will hear it. <b>But it is a reminder of the rule, not a reason for it, and you have just seen the reason.</b>"
+   },
+   {
+    "vivos": 2,
+    "proa": true,
+    "cuenta": true,
+    "regla": true,
+    "nombre": true,
+    "tira": true,
+    "h": "Now swing her past north",
+    "p": "<b>Take the handle and turn her</b>, or press the arrow keys. Both numbers move together and stay six degrees apart, wherever you put her.<br><br>Take her round past north and watch what happens: <b>356 plus 6 is not 362.</b> There is no 362 — the compass only goes round once. Take 360 off and it is <b>002</b>. The third chart below starts her right there."
+   }
+  ]
+ },
+ {
+  "id": "3.P1",
+  "tema": "The sign · topic 3",
+  "h": "Chart to magnetic",
+  "obra": "escribe",
+  "lienzo": "signo",
+  "forma": "rumbo",
+  "banco": "conv",
+  "sentido": "abajo",
+  "b": "Next",
+  "fijo": {
+   "vivos": 2,
+   "proa": true,
+   "cuenta": true,
+   "regla": true,
+   "nombre": true
+  },
+  "p": [
+   "A course off the chart, and the variation for these waters. <b>What is that same bow in magnetic?</b>",
+   "The ladder is there with its bottom rung empty, and so is the reading below it. Everything else you need is on the sheet."
+  ],
+  "pista": "You are going <b>down</b> from the chart to the compass, so <b>west is added and east comes off</b>. Look at the letter on the variation before you decide the sign — that letter is the whole question."
+ },
+ {
+  "id": "3.E2",
+  "tema": "The sign · topic 3",
+  "h": "The other way: magnetic to chart",
+  "obra": "signo",
+  "sentido": "arriba",
+  "b": "Now you try",
+  "p": [],
+  "pasos": [
+   {
+    "vivos": 2,
+    "proa": true,
+    "h": "Now start at the other end",
+    "p": "You have been at the chart table working outward. Now do it the way you do it at sea: <b>she is steering 210 by her compass</b>, and you want to draw where she is going.<br><br>The chart does not care what her compass says. It wants the true number."
+   },
+   {
+    "vivos": 2,
+    "proa": true,
+    "cuenta": true,
+    "h": "The same ladder, read upward",
+    "p": "Nothing new is drawn. <b>It is the same three lines</b>, the same two numbers, the same variation between them — you are simply starting at the bottom and climbing.<br><br>And what you added on the way down <b>comes off on the way up</b>: 210 − 6 = <b>204</b>."
+   },
+   {
+    "vivos": 2,
+    "proa": true,
+    "cuenta": true,
+    "regla": true,
+    "h": "The rule, at the other end",
+    "p": "<b>Coming up from the compass to the chart, west comes off.</b> It is the second half of the same sentence you learned going down, and the arrow on the right is the one that is lit now.<br><br>The sign in the middle has turned round with it. <b>Nothing else moved.</b>"
+   },
+   {
+    "vivos": 2,
+    "proa": true,
+    "cuenta": true,
+    "regla": true,
+    "nombre": true,
+    "h": "One figure, both directions",
+    "p": "That is the test of a good diagram: <b>the same ladder does both jobs without being redrawn.</b> Only the lit arrow and the sign change.<br><br>You may also meet <b>CADET</b> — <em>compass add east true</em> — which is this direction said as a mnemonic: coming up to true, east goes on. Same rule, and the same warning as before: it reminds you, it does not explain you."
+   },
+   {
+    "vivos": 2,
+    "proa": true,
+    "cuenta": true,
+    "regla": true,
+    "nombre": true,
+    "tira": true,
+    "h": "And past north the other way",
+    "p": "<b>Swing her again.</b> This time watch the bottom rung go under north: <b>002 magnetic with 6°W is not −004.</b> There is no such heading — add 360 and it is <b>356</b>.<br><br>Down or up, the ladder is the same and so is the wrap."
+   }
+  ]
+ },
+ {
+  "id": "3.P2",
+  "tema": "The sign · topic 3",
+  "h": "Magnetic to chart",
+  "obra": "escribe",
+  "lienzo": "signo",
+  "forma": "rumbo",
+  "banco": "conv",
+  "sentido": "arriba",
+  "b": "Next",
+  "fijo": {
+   "vivos": 2,
+   "proa": true,
+   "cuenta": true,
+   "regla": true,
+   "nombre": true
+  },
+  "p": [
+   "This time she is steering it, and you have to write it down. <b>What goes on the chart?</b>",
+   "Same ladder, same variation, other arrow — and now it is the top rung that is empty."
+  ],
+  "pista": "You are coming <b>up</b> from the compass to the chart, so <b>west comes off and east goes on</b>. It is exactly what you did on the way down, undone."
+ },
+ {
+  "id": "3.P3",
+  "tema": "The sign · topic 3",
+  "h": "One heading, two numbers",
+  "obra": "signo",
+  "sentido": "ambos",
+  "b": "Next",
+  "fijo": {
+   "vivos": 2,
+   "proa": true,
+   "cuenta": true,
+   "regla": true,
+   "nombre": true
+  },
+  "p": [
+   "Both arrows are lit, and that is the whole topic in one picture. <b>One bow, two numbers</b>, and a rule that works in both directions because it is the same rule read from either end.",
+   "<b>Going down, west is added. Coming up, west comes off.</b> East does the opposite. Get the direction of travel right first and the sign follows; get it backwards and you are out by twice the variation.",
+   "And whichever way you go, <b>the number wraps</b>: there is no 362 and there is no minus four. The compass goes round once, and so does the answer.",
+   "<em>One correction, both ways, and you can do it. The next topic brings the second one — the error that belongs to her own compass and to no other boat.</em>"
+  ]
+ },
+ {
+  "id": "4.S1",
+  "tema": "The card · topic 4",
+  "h": "The compass lies too, and differently every time",
+  "obra": "carta",
+  "b": "Now watch one",
+  "fijo": {
+   "vivos": 2,
+   "proa": true,
+   "carta": true,
+   "entra": true
+  },
+  "p": [
+   "<b>We told you her compass was 5°W out.</b> That was only ever true on one heading — the one she was on — and it is time to say so properly.",
+   "The variation is the chart’s problem, and it is the same for every boat that sails these waters. <b>The deviation is yours.</b> It comes from the iron in your own boat — the engine, the anchor chain, the speakers somebody fitted last winter — and <b>it changes with the heading</b>, because as she swings, all that iron swings with her.",
+   "So it cannot be one number. <b>It has to be a card:</b> twelve rows, one every thirty degrees, measured on this boat on a day somebody spent turning her round in circles. Look at the row for <b>210</b> — there is the five degrees west you were told about.",
+   "<b>This card belongs to <em>Kittiwake</em>.</b> Take it aboard another boat and it is worth nothing. <em>Somebody had to make it, and how that is done is waiting for you near the end of this part.</em>"
+  ]
+ },
+ {
+  "id": "4.E1",
+  "tema": "The card · topic 4",
+  "h": "Reading the card",
+  "obra": "carta",
+  "b": "Now you try",
+  "p": [],
+  "pasos": [
+   {
+    "vivos": 1,
+    "proa": true,
+    "carta": true,
+    "h": "Twelve rows, and nothing in between",
+    "p": "There is no formula on this page and there is not going to be one. <b>A deviation card is a list</b> — somebody measured her, heading by heading, and wrote down what they found.<br><br>Twelve rows, one every thirty degrees. That is the whole of it."
+   },
+   {
+    "vivos": 1,
+    "proa": true,
+    "carta": true,
+    "entra": true,
+    "h": "You go in by the magnetic heading",
+    "p": "<b>This matters more than it looks.</b> The card is tabulated by <b>magnetic</b> heading — not by true, and not by what her compass says. She is on <b>210 magnetic</b>, so that is the row.<br><br><em>Remember it. When both corrections come together it is the whole trap.</em>"
+   },
+   {
+    "vivos": 2,
+    "proa": true,
+    "carta": true,
+    "entra": true,
+    "suma": true,
+    "h": "Read the row, and apply it",
+    "p": "The row says <b>5°W</b>. And the rule has not changed since the last topic: <b>going down towards the compass, west is added</b>.<br><br>210 + 5 = <b>215</b>. Which is the number the second skipper wrote in his log, back at the beginning."
+   },
+   {
+    "vivos": 2,
+    "proa": true,
+    "carta": true,
+    "entra": true,
+    "suma": true,
+    "tira": true,
+    "h": "Now turn her, and watch it move",
+    "p": "<b>Take the handle and swing her</b>, or press the arrow keys. Watch the lit row run down the card, and watch the green arrow wander while the magenta one stands still.<br><br><b>That is the whole difference between the two corrections.</b> The variation stays where it is whatever you do. The deviation is hers, and it changes with every degree she turns."
+   },
+   {
+    "vivos": 2,
+    "proa": true,
+    "carta": true,
+    "entra": true,
+    "suma": true,
+    "tira": true,
+    "h": "And the heading you want is not always on it",
+    "p": "<b>Swing her slowly and watch the lit row jump.</b> It does not slide: it jumps, because there is nothing in between. <b>A card is discrete</b> — twelve rows for three hundred and sixty degrees, and most of the time she is between two of them.<br><br>When she is, you take <b>the nearest row</b>. On this card the rows are never more than two degrees apart, so the nearest one is inside half a degree of the truth — which is closer than you can steer."
+   }
+  ]
+ },
+ {
+  "id": "4.P1",
+  "tema": "The card · topic 4",
+  "h": "What is she steering?",
+  "obra": "escribe",
+  "lienzo": "carta",
+  "forma": "rumbo",
+  "banco": "carta",
+  "sentido": "abajo",
+  "b": "Next",
+  "fijo": {
+   "vivos": 2,
+   "proa": true,
+   "carta": true,
+   "entra": true
+  },
+  "p": [
+   "Her card is on the sheet, and a magnetic heading to steer. <b>What will her own compass read?</b>",
+   "Go in by the magnetic heading. If it is not on a row, take the nearest one."
+  ],
+  "pista": "Go into the card by the <b>magnetic</b> heading, and if it is not on a row take the <b>nearest</b> one. Then the same rule as always: going down towards the compass, <b>west is added and east comes off</b>."
+ },
+ {
+  "id": "5.E1",
+  "tema": "Both · topic 5",
+  "h": "Both corrections, in order",
+  "obra": "apila",
+  "b": "Now you try",
+  "p": [],
+  "pasos": [
+   {
+    "vivos": 3,
+    "proa": true,
+    "h": "Three norths again, and now you can do all of it",
+    "p": "Here they are, the three of them, for the first time since the very first example — and this time none of the numbers is handed to you. The rose gives you the variation. Her card gives you the deviation.<br><br>Two corrections, one after the other. <b>That is the whole of this part, and you already know both halves.</b>"
+   },
+   {
+    "vivos": 3,
+    "proa": true,
+    "cuenta": true,
+    "h": "The variation first. Always.",
+    "p": "<b>Her card is tabulated by magnetic heading.</b> So you cannot go into it until you have a magnetic heading — which means the variation has to be applied first.<br><br>204 true, variation 6°W, so <b>210 magnetic</b>. And only now do you open the card."
+   },
+   {
+    "vivos": 3,
+    "proa": true,
+    "cuenta": true,
+    "h": "Then the deviation, read on that magnetic heading",
+    "p": "Row <b>210</b>, and it says <b>5°W</b>. Add it: <b>215</b> on her own compass.<br><br><b>Do it in the other order and you go into the card by the wrong row.</b> On 193 true with 11°W the card row is 210, not 180 — and those two rows are a degree apart. Some day they will be more."
+   },
+   {
+    "vivos": 3,
+    "proa": true,
+    "cuenta": true,
+    "regla": true,
+    "nombre": true,
+    "h": "The same ladder, one rung taller",
+    "p": "Nothing new has been drawn. It is <b>the correction ladder</b> you have been writing since the third topic, with a third rung on the bottom and a second correction between.<br><br>The arrows say the same thing they always said: <b>going down, west is added; coming up, west comes off.</b> Both corrections obey it, because it was never a rule about variation — it was a rule about which way you are travelling."
+   },
+   {
+    "vivos": 3,
+    "proa": true,
+    "cuenta": true,
+    "regla": true,
+    "nombre": true,
+    "tira": true,
+    "h": "Now swing her, and watch both of them work",
+    "p": "<b>Take the handle.</b> The magenta arrow keeps its six degrees, whatever you do — the variation belongs to the chart. The green one wanders, because her deviation belongs to her and changes with every heading.<br><br>And the ladder does the sum again, wherever you put her."
+   },
+   {
+    "vivos": 3,
+    "proa": true,
+    "cuenta": true,
+    "regla": true,
+    "nombre": true,
+    "tira": true,
+    "h": "Two ways to get it wrong, and they look different",
+    "p": "<b>Forget a correction</b> and you are out by that correction. <b>Apply it backwards</b> and you are out by twice it — once for not adding it, once for taking it off.<br><br>So the size of the error tells you which mistake you made. Six degrees out on this chart is a forgotten variation; twelve is a variation applied the wrong way. <em>The screen after this one will tell you which one you just made.</em>"
+   }
+  ]
+ },
+ {
+  "id": "5.P1",
+  "tema": "Both · topic 5",
+  "h": "All the way down, and all the way up",
+  "obra": "escribe",
+  "lienzo": "apila",
+  "forma": "rumbo",
+  "banco": "apila",
+  "sentido": "abajo",
+  "b": "Next",
+  "fijo": {
+   "vivos": 3,
+   "proa": true,
+   "cuenta": true,
+   "regla": true,
+   "nombre": true
+  },
+  "p": [
+   "A course off the chart, the variation for these waters, and her card on the sheet. <b>What do you give the helm?</b>",
+   "Two corrections, and <b>the variation goes first</b> — her card cannot be opened until you have a magnetic heading."
+  ],
+  "pista": "<b>Variation first, then the card.</b> Take the chart course, apply the variation to get magnetic, and go into the card on <em>that</em> heading. Then the same rule as always: going down, west is added."
+ },
+ {
+  "id": "5.P2",
+  "tema": "Both · topic 5",
+  "h": "Which north is this number in?",
+  "obra": "escribe",
+  "lienzo": "apila",
+  "forma": "eleccion",
+  "banco": "juicio",
+  "b": "Next",
+  "rumbo": 137,
+  "fijo": {
+   "vivos": 3,
+   "proa": true
+  },
+  "p": [
+   "No arithmetic in this one. <b>A number turns up, and you have to say where it is counted from.</b>",
+   "It is the question that keeps you out of trouble: half the mistakes in this whole part are a number used in the wrong north."
+  ],
+  "pista": "Ask where the number came from. <b>Off the chart or out of a book</b> — true. <b>Off an instrument</b> — compass. <b>Worked out in between, or used to open a card</b> — magnetic."
+ },
+ {
+  "id": "6.E1",
+  "tema": "Bearings · topic 6",
+  "h": "A bearing is a direction too",
+  "obra": "demora",
+  "b": "Now you try",
+  "p": [],
+  "pasos": [
+   {
+    "vivos": 2,
+    "proa": true,
+    "marca": true,
+    "h": "You are not steering it — you are looking at it",
+    "p": "A bearing is the direction of something else from where you are: a headland, a light, a church tower. <b>The line is real and the number is not</b>, exactly as it was on the very first screen.<br><br>So it needs the same treatment. You take it in one north and you draw it in another."
+   },
+   {
+    "vivos": 2,
+    "proa": true,
+    "marca": true,
+    "h": "But this compass has no deviation",
+    "p": "You take a bearing with a <b>hand bearing compass</b>, standing where you can see the mark — which is away from the engine, away from the anchor chain, away from her iron.<br><br><b>So it has no card and no deviation.</b> What it hands you is <b>magnetic</b>, and there is only one correction to make."
+   },
+   {
+    "vivos": 2,
+    "proa": true,
+    "marca": true,
+    "cuenta": true,
+    "regla": true,
+    "nombre": true,
+    "h": "One rung, and the same rule",
+    "p": "The ladder again, two rungs this time: magnetic at the bottom, true at the top, the variation between.<br><br>Coming up to the chart, <b>west comes off</b>. It has not changed since the third topic and it is not going to."
+   },
+   {
+    "vivos": 2,
+    "proa": true,
+    "marca": true,
+    "cuenta": true,
+    "regla": true,
+    "nombre": true,
+    "recip": true,
+    "h": "And the way back is the same line",
+    "p": "The bearing you took runs <b>from you to the mark</b>. To draw it on the chart you want it the other way — <b>from the mark back to you</b>, because the mark is the end you know the position of.<br><br>Same line, other end: <b>add 180, or take it off</b>. Whichever keeps you inside 000 and 360. That is all a reciprocal is."
+   },
+   {
+    "vivos": 2,
+    "proa": true,
+    "marca": true,
+    "cuenta": true,
+    "regla": true,
+    "nombre": true,
+    "recip": true,
+    "tira": true,
+    "h": "Now swing the sight round",
+    "p": "<b>Take the handle and move the line of sight.</b> Both numbers follow, the variation between them never changes, and the reciprocal stays exactly opposite — because it is the same line.<br><br>Watch it cross north in both directions. <b>There is no 400 and there is no minus twenty.</b>"
+   }
+  ]
+ },
+ {
+  "id": "6.P1",
+  "tema": "Bearings · topic 6",
+  "h": "And the way back",
+  "obra": "escribe",
+  "lienzo": "demora",
+  "forma": "rumbo",
+  "banco": "conv",
+  "sentido": "arriba",
+  "recip": true,
+  "b": "Next",
+  "fijo": {
+   "vivos": 2,
+   "proa": true,
+   "marca": true,
+   "cuenta": true,
+   "regla": true,
+   "nombre": true,
+   "recip": true
+  },
+  "p": [
+   "A bearing off the hand bearing compass, and the variation for these waters. <b>What do you lay off on the chart?</b>",
+   "Two things, in this order: correct it to true, then turn it round. Remember the hand bearing compass has <b>no deviation</b>."
+  ],
+  "pista": "One correction only — the hand bearing compass has no card. Come <b>up</b> to true, so <b>west comes off</b>. Then <b>±180</b>, whichever keeps the answer between 000 and 360."
+ },
+ {
+  "id": "6.S1",
+  "tema": "Bearings · topic 6",
+  "h": "Where the card came from",
+  "obra": "enfila",
+  "b": "Now you try",
+  "p": [
+   "Somebody had to make that card, and this is how — the thing you were promised back when the card first turned up.",
+   "Two marks ashore at Stennick line up on <b>032° true</b>. <b>The chart says so, in print.</b> Line them up over the bow, hold her there, and you know your true heading <b>without any instrument at all</b>.",
+   "Now do what you have been doing all part. <b>The variation first:</b> 032 true with 6°W is <b>038 magnetic</b> — and that is the heading a card is tabulated by. Now look down at her compass: <b>033</b>.",
+   "<b>The five degrees between them is her deviation on that heading</b>, and it is easterly. Do it again on another line, and another, and <b>you have a card</b>. <em>Take the short way — compass minus true — and you get four degrees the wrong side: that is the variation mixed in with it.</em>",
+   "<em>You will meet these two marks again, properly, in the next module — </em><b>Where you are</b><em>. They are called a </em><b>transit</b><em>, and there is a great deal more to say about them. Here they are just a direction you can trust.</em>"
+  ]
+ },
+ {
+  "id": "6.P2",
+  "tema": "Bearings · topic 6",
+  "h": "Fill one line of the card",
+  "obra": "escribe",
+  "lienzo": "apila",
+  "forma": "lado",
+  "banco": "desvio",
+  "b": "Next",
+  "fijo": {
+   "vivos": 3,
+   "proa": true,
+   "cuenta": true,
+   "regla": true,
+   "nombre": true
+  },
+  "p": [
+   "A transit whose direction is printed on the chart, and what her compass reads while she is on it. <b>What is her deviation on that heading?</b>",
+   "It is the only screen in this part where you <b>make</b> a number for the card instead of reading one off it."
+  ],
+  "pista": "The transit hands you <b>true</b>. Apply the variation to get <b>magnetic</b> — that is the heading her card is tabulated by. Whatever is left between that and what her compass reads <b>is</b> the deviation."
+ },
+ {
+  "id": "6.P3",
+  "tema": "Bearings · topic 6",
+  "h": "Out by six. Or by twelve.",
+  "obra": "escribe",
+  "lienzo": "apila",
+  "forma": "eleccion",
+  "banco": "diagnos",
+  "b": "Next",
+  "rumbo": 137,
+  "fijo": {
+   "vivos": 3,
+   "proa": true
+  },
+  "p": [
+   "Somebody else worked this one, and got it wrong. <b>You have his numbers and you have his answer.</b> Say what he did.",
+   "No arithmetic to redo: <b>the size of the error is the evidence.</b> Forget a correction and you are out by it; apply it backwards and you are out by twice."
+  ],
+  "pista": "Work out how far out he is, then look at what that number could be. <b>The variation, twice the variation, the deviation, or twice the deviation</b> — and on this page no two of those are ever the same size."
+ },
+ {
+  "id": "6.P4",
+  "tema": "Bearings · topic 6",
+  "h": "What you can do now",
+  "obra": "apila",
+  "sentido": "ambos",
+  "b": "Finish",
+  "fijo": {
+   "vivos": 3,
+   "proa": true,
+   "cuenta": true,
+   "regla": true,
+   "nombre": true
+  },
+  "p": [
+   "Two skippers pointed at the same tower and wrote down different numbers, and neither of them was wrong. <b>You can do the whole of it now.</b>",
+   "You can bring a rose up to date, take a direction down from the chart to what the helm must steer, bring one back up, do both corrections in the order that works, turn a bearing round, and make a line of a deviation card yourself.",
+   "<b>And you can tell which north a number is in</b> — which is the one that keeps you out of trouble, because half the mistakes in navigation are a good number used in the wrong north.",
+   "<em>What you cannot do yet is </em><b>draw it</b><em>. Laying these directions on the chart, and finding out where you are from them, is the next module: </em><b>Where you are</b><em>. Take the ladder with you — you will be writing it for the rest of your life.</em>"
+  ]
+ }
+];
+let iP=0;
+const S=()=>PZ[iP];
+
+const COL={papel:"#fdfdfb", escrito:"#12202b", tinta:"#2F4A5A", suave:"#5a6b78",
+ raya:"#cddae2", marco:"#2F4A5A", rojo:"#c8102e", verde:"#0a6b52",
+ agua:"#D4E7F2", magenta:"#6B2461"};
+const TAM={rot:12, dato:14, lee:20, cifra:34, grande:44, hero:56};
+const R={papel:0, caja:3};
+const GR={filete:0.75, marco:1.5, mano:3};
+const D={W:1000,H:640}, MARGEN=24;
+
+const ROSAS=[
+ {
+  "w": 7.0,
+  "a": 2020,
+  "tasa": 10,
+  "dirD": "E",
+  "txt": "7°00'W",
+  "pieza": "7°00' west"
+ },
+ {
+  "w": 3.5,
+  "a": 2018,
+  "tasa": 8,
+  "dirD": "E",
+  "txt": "3°30'W",
+  "pieza": "3°30' west"
+ },
+ {
+  "w": 0.0,
+  "a": 2022,
+  "tasa": 6,
+  "dirD": "E",
+  "txt": "0°00'",
+  "pieza": "none at all"
+ },
+ {
+  "w": -2.0,
+  "a": 2021,
+  "tasa": 5,
+  "dirD": "E",
+  "txt": "2°00'E",
+  "pieza": "2°00' east"
+ },
+ {
+  "w": 5.25,
+  "a": 2015,
+  "tasa": 12,
+  "dirD": "E",
+  "txt": "5°15'W",
+  "pieza": "5°15' west"
+ },
+ {
+  "w": -4.5,
+  "a": 2012,
+  "tasa": 9,
+  "dirD": "E",
+  "txt": "4°30'E",
+  "pieza": "4°30' east"
+ },
+ {
+  "w": 9.0,
+  "a": 2009,
+  "tasa": 14,
+  "dirD": "E",
+  "txt": "9°00'W",
+  "pieza": "9°00' west"
+ },
+ {
+  "w": 1.75,
+  "a": 2023,
+  "tasa": 4,
+  "dirD": "E",
+  "txt": "1°45'W",
+  "pieza": "1°45' west"
+ },
+ {
+  "w": -6.0,
+  "a": 2017,
+  "tasa": 11,
+  "dirD": "E",
+  "txt": "6°00'E",
+  "pieza": "6°00' east"
+ },
+ {
+  "w": 4.0,
+  "a": 2019,
+  "tasa": 7,
+  "dirD": "E",
+  "txt": "4°00'W",
+  "pieza": "4°00' west"
+ },
+ {
+  "w": 11.5,
+  "a": 2006,
+  "tasa": 16,
+  "dirD": "E",
+  "txt": "11°30'W",
+  "pieza": "11°30' west"
+ },
+ {
+  "w": -1.25,
+  "a": 2024,
+  "tasa": 3,
+  "dirD": "E",
+  "txt": "1°15'E",
+  "pieza": "1°15' east"
+ },
+ {
+  "w": 6.5,
+  "a": 2013,
+  "tasa": 13,
+  "dirD": "W",
+  "txt": "6°30'W",
+  "pieza": "6°30' west"
+ },
+ {
+  "w": -3.0,
+  "a": 2016,
+  "tasa": 6,
+  "dirD": "W",
+  "txt": "3°00'E",
+  "pieza": "3°00' east"
+ },
+ {
+  "w": 2.25,
+  "a": 2011,
+  "tasa": 5,
+  "dirD": "W",
+  "txt": "2°15'W",
+  "pieza": "2°15' west"
+ },
+ {
+  "w": -8.0,
+  "a": 2008,
+  "tasa": 15,
+  "dirD": "W",
+  "txt": "8°00'E",
+  "pieza": "8°00' east"
+ },
+ {
+  "w": 10.0,
+  "a": 2014,
+  "tasa": 20,
+  "dirD": "E",
+  "txt": "10°00'W",
+  "pieza": "10°00' west"
+ },
+ {
+  "w": -5.5,
+  "a": 2010,
+  "tasa": 8,
+  "dirD": "W",
+  "txt": "5°30'E",
+  "pieza": "5°30' east"
+ },
+ {
+  "w": 8.25,
+  "a": 2007,
+  "tasa": 18,
+  "dirD": "E",
+  "txt": "8°15'W",
+  "pieza": "8°15' west"
+ },
+ {
+  "w": -0.5,
+  "a": 2025,
+  "tasa": 4,
+  "dirD": "E",
+  "txt": "0°30'E",
+  "pieza": "0°30' east"
+ }
+];
+let iR=0;
+
+const ROSAS_ANO=[
+ {
+  "w": 7.0,
+  "a": 2020,
+  "tasa": 10,
+  "dirD": "E",
+  "hoy": 2026,
+  "txt": "7°00'W",
+  "res": "6°00'W"
+ },
+ {
+  "w": 4.5,
+  "a": 2016,
+  "tasa": 6,
+  "dirD": "E",
+  "hoy": 2026,
+  "txt": "4°30'W",
+  "res": "3°30'W"
+ },
+ {
+  "w": 9.0,
+  "a": 2011,
+  "tasa": 12,
+  "dirD": "E",
+  "hoy": 2026,
+  "txt": "9°00'W",
+  "res": "6°00'W"
+ },
+ {
+  "w": 5.5,
+  "a": 2018,
+  "tasa": 5,
+  "dirD": "E",
+  "hoy": 2026,
+  "txt": "5°30'W",
+  "res": "4°50'W"
+ },
+ {
+  "w": 3.0,
+  "a": 2022,
+  "tasa": 15,
+  "dirD": "E",
+  "hoy": 2026,
+  "txt": "3°00'W",
+  "res": "2°00'W"
+ },
+ {
+  "w": 8.5,
+  "a": 2014,
+  "tasa": 9,
+  "dirD": "E",
+  "hoy": 2026,
+  "txt": "8°30'W",
+  "res": "6°42'W"
+ },
+ {
+  "w": 6.0,
+  "a": 2021,
+  "tasa": 7,
+  "dirD": "E",
+  "hoy": 2026,
+  "txt": "6°00'W",
+  "res": "5°25'W"
+ },
+ {
+  "w": 2.5,
+  "a": 2020,
+  "tasa": 4,
+  "dirD": "E",
+  "hoy": 2026,
+  "txt": "2°30'W",
+  "res": "2°06'W"
+ },
+ {
+  "w": 11.0,
+  "a": 2006,
+  "tasa": 13,
+  "dirD": "E",
+  "hoy": 2026,
+  "txt": "11°00'W",
+  "res": "6°40'W"
+ },
+ {
+  "w": 1.5,
+  "a": 2023,
+  "tasa": 8,
+  "dirD": "E",
+  "hoy": 2026,
+  "txt": "1°30'W",
+  "res": "1°06'W"
+ },
+ {
+  "w": 7.5,
+  "a": 2010,
+  "tasa": 11,
+  "dirD": "E",
+  "hoy": 2026,
+  "txt": "7°30'W",
+  "res": "4°34'W"
+ },
+ {
+  "w": 10.0,
+  "a": 2015,
+  "tasa": 20,
+  "dirD": "E",
+  "hoy": 2026,
+  "txt": "10°00'W",
+  "res": "6°20'W"
+ },
+ {
+  "w": -1.0,
+  "a": 2018,
+  "tasa": 5,
+  "dirD": "E",
+  "hoy": 2026,
+  "txt": "1°00'E",
+  "res": "1°40'E"
+ },
+ {
+  "w": -2.0,
+  "a": 2020,
+  "tasa": 10,
+  "dirD": "E",
+  "hoy": 2026,
+  "txt": "2°00'E",
+  "res": "3°00'E"
+ },
+ {
+  "w": -0.5,
+  "a": 2016,
+  "tasa": 6,
+  "dirD": "E",
+  "hoy": 2026,
+  "txt": "0°30'E",
+  "res": "1°30'E"
+ },
+ {
+  "w": -3.0,
+  "a": 2022,
+  "tasa": 12,
+  "dirD": "E",
+  "hoy": 2026,
+  "txt": "3°00'E",
+  "res": "3°48'E"
+ },
+ {
+  "w": -4.5,
+  "a": 2014,
+  "tasa": 7,
+  "dirD": "E",
+  "hoy": 2026,
+  "txt": "4°30'E",
+  "res": "5°54'E"
+ },
+ {
+  "w": -1.5,
+  "a": 2011,
+  "tasa": 4,
+  "dirD": "E",
+  "hoy": 2026,
+  "txt": "1°30'E",
+  "res": "2°30'E"
+ },
+ {
+  "w": -2.5,
+  "a": 2019,
+  "tasa": 9,
+  "dirD": "E",
+  "hoy": 2026,
+  "txt": "2°30'E",
+  "res": "3°33'E"
+ },
+ {
+  "w": -6.0,
+  "a": 2008,
+  "tasa": 15,
+  "dirD": "E",
+  "hoy": 2026,
+  "txt": "6°00'E",
+  "res": "10°30'E"
+ }
+];
+let iA=0, FORZADA=null, RESALTA=false;
+window.otraCuenta=()=>{iA=(iA+1)%ROSAS_ANO.length; dibuja();};
+const rosaHoy=()=>FORZADA||ROSAS[iR];
+window.otraRosa=()=>{iR=(iR+1)%ROSAS.length; dibuja();};
+
+const svg=document.getElementById("svg");
+const pane=()=>document.getElementById("pane");
+let ESC=1, gO=null;
+function esc(){const r=svg.getBoundingClientRect();
+ return Math.max(0.2, Math.min(r.width/D.W, r.height/D.H));}
+const px=n=>n/ESC;
+function el(t,at,pa){const e=document.createElementNS("http://www.w3.org/2000/svg",t);
+ for(const k in at) if(at[k]!==undefined&&at[k]!==null) e.setAttribute(k,at[k]);
+ (pa||gO||svg).appendChild(e); return e;}
+function txt(x,y,s,an,tam,col,peso){
+ const e=el("text",{x:x,y:y,"text-anchor":an||"start","font-size":px(tam||TAM.dato),
+  fill:col||COL.escrito,"font-weight":peso||400,
+  "font-family":"DejaVu Serif,Georgia,serif"});
+ e.textContent=s; return e;}
+function rot(x,y,s,an,col){
+ const e=txt(x,y,String(s).toUpperCase(),an,TAM.rot,col||COL.suave,600);
+ e.setAttribute("letter-spacing",px(1.1)); return e;}
+const ddd=a=>String(Math.round(((a%360)+360)%360)).padStart(3,"0");
+
+const anchoTxt=(s,tam,esp)=>String(s).length*tam*0.68
+  +Math.max(0,String(s).length-1)*(esp||0);
+
+let HOJA={};
+function maqueta(){const m=px(MARGEN);
+ HOJA={x0:m, y0:m, x1:D.W-m, y1:D.H-m};}
+function marco(){
+ el("rect",{x:HOJA.x0,y:HOJA.y0,width:HOJA.x1-HOJA.x0,height:HOJA.y1-HOJA.y0,
+  rx:px(R.caja),fill:"none",stroke:COL.marco,"stroke-width":px(GR.marco)});}
+
+function leyenda(){
+ const R=rosaHoy();
+ return {
+  w:      R.w,
+
+  linea:  R.txt+" "+R.a+" ("+R.tasa+"′"+(R.dirD||"E")+")",
+  cuanto: R.pieza,
+  cuando: String(R.a),
+
+  cambio: R.tasa+"\u2032 "+((R.dirD||"E")=="E"?"east":"west")+" each year",
+  sentido:((((R.dirD||"E")=="E")===(R.w>0))?"decreasing ":"increasing ")
+          +R.tasa+"\u2032 annually"};}
+
+const VARHOY=6;
+const DEV=5;
+const NORTES=[
+ {nom:"true north",      corto:"true",     off:0,          col:COL.tinta},
+
+ {nom:"magnetic north",  corto:"magnetic", off:VARHOY,     col:COL.magenta},
+ {nom:"her compass",     corto:"compass",  off:VARHOY+DEV, col:COL.verde}];
+
+const VAR3=[
+ {
+  "v": 6,
+  "r": 204,
+  "nom": "6°W"
+ },
+ {
+  "v": -4,
+  "r": 138,
+  "nom": "4°E"
+ },
+ {
+  "v": 6,
+  "r": 356,
+  "nom": "6°W, and she is nearly on north"
+ },
+ {
+  "v": 9,
+  "r": 47,
+  "nom": "9°W"
+ },
+ {
+  "v": -7,
+  "r": 88,
+  "nom": "7°E"
+ },
+ {
+  "v": 4,
+  "r": 312,
+  "nom": "4°W"
+ },
+ {
+  "v": -3,
+  "r": 265,
+  "nom": "3°E"
+ },
+ {
+  "v": 11,
+  "r": 301,
+  "nom": "11°W"
+ },
+ {
+  "v": -6,
+  "r": 174,
+  "nom": "6°E"
+ },
+ {
+  "v": 3,
+  "r": 275,
+  "nom": "3°W"
+ },
+ {
+  "v": -9,
+  "r": 220,
+  "nom": "9°E"
+ },
+ {
+  "v": 5,
+  "r": 358,
+  "nom": "5°W, and she is nearly on north"
+ },
+ {
+  "v": -5,
+  "r": 3,
+  "nom": "5°E, and she is nearly on north"
+ },
+ {
+  "v": 8,
+  "r": 119,
+  "nom": "8°W"
+ },
+ {
+  "v": -2,
+  "r": 340,
+  "nom": "2°E"
+ },
+ {
+  "v": 12,
+  "r": 352,
+  "nom": "12°W, and she is nearly on north"
+ },
+ {
+  "v": -8,
+  "r": 6,
+  "nom": "8°E, and she is nearly on north"
+ },
+ {
+  "v": 7,
+  "r": 233,
+  "nom": "7°W"
+ },
+ {
+  "v": -11,
+  "r": 95,
+  "nom": "11°E"
+ },
+ {
+  "v": 2,
+  "r": 67,
+  "nom": "2°W"
+ }
+];
+
+const TABLILLA=[
+ [
+  0,
+  -4
+ ],
+ [
+  30,
+  -5
+ ],
+ [
+  60,
+  -4
+ ],
+ [
+  90,
+  -2
+ ],
+ [
+  120,
+  0
+ ],
+ [
+  150,
+  2
+ ],
+ [
+  180,
+  4
+ ],
+ [
+  210,
+  5
+ ],
+ [
+  240,
+  4
+ ],
+ [
+  270,
+  2
+ ],
+ [
+  300,
+  0
+ ],
+ [
+  330,
+  -2
+ ]
+];
+const TABPASO=30;
+function filaDe(h){h=g360(h);
+ let mejor=null, dist=999;
+ for(const f of TABLILLA){
+  const d=Math.min(Math.abs(h-f[0]), 360-Math.abs(h-f[0]));
+  if(d<dist){mejor=f; dist=d;}}
+ return mejor;}
+const devDe=h=>filaDe(h)[1];
+const devTxt=v=>v===0 ? "0" : Math.abs(v)+"\u00b0"+(v>0?"W":"E");
+const devFila=h=>filaDe(h)[0];
+function esCarta(s){ return !!s && (s.obra=="carta"||s.lienzo=="carta"); }
+
+function esApila(s){ return !!s && (s.obra=="apila"||s.lienzo=="apila"); }
+
+function esDemora(s){ return !!s && (s.obra=="demora"||s.lienzo=="demora"); }
+const g180=a=>g360(a+180);
+const esRueda=s=>esSigno(s)||esCarta(s)||esApila(s)||esDemora(s);
+const VARAPILA=6;
+const varApila=()=>{const s=S();
+ return (s&&s.obra=="escribe"&&PR2.q&&PR2.q.v!==undefined) ? PR2.q.v : VARAPILA;};
+let iV=0;
+function esSigno(s){ return !!s && (s.obra=="signo"||s.lienzo=="signo"); }
+
+function sigDato(){const s=S();
+
+ if(esCarta(s))
+  return {v:devDe(RUMBO), mudo:(s.obra=="escribe"?1:-1)};
+
+ if(esApila(s))
+  return {v:varApila(),
+          mudo:(s.obra=="escribe" ? (s.sentido=="arriba"?0:2) : -1)};
+
+ if(esDemora(s))
+  return {v:(s.obra=="escribe"&&PR2.q&&PR2.q.v!==undefined)?PR2.q.v:VARAPILA,
+          mudo:(s.obra=="escribe"?0:-1)};
+ if(s&&s.forma=="rumbo"&&PR2.q)
+  return {v:PR2.q.v, mudo:(s.sentido=="arriba"?0:1)};
+
+ const P=PASO();
+ return {v:VAR3[iV].v, mudo:(P&&P.mudo!==undefined)?P.mudo:-1};}
+function nortesDe(){const s=S();
+
+ if(esCarta(s))
+  return [{nom:"magnetic north", corto:"magnetic", off:0, col:COL.magenta},
+          {nom:"her compass", corto:"compass", off:devDe(RUMBO), col:COL.verde}];
+
+ if(esDemora(s)){
+  const v=sigDato().v;
+  return [NORTES[0],
+          {nom:"hand bearing compass", corto:"magnetic", off:v, col:COL.magenta}];}
+ if(esApila(s)){
+  const v=varApila(), m=g360(RUMBO+v);
+  return [NORTES[0],
+          {nom:"magnetic north", corto:"magnetic", off:v, col:COL.magenta},
+          {nom:"her compass", corto:"compass", off:v+devDe(m), col:COL.verde}];}
+ if(!esSigno(s))return NORTES;
+ return [NORTES[0],{nom:"magnetic north", corto:"magnetic",
+                    off:sigDato().v, col:COL.magenta}];}
+window.otraCarta=()=>{iV=(iV+1)%VAR3.length; RUMBO=VAR3[iV].r; dibuja();};
+
+const EJEG=[0,360];
+let RUMBO=204;
+let EJ={i:0};
+
+function PASO(){const s=S();
+ if(!s)return {};
+ if(s.obra=="anyo")return PASOSA[EJ.i]||{};
+ if(esRueda(s))return (s.pasos&&s.pasos[EJ.i])||s.fijo||{};
+ return PASOS[EJ.i]||{};}
+
+const g360=a=>((a%360)+360)%360;
+const leeN=n=>g360(RUMBO+n.off);
+let CENTRO={x:500,y:0}, RADIO=0, COSTURA=0, PIE=0;
+const rad2=a=>(a-90)*Math.PI/180;
+const pt2=(a,r)=>[CENTRO.x+r*Math.cos(rad2(a)), CENTRO.y+r*Math.sin(rad2(a))];
+
+const ejeX=()=>{const s=S();
+ if(esCarta(s))return [HOJA.x0, HOJA.x1-px(30)-tabEstado(PASO()).an];
+ if(esSigno(s)||esApila(s)){const E=escEstado();
+  if(E.larga)return [HOJA.x0, HOJA.x1-px(30)-E.an];}
+ return [HOJA.x0, HOJA.x1];};
+const xDe=a=>{const E=ejeX();
+ return E[0]+(E[1]-E[0])*(g360(a)-EJEG[0])/(EJEG[1]-EJEG[0]);};
+const aDe=x=>{const E=ejeX();
+ return EJEG[0]+(EJEG[1]-EJEG[0])*(x-E[0])/(E[1]-E[0]);};
+
+const RMIN=80;
+
+let CEDE={nombres:false, pie:false, tirador:false};
+function maquetaE(){
+
+ const pasos=[{nombres:false,pie:false,tirador:false},
+              {nombres:true, pie:false,tirador:false},
+              {nombres:true, pie:true, tirador:false},
+              {nombres:true, pie:true, tirador:true}];
+ let mejor=null;
+ for(const c of pasos){
+  const pie=HOJA.y1-px(14+(c.pie?0:TAM.rot+18)+TAM.lee+14);
+  const cos=pie-px(40+TAM.cifra+(c.nombres?10:22+TAM.rot)+12);
+  const r=Math.min((cos-HOJA.y0)/2-px(c.tirador?12:56), (HOJA.x1-HOJA.x0)*0.19);
+  mejor={c:c, pie:pie, cos:cos, r:r};
+  if(r*ESC>=RMIN)break;}
+ CEDE=mejor.c; PIE=mejor.pie; COSTURA=mejor.cos;
+ CENTRO={x:500, y:(HOJA.y0+COSTURA)/2};
+ RADIO=Math.max(px(20), mejor.r);
+
+ if(esRueda(S())){
+  const fr=esCarta(S()) ? tabEstado(PASO()).an : escEstado().an;
+  const libre=(HOJA.x1-px(30)-fr)-HOJA.x0;
+  CENTRO.x=HOJA.x0+libre/2;
+  RADIO=Math.min(RADIO, libre/2-px(10));}}
+
+function barcoE(a,r){
+ const u=r/150, x=CENTRO.x, y=CENTRO.y;
+ const g=el("g",{transform:"rotate("+a+" "+x+" "+y+")"});
+ el("path",{d:"M"+x+","+(y+40*u)+" q 0,"+(18*u)+" 0,"+(30*u),fill:"none",
+  stroke:"#fff","stroke-width":4*u,"stroke-opacity":.8},g);
+ el("path",{d:"M"+x+","+(y-46*u)+" C"+(x+15*u)+","+(y-16*u)+" "+(x+15*u)+","
+   +(y+22*u)+" "+(x+11*u)+","+(y+40*u)+" L"+(x-11*u)+","+(y+40*u)+" C"+(x-15*u)+","
+   +(y+22*u)+" "+(x-15*u)+","+(y-16*u)+" "+x+","+(y-46*u)+" Z",
+  fill:COL.seco,stroke:COL.tinta,"stroke-width":1.6*u,"stroke-linejoin":"round"},g);
+ el("line",{x1:x,y1:y-40*u,x2:x,y2:y+36*u,stroke:COL.tinta,"stroke-width":.75*u,
+  "stroke-opacity":.5},g);
+ el("circle",{cx:x,cy:y-4*u,r:4*u,fill:COL.tinta},g);}
+
+const PASOSA=[{hasta:1},{hasta:2},{hasta:3},{hasta:5},{hasta:6}];
+const PASOS=[
+ {vivos:0, proa:true},
+ {vivos:1, proa:true},
+ {vivos:2, proa:true},
+ {vivos:3, proa:true},
+ {vivos:3, proa:true, cuenta:true},
+ {vivos:3, proa:true, cuenta:true, tira:true}];
+
+const BANCOS={
+ "variacion": [
+  {
+   "id": "w-e-1",
+   "w": 7.0,
+   "a": 2020,
+   "tasa": 10,
+   "dirD": "E",
+   "hoy": 2026
+  },
+  {
+   "id": "w-e-2",
+   "w": 9.0,
+   "a": 2016,
+   "tasa": 6,
+   "dirD": "E",
+   "hoy": 2026
+  },
+  {
+   "id": "w-e-3",
+   "w": 5.0,
+   "a": 2018,
+   "tasa": 15,
+   "dirD": "E",
+   "hoy": 2026
+  },
+  {
+   "id": "w-e-4",
+   "w": 11.0,
+   "a": 2011,
+   "tasa": 12,
+   "dirD": "E",
+   "hoy": 2026
+  },
+  {
+   "id": "w-w-1",
+   "w": 3.0,
+   "a": 2020,
+   "tasa": 10,
+   "dirD": "W",
+   "hoy": 2026
+  },
+  {
+   "id": "w-w-2",
+   "w": 2.0,
+   "a": 2014,
+   "tasa": 5,
+   "dirD": "W",
+   "hoy": 2026
+  },
+  {
+   "id": "w-w-3",
+   "w": 6.0,
+   "a": 2021,
+   "tasa": 12,
+   "dirD": "W",
+   "hoy": 2026
+  },
+  {
+   "id": "w-w-4",
+   "w": 4.0,
+   "a": 2011,
+   "tasa": 8,
+   "dirD": "W",
+   "hoy": 2026
+  },
+  {
+   "id": "e-e-1",
+   "w": -1.0,
+   "a": 2018,
+   "tasa": 15,
+   "dirD": "E",
+   "hoy": 2026
+  },
+  {
+   "id": "e-e-2",
+   "w": -2.0,
+   "a": 2020,
+   "tasa": 10,
+   "dirD": "E",
+   "hoy": 2026
+  },
+  {
+   "id": "e-e-3",
+   "w": -3.0,
+   "a": 2022,
+   "tasa": 30,
+   "dirD": "E",
+   "hoy": 2026
+  },
+  {
+   "id": "e-e-4",
+   "w": -1.0,
+   "a": 2016,
+   "tasa": 12,
+   "dirD": "E",
+   "hoy": 2026
+  },
+  {
+   "id": "e-w-1",
+   "w": -5.0,
+   "a": 2020,
+   "tasa": 20,
+   "dirD": "W",
+   "hoy": 2026
+  },
+  {
+   "id": "e-w-2",
+   "w": -4.0,
+   "a": 2018,
+   "tasa": 15,
+   "dirD": "W",
+   "hoy": 2026
+  },
+  {
+   "id": "e-w-3",
+   "w": -6.0,
+   "a": 2023,
+   "tasa": 60,
+   "dirD": "W",
+   "hoy": 2026
+  },
+  {
+   "id": "e-w-4",
+   "w": -7.0,
+   "a": 2014,
+   "tasa": 5,
+   "dirD": "W",
+   "hoy": 2026
+  }
+ ],
+ "conv": [
+  {
+   "id": "w-1",
+   "t": 204,
+   "v": 6
+  },
+  {
+   "id": "w-2",
+   "t": 47,
+   "v": 9
+  },
+  {
+   "id": "w-3",
+   "t": 138,
+   "v": 4
+  },
+  {
+   "id": "w-4",
+   "t": 301,
+   "v": 11
+  },
+  {
+   "id": "w-5",
+   "t": 275,
+   "v": 3
+  },
+  {
+   "id": "w-6",
+   "t": 356,
+   "v": 6
+  },
+  {
+   "id": "w-7",
+   "t": 352,
+   "v": 12
+  },
+  {
+   "id": "e-1",
+   "t": 210,
+   "v": -5
+  },
+  {
+   "id": "e-2",
+   "t": 88,
+   "v": -7
+  },
+  {
+   "id": "e-3",
+   "t": 163,
+   "v": -4
+  },
+  {
+   "id": "e-4",
+   "t": 330,
+   "v": -8
+  },
+  {
+   "id": "e-5",
+   "t": 119,
+   "v": -10
+  },
+  {
+   "id": "e-6",
+   "t": 4,
+   "v": -6
+  },
+  {
+   "id": "e-7",
+   "t": 3,
+   "v": -9
+  },
+  {
+   "id": "w-8",
+   "t": 180,
+   "v": 7
+  },
+  {
+   "id": "w-9",
+   "t": 15,
+   "v": 5
+  },
+  {
+   "id": "w-10",
+   "t": 358,
+   "v": 4
+  },
+  {
+   "id": "e-8",
+   "t": 250,
+   "v": -6
+  },
+  {
+   "id": "e-9",
+   "t": 70,
+   "v": -3
+  },
+  {
+   "id": "e-10",
+   "t": 2,
+   "v": -4
+  }
+ ],
+ "carta": [
+  {
+   "id": "f00",
+   "t": 0,
+   "v": -4,
+   "fila": 0
+  },
+  {
+   "id": "f03",
+   "t": 30,
+   "v": -5,
+   "fila": 30
+  },
+  {
+   "id": "f06",
+   "t": 60,
+   "v": -4,
+   "fila": 60
+  },
+  {
+   "id": "f09",
+   "t": 90,
+   "v": -2,
+   "fila": 90
+  },
+  {
+   "id": "f15",
+   "t": 150,
+   "v": 2,
+   "fila": 150
+  },
+  {
+   "id": "f18",
+   "t": 180,
+   "v": 4,
+   "fila": 180
+  },
+  {
+   "id": "f21",
+   "t": 210,
+   "v": 5,
+   "fila": 210
+  },
+  {
+   "id": "f24",
+   "t": 240,
+   "v": 4,
+   "fila": 240
+  },
+  {
+   "id": "f27",
+   "t": 270,
+   "v": 2,
+   "fila": 270
+  },
+  {
+   "id": "f33",
+   "t": 330,
+   "v": -2,
+   "fila": 330
+  },
+  {
+   "id": "e01",
+   "t": 22,
+   "v": -5,
+   "fila": 30
+  },
+  {
+   "id": "e02",
+   "t": 77,
+   "v": -2,
+   "fila": 90
+  },
+  {
+   "id": "e03",
+   "t": 143,
+   "v": 2,
+   "fila": 150
+  },
+  {
+   "id": "e04",
+   "t": 197,
+   "v": 5,
+   "fila": 210
+  },
+  {
+   "id": "e05",
+   "t": 224,
+   "v": 5,
+   "fila": 210
+  },
+  {
+   "id": "e06",
+   "t": 281,
+   "v": 2,
+   "fila": 270
+  },
+  {
+   "id": "e07",
+   "t": 338,
+   "v": -2,
+   "fila": 330
+  },
+  {
+   "id": "e09",
+   "t": 64,
+   "v": -4,
+   "fila": 60
+  },
+  {
+   "id": "e10",
+   "t": 38,
+   "v": -5,
+   "fila": 30
+  },
+  {
+   "id": "e11",
+   "t": 259,
+   "v": 2,
+   "fila": 270
+  }
+ ],
+ "apila": [
+  {
+   "id": "w-1",
+   "t": 204,
+   "v": 6
+  },
+  {
+   "id": "w-2",
+   "t": 47,
+   "v": 3
+  },
+  {
+   "id": "w-3",
+   "t": 138,
+   "v": 7
+  },
+  {
+   "id": "w-4",
+   "t": 268,
+   "v": 9
+  },
+  {
+   "id": "w-5",
+   "t": 320,
+   "v": 6
+  },
+  {
+   "id": "w-6",
+   "t": 100,
+   "v": 11
+  },
+  {
+   "id": "w-7",
+   "t": 232,
+   "v": 3
+  },
+  {
+   "id": "w-8",
+   "t": 15,
+   "v": 7
+  },
+  {
+   "id": "e-1",
+   "t": 210,
+   "v": -6
+  },
+  {
+   "id": "e-2",
+   "t": 88,
+   "v": -3
+  },
+  {
+   "id": "e-3",
+   "t": 163,
+   "v": -7
+  },
+  {
+   "id": "e-4",
+   "t": 330,
+   "v": -9
+  },
+  {
+   "id": "e-5",
+   "t": 62,
+   "v": -6
+  },
+  {
+   "id": "e-6",
+   "t": 190,
+   "v": -11
+  },
+  {
+   "id": "e-7",
+   "t": 297,
+   "v": -3
+  },
+  {
+   "id": "e-8",
+   "t": 8,
+   "v": -7
+  },
+  {
+   "id": "n-1",
+   "t": 357,
+   "v": 6
+  },
+  {
+   "id": "n-2",
+   "t": 4,
+   "v": -7
+  },
+  {
+   "id": "n-3",
+   "t": 352,
+   "v": 9
+  },
+  {
+   "id": "n-4",
+   "t": 2,
+   "v": -3
+  }
+ ],
+ "juicio": [
+  {
+   "id": "j01",
+   "txt": "You laid a course off the chart with a plotter and read <b>204</b>.",
+   "n": "true"
+  },
+  {
+   "id": "j02",
+   "txt": "She is holding steady and the number under the lubber line is <b>215</b>.",
+   "n": "compass"
+  },
+  {
+   "id": "j03",
+   "txt": "You worked the rose up to date and applied it to what the chart said. You got <b>210</b>.",
+   "n": "magnetic"
+  },
+  {
+   "id": "j04",
+   "txt": "Her deviation card is tabulated by this, and it is how you go into it.",
+   "n": "magnetic"
+  },
+  {
+   "id": "j05",
+   "txt": "The outer ring of the rose is counted from this.",
+   "n": "true"
+  },
+  {
+   "id": "j06",
+   "txt": "The inner ring of the rose is counted from this.",
+   "n": "magnetic"
+  },
+  {
+   "id": "j08",
+   "txt": "The number the pilot book prints for a harbour approach.",
+   "n": "true"
+  },
+  {
+   "id": "j09",
+   "txt": "You took what she was steering and took her deviation off it.",
+   "n": "magnetic"
+  },
+  {
+   "id": "j10",
+   "txt": "You took the chart course and added the variation, then added the deviation.",
+   "n": "compass"
+  },
+  {
+   "id": "j12",
+   "txt": "What you have to give the helm so that she makes good the course you drew.",
+   "n": "compass"
+  },
+  {
+   "id": "j13",
+   "txt": "The number you write on the chart when you plot a course.",
+   "n": "true"
+  },
+  {
+   "id": "j14",
+   "txt": "What is left after you correct her compass for her own iron, and nothing else.",
+   "n": "magnetic"
+  },
+  {
+   "id": "j15",
+   "txt": "The heading a compass with no iron near it would show.",
+   "n": "magnetic"
+  },
+  {
+   "id": "j16",
+   "txt": "The number in her log, copied straight off the instrument in front of her.",
+   "n": "compass"
+  }
+ ],
+ "desvio": [
+  {
+   "id": "w-1",
+   "t": 204,
+   "v": 6,
+   "c": 215,
+   "dev": 5
+  },
+  {
+   "id": "w-2",
+   "t": 47,
+   "v": 3,
+   "c": 46,
+   "dev": -4
+  },
+  {
+   "id": "w-3",
+   "t": 138,
+   "v": 7,
+   "c": 147,
+   "dev": 2
+  },
+  {
+   "id": "w-4",
+   "t": 268,
+   "v": 9,
+   "c": 279,
+   "dev": 2
+  },
+  {
+   "id": "w-5",
+   "t": 320,
+   "v": 6,
+   "c": 324,
+   "dev": -2
+  },
+  {
+   "id": "w-7",
+   "t": 232,
+   "v": 3,
+   "c": 239,
+   "dev": 4
+  },
+  {
+   "id": "w-8",
+   "t": 15,
+   "v": 7,
+   "c": 17,
+   "dev": -5
+  },
+  {
+   "id": "e-1",
+   "t": 210,
+   "v": -6,
+   "c": 209,
+   "dev": 5
+  },
+  {
+   "id": "e-2",
+   "t": 88,
+   "v": -3,
+   "c": 83,
+   "dev": -2
+  },
+  {
+   "id": "e-3",
+   "t": 163,
+   "v": -7,
+   "c": 158,
+   "dev": 2
+  },
+  {
+   "id": "e-4",
+   "t": 330,
+   "v": -9,
+   "c": 319,
+   "dev": -2
+  },
+  {
+   "id": "e-5",
+   "t": 62,
+   "v": -6,
+   "c": 52,
+   "dev": -4
+  },
+  {
+   "id": "e-6",
+   "t": 190,
+   "v": -11,
+   "c": 183,
+   "dev": 4
+  },
+  {
+   "id": "e-8",
+   "t": 8,
+   "v": -7,
+   "c": 357,
+   "dev": -4
+  },
+  {
+   "id": "n-1",
+   "t": 357,
+   "v": 6,
+   "c": 359,
+   "dev": -4
+  },
+  {
+   "id": "n-2",
+   "t": 4,
+   "v": -7,
+   "c": 353,
+   "dev": -4
+  },
+  {
+   "id": "n-3",
+   "t": 352,
+   "v": 9,
+   "c": 357,
+   "dev": -4
+  },
+  {
+   "id": "n-4",
+   "t": 2,
+   "v": -3,
+   "c": 355,
+   "dev": -4
+  }
+ ],
+ "diagnos": [
+  {
+   "id": "d01",
+   "t": 204,
+   "v": 6,
+   "d": 5,
+   "c": 215,
+   "dio": 209,
+   "n": "olvido-var"
+  },
+  {
+   "id": "d02",
+   "t": 204,
+   "v": 6,
+   "d": 5,
+   "c": 215,
+   "dio": 203,
+   "n": "var-reves"
+  },
+  {
+   "id": "d03",
+   "t": 47,
+   "v": 3,
+   "d": -4,
+   "c": 46,
+   "dio": 50,
+   "n": "olvido-dev"
+  },
+  {
+   "id": "d04",
+   "t": 138,
+   "v": 7,
+   "d": 2,
+   "c": 147,
+   "dio": 143,
+   "n": "dev-reves"
+  },
+  {
+   "id": "d05",
+   "t": 268,
+   "v": 9,
+   "d": 2,
+   "c": 279,
+   "dio": 270,
+   "n": "olvido-var"
+  },
+  {
+   "id": "d06",
+   "t": 320,
+   "v": 6,
+   "d": -2,
+   "c": 324,
+   "dio": 312,
+   "n": "var-reves"
+  },
+  {
+   "id": "d07",
+   "t": 15,
+   "v": 7,
+   "d": -5,
+   "c": 17,
+   "dio": 22,
+   "n": "olvido-dev"
+  },
+  {
+   "id": "d08",
+   "t": 232,
+   "v": 3,
+   "d": 4,
+   "c": 239,
+   "dio": 231,
+   "n": "dev-reves"
+  },
+  {
+   "id": "d09",
+   "t": 210,
+   "v": -6,
+   "d": 5,
+   "c": 209,
+   "dio": 215,
+   "n": "olvido-var"
+  },
+  {
+   "id": "d10",
+   "t": 88,
+   "v": -3,
+   "d": -2,
+   "c": 83,
+   "dio": 89,
+   "n": "var-reves"
+  },
+  {
+   "id": "d11",
+   "t": 163,
+   "v": -7,
+   "d": 2,
+   "c": 158,
+   "dio": 156,
+   "n": "olvido-dev"
+  },
+  {
+   "id": "d12",
+   "t": 330,
+   "v": -9,
+   "d": -2,
+   "c": 319,
+   "dio": 323,
+   "n": "dev-reves"
+  },
+  {
+   "id": "d13",
+   "t": 62,
+   "v": -6,
+   "d": -4,
+   "c": 52,
+   "dio": 58,
+   "n": "olvido-var"
+  },
+  {
+   "id": "d14",
+   "t": 190,
+   "v": -11,
+   "d": 4,
+   "c": 183,
+   "dio": 205,
+   "n": "var-reves"
+  },
+  {
+   "id": "d15",
+   "t": 8,
+   "v": -7,
+   "d": -4,
+   "c": 357,
+   "dio": 1,
+   "n": "olvido-dev"
+  },
+  {
+   "id": "d16",
+   "t": 62,
+   "v": -6,
+   "d": -4,
+   "c": 52,
+   "dio": 60,
+   "n": "dev-reves"
+  },
+  {
+   "id": "d17",
+   "t": 357,
+   "v": 6,
+   "d": -4,
+   "c": 359,
+   "dio": 353,
+   "n": "olvido-var"
+  },
+  {
+   "id": "d18",
+   "t": 4,
+   "v": -7,
+   "d": -4,
+   "c": 353,
+   "dio": 7,
+   "n": "var-reves"
+  },
+  {
+   "id": "d19",
+   "t": 352,
+   "v": 9,
+   "d": -4,
+   "c": 357,
+   "dio": 1,
+   "n": "olvido-dev"
+  },
+  {
+   "id": "d20",
+   "t": 2,
+   "v": -3,
+   "d": -4,
+   "c": 355,
+   "dio": 3,
+   "n": "dev-reves"
+  }
+ ]
+};
+const BANCO=BANCOS.variacion;
+let PRB={};
+let PR2={q:null, n:0, meta:2, esp:false, fallos:0, hecho:false, saltada:false};
+
+const prBanco=s=>BANCOS[s.banco||"variacion"];
+
+window.prBancoDe=prBanco;
+function prNuevo(){const s=S();
+ if(!PRB[s.id])PRB[s.id]=bolsaNueva();
+ PR2.q=saca(PRB[s.id],prBanco(s));
+ PR2.fallos=0; PR2.esp=false;
+
+ PRFB="";
+
+ if(esRueda(s)&&PR2.q&&PR2.q.t!==undefined)RUMBO=PR2.q.t;}
+
+function prSube(){ if(PR2.meta>2)return false; PR2.meta=3; return true; }
+
+function prLee(){
+ const d=document.getElementById("prIn");
+ return d ? String(d.value||"").trim() : "";}
+
+const FORMAS={
+ variacion:{
+
+  eg:"0W",
+  cu:"degrees and a letter, like <b>0W</b>",
+  norma:v=>{const m=String(v).replace(/\s|\u00b0/g,"").match(/^(\d{1,2})([wWeE])$/);
+            return m ? (+m[1])+m[2].toUpperCase() : null;},
+  mal:"<b>Degrees and a letter</b>, like <b>0W</b> \u2014 a number on its own does "
+     +"not say which side of true north it is.",
+  bien:q=>Math.abs(varHoy(q))+(varHoy(q)>0?"W":"E"),
+  eco:v=>String(v).replace(/(\d+)/,"$1\u00b0")},
+ rumbo:{
+
+  eg:"ddd",
+  cu:"three figures, like <b>ddd</b> — <b>210</b>, <b>045</b>, <b>007</b>",
+  norma:v=>{const m=String(v).replace(/\s|\u00b0/g,"").match(/^(\d{1,3})$/);
+            return (m&&+m[1]<=360) ? ddd(+m[1]) : null;},
+  mal:"<b>A heading is just a number</b> \u2014 three figures, like <b>ddd</b> — <b>210</b>, <b>045</b>, <b>007</b>. The "
+     +"letter belongs to the variation, not to the answer.",
+
+  bien:(q,s)=>ddd((s.lienzo=="apila"?apA(q,s):convA(q,s))+(s.recip?180:0)),
+  eco:v=>v+"\u00b0"},
+
+ lado:{
+
+  eg:"0W",
+  cu:"degrees and a letter, like <b>0W</b>",
+  norma:v=>{const z=String(v).replace(/\s|\u00b0/g,"");
+   if(/^0+$/.test(z))return "0";
+   const m=z.match(/^(\d{1,2})([wWeE])$/);
+   return m ? (+m[1])+m[2].toUpperCase() : null;},
+  mal:"<b>Degrees and a letter</b>, like <b>0W</b> \u2014 or just <b>0</b> if her "
+     +"compass is telling the truth on that heading.",
+  bien:q=>devTxt(q.dev).replace("\u00b0",""),
+  eco:v=>String(v).replace(/(\d+)/,"$1\u00b0")},
+
+ eleccion:{
+  eg:"", cu:"pick one",
+  norma:v=>(v==="true"||v==="magnetic"||v==="compass"
+            ||v==="olvido-var"||v==="var-reves"
+            ||v==="olvido-dev"||v==="dev-reves") ? v : null,
+  mal:"Pick one of the three.",
+  bien:q=>q.n,
+  eco:v=>v}};
+const forma=s=>FORMAS[(s&&s.forma)||"variacion"];
+const prBien=(q,s)=>forma(s||S()).bien(q,s||S());
+
+const varAnos=q=>q.hoy-q.a;
+const varDeriva=q=>(q.dirD=="E"?-1:1)*varAnos(q)*q.tasa/60;
+const varHoy=q=>q.w+varDeriva(q);
+const varTxt=v=>Math.abs(Math.round(v))+"\u00b0"+(v>0?"W":"E");
+const varImpreso=q=>varTxt(q.w)+" "+q.a+" ("+q.tasa+"\u2032"+q.dirD+")";
+
+const convM=q=>g360(q.t+q.v);
+const convDe=(q,s)=>(s&&s.sentido=="arriba") ? convM(q) : q.t;
+const convA =(q,s)=>(s&&s.sentido=="arriba") ? q.t : convM(q);
+const convPaso=(q,s)=>(s&&s.sentido=="arriba") ? -q.v : q.v;
+const varLetra=v=>Math.abs(v)+"\u00b0"+(v>0?"W":"E");
+
+const convCruza=(q,s)=>{const d=convDe(q,s)+convPaso(q,s); return !(0<=d&&d<360);};
+
+const apMag=q=>g360(q.t+q.v);
+const apAguja=q=>g360(apMag(q)+devDe(apMag(q)));
+const apDe=(q,s)=>(s&&s.sentido=="arriba") ? apAguja(q) : q.t;
+const apA =(q,s)=>(s&&s.sentido=="arriba") ? q.t : apAguja(q);
+
+function apFirma(q,s,v){
+
+ if(!q||q.t===undefined||q.v===undefined)return null;
+ const bien=apA(q,s), d=devDe(apMag(q));
+ const dif=Math.min(g360(v-bien), g360(bien-v));
+ if(dif===0)return null;
+ if(dif===Math.abs(q.v))
+  return "That is <b>the variation, missing</b> \u2014 you went from the chart "
+   +"straight into her card.";
+ if(dif===Math.abs(2*q.v))
+  return "That is <b>twice the variation</b>, which is what applying it the wrong "
+   +"way costs: once for not adding it and once for taking it off.";
+ if(d&&dif===Math.abs(d))
+  return "That is <b>her deviation, missing</b> \u2014 you stopped at magnetic.";
+ if(d&&dif===Math.abs(2*d))
+  return "That is <b>twice her deviation</b>: you applied it the wrong way round.";
+ return null;}
+
+window.compruebo=dado=>{
+ if(PR2.esp||PR2.hecho)return;
+ const s=S(), q=PR2.q, F=forma(s);
+ const v=F.norma(dado!==undefined?dado:prLee());
+ if(v===null){ prFalla(s,F.mal); dibuja(); return; }
+ if(v!==prBien(q,s)){
+
+  const firma=(s.lienzo=="apila"&&s.forma=="rumbo") ? apFirma(q,s,+v) : null;
+  prFalla(s,"<b>"+F.eco(v)+"</b> is not it."+(firma?" "+firma:""));
+  anota(v,false); dibuja(); return;}
+
+ anota(v,true);
+ PRFB="";
+ if(!prCuenta())
+  PRFB='<div class="res si"><b>'+F.eco(v)+'</b> \u2014 that is it.</div>';
+ dibuja();};
+
+function prCuenta(){
+ PR2.n++;
+ if(PR2.n>=PR2.meta){ PR2.hecho=true; PR2.esp=false; return true; }
+ PR2.esp=true; return false;}
+
+window.prSigue=()=>{ if(!PR2.esp)return; prNuevo(); dibuja(); };
+
+let PRFB="";
+function prFalla(s,html){
+ PR2.fallos++;
+ let h='<div class="res no">'+html;
+ if(PR2.fallos>=2&&s.pista)h+='<div class="pista">'+s.pista+'</div>';
+ h+='</div>';
+ if(PR2.fallos>=3)h+='<button class="show" onclick="showme()">Show me</button>';
+ PRFB=h;}
+
+window.showme=()=>{
+ const q=PR2.q; if(!q)return;
+ const s=S(), sub=prSube();
+ anota("showme",false);
+
+ const SHOWS={variacion:showVar, rumbo:showConv, lado:showConv, eleccion:showConv};
+ const cual=SHOWS[(s&&s.forma)||"variacion"]||showGenerico;
+ PRFB=cual(q,s,sub); prCuenta(); dibuja();};
+
+function showGenerico(q,s,sub){
+ let h='<div class="res ver"><b>Here it is.</b>'
+  +'<p>It is <b class="big">'+prBien(q,s)+'</b></p>';
+ if(sub)h+='<div class="pista">And <b>one more after this</b>: this one you did not '
+  +'get out on your own, so it is worth doing another.</div>';
+ return h+'</div>';}
+
+function showConv(q,s,sub){
+ const de=convDe(q,s), a=convA(q,s), paso=convPaso(q,s), oeste=(q.v>0);
+ const baja=(s.sentido!="arriba"), crudo=de+paso;
+
+ if(s&&s.banco=="diagnos"){
+  const dif=Math.min(g360(q.dio-q.c), g360(q.c-q.dio));
+  const nom={"olvido-var":"forgot the variation",
+             "var-reves":"applied the variation backwards",
+             "olvido-dev":"forgot the deviation",
+             "dev-reves":"applied the deviation backwards"}[q.n];
+  let hx='<div class="res ver"><b>Here it is.</b><div class="calc">'
+   +"&middot; he is <b>"+dif+"\u00b0</b> out<br>"
+   +"&middot; the variation is <b>"+varLetra(q.v)+"</b> and her deviation on that "
+   +"heading is <b>"+devTxt(q.d)+"</b><br>"
+   +"&middot; <b>"+dif+"</b> is "
+   +(q.n=="olvido-var"?"the variation itself":
+     q.n=="var-reves"?"twice the variation":
+     q.n=="olvido-dev"?"the deviation itself":"twice the deviation")
+   +", and nothing else on this page is that size</div>"
+   +'<p>He <b class="big">'+nom+'</b></p>';
+  if(sub)hx+='<div class="pista">And <b>one more after this</b>: this one you did not '
+   +'get out on your own, so it is worth doing another.</div>';
+  return hx+'</div>';}
+
+ if(s&&s.forma=="eleccion"){
+  let hj='<div class="res ver"><b>Here it is.</b><div class="calc">'+q.txt+'</div>'
+   +'<p>That number is counted from <b class="big">'+q.n+'</b></p>';
+  if(sub)hj+='<div class="pista">And <b>one more after this</b>: this one you did not '
+   +'get out on your own, so it is worth doing another.</div>';
+  return hj+'</div>';}
+
+ if(s&&s.lienzo=="demora"){
+  const dem=convM(q), ver=q.t;
+  let hd='<div class="res ver"><b>Here it is.</b><div class="calc">'
+   +"&middot; the hand bearing compass says <b>"+ddd(dem)+"</b>, and it carries "
+   +"<b>no deviation</b>: you use it away from her iron<br>"
+   +"&middot; so one correction only: coming up to true, "
+   +(q.v>0?"west comes off":"east goes on")+" \u2014 "+ddd(dem)+" "
+   +(q.v>0?"\u2212":"+")+" "+Math.abs(q.v)+"\u00b0 = <b>"+ddd(ver)+" true</b><br>"
+   +"&middot; and the reciprocal is the same line from the other end: <b>"+ddd(ver)
+   +" "+(ver<180?"+":"\u2212")+" 180 = "+ddd(g180(ver))+"</b></div>"
+   +'<p>It is <b class="big">'+ddd(g180(ver))+'</b> true</p>';
+  if(sub)hd+='<div class="pista">And <b>one more after this</b>: this one you did not '
+   +'get out on your own, so it is worth doing another.</div>';
+  return hd+'</div>';}
+
+ if(s&&s.forma=="lado"){
+  const m=g360(q.t+q.v);
+  let hl='<div class="res ver"><b>Here it is.</b><div class="calc">'
+   +"&middot; the transit gives you <b>"+ddd(q.t)+"\u00b0 true</b> with no "
+   +"instrument at all \u2014 that is the whole point of it<br>"
+   +"&middot; the variation is <b>"+varLetra(q.v)+"</b>, so going down: "+ddd(q.t)
+   +" "+(q.v>0?"+":"\u2212")+" "+Math.abs(q.v)+"\u00b0 = <b>"+ddd(m)
+   +" magnetic</b><br>"
+   +"&middot; her compass reads <b>"+ddd(q.c)+"</b>, and what is left between the "
+   +"two is her deviation: <b>"+devTxt(q.dev)+"</b></div>"
+   +'<p>It is <b class="big">'+devTxt(q.dev)+'</b> on that heading</p>';
+  if(sub)hl+='<div class="pista">And <b>one more after this</b>: this one you did not '
+   +'get out on your own, so it is worth doing another.</div>';
+  return hl+'</div>';}
+
+ if(s&&s.lienzo=="apila"){
+  const baja=(s.sentido!="arriba"), m=apMag(q), d=devDe(m);
+  let ha='<div class="res ver"><b>Here it is.</b><div class="calc">';
+  if(baja)
+   ha+="&middot; the chart says <b>"+ddd(q.t)+"\u00b0 true</b>, and the variation is "
+    +"<b>"+varLetra(q.v)+"</b><br>"
+    +"&middot; <b>the variation first</b>: "+ddd(q.t)+" "+(q.v>0?"+":"\u2212")+" "
+    +Math.abs(q.v)+"\u00b0 = <b>"+ddd(m)+" magnetic</b><br>"
+    +"&middot; and NOW into her card, <b>by that magnetic heading</b>: the nearest "
+    +"row is "+ddd(devFila(m))+", which says <b>"+devTxt(d)+"</b><br>"
+    +"&middot; "+ddd(m)+" "+(d>=0?"+":"\u2212")+" "+Math.abs(d)+"\u00b0 = <b>"
+    +ddd(apAguja(q))+"</b>";
+  else
+   ha+="&middot; her compass says <b>"+ddd(apAguja(q))+"</b>, and the variation is "
+    +"<b>"+varLetra(q.v)+"</b><br>"
+    +"&middot; <b>her deviation first</b>, coming up: the row nearest what she is "
+    +"steering says <b>"+devTxt(d)+"</b>, and it comes off \u2014 "+ddd(apAguja(q))
+    +" "+(d>=0?"\u2212":"+")+" "+Math.abs(d)+"\u00b0 = <b>"+ddd(m)+" magnetic</b><br>"
+    +"&middot; then the variation: "+ddd(m)+" "+(q.v>0?"\u2212":"+")+" "
+    +Math.abs(q.v)+"\u00b0 = <b>"+ddd(q.t)+"</b>";
+  ha+="</div><p>It is <b class=\"big\">"+ddd(apA(q,s))+"</b> "
+   +(baja?"on her compass":"true")+"</p>";
+  if(sub)ha+='<div class="pista">And <b>one more after this</b>: this one you did not '
+   +'get out on your own, so it is worth doing another.</div>';
+  return ha+'</div>';}
+
+ if(s&&s.lienzo=="carta"){
+  const en=(g360(q.t)%TABPASO===0);
+  let hc='<div class="res ver"><b>Here it is.</b><div class="calc">'
+   +"&middot; she is steering <b>"+ddd(q.t)+"\u00b0 magnetic</b>, and you go into her "
+   +"card by the <b>magnetic</b> heading<br>"
+   +"&middot; "+(en?"that lands right on a row: <b>"+ddd(q.fila)+"</b>"
+                  :"<b>"+ddd(q.t)+" is not on the card</b> \u2014 the nearest row is "
+                   +"<b>"+ddd(q.fila)+"</b>, and on this card the rows are never more "
+                   +"than two degrees apart, so it is close enough")+"<br>"
+   +"&middot; that row says <b>"+devTxt(q.v)+"</b>"
+   +(q.v===0?", so her compass tells the truth on this heading"
+            :", and going down to the compass <b>west is added</b>")+"<br>"
+   +"&middot; <b>"+ddd(q.t)+" "+(q.v>=0?"+":"\u2212")+" "+Math.abs(q.v)+"\u00b0 = "
+   +ddd(convM(q))+"</b></div>"
+   +'<p>She will read <b class="big">'+ddd(convM(q))+'</b> on her own compass</p>';
+  if(sub)hc+='<div class="pista">And <b>one more after this</b>: this one you did not '
+   +'get out on your own, so it is worth doing another.</div>';
+  return hc+'</div>';}
+ let h='<div class="res ver"><b>Here it is.</b><div class="calc">'
+  +"&middot; you are given <b>"+ddd(de)+"\u00b0 "+(baja?"true":"magnetic")+"</b>, and "
+  +"the variation is <b>"+varLetra(q.v)+"</b><br>"
+  +"&middot; you are going <b>"+(baja?"down from the chart":"up from the compass")
+  +"</b>, so <b>west "+(baja?"is added":"comes off")+"</b><br>"
+  +"&middot; this one is <b>"+(oeste?"west":"east")+"</b>, so it "
+  +(paso>0?"goes on":"comes off")+": <b>"+ddd(de)+" "+(paso>0?"+":"\u2212")+" "
+  +Math.abs(paso)+" = "+(crudo<0?crudo+360:crudo)+"</b>";
+ if(convCruza(q,s))
+  h+="<br>&middot; <b>there is no "+crudo+"\u00b0</b> \u2014 the compass only goes "
+    +"round once, so "+(crudo<0?"add":"take off")+" 360 and it is <b>"+ddd(a)
+    +"</b>";
+ h+="</div><p>It is <b class=\"big\">"+ddd(a)+"</b> "+(baja?"magnetic":"true")+"</p>";
+ if(sub)h+='<div class="pista">And <b>one more after this</b>: this one you did not '
+  +'get out on your own, so it is worth doing another.</div>';
+ return h+'</div>';}
+
+function showVar(q,s,sub){
+
+ if(!q||q.w===undefined||q.a===undefined)return showGenerico(q,s,sub);
+ const g=Math.abs(varDeriva(q)), y=varAnos(q);
+ let h='<div class="res ver"><b>Here it is.</b><div class="calc">'
+  +"&middot; the rose says <b>"+varImpreso(q)+"</b><br>"
+  +"&middot; "+q.hoy+" \u2212 "+q.a+" = <b>"+y+" years</b><br>"
+  +"&middot; "+y+" \u00d7 "+q.tasa+"\u2032 = "+(y*q.tasa)+"\u2032 = <b>"
+  +g+"\u00b0</b> of drift, to the <b>"+(q.dirD=="E"?"east":"west")+"</b><br>"
+  +"&middot; the variation is <b>"+(q.w>0?"westerly":"easterly")+"</b>, and the drift "
+  +"is to the <b>"+(q.dirD=="E"?"east":"west")+"</b>, so it gets <b>"
+  +(Math.abs(varHoy(q))>Math.abs(q.w)?"bigger":"smaller")+"</b><br>"
+  +"&middot; <b>"+varTxt(q.w)+" "+(q.dirD==(q.w>0?"E":"W")?"\u2212":"+")+" "+g
+  +"\u00b0 = "+varTxt(varHoy(q))+"</b></div>"
+  +'<p>Today it is <b class="big">'+varTxt(varHoy(q))+'</b></p>';
+ if(sub)h+='<div class="pista">And <b>one more after this</b>: this one you did not '
+  +'get out on your own, so it is worth doing another.</div>';
+ return h+'</div>';}
+
+const META=90;
+let PR={hecho:false, fallos:0};
+
+const EST={};
+let DONDE=-1;
+function guardaEst(){const s=S(); if(!s)return;
+ EST[s.id]={rumbo:RUMBO, paso:EJ.i, hecho:PR.hecho, fallos:PR.fallos,
+   saltada:PR.saltada, pr:(s.obra=="escribe"?PR2:null), fb:PRFB, iv:iV};}
+function ponEst(){const s=S(); if(!s)return;
+ const e=EST[s.id];
+ EJ.i = e ? e.paso : 0;
+ PR   = e ? {hecho:e.hecho, fallos:e.fallos, saltada:e.saltada}
+           : {hecho:false, fallos:0, saltada:false};
+
+ if(esSigno(s)&&e&&e.iv!==undefined)iV=e.iv;
+
+ RUMBO= e ? e.rumbo
+          : s.rumbo!==undefined ? s.rumbo
+          : (s.obra=="practica" ? 150 : s.obra=="signo" ? VAR3[iV].r
+             : esCarta(s) ? 210 : 204);
+
+ if(s.obra=="escribe"){
+  if(e&&e.pr){ PR2=e.pr; PRFB=e.fb||""; }
+  else { PR2={q:null,n:0,meta:2,esp:false,fallos:0,hecho:false,saltada:false};
+         PRFB="";
+         prNuevo(); }}}
+
+const seContesta=s=>!!s&&(s.obra=="practica"||s.obra=="escribe");
+window.salta=()=>{const s=S(); if(!seContesta(s))return;
+ anota("skipped",null);
+ if(s.obra=="escribe"){ PR2.hecho=true; PR2.saltada=true; PRFB=""; }
+ else { PR.hecho=true; PR.saltada=true; }
+ guardaEst(); iP++; dibuja();};
+
+const LOG=[];
+function anota(v,ok){
+ LOG.push({id:S().id, v:v, correct:ok, t:LOG.length});
+ const d=document.getElementById("fLog");
+ if(d)d.textContent=LOG.length+(LOG.length==1?" answer logged":" answers logged");}
+
+function compruebaP1(){
+ if(PR.hecho)return;
+ const bien = g360(RUMBO)===META;
+ if(bien){ PR.hecho=true; anota(ddd(RUMBO),true); }
+ else { PR.fallos++; anota(ddd(RUMBO),false); }
+ dibuja();}
+
+function cajaP2P1(s){
+ const q=PR2.q; if(!q)return "";
+
+ if(PR2.saltada)
+  return '<div class="res"><b>Skipped.</b> You can come back to it from the bar at '
+   +'the top whenever you want.</div>';
+
+ if(PR2.hecho)
+  return (PRFB||'')
+   +'<div class="res si"><b>'+varTxt(varHoy(q))+'.</b> That is what you would '
+   +'lay off on the chart today, and it is not what the rose says.</div>'
+   +'<p class="prl">'+PR2.n+' of '+PR2.meta+' done</p>';
+ let h='<div class="calc">'
+  +'<span class="prl">the rose says</span> <b>'+varImpreso(q)+'</b><br>'
+  +'<span class="prl">and this year is</span> <b>'+q.hoy+'</b><br>'
+  +'<span class="prl">so today the variation is</span> <b>&mdash;&mdash;&mdash;</b>'
+  +'</div>'
+  +'<p><b class="q">What is the variation today?</b></p>'
+  +'<div class="crow"><input id="prIn" placeholder="0W"'
+  +(PR2.esp?' disabled':'')+'>'
+  +'<span class="cu">degrees and a letter, like <b>0W</b></span></div>'
+  +(PRFB||'')
+  +'<p class="prl">'+PR2.n+' of '+PR2.meta+' done</p>';
+ return h;}
+
+const CAJAS={
+ "eleccion/diagnos": cajaDiag,
+ "eleccion/juicio":  cajaJuicio,
+ "lado/desvio":      cajaDesvio,
+ "rumbo/demora":     cajaDemora,
+ "rumbo/apila":      cajaApila,
+ "rumbo/carta":      cajaCarta,
+ "rumbo/signo":      cajaSigno,
+ "variacion/rosa":   cajaP2P1};
+function cajaEscribe(s){
+ const k=(s.forma||"variacion")+"/"+(s.lienzo||s.banco||"rosa");
+ const c=CAJAS[k]||CAJAS[(s.forma||"variacion")+"/"+(s.banco||"")];
+ return c ? c(s) : cajaGenerica(s,k); }
+
+function cajaGenerica(s,k){
+ if(PR2.saltada)
+  return '<div class="res"><b>Skipped.</b> You can come back to it from the bar at '
+   +'the top whenever you want.</div>';
+ if(PR2.hecho)
+  return (PRFB||'')+'<div class="res si"><b>Done.</b></div>'
+   +'<p class="prl">'+PR2.n+' of '+PR2.meta+' done</p>';
+ return '<p><b class="q">Your answer?</b></p>'
+  +'<div class="crow"><input id="prIn" placeholder="'+forma(s).eg+'"'
+  +(PR2.esp?' disabled':'')+'>'
+  +'<span class="cu">'+forma(s).cu+'</span></div>'
+  +(PRFB||'')
+  +'<p class="prl">'+PR2.n+' of '+PR2.meta+' done</p>';}
+
+function cajaCarta(s){
+ const q=PR2.q; if(!q)return "";
+ if(PR2.saltada)
+  return '<div class="res"><b>Skipped.</b> You can come back to it from the bar at '
+   +'the top whenever you want.</div>';
+ if(PR2.hecho)
+  return (PRFB||'')
+   +'<div class="res si"><b>'+ddd(convM(q))+'.</b> That is what she will read on her '
+   +'own compass \u2014 and only her: take that card aboard another boat and it is '
+   +'worth nothing.</div>'
+   +'<p class="prl">'+PR2.n+' of '+PR2.meta+' done</p>';
+ return '<div class="calc">'
+  +'<span class="prl">she is steering</span> <b>'+ddd(q.t)+'\u00b0 magnetic</b><br>'
+  +'<span class="prl">her card is on the sheet</span><br>'
+  +'<span class="prl">so her compass will read</span> <b>&mdash;&mdash;&mdash;</b>'
+  +'</div>'
+  +'<p><b class="q">What is she steering by her own compass?</b></p>'
+  +'<div class="crow"><input id="prIn" placeholder="'+forma(s).eg+'"'
+  +(PR2.esp?' disabled':'')+'>'
+  +'<span class="cu">'+forma(s).cu+'</span></div>'
+  +(PRFB||'')
+  +'<p class="prl">'+PR2.n+' of '+PR2.meta+' done</p>';}
+
+function cajaSigno(s){
+ const q=PR2.q; if(!q)return "";
+ const baja=(s.sentido!="arriba"), de=convDe(q,s), a=convA(q,s);
+ if(PR2.saltada)
+  return '<div class="res"><b>Skipped.</b> You can come back to it from the bar at '
+   +'the top whenever you want.</div>';
+ if(PR2.hecho)
+  return (PRFB||'')
+   +'<div class="res si"><b>'+ddd(a)+'.</b> The same bow, counted from '
+   +(baja?'magnetic north \u2014 that is the number her compass wants to see.'
+         :'true north \u2014 that is the number you write on the chart.')+'</div>'
+   +'<p class="prl">'+PR2.n+' of '+PR2.meta+' done</p>';
+ return '<div class="calc">'
+  +'<span class="prl">'+(baja?'the chart says':'her compass says')+'</span> <b>'
+  +ddd(de)+'\u00b0 '+(baja?'true':'magnetic')+'</b><br>'
+  +'<span class="prl">and the variation is</span> <b>'+varLetra(q.v)+'</b><br>'
+  +'<span class="prl">so '+(baja?'in magnetic':'on the chart')+' it is</span> '
+  +'<b>&mdash;&mdash;&mdash;</b></div>'
+  +'<p><b class="q">'
+  +(baja?'What is that in magnetic?':'What is that on the chart?')+'</b></p>'
+  +'<div class="crow"><input id="prIn" placeholder="'+forma(s).eg+'"'
+  +(PR2.esp?' disabled':'')+'>'
+  +'<span class="cu">'+forma(s).cu+'</span></div>'
+  +(PRFB||'')
+  +'<p class="prl">'+PR2.n+' of '+PR2.meta+' done</p>';}
+
+function cajaApila(s){
+ const q=PR2.q; if(!q)return "";
+ if(PR2.saltada)
+  return '<div class="res"><b>Skipped.</b> You can come back to it from the bar at '
+   +'the top whenever you want.</div>';
+ const baja=(s.sentido!="arriba");
+ if(PR2.hecho)
+  return (PRFB||'')
+   +'<div class="res si"><b>'+ddd(apA(q,s))+'.</b> Two corrections, in that order, '
+   +'and '+(baja?'that is what you give the helm.':'that is what goes on the chart.')
+   +'</div>'
+   +'<p class="prl">'+PR2.n+' of '+PR2.meta+' done</p>';
+ return '<div class="calc">'
+  +'<span class="prl">'+(baja?'the chart says':'her compass says')+'</span> <b>'
+  +ddd(apDe(q,s))+'\u00b0 '+(baja?'true':'by her own compass')+'</b><br>'
+  +'<span class="prl">the variation is</span> <b>'+varLetra(q.v)+'</b><br>'
+  +'<span class="prl">her card is on the sheet</span><br>'
+  +'<span class="prl">so '+(baja?'she must steer':'the chart wants')+'</span> '
+  +'<b>&mdash;&mdash;&mdash;</b></div>'
+  +'<p><b class="q">'+(baja?'What do you give the helm?'
+                           :'What goes on the chart?')+'</b></p>'
+  +'<div class="crow"><input id="prIn" placeholder="'+forma(s).eg+'"'
+  +(PR2.esp?' disabled':'')+'>'
+  +'<span class="cu">'+forma(s).cu+'</span></div>'
+  +(PRFB||'')
+  +'<p class="prl">'+PR2.n+' of '+PR2.meta+' done</p>';}
+
+function cajaDemora(s){
+ const q=PR2.q; if(!q)return "";
+ if(PR2.saltada)
+  return '<div class="res"><b>Skipped.</b> You can come back to it from the bar at '
+   +'the top whenever you want.</div>';
+ const dem=convM(q);
+ if(PR2.hecho)
+  return (PRFB||'')
+   +'<div class="res si"><b>'+ddd(g180(q.t))+'.</b> That is the line drawn from the '
+   +'mark back to you \u2014 which is the one you can lay off on the chart.</div>'
+   +'<p class="prl">'+PR2.n+' of '+PR2.meta+' done</p>';
+ return '<div class="calc">'
+  +'<span class="prl">the hand bearing compass says</span> <b>'+ddd(dem)+'</b><br>'
+  +'<span class="prl">and the variation is</span> <b>'+varLetra(q.v)+'</b><br>'
+  +'<span class="prl">so from the mark back to you</span> '
+  +'<b>&mdash;&mdash;&mdash;</b></div>'
+  +'<p><b class="q">What is the reciprocal, true?</b></p>'
+  +'<div class="crow"><input id="prIn" placeholder="'+forma(s).eg+'"'
+  +(PR2.esp?' disabled':'')+'>'
+  +'<span class="cu">'+forma(s).cu+'</span></div>'
+  +(PRFB||'')
+  +'<p class="prl">'+PR2.n+' of '+PR2.meta+' done</p>';}
+
+function cajaDesvio(s){
+ const q=PR2.q; if(!q)return "";
+ if(PR2.saltada)
+  return '<div class="res"><b>Skipped.</b> You can come back to it from the bar at '
+   +'the top whenever you want.</div>';
+ if(PR2.hecho)
+  return (PRFB||'')
+   +'<div class="res si"><b>'+devTxt(q.dev)+'.</b> One line of her card, made by you '
+   +'\u2014 and made the same way somebody made the rest of it.</div>'
+   +'<p class="prl">'+PR2.n+' of '+PR2.meta+' done</p>';
+ return '<div class="calc">'
+  +'<span class="prl">two marks in line, printed on the chart</span> <b>'+ddd(q.t)
+  +'\u00b0 true</b><br>'
+  +'<span class="prl">the variation here is</span> <b>'+varLetra(q.v)+'</b><br>'
+  +'<span class="prl">and while you hold her on it, her compass reads</span> <b>'
+  +ddd(q.c)+'</b><br>'
+  +'<span class="prl">so her deviation on this heading is</span> '
+  +'<b>&mdash;&mdash;&mdash;</b></div>'
+  +'<p><b class="q">What is her deviation on that heading?</b></p>'
+  +'<div class="crow"><input id="prIn" placeholder="'+forma(s).eg+'"'
+  +(PR2.esp?' disabled':'')+'>'
+  +'<span class="cu">'+forma(s).cu+'</span></div>'
+  +(PRFB||'')
+  +'<p class="prl">'+PR2.n+' of '+PR2.meta+' done</p>';}
+
+const FALLOSJ=[["olvido-var","forgot the variation"],
+               ["var-reves","applied the variation backwards"],
+               ["olvido-dev","forgot the deviation"],
+               ["dev-reves","applied the deviation backwards"]];
+function cajaDiag(s){
+ const q=PR2.q; if(!q)return "";
+ if(PR2.saltada)
+  return '<div class="res"><b>Skipped.</b> You can come back to it from the bar at '
+   +'the top whenever you want.</div>';
+ const dif=Math.min(g360(q.dio-q.c), g360(q.c-q.dio));
+ if(PR2.hecho)
+  return (PRFB||'')
+   +'<div class="res si"><b>'+dif+'\u00b0 out.</b> The size of the error told you '
+   +'which mistake it was, and it always will.</div>'
+   +'<p class="prl">'+PR2.n+' of '+PR2.meta+' done</p>';
+ return '<div class="calc">'
+  +'<span class="prl">the chart course was</span> <b>'+ddd(q.t)+'\u00b0 true</b><br>'
+  +'<span class="prl">the variation</span> <b>'+varLetra(q.v)+'</b>'
+  +'<span class="prl">, and her card says</span> <b>'+devTxt(q.d)+'</b><br>'
+  +'<span class="prl">he gave the helm</span> <b>'+ddd(q.dio)+'</b>'
+  +'<span class="prl">, and it should have been</span> <b>'+ddd(q.c)+'</b>'
+  +'</div>'
+  +'<p><b class="q">He is '+dif+'\u00b0 out. What did he do?</b></p>'
+  +'<div class="crow ops">'
+  +FALLOSJ.map(z=>'<button class="sec" onclick="elijo(\''+z[0]+'\')"'
+    +(PR2.esp?' disabled':'')+'>'+z[1]+'</button>').join(" ")
+  +'</div>'
+  +(PRFB||'')
+  +'<p class="prl">'+PR2.n+' of '+PR2.meta+' done</p>';}
+
+const NORTESJ=[["true","true"],["magnetic","magnetic"],["compass","her compass"]];
+window.elijo=v=>{ if(PR2.esp||PR2.hecho)return; compruebo(v); };
+function cajaJuicio(s){
+ const q=PR2.q; if(!q)return "";
+ if(PR2.saltada)
+  return '<div class="res"><b>Skipped.</b> You can come back to it from the bar at '
+   +'the top whenever you want.</div>';
+ if(PR2.hecho)
+  return (PRFB||'')
+   +'<div class="res si"><b>'+q.n+'.</b> Knowing which north a number is counted '
+   +'from is half of never mixing them up.</div>'
+   +'<p class="prl">'+PR2.n+' of '+PR2.meta+' done</p>';
+ return '<div class="calc">'+q.txt+'</div>'
+  +'<p><b class="q">Which north is that number counted from?</b></p>'
+  +'<div class="crow ops">'
+  +NORTESJ.map(z=>'<button class="sec" onclick="elijo(\''+z[0]+'\')"'
+    +(PR2.esp?' disabled':'')+'>'+z[1]+'</button>').join(" ")
+  +'</div>'
+  +(PRFB||'')
+  +'<p class="prl">'+PR2.n+' of '+PR2.meta+' done</p>';}
+
+function practica(){
+
+ EJ.i=5;
+ tresNortes();}
+
+function cuentaAno(hasta){
+ const R=ROSAS_ANO[iA];
+ const anos=R.hoy-R.a, mins=anos*R.tasa;
+ const gr=Math.floor(mins/60), mn=mins%60;
+ const cam=(gr?gr+"\u00b0":"")+(mn?(gr?" ":"")+mn+"\u2032":(gr?"":"0\u2032"));
+ const F=[["", String(R.hoy),"this year",COL.escrito,false],
+          ["\u2212", String(R.a),"the rose\u2019s year",COL.suave,true],
+          ["", anos+"","years",COL.magenta,false],
+          ["\u00d7", R.tasa+"\u2032","a year",COL.suave,true],
+          ["", cam,"of change","#12202b",false]];
+ let anN=0;
+ for(const q of F) anN=Math.max(anN, anchoTxt(q[2].toUpperCase(),TAM.rot,1.1));
+ const anC2=anchoTxt("HOW MUCH IT HAS MOVED",TAM.rot,1.1);
+ const ALTO=ALTOCUENTA(), an=Math.max(px(86+anN+16), px(12+anC2+16));
+ const x0=HOJA.x1-an-px(16);
+ const y0=HOJA.y0+px(16);
+ el("rect",{x:x0,y:y0,width:an,height:ALTO,rx:px(R.caja),fill:COL.papel,
+  stroke:COL.raya,"stroke-width":px(GR.marco),"fill-opacity":.95});
+ rot(x0+px(12),y0+px(18),"how much it has moved","start",COL.suave);
+ F.forEach((q,k)=>{
+  if(k>=hasta)return;
+  const y=y0+px(42+k*23);
+  if(q[0])txt(x0+px(14),y,q[0],"start",TAM.lee,COL.suave,600);
+  txt(x0+px(76),y,q[1],"end",TAM.lee,q[3],600);
+  rot(x0+px(86),y,q[2],"start",q[3]);
+  if(q[4])el("line",{x1:x0+px(14),y1:y+px(7),x2:x0+px(76),y2:y+px(7),
+   stroke:COL.escrito,"stroke-width":px(GR.filete)});});
+
+ if(hasta>=6){
+
+  const sep=px(TAM.cifra*0.78+TAM.rot*0.22+4);
+  const y=HOJA.y1-px(30)-px(TAM.cifra*0.22);
+  el("line",{x1:HOJA.x0,y1:y-sep-px(14),x2:HOJA.x1,y2:y-sep-px(14),stroke:COL.raya,
+   "stroke-width":px(GR.filete)});
+  rot(HOJA.x0+px(14),y-sep,"printed on the chart","start",COL.suave);
+  txt(HOJA.x0+px(14),y,R.txt+"  "+R.a,"start",TAM.lee,COL.suave,600);
+  rot(HOJA.x1-px(14),y-sep,"and today","end",COL.magenta);
+  txt(HOJA.x1-px(14),y,R.res,"end",TAM.cifra,COL.magenta,600);}}
+const COSTURAA=()=>HOJA.y1-px(90);
+
+const ALTOCUENTA=()=>px(144);
+
+function tresNortes(){
+ maquetaE();
+
+ const P=PASO(), NDIB=nortesDe(), SD=sigDato(), esS=esSigno(S());
+ const esC=esCarta(S());
+
+ const capL="000 all the way round to 360", capC="000 to 360";
+ const cap=px(anchoTxt(capL,TAM.rot,1.1))<=(HOJA.x1-HOJA.x0)/3 ? capL : capC;
+ el("rect",{x:HOJA.x0,y:HOJA.y0,width:HOJA.x1-HOJA.x0,height:COSTURA-HOJA.y0,
+  fill:COL.agua});
+
+ el("circle",{cx:CENTRO.x,cy:CENTRO.y,r:RADIO,fill:"none",stroke:COL.tinta,
+  "stroke-width":px(1),"stroke-opacity":.3});
+ for(let a=0;a<360;a+=10){
+  const g=(a%30===0), q0=pt2(a,RADIO), q1=pt2(a,RADIO-(g?px(9):px(5)));
+  el("line",{x1:q0[0],y1:q0[1],x2:q1[0],y2:q1[1],stroke:COL.tinta,
+   "stroke-width":px(GR.filete),"stroke-opacity":g?.5:.28});}
+
+ NDIB.forEach((n,i)=>{
+  const y=HOJA.y0+px(20)+i*px(19), x=HOJA.x0+px(14);
+  el("line",{x1:x,y1:y-px(4),x2:x+px(22),y2:y-px(4),stroke:n.col,
+   "stroke-width":px(GR.marco),opacity:i<P.vivos?1:.3});
+  rot(x+px(30),y,n.nom,"start",i<P.vivos?n.col:COL.suave)
+   .setAttribute("opacity",i<P.vivos?1:.4);});
+
+ NDIB.forEach((n,i)=>{
+  const viva=i<P.vivos, a=g360(-n.off);
+  const q1=pt2(a,RADIO+px(14)), q0=pt2(a,RADIO-px(40));
+  const g=el("g",{opacity:viva?1:.22});
+  el("line",{x1:q0[0],y1:q0[1],x2:q1[0],y2:q1[1],stroke:n.col,
+   "stroke-width":px(viva?GR.marco:1)},g);
+  const b=pt2(a-3,RADIO+px(2)), e2=pt2(a+3,RADIO+px(2));
+  el("path",{d:"M"+q1[0]+","+q1[1]+" L"+b[0]+","+b[1]+" L"+e2[0]+","+e2[1]+" Z",
+   fill:n.col},g);
+
+  if(P.proa){
+   const r=RADIO-px(18)-i*px(22), barrido=g360(RUMBO-a);
+   const z0=pt2(a,r), z1=pt2(a+barrido,r);
+   el("path",{d:"M"+z0[0]+","+z0[1]+" A"+r+","+r+" 0 "+(barrido>180?1:0)+" 1 "
+     +z1[0]+","+z1[1],fill:"none",stroke:n.col,"stroke-width":px(viva?2:1),
+    opacity:viva?1:.18});}});
+
+ if(P.marca){
+  const q=pt2(RUMBO,RADIO+px(16));
+  el("line",{x1:CENTRO.x,y1:CENTRO.y,x2:q[0],y2:q[1],stroke:COL.escrito,
+   "stroke-width":px(GR.filete),"stroke-dasharray":px(5)+","+px(4)});
+
+  const b1=pt2(RUMBO-1.6,RADIO+px(6)), b2=pt2(RUMBO+1.6,RADIO+px(6));
+  el("path",{d:"M"+q[0]+","+q[1]+" L"+b1[0]+","+b1[1]+" L"+b2[0]+","+b2[1]+" Z",
+   fill:COL.escrito});
+  if(P.recip){
+   const r=pt2(g180(RUMBO),RADIO+px(16));
+   el("line",{x1:CENTRO.x,y1:CENTRO.y,x2:r[0],y2:r[1],stroke:COL.suave,
+    "stroke-width":px(GR.filete),"stroke-dasharray":px(2)+","+px(4)});
+
+   const rq=pt2(g180(RUMBO),RADIO*0.45);
+   rot(rq[0],rq[1],"the other way","middle",COL.suave);}}
+
+ if(P.proa){
+  barcoE(RUMBO,RADIO);
+
+  const fuera=CEDE.tirador?-px(10):px(34);
+  const b=pt2(RUMBO,RADIO+fuera);
+  el("line",{x1:CENTRO.x,y1:CENTRO.y,x2:b[0],y2:b[1],stroke:COL.escrito,
+   "stroke-width":px(GR.mano),"stroke-linecap":"round"});
+
+  el("circle",{cx:b[0],cy:b[1],r:px(CEDE.tirador?8:11),fill:COL.papel,
+   stroke:COL.escrito,"stroke-width":px(GR.marco)});
+  el("circle",{cx:b[0],cy:b[1],r:px(4),fill:COL.escrito});
+  if(P.tira){
+   el("circle",{cx:b[0],cy:b[1],r:px(17),fill:"none",stroke:COL.escrito,
+    "stroke-width":px(GR.filete),"stroke-dasharray":px(2)+","+px(3),
+    "stroke-opacity":.7});
+
+   const alto=px(20)+(NDIB.length-1)*px(19)+px(TAM.rot*0.22);
+   const anchoC=px(30)+px(anchoTxt("MAGNETIC NORTH",TAM.rot,1.1));
+
+   const anchoE=px(4+anchoTxt(cap,TAM.rot,1.1));
+   const mitad=px(anchoTxt("drag",TAM.rot,1.1))/2;
+   const arr=px(TAM.rot*0.78), aba=px(TAM.rot*0.22);
+   const pisa=(x,y,zx,zy0,zy1)=>x-mitad<zx&&y+aba>zy0&&y-arr<zy1;
+   const enClave=(x,y)=>pisa(x,y,HOJA.x0+anchoC,HOJA.y0,HOJA.y0+alto)
+     ||pisa(x,y,HOJA.x0+anchoE,COSTURA-px(20),COSTURA);
+   const lado=s2=>{const q=pt2(RUMBO+s2*90,px(34));
+     return [b[0]+(q[0]-CENTRO.x), b[1]+(q[1]-CENTRO.y)+px(4)];};
+   const p1=lado(1), p2=lado(-1);
+   const m1=enClave(p1[0],p1[1]), m2=enClave(p2[0],p2[1]);
+
+   if(!(m1&&m2)) rot(m1?p2[0]:p1[0],m1?p2[1]:p1[1],"drag","middle",COL.escrito);}}
+
+ if(P.carta)tablillaCaja(P);
+
+ if(P.cuenta){ if(esS||esApila(S())||esDemora(S()))escalera(P);
+               else cuentaEnColumna(); }
+
+ const EJX=ejeX();
+ el("line",{x1:EJX[0],y1:COSTURA,x2:EJX[1],y2:COSTURA,stroke:COL.raya,
+  "stroke-width":px(GR.marco)});
+
+ const arcoE=n=>(EJX[1]-EJX[0])/(360/n);
+
+ const anN=px(anchoTxt("000",TAM.rot))+px(14);
+ const cadaE = anN<=arcoE(30) ? 30 : anN<=arcoE(45) ? 45 : 90;
+
+ for(let a=EJEG[0];a<=EJEG[1];a+=5){
+  const g=(a%cadaE===0)||a===EJEG[1];
+
+  const xe=EJX[0]+(EJX[1]-EJX[0])*(a-EJEG[0])/(EJEG[1]-EJEG[0]);
+  el("line",{x1:xe,y1:COSTURA,x2:xe,y2:COSTURA+px(g?8:4),
+   stroke:COL.raya,"stroke-width":px(GR.filete)});
+  if(!g)continue;
+  const primero=(a===EJEG[0]), ultimo=(a===EJEG[1]);
+
+  if(!ultimo&&!primero&&EJEG[1]-a<cadaE)continue;
+  txt(xe,COSTURA+px(21),ultimo?"360":ddd(a),
+   primero?"start":ultimo?"end":"middle",TAM.rot,COL.suave);}
+
+ rot(HOJA.x0+px(4),COSTURA-px(8),cap,"start",COL.suave);
+
+ NDIB.forEach((n,i)=>{
+  if(i>=P.vivos)return;
+  const v=leeN(n), xm=xDe(v);
+
+  const mudo=(i===SD.mudo);
+
+  const libre=EJX[1]-EJX[0];
+
+  const xr=EJX[0]+libre*(0.18+i*(0.64/(NDIB.length-1)));
+  if(!mudo){
+   el("circle",{cx:xm,cy:COSTURA,r:px(4),fill:n.col});
+   el("path",{d:"M"+xm+","+(COSTURA+px(6))+" V"+(COSTURA+px(32))+" H"+xr
+     +" V"+(COSTURA+px(58)),fill:"none",stroke:n.col,"stroke-width":px(GR.filete),
+    "stroke-dasharray":px(2)+","+px(3),"stroke-opacity":.85});}
+  txt(xr,COSTURA+px(40+TAM.cifra*0.78),mudo?"\u2014\u2014\u2014":ddd(v),
+   "middle",TAM.cifra,mudo?COL.suave:n.col,600);
+
+  const hueco=(EJX[1]-EJX[0])/NDIB.length;
+  const cabeN=px(anchoTxt(n.nom,TAM.rot,1.1))+px(10)<=hueco;
+
+  if(!CEDE.nombres)
+   rot(xr,COSTURA+px(40+TAM.cifra+22),cabeN?n.nom:(n.corto||n.nom),"middle",
+    COL.suave);});
+
+ el("line",{x1:EJX[0],y1:PIE,x2:EJX[1],y2:PIE,stroke:COL.raya,
+  "stroke-width":px(GR.filete)});
+
+ const partes = esDemora(S())
+  ? [["variation", varLetra(SD.v)]]
+  : esApila(S())
+  ? [["variation", varLetra(SD.v), "variation"],
+     ["deviation on this heading", devTxt(devDe(g360(RUMBO+SD.v))), "deviation"]]
+  : esCarta(S())
+  ? [["deviation on this heading", devTxt(SD.v), "deviation"]]
+  : esS
+  ? [["variation", varLetra(SD.v)]]
+  : [["variation",ddd(VARHOY).slice(1)+"°00'W"],["deviation",DEV+"°W"]];
+ const an=(EJX[1]-EJX[0])/partes.length;
+ partes.forEach((q,k)=>{
+  const qx=EJX[0]+an*(k+0.5);
+  if(k)el("line",{x1:EJX[0]+an*k,y1:PIE+px(10),x2:EJX[0]+an*k,y2:HOJA.y1-px(10),
+   stroke:COL.raya,"stroke-width":px(GR.filete)});
+  const rot0=px(anchoTxt(q[0],TAM.rot,1.1))+px(12)<=an ? q[0] : (q[2]||q[0]);
+
+  if(!CEDE.pie)rot(qx,PIE+px(14+TAM.rot),rot0,"middle");
+  txt(qx,PIE+px(14+(CEDE.pie?0:TAM.rot+18)+TAM.lee*0.78),q[1],"middle",TAM.lee,
+   COL.escrito,600);});}
+
+function cuentaEnColumna(){
+ const F=[["", ddd(leeN(NORTES[0]))+"°","true",COL.tinta,false],
+          ["+", VARHOY+"°","variation W",COL.suave,true],
+          ["", ddd(leeN(NORTES[1]))+"°","magnetic",COL.magenta,false],
+          ["+", DEV+"°","deviation W",COL.suave,true],
+          ["", ddd(leeN(NORTES[2]))+"°","compass",COL.verde,false]];
+
+ let anN=0;
+ for(const q of F) anN=Math.max(anN, anchoTxt(q[2].toUpperCase(),TAM.rot,1.1));
+ const anC=anchoTxt("CHART TO COMPASS",TAM.rot,1.1);
+ const ALTO=px(144), an=Math.max(px(86+anN+16), px(12+anC+16));
+ const x0=HOJA.x1-an-px(16);
+
+ const y0=Math.min(HOJA.y0+px(16), COSTURA-ALTO-px(12));
+ el("rect",{x:x0,y:y0,width:an,height:ALTO,rx:px(R.caja),fill:COL.papel,
+  stroke:COL.raya,"stroke-width":px(GR.marco),"fill-opacity":.95});
+ rot(x0+px(12),y0+px(18),"chart to compass","start",COL.suave);
+ F.forEach((q,k)=>{
+  const y=y0+px(42+k*23);
+  if(q[0])txt(x0+px(14),y,q[0],"start",TAM.lee,COL.suave,600);
+  txt(x0+px(76),y,q[1],"end",TAM.lee,q[3],600);
+  rot(x0+px(86),y,q[2],"start",q[3]);
+  if(q[4])el("line",{x1:x0+px(14),y1:y+px(7),x2:x0+px(76),y2:y+px(7),
+   stroke:COL.escrito,"stroke-width":px(GR.filete)});});}
+
+function escEstado(){
+ const s=S(), P=PASO(), SD=sigDato(), N=nortesDe();
+ const baja=!(s&&s.sentido=="arriba"), v=SD.v, paso=baja?v:-v;
+ const amb=!!(s&&s.sentido=="ambos");
+
+ const F=[];
+ N.forEach((q,i)=>{
+  if(i){
+   const c=N[i].off-N[i-1].off, p=baja?c:-c;
+   F.push([amb?"\u00b1":(p>0?"+":"\u2212"), Math.abs(c)+"\u00b0",
+           (q.corto=="compass"?"deviation ":"variation ")+(c>0?"W":"E"),
+           COL.suave, true]);}
+  F.push(["", SD.mudo===i?"\u2014\u2014\u2014":ddd(leeN(q))+"\u00b0",
+          q.corto||q.nom, q.col, false]);});
+ const REG=[["\u25bc","going down \u00b7 west is added",amb||baja],
+            ["\u25b2","coming up \u00b7 west comes off",amb||!baja]];
+ const tit=P&&P.nombre ? "the correction ladder"
+                       : (baja?"chart to magnetic":"magnetic to chart");
+ let anN=0;
+ for(const q of F) anN=Math.max(anN, anchoTxt(q[2].toUpperCase(),TAM.rot,1.1));
+ let anR=0;
+ for(const q of REG) anR=Math.max(anR, anchoTxt(q[1].toUpperCase(),TAM.rot,1.1));
+
+ const anT=Math.max(anchoTxt("the correction ladder".toUpperCase(),TAM.rot,1.1),
+                    anchoTxt("magnetic to chart".toUpperCase(),TAM.rot,1.1));
+ const franja=px(20);
+ const anSin=Math.max(px(86+anN+16), px(12+anT+16))+2*franja;
+ const anCon=Math.max(anSin, px(18+anR+12)+2*franja);
+ const altoSin=px(30+F.length*23+10);
+ const altoCon=altoSin+REG.length*px(17)+px(10);
+
+ const arriba=COSTURA-HOJA.y0-px(28);
+ const todo=PIE-px(10)-(HOJA.y0+px(14));
+ const larga=altoSin>arriba;
+ const cabe=altoCon<=(larga?todo:arriba);
+ const conR=cabe&&!!(P&&P.regla);
+
+ return {F:F, REG:REG, tit:tit, P:P, SD:SD, franja:franja, baja:baja, amb:amb,
+         conRegla:conR, reglaCabe:cabe, larga:larga,
+         an:cabe?anCon:anSin, alto:(conR?altoCon:altoSin)};}
+
+function escalera(P){
+ const E=escEstado();
+ const s=S(), SD=E.SD, N=nortesDe();
+
+ const F=E.F, REG=E.REG, tit=E.tit, amb=E.amb, baja=E.baja;
+ const franja=E.franja, an=E.an, ALTO=E.alto;
+ const x0=HOJA.x1-an-px(16), xc=x0+franja;
+
+ const y0=E.larga ? HOJA.y0+px(14)
+                  : Math.min(HOJA.y0+px(16), COSTURA-ALTO-px(12));
+ el("rect",{x:x0,y:y0,width:an,height:ALTO,rx:px(R.caja),fill:COL.papel,
+  stroke:COL.raya,"stroke-width":px(GR.marco),"fill-opacity":.95});
+ rot(xc+px(12),y0+px(18),tit,"start",P&&P.nombre?COL.escrito:COL.suave);
+ const yF=k=>y0+px(42+k*23);
+ F.forEach((q,k)=>{
+  const y=yF(k);
+  if(q[0])txt(xc+px(14),y,q[0],"start",TAM.lee,COL.suave,600);
+  txt(xc+px(76),y,q[1],"end",TAM.lee,q[3],600);
+  rot(xc+px(86),y,q[2],"start",q[3]);
+  if(q[4])el("line",{x1:xc+px(14),y1:y+px(7),x2:xc+px(76),y2:y+px(7),
+   stroke:COL.escrito,"stroke-width":px(GR.filete)});});
+
+ if(E.conRegla){
+  const yA=yF(0)-px(10), yB=yF(F.length-1)+px(4);
+  [[x0+franja/2,true],[x0+an-franja/2,false]].forEach(q=>{
+   const abajo=q[1], viva=amb||(abajo===baja);
+   const y1=abajo?yA:yB, y2=abajo?yB:yA, sg=abajo?1:-1;
+   const g=el("g",{opacity:viva?1:.25});
+   el("line",{x1:q[0],y1:y1,x2:q[0],y2:y2-sg*px(6),stroke:COL.escrito,
+    "stroke-width":px(viva?GR.marco:GR.filete)},g);
+   el("path",{d:"M"+q[0]+","+y2+" L"+(q[0]-px(4))+","+(y2-sg*px(8))
+     +" L"+(q[0]+px(4))+","+(y2-sg*px(8))+" Z",fill:COL.escrito},g);});
+  REG.forEach((q,k)=>{
+   const y=yF(F.length-1)+px(24+k*17), op=q[2]?1:.35;
+   rot(xc+px(4),y,q[0],"start",COL.escrito).setAttribute("opacity",op);
+   rot(xc+px(18),y,q[1],"start",q[2]?COL.escrito:COL.suave)
+    .setAttribute("opacity",op);});}}
+
+function tabEstado(P){
+ const hFila=px(19), cab=px(34), pie=(P&&P.suma)?px(24):0;
+
+ const disp=PIE-px(10)-(HOJA.y0+px(14));
+ const caben=Math.max(2,Math.floor((disp-cab-pie-px(12))/hFila));
+ const cols=Math.max(1,Math.ceil(TABLILLA.length/caben));
+ const nF=Math.ceil(TABLILLA.length/cols);
+ const anCol=px(anchoTxt("330",TAM.dato)+12+anchoTxt("5\u00b0W",TAM.dato)+20);
+ const anT=px(anchoTxt("KITTIWAKE \u00b7 DEVIATION CARD",TAM.rot,1.1)+24);
+ const an=Math.max(cols*anCol+px(16), cols>1?0:anT);
+ return {hFila:hFila, cab:cab, pie:pie, cols:cols, nF:nF, anCol:anCol,
+         an:an, alto:cab+nF*hFila+pie+px(12)};}
+
+function tablillaCaja(P){
+ const E=tabEstado(P), F0=filaDe(RUMBO);
+ const x0=HOJA.x1-E.an-px(16), y0=HOJA.y0+px(14);
+ el("rect",{x:x0,y:y0,width:E.an,height:E.alto,rx:px(R.caja),fill:COL.papel,
+  stroke:COL.raya,"stroke-width":px(GR.marco),"fill-opacity":.95});
+ rot(x0+px(12),y0+px(16),E.cols>1?"kittiwake":"kittiwake \u00b7 deviation card",
+  "start",COL.suave);
+ rot(x0+px(12),y0+px(29),"swung 12 may 2026","start",COL.raya);
+ TABLILLA.forEach((f,k)=>{
+  const c=Math.floor(k/E.nF), i=k%E.nF;
+  const cx=x0+px(8)+c*E.anCol, y=y0+E.cab+px(14)+i*E.hFila;
+
+  if(P&&P.entra&&f[0]===F0[0])
+   el("rect",{x:cx-px(4),y:y-px(13),width:E.anCol-px(6),height:px(18),
+    rx:px(R.caja),fill:COL.magenta,"fill-opacity":.12,stroke:COL.magenta,
+    "stroke-width":px(GR.filete),"stroke-opacity":.6});
+  const vivo=!!(P&&P.entra&&f[0]===F0[0]);
+  txt(cx,y,ddd(f[0]),"start",TAM.dato,vivo?COL.escrito:COL.suave,vivo?600:400);
+  txt(cx+px(anchoTxt("330",TAM.dato)+12),y,devTxt(f[1]),"start",TAM.dato,
+   f[1]===0?COL.suave:(vivo?COL.verde:COL.suave),vivo?600:400);});
+
+ if(P&&P.suma){
+  const d=devDe(RUMBO), y=y0+E.alto-px(10);
+  txt(x0+px(12),y,ddd(RUMBO)+" "+(d>=0?"+":"\u2212")+" "+Math.abs(d)
+    +"\u00b0 = "+ddd(g360(RUMBO+d)),"start",TAM.dato,COL.escrito,600);}}
+
+const ENFILA={
+ "dir": 32,
+ "var": 6,
+ "mag": 38,
+ "fila": 30,
+ "dev": -5,
+ "aguja": 33
+};
+function enfilacion(){
+ maquetaE();
+ el("rect",{x:HOJA.x0,y:HOJA.y0,width:HOJA.x1-HOJA.x0,height:COSTURA-HOJA.y0,
+  fill:COL.agua});
+
+ const yT=HOJA.y0+px(78);
+ el("path",{d:"M"+HOJA.x0+","+HOJA.y0+" L"+HOJA.x1+","+HOJA.y0+" L"+HOJA.x1+","
+   +(yT-px(6))+" Q"+((HOJA.x0+HOJA.x1)/2)+","+(yT+px(10))+" "+HOJA.x0+","+(yT-px(4))
+   +" Z", fill:COL.seco, stroke:COL.tinta, "stroke-width":px(GR.filete),
+  "stroke-opacity":.5});
+ rot(HOJA.x0+px(14),HOJA.y0+px(20),"stennick point","start",COL.suave);
+
+ const a=ENFILA.dir*Math.PI/180;
+ const bx=HOJA.x0+(HOJA.x1-HOJA.x0)*0.30, by=COSTURA-px(58);
+ const d1=(by-yT+px(30))/Math.cos(a), d2=d1+px(52);
+ const m1=[bx+d1*Math.sin(a), by-d1*Math.cos(a)];
+ const m2=[bx+d2*Math.sin(a), by-d2*Math.cos(a)];
+ el("line",{x1:bx,y1:by,x2:m2[0],y2:m2[1],stroke:COL.escrito,
+  "stroke-width":px(GR.filete),"stroke-dasharray":px(5)+","+px(4)});
+ [[m1,px(16)],[m2,px(24)]].forEach(q=>{
+  const c=q[0], h=q[1];
+  el("path",{d:"M"+c[0]+","+(c[1]-h)+" L"+(c[0]-px(5))+","+c[1]+" L"+(c[0]+px(5))
+    +","+c[1]+" Z", fill:COL.escrito});
+  el("circle",{cx:c[0],cy:c[1]-h,r:px(2.5),fill:COL.papel,stroke:COL.escrito,
+   "stroke-width":px(1)});});
+
+ const rotM=(c,s2)=>{
+  const an=px(anchoTxt(s2,TAM.rot,1.1));
+  const cabe=c[0]+px(12)+an<=HOJA.x1-px(6);
+
+  const alto=c[1]-px(4)-px(TAM.rot*0.78)>=HOJA.y0+px(4);
+  rot(cabe?c[0]+px(12):c[0]-px(12), alto?c[1]-px(4):c[1]+px(14), s2,
+   cabe?"start":"end", COL.suave);};
+ rotM(m1,"front mark");
+ rotM(m2,"rear mark");
+ barcoE2(bx,by,ENFILA.dir);
+
+ const mm=[HOJA.x1-px(16), HOJA.y0+px(104)];
+ rot(mm[0],mm[1]-px(8),"printed on the chart","end",COL.suave);
+ txt(mm[0],mm[1]+px(16),ddd(ENFILA.dir)+"\u00b0 true","end",TAM.lee,COL.escrito,600);
+
+ el("line",{x1:HOJA.x0,y1:COSTURA,x2:HOJA.x1,y2:COSTURA,stroke:COL.raya,
+  "stroke-width":px(GR.marco)});
+
+ const F=[["the marks are in line, so you are on",
+           "<b>"+ddd(ENFILA.dir)+"° true</b>",COL.escrito],
+          ["the variation here is "+varLetra(ENFILA.var)+", so that is",
+           "<b>"+ddd(ENFILA.mag)+"° magnetic</b>",COL.magenta],
+          ["and her compass says","<b>"+ddd(ENFILA.aguja)+"</b>",COL.verde],
+          ["so on this heading her deviation is",
+           "<b>"+devTxt(ENFILA.dev)+"</b>",COL.verde]];
+ F.forEach((q,k)=>{
+  const y=COSTURA+px(26+k*28);
+  rot(HOJA.x0+px(16),y,q[0],"start",COL.suave);
+  txt(HOJA.x0+px(16)+px(anchoTxt(q[0].toUpperCase(),TAM.rot,1.1))+px(12),y,
+   String(q[1]).replace(/<[^>]+>/g,""),"start",TAM.lee,q[2],600);});}
+
+function barcoE2(x,y,a){
+ const u=px(0.30);
+ const g=el("g",{transform:"rotate("+a+" "+x+" "+y+")"});
+ el("path",{d:"M"+x+","+(y-46*u)+" C"+(x+15*u)+","+(y-16*u)+" "+(x+15*u)+","
+   +(y+22*u)+" "+(x+11*u)+","+(y+40*u)+" L"+(x-11*u)+","+(y+40*u)+" C"+(x-15*u)+","
+   +(y+22*u)+" "+(x-15*u)+","+(y-16*u)+" "+x+","+(y-46*u)+" Z",
+  fill:COL.seco,stroke:COL.tinta,"stroke-width":1.6*u,"stroke-linejoin":"round"},g);
+ el("circle",{cx:x,cy:y-4*u,r:4*u,fill:COL.tinta},g);}
+
+const PATRONES=[{v:"204",de:"off the chart"},{v:"215",de:"off his own compass"}];
+function dosPatrones(){
+ el("rect",{x:HOJA.x0,y:HOJA.y0,width:HOJA.x1-HOJA.x0,height:HOJA.y1-HOJA.y0,
+  fill:COL.agua,"fill-opacity":.6});
+ const A=HOJA.x1-HOJA.x0, H=HOJA.y1-HOJA.y0;
+ const tx=HOJA.x0+A*0.78, ty=HOJA.y0+H*0.30;
+
+ el("path",{d:"M"+HOJA.x1+","+HOJA.y0+" L"+HOJA.x1+","+(ty+H*0.20)
+   +" C"+(tx+A*0.04)+","+(ty+H*0.14)+" "+(tx-A*0.05)+","+(ty+H*0.06)+" "
+   +(tx-A*0.09)+","+HOJA.y0+" Z",fill:COL.seco,stroke:COL.tinta,
+  "stroke-width":px(1.4),"stroke-linejoin":"round"});
+
+ el("line",{x1:tx,y1:ty,x2:tx,y2:ty-px(34),stroke:COL.tinta,"stroke-width":px(GR.mano)});
+ el("circle",{cx:tx,cy:ty-px(38),r:px(5),fill:COL.tinta});
+ el("line",{x1:tx-px(11),y1:ty,x2:tx+px(11),y2:ty,stroke:COL.tinta,
+  "stroke-width":px(GR.marco)});
+ rot(tx,ty+px(20),"the tower on the point","middle",COL.tinta);
+
+ const bx=HOJA.x0+A*0.17, by0=HOJA.y0+H*0.46, sep=H*0.30;
+ PATRONES.forEach((q,k)=>{
+  const y=by0+k*sep;
+  const ang=Math.atan2(ty-y, tx-bx)*180/Math.PI+90;
+  el("line",{x1:bx,y1:y,x2:tx,y2:ty,stroke:COL.tinta,"stroke-width":px(GR.filete),
+   "stroke-dasharray":px(4)+","+px(4),"stroke-opacity":.45});
+  barquito(bx,y,ang);
+  const an=Math.max(px(100), px(anchoTxt(q.de.toUpperCase(),TAM.rot,1.1)+22));
+
+  const x0=Math.min(Math.max(bx-an/2, HOJA.x0+px(4)), HOJA.x1-an-px(4));
+  const y0=Math.min(y+px(30), HOJA.y1-px(58)-px(4));
+  el("rect",{x:x0,y:y0,width:an,height:px(58),rx:px(R.caja),fill:COL.papel,
+   stroke:COL.raya,"stroke-width":px(GR.marco)});
+  txt(x0+an/2,y0+px(32),q.v,"middle",TAM.cifra,COL.escrito,600);
+  rot(x0+an/2,y0+px(50),q.de,"middle",COL.suave);});}
+
+function barquito(x,y,a){
+ const u=px(1);
+ const g=el("g",{transform:"rotate("+a+" "+x+" "+y+")"});
+ el("path",{d:"M"+x+","+(y-26*u)+" C"+(x+9*u)+","+(y-9*u)+" "+(x+9*u)+","+(y+13*u)
+   +" "+(x+7*u)+","+(y+23*u)+" L"+(x-7*u)+","+(y+23*u)+" C"+(x-9*u)+","+(y+13*u)
+   +" "+(x-9*u)+","+(y-9*u)+" "+x+","+(y-26*u)+" Z",fill:COL.seco,stroke:COL.tinta,
+  "stroke-width":1.4*u,"stroke-linejoin":"round"},g);
+ el("line",{x1:x,y1:y-22*u,x2:x,y2:y+20*u,stroke:COL.tinta,"stroke-width":.75*u,
+  "stroke-opacity":.5},g);
+ el("circle",{cx:x,cy:y-3*u,r:3*u,fill:COL.tinta},g);}
+
+function rosa(){
+ const G0=leyenda();
+ const cx=(HOJA.x0+HOJA.x1)/2;
+ el("rect",{x:HOJA.x0,y:HOJA.y0,width:HOJA.x1-HOJA.x0,height:HOJA.y1-HOJA.y0,
+  fill:COL.agua,"fill-opacity":.5});
+
+ const FIL=[["how far apart",G0.cuanto,COL.magenta],
+            ["when that was measured",G0.cuando,COL.escrito],
+            ["and how fast it moves",G0.cambio,COL.escrito]];
+ let anc=anchoTxt("VAR "+G0.linea,TAM.lee);
+ for(const q of FIL) anc=Math.max(anc, anchoTxt(q[0].toUpperCase(),TAM.rot,1.1),
+   anchoTxt(q[1],TAM.lee));
+
+ const anC=px(anc+34), lx=HOJA.x1-px(16)-anC+px(17);
+ const hueco=[HOJA.x0, lx-px(17)-px(24)];
+
+ const abajo=(S()&&S().obra=="anyo") ? COSTURAA()-px(10) : HOJA.y1;
+ const cxR=(hueco[0]+hueco[1])/2, cy=(HOJA.y0+abajo)/2;
+ const P=(a,r)=>[cxR+r*Math.cos((a-90)*Math.PI/180),
+                 cy+r*Math.sin((a-90)*Math.PI/180)];
+
+ const FRJ=px(24+13+11+8);
+
+ const anNum=px(anchoTxt("000",TAM.rot))/2+px(13)+px(4);
+ const RE=Math.max(px(60), Math.min((abajo-HOJA.y0)/2-FRJ,
+   (hueco[1]-hueco[0])/2-anNum));
+ const RI=RE*0.74;
+
+ el("circle",{cx:cxR,cy:cy,r:RE,fill:COL.papel,stroke:COL.magenta,
+  "stroke-width":px(1)});
+ el("circle",{cx:cxR,cy:cy,r:RE*0.93,fill:"none",stroke:COL.magenta,
+  "stroke-width":px(GR.filete),"stroke-opacity":.7});
+ for(let a=0;a<360;a+=2){
+  const d=(a%10===0), c=(a%5===0);
+  const p0=P(a,RE), p1=P(a,RE-RE*(d?0.07:c?0.05:0.03));
+  el("line",{x1:p0[0],y1:p0[1],x2:p1[0],y2:p1[1],stroke:COL.magenta,
+   "stroke-width":px(GR.filete),"stroke-opacity":d?.95:c?.7:.45});}
+
+ const RNUM=RE+px(13);
+ const arco=n=>2*Math.PI*RNUM/(360/n);
+ const anN=px(anchoTxt("000",TAM.rot))+px(14);
+ const cada = anN<=arco(10) ? 10 : anN<=arco(30) ? 30 : 90;
+ for(let a=0;a<360;a+=cada){
+  const q=P(a,RE+px(11));
+  const e=txt(q[0],q[1]+px(3),ddd(a),"middle",TAM.rot,COL.magenta,600);
+  e.setAttribute("transform","rotate("+a+" "+q[0]+" "+q[1]+")");}
+
+ const PONROT = px(anchoTxt(G0.linea,TAM.rot))+px(18) <= RE*0.90;
+
+ el("circle",{cx:cxR,cy:cy,r:RI,fill:"none",stroke:COL.magenta,"stroke-width":px(1),
+  "stroke-dasharray":px(4)+","+px(3),"stroke-opacity":.8});
+ for(let a=0;a<360;a+=5){
+  const d=(a%10===0);
+  const p0=P(a-G0.w,RI), p1=P(a-G0.w,RI-RI*(d?0.075:0.045));
+  el("line",{x1:p0[0],y1:p0[1],x2:p1[0],y2:p1[1],stroke:COL.magenta,
+   "stroke-width":px(GR.filete),"stroke-opacity":d?.8:.4});}
+
+ const arcoI=n=>2*Math.PI*(RI-px(13))/(360/n);
+ const cadaI = anN<=arcoI(30) ? 30 : anN<=arcoI(90) ? 90 : 180;
+ for(let a=0;a<360;a+=cadaI){
+
+  if(a===0&&PONROT)continue;
+  const q=P(a-G0.w,RI-px(13));
+
+  const e=txt(q[0],q[1]+px(3),ddd(a),"middle",TAM.rot,COL.magenta,400);
+  e.setAttribute("opacity",".75");
+  e.setAttribute("transform","rotate("+(a-G0.w)+" "+q[0]+" "+q[1]+")");}
+
+ (function(){
+  const q=P(0,RE*0.93), b=P(-2.4,RE*0.93-px(16)), e2=P(2.4,RE*0.93-px(16));
+  el("line",{x1:cxR,y1:cy,x2:q[0],y2:q[1],stroke:COL.magenta,
+   "stroke-width":px(GR.filete),"stroke-dasharray":px(4)+","+px(3),
+   "stroke-opacity":.55});
+  el("path",{d:"M"+q[0]+","+q[1]+" L"+b[0]+","+b[1]+" L"+e2[0]+","+e2[1]+" Z",
+   fill:"none",stroke:COL.magenta,"stroke-width":px(GR.filete),"stroke-opacity":.7});
+
+  const s=P(180,RE*0.93);
+  el("line",{x1:cxR,y1:cy,x2:s[0],y2:s[1],stroke:COL.magenta,
+   "stroke-width":px(GR.filete),"stroke-dasharray":px(4)+","+px(3),
+   "stroke-opacity":.35});})();
+
+ (function(){const a=P(270,RE*0.93), b=P(90,RE*0.93);
+  el("line",{x1:a[0],y1:a[1],x2:b[0],y2:b[1],stroke:COL.magenta,
+   "stroke-width":px(GR.filete),"stroke-dasharray":px(2)+","+px(4),
+   "stroke-opacity":.35});})();
+
+ (function(){
+  const a=-G0.w, largo=RE*0.90;
+  const q=P(a,largo), b=P(a-2.6,largo-px(15)), e2=P(a+2.6,largo-px(15));
+  el("line",{x1:cxR,y1:cy,x2:q[0],y2:q[1],stroke:COL.magenta,
+   "stroke-width":px(GR.marco)});
+  el("path",{d:"M"+q[0]+","+q[1]+" L"+b[0]+","+b[1]+" L"+e2[0]+","+e2[1]+" Z",
+   fill:COL.magenta});
+
+  if(!PONROT) return;
+  const m=P(a,largo*0.52);
+  const e3=txt(m[0],m[1],G0.linea,"middle",TAM.rot,COL.magenta,600);
+  e3.setAttribute("transform","rotate("+(a-90)+" "+m[0]+" "+m[1]+")");
+  e3.setAttribute("dy",px(-5));
+  e3.setAttribute("font-style","italic");})();
+
+ el("circle",{cx:cxR,cy:cy,r:px(4),fill:COL.papel,stroke:COL.magenta,
+  "stroke-width":px(1)});
+
+ const esAnyo=!!(S()&&S().obra=="anyo");
+ const yTope=esAnyo ? HOJA.y0+px(16)+ALTOCUENTA()+px(16) : HOJA.y0;
+ const altoLL=px(30+26+18);
+ const cabenLasTres=!esAnyo||(yTope+altoLL+3*px(64)<=abajo);
+ const FILV=cabenLasTres?FIL:[];
+ const alto=altoLL+FILV.length*px(64);
+ const ly=esAnyo ? yTope+alto/2 : cy;
+ el("rect",{x:lx-px(17),y:ly-alto/2,width:anC,height:alto,rx:px(R.caja),
+  fill:COL.papel,stroke:COL.raya,"stroke-width":px(GR.marco)});
+ rot(lx,ly-alto/2+px(24),"printed on the chart","start",COL.suave);
+ txt(lx,ly-alto/2+px(56),"VAR "+G0.linea,"start",TAM.lee,COL.escrito,600);
+ el("line",{x1:lx,y1:ly-alto/2+px(74),x2:lx+anC-px(34),y2:ly-alto/2+px(74),
+  stroke:COL.raya,"stroke-width":px(GR.filete)});
+ FILV.forEach((q,k)=>{const y=ly-alto/2+px(104+k*64);
+
+  if(RESALTA&&k==1)
+   el("rect",{x:lx-px(9),y:y-px(15),width:anC-px(16),height:px(52),rx:px(R.caja),
+    fill:COL.magenta,"fill-opacity":.10,stroke:COL.magenta,
+    "stroke-width":px(GR.filete),"stroke-opacity":.5});
+  rot(lx,y,q[0],"start",COL.suave);
+  txt(lx,y+px(28),q[1],"start",TAM.lee,q[2],600);});
+
+ const centra=(s2,y)=>{
+  const an=px(anchoTxt(s2,TAM.rot,1.1));
+  const x=Math.min(Math.max(cxR, HOJA.x0+an/2+px(4)), HOJA.x1-an/2-px(4));
+  rot(x,y,s2,"middle",COL.magenta);};
+ centra("outer \u00b7 true north",HOJA.y0+px(20));
+ centra("inner \u00b7 magnetic north",HOJA.y1-px(12));}
+
+function pinta(){
+ svg.setAttribute("viewBox","0 0 "+D.W+" "+D.H);
+ svg.setAttribute("preserveAspectRatio","xMidYMid meet");
+ ESC=esc();
+ while(svg.firstChild)svg.removeChild(svg.firstChild);
+ gO=el("g",{},svg);
+ maqueta();
+
+ const s=S();
+ if(s&&s.obra=="patrones")dosPatrones();
+ else if(s&&s.obra=="rosa")rosa();
+ else if(s&&s.obra=="nortes")tresNortes();
+
+ else if(s&&s.obra=="signo")tresNortes();
+
+ else if(s&&s.obra=="carta")tresNortes();
+
+ else if(s&&s.obra=="apila")tresNortes();
+ else if(s&&s.obra=="demora")tresNortes();
+ else if(s&&s.obra=="enfila")enfilacion();
+ else if(s&&s.obra=="practica")practica();
+ else if(s&&s.obra=="fecha"){RESALTA=true; rosa(); RESALTA=false;}
+ else if(s&&s.obra=="escribe"
+         &&(s.lienzo=="signo"||s.lienzo=="carta"||s.lienzo=="apila"
+            ||s.lienzo=="demora"))tresNortes();
+ else if(s&&s.obra=="escribe"){
+
+  const q=PR2.q;
+  if(q&&q.w!==undefined){FORZADA={w:q.w, a:q.a, tasa:q.tasa, txt:varTxt(q.w),
+                 pieza:varTxt(q.w), dirD:q.dirD};
+        RESALTA=true; rosa(); RESALTA=false; FORZADA=null;}}
+ else if(s&&s.obra=="anyo"){
+  FORZADA=ROSAS_ANO[iA]; rosa(); FORZADA=null;
+  cuentaAno(PASOSA[EJ.i].hasta);}
+ else if(!s)rosa();
+ marco();}
+
+let TIRA=false;
+const seArrastra=()=>{const s=S();
+ if(!s)return false;
+
+ if(s.obra=="practica")return !PR.hecho;
+
+ if(s.obra=="escribe")return false;
+ if(!(s.obra=="nortes"||s.obra=="signo"||s.obra=="carta"||s.obra=="apila"
+      ||s.obra=="demora"))return false;
+ const P=PASO(); return !!(P&&P.tira);};
+function aRumbo(e){
+ const r=svg.getBoundingClientRect(), s=esc();
+ const x=(e.clientX-r.left-(r.width-D.W*s)/2)/s;
+ const y=(e.clientY-r.top-(r.height-D.H*s)/2)/s;
+ return y<COSTURA ? g360(Math.atan2(x-CENTRO.x, CENTRO.y-y)*180/Math.PI)
+                  : g360(aDe(x));}
+function mueveRumbo(e){ RUMBO=Math.round(aRumbo(e)); pinta(); }
+svg.addEventListener("pointerdown",e=>{ if(!seArrastra())return;
+ TIRA=true; e.preventDefault&&e.preventDefault(); mueveRumbo(e);});
+svg.addEventListener("pointermove",e=>{ if(TIRA&&seArrastra())mueveRumbo(e);});
+svg.addEventListener("pointerup",()=>{TIRA=false;});
+svg.addEventListener("pointercancel",()=>{TIRA=false;});
+
+const PALABRA=["no","one","two","three","four","five","six","seven","eight","nine",
+ "ten","eleven","twelve","thirteen","fourteen","fifteen","sixteen","seventeen",
+ "eighteen","nineteen","twenty","twenty-one","twenty-two","twenty-three",
+ "twenty-four"];
+const TOT=24;
+
+function prog(){
+ marcoChrome();const d=document.getElementById("prog"); if(!d)return;
+ d.innerHTML="";
+
+ for(let i=0;i<TOT;i++){const b=document.createElement("i");
+  b.className=i<iP?"done":i==iP?"on":"";
+  if(i<PZ.length){
+  b.title="Screen "+(i+1)+" of "+TOT+" \u00b7 "+PZ[i].h;
+                   b.onclick=()=>{guardaEst(); iP=i; dibuja();}; }
+  else { b.title="not built yet"; b.style.opacity=".35"; }
+  d.appendChild(b);}
+ const h=document.getElementById("hTit");
+ if(h)h.textContent = iP<PZ.length
+  ? "Screen "+(iP+1)+" of "+TOT
+  : "Screen "+PZ.length+" of "+TOT+" built";}
+
+window.atras=()=>{ if(iP<=0)return; guardaEst(); iP--; dibuja(); };
+function navHTML(hayAtras,etq){
+ return '<div id="nav">'
+  +(hayAtras?'<button class="sec" id="btA" onclick="atras()">Back</button>':'')
+  +'<button id="btV">'+etq+'</button></div>';}
+
+window.ejSig=()=>{ const s=S();
+ if(s&&s.pasos&&EJ.i<s.pasos.length-1){EJ.i++; dibuja();} };
+window.ejAtras=()=>{ if(EJ.i>0){EJ.i--; dibuja();} };
+
+function dibuja(){ guardaDonde(iP);
+ if(iP>=PZ.length){fin(); return;}
+
+ if(iP!==DONDE){ DONDE=iP; ponEst(); }
+ const s=S();
+
+ const esEj=!!(s.pasos&&s.pasos.length);
+ const nP=esEj?s.pasos.length:0;
+ const ult=esEj&&EJ.i==nP-1;
+ const esPr=(s.obra=="practica"), esEs=(s.obra=="escribe");
+
+ pane().innerHTML='<div class="hd"><div class="prl">'+s.tema+'</div>'
+  +(seContesta(s)?'<a class="skip" onclick="salta()">Skip</a>':'')+'</div>'
+  +'<h2>'+s.h+'</h2>'
+  +(esEj
+     ? '<div class="prl">Step '+(EJ.i+1)+' of '+nP+'</div>'
+       +'<h3>'+s.pasos[EJ.i].h+'</h3><p>'+s.pasos[EJ.i].p+'</p>'
+     : s.p.map(q=>"<p>"+q+"</p>").join(""))
+  +(s.obra=="anyo"&&EJ.i==PASOSA.length-1
+     ? '<p><button class="sec" onclick="otraCuenta()">Another rose, another sum'
+       +'</button></p>' : '')
+  +(s.obra=="signo"&&esEj&&EJ.i==nP-1
+     ? '<p><button class="sec" onclick="otraCarta()">Another chart</button>'
+       +'<span class="prl"> &nbsp;twenty of them &mdash; westerly, easterly, and '
+       +'some that swing past north</span>'
+       +'</p>' : '')
+  +(s.obra=="rosa"
+     ? '<p><button class="sec" onclick="otraRosa()">Another chart’s rose</button>'
+       +'<span class="prl"> &nbsp;the drawing follows the legend</span></p>' : '')
+  +(esPr ? cajaP1() : '')
+  +(esEs ? cajaEscribe(s) : '')
+  +(esEj
+     ? '<div id="nav"><button class="sec" id="ejA" onclick="ejAtras()"'
+       +(EJ.i?'':' disabled')+'>&#8592; Back a step</button>'
+       +'<button id="btV">'+(ult?s.b:"Next step")+'</button></div>'
+     : esPr
+     ? '<div id="nav">'+(iP>0?'<button class="sec" id="btA" onclick="atras()">Back'
+       +'</button>':'')
+       +(PR.hecho?'<button id="btV">'+s.b+'</button>'
+                 :'<button id="btV">Check</button>')+'</div>'
+     : esEs
+     ? '<div id="nav">'+(iP>0?'<button class="sec" id="btA" onclick="atras()">Back'
+       +'</button>':'')
+       +(PR2.hecho ? '<button id="btV">'+s.b+'</button>'
+        : PR2.esp  ? '<button id="btV">Next one &#8594;</button>'
+                   : '<button id="btV">Check</button>')+'</div>'
+     : navHTML(iP>0, s.b));
+
+ document.getElementById("btV").onclick=(esEj&&!ult)
+   ? ()=>{ EJ.i++; dibuja(); }
+   : (esPr&&!PR.hecho)
+   ? ()=>{ compruebaP1(); }
+   : (esEs&&!PR2.hecho)
+   ? (PR2.esp ? ()=>{ prSigue(); } : ()=>{ compruebo(); })
+
+   : ()=>{ guardaEst(); iP++; dibuja(); };
+ prog(); pinta();}
+
+function cajaP1(){
+ if(PR.saltada)
+  return '<div class="res"><b>Skipped.</b> You can come back to it from the bar at '
+   +'the top whenever you want.</div>';
+ if(PR.hecho)
+  return '<div class="res si"><b>090 true.</b> And without being asked, you have '
+   +'also put her on <b>096 magnetic</b> and <b>101 on her own compass</b>. One '
+   +'hand, three answers, because there was only ever one bow.</div>';
+ let h='<p><b class="q">Put her on 090 true.</b></p>';
+ if(PR.fallos==1)
+  h+='<div class="res no">Not there yet \u2014 the <b>true</b> row is the one to '
+    +'aim at. Ignore the other two while you turn: they look after themselves.</div>';
+ if(PR.fallos>=2)
+  h+='<div class="res no">Still short. <span class="pista">The top reading is the '
+    +'true one. Swing her until it says exactly <b>090</b>; the handle moves a '
+    +'degree at a time.</span></div>';
+ return h;}
+
+function fin(){
+
+ pane().innerHTML='<div class="prl">Directions</div>'
+  +'<h2>Two numbers, one bow</h2>'
+  +'<p>Two skippers pointed at the same tower and wrote down different numbers, and '
+  +'neither of them was wrong. <b>Now you know why:</b> one counted from the north '
+  +'the chart is drawn to, the other from the north his compass looks at. The rose '
+  +'says how far apart those two are, and when that was measured.</p>'
+  +'<p>Everything that follows is that one idea, used: <b>the boat does not turn '
+  +'&mdash; only the north you are counting from.</b></p>'
+
+  +(PZ.length<TOT
+     ? '<p class="prl">This part is still being built: '+PALABRA[PZ.length]
+       +' of its twenty-four screens are ready.</p>'
+     : '<p class="prl">All twenty-four screens of this part are done.</p>')
+
+  +`<div class="calc"><b>Next: Speed, distance and time.</b><br> An hour is a length. Open it, measure with it and walk it — then the three sums.</div>`
+  +navHTML(true,PZ.length<TOT?"Back to the rose":"Back to the last screen");
+ document.getElementById("btV").onclick=()=>{ iP=PZ.length-1; dibuja(); };
+ prog();
+ document.getElementById("fLog").textContent=(PZ.length<TOT
+   ? PZ.length+" of "+TOT+" screens built"
+   : "all "+TOT+" screens built");
+ pinta();}
+
+addEventListener("keydown",e=>{
+ const s=S(); if(!s)return;
+ const k=e.key;
+ if(seArrastra()&&(k=="ArrowLeft"||k=="ArrowRight")){
+  RUMBO=g360(RUMBO+(k=="ArrowRight"?1:-1)*(e.shiftKey?10:1));
+  e.preventDefault(); pinta(); return;}
+
+ if(k=="Enter"||(k==" "&&(!s||s.obra!="escribe"))){
+  const b=document.getElementById("btV");
+  if(b&&b.onclick){e.preventDefault(); b.onclick();} return;}
+ if(k=="Backspace"){e.preventDefault();
+  if(s.pasos&&EJ.i>0)ejAtras(); else atras(); return;}});
+
+addEventListener("resize",pinta);
+
+const YO = "m02-p1-directions.html";
+function guardaDonde(i){ vistoPon(YO, i); }
+function donde(){ return vistoPos(YO, PZ.length-1); }
+
+function deCero(){ vistoOlvida(YO); iP=0; dibuja(); }
+
+iP=donde();
+dibuja();
+
+(function(){const d=document.getElementById("sello");
+ if(!d)return;
+ if(d.getAttribute("data-sello")!==d.textContent.trim())
+  d.style.background="#c8102e";})();
+
+function marcoChrome(){
+ try{
+  const t = (typeof PZ !== "undefined" && PZ.length) ? PZ.length
+          : (typeof TOT !== "undefined" ? TOT : 0);
+  const i = (typeof iP !== "undefined") ? iP
+          : ((typeof paso !== "undefined" && paso && typeof paso.p === "number") ? paso.p : 0);
+  const dc = n => (n < 10 ? "0" : "") + n;
+  const b = document.getElementById("barCont");
+  if (b && t) b.textContent = dc(i + 1) + " / " + dc(t);
+  const f = document.getElementById("ficha");
+  if (f && f.style && f.style.setProperty
+      && typeof D !== "undefined" && D && D.W && D.H)
+    f.style.setProperty("--ar", D.W + " / " + D.H);
+ }catch(e){}
+}
+</script>
