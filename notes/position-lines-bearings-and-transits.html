@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Position lines: bearings, transits and soundings</title>
+<link rel="icon" type="image/svg+xml" href="../assets/img/favicon.svg">
+<meta name="description" content="One line at a time: plot a compass bearing back from the object, use a transit, a sounding and a distance off, and judge which line you can trust.">
+<link rel="canonical" href="https://offshoretheory.com/notes/position-lines-bearings-and-transits.html">
+
+<style>
+/* ---------------------------------------------------------------------------
+   Tipografias y paleta: las mismas declaraciones que index.html, copiadas tal
+   cual. Nada se carga de fuera del repositorio.
+   --------------------------------------------------------------------------- */
+@font-face{font-family:'IBM Plex Mono';font-style:normal;font-weight:400;font-display:swap;
+ src:url(../assets/fonts/IBMPlexMono-400-normal-latin.woff2) format('woff2');
+ unicode-range:U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD}
+@font-face{font-family:'IBM Plex Mono';font-style:normal;font-weight:400;font-display:swap;
+ src:url(../assets/fonts/IBMPlexMono-400-normal-latin-ext.woff2) format('woff2');
+ unicode-range:U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF}
+@font-face{font-family:'IBM Plex Sans';font-style:normal;font-weight:400 600;font-display:swap;
+ src:url(../assets/fonts/IBMPlexSans-400-normal-latin.woff2) format('woff2');
+ unicode-range:U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD}
+@font-face{font-family:'IBM Plex Sans';font-style:normal;font-weight:400 600;font-display:swap;
+ src:url(../assets/fonts/IBMPlexSans-400-normal-latin-ext.woff2) format('woff2');
+ unicode-range:U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF}
+@font-face{font-family:'Newsreader';font-style:normal;font-weight:500;font-display:swap;
+ src:url(../assets/fonts/Newsreader-500-normal-latin.woff2) format('woff2');
+ unicode-range:U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD}
+@font-face{font-family:'Newsreader';font-style:normal;font-weight:500;font-display:swap;
+ src:url(../assets/fonts/Newsreader-500-normal-latin-ext.woff2) format('woff2');
+ unicode-range:U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF}
+@font-face{font-family:'Gloock Logo';font-style:normal;font-weight:400;font-display:swap;
+ src:url(../assets/fonts/gloock-logo.woff2) format('woff2')}
+
+:root{
+  --night:#0E1116;
+  --night-2:#161B22;
+  --line:#46525F;
+  --ink:#E8EAED;
+  --ink-soft:#9BA6B2;
+  --dim:#8B96A2;
+  --faint:#79838F;
+
+  /* -- Los tres colores del curso. Nada de esto se repite suelto mas abajo. --
+     acento : --accent-graphic de balizamiento y luces. El ambar de los
+              elementos destacados. NO es --alarm (#B33A22), que es el rojo
+              de los avisos. En rules-of-the-road el mismo ambar es --ochre.
+     azul   : --water de balizamiento.
+     magenta: --magenta-soft de rules-of-the-road.                         */
+  --accent:#C97B1B;
+  --blue:#8FC3DA;
+  --magenta:#E86AA0;
+
+  /* Tinta sobre el ambar macizo del boton: 5,6:1 de contraste. */
+  --on-accent:#1A1206;
+
+  --line-top:#232B36;   /* filetes: bajo la barra y entre las columnas */
+
+  --col-hover:rgba(255,255,255,.03);  /* aclarado de columna al pasar el raton */
+  --card-link:#C3CBD4;
+  --f-display:"Newsreader",ui-serif,Georgia,"Palatino Linotype","Times New Roman",serif;
+  --f-ui:"IBM Plex Sans",system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;
+  --f-mono:"IBM Plex Mono",ui-monospace,"SF Mono","Segoe UI Mono",Menlo,Consolas,monospace;
+}
+
+*{box-sizing:border-box}
+html,body{margin:0;padding:0}
+body{background:var(--night);color:var(--ink);font:15px/1.6 var(--f-ui);
+ -webkit-font-smoothing:antialiased}
+
+/* --- barra del logo, identica a la de la portada -------------------------- */
+/* Barra superior, pegada al borde de arriba. */
+.topbar{margin:0;padding-top:16px;padding-bottom:16px;
+ border-bottom:0.5px solid var(--line-top)}
+/* Su relleno lateral, el mismo corto que en la portada. */
+.topbar{padding-left:clamp(20px,2vw,34px);padding-right:clamp(20px,2vw,34px)}
+
+/* Logo: simbolo ambar y nombre en claro. El ambar solo en el simbolo. */
+.logo{display:inline-flex;align-items:center;gap:14px;text-decoration:none}
+.logo:hover,.logo:focus-visible{filter:brightness(1.15)}
+.logo svg{display:block;flex:none}
+.logo__name{font-family:"Gloock Logo",serif;font-size:clamp(18px,1.6vw,26px);
+ color:var(--ink);letter-spacing:.3px;line-height:1.1}
+
+/* --- el texto ------------------------------------------------------------- */
+.doc{max-width:680px;margin:0 auto;padding:72px clamp(24px,4vw,40px) 96px}
+
+.doc h1{font-family:var(--f-display);font-weight:500;font-size:clamp(30px,3.4vw,44px);
+ line-height:1.15;letter-spacing:-.01em;color:var(--ink);margin:0 0 10px}
+.doc .updated{font-family:var(--f-mono);font-size:12px;color:var(--dim);margin:0 0 48px}
+
+.doc h2{font-family:var(--f-display);font-weight:500;font-size:clamp(20px,1.9vw,26px);
+ line-height:1.25;color:var(--ink);margin:44px 0 14px}
+
+.doc p{font-size:15px;line-height:1.7;color:var(--ink-soft);margin:0 0 18px}
+.doc .who{color:var(--ink)}
+
+.doc a{color:var(--accent);text-decoration:none}
+.doc a:hover,.doc a:focus-visible{text-decoration:underline}
+
+/* --- BLOQUE 3 · pie -------------------------------------------------------- */
+footer{background:var(--night);padding:44px 64px;border-top:0.5px solid rgba(70,82,95,.4)}
+footer p{margin:0;font-size:12px;line-height:1.7;color:var(--faint)}
+footer .name{font-family:var(--f-mono);letter-spacing:.1em;color:var(--dim)}
+footer a{color:var(--dim);text-decoration:none}
+footer a:hover,footer a:focus-visible{color:var(--ink-soft)}
+
+/* --- MOVIL ---------------------------------------------------------------- */
+@media (max-width:800px){
+  .topbar{padding-left:24px;padding-right:24px}
+  .logo svg{width:28px;height:28px}
+  .logo__name{font-size:18px}
+  .doc{padding:48px 24px 64px}
+  .doc h2{margin-top:36px}
+  footer{padding:36px 24px}
+}
+/* --- lo que anaden las notas, con los tokens de arriba y ningun color nuevo --- */
+.doc p.lede{font-family:var(--f-display);font-size:clamp(17px,1.6vw,21px);
+ line-height:1.5;color:var(--ink);margin:0 0 30px}
+.doc p b{color:var(--ink);font-weight:600}
+.doc p i{color:var(--dim)}
+.doc .ir{margin:0 0 6px;padding:15px 18px;background:var(--night-2);
+ border:0.5px solid var(--line-top);border-left:2px solid var(--accent)}
+.doc .ir a{font-family:var(--f-mono);font-size:13px;letter-spacing:.02em}
+.doc .ir .que{display:block;margin-top:6px;font-size:13px;color:var(--faint)}
+.doc h2{scroll-margin-top:24px}
+
+/* --- y lo que anade la portada de las notas --- */
+.doc h3{font-family:var(--f-ui);font-weight:600;font-size:15px;letter-spacing:.01em;
+ color:var(--ink);margin:30px 0 4px}
+.doc p.sub{font-size:14px;color:var(--faint);margin:0 0 14px}
+.doc ul.notas{list-style:none;margin:0;padding:0}
+.doc ul.notas li{padding:11px 0;border-top:0.5px solid var(--line-top)}
+.doc ul.notas li:last-child{border-bottom:0.5px solid var(--line-top)}
+.doc ul.notas a{font-weight:600}
+.doc ul.notas span{display:block;margin-top:4px;font-size:14px;line-height:1.55;
+ color:var(--ink-soft)}
+</style>
+</head>
+
+<body>
+
+<div class="topbar">
+  <a class="logo" href="../index.html">
+    <svg viewBox="0 0 40 40" width="34" height="34" aria-hidden="true">
+      <path d="M17 17 L25 19 L20 25 Z" fill="var(--accent)" fill-opacity="0.5"/>
+      <line x1="7" y1="14.5" x2="35" y2="21.5" stroke="var(--accent)"
+            stroke-width="1.4" stroke-linecap="round"/>
+      <line x1="29" y1="14" x2="16" y2="30" stroke="var(--accent)"
+            stroke-width="1.4" stroke-linecap="round"/>
+      <line x1="21.5" y1="29" x2="15.5" y2="13" stroke="var(--accent)"
+            stroke-width="1.4" stroke-linecap="round"/>
+    </svg>
+    <span class="logo__name">Offshore Theory</span>
+  </a>
+</div>
+
+<main class="doc">
+
+  <h1>Module 03 · The line of position</h1>
+  <p class="updated">Reading notes &middot; Module 03 &middot; Where you are</p>
+  <p class="lede">Four ways to know where you are not: a bearing, a transit, a sounding and a distance — and which of them to believe.</p>
+  <p class="ir"><a href="../chapters/m03-p1-position-lines.html">Open the interactive chapter &rarr;</a><span class="que">The same material with the chart, the drawings and the exercises.</span></p>
+
+  <h2 id="what-a-position-line-is">What a position line is</h2>
+  <h3>One bearing, and what it buys you</h3>
+  <p>You take one bearing of <b>Brough Tower</b> and it reads <b>010</b>. Draw it back out of the tower and you get the line on the chart &mdash; <b>7.1 miles of it</b>, running away to the south.</p>
+  <p><b>You are somewhere on that line.</b> Not at its start, not at its end, not anywhere in particular along it &mdash; <i>somewhere</i>.</p>
+  <p>And here is the part worth having: <b>you are nowhere else on this chart.</b> Every square mile of water either side of that line has just been ruled out, and you have not touched an instrument since the compass.</p>
+  <h3>Three boats, one bearing</h3>
+  <p><b>Now watch what the line does not tell you.</b> Three boats are out there right now, all on that same line, and all three have just taken the same bearing of the same tower.</p>
+  <p><b>The first boat is 2 miles off the tower.</b> Hand bearing compass on Brough Tower, corrected to true: <b>010</b>.</p>
+  <p><b>The second is a mile further out.</b> Same tower, same compass, and the reading has not moved: <b>010</b>. It has no reason to &mdash; the tower is still in the same direction.</p>
+  <p><b>And the third, a mile further still.</b> <b>010</b> again. These three are <b>2 miles apart</b> end to end and their compasses agree to the degree.</p>
+  <p><i>So which of the three are you? The bearing cannot say. That is what one line is worth: it gives you the line and leaves you to find your own place on it.</i></p>
+  <h2 id="the-bearing">The bearing</h2>
+  <h3>A bearing is a direction, and it starts at you</h3>
+  <p><b>You are here, and Skelvoe Tower is over there.</b> Hand bearing compass up, the tower in the notch, and the card settles: <b>234</b>. That is the whole instrument.</p>
+  <p><b>A bearing is a direction, and it runs from you to the object.</b> Not the other way. The grey line is what your eye is doing over the top of the compass, and 234 is the angle it makes with north.</p>
+  <p>What the compass gives you is <b>magnetic</b>, and the chart is drawn to <b>true</b>. <i>Correct it the way module 02 taught you</i> &mdash; variation off the chart, deviation off the card &mdash; and you have a true bearing to work with. That part is not taught again here.</p>
+  <p><b>And two more things go in the book while you are at it: the time, to the minute, and the log reading.</b> Every position line gets a time and a log against it, as part of taking it — not as a tidy-up afterwards. <i>Why, at the end of this part.</i></p>
+  <h3>And that is why you draw it backwards</h3>
+  <p><b>Here is the trap, and it catches everybody once.</b> You have 234 true. The one thing you cannot do is start the line where you are, because <b>you do not know where you are</b> &mdash; that is the entire reason you took the bearing.</p>
+  <p><b>The tower does know where it is.</b> So the line starts at the tower and runs out along the reciprocal &mdash; 234 &minus; 180 = <b>054</b> &mdash; back towards you.</p>
+  <p>There it is, running off this view and 9.0 miles down the chart. <b>You are somewhere on it.</b> The line is the same line either way round; what changes is that this end is nailed to something real.</p>
+  <h3>A bearing, worked through</h3>
+  <p><b>Two towers, and both of them are on the chart.</b> You are lying off <b>Brough Tower</b>, and away to the south-east stands <b>Wardhill Tower</b> — 170 m of it, the highest thing on this coast.</p>
+  <p>Watch the whole thing done once. <b>Every number below comes off the chart</b>, and at the end the line you draw lands on a spot the chart already knows — which is how you will know you did it right.</p>
+  <p><b>You take the bearing.</b> Hand bearing compass up, Wardhill Tower in the notch, and read it: <b>162 by compass</b>. A hand bearing compass is held away from the boat's iron, so it has no deviation — what it gives you is magnetic and nothing else.</p>
+  <p><b>Correct it to true, the way module 02 taught you.</b> The variation here is <b>6°W</b>. Going up from the compass to the chart, <b>west comes off</b> — so 162 magnetic is <b>156 true</b>. That is the direction you will draw.</p>
+  <p><b>And now turn it round, which is the step everybody forgets.</b> You do not know where you are; <b>the tower does</b>. So the line is drawn <b>from the tower</b>, along the reciprocal — 156 − 180 = <b>336</b> — back towards you.</p>
+  <p><b>Lay it and draw it.</b> There is the line, out of Wardhill Tower on 336. <b>You are somewhere on it</b> — one bearing never says more than that. And look where it goes: straight through Brough Tower, <b>6.21 M</b> away, which is exactly where you said you were. <i>The chart just checked your work.</i></p>
+  <h2 id="the-transit">The transit</h2>
+  <h3>Two things in line, and no instrument at all</h3>
+  <p><b>Look back along the boat and there are two things in line:</b> <b>Skelvoe Tower</b> in front and <b>Halkirk Spire</b> 1.45 M behind it, one sitting exactly over the other.</p>
+  <p><b>That is a position line, and you did not touch an instrument to get it.</b> No compass, no protractor, no correcting. While the two stay in line you are on the line that runs through them &mdash; <b>039 one way, 219 the other</b> &mdash; and the moment they open, you are not.</p>
+  <p><b>And it only works from one side.</b> The line runs on past the spire as well, but that half is over the land the two of them stand on. <i>Measured on this chart: out beyond the tower there are <b>2.5 miles</b> of water you can be in; the other way, <b>none at all</b>.</i> A transit you cannot float on is not a position line.</p>
+  <h3>Why it is the best line there is</h3>
+  <p><b>A bearing carries the compass inside it.</b> Variation, deviation, the card swinging in a seaway, your own eye on the notch &mdash; every one of those goes into the line before you draw it. Topic 2 measured what that costs: <b>one degree is 32 m at one mile and 97 m at three</b>, and it grows the further off you are.</p>
+  <p><b>A transit has no compass in it at all.</b> It is not that it is measured better &mdash; <i>it is that nothing is measured</i>. Two objects are either in line or they are not, and your eye settles that at a hundred metres and at three miles just the same.</p>
+  <p><b>So it does not open with distance.</b> That is the whole of its advantage, and it is why every harbour that can put two marks up does it. <i>When a transit is available, it beats anything you can measure.</i></p>
+  <h3>The transit is not the pair: it is the line that leaves it</h3>
+  <p><b>Stand back and the transit turns into what it really is:</b> not two marks on a headland, but <b>a line running out to sea from them</b>, on 039.</p>
+  <p><b>The green stretch is the part you can be on.</b> It starts <b>1.0 M</b> out from the tower, because the first mile of the line is over the headland the tower stands on, and it runs <b>2.5 M</b> before the water gives out. <i>The line is longer than the useful part of it, and knowing which part is which is the navigator's job, not the chart's.</i></p>
+  <p><b>Anywhere along that green stretch, the two marks are in line and you are on the position line.</b> Where along it, the transit does not say &mdash; the same as every other single line in this module.</p>
+  <h2 id="the-sounding">The sounding</h2>
+  <h3>The line you did not draw, and it was there all along</h3>
+  <p><b>Stand back off the chart and look at the colours.</b> Skelmar is printed in four shades, and each one is a depth: <b>green dries</b>, <b>dark blue is under 5 m</b>, <b>pale blue is 5 to 10</b>, and <b>Where one shade meets the next there is a <b>contour</b>: a line joining everywhere of the same depth, and the chart draws three of them.</p>
+  <p><b>A contour is a line, and it is a position line.</b> The echo sounder gives you a number, that number puts you on one of those lines, and <i>you did not use the compass and you did not need to see anything at all</i>. This is the only line in the module you can get in fog, at night, with the visibility down to the pushpit.</p>
+  <p><b>But look at the shape of them.</b> A bearing gives you a straight line and a transit gives you a straight line. <b>A contour wanders</b> &mdash; it goes round every headland and into every bay &mdash; and that is going to cost you something on the next screen.</p>
+  <h3>7.4 metres, and where that leaves you</h3>
+  <p><b>The sounder reads, you take the tide off it, and you are left with 7.4 m of charted depth.</b> That is between the 5 m contour and the 10 m contour, so <b>you are somewhere in the pale blue</b> &mdash; and the chart has drawn that band for you already.</p>
+  <p><b>The rings mark them: there are 6 separate pieces of pale blue in this view.</b> The 5 m contour wanders round every headland and back out again, and every time it does, it opens another place where 7.4 m is a perfectly good answer. <i>The boat marked here is in one of them. It could be in any of the others.</i></p>
+  <p><b>That is what makes the sounding the weakest of the four.</b> A bearing leaves you on one line; a sounding can leave you on a line that comes back and cuts you again three headlands away. <i>It is still worth having &mdash; it just needs something else with it.</i></p>
+  <p><b>And the tide had to come off first.</b> The sounder measures from the waterline and the chart measures from chart datum; the difference is the height of tide, and getting it is <b>later in the course</b>. Until then the number is handed to you corrected.</p>
+  <h2 id="the-distance">The distance</h2>
+  <h3>Two ways to a distance, and neither gives you a line</h3>
+  <p><b>There are two ways to get a distance without an instrument that plugs in.</b> One is a <b>vertical sextant angle</b>: you know how high the object is, you measure the angle it subtends, and the two give the range. The other is <b>rising and dipping</b>: you note the moment a light first lifts over the horizon, and that moment is a distance.</p>
+  <p><b>And here is what makes them different from everything so far.</b> A bearing gives you a line. A transit gives you a line. A sounding gives you a line that wanders. <b>A distance gives you a circle</b> &mdash; every point the same range from the object, all the way round.</p>
+  <p><i>The word «line» stops being the right word here, and it is worth saying out loud.</i> A position circle behaves the same way as a position line in the one respect that matters: <b>you are somewhere on it and nowhere else</b>, and one of them is still not a fix.</p>
+  <h3>A vertical angle, and the circle it draws</h3>
+  <p><b>Skelvoe Tower stands 68 m above the sea, and the chart says so</b> &mdash; the number in brackets under its name. Bring the sextant up, put the top of the tower on the waterline below it, and read the angle: <b>1.05&deg;</b>.</p>
+  <p><b>Height over angle gives range.</b> 68 m subtending 1.05&deg; puts you <b>2.0 M</b> off &mdash; and that is the whole circle drawn here, not a point on it. <i>The sextant does not know which way the tower bears; it only knows how far.</i></p>
+  <p><b>The boat is on the circle, and so is every other place on it.</b> Put a bearing with it and the two cross; on its own it is one position line with a curve in it.</p>
+  <h3>Rising and dipping, and which of the two runs out first</h3>
+  <p><b>A light has two ranges and they are not the same thing.</b> Its <b>luminous range</b> is how far the lamp throws &mdash; the number on the chart. Its <b>geographic range</b> is how far away it is still over your horizon, and that depends on <i>its</i> height and on <i>yours</i>. Standing in the cockpit your eye is about <b>2 m</b> up, and this course works to that.</p>
+  <p><b>Hoyness is only 6 m up, and reaches 10 M.</b> It goes under your horizon at <b>8.0 M</b> &mdash; before the lamp gives out. <i>The horizon decides, and the light is useful right up to the moment it dips.</i></p>
+  <p><b>Auskerry is 14 m up and would stay over the horizon out to 10.7 M</b> &mdash; but the lamp stops at <b>8</b>. <i>The lamp decides, and the extra height buys nothing.</i> <b>Look at the chart: its 10.7 M circle is not drawn, because it does not fit on this sheet at all.</b> That is the point made for you &mdash; its horizon is further away than the whole chart is wide, and the lamp ran out long before.</p>
+  <p><b>The smaller of the two is the one you get.</b> That is the whole rule, and these two lights are the two ways round it goes.</p>
+  <h2 id="which-one-to-trust">Which one to trust</h2>
+  <h3>Four lines, and they are not worth the same</h3>
+  <p><b>You now have four ways to get a position line, and a navigator has to know which to believe when they disagree.</b> The order is not a list to learn: it falls out of <i>what each one has inside it</i>.</p>
+  <p><b>The transit carries no instrument at all.</b> Two objects are in line or they are not; nothing is read, so nothing can be read wrong. <b>It is first, and it is not close.</b></p>
+  <p><b>The vertical angle carries a sextant</b>, which is read to a minute and is honest &mdash; but the sum it feeds turns a small angle error into a large distance error as soon as you are any way off. <b>Good close in, poor far out.</b></p>
+  <p><b>The bearing carries the whole compass:</b> variation, deviation, the card swinging, your eye on the notch. Every one of those is in the line before you draw it, and the further away the object, the more it costs.</p>
+  <p><b>And the sounding carries the tide</b> &mdash; a number you had to get from somewhere else before the reading meant anything &mdash; and it gives you a line that wanders and can cut you in several places at once. <b>Last, and still worth having when the visibility is gone.</b></p>
+  <h3>The same three errors, at one mile and at three</h3>
+  <p><b>Here are three of them measured against each other, drawn on the chart at the size they really are.</b> All three are errors in the same thing: how far off the true line the position ends up.</p>
+  <p><b>Start at one mile.</b> One degree of compass error puts the bearing <b>32 m</b> off the true line. Half a degree on the sextant — with the tallest thing on this coast, <b>Wardhill Tower, 170 m</b>, which is the best case there is — puts the distance <b>0.11 M</b> out, about <b>196 m</b>. <b>Already six times as much</b>, and neither of them is a small error. The transit is the tick with no bar: <b>no instrument, nothing to be wrong</b>.</p>
+  <p><b>Now stand back to three miles, and look what happened.</b> The bearing has grown to <b>97 m</b> &mdash; three times, because the error is an angle and it opens. The sextant has grown to <b>1.20 M</b>, which is <b>2219 m</b>: not three times but <b>eleven</b>, because the angle it reads got small and half a degree is now most of it. <b>And the transit is still a dot.</b></p>
+  <p><i>That is the rule you take away: every one of them gets worse with distance except one. So take the transit if there is one; take the sextant close in; take the bearing of the nearest decent object, not the most obvious distant one.</i></p>
+  <h2 id="closing">Closing</h2>
+  <h3>The four of them, on one chart</h3>
+  <p><b>Here they are together, and you can see the shapes are not the same.</b> The dashed line out of <b>Brough Tower</b> is a <b>bearing</b>. The green stretch off <b>Skelvoe</b> is a <b>transit</b>, straight too but nailed at both ends by two objects instead of read off a compass. The ring round <b>Skelvoe Tower</b> is a <b>distance</b> &mdash; a circle, not a line. And the marked patches are <b>soundings</b>: the same band, in four separate places, because a contour wanders.</p>
+  <p><b>Two straights, a circle and something that meanders</b> &mdash; and every one of them does exactly the same job. <i>It tells you where you are not.</i></p>
+  <p><b>That is the sentence this part opened with, and now you have four ways to earn it:</b> a single position line does not put you anywhere. It rules out everything that is not on it, which on a chart this size is nearly everything &mdash; and that is worth having, and it is not a fix.</p>
+  <h3>One line rules out. Two cross — and sometimes twice.</h3>
+  <p><b>You can now get a position line four ways</b>, you know which of them to reach for first, and you know what each one costs you at three miles instead of one. <i>That is the whole of part 1, and none of it required anything that plugs in.</i></p>
+  <p><b>Look at the chart once more.</b> The transit and the 2.0 M circle are both drawn, and they cross. <b>Where two position lines cross, you are at the crossing</b> &mdash; and that is a <b>fix</b>, which is a different animal from anything in this part.</p>
+  <p><b>Except look again: they cross twice.</b> The transit runs straight through the middle of the circle, so it cuts it on both sides &mdash; and the two crossings are <b>4 miles apart</b>. Two lines, a proper fix, and you still have to decide which end of the boat you are. <i>Nothing you learned in this part settles that.</i></p>
+  <p><b>That is where part 2 starts.</b> <b>The angle two lines cut at</b> &mdash; why lines meeting nearly head-on give a fix you should not trust, and why this one, cutting at nothing at all, gives two. And <b>the cocked hat</b>: what it means when you lay three lines and they make a small triangle instead of meeting at a point.</p>
+  <p><b>And one more thing, which is why you have been writing down the time and the log with every line you take.</b> A position line is only true at the moment you took it. <b>At five knots, five minutes is half a mile</b> &mdash; so a line you laid a quarter of an hour ago is not where you are now, and neither are you.</p>
+  <p><b>That is also what saves you when there is only one object in sight.</b> An old line can be <b>carried forward</b> by the course and distance you have run since, and crossed with a fresh one off the same object &mdash; two lines from one mark. <i>It is called a running fix, it needs the time and the log you have been noting, and it is part 3. It is named here and taught there.</i></p>
+  <p><i>You have spent this part learning that one line is not enough. Part 2 is about how many more you need, how they should cut, and how much to believe the answer.</i></p>
+
+  <p class="ir"><a href="../chapters/m03-p1-position-lines.html">Open the interactive chapter &rarr;</a><span class="que">The same material with the chart, the drawings and the exercises.</span></p>
+  <p class="ir"><a href="index.html">All the reading notes &rarr;</a></p>
+
+</main>
+
+<footer>
+  <p class="name">Offshore Theory</p>
+  <p>Independent preparation. Not affiliated with or accredited by the RYA.</p>
+  <p><a href="../index.html">Back to Offshore Theory</a></p>
+</footer>
+
+<!-- Cloudflare Web Analytics -->
+<script type='module' src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "624bbb73949b40f0aae4dafec49ac1f6"}'></script>
+<!-- End Cloudflare Web Analytics -->
+</body>
+</html>

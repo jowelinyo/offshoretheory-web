@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>UTC, BST and time zones in almanac tables</title>
+<link rel="icon" type="image/svg+xml" href="../assets/img/favicon.svg">
+<meta name="description" content="One instant, several clocks: convert between UTC, local time and BST, read the almanac zone sign the right way round, and give an ETA in another clock.">
+<link rel="canonical" href="https://offshoretheory.com/notes/utc-bst-and-time-zones.html">
+
+<style>
+/* ---------------------------------------------------------------------------
+   Tipografias y paleta: las mismas declaraciones que index.html, copiadas tal
+   cual. Nada se carga de fuera del repositorio.
+   --------------------------------------------------------------------------- */
+@font-face{font-family:'IBM Plex Mono';font-style:normal;font-weight:400;font-display:swap;
+ src:url(../assets/fonts/IBMPlexMono-400-normal-latin.woff2) format('woff2');
+ unicode-range:U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD}
+@font-face{font-family:'IBM Plex Mono';font-style:normal;font-weight:400;font-display:swap;
+ src:url(../assets/fonts/IBMPlexMono-400-normal-latin-ext.woff2) format('woff2');
+ unicode-range:U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF}
+@font-face{font-family:'IBM Plex Sans';font-style:normal;font-weight:400 600;font-display:swap;
+ src:url(../assets/fonts/IBMPlexSans-400-normal-latin.woff2) format('woff2');
+ unicode-range:U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD}
+@font-face{font-family:'IBM Plex Sans';font-style:normal;font-weight:400 600;font-display:swap;
+ src:url(../assets/fonts/IBMPlexSans-400-normal-latin-ext.woff2) format('woff2');
+ unicode-range:U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF}
+@font-face{font-family:'Newsreader';font-style:normal;font-weight:500;font-display:swap;
+ src:url(../assets/fonts/Newsreader-500-normal-latin.woff2) format('woff2');
+ unicode-range:U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD}
+@font-face{font-family:'Newsreader';font-style:normal;font-weight:500;font-display:swap;
+ src:url(../assets/fonts/Newsreader-500-normal-latin-ext.woff2) format('woff2');
+ unicode-range:U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF}
+@font-face{font-family:'Gloock Logo';font-style:normal;font-weight:400;font-display:swap;
+ src:url(../assets/fonts/gloock-logo.woff2) format('woff2')}
+
+:root{
+  --night:#0E1116;
+  --night-2:#161B22;
+  --line:#46525F;
+  --ink:#E8EAED;
+  --ink-soft:#9BA6B2;
+  --dim:#8B96A2;
+  --faint:#79838F;
+
+  /* -- Los tres colores del curso. Nada de esto se repite suelto mas abajo. --
+     acento : --accent-graphic de balizamiento y luces. El ambar de los
+              elementos destacados. NO es --alarm (#B33A22), que es el rojo
+              de los avisos. En rules-of-the-road el mismo ambar es --ochre.
+     azul   : --water de balizamiento.
+     magenta: --magenta-soft de rules-of-the-road.                         */
+  --accent:#C97B1B;
+  --blue:#8FC3DA;
+  --magenta:#E86AA0;
+
+  /* Tinta sobre el ambar macizo del boton: 5,6:1 de contraste. */
+  --on-accent:#1A1206;
+
+  --line-top:#232B36;   /* filetes: bajo la barra y entre las columnas */
+
+  --col-hover:rgba(255,255,255,.03);  /* aclarado de columna al pasar el raton */
+  --card-link:#C3CBD4;
+  --f-display:"Newsreader",ui-serif,Georgia,"Palatino Linotype","Times New Roman",serif;
+  --f-ui:"IBM Plex Sans",system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;
+  --f-mono:"IBM Plex Mono",ui-monospace,"SF Mono","Segoe UI Mono",Menlo,Consolas,monospace;
+}
+
+*{box-sizing:border-box}
+html,body{margin:0;padding:0}
+body{background:var(--night);color:var(--ink);font:15px/1.6 var(--f-ui);
+ -webkit-font-smoothing:antialiased}
+
+/* --- barra del logo, identica a la de la portada -------------------------- */
+/* Barra superior, pegada al borde de arriba. */
+.topbar{margin:0;padding-top:16px;padding-bottom:16px;
+ border-bottom:0.5px solid var(--line-top)}
+/* Su relleno lateral, el mismo corto que en la portada. */
+.topbar{padding-left:clamp(20px,2vw,34px);padding-right:clamp(20px,2vw,34px)}
+
+/* Logo: simbolo ambar y nombre en claro. El ambar solo en el simbolo. */
+.logo{display:inline-flex;align-items:center;gap:14px;text-decoration:none}
+.logo:hover,.logo:focus-visible{filter:brightness(1.15)}
+.logo svg{display:block;flex:none}
+.logo__name{font-family:"Gloock Logo",serif;font-size:clamp(18px,1.6vw,26px);
+ color:var(--ink);letter-spacing:.3px;line-height:1.1}
+
+/* --- el texto ------------------------------------------------------------- */
+.doc{max-width:680px;margin:0 auto;padding:72px clamp(24px,4vw,40px) 96px}
+
+.doc h1{font-family:var(--f-display);font-weight:500;font-size:clamp(30px,3.4vw,44px);
+ line-height:1.15;letter-spacing:-.01em;color:var(--ink);margin:0 0 10px}
+.doc .updated{font-family:var(--f-mono);font-size:12px;color:var(--dim);margin:0 0 48px}
+
+.doc h2{font-family:var(--f-display);font-weight:500;font-size:clamp(20px,1.9vw,26px);
+ line-height:1.25;color:var(--ink);margin:44px 0 14px}
+
+.doc p{font-size:15px;line-height:1.7;color:var(--ink-soft);margin:0 0 18px}
+.doc .who{color:var(--ink)}
+
+.doc a{color:var(--accent);text-decoration:none}
+.doc a:hover,.doc a:focus-visible{text-decoration:underline}
+
+/* --- BLOQUE 3 · pie -------------------------------------------------------- */
+footer{background:var(--night);padding:44px 64px;border-top:0.5px solid rgba(70,82,95,.4)}
+footer p{margin:0;font-size:12px;line-height:1.7;color:var(--faint)}
+footer .name{font-family:var(--f-mono);letter-spacing:.1em;color:var(--dim)}
+footer a{color:var(--dim);text-decoration:none}
+footer a:hover,footer a:focus-visible{color:var(--ink-soft)}
+
+/* --- MOVIL ---------------------------------------------------------------- */
+@media (max-width:800px){
+  .topbar{padding-left:24px;padding-right:24px}
+  .logo svg{width:28px;height:28px}
+  .logo__name{font-size:18px}
+  .doc{padding:48px 24px 64px}
+  .doc h2{margin-top:36px}
+  footer{padding:36px 24px}
+}
+/* --- lo que anaden las notas, con los tokens de arriba y ningun color nuevo --- */
+.doc p.lede{font-family:var(--f-display);font-size:clamp(17px,1.6vw,21px);
+ line-height:1.5;color:var(--ink);margin:0 0 30px}
+.doc p b{color:var(--ink);font-weight:600}
+.doc p i{color:var(--dim)}
+.doc .ir{margin:0 0 6px;padding:15px 18px;background:var(--night-2);
+ border:0.5px solid var(--line-top);border-left:2px solid var(--accent)}
+.doc .ir a{font-family:var(--f-mono);font-size:13px;letter-spacing:.02em}
+.doc .ir .que{display:block;margin-top:6px;font-size:13px;color:var(--faint)}
+.doc h2{scroll-margin-top:24px}
+
+/* --- y lo que anade la portada de las notas --- */
+.doc h3{font-family:var(--f-ui);font-weight:600;font-size:15px;letter-spacing:.01em;
+ color:var(--ink);margin:30px 0 4px}
+.doc p.sub{font-size:14px;color:var(--faint);margin:0 0 14px}
+.doc ul.notas{list-style:none;margin:0;padding:0}
+.doc ul.notas li{padding:11px 0;border-top:0.5px solid var(--line-top)}
+.doc ul.notas li:last-child{border-bottom:0.5px solid var(--line-top)}
+.doc ul.notas a{font-weight:600}
+.doc ul.notas span{display:block;margin-top:4px;font-size:14px;line-height:1.55;
+ color:var(--ink-soft)}
+</style>
+</head>
+
+<body>
+
+<div class="topbar">
+  <a class="logo" href="../index.html">
+    <svg viewBox="0 0 40 40" width="34" height="34" aria-hidden="true">
+      <path d="M17 17 L25 19 L20 25 Z" fill="var(--accent)" fill-opacity="0.5"/>
+      <line x1="7" y1="14.5" x2="35" y2="21.5" stroke="var(--accent)"
+            stroke-width="1.4" stroke-linecap="round"/>
+      <line x1="29" y1="14" x2="16" y2="30" stroke="var(--accent)"
+            stroke-width="1.4" stroke-linecap="round"/>
+      <line x1="21.5" y1="29" x2="15.5" y2="13" stroke="var(--accent)"
+            stroke-width="1.4" stroke-linecap="round"/>
+    </svg>
+    <span class="logo__name">Offshore Theory</span>
+  </a>
+</div>
+
+<main class="doc">
+
+  <h1>Module 02 · Time</h1>
+  <p class="updated">Reading notes &middot; Module 02 &middot; Direction, distance and time</p>
+  <p class="lede">One instant, several clocks. Zone time, and the two mistakes that cost you an hour.</p>
+  <p class="ir"><a href="../chapters/m02-p3-time.html">Open the interactive chapter &rarr;</a><span class="que">The same material with the chart, the drawings and the exercises.</span></p>
+
+  <h2 id="one-instant-several-clocks">One instant, several clocks</h2>
+  <h3>The skipper who waited an hour</h3>
+  <p>A boat crossed to a port in another country and told the harbour she would be in at <b>1500</b>. She arrived at 1500. The skipper who had come to meet her had been on the quay since <b>1400</b>, an hour in the rain, and was not pleased.</p>
+  <p>Nobody had got the passage wrong. The distance was right, the speed was right, the time it took was right. <b>Both of them did the arithmetic perfectly and neither of them was talking about the same moment.</b></p>
+  <p>This part is about that hour.</p>
+  <p>the passage &nbsp;&rarr;&nbsp; <b>right</b><br>the arithmetic &nbsp;&rarr;&nbsp; <b>right</b><br>the clock they said it in &nbsp;&rarr;&nbsp; <b>not the same one</b></p>
+  <p>It is the error that costs the most and gets taught the least. Almost every course meets it halfway through the tides, when your head is already full. <b>You are going to meet it on its own, first, and with something you can move with your hand.</b></p>
+  <h3>UTC: the clock that never changes</h3>
+  <p>There is one clock that never moves, never springs forward, never falls back, and is the same in Plymouth, La Coru&ntilde;a and Nuuk. It is called <b>UTC</b> &mdash; you will also see it written <b>UT</b>, and older books call it <b>GMT</b>. For everything you will do, those are the same clock.</p>
+  <p><b>Almost everything at sea is written in it</b>, and for a good reason: a tide table that changed with the seasons would be useless.</p>
+  <p><b>UTC</b> &nbsp;·&nbsp; never changes &nbsp;·&nbsp; no summer, no winter<br>tide tables &nbsp;·&nbsp; almanacs &nbsp;·&nbsp; weather &nbsp;·&nbsp; the log</p>
+  <p><b>The clock on your wrist is a different thing.</b> It shows whatever the country you are standing in has decided to call this moment, and countries change their minds twice a year.</p>
+  <p>Two clocks, one moment. <b>Learning to hold both at once is the whole of this part.</b></p>
+  <h2 id="bst-and-the-two-sundays">BST, and the two Sundays</h2>
+  <h3>+1 all summer</h3>
+  <p>For about seven months of the year the United Kingdom does not run on UTC. It runs on <b>British Summer Time</b>, which is UTC with <b>one hour added</b> &mdash; and everybody's wrist, phone and kitchen wall goes with it.</p>
+  <p><b>BST is not another time. It is another label for the same moment.</b> Nothing at sea changes when the clocks go forward. The tide comes in when it was always going to come in.</p>
+  <p><b>Wind the clocks and watch.</b> The marker does not move. The boat does not move. The elapsed row does not move. <b>Only the labels do</b> &mdash; and the one over there moves with them, because they change on the same night.</p>
+  <p>So before you can say what any clock reads, there is a smaller question to settle first, and it has nothing to do with arithmetic:</p>
+  <p><b>Is the country on BST on this date, or is it not?</b></p>
+  <p>That depends on the <b>date</b>, and the date is where this goes wrong. Notice that the button does not switch summer on and off: <b>it changes the day</b>. You never get to choose whether it is summer &mdash; the calendar chooses.</p>
+  <h3>Where those two dates come from</h3>
+  <p>The clocks change on <b>two Sundays a year</b>: the last Sunday in March, when they go <b>forward</b>, and the last Sunday in October, when they go <b>back</b>. Between those two Sundays the country is on BST. Outside them, on UTC.</p>
+  <p><b>You do not work those dates out.</b> They are printed &mdash; one line, in the almanac, for the year on its cover. Nobody on a boat counts backwards from the 31st of March looking for a Sunday, and neither will you.</p>
+  <p><b>That is the page.</b> You are not reading it yet; you are learning to recognise it, so that when the question comes up you know it has an answer and you know where the answer lives.</p>
+  <p>And two things about those two mornings, because they are the only nights of the year when a clock time is not enough on its own. In <b>March</b> one hour of that morning <b>never happens at all</b> &mdash; there is no 0130 on any wall in the country. In <b>October</b> one hour <b>happens twice</b>, and &ldquo;half past one&rdquo; does not say which of the two you mean.</p>
+  <p><b>The almanac gets a module of its own, later: later in the course</b>, after the tides and before the passage plan. There is far more in it than this one line &mdash; port entries, radio, lights, and the tide tables themselves. For now: the two dates are in there, and the book is where you look them up.</p>
+  <h2 id="how-the-almanac-writes-it">How the almanac writes it</h2>
+  <h3>The almanac does not tell you the zone</h3>
+  <p>Open an almanac at a foreign port and the heading says something like TIMES ARE IN ZONE &minus;0100 . France is <b>one hour ahead</b> of UT. So why the minus?</p>
+  <p><b>Because it is not telling you the zone. It is telling you the correction that takes the printed times back to UT.</b> The table is in local time; take an hour off and you are in UT. That is what the minus is: an instruction pointing <b>home</b>.</p>
+  <p><b>The sign points one way and you will need it in both.</b> Read it as &ldquo;minus one to get home&rdquo; and it never inverts on you. More than one instructor will tell you this single line confuses students more than anything else on the course. It is not because it is hard. <b>It is because it is written backwards from the way you are about to use it.</b></p>
+  <p><b>And you have almost certainly seen it written the other way round.</b> Set the clock on a phone and France is <b>UTC+1</b>. Open the almanac at the same port and it says <b>&minus;0100</b>. <b>They agree.</b> One counts the way there, the other counts the way home. Neither is wrong and you will meet both, sometimes on the same passage.</p>
+  <p><b>And a way to check yourself that needs no memory at all.</b> They are <b>east</b> of you. The earth turns that way, so the sun gets there first: their morning starts before yours, and <b>their clock is ahead of yours</b>.</p>
+  <p>Whenever the sign starts arguing with you, ask which way the sun went. <b>It settles it every time, and it is the one thing about this that cannot be misremembered.</b></p>
+  <h2 id="where-the-times-come-from">Where the times come from</h2>
+  <h3>And the country you are standing in</h3>
+  <p>One more clock, and it is the one nobody declares: <b>the wall you happen to be looking at.</b></p>
+  <p>In France in summer that wall is <b>UT + 2</b> &mdash; one hour for the zone, one more for their summer time. Your tables have not moved. Your log is still in UT. The harbour office is on the wall.</p>
+  <p><b>That is where two hours comes from, honestly.</b> Not a mistake &mdash; two real corrections, stacked. And it is why &ldquo;I am two hours out&rdquo; has two completely different causes, one of which is arithmetic and one of which is not reading.</p>
+  <p><b>And one thing that has been true on every screen so far without anybody saying it: nothing changes your watch except you.</b> Sailing does not move it. Crossing a zone does not move it. You change it when you tie up, or you leave it alone and keep the log in UT &mdash; and either is fine, as long as you know which one you did.</p>
+  <p>That is the whole of it: <b>a clock is a decision, not a measurement.</b> The instant is the measurement, and it never needed a clock at all.</p>
+  <h2 id="back-to-the-eta">Back to the ETA</h2>
+  <h3>The frontier, reopened</h3>
+  <p>At the end of the last part you were told that every time in it was a <b>duration</b> &mdash; hours and minutes, never a time of day &mdash; and that the clock was the next part.</p>
+  <p><b>This is it.</b></p>
+  <p>You already know how to work out how long a passage takes. You did it with a pair of dividers before you did it with a sum. What you could not do was say <b>when you would arrive</b>, because arriving happens at a time of day, and a time of day belongs to a clock.</p>
+  <p><b>How long it takes</b> is a duration, and that was the last part. <b>When you get there</b> is an instant, in some clock, and that has been this one.</p>
+  <p>Now you have both halves. <b>The rest of this topic is putting them together</b>, which is the thing nobody shows you doing.</p>
+
+  <p class="ir"><a href="../chapters/m02-p3-time.html">Open the interactive chapter &rarr;</a><span class="que">The same material with the chart, the drawings and the exercises.</span></p>
+  <p class="ir"><a href="index.html">All the reading notes &rarr;</a></p>
+
+</main>
+
+<footer>
+  <p class="name">Offshore Theory</p>
+  <p>Independent preparation. Not affiliated with or accredited by the RYA.</p>
+  <p><a href="../index.html">Back to Offshore Theory</a></p>
+</footer>
+
+<!-- Cloudflare Web Analytics -->
+<script type='module' src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "624bbb73949b40f0aae4dafec49ac1f6"}'></script>
+<!-- End Cloudflare Web Analytics -->
+</body>
+</html>

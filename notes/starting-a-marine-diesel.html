@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Starting a diesel: batteries, starter and gearbox</title>
+<link rel="icon" type="image/svg+xml" href="../assets/img/favicon.svg">
+<meta name="description" content="The starting circuit and the drive: two battery banks, isolator rules, warning lights, gearbox, stern gland, shaft and anode, and what fouls a prop.">
+<link rel="canonical" href="https://offshoretheory.com/notes/starting-a-marine-diesel.html">
+
+<style>
+/* ---------------------------------------------------------------------------
+   Tipografias y paleta: las mismas declaraciones que index.html, copiadas tal
+   cual. Nada se carga de fuera del repositorio.
+   --------------------------------------------------------------------------- */
+@font-face{font-family:'IBM Plex Mono';font-style:normal;font-weight:400;font-display:swap;
+ src:url(../assets/fonts/IBMPlexMono-400-normal-latin.woff2) format('woff2');
+ unicode-range:U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD}
+@font-face{font-family:'IBM Plex Mono';font-style:normal;font-weight:400;font-display:swap;
+ src:url(../assets/fonts/IBMPlexMono-400-normal-latin-ext.woff2) format('woff2');
+ unicode-range:U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF}
+@font-face{font-family:'IBM Plex Sans';font-style:normal;font-weight:400 600;font-display:swap;
+ src:url(../assets/fonts/IBMPlexSans-400-normal-latin.woff2) format('woff2');
+ unicode-range:U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD}
+@font-face{font-family:'IBM Plex Sans';font-style:normal;font-weight:400 600;font-display:swap;
+ src:url(../assets/fonts/IBMPlexSans-400-normal-latin-ext.woff2) format('woff2');
+ unicode-range:U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF}
+@font-face{font-family:'Newsreader';font-style:normal;font-weight:500;font-display:swap;
+ src:url(../assets/fonts/Newsreader-500-normal-latin.woff2) format('woff2');
+ unicode-range:U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD}
+@font-face{font-family:'Newsreader';font-style:normal;font-weight:500;font-display:swap;
+ src:url(../assets/fonts/Newsreader-500-normal-latin-ext.woff2) format('woff2');
+ unicode-range:U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF}
+@font-face{font-family:'Gloock Logo';font-style:normal;font-weight:400;font-display:swap;
+ src:url(../assets/fonts/gloock-logo.woff2) format('woff2')}
+
+:root{
+  --night:#0E1116;
+  --night-2:#161B22;
+  --line:#46525F;
+  --ink:#E8EAED;
+  --ink-soft:#9BA6B2;
+  --dim:#8B96A2;
+  --faint:#79838F;
+
+  /* -- Los tres colores del curso. Nada de esto se repite suelto mas abajo. --
+     acento : --accent-graphic de balizamiento y luces. El ambar de los
+              elementos destacados. NO es --alarm (#B33A22), que es el rojo
+              de los avisos. En rules-of-the-road el mismo ambar es --ochre.
+     azul   : --water de balizamiento.
+     magenta: --magenta-soft de rules-of-the-road.                         */
+  --accent:#C97B1B;
+  --blue:#8FC3DA;
+  --magenta:#E86AA0;
+
+  /* Tinta sobre el ambar macizo del boton: 5,6:1 de contraste. */
+  --on-accent:#1A1206;
+
+  --line-top:#232B36;   /* filetes: bajo la barra y entre las columnas */
+
+  --col-hover:rgba(255,255,255,.03);  /* aclarado de columna al pasar el raton */
+  --card-link:#C3CBD4;
+  --f-display:"Newsreader",ui-serif,Georgia,"Palatino Linotype","Times New Roman",serif;
+  --f-ui:"IBM Plex Sans",system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;
+  --f-mono:"IBM Plex Mono",ui-monospace,"SF Mono","Segoe UI Mono",Menlo,Consolas,monospace;
+}
+
+*{box-sizing:border-box}
+html,body{margin:0;padding:0}
+body{background:var(--night);color:var(--ink);font:15px/1.6 var(--f-ui);
+ -webkit-font-smoothing:antialiased}
+
+/* --- barra del logo, identica a la de la portada -------------------------- */
+/* Barra superior, pegada al borde de arriba. */
+.topbar{margin:0;padding-top:16px;padding-bottom:16px;
+ border-bottom:0.5px solid var(--line-top)}
+/* Su relleno lateral, el mismo corto que en la portada. */
+.topbar{padding-left:clamp(20px,2vw,34px);padding-right:clamp(20px,2vw,34px)}
+
+/* Logo: simbolo ambar y nombre en claro. El ambar solo en el simbolo. */
+.logo{display:inline-flex;align-items:center;gap:14px;text-decoration:none}
+.logo:hover,.logo:focus-visible{filter:brightness(1.15)}
+.logo svg{display:block;flex:none}
+.logo__name{font-family:"Gloock Logo",serif;font-size:clamp(18px,1.6vw,26px);
+ color:var(--ink);letter-spacing:.3px;line-height:1.1}
+
+/* --- el texto ------------------------------------------------------------- */
+.doc{max-width:680px;margin:0 auto;padding:72px clamp(24px,4vw,40px) 96px}
+
+.doc h1{font-family:var(--f-display);font-weight:500;font-size:clamp(30px,3.4vw,44px);
+ line-height:1.15;letter-spacing:-.01em;color:var(--ink);margin:0 0 10px}
+.doc .updated{font-family:var(--f-mono);font-size:12px;color:var(--dim);margin:0 0 48px}
+
+.doc h2{font-family:var(--f-display);font-weight:500;font-size:clamp(20px,1.9vw,26px);
+ line-height:1.25;color:var(--ink);margin:44px 0 14px}
+
+.doc p{font-size:15px;line-height:1.7;color:var(--ink-soft);margin:0 0 18px}
+.doc .who{color:var(--ink)}
+
+.doc a{color:var(--accent);text-decoration:none}
+.doc a:hover,.doc a:focus-visible{text-decoration:underline}
+
+/* --- BLOQUE 3 · pie -------------------------------------------------------- */
+footer{background:var(--night);padding:44px 64px;border-top:0.5px solid rgba(70,82,95,.4)}
+footer p{margin:0;font-size:12px;line-height:1.7;color:var(--faint)}
+footer .name{font-family:var(--f-mono);letter-spacing:.1em;color:var(--dim)}
+footer a{color:var(--dim);text-decoration:none}
+footer a:hover,footer a:focus-visible{color:var(--ink-soft)}
+
+/* --- MOVIL ---------------------------------------------------------------- */
+@media (max-width:800px){
+  .topbar{padding-left:24px;padding-right:24px}
+  .logo svg{width:28px;height:28px}
+  .logo__name{font-size:18px}
+  .doc{padding:48px 24px 64px}
+  .doc h2{margin-top:36px}
+  footer{padding:36px 24px}
+}
+/* --- lo que anaden las notas, con los tokens de arriba y ningun color nuevo --- */
+.doc p.lede{font-family:var(--f-display);font-size:clamp(17px,1.6vw,21px);
+ line-height:1.5;color:var(--ink);margin:0 0 30px}
+.doc p b{color:var(--ink);font-weight:600}
+.doc p i{color:var(--dim)}
+.doc .ir{margin:0 0 6px;padding:15px 18px;background:var(--night-2);
+ border:0.5px solid var(--line-top);border-left:2px solid var(--accent)}
+.doc .ir a{font-family:var(--f-mono);font-size:13px;letter-spacing:.02em}
+.doc .ir .que{display:block;margin-top:6px;font-size:13px;color:var(--faint)}
+.doc h2{scroll-margin-top:24px}
+
+/* --- y lo que anade la portada de las notas --- */
+.doc h3{font-family:var(--f-ui);font-weight:600;font-size:15px;letter-spacing:.01em;
+ color:var(--ink);margin:30px 0 4px}
+.doc p.sub{font-size:14px;color:var(--faint);margin:0 0 14px}
+.doc ul.notas{list-style:none;margin:0;padding:0}
+.doc ul.notas li{padding:11px 0;border-top:0.5px solid var(--line-top)}
+.doc ul.notas li:last-child{border-bottom:0.5px solid var(--line-top)}
+.doc ul.notas a{font-weight:600}
+.doc ul.notas span{display:block;margin-top:4px;font-size:14px;line-height:1.55;
+ color:var(--ink-soft)}
+</style>
+</head>
+
+<body>
+
+<div class="topbar">
+  <a class="logo" href="../index.html">
+    <svg viewBox="0 0 40 40" width="34" height="34" aria-hidden="true">
+      <path d="M17 17 L25 19 L20 25 Z" fill="var(--accent)" fill-opacity="0.5"/>
+      <line x1="7" y1="14.5" x2="35" y2="21.5" stroke="var(--accent)"
+            stroke-width="1.4" stroke-linecap="round"/>
+      <line x1="29" y1="14" x2="16" y2="30" stroke="var(--accent)"
+            stroke-width="1.4" stroke-linecap="round"/>
+      <line x1="21.5" y1="29" x2="15.5" y2="13" stroke="var(--accent)"
+            stroke-width="1.4" stroke-linecap="round"/>
+    </svg>
+    <span class="logo__name">Offshore Theory</span>
+  </a>
+</div>
+
+<main class="doc">
+
+  <h1>Starting her, and moving her — The electrical system</h1>
+  <p class="updated">Reading notes &middot; The diesel engine</p>
+  <p class="lede">Phases 7 and 8. From the button to the propeller: the electrical circuit, and the gearbox and shaft.</p>
+  <p class="ir"><a href="../chapters/c31-p1c-starting-her.html">Open the interactive chapter &rarr;</a><span class="que">The same material with the chart, the drawings and the exercises.</span></p>
+
+  <h2 id="starting-her-phase-7-the-electrical-system">Starting her · Phase 7 · The electrical system</h2>
+  <h3>A loop, and the half nobody looks at</h3>
+  <p><b>Everything you have built so far is mechanical, and none of it does anything at all until this works.</b></p>
+  <p>The circuit that starts an engine is very simple and very large. <b>Simple</b> because it is a battery, a switch, a cable, a motor and a way back. <b>Large</b> because a starter motor turning a cold diesel against compression draws several hundred amps for a few seconds — which is why that positive cable is as thick as your finger, and why every connection in it matters.</p>
+  <p><b>It is a loop, and people only ever look at half of it.</b> Follow it: battery, isolator switch, heavy positive cable, starter motor. <b>That is the way out, and it is the half everybody checks.</b></p>
+  <p><b>Now find the way back.</b> Every one of those hundreds of amps has to return to the battery, and it returns through the <b>earth strap</b> — the heavy black cable bonded from the battery to the engine block. <b>The engine itself is part of the circuit.</b> The current goes out along a red cable and comes home through the lump of iron you spent six phases building.</p>
+  <p><b>And that return leg is where the classic hidden fault lives.</b> A corroded earth gives you a starter that clicks and will not turn <b>while the battery tests perfectly fine on a meter</b> — because the battery <i>is</i> fine. The circuit is not. <b>So when the starter will not turn, check both ends of both heavy cables</b>, and check where the earth strap bolts to the block: green powder, a loose bolt or paint under a terminal will all do it. <i>Clean them once a year and smear them with petroleum jelly, and most of what people call electrical trouble never happens.</i></p>
+  <h3>Two banks, and why they stay apart</h3>
+  <p><b>There are two batteries on this boat and they are not spares for each other.</b></p>
+  <p>The <b>engine-start battery</b> does one job: it turns the engine, and on a boat wired the way she should be, nothing else is connected to it. It is built for a very large current for a very short time. The <b>domestic bank</b> runs everything else — lights, instruments, the fridge, the plotter, the autopilot — and it is built the opposite way: a modest current for a very long time.</p>
+  <p><b>They are kept apart because the fridge does not know when to stop.</b> Run one bank for both jobs and every light left on, every night at anchor, every hour of the fridge cycling comes out of the same battery you are going to ask for four hundred amps in the morning. <b>The whole point of two banks is that using the boat can never leave you unable to start the engine.</b></p>
+  <p><b>And the thing in the middle is the split-charge relay.</b> The alternator makes one lot of current and both banks need it, so the relay joins them while the engine is running and charging, <b>and separates them the moment it stops</b>. That is its whole job, and it is why charging one alternator into two independent banks works at all.</p>
+  <p><i>And know what is in them. Batteries have a level, and the ones with caps need checking — the plates must stay covered, and topping up is with distilled water and nothing else. Sealed batteries have no caps and are not meant to be opened. Either way, look at the terminals: green or white powder on a post is resistance, and resistance is where a large current turns into heat.</i></p>
+  <h3>Ten seconds, and what the noises mean</h3>
+  <p><b>The starter is an electric motor with a small gear that it throws sideways into the ring gear on the flywheel.</b> It spins the engine fast enough for compression to make the air hot enough to light the fuel, and then it gets out of the way. It is doing the hardest electrical work on the boat — <b>which is why the cable is thick, why the battery is dedicated, and why it will not tolerate a poor connection anywhere.</b></p>
+  <p><b>If she has not fired after about ten seconds of cranking, stop.</b> Not because the starter will overheat — though it will — but because <b>you are spending the one thing you cannot make more of.</b> A diesel that will not start in ten seconds has a reason, and the reason is not that it needed fifteen. <b>Ten seconds, stop, think</b> — and go and find the reason with the battery you still have.</p>
+  <p><b>And listen, because the noise tells you nearly everything.</b> <b>A single loud click and nothing turns:</b> the solenoid worked and the motor did not, so the current is not getting through — a flat battery, or a bad connection, and remember which half of the loop nobody checks. <i>It is almost never the starter motor itself.</i></p>
+  <p><b>Nothing at all, not even a click:</b> isolator off, or the key circuit is dead — start with the switch. <b>Slow, laboured, heavy cranking:</b> there is current but not enough of it — a battery that is down, or voltage being lost in corroded terminals on the way. <b>A whirring or screeching with nothing turning:</b> the motor is spinning but the pinion is not staying engaged in the ring gear.</p>
+  <p><b>And she turns properly and simply does not fire.</b> Then the electrical side has done its job and handed you back a fuel or an air problem — <i>and you know exactly where to go, because you built the air in the second phase and the fuel in the third.</i></p>
+  <h3>The light that should go out</h3>
+  <p><b>Starting the engine spends a lot of the battery in a few seconds. The alternator is what puts it back.</b> It is a generator, driven by the belt you met two phases ago, and once the engine is running it is the power station of the boat: it recharges what the start took and it carries everything switched on while she runs.</p>
+  <p><b>On almost every boat there is a warning light for this.</b> It comes on with the key before you start, and <b>it goes out once she is running</b>. That is the whole of its behaviour, and it is worth knowing exactly what it is telling you.</p>
+  <p><b>A light that is on with the key and the engine stopped is normal</b> — nothing is charging because nothing is turning. <b>A light that comes on, or never goes out, with the engine running means charging has stopped.</b> It is not a fault in the light: something between the belt and the battery is no longer doing its job. <i>And note what it does not tell you: it says nothing at all about how full the batteries are.</i></p>
+  <p><b>And you have already met the commonest reason. The belt.</b> It drives this alternator, the freshwater pump and the seawater pump off one pulley, and when it goes all three stop. <b>So a charge light and a rising temperature needle appearing together are a broken belt until proved otherwise</b> — and it is the one fault you can diagnose from the helm before you open anything. <i>You worked exactly this case in the last part.</i></p>
+  <p><b>A charge light on its own</b>, with the temperature steady and water at the exhaust, means the belt is turning and the fault is the alternator or its wiring instead. <b>One belt, three jobs — and two of the three tell you about it from the panel.</b></p>
+  <h3>One switch, two rules</h3>
+  <p><b>One switch stands between the batteries and the whole boat, and there are two rules about it. They sound opposite and they are not.</b></p>
+  <p><b>Rule one: turn it OFF before you work on the engine.</b> Before you touch anything in that compartment — a filter, a belt, a terminal, an impeller — turn the isolator off. <b>There is no fuse between a battery and a starter motor.</b> There cannot be: nothing sensible would carry that current. So a spanner that touches a live terminal and anything earthed at the same time does not blow a fuse — <b>it welds itself in place and turns red hot</b>, in a small space you are leaning into, above a bilge, next to fuel. <i>And there is the other reason, which is worse: a starter that gets a stray signal with the isolator on will turn the engine, and your hand may be resting on the belt at the time.</i></p>
+  <p><b>Rule two: never turn it off while the engine is RUNNING.</b> This is the one that destroys things. The alternator is producing current into a circuit and the batteries are what absorb it; <b>take the batteries away while it is producing and the voltage has nowhere to go</b>, and the alternator's own electronics are what pays for it. <b>Stop the engine first, then isolate. Never the other way round.</b></p>
+  <p><b>The two rules together: off when nothing is running, on when something is.</b> That is all of it, and knowing it is a normal examiner's question. <i>And there is a third use, which is why you should be able to find it in the dark: it is your first move in an electrical fire. Cutting the power at the battery is the only thing that stops current feeding a fire behind a panel you cannot reach.</i></p>
+  <p><b>And it usually has one more position than you think.</b> Most isolators are not simply on and off: there is a position that joins the two banks together, and it is there for one reason — <b>the morning the starting battery is dead and the domestic bank still has something in it.</b> <i>Find out now whether yours has it and which position it is. Using it is a manoeuvre with its own order of doing things; knowing the switch can do it is what this screen is for.</i></p>
+  <h3>Read the symptom</h3>
+  <p><b>Three boats, three electrical complaints. Say what is at the bottom of each.</b></p>
+  <h2 id="starting-her-phase-8-the-transmission">Starting her · Phase 8 · The transmission</h2>
+  <h3>The face the drive leaves by</h3>
+  <p><b>Everything you have built in seven phases exists to turn one shaft, and here is where it leaves the engine.</b></p>
+  <p>The <b>flywheel</b> is a heavy iron disc bolted to the aft end of the crankshaft, turning inside the bell housing you closed up in the very first phase. It is there to smooth the turn — and what needs smoothing is not a gap. <b>Four cylinders fire one every half turn, so something is always pushing</b>; you read that off the engine in the second phase. What changes is <i>how hard</i>: a cylinder shoves hardest just after the top and has almost nothing left by the bottom, and while it pushes, the next one is being squeezed and is taking power back out. <b>So the crankshaft speeds up and slows down twice in every turn</b>, and the flywheel's weight is what evens it: it takes in the shove and gives it back in the lull. <b>Take it off and the engine would shake itself apart at idle</b> — and a single-cylinder engine, which really does have a gap, needs one far heavier than this.</p>
+  <p><b>And round its edge is the ring gear</b>, the toothed rim the starter throws its pinion into. You met that one phase ago, from the electrical side; this is the same meeting seen from the mechanical one.</p>
+  <p><b>Bolted to its face is the gearbox</b>, and from there the drive goes aft: a coupling, a shaft, the gland where it leaves the boat, and a propeller. <b>That is the whole of what is left, and it is all in front of you now.</b></p>
+  <p><i>The push begins in a cylinder, at the top of the third stroke. Everything from there to the water is a chain of parts handing it on — and you have built every link of it.</i></p>
+  <h3>Ahead, neutral, astern</h3>
+  <p><b>The engine only turns one way. The gearbox is what lets the boat go both.</b></p>
+  <p>It is bolted to the back of the bell housing and it does three things with one lever: <b>ahead</b>, <b>neutral</b> and <b>astern</b>. Inside, a set of gears and a clutch pack — on most small marine boxes, a cone or a plate clutch squeezed by oil pressure — either lock the output to the input, reverse it through an idler, or leave it disconnected.</p>
+  <p><b>And it usually reduces as well as reverses.</b> A propeller works best turning far slower than an engine, so the box gears it down — two or three turns of the engine for one of the shaft. <i>That ratio is in your engine's book, and it is why a propeller and a crankshaft never talk about the same revs.</i></p>
+  <p><b>The lever goes to neutral before you start and before you stop</b>, every time. Starting in gear moves the boat before you are ready for it, and it is how people come off a pontoon sideways with somebody's hand still on a warp.</p>
+  <p><b>And it has its own oil, its own dipstick and its own rules</b> — the second dipstick you were told about four phases ago. <b>Some boxes take engine oil and some take automatic transmission fluid, and they are not interchangeable.</b> The level is checked its own way, which on many boxes is <i>without</i> screwing the dipstick in — read the book, because doing it the engine's way gives you a wrong answer with complete confidence.</p>
+  <h3>The joint that hides a fault</h3>
+  <p><b>Between the gearbox and the shaft there is a flexible coupling, and it is doing something more subtle than it looks.</b></p>
+  <p>The engine sits on four rubber mounts and it moves — it rocks a little as you open the throttle, and it settles differently under load. <b>The shaft does not move: it runs through a bearing in a tube fixed to the hull.</b> Something has to take up the difference, and that is this joint: a rubber or composite disc that passes the turn and forgives a small misalignment.</p>
+  <p><b>And there is the danger, and it was announced seven phases ago.</b> In the first phase you were told that a sagging engine mount ends up punishing the stern gland. <b>This coupling is why you do not notice.</b> A mount that has softened lets the engine sit lower and the shaft pull out of line — and the coupling absorbs it, quietly, for a season.</p>
+  <p><b>So the misalignment does not announce itself where it happens. It announces itself further aft</b>: a gland that needs tightening more often than it used to, packing that wears unevenly, a shaft that runs warm, a vibration that comes and goes with the revs. <i>The part that fails is not the part that is wrong.</i></p>
+  <p><b>Which is why engine mounts are a check and not a fitting.</b> Look at them: rubber that has gone soft, a mount sitting visibly lower than its neighbour, rust weeping from a stud. <b>Alignment is a yard job with a dial gauge — knowing that a gland problem may not be a gland problem is the part that is yours.</b></p>
+  <h3>The leak you are supposed to have</h3>
+  <p><b>There is a turning steel bar going through a hole in the bottom of your boat. Something has to seal around it while letting it spin.</b></p>
+  <p>The traditional answer is a <b>packed gland</b>, and it is what this boat has: a box around the shaft stuffed with greased square packing, squeezed against the shaft by a nut you can adjust.</p>
+  <p><b>And it is meant to leak.</b> A few drops a minute while the shaft is turning, and that is not a fault — <b>it is the cooling and the lubrication</b>. Those drops are the only thing carrying heat out of a packing that is being rubbed by a shaft at cruising revs. <b>So bone dry is not better. Bone dry is too tight.</b> A gland with no drip gets hot, the packing hardens and burns, and then it stops sealing at all — and a hard packing running dry will score the shaft itself, which turns a five-pound job into a haul-out. <i>Squeeze the drip out of it and you have not fixed a leak, you have arranged a bigger one.</i></p>
+  <p><b>There is another kind, and it reads the opposite way.</b> A <b>face seal</b> — two polished faces held together by a rubber bellows — runs dry on purpose, and a drip from one is a fault. <b>So the first thing to know about your own boat is which of the two she has</b>, because the same drop means «correct» on one and «wrong» on the other. And rubber in salt water does not last forever: a bellows is checked for softness and cracking on a schedule and replaced on a schedule, <b>not when it fails</b> — because when that one fails you have an open hole with a shaft in it.</p>
+  <p><i>And on a packed gland, the greaser: a small screw-down cup packed with waterproof grease, turned down a little every couple of hours under way. It is the easiest thing on a boat to forget, because nothing happens for a long time when you do — and then the packing dries, the shaft scores, and the gland starts leaking properly.</i></p>
+  <h3>Shaft, anode, and what wraps round it</h3>
+  <p><b>The last few feet, and the part of this engine that lives in the water.</b></p>
+  <p>The <b>shaft</b> is a bar of stainless steel or bronze running from the coupling, through the gland, through a bearing in the stern tube, to the propeller. The <b>propeller</b> converts the turn into a push, and it does it by being a screw: each blade is a slice of a helix, and turning it drags the boat along the thread it cuts in the water.</p>
+  <p><b>And out there it is on its own, electrically.</b> Different metals in seawater eat each other, so there is a <b>sacrificial anode</b> — a zinc collar clamped to the shaft, or one on the propeller nut — whose whole job is to be the one that gets eaten. <b>It is checked and replaced when the boat comes out, and an anode that has gone completely stopped protecting anything some time before you looked at it.</b> <i>It is the same idea as the zinc in the heat exchanger, and the same rule: it is meant to be consumed.</i></p>
+  <p><b>And the thing that actually happens: a rope round the propeller.</b> A mooring strop, a lobster pot line, your own dinghy painter. The engine loads up, the note changes, and it stops — and if you are lucky that is all. <b>The moment you suspect it, the engine goes to neutral and then off.</b> Keeping it in gear winds the rope tighter, and a tight rope on a shaft pulls the shaft, which pulls the gland, which is a hole in the boat.</p>
+  <p><b>Some boats have a rope cutter on the shaft</b> — a disc of blades ahead of the propeller that chops what wraps round it. <i>It is worth having and it is not a reason to stop looking astern before you go into reverse near a pot field. Nothing cuts a two-inch mooring strop.</i></p>
+  <h3>Read the symptom</h3>
+  <p><b>Three boats, three complaints from aft. Say what is at the bottom of each.</b></p>
+  <h3>From an empty hole to a moving boat</h3>
+  <p><b>Take the control back to the beginning.</b> An empty compartment. Two bearers, a bilge with a little water in it, and nothing else at all. That is where you started. <b>Now push it forward, slowly, and watch what you have built.</b></p>
+  <p><b>Four rubber blocks</b>, and then a <b>block of iron</b> that lands on them. <b>Covers</b> closing it up, and three joints with a gasket in each one. Inside it, <b>four pistons on four rods</b>, turning a <b>crankshaft</b> with its throws offset so that no two of them ever do the same thing at once. <b>Liners, valves, injectors</b> — and no spark plug anywhere.</p>
+  <p><b>Diesel</b> finding its way up from a tank through two filters to a pump that meters it, and most of it going straight back again. <b>Oil</b> climbing out of a tray, through a filter, along a gallery, into every bearing, and falling back down under its own weight. <b>Coolant</b> going round and round and never leaving, held hot on purpose by a valve. <b>The sea</b> coming in through a hole in the hull, taking the heat, joining the exhaust, and going back out through another hole.</p>
+  <p><b>Wires</b> heavy enough to turn all of it over, and a belt on the front driving three things at once. <b>And a shaft going out through the bottom of the boat to a propeller.</b></p>
+  <p><b>Every one of those parts has a name, and you know them.</b> That is what this part of the course was for. <b>Not to make you a mechanic</b> — you will not take that engine apart and nobody is asking you to. <b>It was so that you can stand in front of an open engine compartment, have somebody point at something, and say what it is, what it does, and what goes wrong with it.</b> That is the examination, and it is also the thing that keeps you calm at three in the morning when something stops. <i>Next you will do some of it with your hands. After that you will learn to read what she tells you when something is wrong. But she is built, and you built her.</i></p>
+
+  <p class="ir"><a href="../chapters/c31-p1c-starting-her.html">Open the interactive chapter &rarr;</a><span class="que">The same material with the chart, the drawings and the exercises.</span></p>
+  <p class="ir"><a href="index.html">All the reading notes &rarr;</a></p>
+
+</main>
+
+<footer>
+  <p class="name">Offshore Theory</p>
+  <p>Independent preparation. Not affiliated with or accredited by the RYA.</p>
+  <p><a href="../index.html">Back to Offshore Theory</a></p>
+</footer>
+
+<!-- Cloudflare Web Analytics -->
+<script type='module' src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "624bbb73949b40f0aae4dafec49ac1f6"}'></script>
+<!-- End Cloudflare Web Analytics -->
+</body>
+</html>

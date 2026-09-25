@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Dead reckoning and running a position line on</title>
+<link rel="icon" type="image/svg+xml" href="../assets/img/favicon.svg">
+<meta name="description" content="Plot course and distance run leg by leg, keep the reckoning through an alteration, and carry one position line forward to cross it with a later one.">
+<link rel="canonical" href="https://offshoretheory.com/notes/dead-reckoning-and-the-running-fix.html">
+
+<style>
+/* ---------------------------------------------------------------------------
+   Tipografias y paleta: las mismas declaraciones que index.html, copiadas tal
+   cual. Nada se carga de fuera del repositorio.
+   --------------------------------------------------------------------------- */
+@font-face{font-family:'IBM Plex Mono';font-style:normal;font-weight:400;font-display:swap;
+ src:url(../assets/fonts/IBMPlexMono-400-normal-latin.woff2) format('woff2');
+ unicode-range:U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD}
+@font-face{font-family:'IBM Plex Mono';font-style:normal;font-weight:400;font-display:swap;
+ src:url(../assets/fonts/IBMPlexMono-400-normal-latin-ext.woff2) format('woff2');
+ unicode-range:U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF}
+@font-face{font-family:'IBM Plex Sans';font-style:normal;font-weight:400 600;font-display:swap;
+ src:url(../assets/fonts/IBMPlexSans-400-normal-latin.woff2) format('woff2');
+ unicode-range:U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD}
+@font-face{font-family:'IBM Plex Sans';font-style:normal;font-weight:400 600;font-display:swap;
+ src:url(../assets/fonts/IBMPlexSans-400-normal-latin-ext.woff2) format('woff2');
+ unicode-range:U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF}
+@font-face{font-family:'Newsreader';font-style:normal;font-weight:500;font-display:swap;
+ src:url(../assets/fonts/Newsreader-500-normal-latin.woff2) format('woff2');
+ unicode-range:U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD}
+@font-face{font-family:'Newsreader';font-style:normal;font-weight:500;font-display:swap;
+ src:url(../assets/fonts/Newsreader-500-normal-latin-ext.woff2) format('woff2');
+ unicode-range:U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF}
+@font-face{font-family:'Gloock Logo';font-style:normal;font-weight:400;font-display:swap;
+ src:url(../assets/fonts/gloock-logo.woff2) format('woff2')}
+
+:root{
+  --night:#0E1116;
+  --night-2:#161B22;
+  --line:#46525F;
+  --ink:#E8EAED;
+  --ink-soft:#9BA6B2;
+  --dim:#8B96A2;
+  --faint:#79838F;
+
+  /* -- Los tres colores del curso. Nada de esto se repite suelto mas abajo. --
+     acento : --accent-graphic de balizamiento y luces. El ambar de los
+              elementos destacados. NO es --alarm (#B33A22), que es el rojo
+              de los avisos. En rules-of-the-road el mismo ambar es --ochre.
+     azul   : --water de balizamiento.
+     magenta: --magenta-soft de rules-of-the-road.                         */
+  --accent:#C97B1B;
+  --blue:#8FC3DA;
+  --magenta:#E86AA0;
+
+  /* Tinta sobre el ambar macizo del boton: 5,6:1 de contraste. */
+  --on-accent:#1A1206;
+
+  --line-top:#232B36;   /* filetes: bajo la barra y entre las columnas */
+
+  --col-hover:rgba(255,255,255,.03);  /* aclarado de columna al pasar el raton */
+  --card-link:#C3CBD4;
+  --f-display:"Newsreader",ui-serif,Georgia,"Palatino Linotype","Times New Roman",serif;
+  --f-ui:"IBM Plex Sans",system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;
+  --f-mono:"IBM Plex Mono",ui-monospace,"SF Mono","Segoe UI Mono",Menlo,Consolas,monospace;
+}
+
+*{box-sizing:border-box}
+html,body{margin:0;padding:0}
+body{background:var(--night);color:var(--ink);font:15px/1.6 var(--f-ui);
+ -webkit-font-smoothing:antialiased}
+
+/* --- barra del logo, identica a la de la portada -------------------------- */
+/* Barra superior, pegada al borde de arriba. */
+.topbar{margin:0;padding-top:16px;padding-bottom:16px;
+ border-bottom:0.5px solid var(--line-top)}
+/* Su relleno lateral, el mismo corto que en la portada. */
+.topbar{padding-left:clamp(20px,2vw,34px);padding-right:clamp(20px,2vw,34px)}
+
+/* Logo: simbolo ambar y nombre en claro. El ambar solo en el simbolo. */
+.logo{display:inline-flex;align-items:center;gap:14px;text-decoration:none}
+.logo:hover,.logo:focus-visible{filter:brightness(1.15)}
+.logo svg{display:block;flex:none}
+.logo__name{font-family:"Gloock Logo",serif;font-size:clamp(18px,1.6vw,26px);
+ color:var(--ink);letter-spacing:.3px;line-height:1.1}
+
+/* --- el texto ------------------------------------------------------------- */
+.doc{max-width:680px;margin:0 auto;padding:72px clamp(24px,4vw,40px) 96px}
+
+.doc h1{font-family:var(--f-display);font-weight:500;font-size:clamp(30px,3.4vw,44px);
+ line-height:1.15;letter-spacing:-.01em;color:var(--ink);margin:0 0 10px}
+.doc .updated{font-family:var(--f-mono);font-size:12px;color:var(--dim);margin:0 0 48px}
+
+.doc h2{font-family:var(--f-display);font-weight:500;font-size:clamp(20px,1.9vw,26px);
+ line-height:1.25;color:var(--ink);margin:44px 0 14px}
+
+.doc p{font-size:15px;line-height:1.7;color:var(--ink-soft);margin:0 0 18px}
+.doc .who{color:var(--ink)}
+
+.doc a{color:var(--accent);text-decoration:none}
+.doc a:hover,.doc a:focus-visible{text-decoration:underline}
+
+/* --- BLOQUE 3 · pie -------------------------------------------------------- */
+footer{background:var(--night);padding:44px 64px;border-top:0.5px solid rgba(70,82,95,.4)}
+footer p{margin:0;font-size:12px;line-height:1.7;color:var(--faint)}
+footer .name{font-family:var(--f-mono);letter-spacing:.1em;color:var(--dim)}
+footer a{color:var(--dim);text-decoration:none}
+footer a:hover,footer a:focus-visible{color:var(--ink-soft)}
+
+/* --- MOVIL ---------------------------------------------------------------- */
+@media (max-width:800px){
+  .topbar{padding-left:24px;padding-right:24px}
+  .logo svg{width:28px;height:28px}
+  .logo__name{font-size:18px}
+  .doc{padding:48px 24px 64px}
+  .doc h2{margin-top:36px}
+  footer{padding:36px 24px}
+}
+/* --- lo que anaden las notas, con los tokens de arriba y ningun color nuevo --- */
+.doc p.lede{font-family:var(--f-display);font-size:clamp(17px,1.6vw,21px);
+ line-height:1.5;color:var(--ink);margin:0 0 30px}
+.doc p b{color:var(--ink);font-weight:600}
+.doc p i{color:var(--dim)}
+.doc .ir{margin:0 0 6px;padding:15px 18px;background:var(--night-2);
+ border:0.5px solid var(--line-top);border-left:2px solid var(--accent)}
+.doc .ir a{font-family:var(--f-mono);font-size:13px;letter-spacing:.02em}
+.doc .ir .que{display:block;margin-top:6px;font-size:13px;color:var(--faint)}
+.doc h2{scroll-margin-top:24px}
+
+/* --- y lo que anade la portada de las notas --- */
+.doc h3{font-family:var(--f-ui);font-weight:600;font-size:15px;letter-spacing:.01em;
+ color:var(--ink);margin:30px 0 4px}
+.doc p.sub{font-size:14px;color:var(--faint);margin:0 0 14px}
+.doc ul.notas{list-style:none;margin:0;padding:0}
+.doc ul.notas li{padding:11px 0;border-top:0.5px solid var(--line-top)}
+.doc ul.notas li:last-child{border-bottom:0.5px solid var(--line-top)}
+.doc ul.notas a{font-weight:600}
+.doc ul.notas span{display:block;margin-top:4px;font-size:14px;line-height:1.55;
+ color:var(--ink-soft)}
+</style>
+</head>
+
+<body>
+
+<div class="topbar">
+  <a class="logo" href="../index.html">
+    <svg viewBox="0 0 40 40" width="34" height="34" aria-hidden="true">
+      <path d="M17 17 L25 19 L20 25 Z" fill="var(--accent)" fill-opacity="0.5"/>
+      <line x1="7" y1="14.5" x2="35" y2="21.5" stroke="var(--accent)"
+            stroke-width="1.4" stroke-linecap="round"/>
+      <line x1="29" y1="14" x2="16" y2="30" stroke="var(--accent)"
+            stroke-width="1.4" stroke-linecap="round"/>
+      <line x1="21.5" y1="29" x2="15.5" y2="13" stroke="var(--accent)"
+            stroke-width="1.4" stroke-linecap="round"/>
+    </svg>
+    <span class="logo__name">Offshore Theory</span>
+  </a>
+</div>
+
+<main class="doc">
+
+  <h1>Module 03 · Carrying it forward</h1>
+  <p class="updated">Reading notes &middot; Module 03 &middot; Where you are</p>
+  <p class="lede">The fog comes down and the reckoning takes over: what a course, a log and a clock can put on the chart — and how one object looked at twice becomes a position.</p>
+  <p class="ir"><a href="../chapters/m03-p3-carrying-it-forward.html">Open the interactive chapter &rarr;</a><span class="que">The same material with the chart, the drawings and the exercises.</span></p>
+
+  <h2 id="the-dry-reckoning">The dry reckoning</h2>
+  <h3>Nothing left to look at</h3>
+  <p><b>That circle is the last thing you saw.</b> Three bearings of three towers, cut at the best angles this chart has, timed at <b>1449</b> with the log reading <b>47.4</b>. <i>It is the fix that closed part 2.</i></p>
+  <p><b>Now the fog comes down.</b> Or the night, or a coast with nothing on it you can name. Every method in the last two parts needed something in sight, and there is nothing in sight. <b>The chart has not changed and your position has.</b></p>
+  <p><b>You are not left with nothing.</b> You have three things, and you have been writing all three down since the first screen of part 1: <b>where you were</b>, <b>what course you have steered</b> since, and <b>how far the log says you have run</b>.</p>
+  <p><i>Put those three together and you get a position on the chart. It is not a fix, it does not deserve a circle, and the next screens are about what it is and what it is worth.</i></p>
+  <h3>Course and distance, drawn</h3>
+  <p><b>Close in on the water you left.</b> This screen is <b>3.86 miles</b> across, the fix is bottom right, and everything that follows is done with a pencil, a plotter and the log &mdash; <i>nothing here is measured off anything you can see.</i></p>
+  <p><b>Start from the last fix, and from nothing else.</b> 1449, log 47.4. <i>An estimate is only ever as good as the position it is counted from, which is why the circle goes on the chart before anything else does.</i></p>
+  <p><b>Draw the course you have steered: 300.</b> One line out of the fix, and <b>one arrowhead on it</b> &mdash; that arrowhead is not decoration, it is what says this line is a course through the water. <i>You will meet the same line with two arrowheads in module 05 , and it will mean something else.</i></p>
+  <p>Nothing on it is a position yet: a course is a direction, and a direction is not a place.</p>
+  <p><b>Now stop it where the log says.</b> Half an hour at 5 knots is <b>2.5 miles</b>: the log has gone from 47.4 to <b>49.9</b>. Mark that point with <b>a short line across the course</b>, write the time and the log beside it, and put <b>DR</b> on it.</p>
+  <p><i>A line across the track, not a dot in a circle. The two symbols are different because the two things are different, and an examiner reads the difference before he reads the numbers.</i></p>
+  <h3>And this is not where you are</h3>
+  <p><b>Read the mark for what it says.</b> It says: <i>this is where the course and the log put me, if nothing has pushed me.</i> <b>It does not say where you are</b>, and the difference is the whole of this screen.</p>
+  <p><b>Two things push you, and neither leaves a trace on the log.</b> The tidal stream moves the water you are floating in, and the log cannot feel it because the log measures water. The wind pushes you sideways through it. <b>A GPS would show you where the two of them have put you &mdash; but not how much of it was each, and this mark is drawn without one.</b> <i>Both of them are module 05 , where this mark gets corrected and becomes an estimated position. They are named here and taught there.</i></p>
+  <p><b>And a third one is yours, and it is on this screen.</b> Steer one degree off for this half hour and the mark lands <b>81 metres</b> away &mdash; the faint track. Over the two legs of the next topic, <b>145 metres</b>. <i>Part 1 measured that one degree is 32 metres at one mile; this is the same number pointed forwards instead of sideways.</i></p>
+  <p><b>So what is it good for?</b> It is the only position you have, it is better than a guess by a long way, and <b>it is the thing you carry a position line forward with</b> &mdash; which is where this part is going.</p>
+  <h2 id="keeping-the-reckoning">Keeping the reckoning</h2>
+  <h3>Two legs and an alteration</h3>
+  <p><b>A reckoning is not one line, and a passage is not one course.</b> Here is the same afternoon with the next half hour added: <b>300 for 2.5 miles</b> to the alteration, then <b>250 for 2.0</b>. <i>4.5 miles in 54 minutes, from the fix that closed part 2 to a mark you have never seen.</i></p>
+  <p><b>Every leg carries its own three things</b> &mdash; a course, a distance and a time &mdash; and every one of them ends in a mark with the log reading beside it. <i>That is why the log gets written down at the alteration and not only at the end: the second leg is counted from there.</i></p>
+  <p><b>And the chain is only as good as its worst link.</b> One leg steered a degree off, one alteration made two minutes late, and everything after it moves with it. <i>Nothing here corrects itself; a reckoning only gets worse until the next time you see something.</i></p>
+  <h3>Drawn, leg by leg</h3>
+  <p><b>The same two legs, done with the pencil.</b> <i>Watch where the second one starts &mdash; it is the only thing in this topic that is easy to get wrong, and it is worth 4 630 metres.</i></p>
+  <p><b>The first leg, as you drew it in topic 1.</b> 300 from the fix, 2.5 miles, and the mark across the track at <b>1519</b> with the log at <b>49.9</b>.</p>
+  <p><i>One arrowhead on the course line. One mark at the end of it. Nothing else on the chart yet.</i></p>
+  <p><b>At 1519 you alter to 250 &mdash; and the new leg starts HERE, at the mark.</b> Not at the fix. The fix is 2.5 miles astern and it has nothing to do with this leg: <b>everything you count from now on is counted from the alteration</b>, which is why it has its own time and its own log reading.</p>
+  <p><i>Count this leg from the fix instead and you finish 4 630 metres from where you should be &mdash; 2.50 miles, which is exactly the length of the leg you skipped.</i></p>
+  <p><b>24 minutes on 250: 2.0 miles, log 51.9.</b> A second mark across the second track, with its own time.</p>
+  <p><b>Look at the three symbols on the chart and read them apart.</b> The <b>dot inside a circle</b>, astern, is a fix: you saw it. The <b>two short marks across the tracks</b> are reckonings: you counted them. <i>Neither of the two marks is where you are &mdash; they are where the courses and the log put you, and an examiner tells the two apart before he reads a single number.</i></p>
+  <h2 id="carrying-a-line-forward">Carrying a line forward</h2>
+  <h3>One tower, and one line</h3>
+  <p><b>The fog thins in one direction, and there is one thing in it.</b> Of everything part 1 taught you to shoot, a single object is in sight: <b>Skelvoe Tower bears 188</b>, taken at <b>1543</b> with the log at <b>51.9</b>. <i>Two more objects and this would be over in one step. There are not two more.</i></p>
+  <p><b>A bearing is a line, not a position.</b> It says you are somewhere along it, and it says nothing about where along it. The mark at the end of the track says the opposite: a place, counted rather than seen. <i>Neither of them on its own is where you are &mdash; one has no distance and the other has nothing you looked at.</i></p>
+  <p><b>So you take the line with you.</b> Sail on, note the course and the distance, and carry this line forward by exactly that much; then take the same tower again and cross the two. <i>A line that has travelled is no longer alone, and that is the whole of this topic.</i></p>
+  <h3>Carrying it forward</h3>
+  <p><b>Three moves: take it, carry it, take it again.</b> <i>Watch what moves in the middle one &mdash; it is a line and not a point, and that is where this is lost.</i></p>
+  <p><b>1543. Skelvoe Tower bears 188.</b> The line is drawn from the tower outwards, and it carries <b>one arrowhead</b> at the far end: that is a position line, taken now.</p>
+  <p><i>You are on it. The mark across the track says the run puts you here &mdash; and the line agrees, without proving it.</i></p>
+  <p><b>Run the leg: 125 for 2.0 miles, 24 minutes.</b> And now the move that matters: <b>what goes forward is the LINE, not the point.</b> Take the whole line and slide it, parallel to itself, by exactly the course and the distance you have run &mdash; every point of it moves the same 2.0 miles on 125.</p>
+  <p><b>The carried line gets two arrowheads.</b> On a position line one arrowhead means <i>taken now</i> and two mean <i>carried forward</i>, and an examiner reads that before he reads a number.</p>
+  <p><b>And two arrowheads on a course line are a different thing altogether:</b> the <b>ground track</b> &mdash; where the boat actually goes over the ground &mdash; which is module 05 . <i>So what tells them apart is not the arrows &mdash; it is the line underneath them. A course is solid and black and you steered it; a position line is dashed and red and you looked along it. Count the arrows second.</i></p>
+  <p><b>1607. Take Skelvoe Tower again: 248.</b> One arrowhead &mdash; it was taken now. And it cuts the carried line at <b>60°</b>.</p>
+  <p><b>That crossing is a position, and it is the first one since 1449 that came from something you saw.</b> <i>One object, two looks and a run in between. The circle goes round it because it was observed; the marks across the track never earn one.</i></p>
+  <h3>What makes it good, and what spoils it</h3>
+  <p><b>What makes this fix good is the 60° between the two lines &mdash; and that angle is nothing but the amount the bearing turned:</b> Skelvoe Tower 188 at the first look, Skelvoe Tower 248 at the second. Sail towards the object and it barely turns: two careful looks give you two lines that are almost the same line, and almost the same line is no position at all. <i>The run has to open the bearing, and here it opened it by 60 degrees.</i></p>
+  <p><b>And a running fix is only as good as the reckoning that carries it.</b> The carried line arrives with everything the run had inside it. One degree out on the first bearing moves it <b>62 m</b> at that range; one degree out on the course you steered moves it <b>65 m</b> over the 2.0 miles run; five per cent out on the distance, <b>185 m</b>. <i>None of that shows on the chart. A crossing looks exactly as sharp when it is wrong.</i></p>
+  <p><b>And one more, which is not drawn here and not taught here: the tidal stream.</b> What you carried forward is a run <i>through the water</i>, and the water has been moving under you the whole time. Correcting for it is module 05 ; <b>naming it is this one</b>, because a running fix that ignores it is wrong by however far the stream has taken you.</p>
+  <p><i>On this chart the crossing lands <b>51 m</b> from the mark the reckoning made &mdash; and those 51 metres are not the reckoning's error: they are what writing two bearings to the whole degree costs. In a boat, the stream would add its own on top of them.</i></p>
+  <h2 id="closing">Closing</h2>
+  <h3>The afternoon, drawn once</h3>
+  <p><b>78 minutes, 6.5 miles, and two positions.</b> The dot in a circle at <b>1449</b> is where part 2 left you: three towers, three bearings, one crossing. Then the visibility went. <b>300 for 2.5</b> to the first mark, <b>250 for 2.0</b> to the second, and <b>125 for 2.0</b> to something better than a mark: at <b>1607</b> a second position, built out of <i>one</i> tower looked at twice with the run carried between the looks.</p>
+  <p><i>So count the marks and there are two, not three. The reckoning put a third one at the end of the last leg as well &mdash; it is 51 metres from the circle, which at this width is thinner than the pencil &mdash; and drawing both would have hidden the one that was earned.</i></p>
+  <p><b>The two circles are 2.46 miles apart and you sailed 6.5 to get between them.</b> <i>That is not waste: it is what the chart cannot tell you unless you write down the course, the distance and the time as you go. The log went from 47.4 to 53.9 and nothing was in sight for 54 of those 78 minutes.</i></p>
+  <p><b>Three things you could not do at 1449, and can now.</b> Put a position on the chart with nothing in sight. Read a mark for what it says instead of what you would like it to say. And take one object, look at it twice with a run in between, and get a position out of it. <i>Not one of the three needs a second tower.</i></p>
+  <p><b>And one you still cannot do: know how good any of it is.</b> A running fix is only as good as the reckoning that carries it, and a reckoning only gets worse until the next time you see something. <i>Nothing on this screen corrects itself.</i></p>
+  <h3>What pushes you, and where it is taught</h3>
+  <p><b>Everything on this chart is the reckoning, and the reckoning is dry.</b> A course, a distance, a time and a log &mdash; four things you can read on board, and <i>not one of them can feel the water moving under the boat</i>.</p>
+  <p><b>Two things push you, and neither leaves a trace on the log.</b> The <b>tidal stream</b> moves the water you are floating in; <b>leeway</b> pushes you sideways through it. A GPS would show you where the two of them had put you, but not how much of it was each &mdash; and the reckoning is what you keep without one. Applied to the marks you have been drawing, the two of them turn a reckoning into an <b>estimated position</b> &mdash; and that is <b> module 05 </b>, which starts from exactly these marks and adds the corrections. <i>There is also a question this module never asked: how much water is under you. That one is <b>later in the course</b>.</i></p>
+  <p><b>And they are not taught here for a measured reason rather than a tidy one.</b> There is no tidal information on this chart at all: <b>11 data files behind it and not one current in any of them</b>, and no tidal diamond printed on the sheet. <i>A stream you cannot look up is a stream somebody has to tell you, and being told the answer is not learning to find it. Skelmar Sound can teach you to keep a reckoning; it cannot teach you to correct one.</i></p>
+  <p><b>Nothing on the chart changed between this screen and the last one, and that is the point.</b> The question this module opened with &mdash; <i>where are you?</i> &mdash; has been answered three ways: part 1 gave you a single line, and one line is <b>not</b> a position; part 2 crossed two and got a point, then showed the point was a zone; part 3 took the objects away and you got a position anyway. <i>What is still missing cannot be drawn from anything on this screen, which is exactly why it gets a module of its own.</i></p>
+
+  <p class="ir"><a href="../chapters/m03-p3-carrying-it-forward.html">Open the interactive chapter &rarr;</a><span class="que">The same material with the chart, the drawings and the exercises.</span></p>
+  <p class="ir"><a href="index.html">All the reading notes &rarr;</a></p>
+
+</main>
+
+<footer>
+  <p class="name">Offshore Theory</p>
+  <p>Independent preparation. Not affiliated with or accredited by the RYA.</p>
+  <p><a href="../index.html">Back to Offshore Theory</a></p>
+</footer>
+
+<!-- Cloudflare Web Analytics -->
+<script type='module' src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "624bbb73949b40f0aae4dafec49ac1f6"}'></script>
+<!-- End Cloudflare Web Analytics -->
+</body>
+</html>

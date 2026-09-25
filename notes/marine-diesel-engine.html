@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Marine diesel engine: structure and combustion</title>
+<link rel="icon" type="image/svg+xml" href="../assets/img/favicon.svg">
+<meta name="description" content="How a diesel lights itself: bearers and mounts, block and cylinders, the four strokes, and the fuel path from tank to injector, on a 3D engine.">
+<link rel="canonical" href="https://offshoretheory.com/notes/marine-diesel-engine.html">
+
+<style>
+/* ---------------------------------------------------------------------------
+   Tipografias y paleta: las mismas declaraciones que index.html, copiadas tal
+   cual. Nada se carga de fuera del repositorio.
+   --------------------------------------------------------------------------- */
+@font-face{font-family:'IBM Plex Mono';font-style:normal;font-weight:400;font-display:swap;
+ src:url(../assets/fonts/IBMPlexMono-400-normal-latin.woff2) format('woff2');
+ unicode-range:U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD}
+@font-face{font-family:'IBM Plex Mono';font-style:normal;font-weight:400;font-display:swap;
+ src:url(../assets/fonts/IBMPlexMono-400-normal-latin-ext.woff2) format('woff2');
+ unicode-range:U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF}
+@font-face{font-family:'IBM Plex Sans';font-style:normal;font-weight:400 600;font-display:swap;
+ src:url(../assets/fonts/IBMPlexSans-400-normal-latin.woff2) format('woff2');
+ unicode-range:U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD}
+@font-face{font-family:'IBM Plex Sans';font-style:normal;font-weight:400 600;font-display:swap;
+ src:url(../assets/fonts/IBMPlexSans-400-normal-latin-ext.woff2) format('woff2');
+ unicode-range:U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF}
+@font-face{font-family:'Newsreader';font-style:normal;font-weight:500;font-display:swap;
+ src:url(../assets/fonts/Newsreader-500-normal-latin.woff2) format('woff2');
+ unicode-range:U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD}
+@font-face{font-family:'Newsreader';font-style:normal;font-weight:500;font-display:swap;
+ src:url(../assets/fonts/Newsreader-500-normal-latin-ext.woff2) format('woff2');
+ unicode-range:U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF}
+@font-face{font-family:'Gloock Logo';font-style:normal;font-weight:400;font-display:swap;
+ src:url(../assets/fonts/gloock-logo.woff2) format('woff2')}
+
+:root{
+  --night:#0E1116;
+  --night-2:#161B22;
+  --line:#46525F;
+  --ink:#E8EAED;
+  --ink-soft:#9BA6B2;
+  --dim:#8B96A2;
+  --faint:#79838F;
+
+  /* -- Los tres colores del curso. Nada de esto se repite suelto mas abajo. --
+     acento : --accent-graphic de balizamiento y luces. El ambar de los
+              elementos destacados. NO es --alarm (#B33A22), que es el rojo
+              de los avisos. En rules-of-the-road el mismo ambar es --ochre.
+     azul   : --water de balizamiento.
+     magenta: --magenta-soft de rules-of-the-road.                         */
+  --accent:#C97B1B;
+  --blue:#8FC3DA;
+  --magenta:#E86AA0;
+
+  /* Tinta sobre el ambar macizo del boton: 5,6:1 de contraste. */
+  --on-accent:#1A1206;
+
+  --line-top:#232B36;   /* filetes: bajo la barra y entre las columnas */
+
+  --col-hover:rgba(255,255,255,.03);  /* aclarado de columna al pasar el raton */
+  --card-link:#C3CBD4;
+  --f-display:"Newsreader",ui-serif,Georgia,"Palatino Linotype","Times New Roman",serif;
+  --f-ui:"IBM Plex Sans",system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;
+  --f-mono:"IBM Plex Mono",ui-monospace,"SF Mono","Segoe UI Mono",Menlo,Consolas,monospace;
+}
+
+*{box-sizing:border-box}
+html,body{margin:0;padding:0}
+body{background:var(--night);color:var(--ink);font:15px/1.6 var(--f-ui);
+ -webkit-font-smoothing:antialiased}
+
+/* --- barra del logo, identica a la de la portada -------------------------- */
+/* Barra superior, pegada al borde de arriba. */
+.topbar{margin:0;padding-top:16px;padding-bottom:16px;
+ border-bottom:0.5px solid var(--line-top)}
+/* Su relleno lateral, el mismo corto que en la portada. */
+.topbar{padding-left:clamp(20px,2vw,34px);padding-right:clamp(20px,2vw,34px)}
+
+/* Logo: simbolo ambar y nombre en claro. El ambar solo en el simbolo. */
+.logo{display:inline-flex;align-items:center;gap:14px;text-decoration:none}
+.logo:hover,.logo:focus-visible{filter:brightness(1.15)}
+.logo svg{display:block;flex:none}
+.logo__name{font-family:"Gloock Logo",serif;font-size:clamp(18px,1.6vw,26px);
+ color:var(--ink);letter-spacing:.3px;line-height:1.1}
+
+/* --- el texto ------------------------------------------------------------- */
+.doc{max-width:680px;margin:0 auto;padding:72px clamp(24px,4vw,40px) 96px}
+
+.doc h1{font-family:var(--f-display);font-weight:500;font-size:clamp(30px,3.4vw,44px);
+ line-height:1.15;letter-spacing:-.01em;color:var(--ink);margin:0 0 10px}
+.doc .updated{font-family:var(--f-mono);font-size:12px;color:var(--dim);margin:0 0 48px}
+
+.doc h2{font-family:var(--f-display);font-weight:500;font-size:clamp(20px,1.9vw,26px);
+ line-height:1.25;color:var(--ink);margin:44px 0 14px}
+
+.doc p{font-size:15px;line-height:1.7;color:var(--ink-soft);margin:0 0 18px}
+.doc .who{color:var(--ink)}
+
+.doc a{color:var(--accent);text-decoration:none}
+.doc a:hover,.doc a:focus-visible{text-decoration:underline}
+
+/* --- BLOQUE 3 · pie -------------------------------------------------------- */
+footer{background:var(--night);padding:44px 64px;border-top:0.5px solid rgba(70,82,95,.4)}
+footer p{margin:0;font-size:12px;line-height:1.7;color:var(--faint)}
+footer .name{font-family:var(--f-mono);letter-spacing:.1em;color:var(--dim)}
+footer a{color:var(--dim);text-decoration:none}
+footer a:hover,footer a:focus-visible{color:var(--ink-soft)}
+
+/* --- MOVIL ---------------------------------------------------------------- */
+@media (max-width:800px){
+  .topbar{padding-left:24px;padding-right:24px}
+  .logo svg{width:28px;height:28px}
+  .logo__name{font-size:18px}
+  .doc{padding:48px 24px 64px}
+  .doc h2{margin-top:36px}
+  footer{padding:36px 24px}
+}
+/* --- lo que anaden las notas, con los tokens de arriba y ningun color nuevo --- */
+.doc p.lede{font-family:var(--f-display);font-size:clamp(17px,1.6vw,21px);
+ line-height:1.5;color:var(--ink);margin:0 0 30px}
+.doc p b{color:var(--ink);font-weight:600}
+.doc p i{color:var(--dim)}
+.doc .ir{margin:0 0 6px;padding:15px 18px;background:var(--night-2);
+ border:0.5px solid var(--line-top);border-left:2px solid var(--accent)}
+.doc .ir a{font-family:var(--f-mono);font-size:13px;letter-spacing:.02em}
+.doc .ir .que{display:block;margin-top:6px;font-size:13px;color:var(--faint)}
+.doc h2{scroll-margin-top:24px}
+
+/* --- y lo que anade la portada de las notas --- */
+.doc h3{font-family:var(--f-ui);font-weight:600;font-size:15px;letter-spacing:.01em;
+ color:var(--ink);margin:30px 0 4px}
+.doc p.sub{font-size:14px;color:var(--faint);margin:0 0 14px}
+.doc ul.notas{list-style:none;margin:0;padding:0}
+.doc ul.notas li{padding:11px 0;border-top:0.5px solid var(--line-top)}
+.doc ul.notas li:last-child{border-bottom:0.5px solid var(--line-top)}
+.doc ul.notas a{font-weight:600}
+.doc ul.notas span{display:block;margin-top:4px;font-size:14px;line-height:1.55;
+ color:var(--ink-soft)}
+</style>
+</head>
+
+<body>
+
+<div class="topbar">
+  <a class="logo" href="../index.html">
+    <svg viewBox="0 0 40 40" width="34" height="34" aria-hidden="true">
+      <path d="M17 17 L25 19 L20 25 Z" fill="var(--accent)" fill-opacity="0.5"/>
+      <line x1="7" y1="14.5" x2="35" y2="21.5" stroke="var(--accent)"
+            stroke-width="1.4" stroke-linecap="round"/>
+      <line x1="29" y1="14" x2="16" y2="30" stroke="var(--accent)"
+            stroke-width="1.4" stroke-linecap="round"/>
+      <line x1="21.5" y1="29" x2="15.5" y2="13" stroke="var(--accent)"
+            stroke-width="1.4" stroke-linecap="round"/>
+    </svg>
+    <span class="logo__name">Offshore Theory</span>
+  </a>
+</div>
+
+<main class="doc">
+
+  <h1>The engine — Structure and combustion</h1>
+  <p class="updated">Reading notes &middot; The diesel engine</p>
+  <p class="lede">Phases 1 to 3. What the engine is made of, what happens inside a cylinder four times a revolution, and the fuel circuit that feeds it.</p>
+  <p class="ir"><a href="../chapters/c31-p1a-the-engine.html">Open the interactive chapter &rarr;</a><span class="que">The same material with the chart, the drawings and the exercises.</span></p>
+
+  <h2 id="the-engine-phase-1-the-structure">The engine · Phase 1 · The structure</h2>
+  <h3>Where an engine lives</h3>
+  <p><b>Before there is an engine, there is a hole.</b></p>
+  <p>This is an engine compartment, cut open so you can see into it. The hull narrows to a V at the bottom. The gray padding on the sides is acoustic foam, and it is the reason you can hold a conversation on deck.</p>
+  <p>Running fore and aft are the two <b>bearers</b> — the beams the engine will sit on. They are part of the structure of the boat, not part of the engine.</p>
+  <p>Below them is the <b>bilge</b>, and there is nearly always a little water in it.</p>
+  <p>Remember where that bilge is. Everything this engine ever leaks — oil, coolant, seawater, diesel — ends up down there. Gravity sees to it. The bilge is the first place that tells you something has gone wrong, and it tells you for free, every time you lift the boards.</p>
+  <p><b>One thing about the engine you are going to build.</b> It is a generic four-cylinder marine diesel, and it has a turbocharger and a heat exchanger. Yours may well not. A small engine of twenty or thirty horsepower is often atmospheric, with no turbo at all, and it may be raw-water cooled or keel-cooled instead. That changes which parts are there. It does not change where any of them go, or what any of them do.</p>
+  <h3>Four blocks of rubber</h3>
+  <p><b>Four blocks of rubber, and nothing else.</b></p>
+  <p>These are the <b>flexible mounts</b>. The engine bolts down onto them, and they bolt down onto the bearers. That is the entire connection between a running diesel and your hull.</p>
+  <p>The rubber is there to keep the engine's vibration out of the boat. Bolt an engine solidly to a hull and you feel every firing stroke through the soles of your feet, and so does everything else on board.</p>
+  <p><b>But rubber sags, and a sagging mount is a quiet fault.</b> When one collapses the engine settles, and the propeller shaft bolted to the back of it stops lining up with the stern gland it runs through.</p>
+  <p><b>There is a flexible coupling in that shaft, and absorbing small misalignment is exactly what it is for.</b> It will take up a sagging mount without complaint. That is why the fault takes so long to announce itself — and it is why it does so much damage by the time it does. The coupling does not fail and warn you. It goes on working, permanently outside the range it was built for, wearing itself out quietly, and passing on down the shaft the load it can no longer absorb. What finally tells you is a stern gland running hot at the other end of the engine, caused by a piece of rubber nobody looked at.</p>
+  <p><b>A fault that a component hides is worse than one that stops you.</b></p>
+  <p><b>Check them for cracked or crushed rubber, and check the nuts are tight.</b> It takes ten seconds. Almost nobody does it.</p>
+  <h3>The skeleton</h3>
+  <p><b>The block is the engine.</b> Everything else on it bolts to this.</p>
+  <p>It is one large casting. Inside it, where you cannot see any of it, are the bores the pistons run in, the bearings the crankshaft turns in, and a set of drilled passages carrying oil one way and coolant the other. You will meet all of that later. At sea none of it is your business, and none of it can be reached without lifting the engine out.</p>
+  <p>Bolted underneath is the <b>sump</b>. It is the tray the engine's oil lives in, and it comes back when we build the oil system. For now, all you need is its name and where it is.</p>
+  <p><b>What is your business is the outside.</b> Run your eye along the line where the sump meets the block. That is a joint, there is a gasket in it, and it is the lowest joint on the engine — sitting directly over the bilge you looked at two screens ago.</p>
+  <p>A stain under an engine almost always starts at a joint.</p>
+  <h3>What the examiner points at</h3>
+  <p><b>Now it is shut.</b> Three castings closed it up, and each has a name you will be asked for.</p>
+  <p>The <b>cylinder head</b> goes on the block. It closes the top of the cylinders and forms the space the fuel burns in. The valves and the injectors live inside it, and so do more coolant passages.</p>
+  <p>The <b>rocker cover</b> goes on the head. It is a lid. It holds in the oil that lubricates the valve gear, and the oil filler cap is screwed into it.</p>
+  <p>The <b>bell housing</b> closes the back of the block. The flywheel spins inside it, and the gearbox bolts onto its far face.</p>
+  <p>At the other end there is one more, and it is worth a name and nothing else. The <b>timing cover</b> closes the front of the engine. Behind it are the gears or the belt that keep the valve gear turning in step with the crankshaft. It is sealed, it is not a service item, and unlike the rocker cover you will never have it off at sea. If that cover is ever removed, the engine is in a workshop and somebody else has the spanner.</p>
+  <p><b>This is how the engine is examined.</b> The compartment is opened, and you are asked what things are. Not how they work — what they are called. <b>Bearers, mounts, sump, block, head, rocker cover, bell housing, timing cover.</b> Eight names, and you have now watched every one of them arrive or been shown where it is.</p>
+  <h3>Three joints, three gaskets</h3>
+  <p><b>Look at the engine from the side and you will see that it is a stack.</b></p>
+  <p>Sump, then block, then head, then rocker cover. <b>Three horizontal joints, and a gasket in every one.</b> They do not fail in the same way, and that is the useful part.</p>
+  <p><b>Sump to block.</b> Engine oil, and only engine oil. It is the lowest joint on the engine, so what comes out of it drips straight down and gathers in the bilge as a puddle. Clean oil, no water in it, and nothing wet on the sides of the engine.</p>
+  <p><b>Block to head — the head gasket, and the serious one.</b> Burning gas, coolant and oil all cross this joint, kept apart from one another by a single sheet of steel and fiber. When it goes, they mix. You get <b>white smoke</b> at the exhaust, <b>milky oil</b> on the dipstick, and a temperature gauge that climbs for no reason you can find on deck. It is the one failure on this list that ends the passage.</p>
+  <p><b>Head to rocker cover.</b> Oil again, but this one weeps instead of dripping. It runs down the side of the head, collects dust and dries there, so what you see is a dirty streak long before you ever see a drop — and the bilge below it stays dry.</p>
+  <p><b>So a leak tells you where it came from by two things: what it is, and where it lands.</b> Learn those three joints and you can read most of what an engine will ever tell you from the outside, without a tool in your hand. It works on every diesel you will ever meet.</p>
+  <h3>Read the leak</h3>
+  <p><b>You lift the engine box and find one of these. Work out which joint let go before you touch anything, and click the casting whose gasket it is.</b></p>
+  <h2 id="the-engine-phase-2-combustion">The engine · Phase 2 · Combustion</h2>
+  <h3>What is inside the block</h3>
+  <p><b>Now the block is open, and there is a machine inside it.</b></p>
+  <p>Four <b>pistons</b>, one above the other end of each <b>connecting rod</b>, and along the bottom the <b>crankshaft</b> they all turn.</p>
+  <p>A piston can only do one thing: go up and down. A propeller needs something that goes round. Everything in this picture exists to get from the first to the second, and the crankshaft is where it happens — its throws are offset from its center line, so a rod pushing straight down on one of them turns it, the way your leg turns a bicycle pedal.</p>
+  <p><b>Look at the four pistons and notice that they are not level.</b> Two are up and two are down. That is not an accident and it is not a fault. It is built into the shape of the crankshaft, and in a few screens it will turn out to be the reason a four-cylinder engine runs smoothly at all.</p>
+  <p>None of this is reachable at sea. You will never see it, never touch it, and never fix it on board. <b>You need it because everything you can reach only makes sense once you know what it is feeding.</b></p>
+  <h3>The chamber closes</h3>
+  <p><b>A cylinder is a sealed box with a moving floor.</b></p>
+  <p>The <b>liner</b> is the bore the piston runs in — a replaceable sleeve, not a hole in the casting. Around the piston, three rings press against it and seal the gap.</p>
+  <p>Above, in the head you bolted on two steps back on the build, are <b>two valves</b> — one to let air in, one to let the burnt gases out — and the <b>injector</b>, which is how fuel gets in.</p>
+  <p><b>Look at the top of that chamber, and count what is up there. Two valves, and an injector. That is all there is up there on this one. There is no spark plug, and there is no room for one.</b></p>
+  <p>A gasoline engine — <b>petrol</b>, which is the word your examiner will use — draws in a mixture of fuel and air, and needs a spark at the right instant to set it off. <b>A diesel does neither.</b> It takes in nothing but air, squeezes it until it is hot enough to light fuel on its own, and then sprays the fuel in. Nothing ignites it. It ignites.</p>
+  <p>That single difference explains most of what follows — why a diesel has no ignition key to switch off, why it is hard to start when it is cold, and why the injector is the part that decides everything.</p>
+  <h3>Air, and nothing else</h3>
+  <p><b>Stroke one. The inlet valve opens and the piston travels down, and the cylinder fills.</b></p>
+  <p><b>With air. Only air.</b> Not a drop of fuel comes in on this stroke. It arrives through an air filter, down the intake manifold you can see along this side, past the inlet valve, and that is the whole of it.</p>
+  <p><b>Stroke two. Both valves shut, and the piston comes back up.</b> Now the air has nowhere to go, and it gets squeezed into a space a small fraction of the one it filled. Squeeze a gas and it gets hot — hard. By the top of this stroke the air in there is hotter than an oven will ever go, and it got there with no flame anywhere near it.</p>
+  <p><b>That is the whole trick of a diesel, and it is done by now.</b> The fuel has not even arrived and the engine has already made the thing that will light it.</p>
+  <p><i>Two strokes, and neither of them has burned anything. What the engine has been doing all along is building its own match.</i></p>
+  <h3>It lights itself</h3>
+  <p><b>Stroke three, and it happens in about a thousandth of a second.</b></p>
+  <p>Near the top of the compression stroke, with the air at its hottest, the injector sprays a fine mist of diesel into it. The mist catches the instant it meets the air. The gases expand hard and shove the piston back down, and <b>that push is the only power this engine ever makes.</b></p>
+  <p><b>Nothing lit it.</b> No spark, no flame, no glow. The air was already hot enough, and the fuel did the rest by arriving. This is what <i>compression ignition</i> means, and it is why the whole engine is built heavy: to survive doing that, four times, every two turns, hour after hour.</p>
+  <p><b>Three of the four strokes take power out of the engine and only this one puts any in.</b> The engine coasts through the other three on what this one gave it.</p>
+  <p>And this is why timing matters more on a diesel than almost anything else. The injector does not decide <i>whether</i> the fuel burns. It decides <i>when</i>, and it decides it alone.</p>
+  <h3>Out, and twice round</h3>
+  <p><b>Stroke four. The exhaust valve opens, the piston comes back up, and it sweeps the burnt gas out.</b></p>
+  <p>It goes into the exhaust manifold — the branched casting down the side of the head — and from there it leaves the engine. On this engine it has one more job to do before it goes, and that is the next screen.</p>
+  <p><b>And now count what has happened.</b> Down, up, down, up. Four strokes, one for each half turn of the crankshaft. <b>So one complete cycle takes the crankshaft round twice, and every cylinder fires once in those two turns and no more.</b></p>
+  <p>That catches people out, because an engine at fifteen hundred revolutions a minute sounds like it is firing far more often than that. It is — but it has four cylinders, and each of them is doing this on its own schedule.</p>
+  <p>Turn the control all the way through and watch cylinder one. Bring it back to where it started drawing air in, and see how far you had to go.</p>
+  <h3>Four cylinders, never alone</h3>
+  <p><b>Everything so far has been one cylinder. Now look at all four.</b></p>
+  <p>The row along the bottom tells you what each one is doing right now. Turn the control and watch it. <b>No two of them are ever on the same stroke.</b></p>
+  <p>That is what the offset crankshaft was for. Cylinders 1 and 4 rise together while 2 and 3 fall, and the throws are arranged so that the four power strokes come round evenly: <b>one every half turn, in the order 1, 3, 4, 2.</b></p>
+  <p>Nobody chose that order out of a book. It is what the shape of that crankshaft makes happen, and it is why the engine pulls steadily instead of in four lurches.</p>
+  <p>Between the power strokes the engine is being pushed round by momentum, and the part that stores it is the <b>flywheel</b> — a heavy disc bolted to the back of the crankshaft, spinning inside the bell housing you closed the engine with in the last phase. You cannot see it yet. It arrives with the gearbox, at the end.</p>
+  <p><b>A single-cylinder diesel gives one push every two turns and shakes the boat doing it. Four cylinders give four, evenly spaced, and you can leave a mug of tea on the engine box.</b></p>
+  <h3>The gas does one more job</h3>
+  <p><b>The gas you just pushed out is still hot and still moving fast, and on this engine it is made to work on its way past.</b></p>
+  <p>It goes through a small turbine wheel and spins it — hard, tens of thousands of revolutions a minute. On the same shaft, in a separate housing, is a compressor wheel, and that one is in the intake side. So the exhaust gas leaving the engine drives a fan that pushes more air <i>into</i> the engine.</p>
+  <p><b>More air means more fuel can be burned in the same cylinder, and more fuel burned means more power out of the same engine.</b> That is the whole of it. <b>The four strokes do not change at all.</b> Same intake, same compression, same ignition, same exhaust — just more air in the cylinder each time round.</p>
+  <p>Larger engines cool that compressed air before it goes in, with a heat exchanger called an <b>intercooler</b>, because air that has been squeezed comes out hot and hot air is thinner. Cooler air is denser, and denser air is more of it. <b>This engine does not have one</b>, and plenty of boat engines do not.</p>
+  <p><b>What it costs you is one habit.</b> The turbo spins in a film of engine oil and it is still spinning when you shut down. Stop a hot turbocharged engine straight off full power and the oil sitting in it bakes. <b>Let it idle before you turn the fuel off, every time</b>, until it has run long enough to carry its own heat away — your engine's book will tell you how long, and it is always less time than a new turbocharger takes to fit.</p>
+  <h3>Cold, it needs help</h3>
+  <p><b>A diesel starts by squeezing air until it is hot. Everything about a cold engine works against that.</b></p>
+  <p>Cold metal takes the heat straight out of the air as it is compressed, so the air never quite gets hot enough, and the fuel goes in and does not catch. Add a worn liner letting a little of the squeeze escape past the rings, and a cold morning, and the engine turns over and over and does nothing.</p>
+  <p><b>Most engines carry heaters for exactly this.</b> They are called <b>glow plugs</b> — small electric elements screwed into each chamber. You hold the key at a preheat position for a few seconds, a light comes on, the chambers warm, and then you crank. They switch themselves off once it is running. <i>This model does not have them, but yours very probably does, and finding out which position of your key does it is worth doing before you need it.</i></p>
+  <p><b>And there is the other way, which is on this engine.</b> The lever on top is a <b>decompressor</b>. It holds the exhaust valves open, so the pistons cannot build any compression at all and the engine spins freely. With it lifted you can turn a diesel by hand — a crank handle, or a rope round the pulley — and no one can turn one against full compression.</p>
+  <p><b>You get it spinning, and then you drop the lever.</b> Compression comes back all at once against a crankshaft that is already moving, and it fires. It is how you start an engine with a flat battery, and it is worth knowing whether your engine has decompressors before the morning you need them.</p>
+  <p><b>And take this seriously, because it is the one thing in this course that can injure you.</b> When compression comes back, the engine can kick backwards before it settles into running, and it takes the handle with it. A starting handle that comes back has broken wrists and thumbs, and it does it faster than you can let go.</p>
+  <p><b>Grip the handle with your thumb alongside your fingers, never wrapped around it, so a kick throws your hand off instead of taking it with the handle. Stand where the handle cannot reach you if it lets go. And know how to get the handle clear before you start turning, not after.</b></p>
+  <p>It is also the quiet trick for bleeding fuel: lift them and the engine spins over easily while you push air out of the system, without asking the starter to fight compression the whole time.</p>
+  <h3>Read the symptom</h3>
+  <p><b>Three engines, three complaints. Read the symptom first — it is the symptom that tells you where to look.</b></p>
+  <h2 id="the-engine-phase-3-the-fuel">The engine · Phase 3 · The fuel</h2>
+  <h3>Clean, and dry</h3>
+  <p><b>Everything that goes wrong with a diesel's fuel goes wrong for one of two reasons: water in it, or air in it.</b> This screen is about the first one.</p>
+  <p>The <b>tank</b> is where it starts, and it is the one part of this circuit that is not on the engine at all. Diesel sits in it for months. Air above the fuel cools every night and condenses onto the walls, water runs down and settles under the diesel because it is heavier, and given warmth and time, things grow in the layer between the two. <b>That is what people mean by diesel bug.</b> Keeping the tank full leaves less room for air, and less air means less water. It is the cheapest maintenance on the boat.</p>
+  <p><b>The first thing the fuel meets is the primary filter, and it does two jobs.</b> It catches the big dirt, and it separates the water — which is what the clear bowl underneath is for. Water and heavy dirt drop out of the moving fuel and sit in the bottom of the bowl, where <b>you can see them</b>, and there is a plug under the bowl to let them out.</p>
+  <p><b>Look at that bowl every day.</b> It takes two seconds, and it is where you find out about a problem while it is still sitting in a jar instead of stopping the engine in a shipping lane.</p>
+  <h3>The pump that pulls</h3>
+  <p><b>Nothing so far moves on its own.</b> The tank does not feed the engine by gravity — on most boats it sits at or below it — and diesel does not climb. The <b>lift pump</b> is what pulls it up.</p>
+  <p>It sits on the side of the block and it is driven by the engine, and it does two things at once: it <b>sucks</b> fuel through the primary filter behind it, and it <b>pushes</b> fuel on towards the fine filter and the injection pump in front of it.</p>
+  <p><b>Hold that word — sucks.</b> Everything between the tank and this pump is under suction, not pressure. It matters more than it sounds, and in three screens it will explain something that catches out almost everyone.</p>
+  <p><b>And it has a lever on it that you can work by hand.</b> That is not decoration. With the engine stopped, that lever lets you move fuel through the circuit yourself — to fill it after a filter change, or after the tank has run dry. <b>It is the only part of the fuel system you will ever operate with your own hand, and it is the one that gets you home.</b></p>
+  <h3>Coarse, then fine</h3>
+  <p><b>There are two filters, and they are not the same filter twice.</b></p>
+  <p>The first one, back at the tank end, is the coarse one — big dirt and water, in a bowl you can see. <b>The second one is fine</b>, and it sits immediately before the injection pump. Paper, no window, nothing to look at. It catches what the first one let through.</p>
+  <p><b>Now look at what they are protecting.</b> The <b>injection pump</b> raises the fuel to a pressure high enough to force it through holes finer than a hair and break it into a mist: <b>a diesel does not light a stream, it lights a fog</b>, and everything about how well it burns starts there. It meters an exact shot to each injector at exactly the right moment in the cycle, and its working clearances are finer than a hair.</p>
+  <p><b>You do not touch it, ever.</b> It is sealed, it is workshop equipment, and there is nothing on it for you to adjust. What you <i>can</i> do for it is everything upstream: keep the tank full, drain the bowl, change the filters. <b>The whole obsession with clean fuel exists to protect this one part</b>, because a grain of grit here is not a cleaning job, it is a bill.</p>
+  <h3>And most of it comes back</h3>
+  <p><b>Only a fraction of the fuel that reaches the injectors is burned.</b></p>
+  <p>The rest goes back. There is a <b>return line</b> from the injectors and the injection pump that runs all the way to the tank, and on the way it does two useful things: it carries off the heat the fuel has picked up from a hot engine, and it carries off any air that has got into the system.</p>
+  <p><b>So the circuit is a loop, not a line.</b> Tank, filter, lift pump, fine filter, injection pump, injectors — and back to the tank.</p>
+  <p><b>And it can work against you.</b> The return line is thin, it is often old rubber, and it runs the length of the engine. <b>A leak in it does not drip fuel out — it lets air in</b>, because parts of the circuit are under suction. An engine that keeps stopping for no reason anyone can find, restarts fine, and then does it again, is very often a return line or a loose union somewhere quietly breathing air into the fuel.</p>
+  <h3>How you stop it, and how you cut it off</h3>
+  <p><b>A diesel has no ignition to switch off.</b> There is no spark to stop, and turning off electricity does not stop it — the engine you built in the last phase lights its own fuel, and it will go on doing it as long as fuel arrives.</p>
+  <p><b>You stop a diesel by cutting its fuel, and nothing else does it.</b> The <b>stop control</b> at the helm pulls a cable to the governor on the injection pump, the pump stops delivering, and the engine dies within a couple of turns. The other cable beside it is the throttle, which tells the same governor how much to deliver.</p>
+  <p><b>Never stop an engine with the battery isolator.</b> It does not stop it, and it can destroy the alternator — which is charging into a circuit you have just disconnected.</p>
+  <p><b>And there is a second one, which is not on the engine at all.</b> Somewhere between the tank and the primary filter there is a <b>fuel shut-off valve</b>. That is not for stopping the engine. <b>It is for fire, and for a burst fuel line.</b> A diesel fire is fed by the tank, and the tank will go on feeding it until somebody closes that valve.</p>
+  <p><b>Find yours before you need it, and find it in the dark.</b> The day it matters, the compartment will be full of smoke and you will not be reading labels.</p>
+  <h3>The other enemy is air</h3>
+  <p><b>A fuel circuit only works when it is completely full of liquid.</b></p>
+  <p>The injection pump is built to squeeze a liquid, and a liquid will not compress. <b>Air will.</b> Let air into the circuit and the pump spends its stroke squashing a bubble instead of pushing fuel, and the engine turns over and over and never fires. It is not broken. It is airlocked, and it will stay that way until somebody pushes the air out.</p>
+  <p><b>Air gets in four ways</b>, and you should know all four: you changed a filter and the housing filled with air; you ran the tank dry and the pump drew air instead of diesel; a union worked loose; or that thin return line is leaking somewhere on a circuit that is partly under suction.</p>
+  <p><b>Getting it out is called bleeding, and it goes in one direction only: from the tank end towards the engine.</b> You open a screw, push fuel through with the lift-pump lever until what comes out is fuel and not froth, and close it. Then you move on to the next one further downstream and do it again.</p>
+  <p><b>And here is the one nobody tells you.</b> That first stretch of circuit is under suction. <b>So you tighten the screw while you are still pumping, not after you stop</b> — because a loose screw with the lever at rest does not dribble fuel out, it draws air back in, and you have just undone the work.</p>
+  <h3>Do not just keep cranking</h3>
+  <p><b>You have bled it, and it still will not start, so you go on cranking. Stop.</b></p>
+  <p>The raw-water pump is driven by the engine, and it does not know or care whether the engine has fired. <b>Every turn of the starter pumps seawater into the exhaust</b>, the same as it would if the engine were running.</p>
+  <p><b>When the engine runs, that water is blown out of the back of the boat by the exhaust gases. When it does not, nothing blows it anywhere.</b> It fills the silencer, and then it keeps coming. Given enough cranking it backs up the exhaust pipe, reaches an open exhaust valve, and runs into a cylinder.</p>
+  <p><b>Water does not compress.</b> The next time that engine turns against a cylinder full of it, something bends — and it is usually a connecting rod. That is an engine out, not a morning lost.</p>
+  <p><i>You have not built the seawater circuit yet. That is on purpose: the worst thing that can happen to a fuel job comes from a system you do not know about, and this is where you meet it.</i></p>
+  <h3>Read the symptom</h3>
+  <p><b>Three complaints, and every one of them is fuel. Say what has happened.</b></p>
+
+  <p class="ir"><a href="../chapters/c31-p1a-the-engine.html">Open the interactive chapter &rarr;</a><span class="que">The same material with the chart, the drawings and the exercises.</span></p>
+  <p class="ir"><a href="index.html">All the reading notes &rarr;</a></p>
+
+</main>
+
+<footer>
+  <p class="name">Offshore Theory</p>
+  <p>Independent preparation. Not affiliated with or accredited by the RYA.</p>
+  <p><a href="../index.html">Back to Offshore Theory</a></p>
+</footer>
+
+<!-- Cloudflare Web Analytics -->
+<script type='module' src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "624bbb73949b40f0aae4dafec49ac1f6"}'></script>
+<!-- End Cloudflare Web Analytics -->
+</body>
+</html>

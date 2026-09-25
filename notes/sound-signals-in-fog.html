@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Sound signals in fog and in sight of each other</title>
+<link rel="icon" type="image/svg+xml" href="../assets/img/favicon.svg">
+<meta name="description" content="Short and prolonged blasts build every signal: identify a vessel in fog by what you hear, and give the manoeuvring signals used in sight of her.">
+<link rel="canonical" href="https://offshoretheory.com/notes/sound-signals-in-fog.html">
+
+<style>
+/* ---------------------------------------------------------------------------
+   Tipografias y paleta: las mismas declaraciones que index.html, copiadas tal
+   cual. Nada se carga de fuera del repositorio.
+   --------------------------------------------------------------------------- */
+@font-face{font-family:'IBM Plex Mono';font-style:normal;font-weight:400;font-display:swap;
+ src:url(../assets/fonts/IBMPlexMono-400-normal-latin.woff2) format('woff2');
+ unicode-range:U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD}
+@font-face{font-family:'IBM Plex Mono';font-style:normal;font-weight:400;font-display:swap;
+ src:url(../assets/fonts/IBMPlexMono-400-normal-latin-ext.woff2) format('woff2');
+ unicode-range:U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF}
+@font-face{font-family:'IBM Plex Sans';font-style:normal;font-weight:400 600;font-display:swap;
+ src:url(../assets/fonts/IBMPlexSans-400-normal-latin.woff2) format('woff2');
+ unicode-range:U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD}
+@font-face{font-family:'IBM Plex Sans';font-style:normal;font-weight:400 600;font-display:swap;
+ src:url(../assets/fonts/IBMPlexSans-400-normal-latin-ext.woff2) format('woff2');
+ unicode-range:U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF}
+@font-face{font-family:'Newsreader';font-style:normal;font-weight:500;font-display:swap;
+ src:url(../assets/fonts/Newsreader-500-normal-latin.woff2) format('woff2');
+ unicode-range:U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD}
+@font-face{font-family:'Newsreader';font-style:normal;font-weight:500;font-display:swap;
+ src:url(../assets/fonts/Newsreader-500-normal-latin-ext.woff2) format('woff2');
+ unicode-range:U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF}
+@font-face{font-family:'Gloock Logo';font-style:normal;font-weight:400;font-display:swap;
+ src:url(../assets/fonts/gloock-logo.woff2) format('woff2')}
+
+:root{
+  --night:#0E1116;
+  --night-2:#161B22;
+  --line:#46525F;
+  --ink:#E8EAED;
+  --ink-soft:#9BA6B2;
+  --dim:#8B96A2;
+  --faint:#79838F;
+
+  /* -- Los tres colores del curso. Nada de esto se repite suelto mas abajo. --
+     acento : --accent-graphic de balizamiento y luces. El ambar de los
+              elementos destacados. NO es --alarm (#B33A22), que es el rojo
+              de los avisos. En rules-of-the-road el mismo ambar es --ochre.
+     azul   : --water de balizamiento.
+     magenta: --magenta-soft de rules-of-the-road.                         */
+  --accent:#C97B1B;
+  --blue:#8FC3DA;
+  --magenta:#E86AA0;
+
+  /* Tinta sobre el ambar macizo del boton: 5,6:1 de contraste. */
+  --on-accent:#1A1206;
+
+  --line-top:#232B36;   /* filetes: bajo la barra y entre las columnas */
+
+  --col-hover:rgba(255,255,255,.03);  /* aclarado de columna al pasar el raton */
+  --card-link:#C3CBD4;
+  --f-display:"Newsreader",ui-serif,Georgia,"Palatino Linotype","Times New Roman",serif;
+  --f-ui:"IBM Plex Sans",system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;
+  --f-mono:"IBM Plex Mono",ui-monospace,"SF Mono","Segoe UI Mono",Menlo,Consolas,monospace;
+}
+
+*{box-sizing:border-box}
+html,body{margin:0;padding:0}
+body{background:var(--night);color:var(--ink);font:15px/1.6 var(--f-ui);
+ -webkit-font-smoothing:antialiased}
+
+/* --- barra del logo, identica a la de la portada -------------------------- */
+/* Barra superior, pegada al borde de arriba. */
+.topbar{margin:0;padding-top:16px;padding-bottom:16px;
+ border-bottom:0.5px solid var(--line-top)}
+/* Su relleno lateral, el mismo corto que en la portada. */
+.topbar{padding-left:clamp(20px,2vw,34px);padding-right:clamp(20px,2vw,34px)}
+
+/* Logo: simbolo ambar y nombre en claro. El ambar solo en el simbolo. */
+.logo{display:inline-flex;align-items:center;gap:14px;text-decoration:none}
+.logo:hover,.logo:focus-visible{filter:brightness(1.15)}
+.logo svg{display:block;flex:none}
+.logo__name{font-family:"Gloock Logo",serif;font-size:clamp(18px,1.6vw,26px);
+ color:var(--ink);letter-spacing:.3px;line-height:1.1}
+
+/* --- el texto ------------------------------------------------------------- */
+.doc{max-width:680px;margin:0 auto;padding:72px clamp(24px,4vw,40px) 96px}
+
+.doc h1{font-family:var(--f-display);font-weight:500;font-size:clamp(30px,3.4vw,44px);
+ line-height:1.15;letter-spacing:-.01em;color:var(--ink);margin:0 0 10px}
+.doc .updated{font-family:var(--f-mono);font-size:12px;color:var(--dim);margin:0 0 48px}
+
+.doc h2{font-family:var(--f-display);font-weight:500;font-size:clamp(20px,1.9vw,26px);
+ line-height:1.25;color:var(--ink);margin:44px 0 14px}
+
+.doc p{font-size:15px;line-height:1.7;color:var(--ink-soft);margin:0 0 18px}
+.doc .who{color:var(--ink)}
+
+.doc a{color:var(--accent);text-decoration:none}
+.doc a:hover,.doc a:focus-visible{text-decoration:underline}
+
+/* --- BLOQUE 3 · pie -------------------------------------------------------- */
+footer{background:var(--night);padding:44px 64px;border-top:0.5px solid rgba(70,82,95,.4)}
+footer p{margin:0;font-size:12px;line-height:1.7;color:var(--faint)}
+footer .name{font-family:var(--f-mono);letter-spacing:.1em;color:var(--dim)}
+footer a{color:var(--dim);text-decoration:none}
+footer a:hover,footer a:focus-visible{color:var(--ink-soft)}
+
+/* --- MOVIL ---------------------------------------------------------------- */
+@media (max-width:800px){
+  .topbar{padding-left:24px;padding-right:24px}
+  .logo svg{width:28px;height:28px}
+  .logo__name{font-size:18px}
+  .doc{padding:48px 24px 64px}
+  .doc h2{margin-top:36px}
+  footer{padding:36px 24px}
+}
+/* --- lo que anaden las notas, con los tokens de arriba y ningun color nuevo --- */
+.doc p.lede{font-family:var(--f-display);font-size:clamp(17px,1.6vw,21px);
+ line-height:1.5;color:var(--ink);margin:0 0 30px}
+.doc p b{color:var(--ink);font-weight:600}
+.doc p i{color:var(--dim)}
+.doc .ir{margin:0 0 6px;padding:15px 18px;background:var(--night-2);
+ border:0.5px solid var(--line-top);border-left:2px solid var(--accent)}
+.doc .ir a{font-family:var(--f-mono);font-size:13px;letter-spacing:.02em}
+.doc .ir .que{display:block;margin-top:6px;font-size:13px;color:var(--faint)}
+.doc h2{scroll-margin-top:24px}
+
+/* --- y lo que anade la portada de las notas --- */
+.doc h3{font-family:var(--f-ui);font-weight:600;font-size:15px;letter-spacing:.01em;
+ color:var(--ink);margin:30px 0 4px}
+.doc p.sub{font-size:14px;color:var(--faint);margin:0 0 14px}
+.doc ul.notas{list-style:none;margin:0;padding:0}
+.doc ul.notas li{padding:11px 0;border-top:0.5px solid var(--line-top)}
+.doc ul.notas li:last-child{border-bottom:0.5px solid var(--line-top)}
+.doc ul.notas a{font-weight:600}
+.doc ul.notas span{display:block;margin-top:4px;font-size:14px;line-height:1.55;
+ color:var(--ink-soft)}
+</style>
+</head>
+
+<body>
+
+<div class="topbar">
+  <a class="logo" href="../index.html">
+    <svg viewBox="0 0 40 40" width="34" height="34" aria-hidden="true">
+      <path d="M17 17 L25 19 L20 25 Z" fill="var(--accent)" fill-opacity="0.5"/>
+      <line x1="7" y1="14.5" x2="35" y2="21.5" stroke="var(--accent)"
+            stroke-width="1.4" stroke-linecap="round"/>
+      <line x1="29" y1="14" x2="16" y2="30" stroke="var(--accent)"
+            stroke-width="1.4" stroke-linecap="round"/>
+      <line x1="21.5" y1="29" x2="15.5" y2="13" stroke="var(--accent)"
+            stroke-width="1.4" stroke-linecap="round"/>
+    </svg>
+    <span class="logo__name">Offshore Theory</span>
+  </a>
+</div>
+
+<main class="doc">
+
+  <h1>Lights and shapes of vessels — When you can't see her</h1>
+  <p class="updated">Reading notes &middot; Lights and shapes of vessels</p>
+  <p class="lede">The sound signals. Short and prolonged, what she carries by length, and the fog signal of every vessel in part 2 — seven signals for ten vessels, because seven share one.</p>
+  <p class="ir"><a href="../chapters/luces-p4-when-you-cannot-see-her.html">Open the interactive chapter &rarr;</a><span class="que">The same material with the chart, the drawings and the exercises.</span></p>
+
+  <h2 id="when-you-can-t-see-her-topic-1">When you can't see her · topic 1</h2>
+  <h3>Two blasts, and everything is built from them</h3>
+  <p>Sound is the half of the rules that people skip, and it is the half that works when nothing else does. <b>In fog you have no lights, no shapes and no aspect.</b> You have a noise and a bearing.</p>
+  <p>And the vocabulary is <b>two words long</b>. A <b>short blast</b> is about a second. A <b>prolonged blast</b> is four to six — call it five. There is no third length, and nothing in the rules asks you to judge anything finer.</p>
+  <p>Look at the strips rather than the numbers. <b>A prolonged blast is five times a short one</b>, and at sea that difference is unmistakable even when you cannot tell where it is coming from. Written down they are two phrases; drawn to scale they are two different things.</p>
+  <p><b>Press a strip and you will hear it.</b> The sound is generated from the same numbers the strip is drawn from — so it cannot drift away from the picture. It plays the pattern only, never the two-minute wait.</p>
+  <p>But <b>reading it is still the skill</b>. An examiner will ask you «what does one prolonged and two short mean?» in words, and a lookout reports it in words. The sound is here to fix the length of a prolonged blast in your ear, not to answer anything for you.</p>
+  <h3>And then two minutes of nothing</h3>
+  <p>Every other strip in this part is drawn <b>eighteen seconds wide</b>, because that is what it takes to see the pattern. This one is drawn <b>two minutes wide</b>, and it is the only one.</p>
+  <p>The reason is that the pattern and the interval are different lessons. <b>The pattern is a shape; the interval is a number.</b> A shape you draw; a number you say — except once, when the number is so extreme that seeing it is the point.</p>
+  <p><b>An ordinary vessel making way is audible for four per cent of her cycle.</b> The longest signal in the book — a vessel aground — manages twenty-eight, and only because she rings every minute instead of every two. For the rest of the time there is nothing at all, and the ship is still there.</p>
+  <p><b>And the silence is not slack time — it is what the interval is for.</b> In restricted visibility you keep your lookout by sight and by hearing , and you can hear nothing at all while your own whistle is going. That gap is where the others are, tapping away in the fog. Two minutes is not a limit on how often she may sound. It is how long everybody agrees to be quiet so that everybody can listen.</p>
+  <p>That is what fog is: a very small amount of information, arriving late, and then a long silence in which nothing has changed except the range.</p>
+  <h2 id="when-you-can-t-see-her-topic-2">When you can't see her · topic 2</h2>
+  <h3>One prolonged, or two</h3>
+  <p>Two prolonged blasts instead of one, and she has stopped. That is the whole difference, and it is missed constantly — because both vessels are <b>under way</b>, and only one of them is moving.</p>
+  <p><b>You met this distinction in part 1</b>, drawn in lights: sidelights and a sternlight come on when she moves through the water and go out when she stops. In fog you cannot see any of that. What you get instead is <b>one blast or two</b>.</p>
+  <p>And the third strip is there to stop the obvious mistake. <b>One prolonged and two short is not «two blasts»</b> — the two after it are short , and that changes the rule and the vessel. Count the prolonged ones first, and only then count what follows.</p>
+  <h2 id="when-you-can-t-see-her-topic-3">When you can't see her · topic 3</h2>
+  <h3>The ones you give in sight of each other</h3>
+  <p>These are not fog signals. <b>They are given in sight of one another</b>, and they say what you are doing as you do it — not what you intend and not what you would like.</p>
+  <p><b>One, two, three: starboard, port, astern.</b> They are the whole of Rule 34(a) and they take ten seconds to learn.</p>
+  <p><b>And here is where the two halves of this part collide.</b> Three short blasts is Rule 34: she is going astern, and you can see her. One prolonged and three short is Rule 35(e): a vessel under tow, in fog, and you can see nothing at all. Both are &laquo;three short&raquo; to anyone counting carelessly, and they are different rules in different weather. <b>Count the prolonged one first — it is the thing that tells you which world you are in.</b> A prolonged blast in front of them and you are in fog, reading Rule 35. None, and you can see her, and this is Rule 34.</p>
+  <p><b>Five is not more of the same.</b> Rule 34(d) is the only signal in the book that is about the other vessel : it means <b>I cannot read what you are doing, or I do not believe it is enough</b>. If you hear it in a crossing situation, it is meant for you and you are the one who has to act.</p>
+  <p><b>And here this module stops.</b> What a blast means is this module's job and you now have all of it. When you are obliged to give one — and who gives way to whom — is Rule 34's other half, and that lives in «The vessel, all round».</p>
+  <h3>What the whole module gave you</h3>
+  <p>That is the whole of Rules 20 to 37, in four parts. <b>You can name any vessel in the collision rules from her lights, from her shapes, from any bearing, and from a noise in fog.</b></p>
+  <p>It is worth saying what that is not. <b>It is not seamanship yet.</b> Knowing that one prolonged and two short means a vessel who cannot get out of your way is the easy half; deciding what you are going to do about her, at night, with a tide under you , is the other one.</p>
+  <p><b>That is «The vessel, all round»</b> — the steering and sailing rules, who gives way, and when. Every signal you have learned here has a moment attached to it, and the moments live there.</p>
+  <p>You now know what she is saying. The next module is about answering her.</p>
+
+  <p class="ir"><a href="../chapters/luces-p4-when-you-cannot-see-her.html">Open the interactive chapter &rarr;</a><span class="que">The same material with the chart, the drawings and the exercises.</span></p>
+  <p class="ir"><a href="index.html">All the reading notes &rarr;</a></p>
+
+</main>
+
+<footer>
+  <p class="name">Offshore Theory</p>
+  <p>Independent preparation. Not affiliated with or accredited by the RYA.</p>
+  <p><a href="../index.html">Back to Offshore Theory</a></p>
+</footer>
+
+<!-- Cloudflare Web Analytics -->
+<script type='module' src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "624bbb73949b40f0aae4dafec49ac1f6"}'></script>
+<!-- End Cloudflare Web Analytics -->
+</body>
+</html>

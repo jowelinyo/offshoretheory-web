@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Tidal streams and the estimated position</title>
+<link rel="icon" type="image/svg+xml" href="../assets/img/favicon.svg">
+<meta name="description" content="The log cannot feel the stream. Draw one hour of it, apply it to your reckoning to get an estimated position, and measure what ignoring it costs.">
+<link rel="canonical" href="https://offshoretheory.com/notes/tidal-streams-and-the-estimated-position.html">
+
+<style>
+/* ---------------------------------------------------------------------------
+   Tipografias y paleta: las mismas declaraciones que index.html, copiadas tal
+   cual. Nada se carga de fuera del repositorio.
+   --------------------------------------------------------------------------- */
+@font-face{font-family:'IBM Plex Mono';font-style:normal;font-weight:400;font-display:swap;
+ src:url(../assets/fonts/IBMPlexMono-400-normal-latin.woff2) format('woff2');
+ unicode-range:U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD}
+@font-face{font-family:'IBM Plex Mono';font-style:normal;font-weight:400;font-display:swap;
+ src:url(../assets/fonts/IBMPlexMono-400-normal-latin-ext.woff2) format('woff2');
+ unicode-range:U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF}
+@font-face{font-family:'IBM Plex Sans';font-style:normal;font-weight:400 600;font-display:swap;
+ src:url(../assets/fonts/IBMPlexSans-400-normal-latin.woff2) format('woff2');
+ unicode-range:U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD}
+@font-face{font-family:'IBM Plex Sans';font-style:normal;font-weight:400 600;font-display:swap;
+ src:url(../assets/fonts/IBMPlexSans-400-normal-latin-ext.woff2) format('woff2');
+ unicode-range:U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF}
+@font-face{font-family:'Newsreader';font-style:normal;font-weight:500;font-display:swap;
+ src:url(../assets/fonts/Newsreader-500-normal-latin.woff2) format('woff2');
+ unicode-range:U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD}
+@font-face{font-family:'Newsreader';font-style:normal;font-weight:500;font-display:swap;
+ src:url(../assets/fonts/Newsreader-500-normal-latin-ext.woff2) format('woff2');
+ unicode-range:U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF}
+@font-face{font-family:'Gloock Logo';font-style:normal;font-weight:400;font-display:swap;
+ src:url(../assets/fonts/gloock-logo.woff2) format('woff2')}
+
+:root{
+  --night:#0E1116;
+  --night-2:#161B22;
+  --line:#46525F;
+  --ink:#E8EAED;
+  --ink-soft:#9BA6B2;
+  --dim:#8B96A2;
+  --faint:#79838F;
+
+  /* -- Los tres colores del curso. Nada de esto se repite suelto mas abajo. --
+     acento : --accent-graphic de balizamiento y luces. El ambar de los
+              elementos destacados. NO es --alarm (#B33A22), que es el rojo
+              de los avisos. En rules-of-the-road el mismo ambar es --ochre.
+     azul   : --water de balizamiento.
+     magenta: --magenta-soft de rules-of-the-road.                         */
+  --accent:#C97B1B;
+  --blue:#8FC3DA;
+  --magenta:#E86AA0;
+
+  /* Tinta sobre el ambar macizo del boton: 5,6:1 de contraste. */
+  --on-accent:#1A1206;
+
+  --line-top:#232B36;   /* filetes: bajo la barra y entre las columnas */
+
+  --col-hover:rgba(255,255,255,.03);  /* aclarado de columna al pasar el raton */
+  --card-link:#C3CBD4;
+  --f-display:"Newsreader",ui-serif,Georgia,"Palatino Linotype","Times New Roman",serif;
+  --f-ui:"IBM Plex Sans",system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;
+  --f-mono:"IBM Plex Mono",ui-monospace,"SF Mono","Segoe UI Mono",Menlo,Consolas,monospace;
+}
+
+*{box-sizing:border-box}
+html,body{margin:0;padding:0}
+body{background:var(--night);color:var(--ink);font:15px/1.6 var(--f-ui);
+ -webkit-font-smoothing:antialiased}
+
+/* --- barra del logo, identica a la de la portada -------------------------- */
+/* Barra superior, pegada al borde de arriba. */
+.topbar{margin:0;padding-top:16px;padding-bottom:16px;
+ border-bottom:0.5px solid var(--line-top)}
+/* Su relleno lateral, el mismo corto que en la portada. */
+.topbar{padding-left:clamp(20px,2vw,34px);padding-right:clamp(20px,2vw,34px)}
+
+/* Logo: simbolo ambar y nombre en claro. El ambar solo en el simbolo. */
+.logo{display:inline-flex;align-items:center;gap:14px;text-decoration:none}
+.logo:hover,.logo:focus-visible{filter:brightness(1.15)}
+.logo svg{display:block;flex:none}
+.logo__name{font-family:"Gloock Logo",serif;font-size:clamp(18px,1.6vw,26px);
+ color:var(--ink);letter-spacing:.3px;line-height:1.1}
+
+/* --- el texto ------------------------------------------------------------- */
+.doc{max-width:680px;margin:0 auto;padding:72px clamp(24px,4vw,40px) 96px}
+
+.doc h1{font-family:var(--f-display);font-weight:500;font-size:clamp(30px,3.4vw,44px);
+ line-height:1.15;letter-spacing:-.01em;color:var(--ink);margin:0 0 10px}
+.doc .updated{font-family:var(--f-mono);font-size:12px;color:var(--dim);margin:0 0 48px}
+
+.doc h2{font-family:var(--f-display);font-weight:500;font-size:clamp(20px,1.9vw,26px);
+ line-height:1.25;color:var(--ink);margin:44px 0 14px}
+
+.doc p{font-size:15px;line-height:1.7;color:var(--ink-soft);margin:0 0 18px}
+.doc .who{color:var(--ink)}
+
+.doc a{color:var(--accent);text-decoration:none}
+.doc a:hover,.doc a:focus-visible{text-decoration:underline}
+
+/* --- BLOQUE 3 · pie -------------------------------------------------------- */
+footer{background:var(--night);padding:44px 64px;border-top:0.5px solid rgba(70,82,95,.4)}
+footer p{margin:0;font-size:12px;line-height:1.7;color:var(--faint)}
+footer .name{font-family:var(--f-mono);letter-spacing:.1em;color:var(--dim)}
+footer a{color:var(--dim);text-decoration:none}
+footer a:hover,footer a:focus-visible{color:var(--ink-soft)}
+
+/* --- MOVIL ---------------------------------------------------------------- */
+@media (max-width:800px){
+  .topbar{padding-left:24px;padding-right:24px}
+  .logo svg{width:28px;height:28px}
+  .logo__name{font-size:18px}
+  .doc{padding:48px 24px 64px}
+  .doc h2{margin-top:36px}
+  footer{padding:36px 24px}
+}
+/* --- lo que anaden las notas, con los tokens de arriba y ningun color nuevo --- */
+.doc p.lede{font-family:var(--f-display);font-size:clamp(17px,1.6vw,21px);
+ line-height:1.5;color:var(--ink);margin:0 0 30px}
+.doc p b{color:var(--ink);font-weight:600}
+.doc p i{color:var(--dim)}
+.doc .ir{margin:0 0 6px;padding:15px 18px;background:var(--night-2);
+ border:0.5px solid var(--line-top);border-left:2px solid var(--accent)}
+.doc .ir a{font-family:var(--f-mono);font-size:13px;letter-spacing:.02em}
+.doc .ir .que{display:block;margin-top:6px;font-size:13px;color:var(--faint)}
+.doc h2{scroll-margin-top:24px}
+
+/* --- y lo que anade la portada de las notas --- */
+.doc h3{font-family:var(--f-ui);font-weight:600;font-size:15px;letter-spacing:.01em;
+ color:var(--ink);margin:30px 0 4px}
+.doc p.sub{font-size:14px;color:var(--faint);margin:0 0 14px}
+.doc ul.notas{list-style:none;margin:0;padding:0}
+.doc ul.notas li{padding:11px 0;border-top:0.5px solid var(--line-top)}
+.doc ul.notas li:last-child{border-bottom:0.5px solid var(--line-top)}
+.doc ul.notas a{font-weight:600}
+.doc ul.notas span{display:block;margin-top:4px;font-size:14px;line-height:1.55;
+ color:var(--ink-soft)}
+</style>
+</head>
+
+<body>
+
+<div class="topbar">
+  <a class="logo" href="../index.html">
+    <svg viewBox="0 0 40 40" width="34" height="34" aria-hidden="true">
+      <path d="M17 17 L25 19 L20 25 Z" fill="var(--accent)" fill-opacity="0.5"/>
+      <line x1="7" y1="14.5" x2="35" y2="21.5" stroke="var(--accent)"
+            stroke-width="1.4" stroke-linecap="round"/>
+      <line x1="29" y1="14" x2="16" y2="30" stroke="var(--accent)"
+            stroke-width="1.4" stroke-linecap="round"/>
+      <line x1="21.5" y1="29" x2="15.5" y2="13" stroke="var(--accent)"
+            stroke-width="1.4" stroke-linecap="round"/>
+    </svg>
+    <span class="logo__name">Offshore Theory</span>
+  </a>
+</div>
+
+<main class="doc">
+
+  <h1>Module 05 · What pushes you</h1>
+  <p class="updated">Reading notes &middot; Module 05 &middot; Where you're going</p>
+  <p class="lede">The mark the last module left on the chart, and the first of the two things that move it: the water itself.</p>
+  <p class="ir"><a href="../chapters/m05-p1-lo-que-empuja.html">Open the interactive chapter &rarr;</a><span class="que">The same material with the chart, the drawings and the exercises.</span></p>
+
+  <h2 id="what-the-water-is-doing">What the water is doing</h2>
+  <h3>The mark you left in the fog</h3>
+  <p>This is the afternoon you finished the last module with. A fix at <b>1449</b>, three legs steered and logged, and three marks: <b>1519</b>, <b>1543</b> and <b>1607</b>.</p>
+  <p>Every one of them is drawn correctly. The course was steered, the log was read, the distance came off the scale. <b>There is nothing wrong on this chart.</b></p>
+  <p>And that module told you, in as many words, that the last of those marks <b>is not where you are</b>. It named the two things that move it, and said they are taught here.</p>
+  <p><b>This is the first of the two, and it is the water itself.</b></p>
+  <h3>The log cannot feel it</h3>
+  <p>A tidal stream is not a current running past your hull. <b>It is the whole body of water moving</b>, and you are floating in it — the way a leaf on a river goes downstream without swimming.</p>
+  <p><b>Which is why the log cannot feel it.</b> The log measures water going past the boat, and the water is going with you. An hour of stream leaves no trace on it at all.</p>
+  <p><b>And it is not the tide you have already learned.</b> The tide says <b>how much water</b> there is under you; the stream says <b>where that water is going</b>. They come from the same thing and they are not the same question — and the sum that uses one never uses the other.</p>
+  <h3>One hour of stream, drawn</h3>
+  <p>A stream is given as two numbers, and the first one catches everybody. <b>Set is the direction the water is going TO.</b> Not where it comes from. <i>A wind is named for where it comes from; a stream is named for where it goes.</i> They are opposite conventions, and mixing them puts you exactly twice as far wrong as doing nothing.</p>
+  <p><b>Drift is how far it runs in one hour.</b> So a stream of <b>one knot</b> carries the water <b>one mile</b>, which you can take off the latitude scale with the dividers you have been using since module 02 .</p>
+  <p>Here it is drawn from the <b>1519</b> mark: <b>180 at 1.0 knots</b>, one hour of it. <b>Three arrowheads</b>, and that is not decoration — one is the <b>water track</b>, the course through the water that module 03 drew; two is the <b>ground track</b>, where she actually goes over the ground; and <b>three is always the water itself</b>.</p>
+  <h2 id="from-reckoning-to-estimated-position">From reckoning to estimated position</h2>
+  <h3>Where the stream has taken you</h3>
+  <p>You have a reckoning, and you have a stream. <b>The correction is one line.</b> From the far end of the water track you have drawn — the mark the log made — you run the stream's vector, and where it ends is where you think you are. <b>That is the estimated position: the EP.</b></p>
+  <p><b>Two things make it right, and both are easy to get wrong.</b></p>
+  <p><b>From the end of the reckoning, not from the fix.</b> The fix was true at the time it was taken and it has been getting older ever since. The stream is applied to where the reckoning has got to — the far end of the line.</p>
+  <p><b>The vector of the time you have run, not of an hour.</b> Drift is miles per hour. Half an hour of stream is half the vector; twenty-four minutes is four tenths of it. <i>This is where one knot, one mile starts to pay.</i></p>
+  <p><b>And here the symbols close.</b> Module 03 drew the water track with <b>one arrowhead</b>. Now: <b>two arrowheads is the ground track</b>, <b>three is the water itself</b>, and <b>an estimated position goes in a triangle</b> — the way an observed fix goes in a circle. <i>One, two, three and a triangle: four marks, and a chart anyone can read at a glance.</i></p>
+  <h3>Applied to the afternoon, step by step</h3>
+  <p><b>The first leg of that afternoon.</b> Out of the <b>1449</b> fix on <b>300</b>, 2.5 M through the water, 30 minutes at 5.00 knots, and the mark at the far end is <b>DR 1519</b>. <b>Nothing here gets redrawn.</b> The reckoning is finished; what follows is applied to its far end.</p>
+  <p><b>The atlas gives 180 at 1.0 knots for that hour</b> — and the leg took <b>30 minutes</b>, so what you apply is <b>half of it</b>: <b>0.50 M</b> off the latitude scale, which is <b>926 m</b> on the ground. <b>Three arrowheads</b>, run from the <b>1519</b> mark. <i>A whole hour of drift laid on a half-hour leg puts you exactly as far out as doing nothing at all — only on the other side.</i></p>
+  <p><b>The far end of that vector is the EP</b>, and it goes in a <b>triangle</b>. Join the <b>1449</b> fix to it and you have the fourth symbol: <b>two arrowheads — the ground track</b>, <b>289</b> and <b>2.29 M</b>, where the water track was <b>300</b> and <b>2.50 M</b>. You steered 300 and you went 289; you sailed 2.50 miles and you made good 2.29. <i>What you have moved is not the boat. It is where you think the boat is.</i></p>
+  <h2 id="what-it-costs-to-ignore-it">What it costs to ignore it</h2>
+  <h3>The afternoon, both ways</h3>
+  <p>Here is that afternoon twice. <b>The dashed, quieter one is what you brought from module 03 </b> — course steered, log read, nothing applied. <b>The solid one is the same afternoon with the stream put in</b>, leg by leg: each leg run from the estimated position the leg before it ended at, and not from the dry mark.</p>
+  <p><b>The water ran 1.30 miles that afternoon.</b> One knot for 78 minutes, and that is a real distance — <b>2408 m</b> of water went past the ground under you.</p>
+  <p><b>And the two 1607 marks are 588 m apart. Not 2408.</b> <b>0.32 of a mile</b>, bearing <b>039</b> from the reckoning to the EP.</p>
+  <p><b>Because the stream does not push in a straight line for an hour and a quarter.</b> It turns — the atlas gives it a new direction every hour, and you are crossing it while it does. Laid nose to tail, the three vectors work against each other, and about <b>76 % of what the water ran cancels out</b>.</p>
+  <p><b>Which is not a reason to skip the sum — it is the reason to do it.</b> You cannot know how much cancels until you have drawn all three. And 588 m is not nothing: in fog it is the difference between the channel and the ground beside it. <b>The reckoning was never wrong. It was just never the whole answer.</b></p>
+  <h3>What you can do now, and what still pushes you</h3>
+  <p><b>What you can do now, that you could not at the start of this part.</b> Read a set and a drift and know which way the water is going. Lay off the part of an hour you have actually run, off the same latitude scale you have used since module 02 . Run it from the far end of the reckoning and put the answer in a <b>triangle</b>. And read the line from the fix to that triangle for what it is: <b>the ground track, two arrowheads</b>.</p>
+  <p><b>One honest thing about all of it: every stream in this part was handed to you in the words of the question.</b> <b>The stream will come from Tidal streams — later in the course.</b> That is where the diamonds and the tidal stream atlas are taught.</p>
+  <p><b>And two things still move the boat that this part has not taught.</b></p>
+  <p><b>The wind pushes the hull sideways, and the log cannot feel that either.</b> It is called <b>leeway</b>, it is the second of the two, and it is <b>part 2</b> of this module.</p>
+  <p><b>And the whole question turns round.</b> This part asked <i>where has the water taken me</i>. The one that matters when you are going somewhere is the other way up: <i>what course do I steer so that the water lands me there</i>. That is <b>part 3</b>. <b>Both are named here and neither is taught here</b> — the same way module 03 ended by naming this one.</p>
+
+  <p class="ir"><a href="../chapters/m05-p1-lo-que-empuja.html">Open the interactive chapter &rarr;</a><span class="que">The same material with the chart, the drawings and the exercises.</span></p>
+  <p class="ir"><a href="index.html">All the reading notes &rarr;</a></p>
+
+</main>
+
+<footer>
+  <p class="name">Offshore Theory</p>
+  <p>Independent preparation. Not affiliated with or accredited by the RYA.</p>
+  <p><a href="../index.html">Back to Offshore Theory</a></p>
+</footer>
+
+<!-- Cloudflare Web Analytics -->
+<script type='module' src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "624bbb73949b40f0aae4dafec49ac1f6"}'></script>
+<!-- End Cloudflare Web Analytics -->
+</body>
+</html>

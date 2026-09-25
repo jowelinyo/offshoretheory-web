@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Which side to pass a buoy, and why it depends</title>
+<link rel="icon" type="image/svg+xml" href="../assets/img/favicon.svg">
+<meta name="description" content="Decide which side of each mark to pass: what a cardinal actually tells you, which way the channel runs, where it splits, and why region B reverses the red.">
+<link rel="canonical" href="https://offshoretheory.com/notes/which-side-to-pass-a-buoy.html">
+
+<style>
+/* ---------------------------------------------------------------------------
+   Tipografias y paleta: las mismas declaraciones que index.html, copiadas tal
+   cual. Nada se carga de fuera del repositorio.
+   --------------------------------------------------------------------------- */
+@font-face{font-family:'IBM Plex Mono';font-style:normal;font-weight:400;font-display:swap;
+ src:url(../assets/fonts/IBMPlexMono-400-normal-latin.woff2) format('woff2');
+ unicode-range:U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD}
+@font-face{font-family:'IBM Plex Mono';font-style:normal;font-weight:400;font-display:swap;
+ src:url(../assets/fonts/IBMPlexMono-400-normal-latin-ext.woff2) format('woff2');
+ unicode-range:U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF}
+@font-face{font-family:'IBM Plex Sans';font-style:normal;font-weight:400 600;font-display:swap;
+ src:url(../assets/fonts/IBMPlexSans-400-normal-latin.woff2) format('woff2');
+ unicode-range:U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD}
+@font-face{font-family:'IBM Plex Sans';font-style:normal;font-weight:400 600;font-display:swap;
+ src:url(../assets/fonts/IBMPlexSans-400-normal-latin-ext.woff2) format('woff2');
+ unicode-range:U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF}
+@font-face{font-family:'Newsreader';font-style:normal;font-weight:500;font-display:swap;
+ src:url(../assets/fonts/Newsreader-500-normal-latin.woff2) format('woff2');
+ unicode-range:U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD}
+@font-face{font-family:'Newsreader';font-style:normal;font-weight:500;font-display:swap;
+ src:url(../assets/fonts/Newsreader-500-normal-latin-ext.woff2) format('woff2');
+ unicode-range:U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF}
+@font-face{font-family:'Gloock Logo';font-style:normal;font-weight:400;font-display:swap;
+ src:url(../assets/fonts/gloock-logo.woff2) format('woff2')}
+
+:root{
+  --night:#0E1116;
+  --night-2:#161B22;
+  --line:#46525F;
+  --ink:#E8EAED;
+  --ink-soft:#9BA6B2;
+  --dim:#8B96A2;
+  --faint:#79838F;
+
+  /* -- Los tres colores del curso. Nada de esto se repite suelto mas abajo. --
+     acento : --accent-graphic de balizamiento y luces. El ambar de los
+              elementos destacados. NO es --alarm (#B33A22), que es el rojo
+              de los avisos. En rules-of-the-road el mismo ambar es --ochre.
+     azul   : --water de balizamiento.
+     magenta: --magenta-soft de rules-of-the-road.                         */
+  --accent:#C97B1B;
+  --blue:#8FC3DA;
+  --magenta:#E86AA0;
+
+  /* Tinta sobre el ambar macizo del boton: 5,6:1 de contraste. */
+  --on-accent:#1A1206;
+
+  --line-top:#232B36;   /* filetes: bajo la barra y entre las columnas */
+
+  --col-hover:rgba(255,255,255,.03);  /* aclarado de columna al pasar el raton */
+  --card-link:#C3CBD4;
+  --f-display:"Newsreader",ui-serif,Georgia,"Palatino Linotype","Times New Roman",serif;
+  --f-ui:"IBM Plex Sans",system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;
+  --f-mono:"IBM Plex Mono",ui-monospace,"SF Mono","Segoe UI Mono",Menlo,Consolas,monospace;
+}
+
+*{box-sizing:border-box}
+html,body{margin:0;padding:0}
+body{background:var(--night);color:var(--ink);font:15px/1.6 var(--f-ui);
+ -webkit-font-smoothing:antialiased}
+
+/* --- barra del logo, identica a la de la portada -------------------------- */
+/* Barra superior, pegada al borde de arriba. */
+.topbar{margin:0;padding-top:16px;padding-bottom:16px;
+ border-bottom:0.5px solid var(--line-top)}
+/* Su relleno lateral, el mismo corto que en la portada. */
+.topbar{padding-left:clamp(20px,2vw,34px);padding-right:clamp(20px,2vw,34px)}
+
+/* Logo: simbolo ambar y nombre en claro. El ambar solo en el simbolo. */
+.logo{display:inline-flex;align-items:center;gap:14px;text-decoration:none}
+.logo:hover,.logo:focus-visible{filter:brightness(1.15)}
+.logo svg{display:block;flex:none}
+.logo__name{font-family:"Gloock Logo",serif;font-size:clamp(18px,1.6vw,26px);
+ color:var(--ink);letter-spacing:.3px;line-height:1.1}
+
+/* --- el texto ------------------------------------------------------------- */
+.doc{max-width:680px;margin:0 auto;padding:72px clamp(24px,4vw,40px) 96px}
+
+.doc h1{font-family:var(--f-display);font-weight:500;font-size:clamp(30px,3.4vw,44px);
+ line-height:1.15;letter-spacing:-.01em;color:var(--ink);margin:0 0 10px}
+.doc .updated{font-family:var(--f-mono);font-size:12px;color:var(--dim);margin:0 0 48px}
+
+.doc h2{font-family:var(--f-display);font-weight:500;font-size:clamp(20px,1.9vw,26px);
+ line-height:1.25;color:var(--ink);margin:44px 0 14px}
+
+.doc p{font-size:15px;line-height:1.7;color:var(--ink-soft);margin:0 0 18px}
+.doc .who{color:var(--ink)}
+
+.doc a{color:var(--accent);text-decoration:none}
+.doc a:hover,.doc a:focus-visible{text-decoration:underline}
+
+/* --- BLOQUE 3 · pie -------------------------------------------------------- */
+footer{background:var(--night);padding:44px 64px;border-top:0.5px solid rgba(70,82,95,.4)}
+footer p{margin:0;font-size:12px;line-height:1.7;color:var(--faint)}
+footer .name{font-family:var(--f-mono);letter-spacing:.1em;color:var(--dim)}
+footer a{color:var(--dim);text-decoration:none}
+footer a:hover,footer a:focus-visible{color:var(--ink-soft)}
+
+/* --- MOVIL ---------------------------------------------------------------- */
+@media (max-width:800px){
+  .topbar{padding-left:24px;padding-right:24px}
+  .logo svg{width:28px;height:28px}
+  .logo__name{font-size:18px}
+  .doc{padding:48px 24px 64px}
+  .doc h2{margin-top:36px}
+  footer{padding:36px 24px}
+}
+/* --- lo que anaden las notas, con los tokens de arriba y ningun color nuevo --- */
+.doc p.lede{font-family:var(--f-display);font-size:clamp(17px,1.6vw,21px);
+ line-height:1.5;color:var(--ink);margin:0 0 30px}
+.doc p b{color:var(--ink);font-weight:600}
+.doc p i{color:var(--dim)}
+.doc .ir{margin:0 0 6px;padding:15px 18px;background:var(--night-2);
+ border:0.5px solid var(--line-top);border-left:2px solid var(--accent)}
+.doc .ir a{font-family:var(--f-mono);font-size:13px;letter-spacing:.02em}
+.doc .ir .que{display:block;margin-top:6px;font-size:13px;color:var(--faint)}
+.doc h2{scroll-margin-top:24px}
+
+/* --- y lo que anade la portada de las notas --- */
+.doc h3{font-family:var(--f-ui);font-weight:600;font-size:15px;letter-spacing:.01em;
+ color:var(--ink);margin:30px 0 4px}
+.doc p.sub{font-size:14px;color:var(--faint);margin:0 0 14px}
+.doc ul.notas{list-style:none;margin:0;padding:0}
+.doc ul.notas li{padding:11px 0;border-top:0.5px solid var(--line-top)}
+.doc ul.notas li:last-child{border-bottom:0.5px solid var(--line-top)}
+.doc ul.notas a{font-weight:600}
+.doc ul.notas span{display:block;margin-top:4px;font-size:14px;line-height:1.55;
+ color:var(--ink-soft)}
+</style>
+</head>
+
+<body>
+
+<div class="topbar">
+  <a class="logo" href="../index.html">
+    <svg viewBox="0 0 40 40" width="34" height="34" aria-hidden="true">
+      <path d="M17 17 L25 19 L20 25 Z" fill="var(--accent)" fill-opacity="0.5"/>
+      <line x1="7" y1="14.5" x2="35" y2="21.5" stroke="var(--accent)"
+            stroke-width="1.4" stroke-linecap="round"/>
+      <line x1="29" y1="14" x2="16" y2="30" stroke="var(--accent)"
+            stroke-width="1.4" stroke-linecap="round"/>
+      <line x1="21.5" y1="29" x2="15.5" y2="13" stroke="var(--accent)"
+            stroke-width="1.4" stroke-linecap="round"/>
+    </svg>
+    <span class="logo__name">Offshore Theory</span>
+  </a>
+</div>
+
+<main class="doc">
+
+  <h1>Buoyage — Which side you pass</h1>
+  <p class="updated">Reading notes &middot; Buoyage</p>
+  <p class="lede">A cardinal names the clear water; a lateral tells you which side of the channel you are on. The direction of buoyage, and why the same red can changes sides.</p>
+  <p class="ir"><a href="../chapters/balizamiento-p2-which-side.html">Open the interactive chapter &rarr;</a><span class="que">The same material with the chart, the drawings and the exercises.</span></p>
+
+  <h2 id="what-pass-it-actually-means">What «pass it» actually means</h2>
+  <h3>The mark is the instruction</h3>
+  <p>You know all twelve marks now, and <b>not one of them has told you what to do.</b></p>
+  <p><b>This part is about the ten that tell you a side</b> — the isolated danger and the new danger are not here, because you do not pass those on a side: you go round them.</p>
+  <p>A mark is not the danger, and it is not a warning in general. <b>It is an instruction, and it is exact</b>: there is a side you may pass and a side you may not.</p>
+  <p>This part is that one question, four times over. And it has a catch in it that catches nearly everybody — you will meet it in topic two.</p>
+  <h2 id="the-cardinal-names-the-water-topic-1">The cardinal names the water · topic 1</h2>
+  <h3>«North cardinal» does not mean «go north»</h3>
+  <p>This is the mistake almost everyone makes first, so it is worth making it here where it is free.</p>
+  <p><b>A north cardinal does not mean «steer north».</b> It means <b>the clear water is north of it</b> — and if you are already north of it, you are in the clear and can go wherever you like.</p>
+  <p>The mark is named after the water. It is not named after your course.</p>
+  <h3>Move the boat, not the mark</h3>
+  <p><b>Drag the boat round.</b> Watch the verdict underneath change as she crosses into the clear quarter and out of it again.</p>
+  <p>The quarter never moves. <b>You do.</b> That is why «which side» is not a fact you can memorise about a mark.</p>
+  <p>Nothing is scored here.</p>
+  <h2 id="which-way-the-channel-runs-topic-2">Which way the channel runs · topic 2</h2>
+  <h3>The same buoy, two different answers</h3>
+  <p>Look at the red can in this channel. <b>Two boats are going to pass it today, and it is on opposite sides of each of them.</b></p>
+  <p>Nothing about the buoy changed. It did not move, it did not repaint itself. <b>What changed is the direction the boat is going.</b></p>
+  <p><b>This is the only place in the whole course where one object means two different things depending on which way you are pointed</b>, and it is where most people come unstuck. The fix is one sentence, and it is on the next screen.</p>
+  <h3>Turn her round and look again</h3>
+  <p><b>Turn the boat round.</b> The buoys stay exactly where they are — watch which side of her they end up on.</p>
+  <p>If you ever find yourself trying to remember <b>«red on the left»</b>, stop: <b>left of what?</b> That is the question the arrow answers.</p>
+  <p>Nothing is scored here. Turn her a few times.</p>
+  <h2 id="the-channel-itself-topic-3">The channel itself · topic 3</h2>
+  <h3>A real one, on the chart</h3>
+  <p>This is the channel into Stennick Haven, off the chart you will use for the rest of the course. <b>Everything you have practised is in it.</b></p>
+  <p>The safe water mark at the seaward end, then the pairs: <b>No.1, No.2, No.3, No.4</b>. And the direction of buoyage printed across it.</p>
+  <p>It is enlarged so the marks are far enough apart to steer between. It is not to scale, and the frame says so.</p>
+  <h2 id="when-the-channel-splits-topic-4">When the channel splits · topic 4</h2>
+  <h3>Two ways in. One of them is the one they mean</h3>
+  <p>Sometimes a channel forks, and one of the two branches is the one the authority wants you to use — deeper, or better marked, or simply the main one.</p>
+  <p><b>These two say which.</b> They are the laterals you already know, with <b>a band of the other colour round the middle</b>.</p>
+  <p>They are not a new pair to memorise. They are a red can and a green cone carrying one extra piece of news.</p>
+  <h2 id="the-two-that-do-not-push-you-anywhere-topic-5">The two that do not push you anywhere · topic 5</h2>
+  <h3>Two that do not send you anywhere</h3>
+  <p>Every mark so far has ended in a side: pass me here, not there. <b>These two do not</b>, and that is the whole of this topic.</p>
+  <p>The <b>safe water mark</b> means what it says — <b>navigable water all round it</b>, so either side will do. You have already met one: it is the doorway at the seaward end of Stennick Haven.</p>
+  <p>The <b>special mark</b> is not in the go-here-not-there business at all. It marks <b>a feature</b> — an anchorage, a cable, a spoil ground — and <b>the chart says which</b>.</p>
+  <p>Knowing that a mark is NOT giving you an instruction is worth as much as reading the ones that are.</p>
+  <h2 id="and-in-america-topic-6">And in America · topic 6</h2>
+  <h3>And in half the world, the red is on the other side</h3>
+  <p>Everything in this module has been <b>IALA region A</b>: Europe, Africa, most of Asia, Australia. <b>It is the one you are learning and the one you will use.</b></p>
+  <p>There is a region B — the Americas, Japan, Korea, the Philippines — and there <b>the red and green are the other way round</b>. Red to starboard coming in.</p>
+  <p><b>Do not learn region B now.</b> Learning two opposite rules at once is how you end up sure of neither. Learn this one until it is automatic; the day you charter in Florida, you look it up and it takes a minute.</p>
+  <p>And the one thing worth carrying: <b>the cardinals do not change.</b> A south cardinal is a south cardinal everywhere on earth.</p>
+  <h2 id="topic"></h2>
+  <h3>What you can do now</h3>
+  <p>Ten marks that tell you a side, and now what to do about them. The other two — the isolated danger and the new danger — do not: you go round those.</p>
+  <p><b>A cardinal names a quarter of clear water, and you steer to be in it.</b> A lateral marks the edge of a channel, and which edge depends on the direction of buoyage — <b>which is printed, not guessed.</b></p>
+  <p>What is still missing is the half of it that only happens after dark. Every one of these marks has a light, and at night the shape and the colour are gone. That is what comes next.</p>
+
+  <p class="ir"><a href="../chapters/balizamiento-p2-which-side.html">Open the interactive chapter &rarr;</a><span class="que">The same material with the chart, the drawings and the exercises.</span></p>
+  <p class="ir"><a href="index.html">All the reading notes &rarr;</a></p>
+
+</main>
+
+<footer>
+  <p class="name">Offshore Theory</p>
+  <p>Independent preparation. Not affiliated with or accredited by the RYA.</p>
+  <p><a href="../index.html">Back to Offshore Theory</a></p>
+</footer>
+
+<!-- Cloudflare Web Analytics -->
+<script type='module' src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "624bbb73949b40f0aae4dafec49ac1f6"}'></script>
+<!-- End Cloudflare Web Analytics -->
+</body>
+</html>

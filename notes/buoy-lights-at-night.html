@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Reading buoy lights at night and on the chart</title>
+<link rel="icon" type="image/svg+xml" href="../assets/img/favicon.svg">
+<meta name="description" content="Read a light by its rhythm, colour and period, learn the cardinal clock code, and find the same buoy written in chart abbreviations.">
+<link rel="canonical" href="https://offshoretheory.com/notes/buoy-lights-at-night.html">
+
+<style>
+/* ---------------------------------------------------------------------------
+   Tipografias y paleta: las mismas declaraciones que index.html, copiadas tal
+   cual. Nada se carga de fuera del repositorio.
+   --------------------------------------------------------------------------- */
+@font-face{font-family:'IBM Plex Mono';font-style:normal;font-weight:400;font-display:swap;
+ src:url(../assets/fonts/IBMPlexMono-400-normal-latin.woff2) format('woff2');
+ unicode-range:U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD}
+@font-face{font-family:'IBM Plex Mono';font-style:normal;font-weight:400;font-display:swap;
+ src:url(../assets/fonts/IBMPlexMono-400-normal-latin-ext.woff2) format('woff2');
+ unicode-range:U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF}
+@font-face{font-family:'IBM Plex Sans';font-style:normal;font-weight:400 600;font-display:swap;
+ src:url(../assets/fonts/IBMPlexSans-400-normal-latin.woff2) format('woff2');
+ unicode-range:U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD}
+@font-face{font-family:'IBM Plex Sans';font-style:normal;font-weight:400 600;font-display:swap;
+ src:url(../assets/fonts/IBMPlexSans-400-normal-latin-ext.woff2) format('woff2');
+ unicode-range:U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF}
+@font-face{font-family:'Newsreader';font-style:normal;font-weight:500;font-display:swap;
+ src:url(../assets/fonts/Newsreader-500-normal-latin.woff2) format('woff2');
+ unicode-range:U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD}
+@font-face{font-family:'Newsreader';font-style:normal;font-weight:500;font-display:swap;
+ src:url(../assets/fonts/Newsreader-500-normal-latin-ext.woff2) format('woff2');
+ unicode-range:U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF}
+@font-face{font-family:'Gloock Logo';font-style:normal;font-weight:400;font-display:swap;
+ src:url(../assets/fonts/gloock-logo.woff2) format('woff2')}
+
+:root{
+  --night:#0E1116;
+  --night-2:#161B22;
+  --line:#46525F;
+  --ink:#E8EAED;
+  --ink-soft:#9BA6B2;
+  --dim:#8B96A2;
+  --faint:#79838F;
+
+  /* -- Los tres colores del curso. Nada de esto se repite suelto mas abajo. --
+     acento : --accent-graphic de balizamiento y luces. El ambar de los
+              elementos destacados. NO es --alarm (#B33A22), que es el rojo
+              de los avisos. En rules-of-the-road el mismo ambar es --ochre.
+     azul   : --water de balizamiento.
+     magenta: --magenta-soft de rules-of-the-road.                         */
+  --accent:#C97B1B;
+  --blue:#8FC3DA;
+  --magenta:#E86AA0;
+
+  /* Tinta sobre el ambar macizo del boton: 5,6:1 de contraste. */
+  --on-accent:#1A1206;
+
+  --line-top:#232B36;   /* filetes: bajo la barra y entre las columnas */
+
+  --col-hover:rgba(255,255,255,.03);  /* aclarado de columna al pasar el raton */
+  --card-link:#C3CBD4;
+  --f-display:"Newsreader",ui-serif,Georgia,"Palatino Linotype","Times New Roman",serif;
+  --f-ui:"IBM Plex Sans",system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;
+  --f-mono:"IBM Plex Mono",ui-monospace,"SF Mono","Segoe UI Mono",Menlo,Consolas,monospace;
+}
+
+*{box-sizing:border-box}
+html,body{margin:0;padding:0}
+body{background:var(--night);color:var(--ink);font:15px/1.6 var(--f-ui);
+ -webkit-font-smoothing:antialiased}
+
+/* --- barra del logo, identica a la de la portada -------------------------- */
+/* Barra superior, pegada al borde de arriba. */
+.topbar{margin:0;padding-top:16px;padding-bottom:16px;
+ border-bottom:0.5px solid var(--line-top)}
+/* Su relleno lateral, el mismo corto que en la portada. */
+.topbar{padding-left:clamp(20px,2vw,34px);padding-right:clamp(20px,2vw,34px)}
+
+/* Logo: simbolo ambar y nombre en claro. El ambar solo en el simbolo. */
+.logo{display:inline-flex;align-items:center;gap:14px;text-decoration:none}
+.logo:hover,.logo:focus-visible{filter:brightness(1.15)}
+.logo svg{display:block;flex:none}
+.logo__name{font-family:"Gloock Logo",serif;font-size:clamp(18px,1.6vw,26px);
+ color:var(--ink);letter-spacing:.3px;line-height:1.1}
+
+/* --- el texto ------------------------------------------------------------- */
+.doc{max-width:680px;margin:0 auto;padding:72px clamp(24px,4vw,40px) 96px}
+
+.doc h1{font-family:var(--f-display);font-weight:500;font-size:clamp(30px,3.4vw,44px);
+ line-height:1.15;letter-spacing:-.01em;color:var(--ink);margin:0 0 10px}
+.doc .updated{font-family:var(--f-mono);font-size:12px;color:var(--dim);margin:0 0 48px}
+
+.doc h2{font-family:var(--f-display);font-weight:500;font-size:clamp(20px,1.9vw,26px);
+ line-height:1.25;color:var(--ink);margin:44px 0 14px}
+
+.doc p{font-size:15px;line-height:1.7;color:var(--ink-soft);margin:0 0 18px}
+.doc .who{color:var(--ink)}
+
+.doc a{color:var(--accent);text-decoration:none}
+.doc a:hover,.doc a:focus-visible{text-decoration:underline}
+
+/* --- BLOQUE 3 · pie -------------------------------------------------------- */
+footer{background:var(--night);padding:44px 64px;border-top:0.5px solid rgba(70,82,95,.4)}
+footer p{margin:0;font-size:12px;line-height:1.7;color:var(--faint)}
+footer .name{font-family:var(--f-mono);letter-spacing:.1em;color:var(--dim)}
+footer a{color:var(--dim);text-decoration:none}
+footer a:hover,footer a:focus-visible{color:var(--ink-soft)}
+
+/* --- MOVIL ---------------------------------------------------------------- */
+@media (max-width:800px){
+  .topbar{padding-left:24px;padding-right:24px}
+  .logo svg{width:28px;height:28px}
+  .logo__name{font-size:18px}
+  .doc{padding:48px 24px 64px}
+  .doc h2{margin-top:36px}
+  footer{padding:36px 24px}
+}
+/* --- lo que anaden las notas, con los tokens de arriba y ningun color nuevo --- */
+.doc p.lede{font-family:var(--f-display);font-size:clamp(17px,1.6vw,21px);
+ line-height:1.5;color:var(--ink);margin:0 0 30px}
+.doc p b{color:var(--ink);font-weight:600}
+.doc p i{color:var(--dim)}
+.doc .ir{margin:0 0 6px;padding:15px 18px;background:var(--night-2);
+ border:0.5px solid var(--line-top);border-left:2px solid var(--accent)}
+.doc .ir a{font-family:var(--f-mono);font-size:13px;letter-spacing:.02em}
+.doc .ir .que{display:block;margin-top:6px;font-size:13px;color:var(--faint)}
+.doc h2{scroll-margin-top:24px}
+
+/* --- y lo que anade la portada de las notas --- */
+.doc h3{font-family:var(--f-ui);font-weight:600;font-size:15px;letter-spacing:.01em;
+ color:var(--ink);margin:30px 0 4px}
+.doc p.sub{font-size:14px;color:var(--faint);margin:0 0 14px}
+.doc ul.notas{list-style:none;margin:0;padding:0}
+.doc ul.notas li{padding:11px 0;border-top:0.5px solid var(--line-top)}
+.doc ul.notas li:last-child{border-bottom:0.5px solid var(--line-top)}
+.doc ul.notas a{font-weight:600}
+.doc ul.notas span{display:block;margin-top:4px;font-size:14px;line-height:1.55;
+ color:var(--ink-soft)}
+</style>
+</head>
+
+<body>
+
+<div class="topbar">
+  <a class="logo" href="../index.html">
+    <svg viewBox="0 0 40 40" width="34" height="34" aria-hidden="true">
+      <path d="M17 17 L25 19 L20 25 Z" fill="var(--accent)" fill-opacity="0.5"/>
+      <line x1="7" y1="14.5" x2="35" y2="21.5" stroke="var(--accent)"
+            stroke-width="1.4" stroke-linecap="round"/>
+      <line x1="29" y1="14" x2="16" y2="30" stroke="var(--accent)"
+            stroke-width="1.4" stroke-linecap="round"/>
+      <line x1="21.5" y1="29" x2="15.5" y2="13" stroke="var(--accent)"
+            stroke-width="1.4" stroke-linecap="round"/>
+    </svg>
+    <span class="logo__name">Offshore Theory</span>
+  </a>
+</div>
+
+<main class="doc">
+
+  <h1>Buoyage — At night, and on the chart</h1>
+  <p class="updated">Reading notes &middot; Buoyage</p>
+  <p class="lede">The rhythm of every mark, the cardinals' three-six-nine clock, and how the chart writes it next to the buoy.</p>
+  <p class="ir"><a href="../chapters/balizamiento-p3-at-night.html">Open the interactive chapter &rarr;</a><span class="que">The same material with the chart, the drawings and the exercises.</span></p>
+
+  <h2 id="reading-a-rhythm-topic-1">Reading a rhythm · topic 1</h2>
+  <h3>Two of the three are gone</h3>
+  <p>This is the port-hand mark you have known since part one. On the left it is <b>daylight</b>: a red can, flat on top, and you have it in one look.</p>
+  <p>On the right it is <b>the same buoy at night</b>. <b>The shape has gone and the colour has gone</b> — a light has no shape, and at any distance your eye is poor at colour. Two of the three things that identify it are simply not there.</p>
+  <p><b>What is left is the one thing daylight never showed you: the rhythm.</b> Watch it. It is running in real time — nothing here is sped up — and that pattern is what tells you which buoy you are looking at.</p>
+  <p><b>A rhythm shown here is an example, not a rule.</b> A lateral mark may flash any way at all except the compound group — that one belongs to the preferred-channel marks — and a special mark may flash any way at all. <b>What identifies those two is the colour, not the period.</b> You will meet four laterals in one channel later in this part, and no two of them flash alike. The other marks are not like that: a cardinal, a preferred channel, an isolated danger and a safe water each have a rhythm that is theirs and nobody else’s.</p>
+  <p>Everything in this part is that pattern: how to read it, how to write it, and what each mark's own rhythm is.</p>
+  <h3>A light is a rhythm</h3>
+  <p>At night a lighthouse is not a symbol on a chart. It is a light that comes and goes, and <b>the pattern it makes in time is the only thing that tells you which light it is.</b> Two lights on the same coast can look identical. Their rhythms cannot.</p>
+  <p>The chart writes that rhythm as a <b>character</b>: one or two letters. Seven of them cover almost everything you will meet.</p>
+  <p><b>Fl is darkness interrupted by light. Oc is light interrupted by darkness.</b> You do not have to remember which is which &mdash; look at which there is more of.</p>
+  <h3>Groups, period, colour</h3>
+  <p>One flash on its own is not much to go on. A coast can have several lights all flashing, so flashes come in <b>groups</b>, and the group is written in brackets after the character.</p>
+  <p><b>The number in the brackets is how many flashes are in one group, and nothing else.</b> It is not seconds. It is not a range. It is a count.</p>
+  <p>Then comes the number with the <b>s</b> on the end. That is the <b>period</b>: how long one whole cycle takes, from the start of one group to the start of the next. <b>The darkness counts.</b></p>
+  <p><b>And the period is the one part you can measure yourself.</b> Start a watch on the first flash of a group, stop it on the first flash of the next. Whatever it reads is the period.</p>
+  <p><b>One last piece: the colour.</b> White, red, green or yellow, and the letter goes after the character and its group, before the period. <b>If no colour is printed, the light is white.</b></p>
+  <p><b>Every mark you met in part one has a rhythm of its own.</b> The South cardinal — the one whose cones point down — flashes in a way you can now read: a character, a group, a period. <b>What that particular group means, and why it is six and not five, is the next topic.</b></p>
+  <h3>You can read a light now</h3>
+  <p>This is the light you were shown at the start of this part, when all you could say about it was that it came and went. <b>Now you can write it down.</b></p>
+  <p><b>Flashing. No group. Red. Five seconds.</b> Four readings, and none of them helps you with the others: the proportion gives you the character, counting gives you the group, your eyes give you the colour, and only a watch gives you the period.</p>
+  <p><b>A rhythm shown here is an example, not a rule.</b> A lateral mark may flash any way at all except the compound group — that one belongs to the preferred-channel marks — and a special mark may flash any way at all. <b>What identifies those two is the colour, not the period.</b> You will meet four laterals in one channel later in this part, and no two of them flash alike. The other marks are not like that: a cardinal, a preferred channel, an isolated danger and a safe water each have a rhythm that is theirs and nobody else’s.</p>
+  <p>What you cannot do yet is say what it <b>means</b>. A rhythm read is a rhythm and nothing more. From here on <b>every rhythm you meet is attached to a mark</b>, and the mark is what you actually need at two in the morning.</p>
+  <p><b>The cardinals go first, because theirs is not a signature to memorise — it is a clock.</b></p>
+  <h2 id="the-cardinals-clock-topic-2">The cardinals' clock · topic 2</h2>
+  <h3>Four buoys, four white lights</h3>
+  <p>These are the four cardinals — the ones whose cones you learned to read in part one. <b>At night this is all you get.</b></p>
+  <p><b>All four are white and all four are quick.</b> No colour to separate them, no shape, no topmark. If the light were the only thing you had, three of these four would put you on the wrong side of a rock.</p>
+  <p><b>But they are not the same, and the difference is one you can count.</b> Watch them a moment before you go on: one of them never stops, and the other three come in bursts of different lengths.</p>
+  <p>There is a reason those bursts are the lengths they are, and it is the neatest thing in this whole module. That is the next screen.</p>
+  <h3>Move it yourself</h3>
+  <p><b>Tap an hour.</b> The hand goes to it, and the light beside it changes to match — count the flashes and you will find the hour you just tapped.</p>
+  <p>The clock does not move. <b>You do.</b> The number on the face and the number of flashes are the same number, and once you have seen that a few times you will not need the clock again.</p>
+  <p><b>Try twelve last.</b> There is no hand, because there is no number — and that is exactly what its light does.</p>
+  <p>Nothing is scored here.</p>
+  <h2 id="the-other-eight-after-dark-topic-3">The other eight, after dark · topic 3</h2>
+  <h3>And now the colour is back</h3>
+  <p>The four cardinals were all white, and you separated them by counting. <b>The other eight are not.</b> Red, green, white, white, yellow, red again, green again — and one that will not hold still.</p>
+  <p><b>Colour looks like the easy answer, and it is the one you cannot lean on.</b> At two miles, in rain, with a town lit up behind it, a red light and a green light are a light. And there are <b>two reds and two greens here</b> anyway, so even seeing the colour leaves you with a pair.</p>
+  <p><b>So take the rhythm first and the colour second.</b> Count the flashes and time the long ones; the colour is what confirms it, not what decides it.</p>
+  <p>Which is which is the next screen — and the two whites are the pair worth being certain about.</p>
+  <p><b>A rhythm shown here is an example, not a rule.</b> A lateral mark may flash any way at all except the compound group — that one belongs to the preferred-channel marks — and a special mark may flash any way at all. <b>What identifies those two is the colour, not the period.</b> You will meet four laterals in one channel later in this part, and no two of them flash alike. The other marks are not like that: a cardinal, a preferred channel, an isolated danger and a safe water each have a rhythm that is theirs and nobody else’s.</p>
+  <h3>Which is which</h3>
+  <p>Now with their names on. <b>Read each one the way you learned in topic one</b>: character, group, colour, period — every one of these is written the way the chart writes it.</p>
+  <p>The two plain laterals are <b>one flash each</b>, and only the colour separates them. <b>The two preferred-channel marks are the same pair again</b> — red and green — and what separates them from the plain ones is the group: <b>two flashes and then one</b>, which is that mark's signature and belongs to nothing else.</p>
+  <p>The special is <b>the only steady yellow in the system</b>, and the new danger is <b>the only light that changes colour on you</b>: blue, yellow, blue, yellow. If a light will not settle on a colour, that is what it is.</p>
+  <p><b>And the two whites are the pair that matters.</b> Safe water gives one LONG flash — two seconds or more, slow enough to feel slow. Isolated danger gives <b>two short ones, and only ever two</b>.</p>
+  <p>Confuse those two and you take a danger for open water. It is the worst mistake in this module, and the rhythm is what stops you making it.</p>
+  <p><b>A rhythm shown here is an example, not a rule.</b> A lateral mark may flash any way at all except the compound group — that one belongs to the preferred-channel marks — and a special mark may flash any way at all. <b>What identifies those two is the colour, not the period.</b> You will meet four laterals in one channel later in this part, and no two of them flash alike. The other marks are not like that: a cardinal, a preferred channel, an isolated danger and a safe water each have a rhythm that is theirs and nobody else’s.</p>
+  <h2 id="how-the-chart-writes-it-topic-4">How the chart writes it · topic 4</h2>
+  <h3>The same buoy, written down</h3>
+  <p>Three views of one buoy. On the left the object, in daylight. In the middle the light, after dark — you have spent this whole part learning to read that. <b>On the right, what the chart prints beside it.</b></p>
+  <p><b>A rhythm shown here is an example, not a rule.</b> A lateral mark may flash any way at all except the compound group — that one belongs to the preferred-channel marks — and a special mark may flash any way at all. <b>What identifies those two is the colour, not the period.</b> You will meet four laterals in one channel later in this part, and no two of them flash alike. The other marks are not like that: a cardinal, a preferred channel, an isolated danger and a safe water each have a rhythm that is theirs and nobody else’s.</p>
+  <p><b>The magenta flare means «this one is lit».</b> It is not the light and it is not to scale: it is a flag saying there is something here to see at night. The little circle at its foot is <b>the position</b> — that part is exact, and it is the only part that is.</p>
+  <p>And beside the flare, <b>the characteristic</b>: the same four pieces you learned to write in topic one. Nothing new to learn — <b>it is the middle picture, in words.</b></p>
+  <p>Read it and you know what to look for before you ever leave the berth. That is the whole reason the chart bothers to print it.</p>
+  <h3>And when the chart says nothing</h3>
+  <p>This is a South cardinal on your chart, and you know what a South cardinal’s light is by now: six quick flashes and a long one. <b>But look at the paper.</b></p>
+  <p><b>There is no flare and there is no characteristic.</b> The chart is not being lazy — it is telling you something exact: <b>this buoy is not lit</b>.</p>
+  <p><b>If there is nothing printed, do not expect to see it at night.</b> It is there, it is on the chart, and in the dark you will go past it without knowing. Everything you learned about the cardinals’ clock applies to the lit ones — and on this chart, the lit ones are the channel.</p>
+  <p>That is worth checking before you plan a night entry: not «what does this one flash», but «does it flash at all».</p>
+  <h2 id="going-in-after-dark-topic-5">Going in after dark · topic 5</h2>
+  <h3>The same channel, at two in the morning</h3>
+  <p>This is Stennick Haven — the channel you took apart in part two, mark by mark. <b>This is what is left of it after dark.</b></p>
+  <p>No shapes, no colours you can trust at this distance, no names painted on anything. <b>Six lights on black water</b>, and you have to know which is which before you commit to going in.</p>
+  <p><b>Everything you need is there.</b> One of them is white and slow — that is the doorway. The rest come in pairs, and the pairs are what the next screen is about.</p>
+  <p>Watch it for a moment. They are all running on the same clock.</p>
+  <p><b>A rhythm shown here is an example, not a rule.</b> A lateral mark may flash any way at all except the compound group — that one belongs to the preferred-channel marks — and a special mark may flash any way at all. <b>What identifies those two is the colour, not the period.</b> You will meet four laterals in one channel later in this part, and no two of them flash alike. The other marks are not like that: a cardinal, a preferred channel, an isolated danger and a safe water each have a rhythm that is theirs and nobody else’s.</p>
+  <h3>Two greens and two reds</h3>
+  <p>With their names and their characteristics on. <b>Look at what the colour does and does not tell you.</b></p>
+  <p><b>Colour tells you which side of the channel a buoy marks</b> — red one edge, green the other, and going in with the arrow you know which hand to leave each on. That much you had in part two.</p>
+  <p><b>But there are two greens and two reds</b>, and the colour cannot tell them apart. Both greens are green. Both reds are red. <b>What separates them is the period</b>: five seconds for the first pair, six for the second.</p>
+  <p>That is what the period is for, and it is why the chart bothers to print it. Colour tells you which side. <b>The period tells you how far in you are.</b></p>
+  <p><b>A rhythm shown here is an example, not a rule.</b> A lateral mark may flash any way at all except the compound group — that one belongs to the preferred-channel marks — and a special mark may flash any way at all. <b>What identifies those two is the colour, not the period.</b> You will meet four laterals in one channel later in this part, and no two of them flash alike. The other marks are not like that: a cardinal, a preferred channel, an isolated danger and a safe water each have a rhythm that is theirs and nobody else’s.</p>
+  <h2 id="topic"></h2>
+  <h3>What you can do now</h3>
+  <p>Twelve marks, lit. <b>You now have all three sides of every one of them: what it is, which side you pass it, and what it does after dark.</b></p>
+  <p><b>A light is a rhythm, and a rhythm is four things.</b> Character, group, colour, period. Three of them you can see at a glance. The fourth you have to time — and it is the one that separates two lights flashing the same way on the same side of the same channel.</p>
+  <p><b>The cardinals run on a clock.</b> Three, six, nine, and north which has no number and so never stops. The long flash on the south is there for one reason: so that a six counted in a seaway cannot pass for a three or a nine.</p>
+  <p><b>And the chart says all of it before you leave the berth.</b> A magenta flare and four pieces of shorthand beside the buoy — or nothing at all, which is itself an answer: that one is not lit, and after dark it is not there.</p>
+  <p>What you cannot do yet is turn any of this into a position. Seeing a mark and knowing where you are from it are two different skills, and the second one is what comes next.</p>
+
+  <p class="ir"><a href="../chapters/balizamiento-p3-at-night.html">Open the interactive chapter &rarr;</a><span class="que">The same material with the chart, the drawings and the exercises.</span></p>
+  <p class="ir"><a href="index.html">All the reading notes &rarr;</a></p>
+
+</main>
+
+<footer>
+  <p class="name">Offshore Theory</p>
+  <p>Independent preparation. Not affiliated with or accredited by the RYA.</p>
+  <p><a href="../index.html">Back to Offshore Theory</a></p>
+</footer>
+
+<!-- Cloudflare Web Analytics -->
+<script type='module' src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "624bbb73949b40f0aae4dafec49ac1f6"}'></script>
+<!-- End Cloudflare Web Analytics -->
+</body>
+</html>

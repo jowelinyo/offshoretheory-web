@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Getting a fix: crossing bearings and the cocked hat</title>
+<link rel="icon" type="image/svg+xml" href="../assets/img/favicon.svg">
+<meta name="description" content="Cross two position lines for a fix, see why the angle of cut decides how big it is, and work a cocked hat: chartwork for Yachtmaster Offshore theory.">
+<link rel="canonical" href="https://offshoretheory.com/notes/crossing-bearings-and-the-cocked-hat.html">
+
+<style>
+/* ---------------------------------------------------------------------------
+   Tipografias y paleta: las mismas declaraciones que index.html, copiadas tal
+   cual. Nada se carga de fuera del repositorio.
+   --------------------------------------------------------------------------- */
+@font-face{font-family:'IBM Plex Mono';font-style:normal;font-weight:400;font-display:swap;
+ src:url(../assets/fonts/IBMPlexMono-400-normal-latin.woff2) format('woff2');
+ unicode-range:U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD}
+@font-face{font-family:'IBM Plex Mono';font-style:normal;font-weight:400;font-display:swap;
+ src:url(../assets/fonts/IBMPlexMono-400-normal-latin-ext.woff2) format('woff2');
+ unicode-range:U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF}
+@font-face{font-family:'IBM Plex Sans';font-style:normal;font-weight:400 600;font-display:swap;
+ src:url(../assets/fonts/IBMPlexSans-400-normal-latin.woff2) format('woff2');
+ unicode-range:U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD}
+@font-face{font-family:'IBM Plex Sans';font-style:normal;font-weight:400 600;font-display:swap;
+ src:url(../assets/fonts/IBMPlexSans-400-normal-latin-ext.woff2) format('woff2');
+ unicode-range:U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF}
+@font-face{font-family:'Newsreader';font-style:normal;font-weight:500;font-display:swap;
+ src:url(../assets/fonts/Newsreader-500-normal-latin.woff2) format('woff2');
+ unicode-range:U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD}
+@font-face{font-family:'Newsreader';font-style:normal;font-weight:500;font-display:swap;
+ src:url(../assets/fonts/Newsreader-500-normal-latin-ext.woff2) format('woff2');
+ unicode-range:U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF}
+@font-face{font-family:'Gloock Logo';font-style:normal;font-weight:400;font-display:swap;
+ src:url(../assets/fonts/gloock-logo.woff2) format('woff2')}
+
+:root{
+  --night:#0E1116;
+  --night-2:#161B22;
+  --line:#46525F;
+  --ink:#E8EAED;
+  --ink-soft:#9BA6B2;
+  --dim:#8B96A2;
+  --faint:#79838F;
+
+  /* -- Los tres colores del curso. Nada de esto se repite suelto mas abajo. --
+     acento : --accent-graphic de balizamiento y luces. El ambar de los
+              elementos destacados. NO es --alarm (#B33A22), que es el rojo
+              de los avisos. En rules-of-the-road el mismo ambar es --ochre.
+     azul   : --water de balizamiento.
+     magenta: --magenta-soft de rules-of-the-road.                         */
+  --accent:#C97B1B;
+  --blue:#8FC3DA;
+  --magenta:#E86AA0;
+
+  /* Tinta sobre el ambar macizo del boton: 5,6:1 de contraste. */
+  --on-accent:#1A1206;
+
+  --line-top:#232B36;   /* filetes: bajo la barra y entre las columnas */
+
+  --col-hover:rgba(255,255,255,.03);  /* aclarado de columna al pasar el raton */
+  --card-link:#C3CBD4;
+  --f-display:"Newsreader",ui-serif,Georgia,"Palatino Linotype","Times New Roman",serif;
+  --f-ui:"IBM Plex Sans",system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;
+  --f-mono:"IBM Plex Mono",ui-monospace,"SF Mono","Segoe UI Mono",Menlo,Consolas,monospace;
+}
+
+*{box-sizing:border-box}
+html,body{margin:0;padding:0}
+body{background:var(--night);color:var(--ink);font:15px/1.6 var(--f-ui);
+ -webkit-font-smoothing:antialiased}
+
+/* --- barra del logo, identica a la de la portada -------------------------- */
+/* Barra superior, pegada al borde de arriba. */
+.topbar{margin:0;padding-top:16px;padding-bottom:16px;
+ border-bottom:0.5px solid var(--line-top)}
+/* Su relleno lateral, el mismo corto que en la portada. */
+.topbar{padding-left:clamp(20px,2vw,34px);padding-right:clamp(20px,2vw,34px)}
+
+/* Logo: simbolo ambar y nombre en claro. El ambar solo en el simbolo. */
+.logo{display:inline-flex;align-items:center;gap:14px;text-decoration:none}
+.logo:hover,.logo:focus-visible{filter:brightness(1.15)}
+.logo svg{display:block;flex:none}
+.logo__name{font-family:"Gloock Logo",serif;font-size:clamp(18px,1.6vw,26px);
+ color:var(--ink);letter-spacing:.3px;line-height:1.1}
+
+/* --- el texto ------------------------------------------------------------- */
+.doc{max-width:680px;margin:0 auto;padding:72px clamp(24px,4vw,40px) 96px}
+
+.doc h1{font-family:var(--f-display);font-weight:500;font-size:clamp(30px,3.4vw,44px);
+ line-height:1.15;letter-spacing:-.01em;color:var(--ink);margin:0 0 10px}
+.doc .updated{font-family:var(--f-mono);font-size:12px;color:var(--dim);margin:0 0 48px}
+
+.doc h2{font-family:var(--f-display);font-weight:500;font-size:clamp(20px,1.9vw,26px);
+ line-height:1.25;color:var(--ink);margin:44px 0 14px}
+
+.doc p{font-size:15px;line-height:1.7;color:var(--ink-soft);margin:0 0 18px}
+.doc .who{color:var(--ink)}
+
+.doc a{color:var(--accent);text-decoration:none}
+.doc a:hover,.doc a:focus-visible{text-decoration:underline}
+
+/* --- BLOQUE 3 · pie -------------------------------------------------------- */
+footer{background:var(--night);padding:44px 64px;border-top:0.5px solid rgba(70,82,95,.4)}
+footer p{margin:0;font-size:12px;line-height:1.7;color:var(--faint)}
+footer .name{font-family:var(--f-mono);letter-spacing:.1em;color:var(--dim)}
+footer a{color:var(--dim);text-decoration:none}
+footer a:hover,footer a:focus-visible{color:var(--ink-soft)}
+
+/* --- MOVIL ---------------------------------------------------------------- */
+@media (max-width:800px){
+  .topbar{padding-left:24px;padding-right:24px}
+  .logo svg{width:28px;height:28px}
+  .logo__name{font-size:18px}
+  .doc{padding:48px 24px 64px}
+  .doc h2{margin-top:36px}
+  footer{padding:36px 24px}
+}
+/* --- lo que anaden las notas, con los tokens de arriba y ningun color nuevo --- */
+.doc p.lede{font-family:var(--f-display);font-size:clamp(17px,1.6vw,21px);
+ line-height:1.5;color:var(--ink);margin:0 0 30px}
+.doc p b{color:var(--ink);font-weight:600}
+.doc p i{color:var(--dim)}
+.doc .ir{margin:0 0 6px;padding:15px 18px;background:var(--night-2);
+ border:0.5px solid var(--line-top);border-left:2px solid var(--accent)}
+.doc .ir a{font-family:var(--f-mono);font-size:13px;letter-spacing:.02em}
+.doc .ir .que{display:block;margin-top:6px;font-size:13px;color:var(--faint)}
+.doc h2{scroll-margin-top:24px}
+
+/* --- y lo que anade la portada de las notas --- */
+.doc h3{font-family:var(--f-ui);font-weight:600;font-size:15px;letter-spacing:.01em;
+ color:var(--ink);margin:30px 0 4px}
+.doc p.sub{font-size:14px;color:var(--faint);margin:0 0 14px}
+.doc ul.notas{list-style:none;margin:0;padding:0}
+.doc ul.notas li{padding:11px 0;border-top:0.5px solid var(--line-top)}
+.doc ul.notas li:last-child{border-bottom:0.5px solid var(--line-top)}
+.doc ul.notas a{font-weight:600}
+.doc ul.notas span{display:block;margin-top:4px;font-size:14px;line-height:1.55;
+ color:var(--ink-soft)}
+</style>
+</head>
+
+<body>
+
+<div class="topbar">
+  <a class="logo" href="../index.html">
+    <svg viewBox="0 0 40 40" width="34" height="34" aria-hidden="true">
+      <path d="M17 17 L25 19 L20 25 Z" fill="var(--accent)" fill-opacity="0.5"/>
+      <line x1="7" y1="14.5" x2="35" y2="21.5" stroke="var(--accent)"
+            stroke-width="1.4" stroke-linecap="round"/>
+      <line x1="29" y1="14" x2="16" y2="30" stroke="var(--accent)"
+            stroke-width="1.4" stroke-linecap="round"/>
+      <line x1="21.5" y1="29" x2="15.5" y2="13" stroke="var(--accent)"
+            stroke-width="1.4" stroke-linecap="round"/>
+    </svg>
+    <span class="logo__name">Offshore Theory</span>
+  </a>
+</div>
+
+<main class="doc">
+
+  <h1>Module 03 · Crossing lines</h1>
+  <p class="updated">Reading notes &middot; Module 03 &middot; Where you are</p>
+  <p class="lede">Two lines cross and that is a fix — but the angle they cut at decides what it is worth: the cocked hat, mixing kinds of line, and the size of the zone you are really in.</p>
+  <p class="ir"><a href="../chapters/m03-p2-crossing-lines.html">Open the interactive chapter &rarr;</a><span class="que">The same material with the chart, the drawings and the exercises.</span></p>
+
+  <h2 id="two-lines-cross">Two lines cross</h2>
+  <h3>A second line, and one place left</h3>
+  <p><b>Part 1 left you on a line.</b> One bearing of one object, drawn back out of it, and you were somewhere along it &mdash; with the rest of the chart ruled out and no way of saying which part of the line was you.</p>
+  <p><b>So take a second bearing, of a different object.</b> Here they are: <b>Brough Tower</b> bears <b>011</b>, <b>Wardhill Tower</b> bears <b>132</b>. Two objects, two readings, two lines drawn back out of the towers.</p>
+  <p><b>You are somewhere on the first line, and you are somewhere on the second one too.</b> There is exactly one place on this chart that is both &mdash; the point where they cross. That point is a <b>fix</b>, and it is the whole of what this part is about.</p>
+  <p><i>Look at where the two lines come from. From here on they will be drawn the way you draw them on the chart table: coming in from off the edge of what you are looking at, and crossing in front of you.</i></p>
+  <h3>Two bearings, one fix</h3>
+  <p><b>Same two towers, and now close in on the water you are actually in.</b> Neither tower is on this screen &mdash; Brough Tower is 2.9 miles away off the top, Wardhill Tower is 4.2 miles off to the south-east. What is on the screen is the sea you are floating in, and the two lines coming into it.</p>
+  <p><b>First bearing, and write it down before you draw anything.</b> Wardhill Tower, hand bearing compass, corrected to true: <b>132</b>. Time <b>1015</b>, log <b>24.6</b>.</p>
+  <p>Drawn back out of the tower it gives you this line. <i>You are somewhere on it, and that is all it says &mdash; the tower it comes from is four miles off the bottom right of the screen.</i></p>
+  <p><b>Second bearing, a minute later.</b> Brough Tower: <b>011</b>. Time <b>1016</b>, log <b>24.7</b> &mdash; the log has moved <b>0.1 of a mile</b>, because at 5 knots that is what a minute is worth.</p>
+  <p>Two lines now, and they cross once.</p>
+  <p><b>That crossing is your position at 1016.</b> Mark it with a dot, put a circle round it so it is not mistaken for anything else, and write the time and the log beside it: <b>1016, log 24.7</b>.</p>
+  <p><i>The time is not decoration. A fix is only true at the moment you took it &mdash; ten minutes from now this dot is 0.83 of a mile of history, and the log beside it is what lets you do something about that.</i></p>
+  <p><b>And look at the angle they make: 59 degrees.</b> They meet nearly square, and that is not luck: <b>you are in the water where this chart's three towers work best together</b>, which is why the next two topics happen here as well.</p>
+  <p><i>Why that matters is the next topic. For now, notice that the crossing is sharp: you can see exactly where it is, to within the thickness of a pencil.</i></p>
+  <h3>Two lines are not a check</h3>
+  <p><b>Now suppose the bearing of Brough Tower was five degrees out.</b> Not a blunder &mdash; five degrees is a bit of heel, a lump of iron near the compass, or a sight taken in a hurry. At 2.9 miles, one degree is <b>95 metres</b>, so five is worth about a quarter of a mile.</p>
+  <p><b>The faint line is the one you would have drawn.</b> It still comes out of the tower, it still crosses the Wardhill Tower line, and it still gives you a crossing &mdash; <b>529 metres from the real one</b>.</p>
+  <p><b>Here is what should worry you.</b> The false crossing is in open water, in the same depth as the true one, with nothing near it. It looks exactly as convincing. <i>Nothing on this chart tells you which of the two dots you are standing on.</i></p>
+  <p><b>Two lines give you a position. They do not give you a check.</b> Two lines always cross somewhere, and they cross just as neatly when one of them is wrong. <i>To catch a bad line you need a third one &mdash; and what that third line does when they disagree is topic 3.</i></p>
+  <h2 id="the-angle-of-cut">The angle of cut</h2>
+  <h3>Every line is a band</h3>
+  <p><b>You crossed two lines and marked the point. Now look at the point again.</b> Neither of those lines is a hairline. A bearing goes through an eye, a compass and two corrections, and part 1 measured what one degree of it is worth on this chart: <b>32 metres at one mile, 97 at three</b>.</p>
+  <p><b>So a line of position is really a band.</b> Brough Tower was <b>2.94 miles</b> off, so one degree either side of that bearing is a band <b>95 metres</b> wide each way; Wardhill Tower, at <b>4.15 miles</b>, gives <b>134 metres</b>. You are somewhere inside the first band, and somewhere inside the second one.</p>
+  <p><b>And two bands crossing do not make a point. They make a rhombus.</b> That is the shaded shape round your dot, and it measures <b>469 metres</b> the long way by <b>275 metres</b> the short way. <i>The dot is where two pencil lines happened to cross. The rhombus is where you actually are.</i></p>
+  <p><b>Nothing here is a mistake.</b> Both bearings are as good as a careful navigator takes them, and the bands are what careful looks like. What this topic is about is the thing that decides how big and how long that rhombus comes out &mdash; <b>and it is not how many lines you crossed.</b></p>
+  <h3>The same error, two different cuts</h3>
+  <p><b>The same two towers, twice, from two bits of water.</b> Same compass, same care, same one degree of error in each bearing &mdash; and the two fixes are not worth the same. <i>Watch the shape, not the dot.</i></p>
+  <p><b>The fix from topic 1, with its bands drawn.</b> Brough Tower at <b>2.94 M</b>, Wardhill Tower at <b>4.15 M</b>, and the lines cut at <b>58.9&deg;</b>. Time <b>1016</b>, log <b>24.7</b>.</p>
+  <p>The rhombus comes out <b>469 by 275 metres</b> &mdash; about <b>1.7 times</b> as long as it is wide. Near enough square, and small: the two bands are cutting across each other.</p>
+  <p><b>28 minutes later and a couple of miles down the sound.</b> The same two towers, and almost the same distances off: <b>2.90</b> and <b>3.40 miles</b>, against 2.94 and 4.15 before. One degree still buys the same bands &mdash; <b>94</b> and <b>110 metres</b>. Time <b>1044</b>, log <b>27.0</b>.</p>
+  <p><b>What has changed is the angle: 20.0&deg; instead of 58.9&deg;.</b> And the rhombus is now <b>1173 by 227 metres</b>: <b>2.5 times longer</b> than the other one, while across it is if anything narrower.</p>
+  <p><i>Same compass, same care, same distances. The angle alone turned a fix you could put a pencil on into one that is a quarter of a mile long.</i></p>
+  <h3>The best pair on the chart, and the worst</h3>
+  <p><b>This is the pair you already know</b> &mdash; Halkirk Spire and Skelvoe Tower, 1.45 miles apart, the transit from part 1. <i>The same two objects are about to give you the best line of position on this chart and the worst fix on this chart, and for the same reason.</i></p>
+  <p><b>Halkirk Spire behind Skelvoe Tower, and you are on the line.</b> Part 1 called this the best line of position there is, and it is: the line runs <b>039 / 219</b>, and while you see the two of them in line you are on it exactly. <b>No compass comes into it</b>, so no compass error can push you off.</p>
+  <p><i>Nothing about that has changed. Hold on to it while you look at the next step.</i></p>
+  <p><b>Now stop using them as a transit and take a bearing of each one.</b> From here, time <b>1130</b>, log <b>30.8</b>: Halkirk Spire bears <b>238</b> at 4.44 M, Skelvoe Tower bears <b>247</b> at 3.10 M. <b>They are 8.6 degrees apart</b>, and there is your fix &mdash; two lines lying almost on top of each other, and a rhombus <b>3257 metres</b> long. <i>That is over a mile and a half of sea.</i></p>
+  <p><b>And this spot is not unlucky.</b> Walked over the <b>1608 points</b> of navigable water on this chart, this pair's median cut is <b>8.6&deg;</b>; only <b>3.0 %</b> of the water gives 45&deg; or better, and <b>88 %</b> of it gives less than twenty.</p>
+  <p><b>What makes the transit good is exactly what makes the pair bad to cross.</b> Two objects that stay nearly in line from almost everywhere give you one superb line &mdash; and two bearings that are nearly the same bearing. <i>Cross a transit with something that is not in its direction.</i></p>
+  <h2 id="three-lines-and-the-cocked-hat">Three lines and the cocked hat</h2>
+  <h3>Why three</h3>
+  <p><b>Topic 1 ended on an uncomfortable sentence:</b> two lines always cross, and they cross just as neatly when one of them is wrong. <i>You had a position and no way of checking it.</i></p>
+  <p><b>Take a third bearing.</b> Here are all three of this trio, from the water you are already standing in: Brough Tower <b>011</b>, Skelvoe Tower <b>253</b>, Wardhill Tower <b>132</b>. They cut at <b>61.9&deg;</b>, <b>58.9&deg;</b> and <b>59.2&deg;</b> &mdash; and <b>no water on this chart gives this trio three cuts as even as these</b>.</p>
+  <p><b>If all three pass through the same point, all three are good.</b> One bad bearing cannot hide inside three lines the way it hides inside two: the third line has to agree with both of the others at once, and a wrong one will not.</p>
+  <p><b>And when they do not pass through one point, they tell you so</b> &mdash; by leaving a triangle. <i>That triangle has a name, a size and three possible causes, and it is what the rest of this topic is about.</i></p>
+  <h3>The third line does not agree</h3>
+  <p><b>Close in on your own water: this screen is 1.78 miles across.</b> The triangle you are about to draw measures a few hundred metres, and at the working width of the last topic it would be a thick dot. <i>Here the detail is the lesson.</i></p>
+  <p><b>Two bearings first, exactly as in topic 1.</b> Skelvoe Tower at <b>252</b>, time 1149, log 32.4; Wardhill Tower at <b>130</b>, time 1150, log 32.5. They cut at <b>59.2&deg;</b>.</p>
+  <p>There is your fix. <i>If you stopped here you would write it down and believe it &mdash; and everything you know so far says you should.</i></p>
+  <p><b>Now the third: Brough Tower at 012, time 1151, log 32.6.</b></p>
+  <p><b>It does not go through the dot.</b> It misses it, and it misses it by enough to see. <i>Nothing has gone wrong that you could have felt: three bearings taken carefully, one after another, off three towers you identified correctly.</i></p>
+  <p><b>What the three of them leave is a triangle, and it has a name: the cocked hat.</b> This one is <b>380 metres</b> along its longest side.</p>
+  <p>The fix is timed at the last bearing: <b>1151, log 32.6</b>. <i>And you are somewhere in there &mdash; the triangle does not say where, it says that at least one of your three lines is wrong.</i></p>
+  <p><b>That is the whole difference between two lines and three.</b> With two, a bad bearing gives you a clean crossing and says nothing. With three, it opens a hole and hands it to you.</p>
+  <h3>What the size of it means</h3>
+  <p><b>A big triangle proves that something is wrong.</b> That much is safe: the three lines cannot all be right and still leave a hole. The one from the last screen was <b>380 metres</b> across, and it was telling you the truth about itself.</p>
+  <p><b>A small triangle proves nothing at all &mdash; and here is the proof, off this chart.</b> Three bearings wrong by <b>+0.25&deg;</b>, <b>-3.0&deg;</b> and <b>+3.0&deg;</b> close a cocked hat <b>5 metres</b> across: a dot under the pencil point. <b>And it sits 499 metres from where you actually are</b> &mdash; the black dot. <i>A triangle you could cover with a pencil, and half a kilometre of error.</i></p>
+  <p><b>And now the part that no book tells you.</b> If the same error is in all three bearings &mdash; a compass reading a degree high all afternoon &mdash; it does <b>not</b> close the hat. It opens it: 221 m at 0.5&deg; &middot; 441 m at 1.0&deg; &middot; 883 m at 2.0&deg; &middot; 1324 m at 3.0&deg;. <i>And it leaves the centre of it almost exactly where you are: 16 m &middot; 31 m &middot; 62 m &middot; 94 m.</i> <b>What closes a cocked hat is errors of opposite signs, and those are the ones that carry you off.</b></p>
+  <p><b>So when the hat comes out big, look for one of three things:</b> a bearing taken badly &mdash; a hurried sight, the boat swinging; <b>an object you have identified wrongly</b>, which is the worst of the three because the line is perfect and points at the wrong tower; or <b>the time you took over it</b> &mdash; three bearings spread over ten minutes at five knots are three bearings from three different places, nearly a mile apart.</p>
+  <h2 id="mixing-kinds-of-line">Mixing kinds of line</h2>
+  <h3>A fix does not need two of the same</h3>
+  <p><b>Three towers, well spread, all visible at once.</b> That is what the last two topics have given you, and it is the best water on this chart. <i>Most of the time you will not have it.</i></p>
+  <p><b>A position line is a position line, whatever made it.</b> Nothing in the crossing cares whether a line came from a compass, from two objects in line, from the echo sounder or from a sextant angle: <b>two lines that cross at a decent angle give you a fix</b>, and that is the whole requirement.</p>
+  <p><b>And mixing usually gets you a better angle than insisting on two more bearings.</b> The four kinds you learned in part 1 do not sit in the same place on the chart: a depth contour runs where the seabed puts it, a transit runs where its two objects put it. <i>They will cut your bearing at angles no second tower could give you.</i></p>
+  <p><b>Each mixture has its own trap, and the next three screens are those three traps</b> &mdash; a contour that cuts the same bearing twice, a transit crossed with the wrong object, and a distance that gives you two places instead of one.</p>
+  <h3>Bearing and sounding</h3>
+  <p><b>One bearing and one sounding, and no second object in sight.</b> Grimsetter Mast bears <b>240</b>, 4.20 miles off. Time <b>1157</b>, log <b>33.1</b>. The echo sounder reads <b>10 metres</b> once you have taken the tide off it &mdash; and the tide comes later in the course.</p>
+  <p><b>The bearing puts you on a line. The sounding puts you on a contour.</b> You are on both, so you are where they cross &mdash; and the contour is already printed on the chart: it is the edge between the two blues. <i>You did not draw it and you did not measure it. It was waiting for you.</i></p>
+  <p><b>And here is what the chart does to you.</b> Look along your bearing: it crosses the 10 metre contour <b>twice inside this screen</b>. The second crossing is <b>1183 metres</b> up the line, and it is open water too: same bearing, same sounding, different place. <i>A contour wanders. A bearing does not care which bend of it you are on.</i></p>
+  <p><b>Part 1 warned you about this and here is the bill.</b> What settles it is anything that tells the two apart: a third line, a second sounding a few minutes later &mdash; or, cheapest of all, <b>the log</b>: you know roughly how far you have run since the last fix, and 1183 metres is a long way to have gone unnoticed.</p>
+  <h3>Transit and bearing</h3>
+  <p><b>You are on the transit &mdash; Halkirk Spire behind Skelvoe Tower &mdash; and that is the best line of position on this chart.</b> It carries no compass error at all. But it is one line, and one line never was a fix. Time <b>1239</b>, log <b>36.6</b>.</p>
+  <p><b>So cross it with a bearing: Wardhill Tower, <b>116</b>, 6.81 miles off.</b> It cuts the transit at <b>76.7&deg;</b> &mdash; near enough square. There is your fix, out of two lines of two different kinds, and neither of them is a second tower.</p>
+  <p><b>And it is Wardhill Tower and not Brough Tower on purpose.</b> Brough Tower is also in sight from here, and its bearing would cut this transit at <b>13.8&deg;</b> &mdash; because Brough Tower lies almost along the transit's own direction. Walked over the whole navigable stretch of the transit, from 1.0 to 3.5 miles out: <b>Wardhill Tower cuts it between 68.8&deg; and 89.4&deg;, and Brough Tower between 11.3&deg; and 20.6&deg;.</b> <i>The worst Wardhill can do is better than the best Brough can.</i></p>
+  <p><b>That is topic 2 doing its job.</b> The transit is superb and the choice of what to cross it with is still yours to get wrong. <i>Cross a transit with something that is not lying in its direction &mdash; and on this chart, that rules out one of the two towers you can see.</i></p>
+  <h2 id="the-area-you-are-really-in">The area you are really in</h2>
+  <h3>A zone, and how big it is</h3>
+  <p><b>Everything so far has ended in a dot. It is time to say what the dot is worth.</b> Brough Tower bears <b>004</b>, Wardhill Tower bears <b>132</b>, and they cut at <b>52.4&deg;</b>. Time <b>1407</b>, log <b>43.9</b>.</p>
+  <p><b>You are not at that dot. You are somewhere in the shaded shape round it</b> &mdash; each line is a band <b>105</b> and <b>119 metres</b> wide, because one degree is worth that much at 3.25 and 3.67 miles, and two bands crossing leave a rhombus. This one is <b>507 metres by 251</b>. <i>That is the size of &ldquo;here&rdquo;.</i></p>
+  <p><b>And now the thing that is easy to get wrong, and it is measured on this chart.</b> The size of the zone is <b>not</b> what decides anything. A rhombus stretches in the direction its two objects dictate, so <b>a huge zone can miss everything and a small one can sit on top of the danger</b>.</p>
+  <p><b>Here is the proof, from the water you were in two topics ago.</b> From the fix of topics 1 to 3 the shoal to the south is 899 metres off, and all <b>fifteen pairs</b> of the six objects were tried against it: <b>not one of their zones reaches it</b> &mdash; not even Skelvoe Tower + Halkirk Spire, whose zone is <b>4791 metres</b> long. <i>And <b>896 metres</b> from there &mdash; a quarter of the way across this screen &mdash; a zone of 4210 metres swallows this shoal whole. Same chart, same instruments.</i></p>
+  <p><b>So the question is never &ldquo;how big is my zone&rdquo;.</b> It is <b>where does it reach, and what is there</b>. Which is the next screen, and it is the only question a navigator actually asks.</p>
+  <h2 id="choosing-the-fix">Choosing the fix</h2>
+  <h3>What makes a fix worth having</h3>
+  <p><b>Five topics have been about how. This one is about which</b> &mdash; and it comes last because you cannot choose between things you cannot judge. <i>Here are the six objects this chart gives you. Before you take a single bearing you pick two of them, and that choice decides more about your fix than how carefully you read the compass.</i></p>
+  <p><b>Near, because every error grows with the range.</b> One degree is <b>32 metres at one mile and 97 at three</b>. Same compass, same care, same degree &mdash; three times the band. <i>An object you can identify at four miles is not as good as a plain one at two.</i></p>
+  <p><b>Open, because the angle stretches whatever the bands are.</b> Topic 2 measured it on this water: the same two bands at <b>59&deg;</b> give a rhombus <b>469 metres</b> long, and at <b>20&deg;</b> <b>1173 metres</b>. And a wide cut is <b>chosen, not found</b>: walked over the <b>1608 points</b> of navigable water on this chart, <b>not one</b> gives this trio three cuts of 60&deg; or more.</p>
+  <p><b>Of different kinds, because they fail in different ways.</b> A transit carries no compass error at all; a contour is already drawn on the chart and cost you nothing but a sounding; a distance gives a circle. <i>They lie where the seabed and the land put them, not where a second tower happens to be, so they cut at angles no second bearing could give you.</i></p>
+  <p><b>And taken together, quickly, the fastest-changing first.</b> At 5 knots a minute is <b>154 metres</b>: three bearings spread over ten minutes are three bearings from three different places, and the cocked hat they leave is your own passage, not your compass. <i>Take the one that is swinging fastest &mdash; the nearest, or the one on the beam &mdash; last, and the slow ones first.</i></p>
+  <p><b>One warning from this chart in particular, and you have already met it.</b> Halkirk Spire and Skelvoe Tower give the finest line of position here &mdash; and as a pair to cross they are the worst on the chart: a median cut of <b>8.6&deg;</b>, with <b>88 %</b> of the water under twenty. <i>The best pair to line up is the worst pair to cross, and for the same reason.</i></p>
+  <h3>Same minute, different objects</h3>
+  <p><b>You are back in the water of topics 1 to 3, and you are about to fix twice.</b> Same boat, same minute, same compass, the same one degree of error in every bearing &mdash; and one object different. <i>Nothing else changes between these two screens.</i></p>
+  <p><b>Skelvoe Tower first, because it is the slowest of the three: <b>253</b>, time 1418, log 44.8.</b> Then the choice. <b>Brough Tower at 011</b>, time <b>1419</b>, log <b>44.9</b> &mdash; 2.94 miles off, against 4.50 for Skelvoe Tower.</p>
+  <p>They cut at <b>61.9&deg;</b>. The bands are <b>95</b> and <b>145 metres</b>, and the zone comes out <b>472 by 297 metres</b>. <i>And it is not even the best pair in sight from here: <b>3 of the fifteen</b> cut wider still, which is what this topic is about.</i></p>
+  <p><b>The same minute, and the other choice.</b> Skelvoe Tower is still there at <b>253</b> from 1418. But instead of Brough Tower you take <b>Grimsetter Mast at 234</b>, time <b>1419</b>, log <b>44.9</b> &mdash; also in plain sight, also a good clean mark, 4.08 miles off.</p>
+  <p><b>They cut at 19.0&deg;, and the zone is now 1679 metres long.</b> Same dot, same time, same compass: <b>3.6 times</b> the length, for changing one object.</p>
+  <p><i>And look at which object stayed. Skelvoe Tower is in both pairs, so it is not the tower that was the problem &mdash; a mark is not good or bad on its own, only good or bad with the one you cross it with.</i></p>
+  <h2 id="closing">Closing</h2>
+  <h3>What you can do now</h3>
+  <p><b>One fix, and nothing else on the screen.</b> Skelvoe Tower at <b>252</b>, time 1447, log 47.2; Wardhill Tower at <b>131</b>, 1448; Brough Tower at <b>011</b>, 1449, log 47.4 &mdash; three bearings in three minutes, <b>the furthest first and the nearest last</b>, and the fix timed at that last one.</p>
+  <p><b>They cut at 61.9&deg;, 59.2&deg; and 58.9&deg;</b> &mdash; the best three angles anywhere on this chart, and you know that because you walked the water and measured it. <i>You chose this water and these three towers; neither was luck.</i></p>
+  <p><b>And they leave a hat 188 metres across, which is what three careful bearings do.</b> You know what it says &mdash; that at least one line is off &mdash; and what it does not say: not where you are, and not that you are inside it. <i>You would work from the corner nearest the danger, and you would know what that corner cost you in metres.</i></p>
+  <p><b>At the start of this part you could draw one line and stand somewhere along it.</b> Now you cross two, you know what the angle between them is worth, you can tell a check from a coincidence, you can mix a bearing with a sounding or a transit, and you can say how big &ldquo;here&rdquo; is. <i>All of it with a compass, a pencil and the chart in front of you.</i></p>
+  <h3>And when there is nothing to see</h3>
+  <p><b>Every fix in this part needed something in sight.</b> A tower, two objects in line, a sounder reading against a printed contour. Take that away &mdash; fog, night, a coast too low to show anything, or one lonely mark on the beam &mdash; <b>and none of it works.</b></p>
+  <p><b>And there is the other half, which you have been writing down all along.</b> That dot is true at <b>1449</b> and at no other time. At 5 knots, five minutes later it is <b>0.42 of a mile</b> of history; a fix from a quarter of an hour ago is a mile away from you. <i>Every line in this module has carried a time and a log reading, and that was never bookkeeping.</i></p>
+  <p><b>Part 3 is both of those.</b> How to keep a position going with no observation at all &mdash; course steered, distance run, what the tide and the wind did to you &mdash; and how to carry an old line forward to cross it with a new one from the same single object. <b>The estimated position, and the running fix.</b></p>
+  <p><i>That is the third part of &ldquo;Where you are&rdquo;, and it starts where this one stops: with the last thing you saw, the time you saw it, and the log reading beside it.</i></p>
+
+  <p class="ir"><a href="../chapters/m03-p2-crossing-lines.html">Open the interactive chapter &rarr;</a><span class="que">The same material with the chart, the drawings and the exercises.</span></p>
+  <p class="ir"><a href="index.html">All the reading notes &rarr;</a></p>
+
+</main>
+
+<footer>
+  <p class="name">Offshore Theory</p>
+  <p>Independent preparation. Not affiliated with or accredited by the RYA.</p>
+  <p><a href="../index.html">Back to Offshore Theory</a></p>
+</footer>
+
+<!-- Cloudflare Web Analytics -->
+<script type='module' src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "624bbb73949b40f0aae4dafec49ac1f6"}'></script>
+<!-- End Cloudflare Web Analytics -->
+</body>
+</html>

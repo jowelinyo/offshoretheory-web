@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Reading a nautical chart: position, distance, bearing</title>
+<link rel="icon" type="image/svg+xml" href="../assets/img/favicon.svg">
+<meta name="description" content="Read a paper chart for the RYA Yachtmaster Offshore theory exam: latitude and longitude to tenths, distance off the side scale, bearings with a plotter.">
+<link rel="canonical" href="https://offshoretheory.com/notes/reading-a-nautical-chart.html">
+
+<style>
+/* ---------------------------------------------------------------------------
+   Tipografias y paleta: las mismas declaraciones que index.html, copiadas tal
+   cual. Nada se carga de fuera del repositorio.
+   --------------------------------------------------------------------------- */
+@font-face{font-family:'IBM Plex Mono';font-style:normal;font-weight:400;font-display:swap;
+ src:url(../assets/fonts/IBMPlexMono-400-normal-latin.woff2) format('woff2');
+ unicode-range:U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD}
+@font-face{font-family:'IBM Plex Mono';font-style:normal;font-weight:400;font-display:swap;
+ src:url(../assets/fonts/IBMPlexMono-400-normal-latin-ext.woff2) format('woff2');
+ unicode-range:U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF}
+@font-face{font-family:'IBM Plex Sans';font-style:normal;font-weight:400 600;font-display:swap;
+ src:url(../assets/fonts/IBMPlexSans-400-normal-latin.woff2) format('woff2');
+ unicode-range:U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD}
+@font-face{font-family:'IBM Plex Sans';font-style:normal;font-weight:400 600;font-display:swap;
+ src:url(../assets/fonts/IBMPlexSans-400-normal-latin-ext.woff2) format('woff2');
+ unicode-range:U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF}
+@font-face{font-family:'Newsreader';font-style:normal;font-weight:500;font-display:swap;
+ src:url(../assets/fonts/Newsreader-500-normal-latin.woff2) format('woff2');
+ unicode-range:U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD}
+@font-face{font-family:'Newsreader';font-style:normal;font-weight:500;font-display:swap;
+ src:url(../assets/fonts/Newsreader-500-normal-latin-ext.woff2) format('woff2');
+ unicode-range:U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF}
+@font-face{font-family:'Gloock Logo';font-style:normal;font-weight:400;font-display:swap;
+ src:url(../assets/fonts/gloock-logo.woff2) format('woff2')}
+
+:root{
+  --night:#0E1116;
+  --night-2:#161B22;
+  --line:#46525F;
+  --ink:#E8EAED;
+  --ink-soft:#9BA6B2;
+  --dim:#8B96A2;
+  --faint:#79838F;
+
+  /* -- Los tres colores del curso. Nada de esto se repite suelto mas abajo. --
+     acento : --accent-graphic de balizamiento y luces. El ambar de los
+              elementos destacados. NO es --alarm (#B33A22), que es el rojo
+              de los avisos. En rules-of-the-road el mismo ambar es --ochre.
+     azul   : --water de balizamiento.
+     magenta: --magenta-soft de rules-of-the-road.                         */
+  --accent:#C97B1B;
+  --blue:#8FC3DA;
+  --magenta:#E86AA0;
+
+  /* Tinta sobre el ambar macizo del boton: 5,6:1 de contraste. */
+  --on-accent:#1A1206;
+
+  --line-top:#232B36;   /* filetes: bajo la barra y entre las columnas */
+
+  --col-hover:rgba(255,255,255,.03);  /* aclarado de columna al pasar el raton */
+  --card-link:#C3CBD4;
+  --f-display:"Newsreader",ui-serif,Georgia,"Palatino Linotype","Times New Roman",serif;
+  --f-ui:"IBM Plex Sans",system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;
+  --f-mono:"IBM Plex Mono",ui-monospace,"SF Mono","Segoe UI Mono",Menlo,Consolas,monospace;
+}
+
+*{box-sizing:border-box}
+html,body{margin:0;padding:0}
+body{background:var(--night);color:var(--ink);font:15px/1.6 var(--f-ui);
+ -webkit-font-smoothing:antialiased}
+
+/* --- barra del logo, identica a la de la portada -------------------------- */
+/* Barra superior, pegada al borde de arriba. */
+.topbar{margin:0;padding-top:16px;padding-bottom:16px;
+ border-bottom:0.5px solid var(--line-top)}
+/* Su relleno lateral, el mismo corto que en la portada. */
+.topbar{padding-left:clamp(20px,2vw,34px);padding-right:clamp(20px,2vw,34px)}
+
+/* Logo: simbolo ambar y nombre en claro. El ambar solo en el simbolo. */
+.logo{display:inline-flex;align-items:center;gap:14px;text-decoration:none}
+.logo:hover,.logo:focus-visible{filter:brightness(1.15)}
+.logo svg{display:block;flex:none}
+.logo__name{font-family:"Gloock Logo",serif;font-size:clamp(18px,1.6vw,26px);
+ color:var(--ink);letter-spacing:.3px;line-height:1.1}
+
+/* --- el texto ------------------------------------------------------------- */
+.doc{max-width:680px;margin:0 auto;padding:72px clamp(24px,4vw,40px) 96px}
+
+.doc h1{font-family:var(--f-display);font-weight:500;font-size:clamp(30px,3.4vw,44px);
+ line-height:1.15;letter-spacing:-.01em;color:var(--ink);margin:0 0 10px}
+.doc .updated{font-family:var(--f-mono);font-size:12px;color:var(--dim);margin:0 0 48px}
+
+.doc h2{font-family:var(--f-display);font-weight:500;font-size:clamp(20px,1.9vw,26px);
+ line-height:1.25;color:var(--ink);margin:44px 0 14px}
+
+.doc p{font-size:15px;line-height:1.7;color:var(--ink-soft);margin:0 0 18px}
+.doc .who{color:var(--ink)}
+
+.doc a{color:var(--accent);text-decoration:none}
+.doc a:hover,.doc a:focus-visible{text-decoration:underline}
+
+/* --- BLOQUE 3 · pie -------------------------------------------------------- */
+footer{background:var(--night);padding:44px 64px;border-top:0.5px solid rgba(70,82,95,.4)}
+footer p{margin:0;font-size:12px;line-height:1.7;color:var(--faint)}
+footer .name{font-family:var(--f-mono);letter-spacing:.1em;color:var(--dim)}
+footer a{color:var(--dim);text-decoration:none}
+footer a:hover,footer a:focus-visible{color:var(--ink-soft)}
+
+/* --- MOVIL ---------------------------------------------------------------- */
+@media (max-width:800px){
+  .topbar{padding-left:24px;padding-right:24px}
+  .logo svg{width:28px;height:28px}
+  .logo__name{font-size:18px}
+  .doc{padding:48px 24px 64px}
+  .doc h2{margin-top:36px}
+  footer{padding:36px 24px}
+}
+/* --- lo que anaden las notas, con los tokens de arriba y ningun color nuevo --- */
+.doc p.lede{font-family:var(--f-display);font-size:clamp(17px,1.6vw,21px);
+ line-height:1.5;color:var(--ink);margin:0 0 30px}
+.doc p b{color:var(--ink);font-weight:600}
+.doc p i{color:var(--dim)}
+.doc .ir{margin:0 0 6px;padding:15px 18px;background:var(--night-2);
+ border:0.5px solid var(--line-top);border-left:2px solid var(--accent)}
+.doc .ir a{font-family:var(--f-mono);font-size:13px;letter-spacing:.02em}
+.doc .ir .que{display:block;margin-top:6px;font-size:13px;color:var(--faint)}
+.doc h2{scroll-margin-top:24px}
+
+/* --- y lo que anade la portada de las notas --- */
+.doc h3{font-family:var(--f-ui);font-weight:600;font-size:15px;letter-spacing:.01em;
+ color:var(--ink);margin:30px 0 4px}
+.doc p.sub{font-size:14px;color:var(--faint);margin:0 0 14px}
+.doc ul.notas{list-style:none;margin:0;padding:0}
+.doc ul.notas li{padding:11px 0;border-top:0.5px solid var(--line-top)}
+.doc ul.notas li:last-child{border-bottom:0.5px solid var(--line-top)}
+.doc ul.notas a{font-weight:600}
+.doc ul.notas span{display:block;margin-top:4px;font-size:14px;line-height:1.55;
+ color:var(--ink-soft)}
+</style>
+</head>
+
+<body>
+
+<div class="topbar">
+  <a class="logo" href="../index.html">
+    <svg viewBox="0 0 40 40" width="34" height="34" aria-hidden="true">
+      <path d="M17 17 L25 19 L20 25 Z" fill="var(--accent)" fill-opacity="0.5"/>
+      <line x1="7" y1="14.5" x2="35" y2="21.5" stroke="var(--accent)"
+            stroke-width="1.4" stroke-linecap="round"/>
+      <line x1="29" y1="14" x2="16" y2="30" stroke="var(--accent)"
+            stroke-width="1.4" stroke-linecap="round"/>
+      <line x1="21.5" y1="29" x2="15.5" y2="13" stroke="var(--accent)"
+            stroke-width="1.4" stroke-linecap="round"/>
+    </svg>
+    <span class="logo__name">Offshore Theory</span>
+  </a>
+</div>
+
+<main class="doc">
+
+  <h1>Module 01 · Reading the chart</h1>
+  <p class="updated">Reading notes &middot; Module 01 &middot; The chart</p>
+  <p class="lede">Projection, latitude and longitude, scale. Dividers and plotter.</p>
+  <p class="ir"><a href="../chapters/c11-reading-the-chart.html">Open the interactive chapter &rarr;</a><span class="que">The same material with the chart, the drawings and the exercises.</span></p>
+
+  <h2 id="what-a-chart-is">What a chart is</h2>
+  <h3>Reading the chart</h3>
+  <p>You are going into Stennick Haven. The chart is in front of you and you cannot read it yet.</p>
+  <p>By the end of this chapter you will be able to say where you are, how far it is, and which way to steer.</p>
+  <p>Five topics. Each one explains first. Then you try it.</p>
+  <h3>This is a chart. It is a map of the sea.</h3>
+  <p>Somebody drew it. They surveyed the water, decided what mattered, and left the rest out.</p>
+  <p>Everything on it is there to answer one of two questions. Where am I? Where can I go?</p>
+  <h3>North is up</h3>
+  <p>Every chart is drawn that way. Up is north, down is south, right is east, left is west.</p>
+  <p>It sounds obvious. It is the reason the whole thing works &mdash; and it is why a chart lying upside down on the chart table is unreadable.</p>
+  <p>Those faint lines ruled across the chart are the <b>graticule</b>. The ones running up and down are the <b>meridians</b>. Every one of them points at the north pole, and they are what direction is measured from.</p>
+  <p>The ones running across are the <b>parallels</b>. You will use the meridians in topic 4 and the graduated edges in topic 2. For now: up is north.</p>
+  <h3>This is the land</h3>
+  <p>Pale orange. It never changes &mdash; it is dry at every state of the tide.</p>
+  <p>A chart is not really about the land. The land is there so you can recognise the coast and measure directions from it.</p>
+  <h3>This is the water</h3>
+  <p>Everything in blue and white.</p>
+  <p>The different shades mean different depths. You will not need them until the next chapter &mdash; for now, blue and white is water.</p>
+  <h3>And this is neither</h3>
+  <p>Green is ground that covers and uncovers. Water over it at high tide, dry at low tide.</p>
+  <p>It matters a great deal and it is the whole of the next chapter. Leave it for now.</p>
+  <h3>These are islands</h3>
+  <p>Land with water all the way round it.</p>
+  <p>Three big ones lie north-east to south-west across the top of the chart. Four smaller ones are scattered through the estuary.</p>
+  <h3>These are the two harbours</h3>
+  <p>Land with water all the way round it.</p>
+  <p>Three big ones lie north-east to south-west across the top of the chart. Several smaller ones are scattered through the estuary.</p>
+  <h2 id="position-latitude-and-longitude">Position: latitude and longitude</h2>
+  <h3>Someone on the radio asks where you are</h3>
+  <p>You are at the marked spot.</p>
+  <p>"About three miles off Stennick Point" works &mdash; if they know Stennick Point.</p>
+  <p>There is one answer that works for anybody, anywhere, with any chart.</p>
+  <h3>Every chart has two rulers round the edge</h3>
+  <p><b>Up the sides: latitude.</b> How far north or south.</p>
+  <p><b>Along the top and bottom: longitude.</b> How far east or west.</p>
+  <p>The same two rulers on every chart ever printed.</p>
+  <h3>Degrees, minutes, tenths</h3>
+  <p>Sixty minutes to a degree. The long ticks with numbers are whole minutes. Between them there is a medium tick at the half minute, and short ones at every tenth.</p>
+  <p>This chart runs from 45&deg; 40' N at the bottom to 45&deg; 53' N at the top. Bigger numbers are further north.</p>
+  <h3>Longitude runs the other way</h3>
+  <p>This chart goes from <b>5&deg; 50' W</b> on the right edge to <b>6&deg; 05.8' W</b> on the left.</p>
+  <p>West longitude gets bigger as you go left. That catches people out.</p>
+  <h3>Latitude first. Always.</h3>
+  <p>That is Aldern Light. Read across to the side scale for the first half, up to the top scale for the second.</p>
+  <p>Degrees, minutes, decimals of a minute, then the letter. Never leave the letter off &mdash; the same numbers exist in three other places on earth.</p>
+  <p>On paper you do this with the edge of a ruler: lay it on the graduation, draw in, do the same from the other margin, and the position is where the two lines cross.</p>
+  <p><b>Here you do exactly that.</b> Drag a guide out of a side margin and it marks a latitude. Drag one out of the top or bottom and it marks a longitude. Each one tells you its value as you move it. They stay where you put them until you take them off &mdash; the &times; on the label removes one.</p>
+  <h2 id="measuring-distance">Measuring distance</h2>
+  <h3>How far is it from here to there?</h3>
+  <p>You have two scales round the edge, both marked in minutes. They look like the same kind of ruler.</p>
+  <p>Only one of them is.</p>
+  <h3>A nautical mile is a minute of latitude</h3>
+  <p>That is not a coincidence. Somebody sliced the earth from pole to pole and called one minute of that arc a mile.</p>
+  <p>So the side scale is a ruler. One minute, one mile. Anywhere on earth, on any chart.</p>
+  <p>It is written <b>M</b>. <b>5.55 M</b> is five and a half nautical miles.</p>
+  <h3>Longitude is not like that</h3>
+  <p>The meridians converge. A minute of longitude is a full mile at the equator, three quarters of a mile at 45&deg;, and nothing at all at the pole.</p>
+  <p>This chart sits at 45&deg; 46' N. Here a minute of longitude is 0.70 of a mile.</p>
+  <h3>Distance on the side scale. Never the top.</h3>
+  <p><b>Distance comes off the side scale &mdash; the latitude one. Never off the top.</b> That is the rule, and on a chart like this one it has no exceptions.</p>
+  <p>On a big chart, use the part of the side scale <b>level with the leg you are measuring</b> &mdash; not the top of the sheet, not the bottom. The scale stretches as you go north.</p>
+  <p>On paper you take a distance with dividers: open them to the two points, lift them across to the scale without changing the opening, and read what they cover.</p>
+  <p><b>Here you do the same.</b> Click one mark, then the other, to take the span. A bar of that exact length appears &mdash; drag it onto a graduation, line one point up with a whole minute, and read the other.</p>
+  <h2 id="measuring-direction">Measuring direction</h2>
+  <h3>Aldern Rock to Stennick Point. Which way do you steer?</h3>
+  <p>And does the answer change on the way?</p>
+  <h3>Direction is measured off the meridians</h3>
+  <p>Look at them. They run straight up and down, and they are parallel.</p>
+  <p>On the earth they are not parallel &mdash; they meet at the poles.</p>
+  <h3>Mercator pulls them apart until they are parallel</h3>
+  <p>Once they are, a straight line crosses every one of them at the same angle.</p>
+  <p>Same angle at every meridian means <b>the same course the whole way</b>. Draw one line, steer one course.</p>
+  <h3>Nothing is free</h3>
+  <p>Pull the meridians apart and the latitude scale has to stretch to match, more and more as you go north.</p>
+  <p>On this chart the stretch across the whole sheet is <b>0.39&nbsp;%</b> &mdash; less than a pixel per minute. You will measure it in a moment and find nothing.</p>
+  <p>On a chart of the North Atlantic it is a third. A minute of latitude at 60&deg; N is drawn twice the length of one at the equator. <b>That is why you measure distance next to you on the side scale.</b></p>
+  <h3>The plotter</h3>
+  <p>On paper you measure direction with a <b>Portland plotter</b> &mdash; a clear rule with a straight edge, an arrow along it, and a compass rose that turns inside the body.</p>
+  <p><b>Lay the edge on the line, arrow pointing the way you are going. Turn the rose until its grid is square with the meridians and the north arrows point up. Read the number at the index.</b> Three steps, always the same three.</p>
+  <p>There are exactly two ways to come out <b>180&deg; wrong</b>, and they are different mistakes. Lay the edge the wrong way round, or turn the rose upside down. Either one on its own puts you on the reciprocal. Both at once cancel &mdash; which is worse, because then the number looks right.</p>
+  <p><b>So check it against the chart every time.</b> If the leg runs south-west and the plotter says 045, you have not made a small mistake: you have made a 180&deg; one. That habit is what saves you when nobody is there to correct you.</p>
+  <p>Here the rule works the same way. Two clicks lay the edge; drag the rose to turn it.</p>
+  <h2 id="scale">Scale</h2>
+  <h3>1:50 000</h3>
+  <p>One of anything on the chart is fifty thousand of the same thing on the water.</p>
+  <h3>What fits</h3>
+  <p>This chart is <b>11 miles by 13</b>. The whole estuary, both harbours, every offshore rock, and enough sea round the outside to approach from anywhere.</p>
+  <p>That is what it is for: getting from somewhere else to Port Aldern.</p>
+  <h3>What does not fit</h3>
+  <p>The entrance to Stennick Haven is <b>67 metres wide</b> &mdash; about a third of a cable. On this chart that is <b>1.3 millimetres</b>: thinner than the line your pencil draws.</p>
+  <p><b>You cannot plot inside something you cannot draw.</b></p>
+  <p>That is also why the symbols are the size they are. A buoy drawn to scale here would be a speck you could not see, so it is <b>drawn to be seen, not to scale</b>. What <i>is</i> to scale is its position: the little circle at its foot is exactly where it is.</p>
+  <h3>Large scale means the number after the colon is small</h3>
+  <p>1:5 000 is a <b>larger</b> scale than 1:50 000. Smaller area, more detail.</p>
+  <p>It sounds backwards and it catches everybody out once. Think of it as a fraction: one fifty-thousandth is a smaller number than one five-thousandth.</p>
+  <p><b>Large scale, large detail.</b> That is the version worth remembering.</p>
+
+  <p class="ir"><a href="../chapters/c11-reading-the-chart.html">Open the interactive chapter &rarr;</a><span class="que">The same material with the chart, the drawings and the exercises.</span></p>
+  <p class="ir"><a href="index.html">All the reading notes &rarr;</a></p>
+
+</main>
+
+<footer>
+  <p class="name">Offshore Theory</p>
+  <p>Independent preparation. Not affiliated with or accredited by the RYA.</p>
+  <p><a href="../index.html">Back to Offshore Theory</a></p>
+</footer>
+
+<!-- Cloudflare Web Analytics -->
+<script type='module' src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "624bbb73949b40f0aae4dafec49ac1f6"}'></script>
+<!-- End Cloudflare Web Analytics -->
+</body>
+</html>

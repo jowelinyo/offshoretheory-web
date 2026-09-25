@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Chart depths: soundings, contours and drying heights</title>
+<link rel="icon" type="image/svg+xml" href="../assets/img/favicon.svg">
+<meta name="description" content="Soundings, depth contours and colour, drying heights underlined on green, and how wrecks, rocks and danger lines tell you what water you have.">
+<link rel="canonical" href="https://offshoretheory.com/notes/chart-depths-and-soundings.html">
+
+<style>
+/* ---------------------------------------------------------------------------
+   Tipografias y paleta: las mismas declaraciones que index.html, copiadas tal
+   cual. Nada se carga de fuera del repositorio.
+   --------------------------------------------------------------------------- */
+@font-face{font-family:'IBM Plex Mono';font-style:normal;font-weight:400;font-display:swap;
+ src:url(../assets/fonts/IBMPlexMono-400-normal-latin.woff2) format('woff2');
+ unicode-range:U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD}
+@font-face{font-family:'IBM Plex Mono';font-style:normal;font-weight:400;font-display:swap;
+ src:url(../assets/fonts/IBMPlexMono-400-normal-latin-ext.woff2) format('woff2');
+ unicode-range:U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF}
+@font-face{font-family:'IBM Plex Sans';font-style:normal;font-weight:400 600;font-display:swap;
+ src:url(../assets/fonts/IBMPlexSans-400-normal-latin.woff2) format('woff2');
+ unicode-range:U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD}
+@font-face{font-family:'IBM Plex Sans';font-style:normal;font-weight:400 600;font-display:swap;
+ src:url(../assets/fonts/IBMPlexSans-400-normal-latin-ext.woff2) format('woff2');
+ unicode-range:U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF}
+@font-face{font-family:'Newsreader';font-style:normal;font-weight:500;font-display:swap;
+ src:url(../assets/fonts/Newsreader-500-normal-latin.woff2) format('woff2');
+ unicode-range:U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD}
+@font-face{font-family:'Newsreader';font-style:normal;font-weight:500;font-display:swap;
+ src:url(../assets/fonts/Newsreader-500-normal-latin-ext.woff2) format('woff2');
+ unicode-range:U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF}
+@font-face{font-family:'Gloock Logo';font-style:normal;font-weight:400;font-display:swap;
+ src:url(../assets/fonts/gloock-logo.woff2) format('woff2')}
+
+:root{
+  --night:#0E1116;
+  --night-2:#161B22;
+  --line:#46525F;
+  --ink:#E8EAED;
+  --ink-soft:#9BA6B2;
+  --dim:#8B96A2;
+  --faint:#79838F;
+
+  /* -- Los tres colores del curso. Nada de esto se repite suelto mas abajo. --
+     acento : --accent-graphic de balizamiento y luces. El ambar de los
+              elementos destacados. NO es --alarm (#B33A22), que es el rojo
+              de los avisos. En rules-of-the-road el mismo ambar es --ochre.
+     azul   : --water de balizamiento.
+     magenta: --magenta-soft de rules-of-the-road.                         */
+  --accent:#C97B1B;
+  --blue:#8FC3DA;
+  --magenta:#E86AA0;
+
+  /* Tinta sobre el ambar macizo del boton: 5,6:1 de contraste. */
+  --on-accent:#1A1206;
+
+  --line-top:#232B36;   /* filetes: bajo la barra y entre las columnas */
+
+  --col-hover:rgba(255,255,255,.03);  /* aclarado de columna al pasar el raton */
+  --card-link:#C3CBD4;
+  --f-display:"Newsreader",ui-serif,Georgia,"Palatino Linotype","Times New Roman",serif;
+  --f-ui:"IBM Plex Sans",system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;
+  --f-mono:"IBM Plex Mono",ui-monospace,"SF Mono","Segoe UI Mono",Menlo,Consolas,monospace;
+}
+
+*{box-sizing:border-box}
+html,body{margin:0;padding:0}
+body{background:var(--night);color:var(--ink);font:15px/1.6 var(--f-ui);
+ -webkit-font-smoothing:antialiased}
+
+/* --- barra del logo, identica a la de la portada -------------------------- */
+/* Barra superior, pegada al borde de arriba. */
+.topbar{margin:0;padding-top:16px;padding-bottom:16px;
+ border-bottom:0.5px solid var(--line-top)}
+/* Su relleno lateral, el mismo corto que en la portada. */
+.topbar{padding-left:clamp(20px,2vw,34px);padding-right:clamp(20px,2vw,34px)}
+
+/* Logo: simbolo ambar y nombre en claro. El ambar solo en el simbolo. */
+.logo{display:inline-flex;align-items:center;gap:14px;text-decoration:none}
+.logo:hover,.logo:focus-visible{filter:brightness(1.15)}
+.logo svg{display:block;flex:none}
+.logo__name{font-family:"Gloock Logo",serif;font-size:clamp(18px,1.6vw,26px);
+ color:var(--ink);letter-spacing:.3px;line-height:1.1}
+
+/* --- el texto ------------------------------------------------------------- */
+.doc{max-width:680px;margin:0 auto;padding:72px clamp(24px,4vw,40px) 96px}
+
+.doc h1{font-family:var(--f-display);font-weight:500;font-size:clamp(30px,3.4vw,44px);
+ line-height:1.15;letter-spacing:-.01em;color:var(--ink);margin:0 0 10px}
+.doc .updated{font-family:var(--f-mono);font-size:12px;color:var(--dim);margin:0 0 48px}
+
+.doc h2{font-family:var(--f-display);font-weight:500;font-size:clamp(20px,1.9vw,26px);
+ line-height:1.25;color:var(--ink);margin:44px 0 14px}
+
+.doc p{font-size:15px;line-height:1.7;color:var(--ink-soft);margin:0 0 18px}
+.doc .who{color:var(--ink)}
+
+.doc a{color:var(--accent);text-decoration:none}
+.doc a:hover,.doc a:focus-visible{text-decoration:underline}
+
+/* --- BLOQUE 3 · pie -------------------------------------------------------- */
+footer{background:var(--night);padding:44px 64px;border-top:0.5px solid rgba(70,82,95,.4)}
+footer p{margin:0;font-size:12px;line-height:1.7;color:var(--faint)}
+footer .name{font-family:var(--f-mono);letter-spacing:.1em;color:var(--dim)}
+footer a{color:var(--dim);text-decoration:none}
+footer a:hover,footer a:focus-visible{color:var(--ink-soft)}
+
+/* --- MOVIL ---------------------------------------------------------------- */
+@media (max-width:800px){
+  .topbar{padding-left:24px;padding-right:24px}
+  .logo svg{width:28px;height:28px}
+  .logo__name{font-size:18px}
+  .doc{padding:48px 24px 64px}
+  .doc h2{margin-top:36px}
+  footer{padding:36px 24px}
+}
+/* --- lo que anaden las notas, con los tokens de arriba y ningun color nuevo --- */
+.doc p.lede{font-family:var(--f-display);font-size:clamp(17px,1.6vw,21px);
+ line-height:1.5;color:var(--ink);margin:0 0 30px}
+.doc p b{color:var(--ink);font-weight:600}
+.doc p i{color:var(--dim)}
+.doc .ir{margin:0 0 6px;padding:15px 18px;background:var(--night-2);
+ border:0.5px solid var(--line-top);border-left:2px solid var(--accent)}
+.doc .ir a{font-family:var(--f-mono);font-size:13px;letter-spacing:.02em}
+.doc .ir .que{display:block;margin-top:6px;font-size:13px;color:var(--faint)}
+.doc h2{scroll-margin-top:24px}
+
+/* --- y lo que anade la portada de las notas --- */
+.doc h3{font-family:var(--f-ui);font-weight:600;font-size:15px;letter-spacing:.01em;
+ color:var(--ink);margin:30px 0 4px}
+.doc p.sub{font-size:14px;color:var(--faint);margin:0 0 14px}
+.doc ul.notas{list-style:none;margin:0;padding:0}
+.doc ul.notas li{padding:11px 0;border-top:0.5px solid var(--line-top)}
+.doc ul.notas li:last-child{border-bottom:0.5px solid var(--line-top)}
+.doc ul.notas a{font-weight:600}
+.doc ul.notas span{display:block;margin-top:4px;font-size:14px;line-height:1.55;
+ color:var(--ink-soft)}
+</style>
+</head>
+
+<body>
+
+<div class="topbar">
+  <a class="logo" href="../index.html">
+    <svg viewBox="0 0 40 40" width="34" height="34" aria-hidden="true">
+      <path d="M17 17 L25 19 L20 25 Z" fill="var(--accent)" fill-opacity="0.5"/>
+      <line x1="7" y1="14.5" x2="35" y2="21.5" stroke="var(--accent)"
+            stroke-width="1.4" stroke-linecap="round"/>
+      <line x1="29" y1="14" x2="16" y2="30" stroke="var(--accent)"
+            stroke-width="1.4" stroke-linecap="round"/>
+      <line x1="21.5" y1="29" x2="15.5" y2="13" stroke="var(--accent)"
+            stroke-width="1.4" stroke-linecap="round"/>
+    </svg>
+    <span class="logo__name">Offshore Theory</span>
+  </a>
+</div>
+
+<main class="doc">
+
+  <h1>Module 01 · Reading the seabed</h1>
+  <p class="updated">Reading notes &middot; Module 01 &middot; The chart</p>
+  <p class="lede">Soundings and chart datum, contours and colour, what dries — and the dangers.</p>
+  <p class="ir"><a href="../chapters/m01-p2-reading-the-seabed.html">Open the interactive chapter &rarr;</a><span class="que">The same material with the chart, the drawings and the exercises.</span></p>
+
+  <h2 id="the-sounding">The sounding</h2>
+  <h3>Is there water enough to get in?</h3>
+  <p>You can say where Stennick Haven is, how far it is and which way to steer. That was the last part.</p>
+  <p><b>What you cannot say is whether your boat will float there.</b></p>
+  <p>That answer is on the chart already, written in blue. This chapter teaches you to read it.</p>
+  <h3>A sounding is a minimum, not a depth</h3>
+  <p>Every blue figure on the water is a <b>sounding</b>: how much water there is at that spot.</p>
+  <p>But not how deep it is <i>now</i>. It is what there is with the tide at the lowest it ever goes. <b>It is the least you will find</b>, and almost always there is more.</p>
+  <p>That is why it is safe to plan with. If your boat fits over the sounding, it fits at any state of the tide.</p>
+  <h3>How it is written, and where it is measured from</h3>
+  <p>The small figure is the <b>decimal</b>, not a footnote. <b>2<sub>3</sub></b> is two metres thirty, not two and then three.</p>
+  <p>All of it is measured down from one line called <b>chart datum</b>, chosen so low that the tide hardly ever falls below it. That is what makes a sounding a minimum.</p>
+  <p>How much the tide adds above that line, and when, is <b>later in the course</b>. Here you only read what the chart already says.</p>
+  <h2 id="contours-and-colour">Contours and colour</h2>
+  <h3>The lines join equal depths</h3>
+  <p>Two thin lines run through the water: the <b>2 metre contour</b> and the <b>5 metre</b> one.</p>
+  <p>Every point along a contour is the same depth. Cross one and you have gone from deeper to shallower, or the other way.</p>
+  <p>A contour is not a wall. It is a <b>boundary</b>, and it tells you which side of it you are on.</p>
+  <h3>Dark blue is shallow. White is deep.</h3>
+  <p>The contours divide the water into bands, and the bands are tinted. <b>The darker the blue, the less water.</b></p>
+  <p>This is what the colour is for: <b>you can see the shape of the seabed without reading a single number.</b> One look tells you where the deep water runs and where it shoals.</p>
+  <p>Numbers are for when you need the exact figure. Colour is for the glance you take every few minutes.</p>
+  <h2 id="what-dries">What dries</h2>
+  <h3>Green is neither land nor water</h3>
+  <p>The green is ground that <b>covers and uncovers</b>. Water over it at high tide, dry at low tide.</p>
+  <p>It is not land: you cannot walk it at any state of the tide. It is not water: you cannot float there at any state either.</p>
+  <p>It is the part of the chart that catches people out, and it does so with a number.</p>
+  <h3>The underlined figure goes UP</h3>
+  <p>On the green you will find figures written the same way &mdash; big number, small decimal &mdash; but <b>underlined</b>.</p>
+  <p><b>That underline reverses the direction.</b> It is not depth below datum: it is <b>height above</b> it. How far the ground stands up out of the water at the lowest tide, not how far down it lies.</p>
+  <p>Same format, opposite sense. It is the single most misread thing on a chart.</p>
+  <h3>What that means for you</h3>
+  <p>An underlined <b>7<sub>3</sub></b> is a bank standing 7.3 metres proud of datum. At low water it is a hill of mud. At high water there may be enough over it to float.</p>
+  <p><b>Whether there is, and when, comes later in the course.</b> What this chapter gives you is the number the tide has to beat.</p>
+  <p>On this chart the drying heights run from 0.7 m to 7.3 m.</p>
+  <h2 id="dangers">Dangers</h2>
+  <h3>Every danger is filed by where it sits</h3>
+  <p>Not by how big it is, and not by how bad it is. <b>By where it sits relative to chart datum</b> &mdash; the same line every sounding is measured from.</p>
+  <p>Five rungs, top to bottom. That ladder is the whole classification; everything else is detail of the drawing.</p>
+  <h3>The danger line measures nothing</h3>
+  <p>The ring of dots round a danger is <b>not its size</b>, and it is <b>not</b> that its position is doubtful.</p>
+  <p>It is a shout: <i>this would not stand out on its own, or there is more than one of them in here. Do not go in.</i></p>
+  <p>That is why not everything has one. A wreck drawn as its own sounding stands out by itself. A bare cross does not &mdash; so the cross gets the ring.</p>
+  <h3>The number is the decision</h3>
+  <p>Two wrecks on this chart, and they are not even drawn the same. One is printed as its own sounding, <b>3<sub>4</sub></b> marked <i>Wk</i>, with a bracket under the figure that means it was checked with a wire drag: 3.4 metres over it at the lowest tide.</p>
+  <p>The other is the hull-and-masts symbol, which is the one used when the least depth is <b>not</b> known. No figure at all, and a danger line round it.</p>
+  <p><b>With a number, you know how much water you have and you decide. Without a number, there is no decision to make: you do not pass.</b></p>
+  <h3>And when nobody is sure where it is</h3>
+  <p>Sometimes there are two letters beside the symbol.</p>
+  <p><b>That</b> &mdash; not the ring &mdash; is what says the position is not to be trusted.</p>
+  <p><b>A danger marked PA may not be exactly there, so you give it more room, not less.</b></p>
+  <p>The obstruction on this chart is marked <b>PA</b>.</p>
+
+  <p class="ir"><a href="../chapters/m01-p2-reading-the-seabed.html">Open the interactive chapter &rarr;</a><span class="que">The same material with the chart, the drawings and the exercises.</span></p>
+  <p class="ir"><a href="index.html">All the reading notes &rarr;</a></p>
+
+</main>
+
+<footer>
+  <p class="name">Offshore Theory</p>
+  <p>Independent preparation. Not affiliated with or accredited by the RYA.</p>
+  <p><a href="../index.html">Back to Offshore Theory</a></p>
+</footer>
+
+<!-- Cloudflare Web Analytics -->
+<script type='module' src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "624bbb73949b40f0aae4dafec49ac1f6"}'></script>
+<!-- End Cloudflare Web Analytics -->
+</body>
+</html>

@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Lights from your own bearing: what you can say</title>
+<link rel="icon" type="image/svg+xml" href="../assets/img/favicon.svg">
+<meta name="description" content="The same vessel looks different from every angle. Walk around her, judge range and aspect, and decide what one bearing lets you conclude.">
+<link rel="canonical" href="https://offshoretheory.com/notes/lights-from-your-own-bearing.html">
+
+<style>
+/* ---------------------------------------------------------------------------
+   Tipografias y paleta: las mismas declaraciones que index.html, copiadas tal
+   cual. Nada se carga de fuera del repositorio.
+   --------------------------------------------------------------------------- */
+@font-face{font-family:'IBM Plex Mono';font-style:normal;font-weight:400;font-display:swap;
+ src:url(../assets/fonts/IBMPlexMono-400-normal-latin.woff2) format('woff2');
+ unicode-range:U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD}
+@font-face{font-family:'IBM Plex Mono';font-style:normal;font-weight:400;font-display:swap;
+ src:url(../assets/fonts/IBMPlexMono-400-normal-latin-ext.woff2) format('woff2');
+ unicode-range:U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF}
+@font-face{font-family:'IBM Plex Sans';font-style:normal;font-weight:400 600;font-display:swap;
+ src:url(../assets/fonts/IBMPlexSans-400-normal-latin.woff2) format('woff2');
+ unicode-range:U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD}
+@font-face{font-family:'IBM Plex Sans';font-style:normal;font-weight:400 600;font-display:swap;
+ src:url(../assets/fonts/IBMPlexSans-400-normal-latin-ext.woff2) format('woff2');
+ unicode-range:U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF}
+@font-face{font-family:'Newsreader';font-style:normal;font-weight:500;font-display:swap;
+ src:url(../assets/fonts/Newsreader-500-normal-latin.woff2) format('woff2');
+ unicode-range:U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD}
+@font-face{font-family:'Newsreader';font-style:normal;font-weight:500;font-display:swap;
+ src:url(../assets/fonts/Newsreader-500-normal-latin-ext.woff2) format('woff2');
+ unicode-range:U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF}
+@font-face{font-family:'Gloock Logo';font-style:normal;font-weight:400;font-display:swap;
+ src:url(../assets/fonts/gloock-logo.woff2) format('woff2')}
+
+:root{
+  --night:#0E1116;
+  --night-2:#161B22;
+  --line:#46525F;
+  --ink:#E8EAED;
+  --ink-soft:#9BA6B2;
+  --dim:#8B96A2;
+  --faint:#79838F;
+
+  /* -- Los tres colores del curso. Nada de esto se repite suelto mas abajo. --
+     acento : --accent-graphic de balizamiento y luces. El ambar de los
+              elementos destacados. NO es --alarm (#B33A22), que es el rojo
+              de los avisos. En rules-of-the-road el mismo ambar es --ochre.
+     azul   : --water de balizamiento.
+     magenta: --magenta-soft de rules-of-the-road.                         */
+  --accent:#C97B1B;
+  --blue:#8FC3DA;
+  --magenta:#E86AA0;
+
+  /* Tinta sobre el ambar macizo del boton: 5,6:1 de contraste. */
+  --on-accent:#1A1206;
+
+  --line-top:#232B36;   /* filetes: bajo la barra y entre las columnas */
+
+  --col-hover:rgba(255,255,255,.03);  /* aclarado de columna al pasar el raton */
+  --card-link:#C3CBD4;
+  --f-display:"Newsreader",ui-serif,Georgia,"Palatino Linotype","Times New Roman",serif;
+  --f-ui:"IBM Plex Sans",system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;
+  --f-mono:"IBM Plex Mono",ui-monospace,"SF Mono","Segoe UI Mono",Menlo,Consolas,monospace;
+}
+
+*{box-sizing:border-box}
+html,body{margin:0;padding:0}
+body{background:var(--night);color:var(--ink);font:15px/1.6 var(--f-ui);
+ -webkit-font-smoothing:antialiased}
+
+/* --- barra del logo, identica a la de la portada -------------------------- */
+/* Barra superior, pegada al borde de arriba. */
+.topbar{margin:0;padding-top:16px;padding-bottom:16px;
+ border-bottom:0.5px solid var(--line-top)}
+/* Su relleno lateral, el mismo corto que en la portada. */
+.topbar{padding-left:clamp(20px,2vw,34px);padding-right:clamp(20px,2vw,34px)}
+
+/* Logo: simbolo ambar y nombre en claro. El ambar solo en el simbolo. */
+.logo{display:inline-flex;align-items:center;gap:14px;text-decoration:none}
+.logo:hover,.logo:focus-visible{filter:brightness(1.15)}
+.logo svg{display:block;flex:none}
+.logo__name{font-family:"Gloock Logo",serif;font-size:clamp(18px,1.6vw,26px);
+ color:var(--ink);letter-spacing:.3px;line-height:1.1}
+
+/* --- el texto ------------------------------------------------------------- */
+.doc{max-width:680px;margin:0 auto;padding:72px clamp(24px,4vw,40px) 96px}
+
+.doc h1{font-family:var(--f-display);font-weight:500;font-size:clamp(30px,3.4vw,44px);
+ line-height:1.15;letter-spacing:-.01em;color:var(--ink);margin:0 0 10px}
+.doc .updated{font-family:var(--f-mono);font-size:12px;color:var(--dim);margin:0 0 48px}
+
+.doc h2{font-family:var(--f-display);font-weight:500;font-size:clamp(20px,1.9vw,26px);
+ line-height:1.25;color:var(--ink);margin:44px 0 14px}
+
+.doc p{font-size:15px;line-height:1.7;color:var(--ink-soft);margin:0 0 18px}
+.doc .who{color:var(--ink)}
+
+.doc a{color:var(--accent);text-decoration:none}
+.doc a:hover,.doc a:focus-visible{text-decoration:underline}
+
+/* --- BLOQUE 3 · pie -------------------------------------------------------- */
+footer{background:var(--night);padding:44px 64px;border-top:0.5px solid rgba(70,82,95,.4)}
+footer p{margin:0;font-size:12px;line-height:1.7;color:var(--faint)}
+footer .name{font-family:var(--f-mono);letter-spacing:.1em;color:var(--dim)}
+footer a{color:var(--dim);text-decoration:none}
+footer a:hover,footer a:focus-visible{color:var(--ink-soft)}
+
+/* --- MOVIL ---------------------------------------------------------------- */
+@media (max-width:800px){
+  .topbar{padding-left:24px;padding-right:24px}
+  .logo svg{width:28px;height:28px}
+  .logo__name{font-size:18px}
+  .doc{padding:48px 24px 64px}
+  .doc h2{margin-top:36px}
+  footer{padding:36px 24px}
+}
+/* --- lo que anaden las notas, con los tokens de arriba y ningun color nuevo --- */
+.doc p.lede{font-family:var(--f-display);font-size:clamp(17px,1.6vw,21px);
+ line-height:1.5;color:var(--ink);margin:0 0 30px}
+.doc p b{color:var(--ink);font-weight:600}
+.doc p i{color:var(--dim)}
+.doc .ir{margin:0 0 6px;padding:15px 18px;background:var(--night-2);
+ border:0.5px solid var(--line-top);border-left:2px solid var(--accent)}
+.doc .ir a{font-family:var(--f-mono);font-size:13px;letter-spacing:.02em}
+.doc .ir .que{display:block;margin-top:6px;font-size:13px;color:var(--faint)}
+.doc h2{scroll-margin-top:24px}
+
+/* --- y lo que anade la portada de las notas --- */
+.doc h3{font-family:var(--f-ui);font-weight:600;font-size:15px;letter-spacing:.01em;
+ color:var(--ink);margin:30px 0 4px}
+.doc p.sub{font-size:14px;color:var(--faint);margin:0 0 14px}
+.doc ul.notas{list-style:none;margin:0;padding:0}
+.doc ul.notas li{padding:11px 0;border-top:0.5px solid var(--line-top)}
+.doc ul.notas li:last-child{border-bottom:0.5px solid var(--line-top)}
+.doc ul.notas a{font-weight:600}
+.doc ul.notas span{display:block;margin-top:4px;font-size:14px;line-height:1.55;
+ color:var(--ink-soft)}
+</style>
+</head>
+
+<body>
+
+<div class="topbar">
+  <a class="logo" href="../index.html">
+    <svg viewBox="0 0 40 40" width="34" height="34" aria-hidden="true">
+      <path d="M17 17 L25 19 L20 25 Z" fill="var(--accent)" fill-opacity="0.5"/>
+      <line x1="7" y1="14.5" x2="35" y2="21.5" stroke="var(--accent)"
+            stroke-width="1.4" stroke-linecap="round"/>
+      <line x1="29" y1="14" x2="16" y2="30" stroke="var(--accent)"
+            stroke-width="1.4" stroke-linecap="round"/>
+      <line x1="21.5" y1="29" x2="15.5" y2="13" stroke="var(--accent)"
+            stroke-width="1.4" stroke-linecap="round"/>
+    </svg>
+    <span class="logo__name">Offshore Theory</span>
+  </a>
+</div>
+
+<main class="doc">
+
+  <h1>Lights and shapes of vessels — From where you are</h1>
+  <p class="updated">Reading notes &middot; Lights and shapes of vessels</p>
+  <p class="lede">The one cut in the whole system, at 112.5° from her bow and not on her beam; bearing crossed with range; and the three confusions the examiner asks about.</p>
+  <p class="ir"><a href="../chapters/luces-p3-from-where-you-are.html">Open the interactive chapter &rarr;</a><span class="que">The same material with the chart, the drawings and the exercises.</span></p>
+
+  <h2 id="from-where-you-are-topic-1">From where you are · topic 1</h2>
+  <h3>She stays where she is. You walk around her.</h3>
+  <p>Everything so far has drawn her <b>from her starboard side, whole</b>. That is a diagram, and a useful one — but you have never once stood there. Here <b>she stays put and you walk</b>, and the hull turns with you: from ahead she is a narrow slab, on her beam she is her whole profile, on her quarter she is her transom.</p>
+  <p>Watch what happens to the lights, because it is not gradual. Her mastheads and her sidelights all stop at the <b>same bearing</b> — <b>112.5° from her bow</b> — and her sternlight starts there. <b>225° and 135° make 360°: the horizon is divided once, and the two halves do not overlap.</b></p>
+  <p>Look at the last two panels, because they are <b>one degree apart</b>. At 112° she is showing you three lights and at 113° she is showing you one, and it is not even the same one. <b>The hull has barely moved.</b> That is what a sector is: not a fade, a wall.</p>
+  <p>And <b>the cut is not on her beam</b>. It is <b>22.5° abaft it</b>, which is the single most common mistake made about these rules: a vessel 100° off your bow can still see your masthead light, and one at 115° cannot.</p>
+  <p>Last, and it is what the whole part is for: an all-round light and a sector light are drawn exactly the same — same disc, same size, same colour. The only thing that separates them is whether they are still there when you cross the cut.</p>
+  <h3>Where you are, and how far. Together.</h3>
+  <p>You have met bearing and you have met range. <b>Crossing them is new</b>, and it is where the module stops being tidy.</p>
+  <p>Rule 22 gives a big vessel <b>6 miles</b> on her masthead light and <b>3</b> on everything else — sidelights, sternlight, and every all-round light she has. So between three and six miles <b>a ship is her masthead lights and nothing else</b>, whatever else she may be carrying.</p>
+  <p>Read the middle column. At two miles she is unmistakable: three all-round reds under her mastheads. At four <b>the reds have gone and the mastheads have not</b> — and what is left is exactly an ordinary power-driven vessel. <b>The most hampered ship in the book looks like the freest one.</b></p>
+  <p>Now the right-hand column, and this is the one to keep. A vessel not under command carries <b>no masthead light at all</b>, so <b>every light she has stops at three miles</b>. At four she is not a faint ship. <b>She is nothing.</b></p>
+  <p>Neither of those is a trick of the drawing. Both fall straight out of Rule 22, and both are on the water tonight.</p>
+  <h2 id="from-where-you-are-topic-2">From where you are · topic 2</h2>
+  <h3>Two mastheads, or a stack of three?</h3>
+  <p>Everyone learns this one as a count — two is a ship, three is a tug — and the count is what fails you. Look at the three panels: the tug with the short tow is showing <b>three</b> white lights, and she is not the one with the long tow.</p>
+  <p><b>What separates them is the shape, not the total.</b> Rule 23 puts her two mastheads stepped : one forward and low, one aft and higher. Rule 24 puts the towing lights <b>in a vertical line, one directly above another in the same place</b> — and her own after masthead is still there, higher and further aft, on top of the stack.</p>
+  <p>So the question is never how many . It is <b>are they in a line or are they stepped</b>, and then the count of the line tells you the length: two for 200 m or less, three above it.</p>
+  <p><b>And that count is not a piece of trivia.</b> The wire between her and her tow runs <b>just under the water and you cannot see any of it</b> — so the number of lights in the column is the only thing that tells you how much of it there is. Two: up to 200 m of it. Three: more, and it can be far more.</p>
+  <p><b>The mistake that kills is not passing between them.</b> That one at least looks wrong. It is <b>crossing astern of the tug</b> — which looks like clear water, and is where the wire is. Read the column, work out how much cable is down there, and go round the whole thing. &laquo;Never pass between a tug and her yellow light.&raquo;</p>
+  <p>And this pays only from ahead. Cross the cut and the whole stack goes: from her quarter a tug is a sternlight with a yellow light over it, and nothing else — you know there is a wire and you no longer know how long it is. There is no bearing where both clues work at once.</p>
+  <h3>A green and a white. Which is on top?</h3>
+  <p>Two white-and-green sights, and at a mile in a seaway they look alike. The first is an ordinary ship showing you her starboard side: a <b>masthead light at 12 m</b> and a <b>sidelight at 4.5</b>, so the white is above the green. The second is a trawler: <b>an all-round green over an all-round white</b>, and the green is on top.</p>
+  <p><b>Which is higher is a good clue and it is true.</b> But it asks you to judge height on two small lights at night, and that is exactly what goes wrong.</p>
+  <p>So use the third panel instead. It is <b>the same trawler</b>, seen from her quarter. The ordinary ship, from there, would be showing you <b>a sternlight and nothing else</b> — her green stopped at 112.5°. The trawler's green is <b>all-round</b>, so it is still burning.</p>
+  <p>A green that is still there when you cross the cut is not a sidelight. That is the whole of it, and it does not ask you to judge anything.</p>
+  <h3>Three reds, or two? Do not count first.</h3>
+  <p>Counting two small red lights against three, at range, in a swell, is a poor way to decide anything — and it is the way it is taught.</p>
+  <p><b>From ahead you do not have to.</b> Rule 27(a) gives a vessel not under command <b>no masthead light at any length</b>: she has broken down and she is not driving. Rule 28 adds its three reds to the full set of Rule 23, so a vessel constrained by her draught still carries her mastheads, her sidelights and her sternlight. <b>A white light above the reds answers the question without counting them.</b></p>
+  <p>The third panel is the honest one. From her quarter <b>the mastheads have cut off</b>, and what is left is reds and a sternlight on both of them. <b>Here there is no shortcut and you have to count.</b> A screen that pretended otherwise would be lying to you.</p>
+  <p>These two have rhymes as well, and they are the two the examiner asks about: &laquo;Red over red, captain is dead.&raquo; &laquo;Red, white, red, restricted ability ahead.&raquo; With the three from part 2 that is the whole set of five, and the point of having them all is the same as before — <b>a rhyme is only useful next to the one it could be confused with.</b> These two are that pair.</p>
+  <p>And remember what the last topic showed: at four miles the reds are gone and the mastheads are not. The one that cannot get out of your way looks ordinary, and the one that cannot steer is not there at all.</p>
+  <h2 id="from-where-you-are-topic-3">From where you are · topic 3</h2>
+  <h3>Six contacts, and no two from the same place</h3>
+  <p>The last screen of the part, and the only one where <b>nothing is held still</b>. Six contacts: a different vessel each time, from a different bearing, and one of them from a different distance.</p>
+  <p>Say what each one is before you tap it. <b>Two of the six cannot be named</b> — the cut has taken the lights that would have told you, or the range has — and for those the honest answer is from here, I cannot say .</p>
+  <p><b>Recognising includes recognising when there is nothing to recognise.</b> It is the difference between a lookout who reports what she sees and one who reports what she guessed.</p>
+  <h3>What you can read now</h3>
+  <p>You can now do the thing the first two parts could not ask for: <b>read a vessel from where you happen to be standing</b>, and know when where you are standing has taken the answer away.</p>
+  <p>The spine of it is one number. <b>112.5° from her bow</b>, and it is the only cut there is. Everything with a sector ends there; everything all-round ignores it; and it sits <b>22.5° abaft her beam</b>, not on it.</p>
+  <p>And the second half is Rule 22, which most people never collect: <b>the masthead light reaches twice as far as anything else on her</b>. Between three miles and six, every ship in the book looks the same.</p>
+  <p>What is left is the night when you cannot see her at all. She is still required to tell you what she is — and that is part 4.</p>
+
+  <p class="ir"><a href="../chapters/luces-p3-from-where-you-are.html">Open the interactive chapter &rarr;</a><span class="que">The same material with the chart, the drawings and the exercises.</span></p>
+  <p class="ir"><a href="index.html">All the reading notes &rarr;</a></p>
+
+</main>
+
+<footer>
+  <p class="name">Offshore Theory</p>
+  <p>Independent preparation. Not affiliated with or accredited by the RYA.</p>
+  <p><a href="../index.html">Back to Offshore Theory</a></p>
+</footer>
+
+<!-- Cloudflare Web Analytics -->
+<script type='module' src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "624bbb73949b40f0aae4dafec49ac1f6"}'></script>
+<!-- End Cloudflare Web Analytics -->
+</body>
+</html>

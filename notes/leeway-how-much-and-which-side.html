@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Leeway: how much, which side, and where it goes</title>
+<link rel="icon" type="image/svg+xml" href="../assets/img/favicon.svg">
+<meta name="description" content="Leeway changes the course you steer and never the distance run. Judge how much, decide which side she goes, and lay the water track with both in order.">
+<link rel="canonical" href="https://offshoretheory.com/notes/leeway-how-much-and-which-side.html">
+
+<style>
+/* ---------------------------------------------------------------------------
+   Tipografias y paleta: las mismas declaraciones que index.html, copiadas tal
+   cual. Nada se carga de fuera del repositorio.
+   --------------------------------------------------------------------------- */
+@font-face{font-family:'IBM Plex Mono';font-style:normal;font-weight:400;font-display:swap;
+ src:url(../assets/fonts/IBMPlexMono-400-normal-latin.woff2) format('woff2');
+ unicode-range:U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD}
+@font-face{font-family:'IBM Plex Mono';font-style:normal;font-weight:400;font-display:swap;
+ src:url(../assets/fonts/IBMPlexMono-400-normal-latin-ext.woff2) format('woff2');
+ unicode-range:U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF}
+@font-face{font-family:'IBM Plex Sans';font-style:normal;font-weight:400 600;font-display:swap;
+ src:url(../assets/fonts/IBMPlexSans-400-normal-latin.woff2) format('woff2');
+ unicode-range:U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD}
+@font-face{font-family:'IBM Plex Sans';font-style:normal;font-weight:400 600;font-display:swap;
+ src:url(../assets/fonts/IBMPlexSans-400-normal-latin-ext.woff2) format('woff2');
+ unicode-range:U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF}
+@font-face{font-family:'Newsreader';font-style:normal;font-weight:500;font-display:swap;
+ src:url(../assets/fonts/Newsreader-500-normal-latin.woff2) format('woff2');
+ unicode-range:U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD}
+@font-face{font-family:'Newsreader';font-style:normal;font-weight:500;font-display:swap;
+ src:url(../assets/fonts/Newsreader-500-normal-latin-ext.woff2) format('woff2');
+ unicode-range:U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF}
+@font-face{font-family:'Gloock Logo';font-style:normal;font-weight:400;font-display:swap;
+ src:url(../assets/fonts/gloock-logo.woff2) format('woff2')}
+
+:root{
+  --night:#0E1116;
+  --night-2:#161B22;
+  --line:#46525F;
+  --ink:#E8EAED;
+  --ink-soft:#9BA6B2;
+  --dim:#8B96A2;
+  --faint:#79838F;
+
+  /* -- Los tres colores del curso. Nada de esto se repite suelto mas abajo. --
+     acento : --accent-graphic de balizamiento y luces. El ambar de los
+              elementos destacados. NO es --alarm (#B33A22), que es el rojo
+              de los avisos. En rules-of-the-road el mismo ambar es --ochre.
+     azul   : --water de balizamiento.
+     magenta: --magenta-soft de rules-of-the-road.                         */
+  --accent:#C97B1B;
+  --blue:#8FC3DA;
+  --magenta:#E86AA0;
+
+  /* Tinta sobre el ambar macizo del boton: 5,6:1 de contraste. */
+  --on-accent:#1A1206;
+
+  --line-top:#232B36;   /* filetes: bajo la barra y entre las columnas */
+
+  --col-hover:rgba(255,255,255,.03);  /* aclarado de columna al pasar el raton */
+  --card-link:#C3CBD4;
+  --f-display:"Newsreader",ui-serif,Georgia,"Palatino Linotype","Times New Roman",serif;
+  --f-ui:"IBM Plex Sans",system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;
+  --f-mono:"IBM Plex Mono",ui-monospace,"SF Mono","Segoe UI Mono",Menlo,Consolas,monospace;
+}
+
+*{box-sizing:border-box}
+html,body{margin:0;padding:0}
+body{background:var(--night);color:var(--ink);font:15px/1.6 var(--f-ui);
+ -webkit-font-smoothing:antialiased}
+
+/* --- barra del logo, identica a la de la portada -------------------------- */
+/* Barra superior, pegada al borde de arriba. */
+.topbar{margin:0;padding-top:16px;padding-bottom:16px;
+ border-bottom:0.5px solid var(--line-top)}
+/* Su relleno lateral, el mismo corto que en la portada. */
+.topbar{padding-left:clamp(20px,2vw,34px);padding-right:clamp(20px,2vw,34px)}
+
+/* Logo: simbolo ambar y nombre en claro. El ambar solo en el simbolo. */
+.logo{display:inline-flex;align-items:center;gap:14px;text-decoration:none}
+.logo:hover,.logo:focus-visible{filter:brightness(1.15)}
+.logo svg{display:block;flex:none}
+.logo__name{font-family:"Gloock Logo",serif;font-size:clamp(18px,1.6vw,26px);
+ color:var(--ink);letter-spacing:.3px;line-height:1.1}
+
+/* --- el texto ------------------------------------------------------------- */
+.doc{max-width:680px;margin:0 auto;padding:72px clamp(24px,4vw,40px) 96px}
+
+.doc h1{font-family:var(--f-display);font-weight:500;font-size:clamp(30px,3.4vw,44px);
+ line-height:1.15;letter-spacing:-.01em;color:var(--ink);margin:0 0 10px}
+.doc .updated{font-family:var(--f-mono);font-size:12px;color:var(--dim);margin:0 0 48px}
+
+.doc h2{font-family:var(--f-display);font-weight:500;font-size:clamp(20px,1.9vw,26px);
+ line-height:1.25;color:var(--ink);margin:44px 0 14px}
+
+.doc p{font-size:15px;line-height:1.7;color:var(--ink-soft);margin:0 0 18px}
+.doc .who{color:var(--ink)}
+
+.doc a{color:var(--accent);text-decoration:none}
+.doc a:hover,.doc a:focus-visible{text-decoration:underline}
+
+/* --- BLOQUE 3 · pie -------------------------------------------------------- */
+footer{background:var(--night);padding:44px 64px;border-top:0.5px solid rgba(70,82,95,.4)}
+footer p{margin:0;font-size:12px;line-height:1.7;color:var(--faint)}
+footer .name{font-family:var(--f-mono);letter-spacing:.1em;color:var(--dim)}
+footer a{color:var(--dim);text-decoration:none}
+footer a:hover,footer a:focus-visible{color:var(--ink-soft)}
+
+/* --- MOVIL ---------------------------------------------------------------- */
+@media (max-width:800px){
+  .topbar{padding-left:24px;padding-right:24px}
+  .logo svg{width:28px;height:28px}
+  .logo__name{font-size:18px}
+  .doc{padding:48px 24px 64px}
+  .doc h2{margin-top:36px}
+  footer{padding:36px 24px}
+}
+/* --- lo que anaden las notas, con los tokens de arriba y ningun color nuevo --- */
+.doc p.lede{font-family:var(--f-display);font-size:clamp(17px,1.6vw,21px);
+ line-height:1.5;color:var(--ink);margin:0 0 30px}
+.doc p b{color:var(--ink);font-weight:600}
+.doc p i{color:var(--dim)}
+.doc .ir{margin:0 0 6px;padding:15px 18px;background:var(--night-2);
+ border:0.5px solid var(--line-top);border-left:2px solid var(--accent)}
+.doc .ir a{font-family:var(--f-mono);font-size:13px;letter-spacing:.02em}
+.doc .ir .que{display:block;margin-top:6px;font-size:13px;color:var(--faint)}
+.doc h2{scroll-margin-top:24px}
+
+/* --- y lo que anade la portada de las notas --- */
+.doc h3{font-family:var(--f-ui);font-weight:600;font-size:15px;letter-spacing:.01em;
+ color:var(--ink);margin:30px 0 4px}
+.doc p.sub{font-size:14px;color:var(--faint);margin:0 0 14px}
+.doc ul.notas{list-style:none;margin:0;padding:0}
+.doc ul.notas li{padding:11px 0;border-top:0.5px solid var(--line-top)}
+.doc ul.notas li:last-child{border-bottom:0.5px solid var(--line-top)}
+.doc ul.notas a{font-weight:600}
+.doc ul.notas span{display:block;margin-top:4px;font-size:14px;line-height:1.55;
+ color:var(--ink-soft)}
+</style>
+</head>
+
+<body>
+
+<div class="topbar">
+  <a class="logo" href="../index.html">
+    <svg viewBox="0 0 40 40" width="34" height="34" aria-hidden="true">
+      <path d="M17 17 L25 19 L20 25 Z" fill="var(--accent)" fill-opacity="0.5"/>
+      <line x1="7" y1="14.5" x2="35" y2="21.5" stroke="var(--accent)"
+            stroke-width="1.4" stroke-linecap="round"/>
+      <line x1="29" y1="14" x2="16" y2="30" stroke="var(--accent)"
+            stroke-width="1.4" stroke-linecap="round"/>
+      <line x1="21.5" y1="29" x2="15.5" y2="13" stroke="var(--accent)"
+            stroke-width="1.4" stroke-linecap="round"/>
+    </svg>
+    <span class="logo__name">Offshore Theory</span>
+  </a>
+</div>
+
+<main class="doc">
+
+  <h1>Module 05 · What the wind takes</h1>
+  <p class="updated">Reading notes &middot; Module 05 &middot; Where you're going</p>
+  <p class="lede">The other thing that moves the mark: the wind on the hull. Which side it takes you, how much it costs, and where it goes in the sum.</p>
+  <p class="ir"><a href="../chapters/m05-p2-lo-que-el-viento-se-lleva.html">Open the interactive chapter &rarr;</a><span class="que">The same material with the chart, the drawings and the exercises.</span></p>
+
+  <h2 id="what-leeway-is">What leeway is</h2>
+  <h3>The log cannot feel this one either</h3>
+  <p><b>That afternoon had no wind worth the name.</b> Which is why the EP you drew in part 1 was right — not because leeway does not exist, but because there was none to apply. <b>A reckoning with no wind in it is one case, not the case.</b></p>
+  <p><b>The wind pushes the hull sideways through the water.</b> Not the water — the hull. The bow points at one place and the boat goes to another, crabbing a little to leeward the whole way, and <b>that angle is called leeway</b>.</p>
+  <p><b>And the log cannot feel this one either</b> — for the opposite reason it could not feel the stream. The stream moved the water with you, so nothing went past the log. Here the water does go past: <b>it goes past on the diagonal</b>, and the log only counts how much water, never which way.</p>
+  <p><b>So here is the pair this module is built on.</b> The <b>stream moves the water you are floating in</b>. <b>Leeway moves you inside it.</b> One turns the water into a conveyor; the other turns the boat into a crab. <b>Neither leaves any trace on the log</b>, and the log is what a reckoning is built from. <i>A GPS shows you where the two of them have put you. It does not tell you how much of that was the stream and how much was the wind.</i></p>
+  <h3>How much, and how you would know</h3>
+  <p><b>How much depends on four things, and none of them is on the chart:</b> the boat, the wind, the sea and the rig. <b>The same boat makes 3° in a light breeze and 10° with a fresh wind and a sea running.</b></p>
+  <p><b>You look astern.</b> The wake does not leave the stern in line with the keel: it leaves it <b>open</b>, off to one side, and <b>the angle between the wake and the fore-and-aft line of the boat is your leeway</b>. With a sea running and a fresh breeze you can see it plainly. In light airs you can barely make it out, and you put it down as two or three degrees and get on with it.</p>
+  <p><b>The wind you can measure.</b> An anemometer and a wind vane read it for you, and any boat with electronics has them. <b>The leeway you cannot.</b> No instrument tells you how many degrees <i>your</i> boat is making with that wind and that sea: that is the skipper's judgement, off the wake, which is why two skippers on the same boat on the same day will give you two different numbers — and why <b>nobody can print it on a chart or build it into a course</b>.</p>
+  <p><b>Neither of them is on the chart</b> — the wind is of the day, and the leeway is of your boat — <b>which is why, in this part, both are given to you in the question</b>, with where they came from, the same way the set and the drift were. <i>A chart can carry a tidal diamond. It cannot carry your boat.</i></p>
+  <h3>Ten degrees, drawn</h3>
+  <p>The first leg of that afternoon, out of the <b>1449</b> fix: <b>300</b>, 2.5 M through the water. <b>Now put a wind in it</b> — from <b>030</b>, on the starboard bow, all afternoon.</p>
+  <p><b>The dashed line is her heading: 300 true.</b> The other one is where she actually goes. <b>Move the slider and open the angle</b>, and read what it costs at one mile, at two, and at the end of the leg.</p>
+  <p><b>At ten degrees, 2.5 miles puts you 807 m from the end of the dashed line</b> — and not a metre of it shows on the log. A GPS would show you where she is; it would not tell you that the wind put her there.</p>
+  <p><i>And a number worth keeping, because it is the same one: <b>five degrees over five miles is 808 m</b>. Half the angle for twice the distance sets you the same distance aside.</i></p>
+  <h2 id="where-it-goes-in-the-sum">Where it goes in the sum</h2>
+  <h3>It changes the course, never the distance</h3>
+  <p><b>The log has measured the miles it has measured.</b> The wind does not change how many; it changes <b>where they pointed</b>. So leeway is applied to the course and the distance stays exactly as it was — the same two and a half miles, laid off on a different line.</p>
+  <p><b>And here is the order, which matters more than it looks.</b> Heading → leeway → <b>water track</b> → tidal stream → <b>EP</b>.</p>
+  <p><b>The reason is physical, not conventional.</b> Leeway is what the boat does <b>inside</b> the water — the hull crabbing sideways through water that, for this purpose, is standing still. That is why what comes out of it is a <b>water track</b>, and why that track already has the leeway in it. <b>The stream then moves that whole body of water</b>, boat and all, which is why it goes last: it is applied to something that is already a path through the water. <i>Do it the other way round and you move the water first, and then slide the boat across nothing.</i></p>
+  <p><b>And here is the honest part, because a rule you cannot check is a rule you will misremember.</b> On a single half-hour leg, doing it in the wrong order costs you about <b>161 metres</b> — a quarter of the <b>646 m</b> that not turning the course at all costs over two miles. <b>On one leg you could get the order wrong and hardly see it.</b></p>
+  <p><b>So the order does not matter for the metres. It matters for what it means</b> — and there is a number behind that too. Applying the leeway last <b>swings the tidal vector as well</b>, and that error grows with the stream and with the hours: <b>161 m over half an hour of stream, 646 m over two hours, 968 m over three.</b> <i>On a leg you cannot see it. On a passage you cannot miss it.</i></p>
+  <p><b>And the same goes for the other half of the rule.</b> Putting the leeway into the distance instead of the course moves you <b>56 m over two miles</b>. Not turning the course moves you <b>646 m</b>. <i>The rule is not «don't put it in the distance» because that will wreck you — it is that the place where it actually counts is the other one.</i></p>
+  <h3>One leg, with a wind in it</h3>
+  <p><b>The first leg of that afternoon, again.</b> Out of the <b>1449</b> fix on <b>300</b>, 2.5 M through the water, and the mark at the far end is <b>DR 1519</b>. <b>Nothing here gets redrawn.</b> What changes is that this time there is a wind in it: from <b>030</b>, and you are making <b>10°</b> of leeway.</p>
+  <p><b>The water track: 290, and the same 2.5 M.</b> The wind is from 030, so it pushes towards 210 — to port of your heading — and she crabs that way the whole leg. <b>The track has turned; the heading and the distance have not.</b> The two marks are <b>807 m</b> apart, and none of that is on the log — a GPS would show you where she is, not how much of it was the wind.</p>
+  <p><b>And now the stream, on top of that.</b> 180 at 1.0 knots for 30 minutes — the same one the last part gave you — run from the end of the <b>water track</b>, not from the dry mark. <b>That is the EP, and it has both corrections in it.</b></p>
+  <p>Look at the shape: <b>the four marks make a parallelogram</b>. One side is the leeway, <b>807 m</b>; the other is the stream, <b>926 m</b>; and the diagonal from the reckoning to the EP is <b>1692 m</b>. <i>The EP you drew in part 1 — same afternoon, same stream, no wind — sits 807 m from this one.</i></p>
+  <h2 id="both-corrections-in-order">Both corrections, in order</h2>
+  <h3>One leg, three times</h3>
+  <p>Here is that first leg <b>three times over</b>. The quiet dashed marks are what you had before: <b>the reckoning</b>, steered and logged, and <b>the EP you drew in part 1</b>, with the stream on it and no wind in it. The solid ones are this part's: <b>the water track</b>, and <b>the EP with both corrections in it</b>.</p>
+  <p><b>And look at the shape they make.</b> The four marks are the corners of a <b>parallelogram</b>, and that is not a coincidence — it is what two corrections always do. <b>One side is the leeway: 807 m.</b> <b>The other is the stream: 926 m.</b> And the diagonal, from the dry reckoning to the EP, is <b>1692 m</b>.</p>
+  <p><b>Which means you can see what each one is worth.</b> On this leg the stream is the bigger of the two, but not by much — and on the next leg, with the wind on the beam and the tide slack, it could be the other way round. <i>You do not get to guess which matters. You draw both.</i></p>
+  <p><b>And one honest line about the picture.</b> This is one leg, not the afternoon. The whole afternoon is drawn three times already in part 1 — and with <b>both</b> corrections on it, <b>it does not fit in navigable water on this chart</b>. <i>The drawing that would have been prettier would also have been a lie.</i></p>
+  <h3>What you can do now, and the question that turns round</h3>
+  <p><b>What you can do now, that you could not at the start of this part.</b> Read a wind and a leeway and know <b>which side she goes</b> — leeward, always. Apply it <b>to the course and not to the distance</b>, and lay the <b>water track</b>: the same miles, on a different line. And put the stream on the end of that, in that order, to finish at an <b>EP with both corrections in it</b>.</p>
+  <p><b>And one honest thing, the same one part 1 ended with.</b> Every wind and every leeway in this part was handed to you in the words of the question. <b>On board, the wind is measured</b>: the anemometer and the wind vane give it to you. <b>The leeway is not</b>: no instrument measures it. It is your own judgement of your own boat, off the wake, and two skippers will give you two numbers.</p>
+  <p><b>The two corrections are done. Both of the things that move the mark have been taught, and the estimated position is finished.</b></p>
+  <p><b>And now the whole question turns round.</b> These two parts asked <i>where has the water taken me</i>. The one that matters when you are actually going somewhere is the other way up: <b>what course do I steer so that the wind and the water land me where I want to be?</b> That is <b>part 3</b>, and it is the same three vectors read backwards. <b>It is named here and it is not taught here</b> — the same way part 1 ended by naming this one.</p>
+
+  <p class="ir"><a href="../chapters/m05-p2-lo-que-el-viento-se-lleva.html">Open the interactive chapter &rarr;</a><span class="que">The same material with the chart, the drawings and the exercises.</span></p>
+  <p class="ir"><a href="index.html">All the reading notes &rarr;</a></p>
+
+</main>
+
+<footer>
+  <p class="name">Offshore Theory</p>
+  <p>Independent preparation. Not affiliated with or accredited by the RYA.</p>
+  <p><a href="../index.html">Back to Offshore Theory</a></p>
+</footer>
+
+<!-- Cloudflare Web Analytics -->
+<script type='module' src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "624bbb73949b40f0aae4dafec49ac1f6"}'></script>
+<!-- End Cloudflare Web Analytics -->
+</body>
+</html>

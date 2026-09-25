@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Reading notes for RYA Yachtmaster Offshore theory</title>
+<link rel="icon" type="image/svg+xml" href="../assets/img/favicon.svg">
+<meta name="description" content="Every chapter of the Offshore Theory course written out to read straight through: chartwork, position fixing, tidal streams, lights, buoyage and the diesel engine.">
+<link rel="canonical" href="https://offshoretheory.com/notes/">
+
+<style>
+/* ---------------------------------------------------------------------------
+   Tipografias y paleta: las mismas declaraciones que index.html, copiadas tal
+   cual. Nada se carga de fuera del repositorio.
+   --------------------------------------------------------------------------- */
+@font-face{font-family:'IBM Plex Mono';font-style:normal;font-weight:400;font-display:swap;
+ src:url(../assets/fonts/IBMPlexMono-400-normal-latin.woff2) format('woff2');
+ unicode-range:U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD}
+@font-face{font-family:'IBM Plex Mono';font-style:normal;font-weight:400;font-display:swap;
+ src:url(../assets/fonts/IBMPlexMono-400-normal-latin-ext.woff2) format('woff2');
+ unicode-range:U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF}
+@font-face{font-family:'IBM Plex Sans';font-style:normal;font-weight:400 600;font-display:swap;
+ src:url(../assets/fonts/IBMPlexSans-400-normal-latin.woff2) format('woff2');
+ unicode-range:U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD}
+@font-face{font-family:'IBM Plex Sans';font-style:normal;font-weight:400 600;font-display:swap;
+ src:url(../assets/fonts/IBMPlexSans-400-normal-latin-ext.woff2) format('woff2');
+ unicode-range:U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF}
+@font-face{font-family:'Newsreader';font-style:normal;font-weight:500;font-display:swap;
+ src:url(../assets/fonts/Newsreader-500-normal-latin.woff2) format('woff2');
+ unicode-range:U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD}
+@font-face{font-family:'Newsreader';font-style:normal;font-weight:500;font-display:swap;
+ src:url(../assets/fonts/Newsreader-500-normal-latin-ext.woff2) format('woff2');
+ unicode-range:U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF}
+@font-face{font-family:'Gloock Logo';font-style:normal;font-weight:400;font-display:swap;
+ src:url(../assets/fonts/gloock-logo.woff2) format('woff2')}
+
+:root{
+  --night:#0E1116;
+  --night-2:#161B22;
+  --line:#46525F;
+  --ink:#E8EAED;
+  --ink-soft:#9BA6B2;
+  --dim:#8B96A2;
+  --faint:#79838F;
+
+  /* -- Los tres colores del curso. Nada de esto se repite suelto mas abajo. --
+     acento : --accent-graphic de balizamiento y luces. El ambar de los
+              elementos destacados. NO es --alarm (#B33A22), que es el rojo
+              de los avisos. En rules-of-the-road el mismo ambar es --ochre.
+     azul   : --water de balizamiento.
+     magenta: --magenta-soft de rules-of-the-road.                         */
+  --accent:#C97B1B;
+  --blue:#8FC3DA;
+  --magenta:#E86AA0;
+
+  /* Tinta sobre el ambar macizo del boton: 5,6:1 de contraste. */
+  --on-accent:#1A1206;
+
+  --line-top:#232B36;   /* filetes: bajo la barra y entre las columnas */
+
+  --col-hover:rgba(255,255,255,.03);  /* aclarado de columna al pasar el raton */
+  --card-link:#C3CBD4;
+  --f-display:"Newsreader",ui-serif,Georgia,"Palatino Linotype","Times New Roman",serif;
+  --f-ui:"IBM Plex Sans",system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;
+  --f-mono:"IBM Plex Mono",ui-monospace,"SF Mono","Segoe UI Mono",Menlo,Consolas,monospace;
+}
+
+*{box-sizing:border-box}
+html,body{margin:0;padding:0}
+body{background:var(--night);color:var(--ink);font:15px/1.6 var(--f-ui);
+ -webkit-font-smoothing:antialiased}
+
+/* --- barra del logo, identica a la de la portada -------------------------- */
+/* Barra superior, pegada al borde de arriba. */
+.topbar{margin:0;padding-top:16px;padding-bottom:16px;
+ border-bottom:0.5px solid var(--line-top)}
+/* Su relleno lateral, el mismo corto que en la portada. */
+.topbar{padding-left:clamp(20px,2vw,34px);padding-right:clamp(20px,2vw,34px)}
+
+/* Logo: simbolo ambar y nombre en claro. El ambar solo en el simbolo. */
+.logo{display:inline-flex;align-items:center;gap:14px;text-decoration:none}
+.logo:hover,.logo:focus-visible{filter:brightness(1.15)}
+.logo svg{display:block;flex:none}
+.logo__name{font-family:"Gloock Logo",serif;font-size:clamp(18px,1.6vw,26px);
+ color:var(--ink);letter-spacing:.3px;line-height:1.1}
+
+/* --- el texto ------------------------------------------------------------- */
+.doc{max-width:680px;margin:0 auto;padding:72px clamp(24px,4vw,40px) 96px}
+
+.doc h1{font-family:var(--f-display);font-weight:500;font-size:clamp(30px,3.4vw,44px);
+ line-height:1.15;letter-spacing:-.01em;color:var(--ink);margin:0 0 10px}
+.doc .updated{font-family:var(--f-mono);font-size:12px;color:var(--dim);margin:0 0 48px}
+
+.doc h2{font-family:var(--f-display);font-weight:500;font-size:clamp(20px,1.9vw,26px);
+ line-height:1.25;color:var(--ink);margin:44px 0 14px}
+
+.doc p{font-size:15px;line-height:1.7;color:var(--ink-soft);margin:0 0 18px}
+.doc .who{color:var(--ink)}
+
+.doc a{color:var(--accent);text-decoration:none}
+.doc a:hover,.doc a:focus-visible{text-decoration:underline}
+
+/* --- BLOQUE 3 · pie -------------------------------------------------------- */
+footer{background:var(--night);padding:44px 64px;border-top:0.5px solid rgba(70,82,95,.4)}
+footer p{margin:0;font-size:12px;line-height:1.7;color:var(--faint)}
+footer .name{font-family:var(--f-mono);letter-spacing:.1em;color:var(--dim)}
+footer a{color:var(--dim);text-decoration:none}
+footer a:hover,footer a:focus-visible{color:var(--ink-soft)}
+
+/* --- MOVIL ---------------------------------------------------------------- */
+@media (max-width:800px){
+  .topbar{padding-left:24px;padding-right:24px}
+  .logo svg{width:28px;height:28px}
+  .logo__name{font-size:18px}
+  .doc{padding:48px 24px 64px}
+  .doc h2{margin-top:36px}
+  footer{padding:36px 24px}
+}
+/* --- lo que anaden las notas, con los tokens de arriba y ningun color nuevo --- */
+.doc p.lede{font-family:var(--f-display);font-size:clamp(17px,1.6vw,21px);
+ line-height:1.5;color:var(--ink);margin:0 0 30px}
+.doc p b{color:var(--ink);font-weight:600}
+.doc p i{color:var(--dim)}
+.doc .ir{margin:0 0 6px;padding:15px 18px;background:var(--night-2);
+ border:0.5px solid var(--line-top);border-left:2px solid var(--accent)}
+.doc .ir a{font-family:var(--f-mono);font-size:13px;letter-spacing:.02em}
+.doc .ir .que{display:block;margin-top:6px;font-size:13px;color:var(--faint)}
+.doc h2{scroll-margin-top:24px}
+
+/* --- y lo que anade la portada de las notas --- */
+.doc h3{font-family:var(--f-ui);font-weight:600;font-size:15px;letter-spacing:.01em;
+ color:var(--ink);margin:30px 0 4px}
+.doc p.sub{font-size:14px;color:var(--faint);margin:0 0 14px}
+.doc ul.notas{list-style:none;margin:0;padding:0}
+.doc ul.notas li{padding:11px 0;border-top:0.5px solid var(--line-top)}
+.doc ul.notas li:last-child{border-bottom:0.5px solid var(--line-top)}
+.doc ul.notas a{font-weight:600}
+.doc ul.notas span{display:block;margin-top:4px;font-size:14px;line-height:1.55;
+ color:var(--ink-soft)}
+</style>
+</head>
+
+<body>
+
+<div class="topbar">
+  <a class="logo" href="../index.html">
+    <svg viewBox="0 0 40 40" width="34" height="34" aria-hidden="true">
+      <path d="M17 17 L25 19 L20 25 Z" fill="var(--accent)" fill-opacity="0.5"/>
+      <line x1="7" y1="14.5" x2="35" y2="21.5" stroke="var(--accent)"
+            stroke-width="1.4" stroke-linecap="round"/>
+      <line x1="29" y1="14" x2="16" y2="30" stroke="var(--accent)"
+            stroke-width="1.4" stroke-linecap="round"/>
+      <line x1="21.5" y1="29" x2="15.5" y2="13" stroke="var(--accent)"
+            stroke-width="1.4" stroke-linecap="round"/>
+    </svg>
+    <span class="logo__name">Offshore Theory</span>
+  </a>
+</div>
+
+<main class="doc">
+
+  <h1>Reading notes</h1>
+  <p class="updated">Offshore Theory &middot; the whole course, in writing</p>
+  <p class="lede">Every chapter of the course, written out as a page you can read straight through. Each one links to the interactive version, where the same material comes with the chart, the drawings and the exercises.</p>
+
+  <h2 id="what-needs-nothing-first">What needs nothing first</h2>
+  <h3>The diesel engine</h3>
+  <p class="sub">What every part does, and what goes wrong. Built on a three-dimensional engine you assemble, cut open and drive one circuit at a time.</p>
+  <ul class="notas">
+    <li><a href="marine-diesel-engine.html">Marine diesel engine: structure and combustion</a><span>How a diesel lights itself: bearers and mounts, block and cylinders, the four strokes, and the fuel path from tank to injector, on a 3D engine.</span></li>
+    <li><a href="diesel-cooling-oil-and-water-circuits.html">Diesel cooling, oil and raw water circuits</a><span>Follow the oil under pressure, the fresh water circuit and the raw water side: impeller, heat exchanger, belt, and the alarms you never argue with.</span></li>
+    <li><a href="starting-a-marine-diesel.html">Starting a diesel: batteries, starter and gearbox</a><span>The starting circuit and the drive: two battery banks, isolator rules, warning lights, gearbox, stern gland, shaft and anode, and what fouls a prop.</span></li>
+    <li><a href="diesel-engine-maintenance-jobs.html">Diesel engine jobs: impeller, filters and bleeding</a><span>Eleven jobs step by step: strainer and impeller, oil and fuel filters, bleeding the fuel system, belt tension, and hand starting with decompressors.</span></li>
+    <li><a href="diesel-engine-faults-and-spares.html">Diesel faults: smoke colour, checks and spares</a><span>Daily checks before you turn the key, the first thirty seconds, what blue, black and white smoke each mean, and how a symptom leads to one part.</span></li>
+  </ul>
+  <h3>Buoyage</h3>
+  <p class="sub">IALA A and B. Laterals, cardinals, isolated danger, safe water. Topmarks, colours, light characteristics — and which side you pass each one.</p>
+  <ul class="notas">
+    <li><a href="which-side-to-pass-a-buoy.html">Which side to pass a buoy, and why it depends</a><span>Decide which side of each mark to pass: what a cardinal actually tells you, which way the channel runs, where it splits, and why region B reverses the red.</span></li>
+    <li><a href="buoy-lights-at-night.html">Reading buoy lights at night and on the chart</a><span>Read a light by its rhythm, colour and period, learn the cardinal clock code, and find the same buoy written in chart abbreviations.</span></li>
+  </ul>
+  <h3>Lights and shapes of vessels</h3>
+  <p class="sub">Rules 20 to 31. What every vessel shows by day and by night, how the two say the same thing, and what she sounds like when you cannot see her at all.</p>
+  <ul class="notas">
+    <li><a href="navigation-lights-and-shapes.html">Navigation lights and shapes: what a vessel shows</a><span>Masthead lights, sidelights, sternlight and the arcs they cover, plus the day shapes: practice for the RYA Yachtmaster Offshore theory exam.</span></li>
+    <li><a href="identifying-vessels-by-their-lights.html">Identifying vessels by their lights and shapes</a><span>Name the vessel from her lights: not under command, restricted in her ability to manoeuvre, fishing, towing, pilot. Built up one lamp at a time.</span></li>
+    <li><a href="lights-from-your-own-bearing.html">Lights from your own bearing: what you can say</a><span>The same vessel looks different from every angle. Walk around her, judge range and aspect, and decide what one bearing lets you conclude.</span></li>
+    <li><a href="sound-signals-in-fog.html">Sound signals in fog and in sight of each other</a><span>Short and prolonged blasts build every signal: identify a vessel in fog by what you hear, and give the manoeuvring signals used in sight of her.</span></li>
+  </ul>
+  <h2 id="the-chart-series">The chart series</h2>
+  <h3>Module 01 &middot; The chart</h3>
+  <p class="sub">What a chart is, and how to read the paper and the ground under it.</p>
+  <ul class="notas">
+    <li><a href="reading-a-nautical-chart.html">Reading a nautical chart: position, distance, bearing</a><span>Read a paper chart for the RYA Yachtmaster Offshore theory exam: latitude and longitude to tenths, distance off the side scale, bearings with a plotter.</span></li>
+    <li><a href="chart-depths-and-soundings.html">Chart depths: soundings, contours and drying heights</a><span>Soundings, depth contours and colour, drying heights underlined on green, and how wrecks, rocks and danger lines tell you what water you have.</span></li>
+  </ul>
+  <h3>Module 02 &middot; Direction, distance and time</h3>
+  <p class="sub">Three quantities you cannot navigate without, and the sums that join them.</p>
+  <ul class="notas">
+    <li><a href="true-magnetic-and-compass.html">True, magnetic and compass: variation and deviation</a><span>Three norths and one heading, as the RYA Yachtmaster Offshore theory exam asks: read the rose, update variation, apply deviation, convert both ways.</span></li>
+    <li><a href="speed-distance-and-time.html">Speed, distance and time calculations for passages</a><span>Any two of speed, distance and time give you the third. Turn minutes into decimals, measure legs off the chart, and keep water and ground speeds apart.</span></li>
+    <li><a href="utc-bst-and-time-zones.html">UTC, BST and time zones in almanac tables</a><span>One instant, several clocks: convert between UTC, local time and BST, read the almanac zone sign the right way round, and give an ETA in another clock.</span></li>
+  </ul>
+  <h3>Module 03 &middot; Where you are</h3>
+  <p class="sub">Everything that needs no tide: bearings, transits, the sounding as a line, and how much each one is worth.</p>
+  <ul class="notas">
+    <li><a href="position-lines-bearings-and-transits.html">Position lines: bearings, transits and soundings</a><span>One line at a time: plot a compass bearing back from the object, use a transit, a sounding and a distance off, and judge which line you can trust.</span></li>
+    <li><a href="crossing-bearings-and-the-cocked-hat.html">Getting a fix: crossing bearings and the cocked hat</a><span>Cross two position lines for a fix, see why the angle of cut decides how big it is, and work a cocked hat: chartwork for Yachtmaster Offshore theory.</span></li>
+    <li><a href="dead-reckoning-and-the-running-fix.html">Dead reckoning and running a position line on</a><span>Plot course and distance run leg by leg, keep the reckoning through an alteration, and carry one position line forward to cross it with a later one.</span></li>
+  </ul>
+  <h3>Module 05 &middot; Where you're going</h3>
+  <p class="sub">Everything that does need the stream: dead reckoning, estimated position, course to steer.</p>
+  <ul class="notas">
+    <li><a href="tidal-streams-and-the-estimated-position.html">Tidal streams and the estimated position</a><span>The log cannot feel the stream. Draw one hour of it, apply it to your reckoning to get an estimated position, and measure what ignoring it costs.</span></li>
+    <li><a href="leeway-how-much-and-which-side.html">Leeway: how much, which side, and where it goes</a><span>Leeway changes the course you steer and never the distance run. Judge how much, decide which side she goes, and lay the water track with both in order.</span></li>
+    <li><a href="course-to-steer.html">Course to steer: the one hour vector triangle</a><span>From the track you want, build the one hour triangle with stream and leeway and read off the course to steer. A Yachtmaster Offshore theory staple.</span></li>
+  </ul>
+
+</main>
+
+<footer>
+  <p class="name">Offshore Theory</p>
+  <p>Independent preparation. Not affiliated with or accredited by the RYA.</p>
+  <p><a href="../index.html">Back to Offshore Theory</a></p>
+</footer>
+
+<!-- Cloudflare Web Analytics -->
+<script type='module' src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "624bbb73949b40f0aae4dafec49ac1f6"}'></script>
+<!-- End Cloudflare Web Analytics -->
+</body>
+</html>

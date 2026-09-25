@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Diesel cooling, oil and raw water circuits</title>
+<link rel="icon" type="image/svg+xml" href="../assets/img/favicon.svg">
+<meta name="description" content="Follow the oil under pressure, the fresh water circuit and the raw water side: impeller, heat exchanger, belt, and the alarms you never argue with.">
+<link rel="canonical" href="https://offshoretheory.com/notes/diesel-cooling-oil-and-water-circuits.html">
+
+<style>
+/* ---------------------------------------------------------------------------
+   Tipografias y paleta: las mismas declaraciones que index.html, copiadas tal
+   cual. Nada se carga de fuera del repositorio.
+   --------------------------------------------------------------------------- */
+@font-face{font-family:'IBM Plex Mono';font-style:normal;font-weight:400;font-display:swap;
+ src:url(../assets/fonts/IBMPlexMono-400-normal-latin.woff2) format('woff2');
+ unicode-range:U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD}
+@font-face{font-family:'IBM Plex Mono';font-style:normal;font-weight:400;font-display:swap;
+ src:url(../assets/fonts/IBMPlexMono-400-normal-latin-ext.woff2) format('woff2');
+ unicode-range:U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF}
+@font-face{font-family:'IBM Plex Sans';font-style:normal;font-weight:400 600;font-display:swap;
+ src:url(../assets/fonts/IBMPlexSans-400-normal-latin.woff2) format('woff2');
+ unicode-range:U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD}
+@font-face{font-family:'IBM Plex Sans';font-style:normal;font-weight:400 600;font-display:swap;
+ src:url(../assets/fonts/IBMPlexSans-400-normal-latin-ext.woff2) format('woff2');
+ unicode-range:U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF}
+@font-face{font-family:'Newsreader';font-style:normal;font-weight:500;font-display:swap;
+ src:url(../assets/fonts/Newsreader-500-normal-latin.woff2) format('woff2');
+ unicode-range:U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD}
+@font-face{font-family:'Newsreader';font-style:normal;font-weight:500;font-display:swap;
+ src:url(../assets/fonts/Newsreader-500-normal-latin-ext.woff2) format('woff2');
+ unicode-range:U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF}
+@font-face{font-family:'Gloock Logo';font-style:normal;font-weight:400;font-display:swap;
+ src:url(../assets/fonts/gloock-logo.woff2) format('woff2')}
+
+:root{
+  --night:#0E1116;
+  --night-2:#161B22;
+  --line:#46525F;
+  --ink:#E8EAED;
+  --ink-soft:#9BA6B2;
+  --dim:#8B96A2;
+  --faint:#79838F;
+
+  /* -- Los tres colores del curso. Nada de esto se repite suelto mas abajo. --
+     acento : --accent-graphic de balizamiento y luces. El ambar de los
+              elementos destacados. NO es --alarm (#B33A22), que es el rojo
+              de los avisos. En rules-of-the-road el mismo ambar es --ochre.
+     azul   : --water de balizamiento.
+     magenta: --magenta-soft de rules-of-the-road.                         */
+  --accent:#C97B1B;
+  --blue:#8FC3DA;
+  --magenta:#E86AA0;
+
+  /* Tinta sobre el ambar macizo del boton: 5,6:1 de contraste. */
+  --on-accent:#1A1206;
+
+  --line-top:#232B36;   /* filetes: bajo la barra y entre las columnas */
+
+  --col-hover:rgba(255,255,255,.03);  /* aclarado de columna al pasar el raton */
+  --card-link:#C3CBD4;
+  --f-display:"Newsreader",ui-serif,Georgia,"Palatino Linotype","Times New Roman",serif;
+  --f-ui:"IBM Plex Sans",system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;
+  --f-mono:"IBM Plex Mono",ui-monospace,"SF Mono","Segoe UI Mono",Menlo,Consolas,monospace;
+}
+
+*{box-sizing:border-box}
+html,body{margin:0;padding:0}
+body{background:var(--night);color:var(--ink);font:15px/1.6 var(--f-ui);
+ -webkit-font-smoothing:antialiased}
+
+/* --- barra del logo, identica a la de la portada -------------------------- */
+/* Barra superior, pegada al borde de arriba. */
+.topbar{margin:0;padding-top:16px;padding-bottom:16px;
+ border-bottom:0.5px solid var(--line-top)}
+/* Su relleno lateral, el mismo corto que en la portada. */
+.topbar{padding-left:clamp(20px,2vw,34px);padding-right:clamp(20px,2vw,34px)}
+
+/* Logo: simbolo ambar y nombre en claro. El ambar solo en el simbolo. */
+.logo{display:inline-flex;align-items:center;gap:14px;text-decoration:none}
+.logo:hover,.logo:focus-visible{filter:brightness(1.15)}
+.logo svg{display:block;flex:none}
+.logo__name{font-family:"Gloock Logo",serif;font-size:clamp(18px,1.6vw,26px);
+ color:var(--ink);letter-spacing:.3px;line-height:1.1}
+
+/* --- el texto ------------------------------------------------------------- */
+.doc{max-width:680px;margin:0 auto;padding:72px clamp(24px,4vw,40px) 96px}
+
+.doc h1{font-family:var(--f-display);font-weight:500;font-size:clamp(30px,3.4vw,44px);
+ line-height:1.15;letter-spacing:-.01em;color:var(--ink);margin:0 0 10px}
+.doc .updated{font-family:var(--f-mono);font-size:12px;color:var(--dim);margin:0 0 48px}
+
+.doc h2{font-family:var(--f-display);font-weight:500;font-size:clamp(20px,1.9vw,26px);
+ line-height:1.25;color:var(--ink);margin:44px 0 14px}
+
+.doc p{font-size:15px;line-height:1.7;color:var(--ink-soft);margin:0 0 18px}
+.doc .who{color:var(--ink)}
+
+.doc a{color:var(--accent);text-decoration:none}
+.doc a:hover,.doc a:focus-visible{text-decoration:underline}
+
+/* --- BLOQUE 3 · pie -------------------------------------------------------- */
+footer{background:var(--night);padding:44px 64px;border-top:0.5px solid rgba(70,82,95,.4)}
+footer p{margin:0;font-size:12px;line-height:1.7;color:var(--faint)}
+footer .name{font-family:var(--f-mono);letter-spacing:.1em;color:var(--dim)}
+footer a{color:var(--dim);text-decoration:none}
+footer a:hover,footer a:focus-visible{color:var(--ink-soft)}
+
+/* --- MOVIL ---------------------------------------------------------------- */
+@media (max-width:800px){
+  .topbar{padding-left:24px;padding-right:24px}
+  .logo svg{width:28px;height:28px}
+  .logo__name{font-size:18px}
+  .doc{padding:48px 24px 64px}
+  .doc h2{margin-top:36px}
+  footer{padding:36px 24px}
+}
+/* --- lo que anaden las notas, con los tokens de arriba y ningun color nuevo --- */
+.doc p.lede{font-family:var(--f-display);font-size:clamp(17px,1.6vw,21px);
+ line-height:1.5;color:var(--ink);margin:0 0 30px}
+.doc p b{color:var(--ink);font-weight:600}
+.doc p i{color:var(--dim)}
+.doc .ir{margin:0 0 6px;padding:15px 18px;background:var(--night-2);
+ border:0.5px solid var(--line-top);border-left:2px solid var(--accent)}
+.doc .ir a{font-family:var(--f-mono);font-size:13px;letter-spacing:.02em}
+.doc .ir .que{display:block;margin-top:6px;font-size:13px;color:var(--faint)}
+.doc h2{scroll-margin-top:24px}
+
+/* --- y lo que anade la portada de las notas --- */
+.doc h3{font-family:var(--f-ui);font-weight:600;font-size:15px;letter-spacing:.01em;
+ color:var(--ink);margin:30px 0 4px}
+.doc p.sub{font-size:14px;color:var(--faint);margin:0 0 14px}
+.doc ul.notas{list-style:none;margin:0;padding:0}
+.doc ul.notas li{padding:11px 0;border-top:0.5px solid var(--line-top)}
+.doc ul.notas li:last-child{border-bottom:0.5px solid var(--line-top)}
+.doc ul.notas a{font-weight:600}
+.doc ul.notas span{display:block;margin-top:4px;font-size:14px;line-height:1.55;
+ color:var(--ink-soft)}
+</style>
+</head>
+
+<body>
+
+<div class="topbar">
+  <a class="logo" href="../index.html">
+    <svg viewBox="0 0 40 40" width="34" height="34" aria-hidden="true">
+      <path d="M17 17 L25 19 L20 25 Z" fill="var(--accent)" fill-opacity="0.5"/>
+      <line x1="7" y1="14.5" x2="35" y2="21.5" stroke="var(--accent)"
+            stroke-width="1.4" stroke-linecap="round"/>
+      <line x1="29" y1="14" x2="16" y2="30" stroke="var(--accent)"
+            stroke-width="1.4" stroke-linecap="round"/>
+      <line x1="21.5" y1="29" x2="15.5" y2="13" stroke="var(--accent)"
+            stroke-width="1.4" stroke-linecap="round"/>
+    </svg>
+    <span class="logo__name">Offshore Theory</span>
+  </a>
+</div>
+
+<main class="doc">
+
+  <h1>What keeps it alive — The oil</h1>
+  <p class="updated">Reading notes &middot; The diesel engine</p>
+  <p class="lede">Phases 4 to 6. The three circuits that stop it destroying itself — oil, fresh water and the sea — and what each one tells you when it goes wrong.</p>
+  <p class="ir"><a href="../chapters/c31-p1b-what-keeps-it-alive.html">Open the interactive chapter &rarr;</a><span class="que">The same material with the chart, the drawings and the exercises.</span></p>
+
+  <h2 id="keeping-it-alive-phase-4-the-oil">Keeping it alive · Phase 4 · The oil</h2>
+  <h3>The sump stops being silent</h3>
+  <p><b>You bolted this on three phases ago and nobody told you what it was for. Here it is.</b></p>
+  <p>The <b>sump</b> is the tray at the bottom of the engine, and it is where all the oil lives when the engine is not running. Every drop that goes anywhere in this engine starts here and comes back here. There is nothing else — no separate tank, no reservoir somewhere else in the boat. <b>What is in that tray is all the oil the engine has.</b></p>
+  <p>Sitting in the lowest part of it is the <b>pickup strainer</b>, a coarse mesh. The pump draws everything through it, so anything solid enough to matter is stopped before it can reach a bearing.</p>
+  <p><b>You will never see it, service it, or clean it afloat.</b> It is welded into the bottom of a tray you cannot open without lifting the engine.</p>
+  <p><b>Which is exactly why oil changes matter.</b> Oil wears out — it collects soot, water and metal, and it turns to sludge — and that sludge settles in the bottom of the sump, right where that mesh is. Change the oil on time and it never builds up. Leave it and one day the pump is trying to draw through a blocked screen, and the first you know is an alarm.</p>
+  <h3>Under pressure, and through a filter</h3>
+  <p><b>The oil pump is a pair of gears, driven straight off the crankshaft.</b></p>
+  <p>That last part matters more than it sounds. <b>It is not switched on and it cannot be turned off.</b> The instant the crankshaft moves — the instant the starter engages — the pump is turning and the whole system is coming up to pressure. There is no delay and no warm-up.</p>
+  <p><b>Everything the pump pushes goes through the filter</b>, which is a spin-on cartridge — a can you unscrew and throw away. It catches the carbon and the fine metal that the coarse strainer let through.</p>
+  <p><b>And it has a detail in it worth knowing.</b> A filter that blocks completely would starve the engine, so there is a <b>bypass valve</b> built into it: if the filter clogs, the valve opens and unfiltered oil goes round it and on into the engine.</p>
+  <p><b>That is deliberate, and it tells you what the designers were afraid of.</b> Dirty oil wears an engine out slowly. <b>No oil destroys it in seconds.</b> Given the choice they took dirty, every time.</p>
+  <h3>Everywhere, and back down on its own</h3>
+  <p><b>From the filter the oil goes into one long drilled passage running the length of the block. That is the main gallery, and it is the trunk road.</b></p>
+  <p>Off it, smaller drillings branch to everywhere that turns or rubs: <b>every main bearing the crankshaft sits in, every big end where a connecting rod grips it, and the camshaft.</b> Some engines also aim a small jet at the underside of each piston, to cool the crown and oil the bore from below.</p>
+  <p>You will never see any of it. It is a network of narrow holes drilled through solid iron, and it is invisible for the life of the engine. <b>What you need to take from it is why narrow matters: sludge blocks narrow holes, and a blocked drilling starves one bearing while every gauge on the boat reads normal.</b></p>
+  <p><b>And then look at what happens at the end of it.</b> The oil comes out of the bearings, and there is nothing to collect it and nothing to pump it back.</p>
+  <p><b>It falls.</b> Down the inside of the block, off the crankshaft, down the walls, into the tray it started in. <b>The whole return side of this circuit is gravity</b>, which is why the sump is at the bottom and why the engine has to sit more or less level to work properly.</p>
+  <h3>Where two circuits touch</h3>
+  <p><b>Oil does its job by being slippery, and it stops being slippery when it gets hot.</b></p>
+  <p>The film of oil between a bearing and a shaft is thinner than you can imagine, and it holds them apart by being just thick enough. Heat it and it thins, the film breaks down, and metal touches metal. So on a hard-working engine the oil is cooled on purpose.</p>
+  <p><b>This is the oil cooler, and it is the odd one out on this engine.</b> Look at its color. It is not the color of the engine parts you have been building — it belongs to the seawater circuit, which you have not built yet.</p>
+  <p><b>That is because it belongs to both.</b> Inside it, engine oil runs on one side and raw seawater runs on the other, separated by a thin metal wall. Heat crosses that wall. Nothing else is supposed to.</p>
+  <p><b>It is one of only two places on this engine where oil or coolant and the sea are a wall apart</b> — you will build the other one, the heat exchanger, in the next phase — and it is the reason it matters here: <b>when that wall fails, they mix.</b></p>
+  <h3>Too little, and too much</h3>
+  <p><b>The dipstick is the only window into this whole circuit, and it is a stick.</b> It has two marks on it, and what matters is that <b>both</b> of them are limits.</p>
+  <p><b>Too little is the obvious one.</b> Less oil in the tray means the pickup is nearer the surface, and a boat does not sit still. Heel her, or drive her into a head sea, and the oil runs to one end of the sump and the pump draws air instead. <b>A level that would be fine in a car can be dangerous in a boat, for the simple reason that boats lean.</b></p>
+  <p><b>Too much is the one people get wrong, because it sounds harmless.</b> Overfill the sump and the crankshaft — turning fast, a few centimetres above the oil — dips into it and whips it. <b>You do not get oil any more, you get foam, and a pump cannot pump foam.</b> Pressure falls even though the stick reads full.</p>
+  <p><b>And read it properly, because a stick read badly lies with confidence.</b> Pull it out, wipe it clean, push it all the way home, pull it out again, and read <i>that</i>. Cold, before you start, with the boat sitting level.</p>
+  <p><b>And there is a second dipstick you have not met.</b> The gearbox has its own oil, its own rules and its own dipstick, and it is the one people forget — some boxes take engine oil and some take automatic transmission fluid, and they are not interchangeable.</p>
+  <h3>Milky, and rising</h3>
+  <p><b>Oil tells you what is happening inside a closed engine, and it does it two ways: by its colour, and by its level.</b></p>
+  <p><b>Milky means water.</b> Clean oil is amber and clear; oil with water in it goes pale and opaque, like coffee with too much milk in it, and once you have seen it you never mistake it. There are <b>exactly two ways water gets in</b>, and you have already built both.</p>
+  <p><b>The head gasket</b> — the joint you learned in the very first phase, with coolant on one side of it and the combustion chamber on the other. And <b>the oil cooler</b> — the thin wall you built two screens ago, with oil on one side and raw seawater on the other.</p>
+  <p><b>Both look identical on the stick.</b> Seawater is much the worse of the two — salt in a bearing is a different order of damage — but you stop the engine for either.</p>
+  <p><b>And a level that rises on its own means diesel.</b> Nobody added any and there is more oil than there was: fuel is getting down into the sump, and the commonest way is a mechanical lift pump whose diaphragm has split.</p>
+  <h3>The alarm you never argue with</h3>
+  <p><b>There is one warning on this engine that you obey before you understand it.</b></p>
+  <p>The oil-pressure switch is a simple thing screwed into the main gallery: it watches the pressure in that drilled passage and it closes a circuit when the pressure is not there. That is all it does. <b>It does not know why, and it does not know how much oil is in the sump.</b></p>
+  <p><b>What it is telling you is that the film is gone</b> — that somewhere in the engine metal is running on metal — and that is measured in seconds, not minutes. A bearing that has been run without oil does not recover when the oil comes back.</p>
+  <p><b>So the rule is short: it sounds, you stop.</b> Not «finish the leg», not «get into the anchorage first». You stop the engine, and then you find out why.</p>
+  <p><i>And know the other half: on most boats the alarm sounds when you turn the key and stops when the engine fires. If it never sounded at all when you switched on, the warning system itself is dead — and you have been going to sea without it.</i></p>
+  <h3>What the oil is telling you</h3>
+  <p><b>Three engines, three dipsticks. Say what has happened in each.</b></p>
+  <h2 id="keeping-it-alive-phase-5-fresh-water">Keeping it alive · Phase 5 · Fresh water</h2>
+  <h3>One belt, three jobs</h3>
+  <p><b>A marine engine is cooled twice over, and this phase builds the inner half of it.</b></p>
+  <p>A car engine is cooled by air blowing through a radiator. A boat has no air worth having, but it is sitting in an unlimited supply of cold water — <b>and that water is salt, and salt cannot be allowed inside an engine.</b> It corrodes the castings and deposits scale in passages you can never reach. <b>So there are two circuits</b> — a sealed one of fresh water and antifreeze that never leaves the engine, and an open one that draws seawater in, takes the heat away and puts it back over the side. <b>They touch in exactly two places and they never mix.</b> You have met one of them already: the oil cooler.</p>
+  <p><b>This screen is the pump that drives the sealed one.</b> It is on the front of the engine and it is turned by a belt — and look at what else is on that belt. <b>The alternator, which charges your batteries. The pump that will bring in the seawater, one phase from now. And the whole lot is turned by one pulley on the nose of the crankshaft.</b></p>
+  <p><b>And it is tightened by moving the alternator.</b> That is what the slotted bracket is for: slacken its pivot bolt and its adjusting bolt, lever the alternator outwards until the belt is tight, and do the bolts up again. <b>The alternator is not just something the belt drives — it is the tensioner</b>, and that is why it is the part you take hold of when a belt is slack.</p>
+  <p><i>So one belt runs both cooling circuits and all your charging. That is why B is in WOBBLE, why the belt is checked before every trip, and why a spare belt is the second spare you carry, behind the impeller.</i></p>
+  <h3>It goes round, and it never leaves</h3>
+  <p><b>This circuit is a closed loop, and that is the first thing to understand about it.</b></p>
+  <p>The same coolant goes round and round inside this engine for years. It leaves the header tank, it goes through the engine, it gives its heat to the sea, and it comes back to the tank it started from. <b>Nothing is added and nothing is used up.</b> A circuit like this should never need topping up — and that is why it matters so much when it does.</p>
+  <p><b>From the pump it goes straight into the castings.</b> The block and the head are not solid: cast into both of them is a network of cavities wrapping every cylinder and the top of every combustion chamber — <b>the water jacket</b>. The heat of burning fuel goes into the metal, and the metal hands it to the coolant flowing past on the other side. That is the whole cooling job, and it happens where you will never see it. <b>On the way out it passes the thermostat</b>, which decides whether it is allowed to leave the engine yet, <b>and then the heat exchanger</b>, where it gives the heat to the sea without ever touching it. Both of those are coming in a moment.</p>
+  <p><b>And what is in there is not water.</b> Coolant is two things. It is <b>antifreeze</b>, which is the part everyone knows about — a boat laid up ashore in a cold country will freeze the water in her block, and freezing water splits castings. <b>And it is a corrosion inhibitor, which is the part that matters all year round.</b> The inside of that jacket is bare cast iron with other metals bolted to it, warm and wet, for years. Plain water corrodes it and furs it up. <b>The inhibitor is what keeps those passages the size the designer drew them</b>, and it wears out — which is why coolant is changed on a schedule and not topped up forever.</p>
+  <p><b>In an emergency, fresh water will get you home.</b> Rain water, bottled water, water out of the tank: put it in, run the engine, get in, then drain it and refill properly. <b>Coolant. Then fresh water. Then stop the engine</b> — a stopped engine is not a damaged engine, and on most days losing it costs you an afternoon. <b>Seawater comes after all three, and only when stopping is the dangerous option</b>: a lee shore, a narrow channel with the tide running. Then you put the sea in, you get out of it, and you accept the engine is now a job for the yard. <b>The rule is not «never». The rule is: never for convenience.</b></p>
+  <h3>Kept hot on purpose</h3>
+  <p><b>A cold engine is not a safe engine. It is a worn engine.</b></p>
+  <p>That is the part people get backwards. Overheating is obviously bad, so it seems as though cooler must be better, and it is not. <b>Below its working temperature a diesel burns its fuel badly</b>: unburned diesel washes the film of oil off the cylinder walls and drains down into the sump, thinning the oil that is supposed to be protecting the bearings. Water condenses in a cold crankcase for the same reason it condenses on a cold window. She smokes, she drinks more fuel, and she wears out faster doing it.</p>
+  <p><b>So the engine is held at a temperature on purpose, and the thing that holds it there is the thermostat.</b> It is a valve that opens with heat, and nothing else. <b>Cold, it is shut</b> — the coolant cannot get out to the heat exchanger, so it circulates inside the engine and warms up quickly. <b>Hot, it opens</b>, and the coolant is let out to be cooled. It sits somewhere in between for the whole of a normal passage, holding her steady.</p>
+  <p><b>The temperature it opens at is not a secret and it is not a guess: it is stamped on the thermostat itself</b>, and your engine's book gives the same figure. If anybody asks you what temperature your thermostat opens at, <b>that is the answer</b> — not a number you memorized, but where the number is written.</p>
+  <p><b>It fails in two directions, and they look nothing alike.</b> <b>Stuck shut</b> is the dangerous one: the coolant can never reach the heat exchanger, nothing takes the heat away, and the engine cooks — the needle climbs and keeps climbing. <b>Stuck open</b> is the slow one: she never reaches working temperature, the gauge barely lifts, and nothing dramatic ever happens, which is why people motor around like that for years. <i>It is one of the cheapest parts on the engine and one of the easiest to change. Carry a spare.</i></p>
+  <h3>Where the heat leaves</h3>
+  <p><b>This is the radiator, and the air blowing through it is the sea.</b></p>
+  <p>Inside the shell there is a <b>bundle of small tubes</b>. Seawater is pumped through the inside of those tubes; the hot coolant from the engine flows around the outside of them. Heat crosses the tube walls. <b>Nothing else does.</b> The coolant that leaves here is the same coolant that arrived, cooler, and it goes straight back to the tank to start again.</p>
+  <p><b>You have seen this arrangement before</b>, one phase back. The oil cooler is the same idea in a smaller can. <b>These two are the only places on the whole engine where the sealed circuit and the sea come within a wall of each other.</b></p>
+  <p><b>The tubes block, and that is the failure to expect.</b> Seawater leaves salt and scale on everything it touches, and it leaves it inside those tubes. A furred bundle still works — just not as well. So the classic symptom is not an engine that overheats: it is <b>an engine that overheats only when you ask something of it.</b> Fine at cruising revs, hot when you push her, fine again when you throttle back. That is a heat exchanger that has lost some of its capacity, and it needs the bundle out and cleaned.</p>
+  <p><b>And there is a zinc in there doing a job you never see.</b> Screwed into the shell is a <b>pencil anode</b> — a soft zinc rod. Different metals sitting in seawater eat each other, and the zinc is there to be the one that gets eaten, so that the tube bundle is not. <b>It is meant to be consumed.</b> Check it, and replace it before it disappears: <i>an anode that has gone completely is not a job you have finished, it is a job that stopped protecting anything some time ago.</i></p>
+  <h3>The tank, and what a falling level means</h3>
+  <p><b>The circuit is sealed, so it should never need topping up. When it does, something is wrong, and where it went tells you what.</b></p>
+  <p>The <b>header tank</b> is the top of the loop, and it does two things. Coolant expands as it heats and has to go somewhere, and this is the somewhere. And it is where you look at the level and where you top it up.</p>
+  <p><b>The cap is not a lid, it is a valve, and it holds the circuit under pressure.</b> That is deliberate: a liquid under pressure boils at a higher temperature than the same liquid in an open pot, so pressurising the system lets the engine run hotter without the coolant boiling. <b>Which is exactly why you never open it on a hot engine.</b> The coolant in there is above the temperature it would boil at if the pressure went away — take the cap off and the pressure does go away, all at once, and the whole lot flashes into steam and comes out at your face. <b>People are badly scalded doing this every season, and they are always in a hurry.</b></p>
+  <p><b>Where a sealed circuit loses coolant, and there are three places.</b> <b>Outside</b>, where you can see it — a hose, a clip, a pump seal, the tank itself; look under the engine for the crusty white or pink trail dried coolant leaves. This is much the commonest and it is the one to look for first. <b>Into the engine</b>, through the head gasket — and that is when your oil goes milky. <b>Out of the exhaust</b>, when coolant gets into a cylinder and is burned: no puddle anywhere, and white smoke that does not clear once she is warm.</p>
+  <p><b>And now the circle from the last phase closes.</b> Milky oil means water in the oil, and there were two ways it could get there — the head gasket, or the oil cooler. This tank is what tells you which. <b>The head gasket is losing coolant to do it, so this level drops. The oil cooler is letting in seawater, and this sealed loop never even hears about it, so this level does not move.</b> One glance at a plastic tank, and you have separated a cylinder-head job from a heat-exchanger job.</p>
+  <h3>Read the symptom</h3>
+  <p><b>Three engines, three cooling complaints. Say what is at the bottom of each.</b></p>
+  <h2 id="keeping-it-alive-phase-6-salt-water">Keeping it alive · Phase 6 · Salt water</h2>
+  <h3>Two holes in the boat</h3>
+  <p><b>Every circuit you have built so far is closed. This one is not.</b></p>
+  <p>It starts at a <b>seacock</b> — a valve through the hull, below the waterline — and it ends at a fitting in the transom. Between those two holes runs the sea, through your engine room, inside hoses held on with clips. <b>That changes what kind of thing this is.</b> A fuel leak is a problem; a cooling circuit that lets go below the waterline is a hole in the boat that does not stop. <b>Know where every seacock is, know which way each one closes, and be able to find them in the dark.</b> This is the phase where cooling and seamanship are the same subject.</p>
+  <p><b>And beside every seacock lives a soft wooden bung</b> — tapered, on a lanyard, tied to it. If a seacock fails, or a hose comes off it, you have a hole below the waterline and a valve you can no longer use, and the bung is hammered into it from the inside. <b>It only works if it is there and it is the right one.</b> A bung in a locker is a bung you will not find in the dark with water coming in. <i>An examiner will point at a seacock and ask what should be beside it, and this is the answer — because anybody who has thought about the hole has thought about the whole problem.</i></p>
+  <p><b>Straight after the seacock the water goes through a strainer</b> — a clear-topped pot with a basket in it. Weed, plastic bags, sand and the odd small jellyfish are caught here, <b>before the pump</b>, which is the whole point: the pump is the delicate thing. <b>You can see into it, so look into it.</b> A basket filling with weed is the first thing to check when an engine starts running warm, and you can check it without touching anything.</p>
+  <p><b>And there is one rule about opening it. Close the seacock first — every time, without exception.</b> That strainer is below the waterline and it is connected to the sea by an open valve. Undo the lid with the seacock open and the sea comes up through it into the boat, and it goes on coming until somebody reaches past it to close a valve they can no longer see. <b>And open it again afterwards</b> — an engine started with the seacock shut is an engine whose pump is running dry, and you have one screen to wait before you find out what that costs.</p>
+  <h3>The rubber that dies in seconds</h3>
+  <p><b>This is the single most talked-about part on a marine diesel, and it is a lump of rubber.</b></p>
+  <p>The <b>impeller</b> is a rubber hub with flexible vanes, turning inside a housing that is not round, so the vanes bend as they pass the narrow part and spring out again after it. <b>Each vane traps a pocket of water and carries it round</b> — and it does that whether there is water in the pump to start with or not, which is why it can pull a column of seawater up from below itself without being primed. It has to: this pump sits above the waterline and draws from under it.</p>
+  <p><b>And it must never run dry.</b> The rubber vanes are cooled and lubricated by the water they pump and by nothing else. Run it with no water and the vanes are dragging against a dry bronze housing at engine speed. <b>This is not a matter of minutes. It is seconds.</b> Start the engine with the seacock shut, notice, and shut down — and the impeller may already be finished. <i>That is why closing the seacock and forgetting to open it is such an expensive mistake, and why you tie a note to the key.</i></p>
+  <p><b>When it breaks, the pieces go somewhere.</b> Vanes do not fail politely: they tear off — usually one or two — and the pump goes on turning with the rest. <b>And the pieces go downstream.</b> They leave the pump with the water, and the first thing narrow enough to stop them is the tube bundle in the heat exchanger. There they sit, blocking tubes, and the engine you have just fixed by fitting a new impeller carries on overheating.</p>
+  <p><b>So when you change one, you count.</b> Count the vanes on the old one against the new one. <b>If any are missing, you know where they are</b>, and until they are out of the bundle the job is not finished. <i>The people who know this are the people who have done it once and had to do it twice.</i> <b>Carry a spare — it is the first spare on the RYA's list and on everybody else's.</b></p>
+  <h3>Where the exhaust gets wet</h3>
+  <p><b>The seawater has done its cooling job by now, and it is warm. It is also still in your boat, and it has to leave.</b> On the way out it does a second job, and it is the one that makes a marine exhaust possible at all.</p>
+  <p><b>At the mixing elbow the seawater is injected straight into the exhaust gas.</b> You built that gas four phases ago and left it at the manifold, dry and extremely hot. Here it stops being dry. <b>The water cools it and quietens it in the same moment</b> — and that is why everything downstream of this point can be ordinary rubber hose and a plastic drum instead of steel and lagging. <i>The elbow is also where carbon builds up over twenty years and narrows the passage, which is a classic cause of an old engine that overheats gradually and for no reason anybody can find.</i></p>
+  <p><b>And on the way there, the loop that stops the sea siphoning back.</b> Look at the pipe before the elbow: it goes <b>up</b>, over the top, and down again. On many boats the engine sits low enough that the mixing elbow is near or below the waterline — stop the engine and you have an unbroken column of water from the sea to a point below sea level, and water will happily flow down it all night, back into the exhaust, up to an open valve, and into a cylinder.</p>
+  <p><b>The vented loop breaks that.</b> It carries the pipe up above the waterline and puts <b>a small air valve at the top</b>, so the moment the pump stops pushing, air is let in and the column of water breaks. <b>No siphon can survive a hole in the top of it.</b> <i>And that little valve is salt water's favourite thing to block up: it furs solid, quietly, and the loop stops working without anything appearing to change. Clean it every season and carry a spare.</i></p>
+  <p><b>So the circuit is complete, and it is the only one on this engine that begins and ends outside the boat.</b> It begins at a hole below the waterline and it ends at a hole in the transom, and everything you have built in this phase is what happens in between.</p>
+  <h3>And how the sea is stopped from coming back</h3>
+  <p><b>Everything in this circuit is full of water when the engine stops, and some of it is below the sea.</b> Two separate things stop that water finding its way back into the engine, and you now have both. <b>The vented loop</b> you have just built breaks the siphon.</p>
+  <p><b>And this drum does the rest.</b> The <b>waterlock</b> sits at the low point of the exhaust and it is meant to hold a slug of water permanently. That slug silences the gases going past — and, much more importantly, <b>it is a trap: water sitting in the bottom of a drum cannot run back up a pipe that leaves from higher than it does.</b></p>
+  <p><b>And now the warning from the fuel phase makes sense.</b> Three phases ago, in the middle of a fuel problem, you were told: before a long session on the starter, close the seacock or take the impeller out. <b>Here is why, with the parts in front of you.</b></p>
+  <p><b>The raw-water pump is driven by the engine, and it does not know whether the engine has fired.</b> Every turn of the starter is a turn of that pump, and every turn puts more seawater into the exhaust. <b>When the engine runs, exhaust gas blows all of it out of the transom. When it does not fire, nothing blows anything anywhere.</b> The water goes into this drum. The drum fills. Then it backs up the pipe, reaches the mixing elbow, and runs down towards an exhaust valve standing open on one of the four cylinders.</p>
+  <p><b>Water does not compress.</b> The next time that piston comes up, it comes up against a cylinder full of water, and something bends or breaks. <b>That is hydraulic lock, and it is one of very few ways to destroy a marine diesel in an afternoon.</b> <i>So: it did not start, and you have been cranking. Stop. Close the seacock or pull the impeller — and tie a note to the key, because an impeller run dry is finished in seconds and you have just made that easy to forget.</i></p>
+  <h3>Thirty seconds</h3>
+  <p><b>Start the engine, and look over the stern.</b></p>
+  <p>Within the first few seconds — well inside half a minute — <b>water should be coming out of the exhaust with the gases</b>, spitting and pulsing. <b>It is doing it in front of you now.</b> If it is doing it on your boat, you can stop worrying about the entire raw-water circuit and go and do something else.</p>
+  <p><b>Because that one look tests all of it at once.</b> Water at the transom means, without you touching anything: <b>the seacock is open</b>; <b>the strainer is not blocked</b>; <b>the impeller is turning and it is in one piece</b>; <b>the belt is on and tight</b>, because that belt is what turns the pump; and <b>nothing downstream is blocked</b>, because the water got all the way through. <b>Five checks, one glance, every single start.</b> There is nothing else in this engine room with that ratio, and it is the reason <b>E is in WOBBLE</b>.</p>
+  <p><b>And if there is no water: stop the engine. Not in a minute — now.</b> The impeller is being destroyed while you decide, and behind that, nothing is taking the heat out of your engine. <b>Every second you spend wondering is a second of both.</b></p>
+  <p><b>Stopping costs you nothing you cannot get back.</b> Not stopping costs you an impeller at best, and at worst a cooked engine with a warped head. <i>This is the one check in this whole module where the right answer is to act before you understand. Then you can start looking, and the next screen is how.</i></p>
+  <h3>Four causes, and the question that splits them</h3>
+  <p><b>She is overheating. There are four common causes, and before you touch any of them there is one question that cuts the list in half: is there water coming out of the exhaust?</b></p>
+  <p><b>No water.</b> Then the fault is in this circuit, the open one, and there are three places to look — <b>in this order, because it goes from free to awkward</b>. <b>The seacock:</b> is it open? Two seconds, no tools, and it is closed more often than anybody likes to admit — usually by the person who cleaned the strainer. <b>The strainer:</b> look through the top; a basket packed with weed or a plastic bag starves the pump. <b>The impeller:</b> cover off, and look — vanes missing, or a hub gone hard. <b>And count what you find.</b></p>
+  <p><b>Water at the exhaust.</b> Then this circuit is working — seacock, strainer, impeller and belt are all proved by the water in front of you — and the fault is in the sealed circuit you built last phase: <b>coolant level, thermostat, or a heat exchanger furred up inside.</b></p>
+  <p><b>And the fourth cause sits across both.</b> The belt drives the freshwater pump <i>and</i> the seawater pump, so when it goes you lose both circuits at once — and your charging with them. <b>That is why a temperature needle and a battery light coming on together is a belt until proved otherwise</b>, and why it is the one fault you diagnose from the panel before you open anything.</p>
+  <p><b>Four causes: seacock, strainer, impeller, belt.</b></p>
+  <h3>Read the symptom</h3>
+  <p><b>Three engines running hot. Say what is at the bottom of each.</b></p>
+
+  <p class="ir"><a href="../chapters/c31-p1b-what-keeps-it-alive.html">Open the interactive chapter &rarr;</a><span class="que">The same material with the chart, the drawings and the exercises.</span></p>
+  <p class="ir"><a href="index.html">All the reading notes &rarr;</a></p>
+
+</main>
+
+<footer>
+  <p class="name">Offshore Theory</p>
+  <p>Independent preparation. Not affiliated with or accredited by the RYA.</p>
+  <p><a href="../index.html">Back to Offshore Theory</a></p>
+</footer>
+
+<!-- Cloudflare Web Analytics -->
+<script type='module' src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "624bbb73949b40f0aae4dafec49ac1f6"}'></script>
+<!-- End Cloudflare Web Analytics -->
+</body>
+</html>
