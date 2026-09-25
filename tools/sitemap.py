@@ -45,6 +45,12 @@ SALIDA = os.path.join(RAIZ, u"sitemap.xml")
 #  paginas son el curso y cuales el papeleo.
 PORTADA = u"1.0"
 CAPITULO = u"0.7"
+#  ── LAS NOTAS DE ESTUDIO · 25 de septiembre de 2026 ────────────────────────
+#  Una por capitulo, en `notes/`: la misma leccion en HTML quieto, para quien no
+#  ejecuta JavaScript. Valen lo mismo que el capitulo del que salen --- son su texto
+#  ---, y su portada un poco mas, porque es la que lleva a las veintidos.
+NOTA = u"0.7"
+PORTADA_NOTAS = u"0.8"
 OTRA = u"0.3"
 
 #  Lo que no es una pagina aunque acabe en `.html`.
@@ -128,6 +134,28 @@ def paginas():
     for f in sorted(os.listdir(ch)):
         if f.endswith(u".html"):
             out.append((u"chapters/" + f, u"chapters/" + f, CAPITULO))
+    #  ── Y LAS NOTAS ────────────────────────────────────────────────────────
+    #  LA URL DE CADA UNA ES LA QUE ELLA MISMA DECLARA EN SU `canonical`, y por eso
+    #  la portada de las notas entra como `notes/` y no como `notes/index.html`:
+    #  su canonical es `https://offshoretheory.com/notes/`. Poner en el sitemap una
+    #  direccion distinta de la canonica es ensenarle al buscador dos paginas donde
+    #  hay una --- el mismo caso que la portada del sitio, que entra como `/` ---.
+    #
+    #  Y SI LA CARPETA NO ESTA, SE PARA. Con un `isdir` silencioso, el dia que no
+    #  estuviera el sitemap saldria con 47 URL y diria que todo bien: exactamente la
+    #  clase de medida que contesta en vez de reventar.
+    nt = os.path.join(RAIZ, u"notes")
+    if not os.path.isdir(nt):
+        raise SystemExit(u"  PARADO: no esta `notes/`. Si de verdad se ha retirado,\n"
+                         u"  quitalo de este fichero a proposito.")
+    hojas = sorted(f for f in os.listdir(nt) if f.endswith(u".html"))
+    if u"index.html" not in hojas:
+        raise SystemExit(u"  PARADO: `notes/` no trae su `index.html`, que es la\n"
+                         u"  pagina que lleva a todas las demas.")
+    out.append((u"notes/index.html", u"notes/", PORTADA_NOTAS))
+    for f in hojas:
+        if f != u"index.html":
+            out.append((u"notes/" + f, u"notes/" + f, NOTA))
     #  y se cae lo que la propia pagina declara `noindex`
     dentro, fuera = [], []
     for rel, url, pri in out:
@@ -169,9 +197,21 @@ def main():
     texto = u"\n".join(x)
 
     print(u"paginas en el sitemap: %d" % len(filas))
-    for loc, lm, pri in filas[:4]:
+    #  EL DESGLOSE, CONTADO Y NO ESCRITO. Aqui decia «... y N capitulos» restando
+    #  cuatro, y con las notas dentro eso era falso: decia capitulos de lo que ya no
+    #  eran todos capitulos. Un rotulo que se queda viejo miente mejor que un numero.
+    cuenta = {}
+    for rel, _, _ in dentro:
+        k = (u"capitulos" if rel.startswith(u"chapters/")
+             else u"notas" if rel.startswith(u"notes/")
+             else u"paginas de la raiz")
+        cuenta[k] = cuenta.get(k, 0) + 1
+    for k in sorted(cuenta):
+        print(u"   %-20s %d" % (k, cuenta[k]))
+    for loc, lm, pri in filas[:3]:
         print(u"   %-52s %s  %s" % (loc, lm, pri))
-    print(u"   ... y %d capitulos" % (len(filas) - 4))
+    for loc, lm, pri in [f for f in filas if u"/notes/" in f[0]][:2]:
+        print(u"   %-52s %s  %s" % (loc, lm, pri))
     if fuera:
         print(u"fuera por declararse `noindex`: %s"
               % u", ".join(r for r, _, _ in fuera))
