@@ -1,4 +1,8 @@
-<meta charset="utf-8"><title>Buoyage — The marks</title>
+<html lang="en">
+<meta charset="utf-8"><title>IALA buoyage: the twelve marks and what they mean</title>
+<meta name="description" content="Name all twelve IALA marks by shape, colour and topmark: cardinals, laterals, isolated danger, safe water and special, one mark at a time.">
+<meta property="og:title" content="IALA buoyage: the twelve marks and what they mean">
+<meta property="og:description" content="Name all twelve IALA marks by shape, colour and topmark: cardinals, laterals, isolated danger, safe water and special, one mark at a time.">
 
 <meta name="viewport" content="width=device-width,initial-scale=1">
 
@@ -40,6 +44,10 @@
   --sea-deep:#0A1E27; --sea:#102B36; --sea-line:#1E4453;
   --paper:#E3EAEE; --paper-ink:#EFE6D2;    --paper-2:#D2DDE3; --paper-line:#A6B3BA;
   --ink:#15252D; --ink-soft:#5C7079; --dim:#829AA3;
+
+  --lam-rotulo:#3A464E;
+  --iala-rojo:#c8102e; --iala-verde:#0A7D3A; --iala-azul:#1F5FBF;
+  --iala-amarillo:#F2C230; --iala-negro:#1A1A1A;
   --magenta:#6B2461; --magenta-soft:#B07FA6;
   --water:#8FC3DA; --alarm:#B33A22; --ok:#3F7A56;
   --f-display:"Spectral",ui-serif,Georgia,"Palatino Linotype","Times New Roman",serif;
@@ -280,6 +288,7 @@ a.skip:hover,a.volver:hover,#foot a:hover{color:var(--ink-title);
 }
 </style>
 
+<h1 id="seo" style="position:absolute;width:1px;height:1px;margin:-1px;padding:0;overflow:hidden;clip:rect(0 0 0 0);clip-path:inset(50%);border:0;white-space:nowrap">Buoyage &mdash; The marks</h1>
 <div id="barra">
  <a class="barlink" href="../index.html">&#8592; The course</a>
  <i class="sep"></i>
@@ -299,11 +308,10 @@ a.skip:hover,a.volver:hover,#foot a:hover{color:var(--ink-title);
    <div id="prog"></div></div>
   <div id="pane"></div>
   <div id="foot"><span id="fLog">0 answers logged</span><a class="volver" id="deCero" onclick="deCero()">start over</a>
-   <div class="sello" id="sello" data-sello="7ca9888b">buoyage · part 1 · <b>16 of 16 screens</b> · 29 Aug 2026</div></div>
+   <div class="sello" id="sello" data-sello="7ca9888b">buoyage · part 1 · <b>16 of 16 screens</b> · 25 Sep 2026</div></div>
  </div>
 </div>
-<template id="tSig"><div class="calc"><b>Next: Which side you pass.</b><br>
-   A cardinal names the clear water; a lateral tells you which side of the channel you are on. The direction of buoyage, and why the same red can changes sides.</div></template>
+<template id="tSig"><div class="calc"><b>Next: Which side you pass.</b><br> A cardinal names the clear water; a lateral tells you which side of the channel you are on. The direction of buoyage, and why the same red can changes sides.</div></template>
 <script>const SIGUIENTE="balizamiento-p2-which-side.html";
 "use strict";
 
@@ -344,11 +352,11 @@ const C={
 
   papelInk:"#EFE6D2",
 
-  tinta:"#15252D", suave:"#3A464E", agua:"#8FC3DA",
+  tinta:"#15252D", suave:"var(--lam-rotulo)", agua:"#8FC3DA",
   magenta:"#6B2461",
-  rojo:"#c8102e", verde:"#0A7D3A", negro:"#1A1A1A",
-  amarillo:"#F2C230",
-  azul:"#1F5FBF"
+  rojo:"var(--iala-rojo)", verde:"var(--iala-verde)", negro:"var(--iala-negro)",
+  amarillo:"var(--iala-amarillo)",
+  azul:"var(--iala-azul)"
 };
 window.PALETA=C;
 
@@ -1250,3 +1258,5 @@ vaA(donde());
 <!-- Cloudflare Web Analytics -->
 <script type='module' src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "624bbb73949b40f0aae4dafec49ac1f6"}'></script>
 <!-- End Cloudflare Web Analytics -->
+</body>
+</html>

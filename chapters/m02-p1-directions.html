@@ -1,4 +1,10 @@
-﻿<meta charset="utf-8"><title>Module 02 &middot; Directions</title>
+﻿<html lang="en">
+<meta charset="utf-8"><title>True, magnetic and compass: variation and deviation</title>
+<meta name="description" content="Three norths and one heading, as the RYA Yachtmaster Offshore theory exam asks: read the rose, update variation, apply deviation, convert both ways.">
+<meta property="og:title" content="True, magnetic and compass: variation and deviation">
+<meta property="og:description" content="Three norths and one heading, as the RYA Yachtmaster Offshore theory exam asks: read the rose, update variation, apply deviation, convert both ways.">
+
+<meta name="viewport" content="width=device-width,initial-scale=1">
 <style>
 html,body{margin:0;height:100%;font:14px/1.5 system-ui,-apple-system,sans-serif;
  background:#dde5ea;overflow:hidden;color:#12202b}
@@ -220,8 +226,19 @@ a.skip:hover,a.volver:hover,#foot a:hover{color:var(--ink-title);
  border-radius:0;padding:var(--sp-tight) var(--sp-block);margin:0 0 var(--sp-block);
  font:400 14px/1.7 var(--f-mono)}
 .calc b{font-family:var(--f-ui);font-weight:600;color:var(--ink-title)}
+
+@media (max-width: 924px){
+  html,body{height:auto;overflow:auto}
+  body{display:block}
+  #wrap{height:auto;grid-template-columns:minmax(0,1fr);grid-template-rows:auto auto}
+  #lienzo{padding:10px 12px}
+  #ficha{max-height:none}
+  #side{min-height:auto;border-left:0;border-top:1px solid var(--edge-frame)}
+  #pane{overflow:visible}
+}
 </style>
 
+<h1 id="seo" style="position:absolute;width:1px;height:1px;margin:-1px;padding:0;overflow:hidden;clip:rect(0 0 0 0);clip-path:inset(50%);border:0;white-space:nowrap">Module 02 &middot; Directions</h1>
 <div id="barra">
  <a class="barlink" href="../index.html">&#8592; The course</a>
  <i class="sep"></i>
@@ -239,7 +256,7 @@ a.skip:hover,a.volver:hover,#foot a:hover{color:var(--ink-title);
    <div id="prog"></div></div>
   <div id="pane"></div>
   <div id="foot"><span id="fLog">0 answers logged</span><a class="volver" id="deCero" onclick="deCero()">start over</a>
-   <div class="sello" id="sello" data-sello="v2026-09-11 04:38">v2026-09-11 04:38</div></div>
+   <div class="sello" id="sello" data-sello="v2026-09-25 12:23">v2026-09-25 12:23</div></div>
  </div>
 </div>
 <script>
@@ -3823,6 +3840,9 @@ window.ejAtras=()=>{ if(EJ.i>0){EJ.i--; dibuja();} };
 function dibuja(){ guardaDonde(iP);
  if(iP>=PZ.length){fin(); return;}
 
+ if(iP!==DONDE){
+  if(typeof window.scrollTo==="function") window.scrollTo(0,0);
+  const pn=document.getElementById("pane"); if(pn) pn.scrollTop=0; }
  if(iP!==DONDE){ DONDE=iP; ponEst(); }
  const s=S();
 
@@ -3969,3 +3989,5 @@ function marcoChrome(){
 <!-- Cloudflare Web Analytics -->
 <script type='module' src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "624bbb73949b40f0aae4dafec49ac1f6"}'></script>
 <!-- End Cloudflare Web Analytics -->
+</body>
+</html>
