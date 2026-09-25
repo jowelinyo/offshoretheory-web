@@ -1,0 +1,7 @@
+#  LA LAMINA DE SKELMAR NO SE CONVIERTE.
+#  `skelmar.<sha8>.svg` lleva su propio sha256 en el nombre. Con `autocrlf` en
+#  Windows, git convierte los saltos al CLONAR y la copia de trabajo deja de
+#  coincidir con su nombre: el fichero sigue sirviendo bien --- Pages sirve el
+#  blob, que esta en LF --- pero cualquiera que verifique el sello contra su
+#  copia local vera que no cuadra, y no sabra por que.
+*.svg -text
