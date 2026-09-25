@@ -17,6 +17,36 @@
 <meta property="og:image:alt" content="A sextant and dividers resting on a paper chart">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="description" content="Free interactive practice for the RYA Yachtmaster Offshore theory exam: buoyage, lights, COLREGs, the diesel engine and chartwork. Independent course.">
+<!-- Datos estructurados. Es un <script> pero NO es una dependencia: no descarga
+     nada, no ejecuta nada y el navegador solo lo lee. Dice dos cosas y ninguna
+     mas: quien es esta web y como se llama. La description sale de la etiqueta
+     de arriba, para que no haya dos frases que mantener. -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Organization",
+      "@id": "https://offshoretheory.com/#organization",
+      "name": "Offshore Theory",
+      "url": "https://offshoretheory.com/",
+      "logo": "https://offshoretheory.com/assets/img/favicon.svg",
+      "email": "info@offshoretheory.com",
+      "description": "Free interactive practice for the RYA Yachtmaster Offshore theory exam: buoyage, lights, COLREGs, the diesel engine and chartwork. Independent course."
+    },
+    {
+      "@type": "WebSite",
+      "@id": "https://offshoretheory.com/#website",
+      "name": "Offshore Theory",
+      "url": "https://offshoretheory.com/",
+      "inLanguage": "en",
+      "publisher": {
+        "@id": "https://offshoretheory.com/#organization"
+      }
+    }
+  ]
+}
+</script>
 
 <style>
 /* ---------------------------------------------------------------------------
