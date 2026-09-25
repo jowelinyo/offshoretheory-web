@@ -1,0 +1,1103 @@
+{
+ "_que_es": "LOS DATOS DE LUCES, MARCAS Y SONIDO DEL CURSO, para la chuleta del escaparate. Los lee tools/chuleta_luces.py. Ni una tabla se ha escrito aqui a mano: salen de cargar los cuatro ficheros del modulo en node y preguntarles.",
+ "_de_donde": {
+  "repositorio": "yachtmaster-academy",
+  "commit": "13ce2ee62996052bca6f14385c25b57336c6f6e5",
+  "ficheros": {
+   "tools/generadores/buques.js": "que luces lleva cada buque, color, altura y arco",
+   "tools/generadores/colregs.js": "como se llama cada uno en ingles (VESSEL.label)",
+   "tools/generadores/anexo1.js": "la regla de cada uno (CITA) y su marca de dia (MARCAS_DIA)",
+   "tools/generadores/sonido.js": "que suena en visibilidad reducida (NIEBLA)",
+   "tools/generadores/fa_luces_p1.py": "la tabla de marcas de dia con su nombre en ingles (clases de 5.S1)"
+  },
+  "leido": "solo con git show, sin tocar el disco de la academia"
+ },
+ "_por_que_aqui": "La chuleta es material del escaparate, asi que su generador vive en este repositorio. Los datos se congelan para que el generador no dependa de que la academia este presente. Cuando el modulo cambie, se vuelve a extraer y el commit de arriba cambia: es lo que dice contra que version se genero.",
+ "_las_luces_de_proa": "Las luces son las que se ven DESDE PROA, aspecto 0. Ahi se apilan en vertical --- el desplazamiento es x por el seno del aspecto, y el seno de 0 es 0 ---, asi que la columna de la chuleta es el dibujo exacto y no una aproximacion.",
+ "buques": [
+  {
+   "key": "power",
+   "L": 60,
+   "underway": true,
+   "makingWay": true,
+   "como": null,
+   "nota": null,
+   "label": "power-driven",
+   "luces": [
+    {
+     "kind": "masthead",
+     "colour": "white",
+     "rangeKey": "masthead",
+     "nominal": 6
+    },
+    {
+     "kind": "masthead",
+     "colour": "white",
+     "rangeKey": "masthead",
+     "nominal": 6
+    },
+    {
+     "kind": "starboard",
+     "colour": "green",
+     "rangeKey": "side",
+     "nominal": 3
+    },
+    {
+     "kind": "port",
+     "colour": "red",
+     "rangeKey": "side",
+     "nominal": 3
+    }
+   ],
+   "remolcado": [],
+   "todas": [
+    {
+     "kind": "masthead",
+     "colour": "white",
+     "delRemolcado": false
+    },
+    {
+     "kind": "masthead",
+     "colour": "white",
+     "delRemolcado": false
+    },
+    {
+     "kind": "starboard",
+     "colour": "green",
+     "delRemolcado": false
+    },
+    {
+     "kind": "port",
+     "colour": "red",
+     "delRemolcado": false
+    },
+    {
+     "kind": "stern",
+     "colour": "white",
+     "delRemolcado": false
+    }
+   ]
+  },
+  {
+   "key": "power",
+   "L": 30,
+   "underway": true,
+   "makingWay": true,
+   "como": null,
+   "nota": "under 50 m",
+   "label": "power-driven",
+   "luces": [
+    {
+     "kind": "masthead",
+     "colour": "white",
+     "rangeKey": "masthead",
+     "nominal": 5
+    },
+    {
+     "kind": "starboard",
+     "colour": "green",
+     "rangeKey": "side",
+     "nominal": 2
+    },
+    {
+     "kind": "port",
+     "colour": "red",
+     "rangeKey": "side",
+     "nominal": 2
+    }
+   ],
+   "remolcado": [],
+   "todas": [
+    {
+     "kind": "masthead",
+     "colour": "white",
+     "delRemolcado": false
+    },
+    {
+     "kind": "starboard",
+     "colour": "green",
+     "delRemolcado": false
+    },
+    {
+     "kind": "port",
+     "colour": "red",
+     "delRemolcado": false
+    },
+    {
+     "kind": "stern",
+     "colour": "white",
+     "delRemolcado": false
+    }
+   ]
+  },
+  {
+   "key": "power",
+   "L": 30,
+   "underway": false,
+   "makingWay": false,
+   "como": "fondeada",
+   "nota": "under 50 m",
+   "label": "power-driven",
+   "luces": [
+    {
+     "kind": "allround",
+     "colour": "white",
+     "rangeKey": "allround",
+     "nominal": 2
+    }
+   ],
+   "remolcado": [],
+   "todas": [
+    {
+     "kind": "allround",
+     "colour": "white",
+     "delRemolcado": false
+    }
+   ]
+  },
+  {
+   "key": "power",
+   "L": 120,
+   "underway": false,
+   "makingWay": false,
+   "como": "fondeada",
+   "nota": "50 m or more",
+   "label": "power-driven",
+   "luces": [
+    {
+     "kind": "allround",
+     "colour": "white",
+     "rangeKey": "allround",
+     "nominal": 3
+    },
+    {
+     "kind": "allround",
+     "colour": "white",
+     "rangeKey": "allround",
+     "nominal": 3
+    }
+   ],
+   "remolcado": [],
+   "todas": [
+    {
+     "kind": "allround",
+     "colour": "white",
+     "delRemolcado": false
+    },
+    {
+     "kind": "allround",
+     "colour": "white",
+     "delRemolcado": false
+    }
+   ]
+  },
+  {
+   "key": "sailing",
+   "L": 24,
+   "underway": true,
+   "makingWay": true,
+   "como": null,
+   "nota": null,
+   "label": "under sail",
+   "luces": [
+    {
+     "kind": "starboard",
+     "colour": "green",
+     "rangeKey": "side",
+     "nominal": 2
+    },
+    {
+     "kind": "port",
+     "colour": "red",
+     "rangeKey": "side",
+     "nominal": 2
+    }
+   ],
+   "remolcado": [],
+   "todas": [
+    {
+     "kind": "starboard",
+     "colour": "green",
+     "delRemolcado": false
+    },
+    {
+     "kind": "port",
+     "colour": "red",
+     "delRemolcado": false
+    },
+    {
+     "kind": "stern",
+     "colour": "white",
+     "delRemolcado": false
+    }
+   ]
+  },
+  {
+   "key": "towing",
+   "L": 60,
+   "underway": true,
+   "makingWay": true,
+   "como": null,
+   "nota": null,
+   "label": "power-driven",
+   "luces": [
+    {
+     "kind": "masthead",
+     "colour": "white",
+     "rangeKey": "masthead",
+     "nominal": 6
+    },
+    {
+     "kind": "masthead",
+     "colour": "white",
+     "rangeKey": "masthead",
+     "nominal": 6
+    },
+    {
+     "kind": "masthead",
+     "colour": "white",
+     "rangeKey": "masthead",
+     "nominal": 6
+    },
+    {
+     "kind": "starboard",
+     "colour": "green",
+     "rangeKey": "side",
+     "nominal": 3
+    },
+    {
+     "kind": "port",
+     "colour": "red",
+     "rangeKey": "side",
+     "nominal": 3
+    }
+   ],
+   "remolcado": [
+    {
+     "kind": "starboard",
+     "colour": "green"
+    },
+    {
+     "kind": "port",
+     "colour": "red"
+    }
+   ],
+   "todas": [
+    {
+     "kind": "masthead",
+     "colour": "white",
+     "delRemolcado": false
+    },
+    {
+     "kind": "masthead",
+     "colour": "white",
+     "delRemolcado": false
+    },
+    {
+     "kind": "masthead",
+     "colour": "white",
+     "delRemolcado": false
+    },
+    {
+     "kind": "starboard",
+     "colour": "green",
+     "delRemolcado": false
+    },
+    {
+     "kind": "port",
+     "colour": "red",
+     "delRemolcado": false
+    },
+    {
+     "kind": "stern",
+     "colour": "white",
+     "delRemolcado": false
+    },
+    {
+     "kind": "stern",
+     "colour": "yellow",
+     "delRemolcado": false
+    },
+    {
+     "kind": "starboard",
+     "colour": "green",
+     "delRemolcado": true
+    },
+    {
+     "kind": "port",
+     "colour": "red",
+     "delRemolcado": true
+    },
+    {
+     "kind": "stern",
+     "colour": "white",
+     "delRemolcado": true
+    }
+   ]
+  },
+  {
+   "key": "fishingTrawl",
+   "L": 26,
+   "underway": true,
+   "makingWay": true,
+   "como": null,
+   "nota": null,
+   "label": "engaged in fishing",
+   "luces": [
+    {
+     "kind": "allround",
+     "colour": "green",
+     "rangeKey": "allround",
+     "nominal": 2
+    },
+    {
+     "kind": "allround",
+     "colour": "white",
+     "rangeKey": "allround",
+     "nominal": 2
+    },
+    {
+     "kind": "starboard",
+     "colour": "green",
+     "rangeKey": "side",
+     "nominal": 2
+    },
+    {
+     "kind": "port",
+     "colour": "red",
+     "rangeKey": "side",
+     "nominal": 2
+    }
+   ],
+   "remolcado": [],
+   "todas": [
+    {
+     "kind": "allround",
+     "colour": "green",
+     "delRemolcado": false
+    },
+    {
+     "kind": "allround",
+     "colour": "white",
+     "delRemolcado": false
+    },
+    {
+     "kind": "starboard",
+     "colour": "green",
+     "delRemolcado": false
+    },
+    {
+     "kind": "port",
+     "colour": "red",
+     "delRemolcado": false
+    },
+    {
+     "kind": "stern",
+     "colour": "white",
+     "delRemolcado": false
+    }
+   ]
+  },
+  {
+   "key": "fishingOther",
+   "L": 26,
+   "underway": true,
+   "makingWay": true,
+   "como": null,
+   "nota": null,
+   "label": "engaged in fishing",
+   "luces": [
+    {
+     "kind": "allround",
+     "colour": "red",
+     "rangeKey": "allround",
+     "nominal": 2
+    },
+    {
+     "kind": "allround",
+     "colour": "white",
+     "rangeKey": "allround",
+     "nominal": 2
+    },
+    {
+     "kind": "starboard",
+     "colour": "green",
+     "rangeKey": "side",
+     "nominal": 2
+    },
+    {
+     "kind": "port",
+     "colour": "red",
+     "rangeKey": "side",
+     "nominal": 2
+    }
+   ],
+   "remolcado": [],
+   "todas": [
+    {
+     "kind": "allround",
+     "colour": "red",
+     "delRemolcado": false
+    },
+    {
+     "kind": "allround",
+     "colour": "white",
+     "delRemolcado": false
+    },
+    {
+     "kind": "starboard",
+     "colour": "green",
+     "delRemolcado": false
+    },
+    {
+     "kind": "port",
+     "colour": "red",
+     "delRemolcado": false
+    },
+    {
+     "kind": "stern",
+     "colour": "white",
+     "delRemolcado": false
+    }
+   ]
+  },
+  {
+   "key": "nuc",
+   "L": 60,
+   "underway": true,
+   "makingWay": false,
+   "como": null,
+   "nota": null,
+   "label": "not under command",
+   "luces": [
+    {
+     "kind": "allround",
+     "colour": "red",
+     "rangeKey": "allround",
+     "nominal": 3
+    },
+    {
+     "kind": "allround",
+     "colour": "red",
+     "rangeKey": "allround",
+     "nominal": 3
+    }
+   ],
+   "remolcado": [],
+   "todas": [
+    {
+     "kind": "allround",
+     "colour": "red",
+     "delRemolcado": false
+    },
+    {
+     "kind": "allround",
+     "colour": "red",
+     "delRemolcado": false
+    }
+   ]
+  },
+  {
+   "key": "ram",
+   "L": 60,
+   "underway": true,
+   "makingWay": true,
+   "como": null,
+   "nota": null,
+   "label": "restricted in ability to manoeuvre",
+   "luces": [
+    {
+     "kind": "allround",
+     "colour": "red",
+     "rangeKey": "allround",
+     "nominal": 3
+    },
+    {
+     "kind": "allround",
+     "colour": "white",
+     "rangeKey": "allround",
+     "nominal": 3
+    },
+    {
+     "kind": "allround",
+     "colour": "red",
+     "rangeKey": "allround",
+     "nominal": 3
+    },
+    {
+     "kind": "masthead",
+     "colour": "white",
+     "rangeKey": "masthead",
+     "nominal": 6
+    },
+    {
+     "kind": "masthead",
+     "colour": "white",
+     "rangeKey": "masthead",
+     "nominal": 6
+    },
+    {
+     "kind": "starboard",
+     "colour": "green",
+     "rangeKey": "side",
+     "nominal": 3
+    },
+    {
+     "kind": "port",
+     "colour": "red",
+     "rangeKey": "side",
+     "nominal": 3
+    }
+   ],
+   "remolcado": [],
+   "todas": [
+    {
+     "kind": "allround",
+     "colour": "red",
+     "delRemolcado": false
+    },
+    {
+     "kind": "allround",
+     "colour": "white",
+     "delRemolcado": false
+    },
+    {
+     "kind": "allround",
+     "colour": "red",
+     "delRemolcado": false
+    },
+    {
+     "kind": "masthead",
+     "colour": "white",
+     "delRemolcado": false
+    },
+    {
+     "kind": "masthead",
+     "colour": "white",
+     "delRemolcado": false
+    },
+    {
+     "kind": "starboard",
+     "colour": "green",
+     "delRemolcado": false
+    },
+    {
+     "kind": "port",
+     "colour": "red",
+     "delRemolcado": false
+    },
+    {
+     "kind": "stern",
+     "colour": "white",
+     "delRemolcado": false
+    }
+   ]
+  },
+  {
+   "key": "cbd",
+   "L": 150,
+   "underway": true,
+   "makingWay": true,
+   "como": null,
+   "nota": null,
+   "label": "constrained by draught",
+   "luces": [
+    {
+     "kind": "masthead",
+     "colour": "white",
+     "rangeKey": "masthead",
+     "nominal": 6
+    },
+    {
+     "kind": "masthead",
+     "colour": "white",
+     "rangeKey": "masthead",
+     "nominal": 6
+    },
+    {
+     "kind": "starboard",
+     "colour": "green",
+     "rangeKey": "side",
+     "nominal": 3
+    },
+    {
+     "kind": "port",
+     "colour": "red",
+     "rangeKey": "side",
+     "nominal": 3
+    },
+    {
+     "kind": "allround",
+     "colour": "red",
+     "rangeKey": "allround",
+     "nominal": 3
+    },
+    {
+     "kind": "allround",
+     "colour": "red",
+     "rangeKey": "allround",
+     "nominal": 3
+    },
+    {
+     "kind": "allround",
+     "colour": "red",
+     "rangeKey": "allround",
+     "nominal": 3
+    }
+   ],
+   "remolcado": [],
+   "todas": [
+    {
+     "kind": "masthead",
+     "colour": "white",
+     "delRemolcado": false
+    },
+    {
+     "kind": "masthead",
+     "colour": "white",
+     "delRemolcado": false
+    },
+    {
+     "kind": "starboard",
+     "colour": "green",
+     "delRemolcado": false
+    },
+    {
+     "kind": "port",
+     "colour": "red",
+     "delRemolcado": false
+    },
+    {
+     "kind": "stern",
+     "colour": "white",
+     "delRemolcado": false
+    },
+    {
+     "kind": "allround",
+     "colour": "red",
+     "delRemolcado": false
+    },
+    {
+     "kind": "allround",
+     "colour": "red",
+     "delRemolcado": false
+    },
+    {
+     "kind": "allround",
+     "colour": "red",
+     "delRemolcado": false
+    }
+   ]
+  },
+  {
+   "key": "pilot",
+   "L": 24,
+   "underway": true,
+   "makingWay": true,
+   "como": null,
+   "nota": null,
+   "label": "pilot vessel",
+   "luces": [
+    {
+     "kind": "allround",
+     "colour": "white",
+     "rangeKey": "allround",
+     "nominal": 2
+    },
+    {
+     "kind": "allround",
+     "colour": "red",
+     "rangeKey": "allround",
+     "nominal": 2
+    },
+    {
+     "kind": "starboard",
+     "colour": "green",
+     "rangeKey": "side",
+     "nominal": 2
+    },
+    {
+     "kind": "port",
+     "colour": "red",
+     "rangeKey": "side",
+     "nominal": 2
+    }
+   ],
+   "remolcado": [],
+   "todas": [
+    {
+     "kind": "allround",
+     "colour": "white",
+     "delRemolcado": false
+    },
+    {
+     "kind": "allround",
+     "colour": "red",
+     "delRemolcado": false
+    },
+    {
+     "kind": "starboard",
+     "colour": "green",
+     "delRemolcado": false
+    },
+    {
+     "kind": "port",
+     "colour": "red",
+     "delRemolcado": false
+    },
+    {
+     "kind": "stern",
+     "colour": "white",
+     "delRemolcado": false
+    }
+   ]
+  }
+ ],
+ "marcas": {
+  "power": [],
+  "sailing": [],
+  "velaYMotor": [
+   "coneUp"
+  ],
+  "nuc": [
+   "ball",
+   "ball"
+  ],
+  "ram": [
+   "ball",
+   "diamond",
+   "ball"
+  ],
+  "cbd": [
+   "cylinder"
+  ],
+  "pilot": [],
+  "fishingTrawl": [
+   "coneUp",
+   "cone"
+  ],
+  "fishingOther": [
+   "coneUp",
+   "cone"
+  ],
+  "towing": [],
+  "fondeada": [
+   "ball"
+  ]
+ },
+ "niebla": {
+  "power": {
+   "tramos": [
+    5
+   ],
+   "medio": "pito",
+   "cita": "R35(a)",
+   "dice": "one prolonged blast",
+   "por": "under way and making way through the water"
+  },
+  "parada": {
+   "tramos": [
+    5,
+    5
+   ],
+   "medio": "pito",
+   "cita": "R35(b)",
+   "dice": "two prolonged blasts",
+   "por": "under way but stopped in the water"
+  },
+  "sailing": {
+   "tramos": [
+    5,
+    1,
+    1
+   ],
+   "medio": "pito",
+   "cita": "R35(c)",
+   "dice": "one prolonged and two short",
+   "por": "a sailing vessel is in the Rule 35(c) list"
+  },
+  "nuc": {
+   "tramos": [
+    5,
+    1,
+    1
+   ],
+   "medio": "pito",
+   "cita": "R35(c)",
+   "dice": "one prolonged and two short",
+   "por": "not under command"
+  },
+  "ram": {
+   "tramos": [
+    5,
+    1,
+    1
+   ],
+   "medio": "pito",
+   "cita": "R35(c)",
+   "dice": "one prolonged and two short",
+   "por": "restricted in her ability to manoeuvre"
+  },
+  "cbd": {
+   "tramos": [
+    5,
+    1,
+    1
+   ],
+   "medio": "pito",
+   "cita": "R35(c)",
+   "dice": "one prolonged and two short",
+   "por": "constrained by her draught"
+  },
+  "fishingTrawl": {
+   "tramos": [
+    5,
+    1,
+    1
+   ],
+   "medio": "pito",
+   "cita": "R35(c)",
+   "dice": "one prolonged and two short",
+   "por": "engaged in fishing"
+  },
+  "fishingOther": {
+   "tramos": [
+    5,
+    1,
+    1
+   ],
+   "medio": "pito",
+   "cita": "R35(c)",
+   "dice": "one prolonged and two short",
+   "por": "engaged in fishing"
+  },
+  "towing": {
+   "tramos": [
+    5,
+    1,
+    1
+   ],
+   "medio": "pito",
+   "cita": "R35(c)",
+   "dice": "one prolonged and two short",
+   "por": "towing or pushing"
+  },
+  "remolcado": {
+   "tramos": [
+    5,
+    1,
+    1,
+    1
+   ],
+   "medio": "pito",
+   "cita": "R35(e)",
+   "dice": "one prolonged and three short",
+   "por": "a manned vessel being towed, right after her tug"
+  },
+  "pilot": {
+   "tramos": [
+    5,
+    1,
+    1,
+    1,
+    1
+   ],
+   "medio": "pito",
+   "cita": "R35(a) + R35(j)",
+   "dice": "one prolonged, and then four short",
+   "por": "a pilot vessel on duty adds four short to her ordinary signal"
+  },
+  "fondeada": {
+   "tramos": [
+    5
+   ],
+   "medio": "campana",
+   "cita": "R35(g)",
+   "dice": "five seconds of rapid ringing on the bell",
+   "por": "at anchor",
+   "intervalo": 60
+  },
+  "fondeadaGrande": {
+   "tramos": [
+    5,
+    5
+   ],
+   "medio": "campanaYgong",
+   "cita": "R35(g)",
+   "dice": "the bell forward, then the gong aft, five seconds each",
+   "por": "at anchor and 100 m or more",
+   "intervalo": 60
+  },
+  "varada": {
+   "tramos": [
+    1,
+    1,
+    1,
+    5,
+    1,
+    1,
+    1
+   ],
+   "medio": "campana",
+   "cita": "R35(h)",
+   "dice": "three strokes, the rapid ringing, and three strokes again",
+   "por": "aground",
+   "intervalo": 60
+  }
+ },
+ "cita": {
+  "power": {
+   "r": "R23",
+   "ident": []
+  },
+  "sailing": {
+   "r": "R25",
+   "ident": []
+  },
+  "nuc": {
+   "r": "R27(a)",
+   "ident": [
+    "red",
+    "red"
+   ]
+  },
+  "ram": {
+   "r": "R27(b)",
+   "ident": [
+    "red",
+    "white",
+    "red"
+   ]
+  },
+  "cbd": {
+   "r": "R28",
+   "ident": [
+    "red",
+    "red",
+    "red"
+   ]
+  },
+  "pilot": {
+   "r": "R29",
+   "ident": [
+    "white",
+    "red"
+   ]
+  },
+  "fishingTrawl": {
+   "r": "R26(b)",
+   "ident": [
+    "green",
+    "white"
+   ]
+  },
+  "fishingOther": {
+   "r": "R26(c)",
+   "ident": [
+    "red",
+    "white"
+   ]
+  },
+  "towing": {
+   "r": "R24",
+   "ident": []
+  },
+  "fondeada": {
+   "r": "R30",
+   "ident": [
+    "white"
+   ]
+  }
+ },
+ "vessel": {
+  "nuc": {
+   "rank": 5,
+   "label": "not under command",
+   "power": false
+  },
+  "ram": {
+   "rank": 5,
+   "label": "restricted in ability to manoeuvre",
+   "power": false
+  },
+  "fishing": {
+   "rank": 4,
+   "label": "engaged in fishing",
+   "power": false
+  },
+  "sailing": {
+   "rank": 3,
+   "label": "under sail",
+   "power": false
+  },
+  "power": {
+   "rank": 2,
+   "label": "power-driven",
+   "power": true
+  },
+  "cbd": {
+   "rank": 2,
+   "label": "constrained by draught",
+   "power": true,
+   "noImpede": true
+  },
+  "pilot": {
+   "rank": 2,
+   "label": "pilot vessel",
+   "power": true
+  }
+ },
+ "alias": {
+  "fishingTrawl": "fishing",
+  "fishingOther": "fishing",
+  "pilotUnderway": "pilot",
+  "towing": "power",
+  "seaplane": "power"
+ },
+ "son": {
+  "CORTO": 1,
+  "PROLONGADO": 5,
+  "PROLONGADO_MIN": 4,
+  "PROLONGADO_MAX": 6,
+  "HUECO": 1,
+  "INTERVALO": 120,
+  "INTERVALO_FONDEO": 60,
+  "CAMPANA": 5,
+  "PITO_DESDE": 12,
+  "CAMPANA_DESDE": 20,
+  "GONG_DESDE": 100
+ },
+ "clases_marca": [
+  {
+   "clave": "fondeada",
+   "rot": "A ball",
+   "quien": "at anchor"
+  },
+  {
+   "clave": "velaYMotor",
+   "rot": "A cone",
+   "quien": "sail and engine",
+   "regla": "R25(e)"
+  },
+  {
+   "clave": "fishingTrawl",
+   "rot": "Two cones",
+   "quien": "fishing \u2014 either kind"
+  },
+  {
+   "clave": "cbd",
+   "rot": "A cylinder",
+   "quien": "draught"
+  },
+  {
+   "clave": "nuc",
+   "rot": "Two balls",
+   "quien": "not under command"
+  },
+  {
+   "clave": "ram",
+   "rot": "Ball, diamond, ball",
+   "quien": "restricted"
+  }
+ ]
+}
