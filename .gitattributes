@@ -5,3 +5,11 @@
 #  blob, que esta en LF --- pero cualquiera que verifique el sello contra su
 #  copia local vera que no cuadra, y no sabra por que.
 *.svg -text
+
+#  Y LOS PDF TAMPOCO.
+#  Hoy no hace falta y se ha medido: el blob del PDF es identico al fichero en disco
+#  --- mismo sha256, cero CRLF en los dos --- porque la heuristica de git lo ve
+#  binario por sus bytes nulos y no lo convierte. Pero eso es una HEURISTICA, y en
+#  este repositorio ya hay una nota de lo que pasa cuando se rinde. Un PDF convertido
+#  no se abre, y el que lo recibe por correo no tiene forma de saber por que.
+*.pdf -text
