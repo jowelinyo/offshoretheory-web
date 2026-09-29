@@ -13,3 +13,24 @@
 #  este repositorio ya hay una nota de lo que pasa cuando se rinde. Un PDF convertido
 #  no se abre, y el que lo recibe por correo no tiene forma de saber por que.
 *.pdf -text
+
+#  Y EL MODELO DEL MOTOR TAMPOCO.
+#  `motor.<sha8>.glb` lleva su propio sha256 en el nombre, por lo mismo que la
+#  lamina: es la unica forma de comprobar desde fuera --- aqui no hay ningun
+#  manifiesto --- que lo publicado es lo aprobado. Se hashea el fichero y tiene que
+#  dar su nombre. Si `autocrlf` lo convirtiera al clonar, dejaria de casar y quien
+#  lo verificara no sabria por que.
+#
+#  Y NO SE DEJA EN MANOS DE LA HEURISTICA, que es lo que esta nota anade a las dos
+#  de arriba. Medido el 29 de septiembre de 2026: hoy git ya ve binario el `.glb`
+#  por sus bytes nulos y no lo convierte, igual que el PDF. Pero **la heuristica ya
+#  se ha rendido una vez en esta casa** --- 49 retornos de carro sueltos en un `.js`
+#  del curso bastaron ---, y en el repositorio del curso, donde esta regla NO estaba,
+#  un checkout nuevo saca `skelmar.f4c88793.svg` en CRLF: 3 484 850 bytes en vez de
+#  3 474 932, y hashea a `0a4b8e36`. La regla que aqui existe es justo la que alli
+#  falta. Un modelo de 3,5 MB convertido no abre, y el alumno ve el compartimento
+#  vacio sin saber por que.
+*.glb -text
+
+#  El entorno va con el: es binario, no lleva sello, y convertirlo lo rompe igual.
+*.hdr -text
