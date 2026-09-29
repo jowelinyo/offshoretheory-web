@@ -356,6 +356,30 @@ function MAngulo(o) {
       const e = fig && fig.estado ? fig.estado() : null;
       return e && e.cilindros ? e.cilindros : null;
     },
+
+    /*  ── LOS CUATRO, EN FILA Y LISTOS PARA ENSEÑAR ───────────────────────────
+        `2.6` dice «The row along the bottom tells you what each one is doing
+        right now. Turn the control and watch it» — y **esa fila no existía**: el
+        rótulo daba el cilindro uno y nada más. La pantalla anunciaba algo que no
+        aparecía, y a continuación pedía ordenar los cuatro por orden de
+        encendido, o sea leer lo que no estaba.
+
+        Y las dos mitades ya estaban puestas, sin unir: `cilindros()` daba los
+        cuatro desde el primer día **y no lo llamaba nadie**, y la pantalla
+        declaraba `cuatroDistintos` — un campo que hasta hoy sólo leía un arnés.
+
+        Sale de `estado()`, igual que `ensena()`: del mismo cálculo que mueve los
+        pistones, no de una tabla aparte que pueda discrepar.                   */
+    fila() {
+      const e = fig && fig.estado ? fig.estado() : null;
+      const c = e && e.cilindros;
+      if (!c || !c.length) return null;
+      //  y los grados al final: el deslizador se mueve en grados y el rótulo es
+      //  lo único que dice por dónde va. Sin ellos la fila contesta una pregunta
+      //  y se lleva por delante la otra.
+      return c.map((t, k) => (k + 1) + " " + t.charAt(0).toUpperCase() + t.slice(1))
+              .join("  ·  ") + "   " + Math.round(g) + "°";
+    },
     mueve(v) {
       const x = ((Math.round(v) % 720) + 720) % 720;
       if (x === g) return g;
@@ -490,10 +514,24 @@ function MTaller(o) {
     if (!fig) { if (o.alPaso) o.alPaso(i, pasos[i]); return; }
     //  1 · todo a su reposo, para que retroceder no deje nada puesto
     if (fig.reposo) fig.reposo();
-    //  2 · los gestos de los pasos hechos, en orden
+    /*  2 · los gestos de los pasos hechos, en orden
+
+        ── Y UN PASO PUEDE HACER MÁS DE UNA COSA ───────────────────────────────
+        Antes se aplicaba UN gesto por paso —`gesto[0]`, `gesto[1]`— y bastó
+        hasta que un paso dijo dos: el último de «Clean the raw-water strainer»
+        dice **«Basket back, lid on»** y sólo ponía la tapa. La cesta había
+        salido en el paso 3 y nada la devolvía, así que el texto decía que estaba
+        dentro y el modelo la enseñaba fuera. *Un paso que hace dos cosas y sólo
+        puede declarar una acaba mintiendo en una de las dos.*
+
+        Ahora acepta un par —`["cesta","dentro"]`— o una lista de pares
+        —`[["cesta","dentro"],["tapa-filtro","puesta"]]`—, y se aplican en orden.
+        Lo de antes sigue valiendo sin tocarlo.                                */
     for (let k = 0; k <= i; k++) {
       const p = pasos[k];
-      if (p && p.gesto && fig.gesto) fig.gesto(p.gesto[0], p.gesto[1]);
+      if (!p || !p.gesto || !fig.gesto) continue;
+      const g = Array.isArray(p.gesto[0]) ? p.gesto : [p.gesto];
+      for (const par of g) if (par && par.length >= 2) fig.gesto(par[0], par[1]);
     }
     //  3 · y el encuadre del paso, si lo pide
     encuadra(pasos[i]);
@@ -548,7 +586,16 @@ function MHumo(o) {
   const MANDA = {
     blue:  "oil getting into the chamber \u00B7 rings, bores, valve guides",
     black: "fuel burning badly \u00B7 air first, then injection",
-    white: "water, or fuel that is not burning at all \u00B7 the head gasket"
+    /*  \u2500\u2500 Y EL BLANCO DICE S\u00D3LO LO QUE SU PANTALLA EXPLICA \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500
+        Dec\u00EDa \u00ABwater, or fuel that is not burning at all\u00BB, y `9.3` **no explica
+        en ning\u00FAn sitio el combustible sin quemar**: sus p\u00E1rrafos dicen agua, la
+        junta de culata, el nivel del vaso de expansi\u00F3n que baja sin fuga fuera,
+        el aceite que puede volverse lechoso, y que en fr\u00EDo puffea blanco un
+        minuto por condensaci\u00F3n. Un r\u00F3tulo que introduce una causa que el texto
+        no cuenta deja al alumno con una pregunta y sin d\u00F3nde mirarla \u2014y aqu\u00ED el
+        r\u00F3tulo aparece al pulsar, o sea justo cuando est\u00E1 atento.
+        Ahora dice lo que est\u00E1 sellado arriba, y nada m\u00E1s.                     */
+    white: "water \u00B7 the head gasket, and condensation when she is cold"
   };
   let cual = o.inicio && COLORES.indexOf(o.inicio) >= 0 ? o.inicio : COLORES[0];
 

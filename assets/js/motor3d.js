@@ -2513,7 +2513,20 @@ function tick(){
   if (hayQueMover()) { bucleVivo = true; requestAnimationFrame(tick); }
   else bucleVivo = false;
 }
-function onResize(){ W=stage.clientWidth; H=stage.clientHeight; camera.aspect=W/H; camera.updateProjectionMatrix(); renderer.setSize(W,H);  renderer.setPixelRatio(Math.min(window.devicePixelRatio||1,2)); }  /*  EL TOPE DE DENSIDAD, y en un teléfono no es cosmético: a 3x un lienzo de
+/*  ── Y AL CAMBIAR DE TAMANO HAY QUE VOLVER A DIBUJAR ────────────────────────
+    `setSize` deja un bufer NUEVO Y VACIO, y este bucle duerme cuando no hay nada
+    que mover: sin despertarlo, el lienzo se queda **en negro hasta que algo mas
+    lo despierte**.  Y lo que lo despertaba era cambiar de pantalla, asi que el
+    fallo se veia como <se arregla solo si avanzas>.
+
+    MEDIDO el 29 de septiembre de 2026, estrechando la ventana a 390 px con la
+    pantalla ya puesta: el lienzo pasaba de **61,5 % de pixeles pintados a CERO**
+    en `9.9` --- y ahi se quedaba, porque esa es la ultima de su parte y no hay
+    pantalla siguiente a la que huir ---. En el primer taller volvia al 97 % al
+    avanzar, que es lo que hacia parecer cosa de una pantalla suelta.
+    *Un lienzo que se arregla al pasar de pantalla no esta arreglado: esta
+    tapado.*                                                                    */
+function onResize(){ W=stage.clientWidth; H=stage.clientHeight; camera.aspect=W/H; camera.updateProjectionMatrix(); renderer.setSize(W,H);  renderer.setPixelRatio(Math.min(window.devicePixelRatio||1,2)); ANIM.dirty=true; if(typeof despierta==="function") despierta(); }  /*  EL TOPE DE DENSIDAD, y en un teléfono no es cosmético: a 3x un lienzo de
     375 px son 1125 pixeles reales, y eso en una GPU de móvil se nota al primer
     giro. Dos es de sobra para que no se vean escalones.  */
 window.addEventListener('resize', onResize);
