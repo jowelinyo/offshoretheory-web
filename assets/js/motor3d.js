@@ -144,7 +144,17 @@ var stage = DOC.getElementById('stage');
 var W = stage.clientWidth, H = stage.clientHeight;
 var camera = new THREE.PerspectiveCamera(40, W/H, 0.1, 300);
 
-var renderer = new THREE.WebGLRenderer({antialias:true, alpha:true, powerPreference:'high-performance'});
+/*  `preserveDrawingBuffer` NO ES UN CAPRICHO DE RENDIMIENTO: ES LO QUE PERMITE
+    MEDIR.  Sin el, leer el lienzo desde fuera --- `canvas.toDataURL()` --- devuelve
+    el bufer vacio, y `Page.captureScreenshot` devuelve el ultimo cuadro que compuso
+    el navegador, que no se invalida porque una malla se esconda.
+        Medido, y por eso esta aqui: escondiendo 260 de las 267 mallas, `mallasVisibles()`
+    bajaba de 267 a 7 y **las dos capturas salian byte a byte identicas**. Un guardia
+    que mira asi da verde a cualquier cosa.
+    Cuesta un poco de memoria de video y no se nota; lo otro se nota el dia que un
+    arnes aprueba una pantalla vacia.                                              */
+var renderer = new THREE.WebGLRenderer({antialias:true, alpha:true,
+  preserveDrawingBuffer:true, powerPreference:'high-performance'});
 renderer.setPixelRatio(Math.min(window.devicePixelRatio||1, 2.5));
 renderer.setSize(W,H);
 renderer.shadowMap.enabled = true;
@@ -507,1418 +517,517 @@ var BORE = 0.7;                       // radio camisa
 var CRANK_Y = -1.4;                   // eje cigüeñal
 var DECK_Y = 0.7;                     // plano junta bloque/culata
 
-/* ---------- BLOQUE · CÁRTER · CAMPANA · PATAS ---------- */
-(function blockGroup(){
-  // BLOQUE MOTOR — grupo con cuerpo principal + detalles de fundición
-  var block = new THREE.Group();
-  var body = roundedBox(7.0, 2.05, 1.92, 0.26, M.paint);
-  block.add(body);
-  // reborde perimetral de la junta bloque/cárter (parting line)
-  var ledge = roundedBox(7.12, 0.13, 2.02, 0.06, M.paintDk); ledge.position.y=-0.95; block.add(ledge);
-  // engrosamientos de fundición sobre cada cilindro (bosses laterales)
-  for(var c=0;c<4;c++){ for(var sgn=-1;sgn<=1;sgn+=2){
-    var boss=cyl(0.6,0.6,0.16,20,{material:M.paint}); boss.rotation.x=Math.PI/2;
-    boss.position.set(CYL_X[c], 0.2, sgn*0.96); block.add(boss);
-  }}
-  // nervios de fundición entre cilindros
-  for(var i=0;i<5;i++){ for(var sg=-1;sg<=1;sg+=2){
-    var rib=box(0.16, 1.4, 0.08, M.paintDk); rib.position.set(-2.6+i*1.3, -0.2, sg*0.97); block.add(rib);
-  }}
-  // tapones de núcleo (core/welch plugs) en los laterales
-  for(var pp=0;pp<4;pp++){ for(var s2=-1;s2<=1;s2+=2){
-    var plug=cyl(0.15,0.15,0.05,18,{material:M.brass}); plug.rotation.x=Math.PI/2;
-    plug.position.set(-2.4+pp*1.6, -0.5, s2*0.99); block.add(plug);
-  }}
-  // pletina de culata (deck) con sus pernos — como parte del bloque
-  var deck=box(6.9,0.16,1.95,M.paintLt); deck.position.y=DECK_Y-0.02+0.25; block.add(deck);
-  for(var b=0;b<10;b++){ var bo=bolt(0.1,0,M.bolt); bo.position.set(-3.1+b*0.69, DECK_Y+0.06+0.25, 0.84*((b%2)?1:-1)); block.add(bo); }
-  // cáncamos de izado (lifting eyes) en esquinas diagonales
-  function liftEye(x,z){ var st=box(0.16,0.34,0.16,M.steelDk); st.position.set(x,1.2,z); block.add(st); var ey=tor(0.15,0.05,M.steel,10); ey.position.set(x,1.42,z); block.add(ey); }
-  liftEye(-2.8, 0.65); liftEye(2.8, -0.65);
-  block.position.set(0,-0.25,0);
-  reg(block,'est',{name:'Engine block', ex:V(0,-1,0), exMag:1.0, cut:true,
-    desc:'Cast structure (painted here, as on a real marine engine) that houses the cylinder liners, the crankshaft main bearings and the internal oil and coolant passages. It is the “skeleton” of the engine.',
-    yacht:'Look for oil or water leaks at its joints, and check the anodes and mounts. A stain under the engine almost always starts here.'});
-  num(31,'Engine block','est', block);
+/* ---------- LA FIGURA: YA NO SE CONSTRUYE, SE CARGA ----------
+    ═══════════════════════════════════════════════════════════════════════════
+    QUE HABIA AQUI Y QUE HAY AHORA
 
-  // CÁRTER DE ACEITE (sump) — grupo con forma escalonada
-  var sump=new THREE.Group();
-  var sUpper=roundedBox(6.1,0.55,1.55,0.2,M.paintDk); sUpper.position.y=0.2; sump.add(sUpper);
-  var sLower=roundedBox(4.4,0.65,1.15,0.22,M.paintDk); sLower.position.y=-0.25; sump.add(sLower);
-  var drainBoss=cyl(0.14,0.14,0.16,12,{material:M.paintDk}); drainBoss.position.set(-1.9,-0.5,0); sump.add(drainBoss);
-  var drain=cyl(0.1,0.1,0.1,6,{material:M.steelDk}); drain.position.set(-1.9,-0.6,0); sump.add(drain);
-  for(var sx=0;sx<12;sx++){ var sb=bolt(0.06,0,M.bolt); sb.position.set(-2.7+sx*0.49, 0.42, 0.74*((sx%2)?1:-1)); sump.add(sb); }
-  sump.position.set(0.1,-1.78,0);
-  reg(sump,'est',{name:'Oil sump', ex:V(0,-1,0), exMag:2.4, cut:true,
-    desc:'Reservoir at the bottom of the engine where the oil collects. The pump draws it through a strainer and delivers it under pressure to the bearings, camshaft and pistons.',
-    yacht:'Check the level with the dipstick before every trip (the “O” in WOBBLE = Oil). Milky oil = water getting in; a level that rises on its own = possible diesel.'});
-  num(32,'Oil sump','est', sump);
+    Aqui vivian 1 413 lineas --- de la 510 a la 1922 --- que construian el motor
+    pieza a pieza con cilindros, cajas y esferas: bloque, ciguenal, culata, frente,
+    colectores, refrigeracion, combustible, purga, lubricacion, escape humedo,
+    electrico, descompresores, transmision, detalles, y el compartimento. **El 63 %
+    del fichero.**  Ahora la figura viene de `assets/modelo/motor.glb`, hecha en
+    Blender, y esto es lo que la trae y la enchufa a todo lo que ya habia.
 
-  // CAMPANA DEL VOLANTE (bell housing) — gran cilindro en popa
-  var bell=new THREE.Group();
-  var bellCyl=cyl(1.45,1.45,1.15,40,{material:M.paint}); bellCyl.rotation.z=Math.PI/2;
-  var bellCone=cyl(1.45,1.05,0.75,40,{material:M.paint}); bellCone.rotation.z=-Math.PI/2; bellCone.position.x=-0.92;
-  // tapa de inspección + boss del arranque
-  var insp=box(0.1,0.5,0.4,M.paintDk); insp.position.set(0.62,0.85,0.7); bell.add(insp);
-  var starterBoss=cyl(0.32,0.32,0.2,18,{material:M.paintDk}); starterBoss.rotation.x=Math.PI/2; starterBoss.position.set(0.3,-0.25,-1.0); bell.add(starterBoss);
-  bell.add(bellCyl, bellCone);
-  bell.position.set(4.0,-1.0,0);   // concéntrica con el cigüeñal: encierra el volante
-  reg(bell,'tra',{name:'Bell housing', ex:V(1,0,0), exMag:1.0, cut:true,
-    desc:'Housing that joins the block to the gearbox and encloses the flywheel. A side window usually exposes the ring gear for timing the engine.',
-    yacht:'Keep this area clean and dry: oil drips from the rear crankshaft seal or the gearbox bell show up here.'});
-  boltCircle(bell, 12, 1.36, 0.09, 'x', 0.6, M.bolt);
+    **LO QUE NO CAMBIA, Y ES LO IMPORTANTE:** al acabar, `parts`, `pickables`,
+    `cutMeshes`, `NUMS`, `groups` y `ANIM` quedan exactamente como los dejaba el
+    codigo de antes, con los mismos nombres y la misma metadata.  Todo lo que viene
+    despues --- el raton, el corte, el despiece, las camaras, los numeros, los
+    gestos, la API entera --- no se entera de que la figura ha cambiado de origen.
 
-  // PATAS / SILENTBLOCKS (4)
-  var footPos=[[-2.9,1.0],[-2.9,-1.0],[3.3,1.05],[3.3,-1.05]];
-  for(var f=0;f<4;f++){
-    var foot=new THREE.Group();
-    var bracket=box(0.45,0.9,0.4,M.paintDk); bracket.position.y=0.35;
-    var plate=box(0.7,0.12,0.6,M.steelDk); plate.position.y=-0.12;
-    var pad=cyl(0.22,0.26,0.34,16,{material:M.rubber}); pad.position.y=-0.4;
-    var stud=cyl(0.07,0.07,0.45,10,{material:M.steel}); stud.position.y=-0.68;
-    foot.add(bracket,plate,pad,stud);
-    foot.position.set(footPos[f][0],-1.5,footPos[f][1]);
-    reg(foot,'est',{name:'Engine mount (flexible mount)', noPick:(f>0), ex:V(0,-1,0), exMag:1.6,
-      desc:'Anti-vibration support that ties the engine to the boat’s bearers. The rubber block isolates the hull from engine vibration.',
-      yacht:'Check the rubber isn’t cracked or crushed and that the nuts are tight. Sagging mounts throw the shaft out of line and punish the stern gland.'});
+    **LO QUE SI CAMBIA, Y HAY QUE DECIRLO:** cargar un fichero es ASINCRONO y
+    construir no lo era.  El arranque de este fichero pasa a esperar, y `montar()`
+    funciona igual se le llame antes o despues de que la figura llegue.
+
+    **Y EL CAPITULO NECESITA SERVIDOR.** Una pagina abierta con doble clic tiene
+    origen `null` y el navegador NO le deja leer otro fichero del disco: el `.glb`
+    no llegaria. En `offshoretheory.com` no pasa; en local, `VER-EL-CURSO.cmd`.
+    ═══════════════════════════════════════════════════════════════════════════ */
+
+/*  ── EL MODELO LLEVA SU sha256 EN EL NOMBRE ──────────────────────────────────
+    `motor.<sha8>.glb`, como la lamina de Skelmar --- `skelmar.f4c88793.svg` ---, y
+    por las dos razones que ya estan medidas en esta casa:
+
+    LA CACHE. Los capitulos son `chapters/*.html` y el modelo `assets/modelo/...`:
+    publicar un modelo nuevo con el mismo nombre deja a los alumnos con el viejo en
+    la cache y una figura que no casa con su capitulo. Con el sha en el nombre eso
+    no puede pasar --- el nombre cambia con el contenido ---.
+
+    Y LA INTEGRIDAD. Es la unica forma de comprobar, DESDE FUERA y sin manifiesto,
+    que lo publicado es lo aprobado: **se hashea el fichero y tiene que dar su
+    propio nombre**. Lo comprueba `c31_comun.py` en cada construccion.
+
+    Pide ademas `*.glb -text` en `.gitattributes`: `autocrlf` en un clon convertiria
+    el fichero y dejaria de casar con su nombre. Es el mismo fallo que ya se pago
+    dos veces esta semana --- en el `.cmd` y en el `git show` de este fichero ---.
+
+    **ESTE ES EL UNICO SITIO DONDE EL SHA SE ESCRIBE A MANO.** Los arneses y el
+    generador lo encuentran por patron: un sha en cinco sitios se queda viejo en
+    cuatro el dia que se reexporte el modelo.                                    */
+var FIGURA = { glb: "../assets/modelo/motor.a4a011cd.glb",
+               hdr: "../assets/modelo/estudio.hdr" };
+
+/*  LA METADATA DE LAS 108 PIEZAS --- nombre, sistema, direccion de despiece, si se
+    corta, si se pincha, su numero, su descripcion y su nota de patron --- **no se
+    ha perdido ni una palabra**: vive en `motor-datos.js`, sacada de este mismo
+    fichero ejecutandolo, no leyendolo, porque los nombres de los pistones y los
+    inyectores se calculan en un bucle y una expresion regular los habria fallado
+    justo a ellos.                                                               */
+var DATOS = (typeof raiz !== "undefined" && raiz.MOTOR_DATOS) || null;
+var META = {};
+(function(){
+  if (!DATOS || !DATOS.piezas) return;
+  for (var i = 0; i < DATOS.piezas.length; i++){
+    var p = DATOS.piezas[i];
+    if (p.name && !META[p.name]) META[p.name] = p;
   }
 })();
 
-/* ---------- CIGÜEÑAL · PISTONES · BIELAS (visibles en corte) ---------- */
-(function crankTrain(){
-  var Mj = mat(0x8c98a4,{metal:0.98, rough:0.25});
-  // CIGÜEÑAL — codos 0/180/180/0 (4 cil. en línea real)
-  var crank=new THREE.Group();
-  for(var s=0;s<5;s++){ var mj=cyl(0.26,0.26,0.42,20,{material:Mj}); mj.rotation.z=Math.PI/2; mj.position.x=-2.9+s*1.45; crank.add(mj); }
-  for(var c=0;c<4;c++){
-    var cx=CYL_X[c], ang=throwAngle(c), off=ANIM.OFF;
-    var ry=Math.cos(ang)*off, rz=Math.sin(ang)*off;
-    var rj=cyl(0.2,0.2,0.4,18,{material:Mj}); rj.rotation.z=Math.PI/2; rj.position.set(cx,ry,rz); crank.add(rj);
-    for(var w=0;w<2;w++){
-      var web=box(0.13,0.82,0.5, M.steelDk); web.position.set(cx+(w?0.28:-0.28), ry*0.5, rz*0.5); web.lookAt(0,ry,rz); crank.add(web);
-      var cw=new THREE.Mesh(new THREE.CylinderGeometry(0.42,0.42,0.13,18,1,false,0,Math.PI), M.steelDk);
-      cw.rotation.x=Math.PI/2; cw.position.set(cx+(w?0.28:-0.28), -ry*0.7, -rz*0.7); crank.add(cw);
-    }
-  }
-  crank.position.set(0, CRANK_Y, 0);
-  ANIM.crank=crank;
-  reg(crank,'com',{name:'Crankshaft', ex:V(0,-1,0), exMag:1.0, noExplodeAnim:true,
-    desc:'Turns the up-and-down motion of the pistons into rotation. On an in-line four the crankpins are set so cylinders 1 and 4 rise together while 2 and 3 fall, giving a firing order of 1-3-4-2 and one power stroke every half turn.',
-    yacht:'Not an on-board maintenance item, but its turning depends on oil: low pressure = risk of damaging the main and big-end bearings.'});
-  num(13,'Crankshaft','com', crank);
-
-  // PISTONES + BIELAS (animables)
-  for(var p=0;p<4;p++){
-    var px=CYL_X[p];
-    var py=pinY(p,0)+0.1, pz=0;
-    // pistón
-    var grp=new THREE.Group();
-    var skirt=cyl(BORE*0.84,BORE*0.84,0.6,24,{material:M.alu});
-    var crown=cyl(BORE*0.84,BORE*0.84,0.14,24,{material:M.aluDk}); crown.position.y=0.34;
-    grp.add(skirt,crown);
-    for(var r=0;r<3;r++){ var ring=tor(BORE*0.84,0.03,M.steel,8); ring.rotation.x=Math.PI/2; ring.position.y=0.18-r*0.11; grp.add(ring); }
-    grp.position.set(px,py,0);
-    reg(grp,'com',{name: p===0?'Piston':'Piston (cyl. '+(p+1)+')', ex:V(0,1,0), exMag:2.0+p*0.12,
-      desc:'Plunger that takes the pressure of the burning gases and passes it to the connecting rod. Its rings seal the chamber and control the oil on the cylinder wall.',
-      yacht:'Blue smoke from the exhaust usually means worn rings or valve guides (the engine is “burning oil”). It’s a diagnosis you should know how to read.'});
-    if(p===0) num(11,'Piston','com', grp);
-    ANIM.pistons.push({m:grp, c:p, x:px});
-
-    /*  ── LA BIELA · MAS GORDA Y DE OTRO ACERO, Y LAS DOS COSAS SON REALES ──────
-        **Estaba mal dibujada, no mal iluminada.** El vastago medía 0,17 contra un
-        piston de 1,24, o sea **0,14 del diametro**; una biela de verdad anda entre
-        **0,20 y 0,25**. Es el caso del engrasador que resulto ser de 5 cm y no de 2,7:
-        no se agranda para que se vea — se dibuja bien.
-
-        MEDIDO ANTES DE TOCARLA, proyectando su caja a pantalla en el encuadre de `2.1`:
-        una biela ocupaba **9,1 x 29,6 px**, un piston 21,8 x 16,4 y el ciguenal 98,2 x
-        14,6. Nueve pixeles de ancho es el limite de lo legible, y ademas se solapa con
-        el piston por arriba y con el ciguenal por abajo: **de los ~800 px de silueta
-        que suman las cuatro solo se veian 32 a 44.**
-
-        0,28 la deja en **0,23 del diametro** —dentro de la banda real— y en unos 15 px
-        de ancho. *No la hace grande: la hace la que es.*
-
-        Y EL TONO TAMBIEN ES REAL. La biela llevaba el mismo `steelDk` que el ciguenal, y
-        **son dos piezas distintas que en un motor abierto se distinguen a simple
-        vista**: la biela es una forja pulida y el ciguenal una pieza mas mate. Con
-        `polish` se separan sin que ninguna deje de ser acero.
-
-        LO QUE ESTO NO ARREGLA, y conviene saberlo: con el encuadre de `2.1` —que se
-        eligio por medida y no se toca— la biela sigue midiendo quince pixeles de ancho.
-        Se vera **el doble y medio** que antes, y seguira siendo pequeña.            */
-    var rod=new THREE.Group();
-    rod.add(box(0.28,ANIM.L,0.34, M.polish));
-    var be=cyl(0.30,0.30,0.48,16,{material:M.polish}); be.rotation.z=Math.PI/2; be.position.y=-ANIM.L/2; rod.add(be);
-    var se=cyl(0.17,0.17,0.38,14,{material:M.polish}); se.rotation.z=Math.PI/2; se.position.y=ANIM.L/2; rod.add(se);
-    if(p===1){
-      reg(rod,'com',{name:'Connecting rod', ex:V(0,1,0), exMag:2.3,
-        desc:'Links the piston to the crankshaft and converts the piston’s linear thrust into turning torque. It works in tension and compression thousands of times a minute.',
-        yacht:'Internal part; its health depends on lubrication. A dry metallic knock at idle can betray play in the big-end bearing.'});
-      num(12,'Connecting rod','com', rod);
-    } else {
-      rod.traverse(function(o){ if(o.isMesh){o.castShadow=true;o.receiveShadow=true;} });
-      groups.com.add(rod);
-    }
-    ANIM.rods.push({m:rod, c:p, x:px});
-
-    // volumen de gases dentro del cilindro (didáctico, se ve en corte)
-    var gm=mat(0x6ab0e0,{metal:0.0, rough:0.5, opacity:0.28, emissive:0x2a4a66, ei:0.4});
-    var gas=cyl(BORE*0.8,BORE*0.8,1,20,{material:gm});
-    gas.position.set(px,0,0); gas.castShadow=false; gas.receiveShadow=false;
-    gasGroup.add(gas);
-    ANIM.gas.push({m:gas, c:p, x:px, mat:gm});
-  }
-})();
-
-/* ---------- CAMISAS · CULATA · TAPA · VÁLVULAS · INYECTORES ---------- */
-(function head(){
-  // CAMISAS (liners) — tubos abiertos, visibles en corte
-  for(var c=0;c<4;c++){
-    var liner=cyl(BORE,BORE,1.75,30,{material:M.castDk, open:true});
-    liner.position.set(CYL_X[c],0.0,0);
-    reg(liner,'com',{name: c===0?'Cylinder / liner':'Liner (cyl. '+(c+1)+')', ex:V(0,1,0), exMag:1.6, cut:true, noShadow:true, side:THREE.DoubleSide,
-      desc:'Bore in which the piston travels up and down. It is usually a replaceable liner; this is where the diesel is compressed and burned.',
-      yacht:'Its wear (going oval) reduces compression and power. It explains why an old engine starts worse from cold.'});
-    if(c===0) num(10,'Cylinder / liner','com', liner);
-  }
-
-  // CULATA (cylinder head) — pintada como el bloque
-  var head=roundedBox(6.5, 0.85, 1.9, 0.2, M.paint);
-  head.position.set(0, DECK_Y+0.45, 0);
-  reg(head,'com',{name:'Cylinder head & valves', ex:V(0,1,0), exMag:2.0, cut:true,
-    desc:'Closes the top of the cylinders and forms the combustion chamber. It houses the valves, injectors and coolant passages.',
-    yacht:'The head gasket is critical: if it fails it mixes water, oil and gases (white smoke, milky oil, overheating). Watch the temperature and the look of the oil.'});
-  num(14,'Cylinder head & valves','com', head);
-
-  // TAPA DE BALANCINES (rocker cover) — alu, con placa de fabricante y tapón de aceite
-  var rocker=roundedBox(6.0, 0.62, 1.45, 0.24, M.alu);
-  rocker.position.set(0, DECK_Y+1.05, 0);
-  reg(rocker,'est',{name:'Rocker cover', ex:V(0,1,0), exMag:2.4, cut:true,
-    desc:'Cover that closes the top of the cylinder head and contains the oil that lubricates the valves and rockers. It carries the oil filler cap.',
-    yacht:'This is where you top up the oil. A worn cover gasket lets oil weep down the sides of the head.'});
-  // placa de fabricante (detalle visual)
-  var plate=box(1.6,0.02,0.5, M.steelDk); plate.position.set(0, DECK_Y+1.34, 0.4); groups.est.add(plate);
-  // tapón de llenado de aceite
-  var oilcap=cyl(0.24,0.24,0.2,20,{material:M.aluDk}); oilcap.position.set(-2.1, DECK_Y+1.4, 0.0);
-  reg(oilcap,'est',{name:'Oil filler cap', noPick:false, ex:V(0,1,0), exMag:2.6,
-    desc:'Opening through which oil is added to the engine, on top of the rocker cover.',
-    yacht:'Fill with the correct oil and don’t overfill. Wipe around it before opening so no dirt gets in.'});
-  // pernos de la tapa
-  for(var bb=0;bb<8;bb++){ var bo=bolt(0.08,0,M.bolt); bo.position.set(-2.6+bb*0.74, DECK_Y+1.32, 0.66*((bb%2)?1:-1)); groups.est.add(bo); }
-
-  // VÁLVULAS (2/cil) + muelles + balancines (visibles con tapa quitada/corte)
-  for(var v=0;v<4;v++){
-    var vref={};
-    for(var k=0;k<2;k++){
-      var vz=k?0.36:-0.36;                       // k=1 → admisión (+Z) · k=0 → escape (−Z)
-      var stem=cyl(0.05,0.05,0.6,10,{material:M.steel}); stem.position.set(CYL_X[v], DECK_Y+0.85, vz); groups.com.add(stem);
-      var vh=cyl(0.15,0.09,0.1,14,{material:M.steelDk}); vh.position.set(CYL_X[v], DECK_Y+0.55, vz); groups.com.add(vh);
-      var spr=cyl(0.11,0.11,0.3,10,{material:mat(COL.steelDk,{metal:0.9,rough:0.4}), open:true}); spr.position.set(CYL_X[v], DECK_Y+1.0, vz);
-      reg(spr,'com',{name:'Valve spring', noPick:(v>0||k>0), ex:V(0,1,0), exMag:2.2,
-        desc:'Closes the valve firmly after the camshaft has opened it, ensuring the chamber seals on every cycle.',
-        yacht:'Internal head component; no on-board attention required.'});
-      vref[k?'in':'ex']={stem:stem, head:vh, spring:spr, y0:{stem:DECK_Y+0.85, head:DECK_Y+0.55, spring:DECK_Y+1.0}};
-    }
-    var rk=box(0.6,0.09,0.12, M.steel); rk.position.set(CYL_X[v], DECK_Y+1.2, 0); groups.com.add(rk);
-    vref.rocker=rk;
-    ANIM.valves.push(vref);
-  }
-
-  // INYECTORES (4) en la culata
-  for(var i=0;i<4;i++){
-    var inj=new THREE.Group();
-    inj.add(cyl(0.1,0.14,0.5,14,{material:M.steel}));
-    var nut=cyl(0.17,0.17,0.16,6,{material:M.steelDk}); nut.position.y=0.08; inj.add(nut);
-    var top=cyl(0.08,0.08,0.26,12,{material:mat(COL.fuel,{metal:0.8,rough:0.4})}); top.position.y=0.36; inj.add(top);
-    inj.position.set(CYL_X[i], DECK_Y+1.25, 0);
-    reg(inj,'com',{name: i===0?'Injector':'Injector (cyl. '+(i+1)+')', ex:V(0,1,0), exMag:2.7, cut:true,
-      desc:'Atomises the diesel at very high pressure into the chamber, at exactly the right instant, so it ignites from the heat of the compressed air (there is no spark plug).',
-      yacht:'Dirty injectors give black smoke, hesitation and hard starting. Calibration is a workshop job, but their failure is diagnosed by the smoke.'});
-    if(i===0) num(6,'Injector','com', inj);
-  }
-
-  // CAMISAS DE REFRIGERACIÓN (water jacket) — envolvente translúcida
-  var jacket=box(7.05, 2.1, 2.0, mat(COL.cool,{metal:0.2, rough:0.4, opacity:0.14, side:THREE.DoubleSide}));
-  jacket.position.set(0, -0.25, 0);
-  reg(jacket,'ref',{name:'Water jacket (cooling)', noShadow:true, ex:V(0,1,0), exMag:0.6, cut:true,
-    desc:'Internal cavities in the block and head through which the coolant flows around each cylinder to carry away the heat of combustion.',
-    yacht:'You can’t see or touch them, but if they fur up with scale or salt they lose cooling. The correct antifreeze keeps them clean.'});
-  num(23,'Water jacket (cooling)','ref', jacket);
-})();
-
-/* ---------- FRONTAL DE LA CORREA (cara reconocible) + arranque, varilla, filtro aceite ---------- */
-(function frontEnd(){
-  var FX = -3.55;                 // plano frontal del bloque
-  var coolM = mat(COL.cool,{metal:0.55, rough:0.45});
-
-  // tapa de distribución (timing cover) frontal
-  // sin rotar: la placa ya es fina en X, que es la cara frontal del bloque
-  var tcov=roundedBox(0.22,1.95,1.85,0.12,M.paintLt); tcov.position.set(FX,-0.25,0);
-  reg(tcov,'est',{name:'Timing cover', noPick:true, ex:V(-1,0,0), exMag:1.4});
-
-  // POLEA DEL CIGÜEÑAL (damper) al frente del cigüeñal
-  var cp=pulley(0.46,0.3,M.steelDk); cp.rotation.z=Math.PI/2; cp.position.set(FX-0.25,CRANK_Y,0);
-  ANIM.spin.push({o:cp, r:1.0});
-  /*  LA MANIVELA · `handstart` no tenia nada que agarrar. Va en la nariz del ciguenal,
-      que es donde encaja: un eje corto, un brazo y un puño.
-      **Nace oculta**: una manivela no vive puesta en el motor, se trae y se encaja, y
-      el taller la ensena cuando toca. `visBase` recuerda que nacio apagada, asi que el
-      montaje no la enciende sin querer.                                            */
-  /*  ── ERA UNA CHAPA, Y UNA MANIVELA ES UNA BARRA ────────────────────────────
-      Medida con la vara de la biela —seccion contra el diametro del piston, que son
-      1,24—: el eje daba **0,10 de diametro, o sea 0,081**, y el brazo **0,06 en
-      seccion, o sea 0,048**. La biela estaba mal a 0,14 y se llevo a 0,23; el
-      inyector, que es de verdad delgado, esta en 0,28. *El brazo de la manivela era
-      la mitad de delgado que la pieza mas delgada del motor, y es la que se agarra
-      con las dos manos.*
-
-      Y habia un segundo defecto que la seccion escondia: **el brazo iba PARALELO al
-      eje**, adelantado y desplazado 0,16 en Z, asi que la pieza no era una manivela
-      sino una barra con un recodo. Un brazo de manivela va **radial**, que es lo que
-      permite girarla.
-
-      Puesta a su proporcion, con 1 unidad = 72,6 mm si el diametro es 90:
-        · eje y brazo **0,30 de diametro y seccion** — 24 mm de verdad, **0,24 del
-          piston**, entre la biela (0,23) y el inyector (0,28)
-        · puno **0,40** — 29 mm, que es lo que se agarra
-        · y el brazo, **radial y de 1,10 de vuelo**, para que sea una barra y no un
-          taco: a la seccion nueva, el de antes habria sido un cubo.                */
-  var manivela=new THREE.Group();
-  var mEje=cyl(0.15,0.15,0.55,12,{material:M.steelDk}); mEje.position.set(0,0.27,0);
-  /*  EL VUELO VA HACIA ARRIBA, y las tres direcciones se midieron antes de elegir:
-      hacia **+Z** el puño entra 0,49 x 0,21 x 0,67 en el `Fuel tank`; hacia **-Z**
-      —que es donde iba el recodo de antes— entra 1,02 x 0,39 x 0,37 en el
-      `Main positive cable` y 0,77 x 0,16 x 0,25 en la `Earth (ground) strap`.
-      **Delante del motor y por encima de la nariz del ciguenal no hay nada**, y ademas
-      es donde una manivela se agarra de verdad: se empieza abajo y se tira hacia arriba. */
-  var mBrazo=box(1.10,0.30,0.30,M.steelDk); mBrazo.position.set(0.55,0.55,0);
-  var mPuno=cyl(0.20,0.20,0.85,12,{material:mat(0x2c2a28,{metal:0.1,rough:0.9})});
-  mPuno.position.set(1.10,0.98,0);
-  manivela.add(mEje,mBrazo,mPuno);
-  manivela.rotation.z=Math.PI/2;
-  //  0,15 mas a proa que antes: con el brazo hacia arriba, su raiz rozaba la bomba de
-  //  agua dulce por 0,09 en X. Medido, y con esto no toca nada.
-  manivela.position.set(FX-0.77,CRANK_Y,0);
-  manivela.visible=false; groups.est.add(manivela);
-  regEnSitio(manivela,'est',{name:'Starting handle', ex:V(-1,0,0), exMag:1.6,
-    desc:'A crank that engages the nose of the crankshaft, for starting a small diesel by hand with the decompressors lifted.',
-    yacht:'Thumb on the same side as your fingers, and never wrap it round. A handle that kicks back breaks wrists.'});
-
-  reg(cp,'est',{name:'Crankshaft pulley (damper)', ex:V(-1,0,0), exMag:1.6,
-    desc:'Pulley on the nose of the crankshaft that drives the accessory belt (water pump and alternator) and damps torsional vibration.',
-    yacht:'If the belt squeals or slips, check here: an oily pulley or a slack belt rob you of charging and cooling.'});
-
-  // BOMBA DE AGUA DULCE / CIRCULADORA (#21) — frontal, sobre el cigüeñal
-  var fwp=new THREE.Group();
-  var fwBody=cyl(0.34,0.34,0.5,24,{material:coolM}); fwBody.rotation.z=Math.PI/2;
-  var fwSnout=cyl(0.16,0.16,0.3,16,{material:coolM}); fwSnout.rotation.x=Math.PI/2; fwSnout.position.set(0,0,0.32);
-  var fwPul=pulley(0.3,0.22,M.steelDk); fwPul.rotation.z=Math.PI/2; fwPul.position.x=-0.42;
-  fwp.add(fwBody,fwSnout,fwPul); ANIM.spin.push({o:fwPul, r:1.53});
-  fwp.position.set(FX-0.15,-0.35,0.0);
-  reg(fwp,'ref',{name:'Freshwater (circulating) pump', ex:V(-0.6,0.2,0), exMag:2.2, cut:true,
-    desc:'Circulates the coolant (fresh water + antifreeze) through the block, the head and the heat exchanger. It is driven by the crankshaft belt.',
-    yacht:'It usually shares a belt with the alternator: a slack or broken belt stops circulation and the engine overheats (WOBBLE: Belts).'});
-  num(21,'Freshwater (circulating) pump','ref', fwp);
-
-  // ALTERNADOR (accesorio) — arriba a un lado, con polea y tirante de tensado
-  var alt=new THREE.Group();
-  var altBody=cyl(0.32,0.32,0.7,24,{material:M.steelDk}); altBody.rotation.z=Math.PI/2;
-  var altCap=cyl(0.28,0.28,0.1,24,{material:M.steel}); altCap.rotation.z=Math.PI/2; altCap.position.x=0.4;
-  var altPul=pulley(0.22,0.18,M.steel); altPul.rotation.z=Math.PI/2; altPul.position.x=-0.45;
-  var altFan=cyl(0.26,0.26,0.04,12,{material:M.steelDk}); altFan.rotation.z=Math.PI/2; altFan.position.x=-0.32;
-  alt.add(altBody,altCap,altPul,altFan); ANIM.spin.push({o:altPul, r:2.1}); ANIM.spin.push({o:altFan, r:2.1});
-  alt.position.set(FX+0.1,0.7,0.7);
-  INTER.alt=alt; INTER.altHomeZ=0.7;
-  reg(alt,'est',{name:'Alternator', ex:V(-0.5,0.4,0.5), exMag:2.4,
-    desc:'Generator that charges the batteries and powers the electrical loads while the engine runs, driven by the crankshaft belt.',
-    yacht:'Check the tension and condition of its belt (the “B” in WOBBLE: Belts). If it’s a shared belt and it breaks, you lose both charging and cooling.'});
-  // tirante de tensado
-  var strap=box(0.7,0.08,0.04,M.steelDk); strap.position.set(FX+0.2,0.4,0.45); strap.rotation.z=-0.5; groups.est.add(strap);
-
-  // BOMBA DE AGUA SALADA (#18) — bronce, con tapa atornillada del impeller
-  var rwp=new THREE.Group();
-  var rwBody=cyl(0.36,0.36,0.42,24,{material:M.bronze}); rwBody.rotation.z=Math.PI/2;
-  var rwCover=cyl(0.37,0.37,0.06,24,{material:M.bronzeDk}); rwCover.rotation.z=Math.PI/2; rwCover.position.x=-0.24;
-  // tornillos de la tapa (impeller)
-  boltCircle(rwp, 6, 0.28, 0.05, 'x', -0.27, M.bolt);
-  // racores de entrada/salida
-  var rwIn=cyl(0.1,0.1,0.24,12,{material:M.bronzeDk}); rwIn.position.set(0,-0.34,0);
-  var rwOut=cyl(0.1,0.1,0.24,12,{material:M.bronzeDk}); rwOut.rotation.x=Math.PI/2; rwOut.position.set(0,0,0.3);
-  var rwPul=pulley(0.24,0.2,M.steelDk); rwPul.rotation.z=Math.PI/2; rwPul.position.x=0.34;
-  // IMPELLER de goma (6 paletas) dentro de la carcasa
-  var imp=new THREE.Group();
-  var impHub=cyl(0.1,0.1,0.2,14,{material:M.steelDk}); impHub.rotation.z=Math.PI/2; imp.add(impHub);
-  var vaneM=mat(0x1d2228,{metal:0.03,rough:0.95});
-  INTER.impVanes=[];
-  for(var b=0;b<6;b++){
-    var vane=box(0.18,0.26,0.05, vaneM);
-    var va=(b/6)*Math.PI*2;
-    vane.position.set(0, Math.cos(va)*0.17, Math.sin(va)*0.17);
-    vane.rotation.x=va; imp.add(vane); INTER.impVanes.push(vane);
-  }
-  imp.position.x=-0.08; rwp.add(imp);
-  INTER.rwp=rwp; INTER.rwCover=rwCover; INTER.impeller=imp; INTER.rwCoverX=-0.24;
-  rwp.add(rwBody,rwCover,rwIn,rwOut,rwPul); ANIM.spin.push({o:rwPul, r:1.9}); ANIM.spin.push({o:imp, r:1.9});
-  rwp.position.set(FX+0.05,-0.7,-0.7);
-  reg(rwp,'ref',{name:'Raw-water pump (impeller)', ex:V(-0.5,-0.2,-0.5), exMag:2.4, cut:true,
-    desc:'Belt-driven rubber-vane pump (impeller) that draws in seawater and pushes it through the circuit to the heat exchanger. The bronze cover gives access to the impeller.',
-    yacht:'THE star item of the RYA syllabus: the rubber impeller is destroyed in seconds if it runs dry. Carry a spare and learn to change it (the bronze cover comes off). Check it every season.'});
-  num(18,'Raw-water pump (impeller)','ref', rwp);
-
-  // POLEA TENSORA / GUÍA
-  var idler=pulley(0.18,0.16,M.steelDk); idler.rotation.z=Math.PI/2; idler.position.set(FX-0.1,0.0,-0.55); ANIM.spin.push({o:idler, r:2.5});
-  reg(idler,'est',{name:'Idler / tensioner pulley', noPick:true, ex:V(-1,0,0), exMag:1.6});
-
-  // CORREA (serpentina/trapezoidal) — bucle cerrado por las poleas frontales
-  var BX = FX-0.5;
-  var beltPts=[
-    V(BX,CRANK_Y+0.5,0), V(BX,-0.55,0.62), V(BX,0.5,0.78), V(BX,0.95,0.7),
-    V(BX,0.5,0.5), V(BX,0.0,-0.6), V(BX,-0.55,-0.78), V(BX,CRANK_Y+0.2,-0.45), V(BX,CRANK_Y-0.46,0)
-  ];
-  var beltCurve=new THREE.CatmullRomCurve3(beltPts, true, 'catmullrom', 0.5);
-  var belt=new THREE.Mesh(new THREE.TubeGeometry(beltCurve, 120, 0.075, 10, true), M.rubber);
-  groups.est.add(belt);
-  /*  LA CORREA. Ya estaba en `groups.est`. Es la que más renta de las siete: mejora
-      dos preguntas de la fase 5 y el taller de tensarla, que ya esta construido.  */
-  reg(belt,'est',{name:'Drive belt', ex:V(-1,0,0), exMag:1.4,
-    desc:'One belt from the crankshaft pulley drives the alternator, the freshwater pump and the raw-water pump.',
-    yacht:'The B in WOBBLE. About a centimetre of give at the longest span, no cracks, no glaze, no black dust. When it goes you lose both cooling circuits AND your charging at the same moment.'});
-  var beltFlat=new THREE.Mesh(new THREE.TubeGeometry(beltCurve, 120, 0.07, 4, true), M.rubberLt);
-  beltFlat.userData={sys:'est'}; groups.est.add(beltFlat);
-  INTER.belt=belt; INTER.beltFlat=beltFlat; INTER.beltPts=beltPts; INTER.beltPressIdx=2;
-  // dedo/indicador para comprobar la flecha de la correa
-  var thumb=cyl(0.09,0.06,0.3,14,{material:mat(0xd8c49a,{metal:0.05,rough:0.85})});
-  thumb.rotation.x=Math.PI/2; thumb.position.set(BX,0.5,1.25); thumb.visible=false;
-  groups.est.add(thumb); INTER.beltThumb=thumb;
-
-  // MOTOR DE ARRANQUE (accesorio) — junto a la campana, abajo
-  var starter=new THREE.Group();
-  var stBody=cyl(0.3,0.3,0.8,20,{material:M.steelDk}); stBody.rotation.z=Math.PI/2;
-  var stSol=cyl(0.16,0.16,0.5,16,{material:M.steel}); stSol.rotation.z=Math.PI/2; stSol.position.set(0,0.32,0);
-  var stNose=cyl(0.18,0.14,0.3,16,{material:M.cast}); stNose.rotation.z=Math.PI/2; stNose.position.x=0.5;
-  starter.add(stBody,stSol,stNose);
-  starter.position.set(3.0,-1.25,-0.95);
-  reg(starter,'est',{name:'Starter motor', ex:V(0.3,-0.4,-0.5), exMag:2.2,
-    desc:'Electric motor that spins the flywheel (via its ring gear) to start the diesel. It draws a large current from the batteries for a moment.',
-    yacht:'A “click” with no cranking is usually a flat battery or loose/corroded starter connections rather than the motor itself. Check the terminals and earth.'});
-
-  // VARILLA DE NIVEL DE ACEITE (dipstick) — mango amarillo, bien visible
-  var dip=new THREE.Group();
-  var dipY=mat(0xf4c020,{metal:0.35, rough:0.5});
-  var guide=cyl(0.075,0.075,0.5,12,{material:M.steelDk}); guide.position.y=-0.1;        // tubo guía hacia el bloque
-  var rodd=cyl(0.045,0.045,1.35,10,{material:M.steel}); rodd.position.y=0.6;             // varilla
-  var collar=cyl(0.06,0.06,0.16,10,{material:dipY}); collar.position.y=1.18;
-  var loop=tor(0.15,0.045,dipY,12); loop.position.y=1.42;                                // anilla de tiro amarilla
-  dip.add(guide,rodd,collar,loop);
-  // marcas mín/máx y película de aceite (para leer el nivel)
-  var markM=mat(0x232830,{metal:0.4,rough:0.6});
-  var mkMin=tor(0.052,0.013,markM,8); mkMin.rotation.x=Math.PI/2; mkMin.position.y=0.10; dip.add(mkMin);
-  var mkMax=tor(0.052,0.013,markM,8); mkMax.rotation.x=Math.PI/2; mkMax.position.y=0.42; dip.add(mkMax);
-  var oilM=mat(0x2a1d0a,{metal:0.25,rough:0.42});
-  var oilFilm=cyl(0.057,0.057,1,12,{material:oilM}); dip.add(oilFilm);
-  /*  ══ LA BOMBA DE VACIADO DE ACEITE ═══════════════════════════════
-      **No es una pieza del motor: es una herramienta.** No vive atornillada a nada
-      — se trae del pañol, se mete el tubo por el hueco de la varilla, se bombea y se
-      guarda. Por eso se dibuja **junto a la varilla**, que es donde se usa.
-
-      Y por eso existe: sin ella el taller `oilchange` de la P2 no se puede hacer con
-      las manos, que es la regla de esa parte entera. En casi ningún motor marino se
-      puede llegar al tapón del cárter, así que **el aceite sale por donde entra la
-      varilla** y esto es lo único que lo saca.                                   */
-  (function bombaVaciado(){
-    var g=new THREE.Group();
-    var cuerpo=cyl(0.10,0.10,0.34,14,{material:M.steelDk});
-    var tapa=cyl(0.11,0.11,0.05,14,{material:M.brass}); tapa.position.y=0.19;
-    var mango=cyl(0.028,0.028,0.30,10,{material:M.steel}); mango.position.y=0.36;
-    var puno=cyl(0.06,0.06,0.05,10,{material:M.rubber}); puno.position.y=0.53;
-    g.add(cuerpo,tapa,mango,puno);
-    /*  el tubo, que es lo que la hace reconocible: baja hasta el hueco de la varilla  */
-    var tubo=pipe([V(0.10,0.10,0),V(0.34,0.02,0.20),V(0.34,-0.42,0.52)],0.022,M.rubberLt);
-    g.add(tubo);
-    g.position.set(-2.55,0.62,1.30);
-    reg(g,'est',{name:'Oil extraction pump', ex:V(0,1,0), exMag:1.0,
-      desc:'A hand pump with a tube that goes down the dipstick hole. On most marine engines the sump drain plug cannot be reached, so this is how the old oil comes out.',
-      yacht:'It lives in the locker, not on the engine. Carry one, and carry a container that holds more than the sump does \u2014 finding out halfway through that it does not is a bad afternoon.'});
-  })();
-
-  INTER.dip=dip; INTER.dipOil=oilFilm; INTER.dipOilMat=oilM; INTER.dipHome=V(-2.0,-0.15,1.02);
-  dip.position.set(-2.0,-0.15,1.02);
-  reg(dip,'est',{name:'Oil dipstick', ex:V(-0.2,0.6,0.5), exMag:2.4,
-    desc:'Measures the oil level in the sump. Pull it out, wipe it, push it fully home and pull it again to read between the min./max. marks.',
-    yacht:'The “O” in WOBBLE: check the level cold and on level trim before every trip. Sudden changes in level or colour warn of trouble.'});
-
-  // FILTRO DE ACEITE (spin-on, accesorio)
-  var oilf=canister(0.26,0.6, M.steel, M.steelDk);
-  oilf.rotation.x=Math.PI/2; oilf.position.set(-2.5,-0.55,1.05);
-  reg(oilf,'est',{name:'Oil filter', ex:V(0,0,1), exMag:2.4,
-    desc:'Screw-on (spin-on) cartridge that cleans the oil circulating through the engine, trapping metal particles and carbon.',
-    yacht:'Changed with the oil at every service. Oil the new seal and tighten by hand; carry a filter wrench and a spare on board.'});
-})();
-
-/* ---------- ADMISIÓN · ESCAPE · TURBO · CODO MEZCLADOR ---------- */
-(function manifolds(){
-  // COLECTOR DE ADMISIÓN (#8) — lado +Z (babor), alu, 4 ramales
-  var intM=M.alu;
-  var intLog=cyl(0.3,0.3,5.4,22,{material:intM}); intLog.rotation.z=Math.PI/2; intLog.position.set(-0.1, DECK_Y+0.55, 1.15);
-  reg(intLog,'com',{name:'Intake manifold', ex:V(0,0.3,1), exMag:2.4, cut:true,
-    desc:'Distributes the air (clean, and pressurised if there is a turbo) to the intake valves of each cylinder.',
-    yacht:'Leaks at its joints let the engine breathe unfiltered air and lose performance. Keep the flanges tight and crack-free.'});
-  num(8,'Intake manifold','com', intLog);
-  for(var a=0;a<4;a++){ var ra=hose([V(CYL_X[a],DECK_Y+0.55,1.15),V(CYL_X[a],DECK_Y+0.6,0.92),V(CYL_X[a],DECK_Y+0.65,0.8)],0.15,intM,{tension:0.2}); ra.userData={sys:'com'}; groups.com.add(ra); }
-
-  // COLECTOR DE ESCAPE (#15) — lado −Z, aspecto refrigerado por agua (pintado)
-  var exM=mat(COL.exh,{metal:0.35, rough:0.88, env:0.5});
-  var exLog=cyl(0.34,0.34,5.4,22,{material:exM}); exLog.rotation.z=Math.PI/2; exLog.position.set(-0.1, DECK_Y+0.45, -1.15);
-  reg(exLog,'com',{name:'Exhaust manifold', ex:V(0,0.3,-1), exMag:2.4, cut:true,
-    desc:'Collects the burned gases from the cylinders and carries them to the turbo and the mixing elbow. On a marine engine it is usually water-cooled.',
-    yacht:'An internal leak in the water-cooled manifold can put seawater into the cylinders. The colour of the smoke here tells you everything (blue/black/white).'});
-  num(15,'Exhaust manifold','com', exLog);
-  for(var e=0;e<4;e++){ var re=hose([V(CYL_X[e],DECK_Y+0.5,-0.8),V(CYL_X[e],DECK_Y+0.48,-0.95),V(CYL_X[e],DECK_Y+0.45,-1.15)],0.17,exM,{tension:0.2}); re.userData={sys:'com'}; groups.com.add(re); }
-  // bridas del colector de escape
-  for(var ef=0;ef<4;ef++){ var fl=flange(0.22,0.06,'z',M.steelDk,4); fl.position.set(CYL_X[ef],DECK_Y+0.45,-0.78); groups.com.add(fl); }
-
-  // TURBOCOMPRESOR (#9) — popa, lado escape
-  /*  ── LAS CARACOLAS ENCIERRAN EL EJE · era orientacion, no tamaño ────────────
-      **La pieza estaba bien dimensionada y mal orientada**, y es un caso nuevo del
-      criterio. Las dos volutas eran toros con `rotation.y = PI/2`, o sea **con el eje
-      en X** — anillos de canto—, mientras que **el eje del turbo va en Z**, que es lo
-      que hace el cuerpo central que las une. Una voluta ENCIERRA el eje: es el caracol
-      por el que el gas entra en espiral hasta la rueda. De canto no es una voluta.
-
-      Por eso desde `port` —que mira a lo largo de Z— el turbo daba **8,7 x 19,3 px**:
-      se le estaba viendo el filo a las dos caracolas.
-
-      **Y por eso no habia que engordarlo.** Con el eje puesto donde va, el turbo pasa
-      de 0,44 a 0,96 de ancho aparente **sin tocarle una medida** — que es exactamente
-      lo que el criterio pide: *antes de engordar, comprobar que esta puesta como va.*
-
-      ── Y SE APOYA EN EL COLECTOR EN VEZ DE ATRAVESARLO ────────────────────
-      Medido: el turbo ocupaba z [-2,07 · -0,63] y el colector de escape z [-1,49 ·
-      -0,81] — o sea que **lo llevaba clavado por el medio**. Un turbo va atornillado a
-      la CARA DE FUERA del colector, no ensartado en el. Se retira a z = -2,04, que lo
-      deja tocandolo y no dentro. *Tocarse no es un error; atravesarlo si.*         */
-  var turbo=new THREE.Group();
-  var hot=tor(0.3,0.18,mat(COL.exh,{metal:0.35,rough:0.9,env:0.5}),12); hot.position.z=-0.24;
-  var cold=tor(0.3,0.18,mat(COL.alu,{metal:0.8,rough:0.45}),12); cold.position.z=0.24;
-  var chra=cyl(0.16,0.16,0.46,16,{material:M.steel}); chra.rotation.x=Math.PI/2;
-  var mouth=cyl(0.22,0.22,0.18,16,{material:M.steelDk}); mouth.rotation.x=Math.PI/2; mouth.position.z=0.46;
-  turbo.add(hot,cold,chra,mouth);
-  turbo.position.set(2.7, DECK_Y+0.55, -2.04);
-  reg(turbo,'com',{name:'Turbocharger', ex:V(0.4,0.4,-0.6), exMag:2.6, cut:true,
-    desc:'Uses the energy of the exhaust gases to drive a turbine that compresses the intake air. More air = more fuel burned = more power.',
-    yacht:'Let it idle to cool before shutting down after running under load: stopping it hot “bakes” the turbo oil and shortens its life.'});
-  num(9,'Turbocharger','com', turbo);
-
-  // FILTRO DE AIRE (#7) — en la boca del compresor del turbo
-  var af=new THREE.Group();
-  var afCan=cyl(0.42,0.42,0.6,24,{material:mat(COL.air,{metal:0.45,rough:0.6})}); afCan.rotation.x=Math.PI/2;
-  var afCap=cyl(0.46,0.34,0.14,24,{material:M.steelDk}); afCap.rotation.x=Math.PI/2; afCap.position.z=0.36;
-  af.add(afCan,afCap);
-  /*  el filtro va EN LA BOCA DEL COMPRESOR y se mueve con el turbo: la boca paso de
-      z = -0,89 a -1,58 al retirar el turbo, asi que el filtro la sigue. Dejarlo donde
-      estaba lo habria dejado suelto en el aire a mas de un diametro de su boca.  */
-  af.position.set(2.7, DECK_Y+0.55, -1.24);
-  reg(af,'com',{name:'Air filter', ex:V(0.2,0.3,0.6), exMag:2.4, cut:true,
-    desc:'Cleans the air before it enters the engine, trapping dust and salt. On a boat it also guards against water droplets.',
-    yacht:'Keep it clean and dry: a dirty filter chokes the engine (black smoke, lack of power). Check it after rough weather.'});
-  num(7,'Air filter','com', af);
-
-  // CODO MEZCLADOR DE ESCAPE (#24) — popa-arriba, curva hacia atrás
-  var elbow=new THREE.Group();
-  var ePipe=cyl(0.26,0.26,0.7,18,{material:exM}); ePipe.rotation.z=0.6;
-  var eBend=tor(0.26,0.26,exM,12); eBend.rotation.y=Math.PI/2; eBend.position.set(0.35,-0.28,0);
-  var eDown=cyl(0.26,0.26,0.6,18,{material:exM}); eDown.position.set(0.62,-0.55,0); eDown.rotation.z=-0.2;
-  var eInj=cyl(0.1,0.1,0.26,12,{material:mat(COL.raw,{metal:0.6,rough:0.45})}); eInj.position.set(-0.15,0.28,0);
-  elbow.add(ePipe,eBend,eDown,eInj);
-  elbow.position.set(3.3, DECK_Y+1.0, -1.0);
-  reg(elbow,'ref',{name:'Exhaust mixing elbow', ex:V(0.5,0.3,-0.5), exMag:2.4, cut:true,
-    desc:'Point where the seawater that has already cooled the engine is injected into the exhaust gases, cooling and silencing them before they leave at the stern.',
-    yacht:'If no water comes out of the exhaust, STOP the engine! It signals a cooling failure (impeller, strainer or pump). The elbow clogs with carbon over the years.'});
-  num(24,'Exhaust mixing elbow','ref', elbow);
-})();
-
-/* ---------- REFRIGERACIÓN: intercambiador, expansión, termostato, toma, filtro, mangueras ---------- */
-(function cooling(){
-  var rawM=mat(COL.raw,{metal:0.5,rough:0.5}), rawH=mat(COL.raw,{metal:0.2,rough:0.7});
-  var coolM=mat(COL.cool,{metal:0.5,rough:0.5}), coolH=mat(COL.cool,{metal:0.2,rough:0.7});
-  var HXY=2.75;
-
-  // INTERCAMBIADOR DE CALOR (#19) — cilindro horizontal sobre el motor
-  var hx=new THREE.Group();
-  var shell=cyl(0.5,0.5,4.0,30,{material:coolM}); shell.rotation.z=Math.PI/2; hx.add(shell);
-  var capL=cyl(0.54,0.54,0.26,30,{material:rawM}); capL.rotation.z=Math.PI/2; capL.position.x=-2.1; hx.add(capL);
-  var capR=capL.clone(); capR.position.x=2.1; hx.add(capR);
-  hx.add((function(){var f=flange(0.55,0.1,'x',M.steelDk,8); f.position.x=-1.92; return f;})());
-  hx.add((function(){var f=flange(0.55,0.1,'x',M.steelDk,8); f.position.x=1.92; return f;})());
-  // racores de entrada/salida en las tapas
-  var hxIn=cyl(0.1,0.1,0.3,12,{material:rawM}); hxIn.position.set(-2.2,-0.4,0); hx.add(hxIn);
-  var hxOut=cyl(0.1,0.1,0.3,12,{material:rawM}); hxOut.position.set(2.2,-0.4,0); hx.add(hxOut);
-  hx.position.set(0.15, HXY, 0);
-  reg(hx,'ref',{name:'Heat exchanger', ex:V(0,1,0), exMag:2.6, cut:true,
-    desc:'Like a “marine radiator”: inside, seawater flows through a tube bundle and cools the coolant (fresh water) around it, WITHOUT the two liquids ever mixing.',
-    yacht:'Its tubes block with salt and scale; when dirty it overheats the engine. Check the anode that protects it from corrosion.'});
-  num(19,'Heat exchanger','ref', hx);
-  // haz de tubos interno (visible en corte)
-  for(var t=0;t<7;t++){ var tube=cyl(0.045,0.045,3.8,8,{material:M.copper}); tube.rotation.z=Math.PI/2; var ta=(t/7)*Math.PI*2; tube.position.set(0.15, HXY+Math.sin(ta)*0.3, Math.cos(ta)*0.3); reg(tube,'ref',{name:'Tube bundle (raw water)', noPick:true, cut:true, noShadow:true}); }
-  // soportes del intercambiador a la culata
-  for(var sx=-1;sx<=1;sx+=2){ var brk=box(0.1,0.9,0.4,M.steelDk); brk.position.set(sx*1.4, HXY-0.85, 0); groups.ref.add(brk); }
-
-  // DEPÓSITO DE EXPANSIÓN (#20) — integrado en el extremo frontal del intercambiador, con tapón
-  var exp=new THREE.Group();
-  var ebody=cyl(0.34,0.34,0.7,22,{material:coolM});
-  var eneck=cyl(0.16,0.16,0.18,16,{material:mat(COL.cool,{metal:0.8,rough:0.3})}); eneck.position.y=0.42;
-  var ecap=cyl(0.2,0.2,0.16,18,{material:M.steel}); ecap.position.y=0.56;
-  exp.add(ebody,eneck,ecap);
-  exp.position.set(-2.0, HXY+0.7, 0);
-  reg(exp,'ref',{name:'Header (expansion) tank', ex:V(-0.3,1,0), exMag:2.2,
-    desc:'Takes up the expansion of the coolant as it heats and lets you top up the level. Its cap holds the pressure of the closed circuit.',
-    yacht:'Check the level COLD (never open the cap hot: pressurised steam comes out!). A falling level = possible leak or head gasket.'});
-  num(20,'Header (expansion) tank','ref', exp);
-  // ÁNODO de zinc en la coraza
-  var an=anode(); an.position.set(1.4, HXY+0.5, 0); groups.ref.add(an);
-  /*  EL ÁNODO. Existía desde siempre y no tenía nombre.  */
-  reg(an,'ref',{name:'Heat exchanger anode', ex:V(0,1,0), exMag:2.0,
-    desc:'A soft zinc rod screwed into the heat exchanger shell. It is meant to be eaten away so that the tube bundle is not.',
-    yacht:'Look at it, and replace it before it disappears. An anode that has gone completely is not a job finished \u2014 it is a job that stopped protecting anything some time ago.'});
-
-  // TERMOSTATO (#22) — alojamiento en la salida frontal de la culata
-  var thermo=new THREE.Group();
-  var thBody=cyl(0.24,0.28,0.3,18,{material:mat(COL.cool,{metal:0.6,rough:0.45})});
-  var thNeck=cyl(0.15,0.15,0.26,14,{material:coolM}); thNeck.position.y=0.26;
-  thermo.add(thBody,thNeck);
-  thermo.position.set(-2.6, DECK_Y+0.7, 0.3);
-  reg(thermo,'ref',{name:'Thermostat', ex:V(-0.4,0.6,0.2), exMag:2.2, cut:true,
-    desc:'Thermal valve: keeps the coolant recirculating until ~80–85 °C and then opens the path to the heat exchanger to hold the temperature steady.',
-    yacht:'Stuck closed = overheating; stuck open = an engine that never warms up and runs poorly. It’s cheap, so carry a spare.'});
-  num(22,'Thermostat','ref', thermo);
-
-  // TOMA DE MAR (#16) — pasacascos con grifo, abajo
-  var sea=new THREE.Group();
-  var skin=cyl(0.28,0.28,0.16,18,{material:M.bronzeDk}); skin.position.y=-0.1;
-  var valve=cyl(0.16,0.16,0.4,16,{material:M.bronze});
-  var handle=box(0.46,0.06,0.09,mat(COL.com,{metal:0.4,rough:0.6})); handle.position.y=0.26;
-  sea.add(skin,valve,handle);
-  sea.position.set(-1.4,-2.45,-1.95);
-  reg(sea,'ref',{name:'Seacock', ex:V(0,-1,0), exMag:1.8,
-    desc:'Through-hull valve where the seawater that cools the engine comes in. It is the start of the raw-water circuit.',
-    yacht:'Know EVERY seacock and keep tapered wooden bungs tied near each one. Close it if you work on the circuit or in the event of flooding.'});
-  num(16,'Seacock','ref', sea);
-
-  // FILTRO DE AGUA SALADA (#17) — vaso transparente con cesta
-  var strainer=new THREE.Group();
-  var sCan=cyl(0.3,0.3,0.6,20,{material:mat(0x9fd6ef,{metal:0.2,rough:0.2,opacity:0.4})});
-  var sLid=cyl(0.34,0.34,0.12,20,{material:rawM}); sLid.position.y=0.36;
-  var sBasket=cyl(0.2,0.2,0.44,16,{material:mat(COL.steel,{metal:0.9,rough:0.5}),open:true});
-  strainer.add(sCan,sLid,sBasket);
-  // algas y suciedad atrapadas en el cesto
-  var dirt=new THREE.Group();
-  for(var dz=0;dz<8;dz++){
-    var w=box(0.05+Math.random()*0.09,0.022,0.05+Math.random()*0.07, mat(0x2c4a22,{metal:0.02,rough:0.95}));
-    w.position.set((Math.random()-0.5)*0.24,-0.14+Math.random()*0.26,(Math.random()-0.5)*0.24);
-    w.rotation.set(Math.random()*3,Math.random()*3,Math.random()*3); dirt.add(w);
-  }
-  strainer.add(dirt);
-  INTER.strainer=strainer; INTER.strLid=sLid; INTER.strBasket=sBasket; INTER.strDirt=dirt;
-  INTER.strLidY=0.36; INTER.strBasketY=0;
-  strainer.position.set(-1.4,-1.1,-2.0);
-  reg(strainer,'ref',{name:'Raw-water strainer', ex:V(-0.3,0.4,-0.5), exMag:2.2, cut:true,
-    desc:'Holds back weed, bags and dirt from the seawater before the pump, so they cannot block the circuit. Its clear bowl lets you see the debris.',
-    yacht:'Check and clean it often, especially in weed or plastic. If the engine overheats, a clogged basket is the first suspect (along with the impeller).'});
-  num(17,'Raw-water strainer','ref', strainer);
-
-  // --- MANGUERAS DE REFRIGERACIÓN ---
-  // AGUA SALADA (azul claro): toma→filtro→bomba→intercambiador→codo
-  hoseRun(groups.ref, [V(-1.4,-2.35,-1.95),V(-1.4,-1.9,-2.0),V(-1.4,-1.5,-2.0)], 0.1, rawH);              // toma→filtro
-  hoseRun(groups.ref, [V(-1.4,-0.95,-2.0),V(-2.4,-0.85,-1.4),V(-3.4,-0.95,-0.95)], 0.1, rawH);            // filtro→bomba sal
-  hoseRun(groups.ref, [V(-3.55,-0.45,-0.7),V(-3.0,1.0,-0.4),V(-2.2,2.35,0)], 0.1, rawH);                  // bomba sal→HX (cap izq)
-  // (la salida del intercambiador va ahora al codo antisifón; ver "escape húmedo")
-  // REFRIGERANTE (azul oscuro): bomba dulce→bloque→termostato→HX→expansión
-  hoseRun(groups.ref, [V(-3.55,-0.35,0.32),V(-3.2,0.0,0.3),V(-2.9,DECK_Y+0.2,0.3)], 0.1, coolH);          // bomba dulce→bloque
-  hoseRun(groups.ref, [V(-2.6,DECK_Y+0.95,0.3),V(-2.4,1.7,0.2),V(-1.8,2.45,0.1)], 0.1, coolH);            // termostato→HX
-  hoseRun(groups.ref, [V(-1.9,2.7,0),V(-1.95,2.95,0),V(-2.0,3.1,0)], 0.08, coolH);                        // HX→expansión
-})();
-
-/* ---------- COMBUSTIBLE: tanque, Racor, cebado, filtro fino, bomba inyección, tubos ---------- */
-(function fuel(){
-  var tankM=mat(COL.fuel,{metal:0.4,rough:0.6,opacity:0.92});
-  var fuelH=mat(COL.fuel,{metal:0.3,rough:0.7});
-
-  // TANQUE (#1) — fuera del motor, a proa-babor
-  var tank=roundedBox(1.9,1.5,1.4,0.2,tankM); tank.position.set(-6.2,-0.5,1.5);
-  reg(tank,'com',{name:'Fuel tank', ex:V(-1,0,0.3), exMag:1.6,
-    desc:'Stores the diesel. The whole fuel-supply circuit to the engine starts here.',
-    yacht:'Keep it full to reduce condensation (water) and “diesel bug”. Know where the shut-off valve and tap are in case of fire or a leak.'});
-  num(1,'Fuel tank','com', tank);
-
-  /*  LA LLAVE DEL DEPOSITO · el taller `fuelfilters` empieza cerrandola, y el texto de
-      `Fuel tank` ya la nombraba —«know where the shut-off valve and tap are»— sin que
-      existiera. Un grifo de cuarto de vuelta en la salida del tanque.               */
-  var fTap=new THREE.Group();
-  fTap.add(cyl(0.07,0.07,0.14,12,{material:M.brass}));
-  var fLev=box(0.22,0.045,0.05,mat(0xc23b2a,{metal:0.3,rough:0.6}));
-  fLev.position.set(0.08,0.09,0); fTap.add(fLev);
-  /*  FUERA DEL TANQUE, NO DENTRO. La primera version la puso en (-5.55, 0.02, 1.42) y
-      dio **cero desde las seis camaras y acercada**: el tanque es una caja de 1,9 x 1,5
-      x 1,4 centrada en (-6.2, -0.5, 1.5), o sea que la llave estaba metida en su cara.
-      Va en la esquina de salida, asomando.                                          */
-  /*  Y FUERA DE VERDAD: la cara del tanque esta en x = -5.25 y la primera correccion la
-      puso en -5.28 — **tres centesimas dentro**, y volvio a dar cero. Medir otra vez es
-      lo unico que lo distingue de «esta pieza no se puede ver».                      */
-  fTap.position.set(-5.02,-0.62,1.9); groups.com.add(fTap);
-  regEnSitio(fTap,'com',{name:'Fuel tank valve', ex:V(0,1,0), exMag:1.4,
-    desc:'The shut-off valve at the tank outlet. It closes the fuel supply to the engine.',
-    yacht:'Know where it is before you need it: it is the first thing you close for a fuel leak or a fire, and the first thing you close before changing a filter.'});
-  var fillNeck=cyl(0.13,0.13,0.4,12,{material:M.steelDk}); fillNeck.position.set(-6.2,0.5,1.5); groups.com.add(fillNeck);
-
-  // FILTRO PRIMARIO / SEPARADOR DE AGUA — RACOR (#2) — vaso transparente
-  var racor=new THREE.Group();
-  var rTop=cyl(0.26,0.26,0.4,18,{material:mat(COL.fuel,{metal:0.7,rough:0.4})});
-  var rBowl=cyl(0.24,0.2,0.4,18,{material:mat(0x9fd6ef,{metal:0.2,rough:0.15,opacity:0.45})}); rBowl.position.y=-0.4;
-  var rDrain=cyl(0.05,0.05,0.1,8,{material:M.steelDk}); rDrain.position.y=-0.64;
-  /*  ══ EL ELEMENTO, DENTRO DEL VASO ════════════════════════════
-      El vaso transparente existía; lo que hay dentro, no. Y es lo que se cambia:
-      el taller `fuelfilters` de la P2 pide **sacarlo, mirarlo y poner uno nuevo**, y
-      sin él ese taller es una secuencia sin objeto.
-
-      Lleva `cut:true` porque **sólo se ve con el corte puesto**, igual que las camisas
-      o la galería de aceite: esta dentro de algo.                                */
-  var rElem=cyl(0.17,0.17,0.30,16,{material:mat(0xcfae6a,{metal:0.05, rough:0.85})});
-  rElem.position.y=-0.30;
-  var rPlisado=cyl(0.175,0.175,0.30,20,{material:mat(0xb99a56,{metal:0.0, rough:0.95,
-                    opacity:0.55})});
-  rPlisado.position.y=-0.30;
-  racor.add(rTop,rBowl,rDrain,rElem,rPlisado);
-  racor.position.set(-4.7,-0.2,1.7);
-  reg(racor,'com',{name:'Primary filter / water separator', ex:V(-0.6,0.4,0.4), exMag:2.2,
-    desc:'First line of defence for the fuel: it traps large particles and, above all, separates WATER from the diesel in its clear lower bowl.',
-    yacht:'A star maintenance item: check the bowl daily and drain it if you see water or dirt. Water in the diesel is the No.1 cause of engine stoppage.'});
-  num(2,'Primary filter / water separator','com', racor);
-  /*  EL ELEMENTO se registra APARTE del vaso que lo contiene: son dos cosas
-      distintas y el taller las trata distinto — el vaso se abre, el elemento se
-      tira. `regEnSitio` porque vive dentro del grupo del racor.                */
-  regEnSitio(rElem,'com',{name:'Primary filter element', cut:true, ex:V(0,-1,0), exMag:1.6,
-    desc:'The pleated cartridge inside the primary filter bowl. It is what actually traps the dirt, and it is what you replace.',
-    yacht:'Look at the old one before you throw it away: what is on it tells you what is in your tank, and whether one set of filters is going to be enough.'});
-
-  // BOMBA DE CEBADO / ALIMENTACIÓN (#3) — en el bloque, con palanca manual
-  var lift=new THREE.Group();
-  var lbody=roundedBox(0.42,0.4,0.4,0.07,M.steelDk);
-  var dome=sph(0.2,M.steel,{tl:Math.PI}); dome.position.y=0.18; dome.scale.y=0.6;
-  var lever=box(0.36,0.06,0.09,M.steel); lever.position.set(0.26,-0.08,0); lever.rotation.z=0.3;
-  lift.add(lbody,dome,lever);
-  INTER.liftLever=lever; INTER.liftLeverZ=0.3;
-  lift.position.set(-1.2,-0.35,1.2);
-  reg(lift,'com',{name:'Lift / priming pump', ex:V(-0.3,0.3,0.5), exMag:2.2, cut:true,
-    desc:'Draws diesel from the tank through the filters and sends it to the injection pump. Its hand lever lets you prime/bleed the circuit.',
-    yacht:'Its lever lets you bleed the air after changing filters or running out of diesel. Knowing how to bleed is an essential on-board skill.'});
-  num(3,'Lift / priming pump','com', lift);
-
-  // FILTRO SECUNDARIO / FINO (#4) — cartucho atornillado al bloque
-  var fine=canister(0.24,0.6, mat(COL.fuel,{metal:0.6,rough:0.5}), M.aluDk);
-  fine.position.set(0.9,-0.05,1.3);
-  reg(fine,'com',{name:'Secondary fuel filter', ex:V(0.2,0.4,0.5), exMag:2.2, cut:true,
-    desc:'Final fine filtration: it traps the smallest particles just before the injection pump, protecting the precision injectors.',
-    yacht:'Changed at every service. After changing it you must bleed the air with the priming pump or the engine won’t start.'});
-  num(4,'Secondary fuel filter','com', fine);
-
-  // BOMBA DE INYECCIÓN (#5) — en línea, lateral del bloque
-  var ip=new THREE.Group();
-  var ipbody=roundedBox(2.6,0.52,0.52,0.14,M.steelDk);
-  ip.add(ipbody);
-  var gov=cyl(0.2,0.2,0.4,16,{material:M.steel}); gov.rotation.z=Math.PI/2; gov.position.x=-1.5; ip.add(gov); // regulador
-  for(var o=0;o<4;o++){ var dv=cyl(0.05,0.05,0.2,10,{material:M.steel}); dv.position.set(CYL_X[o],0.28,0); ip.add(dv); } // válvulas de impulsión
-  ip.position.set(-0.1,-0.25,1.05);
-  reg(ip,'com',{name:'Injection pump', ex:V(0,0.3,0.6), exMag:2.4, cut:true,
-    desc:'Generates the very high fuel pressure and delivers it to each injector at the exact moment in the cycle. It is the “heart” of diesel control.',
-    yacht:'Sealed and precision-built: not touched on board. Clean, water-free diesel is what keeps it alive; hence the obsession with filters.'});
-  num(5,'Injection pump','com', ip);
-
-  // TUBOS DE INYECCIÓN (acero pulido, curvados) bomba→cada inyector — muy reconocibles
-  for(var l=0;l<4;l++){
-    var x=CYL_X[l];
-    var hp=pipe([V(x,-0.0,1.05), V(x,DECK_Y+0.2,0.9), V(x+0.05,DECK_Y+0.9,0.45), V(x,DECK_Y+1.25,0.08)], 0.035, M.polish);
-    hp.userData={sys:'com'}; hp.castShadow=true; groups.com.add(hp);
-  }
-  // tubería de retorno (fina) de los inyectores
-  var ret=pipe([V(CYL_X[0],DECK_Y+1.5,0.05),V(0,DECK_Y+1.55,0.1),V(CYL_X[3],DECK_Y+1.5,0.05)],0.025,M.steelDk);
-  groups.com.add(ret);
-  /*  EL RETORNO. Ya vivía en `groups.com`, así que `reg()` no lo mueve.  */
-  reg(ret,'com',{name:'Return line', ex:V(0,1,0), exMag:2.2,
-    desc:'Carries the fuel that was not burned back to the tank, taking heat and any trapped air with it.',
-    yacht:'It is thin, it is often old rubber, and a leak in it does not drip fuel out \u2014 it lets air IN. A hidden cause of an engine that keeps stopping.'});
-
-  // --- MANGUERAS DE COMBUSTIBLE (ámbar) ---
-  hoseRun(groups.com, [V(-5.9,-0.5,1.5),V(-5.4,-0.4,1.6),V(-4.95,-0.35,1.7)], 0.07, fuelH);   // tanque→racor
-  hoseRun(groups.com, [V(-4.45,-0.2,1.7),V(-3.0,-0.3,1.5),V(-1.45,-0.3,1.25)], 0.07, fuelH);   // racor→cebado
-  hoseRun(groups.com, [V(-0.95,-0.3,1.25),V(0.0,-0.2,1.3),V(0.85,-0.05,1.32)], 0.07, fuelH);   // cebado→filtro fino
-  hoseRun(groups.com, [V(0.9,-0.4,1.3),V(0.4,-0.3,1.1),V(-0.05,-0.25,1.08)], 0.07, fuelH);     // filtro fino→bomba inyección
-})();
-
-/* ---------- TORNILLOS DE PURGA (para el taller de purga) ---------- */
-(function bleedScrews(){
-  var scM=mat(0xc9b06a,{metal:0.85, rough:0.42});
-  // en la cabeza del filtro fino
-  var b1=new THREE.Group();
-  b1.add(cyl(0.05,0.05,0.16,6,{material:scM}));
-  var h1=cyl(0.075,0.075,0.06,6,{material:scM}); h1.position.y=0.1; b1.add(h1);
-  b1.position.set(0.9,0.30,1.32);
-  reg(b1,'com',{name:'Bleed screw (fine filter)', ex:V(0,0.6,0.4), exMag:1.6,
-    desc:'A small screw on top of the filter housing. Opening it lets trapped air escape while fuel is pumped through.',
-    yacht:'This is where bleeding starts after any filter change. Have a rag and a container ready — diesel will come out.'});
-  INTER.bleed1=b1; INTER.bleed1Y=0.30;
-  // en la bomba de inyección
-  var b2=new THREE.Group();
-  b2.add(cyl(0.05,0.05,0.16,6,{material:scM}));
-  var h2=cyl(0.075,0.075,0.06,6,{material:scM}); h2.position.y=0.1; b2.add(h2);
-  b2.position.set(-0.1,0.10,1.07);
-  reg(b2,'com',{name:'Bleed screw (injection pump)', ex:V(0,0.6,0.4), exMag:1.6,
-    desc:'The second bleed point, on the injection pump body. Air trapped here stops the pump delivering fuel.',
-    yacht:'Bleed in order: filter first, then the pump. Only go to the injectors if it still will not start.'});
-  INTER.bleed2=b2; INTER.bleed2Y=0.10;
-  // burbujas de aire que salen al purgar
-  var bub=new THREE.Group(); INTER.bubbles=[];
-  for(var i=0;i<5;i++){
-    var s=sph(0.038, mat(0xdfe8ee,{metal:0.0, rough:0.1, opacity:0.75}));
-    s.visible=false; bub.add(s); INTER.bubbles.push({m:s, t:i/5});
-  }
-  bub.position.set(0.9,0.36,1.32); groups.com.add(bub);
-  INTER.bubbleGroup=bub; INTER.bubbleOn=0;
-})();
-
-/* ---------- CIRCUITO DE LUBRICACIÓN ---------- */
-(function lubrication(){
-  var oilM=mat(0x8a6a24,{metal:0.45, rough:0.5});
-  var oilDk=mat(0x5c4718,{metal:0.4, rough:0.6});
-
-  // COLADOR DE ASPIRACIÓN dentro del cárter (visible en corte)
-  var pick=new THREE.Group();
-  var mesh=box(0.5,0.1,0.34, mat(0x8d949b,{metal:0.85, rough:0.55}));
-  var neck=cyl(0.07,0.07,0.45,12,{material:M.steelDk}); neck.position.set(0.15,0.25,0);
-  pick.add(mesh,neck);
-  pick.position.set(-0.75,-2.05,0);
-  reg(pick,'est',{name:'Oil pickup strainer', ex:V(0,-1,0), exMag:2.0, cut:true,
-    desc:'A coarse mesh sitting in the lowest part of the sump. The oil pump draws through it, so large debris can never reach the pump or the bearings.',
-    yacht:'You do not service it afloat, but it is why oil changes matter: sludge in the sump eventually blocks this strainer and starves the engine of oil.'});
-
-  // BOMBA DE ACEITE, arrastrada desde el morro del cigüeñal
-  var opump=new THREE.Group();
-  var obody=roundedBox(0.42,0.42,0.34,0.07,oilM);
-  var ogear=cyl(0.2,0.2,0.12,18,{material:M.steelDk}); ogear.rotation.x=Math.PI/2; ogear.position.z=0.22;
-  var oout=cyl(0.055,0.055,0.4,10,{material:oilDk}); oout.position.set(0,0.3,0); 
-  opump.add(obody,ogear,oout);
-  opump.position.set(-2.95,-1.7,0.3);
-  reg(opump,'est',{name:'Oil pump', ex:V(-0.5,-0.4,0.3), exMag:2.0, cut:true,
-    desc:'A gear pump driven directly from the crankshaft. It lifts oil from the sump and pushes it, under pressure, through the filter and on into the engine.',
-    yacht:'It has no adjustment. What you monitor is its result: oil pressure. If the alarm sounds, stop the engine at once.'});
-
-  // GALERÍA PRINCIPAL dentro del bloque (translúcida, se ve en corte)
-  /*  0,155 de radio y no 0,085: la galeria daba 0,17 de diametro, el **0,14 del
-      piston**, y un taladro principal anda por **0,25**. Medido en el barrido de las
-      noventa y una y corregido por Joel con la cifra delante.  */
-  var gal=cyl(0.155,0.155,6.2,14,{material:mat(0xd8a63a,{metal:0.3, rough:0.35, opacity:0.5})});
-  gal.rotation.z=Math.PI/2; gal.position.set(0,-1.02,0.42);
-  reg(gal,'est',{name:'Main oil gallery', noShadow:true, ex:V(0,1,0), exMag:1.2, cut:true,
-    desc:'The main drilled passage running the length of the block. From it, smaller drillings feed every main bearing, the big ends and the camshaft.',
-    yacht:'Invisible in service, but it explains why clean oil matters: these drillings are narrow and sludge blocks them.'});
-
-  // ENFRIADOR DE ACEITE refrigerado por agua salada
-  var ocool=new THREE.Group();
-  var oshell=cyl(0.24,0.24,0.9,20,{material:oilM}); oshell.rotation.z=Math.PI/2;
-  var oc1=cyl(0.27,0.27,0.1,20,{material:mat(COL.raw,{metal:0.5,rough:0.5})}); oc1.rotation.z=Math.PI/2; oc1.position.x=-0.48;
-  var oc2=oc1.clone(); oc2.position.x=0.48;
-  ocool.add(oshell,oc1,oc2);
-  // montado en el costado del bloque, con su soporte
-  var ocBrk=box(0.5,0.5,0.3, mat(0x6e767d,{metal:0.7, rough:0.55}));
-  ocBrk.position.set(0,0,-0.28); ocool.add(ocBrk);
-  ocool.position.set(1.75,-0.72,1.14);
-  reg(ocool,'ref',{name:'Oil cooler', ex:V(0.3,-0.3,0.6), exMag:2.0, cut:true,
-    desc:'A small heat exchanger where seawater cools the engine oil. Hot oil loses its film strength, so keeping it cool protects the bearings.',
-    yacht:'It sits in the raw-water circuit, so it is another place salt and scale build up. An internal failure mixes oil and seawater — check for milky oil.'});
-})();
-
-/* ---------- ESCAPE HÚMEDO: antisifón, silenciador y salida al espejo ---------- */
-(function wetExhaust(){
-  var hoseM=mat(0x191d22,{metal:0.0, rough:0.94});
-  var rawM=mat(COL.raw,{metal:0.5, rough:0.5});
-
-  // CODO ANTISIFÓN (vented loop) — atornillado al costado, por encima de la flotación
-  var vl=new THREE.Group();
-  var loopTube=hose([V(-0.3,-0.45,0),V(-0.3,0.15,0),V(-0.22,0.44,0),V(0,0.53,0),
-                     V(0.22,0.44,0),V(0.3,0.15,0),V(0.3,-0.45,0)], 0.09, rawM, {tension:0.45});
-  vl.add(loopTube);
-  var valve=cyl(0.085,0.065,0.18,14,{material:M.bronze}); valve.position.y=0.62; vl.add(valve);
-  var vcap=sph(0.065,M.bronzeDk); vcap.position.y=0.72; vl.add(vcap);
-  var brk=box(0.1,0.62,1.15, mat(0x8d949b,{metal:0.7, rough:0.55}));
-  brk.position.set(0,0.0,-0.62); vl.add(brk);
-  var plate=box(0.1,0.7,0.14, mat(0x8d949b,{metal:0.7, rough:0.55}));
-  plate.position.set(0,0.0,-1.2); vl.add(plate);
-  var uclip=tor(0.13,0.03,M.steel,10); uclip.rotation.y=Math.PI/2; uclip.position.set(-0.3,-0.1,0); vl.add(uclip);
-  var uclip2=tor(0.13,0.03,M.steel,10); uclip2.rotation.y=Math.PI/2; uclip2.position.set(0.3,-0.1,0); vl.add(uclip2);
-  vl.position.set(3.05,3.05,-2.25);
-  reg(vl,'ref',{name:'Vented (anti-siphon) loop', ex:V(0.2,1,-0.3), exMag:2.2,
-    desc:'A loop taken above the waterline with a small air valve at its top. It breaks any siphon that could otherwise pull seawater down into the exhaust and back into the engine after you stop.',
-    yacht:'The valve furs up with salt. If it blocks, seawater can siphon into a cylinder and hydraulic-lock the engine — expensive. Check and clean it every season; carry a spare valve.'});
-
-  // intercambiador -> entrada del antisifón
-  var hA=hose([V(2.3,2.55,-0.1),V(2.5,2.75,-1.1),V(2.7,2.7,-1.9),V(2.75,2.62,-2.25)], 0.1,
-              mat(COL.raw,{metal:0.2, rough:0.7}), {tension:0.4});
-  hA.userData={sys:'ref'}; hA.castShadow=true; groups.ref.add(hA);
-  // salida del antisifón -> codo mezclador
-  var hB=hose([V(3.35,2.62,-2.25),V(3.4,2.3,-1.8),V(3.35,1.95,-1.2),V(3.3,1.78,-1.02)], 0.1,
-              mat(COL.raw,{metal:0.2, rough:0.7}), {tension:0.4});
-  hB.userData={sys:'ref'}; hB.castShadow=true; groups.ref.add(hB);
-
-  // manguera de escape húmedo: codo mezclador -> silenciador
-  var h1=hose([V(3.55,1.15,-1.15),V(4.3,0.2,-1.5),V(5.1,-1.2,-1.8),V(5.55,-1.75,-1.9)], 0.19, hoseM, {tension:0.4});
-  var h1c=h1.userData._curve;
-  h1.userData={sys:'ref'}; h1.castShadow=true; groups.ref.add(h1);
-  groups.ref.add(clampRing(h1c,0.04,0.19,M.steel));
-
-  // SILENCIADOR / WATERLOCK en el punto bajo
-  var wl=new THREE.Group();
-  var drum=cyl(0.46,0.46,1.15,26,{material:mat(0x2a3038,{metal:0.15, rough:0.8})}); drum.rotation.z=Math.PI/2;
-  var capA=cyl(0.48,0.48,0.1,26,{material:mat(0x353c45,{metal:0.2, rough:0.7})}); capA.rotation.z=Math.PI/2; capA.position.x=-0.6;
-  var capB=capA.clone(); capB.position.x=0.6;
-  var inl=cyl(0.19,0.19,0.3,14,{material:hoseM}); inl.position.set(-0.35,0.4,0);
-  var outl=cyl(0.19,0.19,0.3,14,{material:hoseM}); outl.position.set(0.35,0.4,0);
-  wl.add(drum,capA,capB,inl,outl);
-  wl.position.set(6.25,-2.0,-1.9);
-  reg(wl,'ref',{name:'Waterlock / exhaust silencer', ex:V(0.3,-0.4,-0.5), exMag:2.2, cut:true,
-    desc:'A drum at the low point of the exhaust. It holds a slug of water that silences the gases and, crucially, stops seawater running back down the pipe into the engine when it is stopped.',
-    yacht:'Never crank an engine repeatedly without it firing: each turn pumps more water into this drum until it backs up into the cylinders. If it will not start, find out why before you keep cranking.'});
-
-  // manguera silenciador -> salida al espejo
-  var h2=hose([V(6.6,-1.7,-1.9),V(7.6,-1.1,-1.8),V(8.7,-0.6,-1.7),V(9.45,-0.35,-1.62)], 0.19, hoseM, {tension:0.4});
-  var h2c=h2.userData._curve;
-  h2.userData={sys:'ref'}; h2.castShadow=true; groups.ref.add(h2);
-  groups.ref.add(clampRing(h2c,0.95,0.19,M.steel));
-
-  // SALIDA AL ESPEJO DE POPA (skin fitting)
-  var out=new THREE.Group();
-  var flangeO=cyl(0.3,0.3,0.12,20,{material:M.bronzeDk}); flangeO.rotation.z=Math.PI/2;
-  var spout=cyl(0.2,0.22,0.4,18,{material:M.bronze}); spout.rotation.z=Math.PI/2; spout.position.x=0.24;
-  out.add(flangeO,spout);
-  out.position.set(9.62,-0.35,-1.6);
-  reg(out,'ref',{name:'Exhaust outlet (transom)', ex:V(1,0,-0.3), exMag:1.8,
-    desc:'Where the cooled exhaust gases and the seawater leave the boat together, through the transom or the topsides.',
-    yacht:'THIS is where you look every time you start the engine. Water spitting out with the exhaust means the whole raw-water circuit is working. No water = stop the engine at once.'});
-
-  // chorro de agua saliendo (didáctico)
-  var jetG=new THREE.Group(); INTER.jets=[];
-  for(var i=0;i<4;i++){
-    var j=sph(0.075, mat(0x9fd6ef,{metal:0.1, rough:0.15, opacity:0.8, emissive:0x2a5a72, ei:0.5}));
-    j.visible=false; jetG.add(j); INTER.jets.push({m:j, t:i/4});
-  }
-  jetG.position.set(9.9,-0.35,-1.6); groups.ref.add(jetG);
-  INTER.jetGroup=jetG;
-})();
-
-/* ---------- ELÉCTRICO: baterías, interruptor de corte, masa ---------- */
-(function electrical(){
-  var caseM=mat(0x23282e,{metal:0.05, rough:0.72});
-  var lidM=mat(0x2e343c,{metal:0.05, rough:0.62});
-  var shelf=box(2.5,0.12,1.2, mat(0x2b3138,{metal:0.08,rough:0.85}));
-  shelf.position.set(-5.1,-2.32,-2.25); shelf.receiveShadow=true; groups.est.add(shelf);
-
-  function battery(x,z,label){
-    var b=new THREE.Group();
-    b.add(box(0.95,0.72,0.62,caseM));
-    var lid=box(0.98,0.08,0.65,lidM); lid.position.y=0.38; b.add(lid);
-    // bornes: positivo rojo, negativo negro
-    var pos=cyl(0.075,0.075,0.14,12,{material:mat(0xb5402e,{metal:0.5,rough:0.5})}); pos.position.set(-0.28,0.47,0.18); b.add(pos);
-    var neg=cyl(0.075,0.075,0.14,12,{material:mat(0x14181d,{metal:0.5,rough:0.5})}); neg.position.set(0.28,0.47,0.18); b.add(neg);
-    b.position.set(x,-1.9,z);
-    return b;
-  }
-  var bStart=battery(-5.6,-2.25);
-  /*  LOS BORNES · `flatbatt` dice «aprieta los bornes» y habia baterias sin bornes.
-      Dos postes de plomo con su abrazadera, en la cara de arriba.                  */
-  var bornes=new THREE.Group();
-  for(var bp=0; bp<2; bp++){
-    var post=cyl(0.055,0.07,0.1,10,{material:mat(0x9aa2a8,{metal:0.85,rough:0.35})});
-    var clamp=cyl(0.09,0.09,0.05,10,{material:M.bronzeDk}); clamp.position.y=0.07;
-    var g=new THREE.Group(); g.add(post,clamp);
-    g.position.set(bp?0.16:-0.16,0.2,0); bornes.add(g);
-  }
-  bornes.position.set(-5.6,-2.25,0); groups.est.add(bornes);
-  regEnSitio(bornes,'est',{name:'Battery terminals', ex:V(0,1,0), exMag:1.6,
-    desc:'The two posts on top of the battery and the clamps bolted to them. All the starting current passes through these two joints.',
-    yacht:'Green or white powder on a post is resistance, and resistance is where a large current turns into heat. Clean them once a year and smear them with petroleum jelly.'});
-  reg(bStart,'est',{name:'Engine-start battery', ex:V(-0.5,0.3,-0.5), exMag:2.0,
-    desc:'A battery dedicated to starting the engine, kept isolated from the domestic supply so the lights and fridge can never flatten it.',
-    yacht:'If the engine has not fired after about ten seconds of cranking, STOP. Something else is wrong and you are only flattening the battery you will need.'});
-  var bDom=battery(-4.55,-2.25);
-  reg(bDom,'est',{name:'Domestic battery', ex:V(-0.3,0.3,-0.5), exMag:2.0,
-    desc:'The service battery bank that runs lights, instruments and the fridge. Kept separate from the starting battery.',
-    yacht:'On non-sealed batteries check the acid level. When one starts needing regular topping up, its life is nearly over.'});
-
-  // interruptor de corte (isolator)
-  var iso=new THREE.Group();
-  var panel=box(0.5,0.5,0.08, mat(0x2b3138,{metal:0.1,rough:0.8}));
-  var knob=cyl(0.16,0.16,0.14,20,{material:mat(0xb5402e,{metal:0.35,rough:0.5})}); knob.rotation.x=Math.PI/2; knob.position.z=0.1;
-  var bar=box(0.3,0.06,0.05, mat(0xe8e8e8,{metal:0.2,rough:0.6})); bar.position.z=0.18;
-  iso.add(panel,knob,bar);
-  iso.position.set(-3.9,-1.55,-2.5);
-  reg(iso,'est',{name:'Battery isolator switch', ex:V(-0.3,0.4,-0.6), exMag:2.0,
-    desc:'The main switch that disconnects the batteries from the boat. Turning it off makes the whole system safe to work on.',
-    yacht:'Know where it is before you need it — it is your first move in an electrical fire. Never switch it off while the engine is running or you can destroy the alternator.'});
-
-  // CABLE POSITIVO GRUESO batería -> arranque (por donde pasan cientos de amperios)
-  var posCab=hose([V(-5.15,-1.62,-2.15),V(-4.4,-1.55,-1.7),V(-3.6,-1.4,-1.2),V(-3.05,-1.28,-1.0)],
-                  0.075, mat(0x8f2f22,{metal:0.1, rough:0.85}), {radial:8});
-  posCab.userData={sys:'est'};
-  reg(posCab,'est',{name:'Main positive cable', ex:V(-0.3,0.3,-0.5), exMag:1.6,
-    desc:'The heavy red cable carrying the starting current from the battery to the starter motor. It is thick because a starter can draw several hundred amps for a few seconds.',
-    yacht:'Check the terminals are tight and free of green corrosion. A poor connection here drops the voltage and gives you slow, laboured cranking.'});
-
-  // CUADRO / RELÉ DE CARGA (split charge)
-  var relay=new THREE.Group();
-  var rbody=roundedBox(0.42,0.42,0.3,0.06, mat(0x30363d,{metal:0.15, rough:0.7}));
-  var rtop=cyl(0.1,0.1,0.1,14,{material:M.steelDk}); rtop.position.y=0.24;
-  var rt1=cyl(0.045,0.045,0.1,10,{material:M.brass}); rt1.position.set(-0.13,0.24,0);
-  var rt2=cyl(0.045,0.045,0.1,10,{material:M.brass}); rt2.position.set(0.13,0.24,0);
-  relay.add(rbody,rtop,rt1,rt2);
-  relay.position.set(-4.35,-1.15,-2.55);
-  reg(relay,'est',{name:'Split-charge relay', ex:V(-0.3,0.4,-0.5), exMag:1.8,
-    desc:'Lets the alternator charge both battery banks while the engine runs, but separates them when it stops — so the domestic side can never flatten the starting battery.',
-    yacht:'If the engine battery keeps going flat, suspect this or its wiring. It is what keeps your one guaranteed start in reserve.'});
-
-  // masa al bloque: una mala masa es causa clásica de "clac" sin girar
-  var earth=hose([V(-4.9,-1.75,-2.2),V(-4.2,-1.7,-1.6),V(-3.4,-1.5,-1.1)],0.06,M.blk,{radial:8});
-  earth.userData={sys:'est'};
-  reg(earth,'est',{name:'Earth (ground) strap', ex:V(-0.3,0.3,-0.5), exMag:1.6,
-    desc:'The heavy negative cable bonding the battery to the engine block. Every starting amp returns through it.',
-    yacht:'A corroded earth is a classic fault: the starter clicks but will not turn the engine, even though the battery is fine. Clean the terminals yearly and smear them with Vaseline.'});
-})();
-
-/* ---------- DESCOMPRESORES (arranque a mano) ---------- */
-(function decompressors(){
-  var levM=mat(0x9aa7b4,{metal:0.9, rough:0.4});
-  INTER.decomp=[];
-  for(var i=0;i<4;i++){
-    var d=new THREE.Group();
-    var pivot=cyl(0.06,0.06,0.16,12,{material:M.steelDk}); pivot.rotation.x=Math.PI/2; d.add(pivot);
-    var lev=box(0.32,0.07,0.06,levM); lev.position.set(0.14,0.06,0); d.add(lev);
-    d.position.set(CYL_X[i], DECK_Y+1.42, -0.62);
-    reg(d,'com',{name: i===0?'Decompressor lever':'Decompressor ('+(i+1)+')', noPick:(i>0), ex:V(0,1,-0.3), exMag:2.0,
-      desc:'A lever that holds the exhaust valve open so the cylinder cannot build compression. With them lifted, the engine can be turned by hand.',
-      yacht:'Essential for hand-starting: a diesel has far too much compression to turn by hand otherwise. Also useful to spin the engine over while bleeding the fuel.'});
-    INTER.decomp.push({m:d, lev:lev, y0:0.06});
-  }
-})();
-
-/* ---------- TRANSMISIÓN: volante, caja, acoplamiento, eje, bocina, hélice ---------- */
-(function transmission(){
-  var traM=mat(COL.tra,{metal:0.6,rough:0.45}), traDk=mat(COL.traDark,{metal:0.6,rough:0.5});
-  var SY=CRANK_Y;  // eje de transmisión (alineado al cigüeñal)
-
-  // VOLANTE DE INERCIA (#25) — dentro de la campana (visible en corte/despiece)
-  var fly=new THREE.Group();
-  /*  0,42 de grueso y no 0,30: el volante daba **0,14 de su propio diametro** y un
-     volante anda por **0,15-0,25**. A 0,20, que es 0,42 sobre 2,12.  */
-  var disc=cyl(0.98,0.98,0.42,40,{material:mat(0x6b7782,{metal:0.95,rough:0.3})}); disc.rotation.z=Math.PI/2; fly.add(disc);
-  var ring=tor(0.98,0.08,mat(0x596573,{metal:0.85,rough:0.35}),16); ring.rotation.y=Math.PI/2; fly.add(ring);
-  for(var z=0;z<52;z++){ var tooth=box(0.055,0.1,0.15,mat(0x596573,{metal:0.85,rough:0.4})); var za=(z/52)*Math.PI*2; tooth.position.set(0,Math.cos(za)*1.0,Math.sin(za)*1.0); tooth.rotation.x=za; fly.add(tooth); }
-  fly.position.set(4.0, SY, 0); ANIM.spin.push({o:fly, r:1.0});
-  reg(fly,'tra',{name:'Flywheel', ex:V(0,1,0), exMag:1.6,
-    desc:'Heavy disc that stores energy and smooths the rotation between firing strokes. Its ring gear meshes with the starter motor to start the engine.',
-    yacht:'No maintenance needed, but its ring gear is what the starter “bites”: a “click” with no cranking is usually the starter or battery, not the flywheel.'});
-  num(25,'Flywheel','tra', fly);
-
-  // CAJA REDUCTORA / INVERSOR (#26) — ZF/Hurth, atornillada a la campana
-  var gbox=new THREE.Group();
-  var gBell=cyl(0.95,0.95,0.3,30,{material:traDk}); gBell.rotation.z=Math.PI/2; gBell.position.x=-0.55; gbox.add(gBell);
-  var gBody=roundedBox(1.1,1.25,1.1,0.2,traM); gbox.add(gBody);
-  // aletas de refrigeración de la caja
-  for(var fk=0;fk<4;fk++){ var fin=box(0.9,0.05,1.1,traDk); fin.position.set(0,-0.35+fk*0.22,0); gbox.add(fin); }
-  var shiftLever=cyl(0.04,0.04,0.5,10,{material:M.steel}); shiftLever.position.set(0,0.8,0.25); shiftLever.rotation.x=-0.3; gbox.add(shiftLever);
-  var shiftKnob=sph(0.1,mat(COL.com,{metal:0.3,rough:0.6})); shiftKnob.position.set(0,1.03,0.18); gbox.add(shiftKnob);
-  var dipG=cyl(0.04,0.04,0.2,8,{material:M.steel}); dipG.position.set(-0.3,0.7,0); gbox.add(dipG); // varilla ATF
-  INTER.gbDip=dipG;
-  /*  LA VARILLA DEL INVERSOR, sin sacarla de `gbox`, que tiene posición.  */
-  regEnSitio(dipG,'tra',{name:'Gearbox dipstick', ex:V(0,1,0), exMag:1.2,
-    desc:'The gearbox has its own oil and its own dipstick, separate from the engine.',
-    yacht:'Check the book: some boxes take automatic transmission fluid and some take engine oil, and they are not interchangeable. "I checked the oil" usually means somebody checked one of the two.'});
-  gbox.position.set(5.45, SY+0.05, 0);
-  reg(gbox,'tra',{name:'Gearbox / reverse gear', ex:V(1,0.1,0), exMag:1.8, cut:true,
-    desc:'Reduces engine revs to those suited to the propeller and selects ahead, neutral and astern (it reverses the shaft’s rotation).',
-    yacht:'It has its own oil/ATF: check the level with its dipstick and watch for leaks. Always change gear at idle to spare the clutch.'});
-  num(26,'Gearbox / reverse gear','tra', gbox);
-
-  // ACOPLAMIENTO FLEXIBLE (#27)
-  var coup=new THREE.Group();
-  coup.add((function(){var f=flange(0.3,0.12,'x',traDk,6); f.position.x=-0.14; return f;})());
-  coup.add((function(){var f=flange(0.3,0.12,'x',traDk,6); f.position.x=0.14; return f;})());
-  var rd=cyl(0.26,0.26,0.12,20,{material:mat(COL.com,{metal:0.2,rough:0.8})}); rd.rotation.z=Math.PI/2; coup.add(rd);
-  coup.position.set(6.4, SY+0.05, 0);
-  reg(coup,'tra',{name:'Flexible coupling', ex:V(1,0,0), exMag:2.0,
-    desc:'Joins the gearbox to the propeller shaft, absorbing small misalignments and vibration, protecting both gearbox and stern gland.',
-    yacht:'Check the bolts don’t work loose and the rubber isn’t cracked. Marked misalignment vibrates, heats the stern gland and wears the shaft.'});
-  num(27,'Flexible coupling','tra', coup);
-
-  // EJE DE LA HÉLICE (#29)
-  /*  0,23 de radio y no 0,15: el eje daba 0,30 de diametro, el **0,24 del piston**, y
-     un eje en un motor de este tamaño anda por **0,35-0,40**. Corregido a 0,37.  */
-  var shaft=cyl(0.23,0.23,3.0,20,{material:M.steel}); shaft.rotation.z=Math.PI/2; shaft.position.set(8.0, SY+0.05, 0);
-  reg(shaft,'tra',{name:'Propeller shaft', ex:V(0.4,0,0), exMag:1.4,
-    desc:'Stainless-steel bar that carries the drive from the gearbox to the propeller, passing through the hull at the stern gland.',
-    yacht:'Make sure it isn’t bent (vibration) or corroded. The shaft anode protects it galvanically: replace it when it’s half consumed.'});
-  num(29,'Propeller shaft','tra', shaft);
-
-  // BOCINA / PRENSAESTOPAS (#28)
-  var gland=new THREE.Group();
-  var gBody=cyl(0.24,0.24,0.5,18,{material:traDk}); gBody.rotation.z=Math.PI/2;
-  var gNut=cyl(0.28,0.28,0.2,6,{material:M.steelDk}); gNut.rotation.z=Math.PI/2; gNut.position.x=0.26;
-  var gHose=cyl(0.26,0.26,0.4,18,{material:mat(COL.com,{metal:0.2,rough:0.8})}); gHose.rotation.z=Math.PI/2; gHose.position.x=-0.28;
-  gland.add(gBody,gNut,gHose);
-  gland.position.set(9.4, SY+0.05, 0);
-  var dripG=new THREE.Group(); INTER.drips=[];
-  for(var dd=0; dd<3; dd++){
-    var drop=sph(0.055, mat(0x8fd0ea,{metal:0.1, rough:0.15, opacity:0.8, emissive:0x2a5a72, ei:0.4}));
-    drop.scale.set(0.8,1.3,0.8); drop.visible=false; dripG.add(drop);
-    INTER.drips.push({m:drop, t:dd/3});
-  }
-  dripG.position.set(9.4, SY+0.05, 0); groups.tra.add(dripG);
-  INTER.dripGroup=dripG; INTER.dripRate=0;
-  reg(gland,'tra',{name:'Stern gland (stuffing box)', ex:V(0.3,-0.3,0), exMag:2.0,
-    desc:'Seals the point where the shaft passes through the hull so water cannot get in, while still letting it turn. They come as packed glands or mechanical-face seals.',
-    yacht:'A packed gland should drip a few drops a minute when running (otherwise it overheats). It’s one of the boat’s few controlled “leaks”.'});
-  num(28,'Stern gland (stuffing box)','tra', gland);
-
-  /*  ══ LO QUE EL TALLER `gland` TOCA Y NO TENIA NOMBRE ═══════════════════════
-      **La tuerca ya existia como malla** —`gNut`, ahi arriba— y no estaba registrada.
-      Es el tercer caso del mismo patron en este fichero: el anodo del intercambiador y
-      la sentina estaban igual. *Antes de modelar una pieza que «falta», conviene mirar
-      si ya esta dibujada y lo que le falta es el nombre.*
-
-      El engrasador si es nuevo: una copa roscada con su tapa, seis lineas.           */
-  regEnSitio(gNut,'tra',{name:'Gland packing nut', ex:V(1,0,0), exMag:1.2,
-    desc:'The nut that squeezes the packing against the shaft. It is adjusted a flat at a time, never more.',
-    yacht:'Nip it down a flat, run her, and look again. Tighten it until the drip stops and you have cooked the packing and scored the shaft.'});
-
-  var greaser=new THREE.Group();
-  /*  EL TAMAÑO ES EL DE UNO DE VERDAD, y la primera version se quedo corta: a la escala
-      de esta figura —1 unidad ~ 15 cm— una copa de 0,09 de radio son 2,7 cm de ancho, y
-      un engrasador de bocina de verdad ronda los 5. Con el tamaño real pasa el suelo
-      del dedo; con el de antes se quedaba en 918. **No es agrandar para que se vea: es
-      que estaba mal medido.**                                                        */
-  greaser.add(cyl(0.15,0.18,0.24,14,{material:M.brass}));
-  var gcap=cyl(0.12,0.12,0.08,12,{material:M.bronzeDk}); gcap.position.y=0.15;
-  greaser.add(gcap);
-  greaser.position.set(9.28, SY+0.42, 0); groups.tra.add(greaser);
-  regEnSitio(greaser,'tra',{name:'Stern tube greaser', ex:V(0,1,0), exMag:1.4,
-    desc:'A screw-down cup of waterproof grease that keeps grease in the stern tube bearing and the sea out of it.',
-    yacht:'A turn every couple of hours under way, and topped up when it empties. It is the easiest thing on a boat to forget, because nothing happens for a long time when you do.'});
-
-  // HÉLICE (#30) — núcleo + 3 palas
-  var prop=new THREE.Group();
-  // núcleo cónico + ojiva de popa + tuerca de eje
-  var pcore=cyl(0.24,0.2,0.36,24,{material:M.bronze}); pcore.rotation.z=Math.PI/2; prop.add(pcore);
-  var fair=cyl(0.2,0.07,0.3,24,{material:M.bronze}); fair.rotation.z=-Math.PI/2; fair.position.x=0.32; prop.add(fair);
-  var pnut=cyl(0.11,0.11,0.1,6,{material:M.bronzeDk}); pnut.rotation.z=Math.PI/2; pnut.position.x=0.5; prop.add(pnut);
-  // 3 palas reales, generadas por superficie
-  var bladeGeo=propellerBlade({});
-  for(var b=0;b<3;b++){
-    var blade=new THREE.Mesh(bladeGeo, M.bronze);
-    blade.rotation.x=(b/3)*Math.PI*2;
-    prop.add(blade);
-  }
-  // ánodo de eje justo delante de la hélice
-  var pan=cyl(0.19,0.19,0.16,20,{material:mat(0xb9c0c4,{metal:0.6, rough:0.62})});
-  pan.rotation.z=Math.PI/2; pan.position.x=-0.42; prop.add(pan);
-  prop.position.set(10.4, SY+0.05, 0); ANIM.spin.push({o:prop, r:0.4});
-  reg(prop,'tra',{name:'Propeller', ex:V(0.5,0,0), exMag:1.6,
-    desc:'Turns the shaft’s rotation into thrust, “screwing” itself through the water to drive the boat ahead or astern.',
-    yacht:'Check it by diving: weed, fishing line or a chipped blade rob performance and cause vibration. Keep its anode in good shape.'});
-  num(30,'Propeller','tra', prop);
-})();
-
-/* ---------- DETALLES REALISTAS: cableado, respiradero, sensores, mandos ---------- */
-(function ancillaries(){
-  var FX=-3.55;
-  // MAZO DE CABLES (alternador → arranque) recorriendo el motor
-  var loomPts=[V(-3.45,0.7,0.7),V(-3.0,1.2,0.85),V(-1.2,1.95,0.95),V(1.4,1.6,0.6),V(2.6,0.2,-0.4),V(3.0,-1.0,-0.85)];
-  var loom=hose(loomPts, 0.055, M.blk, {tension:0.4, radial:8});
-  var loomCurve=loom.userData._curve;
-  loom.userData={sys:'est'};
-  reg(loom,'est',{name:'Wiring loom', ex:V(0,1,0.3), exMag:1.2,
-    desc:'The bundle of cables connecting the alternator, starter motor, senders and the boat’s instrument panel.',
-    yacht:'Vibration and salt loosen and corrode connections. Check terminals, fuses and earth: many engine “breakdowns” are really electrical.'});
-  // bridas del mazo
-  for(var z=0.15; z<0.95; z+=0.28){ var p=loomCurve.getPointAt(z); var tie=tor(0.07,0.018,M.blk,8); tie.position.copy(p); var tn=loomCurve.getTangentAt(z); tie.quaternion.setFromUnitVectors(V(0,0,1),tn.clone().normalize()); groups.est.add(tie); }
-
-  // CABLES DE BATERÍA al arranque (positivo rojo / masa negro)
-  var posCable=hose([V(3.0,-1.0,-0.7),V(2.6,-1.5,-0.4),V(2.2,-2.0,-0.2)],0.06,mat(0xb5402e,{metal:0.2,rough:0.7}),{radial:8});
-  posCable.userData={sys:'est'}; groups.est.add(posCable);
-  var negCable=hose([V(2.9,-1.3,-0.9),V(2.5,-1.8,-0.7),V(2.1,-2.1,-0.5)],0.06,M.blk,{radial:8});
-  negCable.userData={sys:'est'}; groups.est.add(negCable);
-
-  // RESPIRADERO DEL CÁRTER (rocker → admisión)
-  var br=hose([V(-1.9,DECK_Y+1.35,0.55),V(-1.4,DECK_Y+1.0,0.85),V(-0.6,DECK_Y+0.7,1.05)],0.07,M.rubber);
-  br.userData={sys:'com'};
-  reg(br,'com',{name:'Crankcase breather', ex:V(0,0.4,0.6), exMag:1.6,
-    desc:'Carries crankcase gases and vapours back to the intake to be burned, preventing pressure build-up and emissions to the atmosphere.',
-    yacht:'If it blocks, the engine pressurises the crankcase and can push oil past the seals. Keep the hose and its filter clean.'});
-
-  // SENSOR DE PRESIÓN DE ACEITE (en el bloque)
-  var ops=new THREE.Group();
-  ops.add(cyl(0.07,0.07,0.2,12,{material:M.brass}));
-  var opsTop=cyl(0.05,0.05,0.12,10,{material:M.steelDk}); opsTop.position.y=0.15; ops.add(opsTop);
-  ops.position.set(-2.0,-0.05,1.0); ops.rotation.x=-Math.PI/2.4;
-  reg(ops,'est',{name:'Oil pressure sender', ex:V(-0.3,0.2,0.6), exMag:1.8,
-    desc:'Measures the oil pressure and sends it to the gauge or the panel alarm. It is your early warning of a lubrication failure.',
-    yacht:'If the oil-pressure alarm sounds, STOP the engine at once and find the cause: running on without pressure melts the bearings.'});
-
-  // SENSOR DE TEMPERATURA (en la culata / salida de agua)
-  var cts=new THREE.Group();
-  cts.add(cyl(0.07,0.07,0.18,12,{material:M.brass}));
-  var ctsTop=cyl(0.05,0.05,0.12,10,{material:M.steelDk}); ctsTop.position.y=0.14; cts.add(ctsTop);
-  cts.position.set(-2.7,DECK_Y+0.85,0.3); cts.rotation.z=0.3;
-  reg(cts,'est',{name:'Temperature sender', ex:V(-0.3,0.5,0.3), exMag:1.8,
-    desc:'Measures the coolant temperature and sends it to the gauge or the panel alarm.',
-    yacht:'If it reads high or the alarm sounds, suspect the cooling: impeller, strainer, belt or thermostat. Check that water is coming out of the exhaust.'});
-  // cablecillos finos de los sensores hacia el mazo
-  var w1=hose([V(-2.0,0.05,1.0),V(-1.8,0.6,0.95),V(-1.3,1.5,0.9)],0.02,M.blk,{radial:6}); w1.userData={sys:'est'}; groups.est.add(w1);
-  var w2=hose([V(-2.7,DECK_Y+1.0,0.3),V(-2.2,1.4,0.6),V(-1.4,1.7,0.85)],0.02,M.blk,{radial:6}); w2.userData={sys:'est'}; groups.est.add(w2);
-
-  // CABLES DE GAS Y PARO (al regulador de la bomba de inyección)
-  var gov=V(-1.6,-0.05,1.05);
-  var throttle=hose([gov,V(-1.6,0.4,1.3),V(-1.4,1.0,1.4),V(-1.0,1.4,1.5)],0.035,mat(0x9aa7b4,{metal:0.7,rough:0.4}),{radial:8});
-  throttle.userData={sys:'com'};
-  reg(throttle,'com',{name:'Throttle & stop cables', ex:V(0,0.5,0.6), exMag:1.6,
-    desc:'Connect the throttle lever and the stop control at the helm to the governor on the injection pump.',
-    yacht:'The STOP cable cuts the fuel to shut the diesel down (it isn’t switched off with a “key” like a petrol engine). Check both controls move smoothly.'});
-  var stopc=hose([gov,V(-1.7,0.3,1.2),V(-1.7,0.9,1.25),V(-1.5,1.3,1.3)],0.03,M.blk,{radial:8}); stopc.userData={sys:'com'}; groups.com.add(stopc);
-  // soporte de los cables
-  var cbrk=box(0.3,0.08,0.12,M.steelDk); cbrk.position.set(-1.0,1.45,1.5); groups.com.add(cbrk);
-})();
-
-/* ---------- TEXTURA DE SUPERFICIE (grano de fundición + brillo variable) ----------
-   Genera mapas por código (sin archivos) para que las superficies no parezcan plástico. */
-(function surfaceDetail(){
-  try{
-    function noiseTex(size, freq, oct, gain, lo, hi){
-      var cv=document.createElement('canvas'); cv.width=cv.height=size;
-      var ctx=cv.getContext('2d'); if(!ctx) return null;
-      var img=ctx.createImageData(size,size), d=img.data;
-      function h2(x,y){ var n=(x*374761393+y*668265263)|0; n=(n^(n>>13)); n=(n*1274126177)|0; return ((n^(n>>16))>>>0)/4294967295; }
-      function sm(t){ return t*t*(3-2*t); }
-      function vn(x,y){ var xi=Math.floor(x),yi=Math.floor(y),xf=x-xi,yf=y-yi;
-        var a=h2(xi,yi),b=h2(xi+1,yi),c=h2(xi,yi+1),e=h2(xi+1,yi+1),u=sm(xf),v=sm(yf);
-        return (a*(1-u)+b*u)*(1-v)+(c*(1-u)+e*u)*v; }
-      for(var y=0;y<size;y++){ for(var x=0;x<size;x++){
-        var amp=1,f=freq,sum=0,norm=0;
-        for(var o=0;o<oct;o++){ sum+=amp*vn(x/size*f,y/size*f); norm+=amp; amp*=gain; f*=2; }
-        var val=lo+(hi-lo)*(sum/norm), i=(y*size+x)*4, c8=Math.max(0,Math.min(255,(val*255)|0));
-        d[i]=d[i+1]=d[i+2]=c8; d[i+3]=255;
-      }}
-      ctx.putImageData(img,0,0);
-      var tx=new THREE.CanvasTexture(cv); tx.wrapS=tx.wrapT=THREE.RepeatWrapping; return tx;
-    }
-    var grain=noiseTex(256, 26, 4, 0.55, 0.3, 1.0);   // relieve fino (bump)
-    var rough=noiseTex(256, 7, 3, 0.6, 0.72, 1.0);    // variación de brillo
-    if(!grain||!rough) return;
-    grain.repeat.set(3,3); rough.repeat.set(2,2);
-    var seen=[];
-    root.traverse(function(o){
-      if(!o.isMesh || !o.material || !o.material.isMeshStandardMaterial) return;
-      var m=o.material;
-      if(m.transparent && m.opacity<1) return;          // no en cristales/camisa translúcida
-      if(seen.indexOf(m)>=0) return; seen.push(m);
-      m.bumpMap=grain; m.bumpScale = (m.metalness>0.7?0.012:0.038);
-      m.roughnessMap=rough;
-      m.needsUpdate=true;
-    });
-  }catch(e){ /* sin canvas -> se omite; el modelo se ve igualmente */ }
-})();
-
-/* ============================================================
-   SUELO (recibe sombra) · BANCADA · FLUJOS
-   ============================================================ */
-/* ============================================================
-   COMPARTIMENTO DEL MOTOR (para que se vea DENTRO de un barco)
-   Sección de casco en V extruida, con espuma acústica, bancadas y sentina.
-   Se construye con caras interiores (BackSide): la pared más cercana a la
-   cámara nunca tapa la vista, se ve siempre el interior.
-   ============================================================ */
-var BAY_X0=-7.4, BAY_X1=9.75;
-/*  EL COMPARTIMENTO SE LLAMA POR SU NOMBRE. Casco, espuma, bancadas y agua son
-    ESCENOGRAFIA: no son piezas registradas y no se apagan nunca. Sin un nombre en
-    el nodo no habia forma de distinguirlas de la fontaneria suelta del motor, y la
-    posicion 0 -«un agujero vacio»- salia con mangueras flotando.               */
+/*  DE LOS SISTEMAS DE BLENDER A LOS CUATRO DE LA CASA.  El modelo nuevo distingue
+    siete circuitos porque los enseña por separado; el curso agrupa en cuatro, que
+    son los que colorean el indice y los que `verSistemas` enciende.  Cuando la
+    pieza ya tiene sistema en la metadata de antes MANDA AQUELLA, para que
+    `censo().porSistema` siga dando lo mismo.                                     */
+var SIS_BLENDER = { aire:"com", gasoil:"com", aceite:"com", electrico:"com",
+                    refrigeracion:"ref", gira:"tra", sujeta:"est" };
+
+/*  EL CONTRATO CON LA FIGURA DE ANTES, Y POR QUE ES UNA CAJA Y NO UN NUMERO.
+    El modelo de Blender esta en METROS --- el motor mide 2,34 m con el eje --- y
+    esta escena trabaja en sus propias unidades, donde el bloque mide 7,42 de largo.
+    Un factor escrito a mano envejeceria en cuanto el modelo cambiara de tamaño, asi
+    que **se mide el bloque de la figura nueva al cargarla y se ajusta solo** contra
+    esta caja, que es la que ocupaba el bloque de antes. Medido ejecutando el motor
+    de hoy, no copiado de ningun sitio.                                           */
+var BLOQUE_DE_ANTES = { min: { x: -3.71, y: -1.48, z: -1.18 },
+                        max: { x:  3.71, y:  1.37, z:  1.18 } };
+
+/*  EL ESCENARIO, QUE NO ES EL MOTOR Y NO SE APAGA NUNCA.
+    `bayGroup` se declaraba dentro de las 1 413 lineas que se fueron, y sin el
+    pasaban dos cosas: `syncBay()` reventaba al despiezar, y --- lo que se vio
+    primero --- **la primera pantalla salia en negro**. Esa pantalla enseña el
+    compartimento vacio, antes de que haya motor, y `verPiezas` apaga todo lo que
+    no este en su lista... menos lo que cuelga de un grupo de `FUERA_DEL_MONTAJE`.
+    La bañera del modelo nuevo --- el forro y las bancadas --- tiene que colgar de
+    aqui por la misma razon por la que colgaba la de antes: la posicion 0 del
+    montaje es un hueco vacio, no una pantalla negra.                            */
 var bayGroup = new THREE.Group(); bayGroup.name = "bayGroup"; scene.add(bayGroup);
-(function engineBay(){
-  // textura acolchada tipo espuma acústica con foil (generada por código)
-  var quilt=null;
-  try{
-    var cv=document.createElement('canvas'); cv.width=cv.height=256;
-    var cx2=cv.getContext('2d');
-    if(cx2){
-      cx2.fillStyle='#6d6d6d'; cx2.fillRect(0,0,256,256);
-      var cells=4, s=256/cells;
-      for(var yq=0;yq<cells;yq++) for(var xq=0;xq<cells;xq++){
-        var px=(xq+0.5)*s, py=(yq+0.5)*s;
-        var gr=cx2.createRadialGradient(px,py,s*0.04,px,py,s*0.5);
-        gr.addColorStop(0,'#e2e2e2'); gr.addColorStop(0.75,'#8a8a8a'); gr.addColorStop(1,'#3a3a3a');
-        cx2.fillStyle=gr; cx2.beginPath(); cx2.arc(px,py,s*0.45,0,Math.PI*2); cx2.fill();
-      }
-      quilt=new THREE.CanvasTexture(cv);
-      quilt.wrapS=quilt.wrapT=THREE.RepeatWrapping; quilt.repeat.set(9,4);
-    }
-  }catch(e){}
+var gridGroup = new THREE.Group(); gridGroup.name = "gridGroup"; scene.add(gridGroup);
+var ESCENARIO = { "Bilge": 1, "Structure": 1 };
 
-  // sección transversal del casco (z,y) — fondo plano que abre en V
-  var hs=new THREE.Shape();
-  hs.moveTo(-1.85,-3.15);
-  hs.lineTo(1.85,-3.15);
-  hs.quadraticCurveTo(3.25,-2.35, 3.5,-0.35);
-  hs.lineTo(3.65,4.9);
-  hs.lineTo(-3.65,4.9);
-  hs.lineTo(-3.5,-0.35);
-  hs.quadraticCurveTo(-3.25,-2.35, -1.85,-3.15);
-  var hullMat=new THREE.MeshStandardMaterial({
-    color:0x9aa0a4, metalness:0.22, roughness:0.72, side:THREE.BackSide, envMapIntensity:0.5
+//  lo pone `Motor3D.quieto(true)`, y solo lo usa quien mide --- la nota larga
+//  esta arriba, en `quieto`.
+var QUIETO = false;
+
+var figuraLista = false, colaDeLaFigura = [], figuraRota = null;
+
+/*  ── QUIEN ESPERA A LA FIGURA DESDE FUERA ────────────────────────────────────
+    `cuandoLaFigura()` es de aqui dentro y solo dispara si la figura MONTA.  Para
+    quien espera desde el capitulo eso no basta: si el `.glb` no llega, quedarse
+    callado deja al alumno mirando <Building the engine...> para siempre.  Esta
+    cola se vacia en los dos casos y dice cual --- `fn(true)` si monto, `fn(false)`
+    si no ---.
+    *Un aviso que solo llega cuando todo va bien no es un aviso, es una casualidad.*
+*/
+var colaDeFuera = [];
+function avisaDeLaFigura(){
+  var l = colaDeFuera; colaDeFuera = [];
+  for (var i = 0; i < l.length; i++){
+    try { l[i](!figuraRota); } catch(e){ console.error(e); }
+  }
+}
+/*  CUANTAS UNIDADES DE ESTA ESCENA MIDE UN METRO DEL MODELO.  Hace falta
+    fuera del cargador: `applyValve()` mueve en unidades del curso y las
+    valvulas viven dentro de un envoltorio escalado.                     */
+var ESCALA_FIGURA = 1;
+function cuandoLaFigura(f){ if (figuraLista) f(); else colaDeLaFigura.push(f); }
+
+/*  LAS ETIQUETAS VIAJAN EN EL NODO, NO EN LA MALLA.  Una pieza con varios
+    materiales se exporta como UN nodo con VARIAS primitivas, y el cargador la
+    reconstruye como un `Group` con `Mesh` dentro: las `extras` se quedan arriba.  */
+function extra(o, clave){
+  for (var n = o; n; n = n.parent){
+    if (n.userData && n.userData[clave] !== undefined) return n.userData[clave];
+  }
+  return undefined;
+}
+
+/*  ── LOS GESTOS, QUE CAMBIAN DE NATURALEZA ────────────────────────────────────
+    Antes cada uno de los 18 MOVIA una malla con coordenadas escritas a mano.  En
+    el modelo nuevo **cada estado esta construido como geometria aparte** --- la
+    varilla dentro, fuera y limpia son tres varillas --- y el gesto solo enciende
+    una y apaga las otras.  Se ve igual y se dice mucho mas facil.
+    Y una pieza puede depender de VARIOS gestos a la vez: el rotor de la bomba
+    depende de si esta dentro o fuera **y** de si le faltan palas, asi que las dos
+    claves viajan separadas por comas y tienen que coincidir las dos.            */
+var NODOS_GESTO = [];
+function casaElGesto(o){
+  var g = o.userData.gesto;
+  if (g === undefined) return true;
+  var gg = String(g).split(","), ee = String(o.userData.estado).split(",");
+  for (var i = 0; i < gg.length; i++){
+    var puesto = ESTADO_GESTOS[gg[i]];
+    if (puesto === undefined) puesto = (GESTOS[gg[i]] && GESTOS[gg[i]].estados[0]);
+    if (puesto !== ee[i]) return false;
+  }
+  return true;
+}
+function refrescaGestos(){
+  for (var i = 0; i < NODOS_GESTO.length; i++){
+    var o = NODOS_GESTO[i];
+    var v = casaElGesto(o);
+    o.visible = v;
+    /*  `visBase` ES LO QUE EL MONTAJE PROGRESIVO RESPETA: una pieza que nace
+        apagada no se puede encender sin inventarse un estado. Al cambiar de gesto
+        hay que actualizarlo, o `verPiezas` volveria a encender el estado viejo. */
+    o.userData.visBase = v;
+  }
+}
+
+/*  ── QUE SE SECCIONA ──────────────────────────────────────────────────────────
+    La lista blanca de once nombres que habia en `rebuildCut()` se queda sin
+    trabajo: **cada pieza del modelo nuevo trae su propio `corta`**, puesto en
+    Blender, y asi no hay dos listas que puedan discrepar el dia que se renombre
+    una pieza. La regla es la misma: se corta lo que ENVUELVE y lo que se mueve se
+    queda entero, que es lo unico que hace util un corte con el motor en marcha. */
+function seCorta(nodo){
+  var c = extra(nodo, "corta");
+  if (c !== undefined) return !!c;
+  var m = META[nodo.userData && nodo.userData.name];
+  return !!(m && m.cut);
+}
+
+/*  ── Y AQUI SE ENCHUFA TODO ───────────────────────────────────────────────── */
+function montaLaFigura(gltf){
+  var traido = gltf.scene;
+
+  /*  1 · LA ESCALA Y EL SITIO, medidos y no escritos.  Se busca el bloque en la
+      figura nueva, se compara con la caja que ocupaba el de antes, y se ajusta.  */
+  var bloque = null;
+  traido.traverse(function(o){
+    if (!bloque && o.userData && o.userData.pieza === "Engine block") bloque = o;
   });
-  if(quilt){ hullMat.bumpMap=quilt; hullMat.bumpScale=0.06; }
-  var hull=new THREE.Mesh(new THREE.ExtrudeGeometry(hs,{depth:BAY_X1-BAY_X0, bevelEnabled:false}), hullMat);
-  hull.rotation.y=Math.PI/2; hull.position.set(BAY_X0,0,0);
-  hull.receiveShadow=true; hull.castShadow=false;
-  bayGroup.add(hull);
+  if (bloque){
+    traido.updateWorldMatrix(true, true);
+    var cb = new THREE.Box3().setFromObject(bloque);
+    var tam = cb.getSize(new THREE.Vector3()), cen = cb.getCenter(new THREE.Vector3());
+    var k = (BLOQUE_DE_ANTES.max.x - BLOQUE_DE_ANTES.min.x) / (tam.x || 1);
+    traido.scale.setScalar(k);
+    traido.updateWorldMatrix(true, true);
+    traido.position.set(
+      (BLOQUE_DE_ANTES.min.x + BLOQUE_DE_ANTES.max.x) / 2 - cen.x * k,
+      (BLOQUE_DE_ANTES.min.y + BLOQUE_DE_ANTES.max.y) / 2 - cen.y * k,
+      (BLOQUE_DE_ANTES.min.z + BLOQUE_DE_ANTES.max.z) / 2 - cen.z * k);
+    traido.updateWorldMatrix(true, true);
+  }
+  /*  y se aplanan escala y posicion a los nodos, porque `reg()` guarda
+      `userData.home = mesh.position.clone()` y el despiece parte de ahi: si la
+      escala viviera en un padre que luego se descarta, el despiece saldria mal. */
+  var raizTmp = new THREE.Group();
+  raizTmp.copy(traido, false);
 
-  // sentina: sole oscuro + lámina de agua
-  var bilgeM=mat(0x1a2027,{metal:0.1, rough:0.9, env:0.3});
-  var bilge=box(BAY_X1-BAY_X0, 0.12, 3.6, bilgeM);
-  bilge.position.set((BAY_X0+BAY_X1)/2, -3.08, 0); bilge.receiveShadow=true; bayGroup.add(bilge);
-  /*  LA SENTINA, con nombre. `1.1` y `1.6` la necesitan como blanco pinchable, y es
-      la única pieza del módulo que pertenece al BARCO y no al motor.  */
-  /*  LA SENTINA VA EN `est`, NO EN `ref`. No es del circuito de refrigeracion:
-      apagar «cooling» no puede hacerla desaparecer, y estando en `ref` el selector
-      viejo la dejaba dibujada y no pinchable en `1.1` -que enciende solo `est`-, o
-      sea que la pregunta de esa pantalla no tenia respuesta posible. `est` es el
-      cajon de lo que no es combustion, refrigeracion ni transmision.            */
-  regEnSitio(bilge,'est',{name:'Bilge', noPick:false, ex:V(0,-1,0), exMag:0.0,
-    desc:'The lowest part of the engine compartment, under the engine itself. There is nearly always a little water in it.',
-    yacht:'The B in WOBBLE. Everything the engine leaks ends up here, so a look under the boards tells you about oil, coolant, seawater and diesel at once \u2014 for free, every time.'});
-  var water=box(BAY_X1-BAY_X0-0.4, 0.02, 3.2,
-    mat(0x16323f,{metal:0.1, rough:0.08, opacity:0.55, env:1.2}));
-  water.position.set((BAY_X0+BAY_X1)/2, -2.98, 0); bayGroup.add(water);
-
-  // bancadas longitudinales bajo las patas del motor
-  /*  ══ EL PANEL DEL MOTOR · mamparo de popa ═══════════════════════════════════
-      POR QUE EXISTE, y llevaba tres fases pedido. `4.7` ensena la alarma de presion
-      de aceite, `6.5` y `6.6` la aguja de temperatura y `7.4` el testigo de carga —
-      **tres instrumentos que el alumno no habia visto nunca**, explicados con
-      palabras sobre una figura que no los tenia. Y la P3 entera habla de alarmas.
-
-      NO ES UN INSTRUMENTO COMPLETO: tres testigos y una aguja, que es lo que las
-      cuatro pantallas necesitan y ni una malla mas.
-
-      ── DONDE VA, Y POR QUE NO DONDE SE VERIA MEJOR ───────────────
-      En el **mamparo de popa**, mirando hacia proa. La pared de babor de la bancada
-      se veria desde mas camaras y **es un sitio que no existe en ningun barco**: un
-      modulo que ensena un motor que el alumno va a reconocer en el suyo no puede
-      poner las cosas donde se ven mejor. Es la misma decision que se tomo con las
-      tres salidas de escape.
-
-      ── Y CUELGA DE `bayGroup`, COMO LA SENTINA ───────────────────
-      Un panel no es fontaneria del motor: no se monta ni se desmonta con el
-      deslizador, esta ahi desde la posicion 0 como el casco. `bayGroup` esta en
-      `FUERA_DEL_MONTAJE`, asi que `verPiezas` no lo toca — **exactamente el arreglo
-      que ya usa `Bilge`**, que tambien es pieza registrada, pinchable y fuera del
-      montaje.                                                                     */
-  var panelG = new THREE.Group();
-  var panelM = mat(0x232a2e,{metal:0.35, rough:0.6});
-  var placa = box(0.07, 0.62, 0.94, panelM);
-  panelG.add(placa);
-
-  /*  LOS TRES TESTIGOS, Y COMO SE VE UN PILOTO DE VERDAD ─────────────
-      **El color base es la lente oscura, no el color de la luz.** Apagado, un piloto
-      es un plastico casi negro; encendido, es su color. Si la lente fuera ya roja, la
-      diferencia entre apagado y encendido seria «rojo mate» contra «rojo brillante»,
-      que es la mitad de contraste por nada.
-
-      Y `ei` VA EN 1,6 Y NO EN 2,4. Medido mirando la foto, que es la unica manera de
-      medir esto: **a 2,4 los tres testigos salian BLANCOS** — el tono se satura y el
-      rojo se pierde—, o sea encendidos y sin decir de que color. Un piloto que no se
-      lee como rojo no ha encendido nada para el alumno. Es la regla de Joel: *un
-      testigo encendido tiene que LEERSE como encendido, no solo tener otro numero.*
-
-      No hay malla nueva al encenderse, que es lo que hace esto barato: el mismo truco
-      que usan los puntos del recorrido.                                             */
-  var LENTE = 0x2b3034;                //  el plastico apagado
-  var TESTIGOS = [["oil", 0xe2402c], ["temp", 0xe2402c], ["charge", 0xe8a521]];
-  var luces = {};
-  for (var it = 0; it < TESTIGOS.length; it++) {
-    var lz = cyl(0.105, 0.105, 0.05, 18,
-                 {material: mat(LENTE, {metal:0.05, rough:0.45,
-                                        emissive:TESTIGOS[it][1], ei:0})});
-    lz.rotation.z = Math.PI / 2;                  //  tumbado, mirando a proa
-    lz.position.set(-0.05, -0.19, 0.29 - it * 0.29);
-    panelG.add(lz); luces[TESTIGOS[it][0]] = lz;
+  /*  2 · UNA PIEZA POR NOMBRE **Y POR MOVIMIENTO**.
+      Por nombre, porque eso es lo que `parts` promete y lo que `_pieza()` busca. Y
+      por movimiento ademas, porque hay cuatro bielas que se llaman igual y cada una
+      se mueve con su piston: agrupadas por nombre serian una sola y el motor giraria
+      con una biela. *El motor de antes hacia lo mismo --- 108 piezas y 92 nombres ---
+      asi que esto no es una licencia: es volver a lo que habia.*                  */
+  var porClave = {}, orden = [];
+  var hijos = traido.children.slice();
+  for (var i = 0; i < hijos.length; i++){
+    var nd = hijos[i];
+    var nombre = nd.userData && nd.userData.pieza;
+    if (!nombre) continue;
+    var clave = nombre + "\u0000" + (nd.userData.mueve || "");
+    if (!porClave[clave]){ porClave[clave] = { nombre: nombre, nodos: [],
+                                               mueve: nd.userData.mueve || null };
+                           orden.push(clave); }
+    porClave[clave].nodos.push(nd);
+    if (nd.userData.gesto !== undefined) NODOS_GESTO.push(nd);
   }
 
-  /*  LA AGUJA Y SU ESFERA. La aguja cuelga de un grupo cuyo origen es el centro de la
-      esfera, asi que moverla es girar el grupo y no recolocar la malla.            */
-  var esfera = cyl(0.2, 0.2, 0.04, 24,
-                   {material: mat(0xe8ecee, {metal:0.05, rough:0.7})});
-  esfera.rotation.z = Math.PI / 2; esfera.position.set(-0.05, 0.13, 0.28);
-  panelG.add(esfera);
-  var agujaG = new THREE.Group(); agujaG.position.set(-0.09, 0.13, 0.28);
-  var aguja = box(0.018, 0.17, 0.02, mat(0x1d2326,{metal:0.2, rough:0.6}));
-  aguja.position.y = 0.075; agujaG.add(aguja); panelG.add(agujaG);
+  var _v = new THREE.Vector3(), _caja3 = new THREE.Box3();
+  ANIM.piezasAnimadas = {};
 
-  panelG.position.set(BAY_X1 - 0.55, 2.35, -1.25);
-  bayGroup.add(panelG);
-  INTER.panel = {luces: luces, aguja: agujaG};
+  for (var j = 0; j < orden.length; j++){
+    var g = porClave[orden[j]], nom = g.nombre, nodos = g.nodos;
+    var m = META[nom] || {};
+    var sis = m.sys || SIS_BLENDER[nodos[0].userData.sistema] || "est";
 
-  regEnSitio(placa,'est',{name:'Engine panel', ex:V(-1,0,0), exMag:0.0,
-    desc:'The engine instrument panel: a temperature gauge and the three warning lights — oil pressure, temperature and charge. On a real boat it is in the cockpit or on the bulkhead, where you can see it from the helm.',
-    yacht:'The lights come on with the key and go out when she fires. One that stays on, or comes on under way, is telling you to stop and look — and the oil one you obey before you understand it.'});
-  /*  ── LA NOTA ATADA A LA LLAVE · la sexta de las que pedia la P2 ────────────────
-      **Es el ultimo paso de `nowater`, y era la unica de las seis que no existia.** El
-      taller saca el rodete para poder dar al arranque sin llenar el escape de agua, y
-      con eso deja el motor listo para arrancar SIN NADA QUE LO REFRIGERE: la nota es lo
-      que cierra ese agujero. *Una medida de seguridad que quita una pieza tiene que
-      acabar en algo que recuerde que falta.*
+    /*  CADA PIEZA, EN SU SITIO Y EN UNIDADES DEL CURSO.
+        El envoltorio se coloca en el CENTRO de lo que envuelve --- medido, no
+        supuesto --- y los nodos de dentro se corren lo mismo en sentido contrario.
+        Con eso `userData.home` es el sitio de verdad de esa pieza y el despiece la
+        separa de donde esta, no del origen.                                       */
+    _caja3.makeEmpty();
+    for (var q = 0; q < nodos.length; q++) _caja3.expandByObject(nodos[q]);
+    var centro = _caja3.isEmpty() ? new THREE.Vector3() : _caja3.getCenter(_v.clone());
 
-      NACE OCULTA, como la manivela: una nota no vive colgada del panel, se ata cuando
-      hace falta. Va donde va de verdad —colgando de la llave, en el panel del
-      mamparo— y a la escala del panel, que en esta figura esta dibujado esquematico:
-      la tarjeta es un tercio de su alto.                                            */
-  var notaG = new THREE.Group();
-  var cordel = cyl(0.008, 0.008, 0.20, 8, {material: mat(0x8a8f94,{metal:0.1, rough:0.9})});
-  cordel.position.set(0, 0.10, 0);
-  var tarjeta = box(0.02, 0.22, 0.30, mat(0xf0e6c8, {metal:0.0, rough:0.95}));
-  tarjeta.position.set(0, -0.11, 0);
-  notaG.add(cordel, tarjeta);
-  notaG.position.set(BAY_X1 - 0.61, 1.90, -1.25);
-  notaG.visible = false; bayGroup.add(notaG);
-  regEnSitio(notaG,'est',{name:'Note on the ignition key', ex:V(-1,0,0), exMag:0.9,
-    desc:'A tag tied to the ignition key. It is what you write on when you have taken '
-       + 'something off the engine that has to go back before she runs.',
-    yacht:'«NO IMPELLER». An impeller run dry is finished in seconds, and nothing on '
-       + 'the boat stops you starting her without one — so the note is the only thing '
-       + 'between taking it out and cooking her.'});
+    var pieza = new THREE.Group();
+    pieza.name = nom;
+    pieza.scale.copy(traido.scale);
+    pieza.position.copy(centro);
+    var atras = centro.clone().sub(traido.position).divideScalar(traido.scale.x || 1);
+    for (var q2 = 0; q2 < nodos.length; q2++){
+      nodos[q2].position.sub(atras);
+      pieza.add(nodos[q2]);
+    }
 
-  var bearM=mat(0x2b3138,{metal:0.08, rough:0.85, env:0.4});
-  for(var b=0;b<2;b++){
-    var rail=box(11.6, 0.75, 0.62, bearM);
-    rail.position.set(0.4, -2.55, b?1.03:-1.03);
-    rail.castShadow=true; rail.receiveShadow=true; bayGroup.add(rail);
-    var cap=box(11.6, 0.08, 0.7, mat(0x4a5158,{metal:0.5, rough:0.6}));
-    cap.position.set(0.4, -2.14, b?1.03:-1.03); cap.receiveShadow=true; bayGroup.add(cap);
+    var meta = { name: nom,
+                 ex: m.ex ? new THREE.Vector3(m.ex[0], m.ex[1], m.ex[2])
+                          : new THREE.Vector3(0, 1, 0),
+                 exMag: m.exMag != null ? m.exMag : 2.0,
+                 noPick: !!m.noPick, noShadow: !!m.noShadow, noRecv: !!m.noRecv,
+                 noExplodeAnim: !!m.noExplodeAnim };
+    if (m.desc) meta.desc = m.desc;
+    if (m.yacht) meta.yacht = m.yacht;
+    if (ESCENARIO[nom]){
+      bayGroup.add(pieza);
+      regEnSitio(pieza, sis, meta);
+    } else {
+      reg(pieza, sis, meta);
+    }
+    if (seCorta(nodos[0])) markCut(pieza);
+    if (m.n != null && !ANIM.piezasAnimadas[nom]) { num(m.n, nom, sis, pieza);
+                                                    ANIM.piezasAnimadas[nom] = 1; }
+    g.pieza = pieza;
+    g.centro = centro;
   }
 
-  // mamparo de popa por donde sale el eje (aro del pasacasco)
-  var ring=tor(0.34,0.09, mat(0x6e767d,{metal:0.7, rough:0.5}), 14);
-  ring.rotation.y=Math.PI/2; ring.position.set(9.7, CRANK_Y+0.05, 0); bayGroup.add(ring);
-})();
+  /*  3 · LO QUE SE MUEVE, Y EN LAS UNIDADES EN QUE ESTA ESCENA SABE MOVERLO.
+      Se anima EL ENVOLTORIO, que vive en unidades del curso, y no el nodo de dentro,
+      que esta en metros dentro de un padre escalado. Y las cuentas de la
+      biela-manivela salen del modelo --- `motor-datos.js`, las mismas con las que se
+      construyo la figura --- convertidas a esta escala, no del motor de antes: sus
+      constantes eran de otra geometria y el piston habria salido por la culata.   */
+  var CIN = (DATOS && DATOS.cinematica) || null;
+  var valvulas = {};
+  for (var j2 = 0; j2 < orden.length; j2++){
+    var gg = porClave[orden[j2]];
+    if (!gg.mueve) continue;
+    var dos = String(gg.mueve).split(":"), que = dos[0], val = dos[1], cual = dos[2];
+    if (que === "ciguenal"){ ANIM.crank = gg.pieza; CRANK_Y = gg.centro.y; }
+    else if (que === "piston") ANIM.pistons.push({ m: gg.pieza, c: +val, x: gg.centro.x });
+    else if (que === "biela")  ANIM.rods.push({ m: gg.pieza, c: +val, x: gg.centro.x });
+    else if (que === "gira")   ANIM.spin.push({ o: gg.pieza, r: parseFloat(val) || 1 });
+    else if (que === "correa") INTER.belt = gg.pieza;
+    else if (que === "marca")  (INTER.marcasCorrea = INTER.marcasCorrea || []).push(gg.pieza);
+    else if (que === "valvula"){
+      //  `valvula:<cilindro>:<in|ex>:<cabeza|vastago|muelle>`
+      valvulas[val] = valvulas[val] || {};
+      valvulas[val][cual] = valvulas[val][cual] || {};
+      valvulas[val][cual][dos[3]] = gg.pieza;
+    }
+  }
+  ANIM.pistons.sort(function(a, b){ return a.c - b.c; });
+  ANIM.rods.sort(function(a, b){ return a.c - b.c; });
 
-/* rejilla técnica opcional (medidas) */
-var gridGroup=new THREE.Group(); gridGroup.name="gridGroup"; gridGroup.visible=false; scene.add(gridGroup);
-(function bed(){
-  var bedHelper=new THREE.GridHelper(44,44,0x2a3f55,0x18283a); bedHelper.position.y=-3.02; gridGroup.add(bedHelper);
+  ESCALA_FIGURA = traido.scale.x || 1;
+  if (CIN){
+    //  el codo y la biela, del modelo y a esta escala
+    ANIM.OFF = CIN.codo * ESCALA_FIGURA;
+    ANIM.L   = CIN.biela * ESCALA_FIGURA;
+  }
+  if (ANIM.pistons.length){
+    //  la cara de culata: el techo de la carrera, que es lo que el gas necesita
+    DECK_Y = CRANK_Y + (CIN ? (CIN.codo + CIN.biela + CIN.compresion) * ESCALA_FIGURA : 3);
+  }
+
+  /*  LAS VALVULAS.  Vuelven a moverse: en Blender llevan `mueve` --- cabeza,
+      vastago y muelle, una entrada por cilindro con las dos valvulas dentro --- y
+      aqui se montan con la forma que `applyValve()` espera desde siempre.        */
+  /*  LA FORMA QUE `updateEngine` ESPERA, Y NO OTRA: una entrada por cilindro con
+      **las dos valvulas dentro** --- `{in: ..., ex: ...}` ---, porque no abren a la
+      vez. La primera version puso una sola por cilindro y `VV['in']` salia
+      `undefined`: `applyValve` reventaba en el PRIMER cuadro, se llevaba por delante
+      el bucle de dibujo, y la pagina no volvia a pintar nunca mas.
+      *Y eso no se veia como un error: se veia como una pantalla que no responde.* */
+  function unaValvula(v){
+    if (!v || !v.cabeza || !v.vastago || !v.muelle) return null;
+    return { stem: v.vastago, head: v.cabeza, spring: v.muelle,
+             y0: { stem: v.vastago.position.y, head: v.cabeza.position.y,
+                   spring: v.muelle.position.y } };
+  }
+  Object.keys(valvulas).sort().forEach(function(k){
+    var adm = unaValvula(valvulas[k]["in"]), esc = unaValvula(valvulas[k].ex);
+    if (!adm || !esc) return;
+    ANIM.valves.push({ "in": adm, ex: esc, rocker: null });
+  });
+
+  montaEfectos();
+
+  /*  4 · EL PANEL DE INSTRUMENTOS.  `verTestigo`, `verAguja` y `panel` hablan con
+      `INTER.panel`, y eso son dos testigos y una aguja que el modelo de Blender no
+      trae --- es una pieza de tablero, no de motor ---. Se reconstruyen aqui,
+      colgadas de la pieza que si existe, para que esas tres no se queden mudas.  */
+  var tablero = null;
+  for (var t = 0; t < parts.length; t++)
+    if (parts[t].userData.name === "Engine panel") tablero = parts[t];
+  if (tablero) INTER.panel = panelDeInstrumentos(tablero);
+
+  figuraLista = true;
+  while (colaDeLaFigura.length) { try { colaDeLaFigura.shift()(); } catch(e){ console.error(e); } }
+  avisaDeLaFigura();
+}
+
+/*  ── LOS EFECTOS: EL GAS, EL GOTEO Y LAS BURBUJAS ───────────────────────────
+    No son piezas del motor y por eso no vienen del `.glb`: son lo que PASA dentro
+    de el.  El curso ya sabe moverlos --- `updateEngine` para el gas, `updateDrips`
+    y `updateBubbles` para los otros dos ---; lo unico que les faltaba era que
+    alguien les llenara `ANIM.gas`, `INTER.drips` y `INTER.bubbles`.               */
+function piezaLlamada(nombre){
+  for (var i = 0; i < parts.length; i++)
+    if (parts[i].userData && parts[i].userData.name === nombre) return parts[i];
+  return null;
+}
+
+function centroDe(nombre){
+  for (var i = 0; i < parts.length; i++){
+    if (parts[i].userData && parts[i].userData.name === nombre){
+      var b = new THREE.Box3().setFromObject(parts[i]);
+      if (!b.isEmpty()) return b.getCenter(new THREE.Vector3());
+    }
+  }
+  return null;
+}
+
+function montaEfectos(){
+  /*  EL GAS DEL CILINDRO.  Un cilindro por cada uno, entre la corona del piston y
+      la cara de culata: `updateEngine` le cambia la altura, el color y la
+      transparencia segun el tiempo en que va --- azul al admitir, ambar al
+      comprimir, naranja al explotar ---. **Es lo que hace que los cuatro tiempos se
+      vean y no solo se lean.**                                                    */
+  for (var i = 0; i < ANIM.pistons.length; i++){
+    var P = ANIM.pistons[i];
+    var mt = new THREE.MeshStandardMaterial({ color: 0x6ab0e0, transparent: true,
+      opacity: 0.20, emissive: 0x1d3a52, emissiveIntensity: 0.3,
+      depthWrite: false, side: THREE.DoubleSide });
+    var r = (DATOS && DATOS.cinematica ? DATOS.cinematica.codo * 2 : 0.09)
+            * ESCALA_FIGURA * 0.47;
+    var g = new THREE.Mesh(new THREE.CylinderGeometry(r, r, 1, 28, 1, true), mt);
+    g.renderOrder = 3;
+    gasGroup.add(g);
+    ANIM.gas.push({ m: g, c: P.c, x: P.x, mat: mt });
+  }
+
+  /*  EL GOTEO DEL PRENSAESTOPAS.  Ocho gotas dando vueltas: `updateDrips` las baja
+      segun `INTER.dripRate`, que es lo que pone el gesto `goteo`.  Seco no es
+      <ninguna gota>: es **demasiado apretado**, y por eso el reposo del taller es
+      seco y el alumno tiene que aflojarlo hasta ver gotear.                       */
+  /*  Y CUELGAN DE SU PIEZA, NO DE LA ESCENA.  Colgadas de la escena funcionaban
+      --- se ven, caen, cambian con el gesto --- hasta que una pantalla llama a
+      `verPiezas(lista)`: su segunda pasada apaga toda malla que no tenga un nombre
+      por encima, y unas gotas sueltas no lo tienen. **El taller del prensaestopas
+      se habria quedado sin gotas justo en las pantallas que lo enseñan.**
+      Colgadas del prensaestopas heredan su nombre, se encienden con el y se apagan
+      con el, que ademas es lo que son: agua de ESA pieza.
+      *La escala se invierte porque la pieza vive escalada y `updateDrips` mueve en
+      unidades del curso.*                                                        */
+  var piezaGland = piezaLlamada("Stern gland (stuffing box)");
+  if (piezaGland){
+    var gr = new THREE.Group(); gr.name = "dripGroup";
+    gr.scale.setScalar(1 / (ESCALA_FIGURA || 1));
+    piezaGland.add(gr);
+    var agua = { color: 0x7fb6cc, transparent: true, opacity: 0.85,
+                 roughness: 0.15, metalness: 0.0 };
+    INTER.drips = [];
+    for (var d = 0; d < 8; d++){
+      var m = new THREE.Mesh(new THREE.SphereGeometry(0.055, 10, 8),
+                             new THREE.MeshStandardMaterial(agua));
+      m.visible = false; gr.add(m);
+      INTER.drips.push({ m: m, t: d / 8 });
+    }
+    INTER.dripGroup = gr; INTER.dripRate = 0;
+  }
+
+  /*  LAS BURBUJAS DEL PURGADO.  La leccion del taller no es que salgan: es **que
+      dejen de salir**, que es cuando se aprieta el tornillo.                      */
+  var piezaPurga = piezaLlamada("Bleed screw (injection pump)");
+  if (piezaPurga){
+    var gb = new THREE.Group(); gb.name = "bubbleGroup";
+    gb.scale.setScalar(1 / (ESCALA_FIGURA || 1));
+    gb.visible = false; piezaPurga.add(gb);
+    INTER.bubbles = [];
+    for (var b2 = 0; b2 < 10; b2++){
+      var mb = new THREE.Mesh(new THREE.SphereGeometry(0.038, 8, 6),
+        new THREE.MeshStandardMaterial({ color: 0xcfe3ec, transparent: true,
+          opacity: 0.8, roughness: 0.1 }));
+      gb.add(mb);
+      INTER.bubbles.push({ m: mb, t: b2 / 10 });
+    }
+    INTER.bubbleGroup = gb; INTER.bubbleOn = 0;
+  }
+}
+
+/*  LOS DOS TESTIGOS Y LA AGUJA, que son lo unico que se sigue dibujando a mano.  */
+function panelDeInstrumentos(tablero){
+  var g = new THREE.Group();
+  /*  LA ESCALA SE INVIERTE, Y SIN ESTO SALE UNA BOLA QUE TAPA MEDIO MOTOR.
+      El tablero es una pieza y las piezas viven en un envoltorio escalado --- un
+      metro del modelo son ~14,8 unidades de esta escena ---.  Los dos testigos y la
+      aguja se calculan de la caja del tablero, que se mide en unidades de la escena,
+      asi que al colgarlos del tablero se multiplicaban otra vez por catorce.
+      *Medido en la foto: el testigo rojo ocupaba 4,5 anchos de pantalla.*         */
+  g.scale.setScalar(1 / (ESCALA_FIGURA || 1));
+  tablero.add(g);
+  var caja = new THREE.Box3().setFromObject(tablero);
+  var c = caja.getCenter(new THREE.Vector3()), s = caja.getSize(new THREE.Vector3());
+  g.position.set(0, 0, 0);
+  var r = Math.max(0.06, s.y * 0.10);
+  var luces = [];
+  for (var i = 0; i < 2; i++){
+    var l = new THREE.Mesh(new THREE.SphereGeometry(r, 12, 10),
+              new THREE.MeshStandardMaterial({ color: i ? 0x8a2b20 : 0xa07818,
+                emissive: 0x000000, metalness: 0.0, roughness: 0.5 }));
+    l.position.set(c.x - tablero.position.x + (i ? r * 2.4 : -r * 2.4),
+                   c.y - tablero.position.y + s.y * 0.22,
+                   c.z - tablero.position.z + s.z * 0.55);
+    g.add(l); luces.push(l);
+  }
+  var aguja = new THREE.Group();
+  var a = new THREE.Mesh(new THREE.BoxGeometry(r * 0.35, s.y * 0.30, r * 0.35),
+            new THREE.MeshStandardMaterial({ color: 0xd8d8d8, metalness: 0.2, roughness: 0.5 }));
+  a.position.y = s.y * 0.15;
+  aguja.add(a);
+  aguja.position.set(c.x - tablero.position.x, c.y - tablero.position.y - s.y * 0.10,
+                     c.z - tablero.position.z + s.z * 0.55);
+  g.add(aguja);
+  return { luces: luces, aguja: aguja };
+}
+
+/*  ── Y LA CARGA, que es lo unico que aqui es de verdad nuevo ───────────────── */
+(function cargaLaFigura(){
+  if (typeof THREE.GLTFLoader === "undefined"){
+    figuraRota = "falta GLTFLoader.js";
+    console.error("motor3d: " + figuraRota); avisaDeLaFigura(); return;
+  }
+  var cargador = new THREE.GLTFLoader();
+  if (typeof MeshoptDecoder !== "undefined") cargador.setMeshoptDecoder(MeshoptDecoder);
+  else console.warn("motor3d: sin meshopt_decoder, el modelo comprimido no abrira");
+
+  /*  EL ENTORNO VA PRIMERO Y NO ES UN ADORNO: el salto de realismo de esta figura
+      vino del entorno y del suavizado por angulo, no de añadir vertices. Sin el,
+      el metal no refleja nada y todo parece plastico. Si no llega, se sigue: una
+      figura sin reflejos es peor, pero una figura que no carga es inservible.   */
+  if (typeof THREE.RGBELoader !== "undefined"){
+    try {
+      new THREE.RGBELoader().load(FIGURA.hdr, function(tex){
+        var pmrem = new THREE.PMREMGenerator(renderer);
+        pmrem.compileEquirectangularShader();
+        scene.environment = pmrem.fromEquirectangular(tex).texture;
+        tex.dispose(); pmrem.dispose();
+        ANIM.dirty = true; if (typeof despierta === "function") despierta();
+      }, undefined, function(){ console.warn("motor3d: el entorno no cargo"); });
+    } catch(e){ console.warn("motor3d: el entorno no cargo", e); }
+  }
+
+  cargador.load(FIGURA.glb, function(gltf){
+    try { montaLaFigura(gltf); }
+    catch(err){ figuraRota = String(err); console.error(err); avisaDeLaFigura(); }
+  }, undefined, function(err){
+    figuraRota = "el modelo no se pudo leer --- ¿esta el capitulo abierto con doble "
+               + "clic? necesita servidor: VER-EL-CURSO.cmd";
+    console.error("motor3d: " + figuraRota, err);
+    avisaDeLaFigura();
+  });
 })();
 
 /* Los flujos se construyen a partir de los MISMOS tramos que usan los recorridos
@@ -2236,7 +1345,25 @@ var PRESETS={
       Estos valores son los de la mirilla, que es la unica vista de la que sabemos que
       el penacho entra entera. *Van tres cosas del humo que estaban hechas y no
       alcanzables: la geometria, la puerta, y ahora la camara.*                     */
-  escape:{theta:0.55,        phi:1.02, r:17, tx:8.0,  ty:2.2,  tz:0.3}
+  escape:{theta:0.55,        phi:1.02, r:17, tx:8.0,  ty:2.2,  tz:0.3},
+
+  /*  ── LA OCTAVA · LA HELICE, DESDE FUERA DEL BARCO ────────────────────────
+      Y nace del mismo fallo que la septima, que ya esta contado dos parrafos arriba:
+      **`8.7` manda pinchar la helice y la helice no se ve desde NINGUNA de las
+      siete.**  Medido barriendolas una a una, apagandola y encendiendola: cero en
+      las siete.  No era un encuadre mal elegido --- era que no habia encuadre.
+
+      La razon es de geometria y se dice en una linea: **las siete miran al motor
+      desde dentro del compartimento**, y la helice esta fuera, detras del espejo.
+      Medido en unidades de esta escena: el forro acaba en x=18,0 y la helice tiene
+      su centro en x=20,5. Por muy atras que se ponga `stern` --- que mira al motor,
+      no al barco --- siempre tiene el espejo por delante.
+
+      Asi que esta se pone FUERA: por popa, un poco a estribor y algo por encima,
+      mirando adelante a la helice.  Entra ella, su eje saliendo de la bocina y el
+      trozo de casco del que sale, que es lo que hace entender donde esta.
+      *El objetivo es el centro de la helice, medido, no elegido.*                */
+  helice:{theta:1.22,        phi:1.15, r:9,  tx:20.5, ty:-1.7, tz:-0.3}
 };
 var camAnim=null;
 function animateCam(t, animate){
@@ -2488,12 +1615,58 @@ function _unRayo(rect, cx, cy){
     if (mejorM) return { pieza: mejorM.mesh, lejos: 0 };
   }
   var hits=ray.intersectObjects(pickables,true);
+  /*  ── EL ESCENARIO NO ROBA PINCHAZOS ─────────────────────────────────────────
+      El forro del casco y las bancadas se ven SIEMPRE --- cuelgan de `bayGroup`,
+      que el montaje no apaga --- y el motor vive dentro de ellos. Al pinchar una
+      pieza pequeña desde fuera, el rayo atraviesa el casco primero y el casco se
+      lleva el acierto: medido, **nueve de las treinta y ocho piezas que las
+      pantallas mandan señalar devolvian `Bilge` o `Structure`**.
+      Y no se puede arreglar quitandolos de `pickables`, porque `Bilge` es una de
+      las que se piden pinchar --- dos pantallas ---.
+      ASI QUE EL ESCENARIO SE QUEDA EL ULTIMO: se recorren los impactos y, si hay
+      alguno que no sea escenario, gana ese. El casco solo se lleva el pinchazo
+      cuando de verdad no hay nada debajo, que es cuando el alumno lo esta
+      señalando a el.                                                            */
+  /*  ── EN UNA PANTALLA MARCADA, LO MARCADO GANA EL PINCHAZO ───────────────────
+      El arnes lo dice con sus palabras: **<en una pantalla marcada, lo que no lleva
+      aro no se puede pinchar>**.  Y al reves tambien tiene que valer: **lo que lleva
+      aro TIENE que poder pincharse**, o la pregunta no se puede acertar.
+
+      El aro se dibuja con `depthTest:false`, o sea delante de todo --- eso ya estaba
+      bien ---, pero el pinchazo va contra la geometria y se lo lleva lo que este
+      delante: el turbo detras del colector de admision, la bomba de agua detras de
+      la tapa de distribucion. El alumno veia el aro perfectamente y pinchaba otra
+      cosa.  *Medido: 0 aciertos de los 1 000 que hacen un blanco de dedo.*
+
+      La regla es la misma que la del escenario, un escalon mas arriba: cuando hay
+      marcas puestas, un impacto en una pieza marcada gana a cualquier impacto
+      anterior en una que no lo esta.  **Fuera de las pantallas marcadas no cambia
+      nada**, porque `MARCAS` esta vacio.                                          */
+  var marcada = {};
+  if (typeof MARCAS !== "undefined")
+    for (var q = 0; q < MARCAS.length; q++)
+      if (MARCAS[q] && MARCAS[q].pieza) marcada[MARCAS[q].pieza] = 1;
+  var hayMarcas = false; for (var _k in marcada) { hayMarcas = true; break; }
+
+  var delEscenario = null, primera = null;
   for(var i=0;i<hits.length;i++){
     if(recortado(hits[i])) continue;
     var t=topMesh(hits[i].object);
-    if(t&&seVeDeVerdad(t)) return {pieza:t, lejos:hits[i].distance};
+    if(!(t&&seVeDeVerdad(t))) continue;
+    var nm = t.userData && t.userData.name;
+    if(ESCENARIO[nm]){
+      if(!delEscenario) delEscenario={pieza:t, lejos:hits[i].distance};
+      continue;
+    }
+    if(hayMarcas){
+      //  se busca una marcada mas adentro; si la hay, gana ella
+      if(marcada[nm]) return {pieza:t, lejos:hits[i].distance};
+      if(!primera) primera={pieza:t, lejos:hits[i].distance};
+      continue;
+    }
+    return {pieza:t, lejos:hits[i].distance};
   }
-  return null;
+  return primera || delEscenario;
 }
 function pointerPick(cx,cy){
   var rect=el.getBoundingClientRect();
@@ -2569,6 +1742,28 @@ function buildOccluders(){
 var bRay=new THREE.Raycaster(), _od=new THREE.Vector3(), _aim=new THREE.Vector3();
 var _s2=new THREE.Vector3(), _cright=new THREE.Vector3(), _rd=new THREE.Vector3();
 var occKey='', occT=0;
+/*  ── ¿HAY ALGO ENTRE LA CAMARA Y ESTA PIEZA? ─────────────────────────────────
+    Y **lo que el corte se ha llevado no cuenta**, que es el arreglo del 28 de
+    septiembre de 2026.
+
+    EL SINTOMA: `2.1` --- la pantalla de los pistones y el cigueñal, con el motor
+    abierto --- no atenuaba nada. El capitulo tiene una salvaguarda sensata
+    --- *si no se ve ninguna de las piezas que se destacan, no atenuar*, porque
+    apagar el motor para senalar algo invisible deja la pantalla en gris y sin
+    leccion --- y esa salvaguarda pregunta aqui. Aqui se contestaba **cero**.
+
+    LA CAUSA, Y ES EXACTAMENTE LA MISMA QUE YA ESTA CONTADA EN `recortado()`: el
+    corte de three.js es del SOMBREADOR --- el fragmento no se pinta y la geometria
+    sigue ahi ---, asi que el rayo choca con la pared del bloque que ya no se
+    dibuja. Los cuatro pistones se ven perfectamente y el rayo decia que no.
+    *Se fotografio antes de tocar nada: los cuatro, a la vista.*
+
+    Y EL ARREGLO YA ESTABA ESCRITO, EN LA VENTANILLA DE AL LADO. `recortado(hit)`
+    nacio para el PINCHAZO, por este mismo fallo, con esta misma causa y con una
+    medida igual de tajante --- <Crankshaft 0 0 0 0 0 0> desde las seis camaras ---.
+    Nadie lo llevo al rayo del dibujo porque son dos rayos distintos; pero el fallo
+    es uno. **Aqui pasan los dos usos --- los rotulos y `atenua` ---, asi que se
+    arregla una vez.**                                                            */
 function rayClear(aim, mesh, list){
   _rd.copy(aim).sub(camera.position);
   var d=_rd.length();
@@ -2577,7 +1772,10 @@ function rayClear(aim, mesh, list){
   bRay.set(camera.position, _rd);
   bRay.near=0; bRay.far=d-0.16;
   var hits=bRay.intersectObjects(list, true);
-  for(var h=0;h<hits.length;h++){ if(!ownsHit(hits[h].object, mesh)) return false; }
+  for(var h=0;h<hits.length;h++){
+    if(recortado(hits[h])) continue;          //  el corte se lo llevo: no tapa
+    if(!ownsHit(hits[h].object, mesh)) return false;
+  }
   return true;
 }
 /* radio aproximado de cada pieza: permite apuntar a su CARA FRONTAL en vez de a su
@@ -2686,6 +1884,30 @@ function updateBadges(){
     del grupo—, que era el fallo de verdad de la version 2. Cuanto ocupa cada pieza en
     cada pantalla lo mide `walk-c31-clicable.js`, dibujandolo; y si una no llega, eso
     es una decision de contenido y no una constante que se ajusta aqui.           */
+/*  ── EL GRADO DE TRANSPARENCIA DE LO ATENUADO · 0,20 ──────────────────────────
+    Lo atenuado se queda sin color, con menos luz **y al 20 % de opacidad**: la pieza
+    que la pantalla ensena va solida y en su color, y el motor entero se vuelve una
+    silueta detras de ella.  `null` devuelve el comportamiento de antes --- solido y
+    en gris ---, y cualquier numero entre 0 y 1 pone otro grado.
+
+    **EL 20 % LO ELIGIO JOEL MIRANDO, y hay que decir contra que.**  Este fichero
+    llevaba anos con una nota que descartaba justo esto --- <al 28 % el motor se
+    convertia en una radiografia> ---, y la nota no estaba equivocada: **lo que
+    describe es exactamente lo que pasa.**  A 20 % se ven los pistones a traves del
+    bloque.  Lo que ha cambiado no es la medida, es la decision: eso que se llamaba
+    radiografia es lo que Joel quiere que se vea.
+
+    SE ELIGIO CON QUINCE FOTOS DELANTE --- `GRADOS-DE-TRANSPARENCIA.html` ---: tres
+    pantallas de verdad (una pieza grande, una pequena y los pistones dentro del
+    bloque) por cinco columnas (lo de antes y 65, 50, 35 y 20 %).  Con las cuatro
+    medidas comprobadas: los aros de marcado siguen dando entre 18 198 y 26 290
+    pixeles contra un suelo de 1 000, y el pinchazo da 15 984 en las cinco --- la
+    misma cifra exacta ---, porque un rayo va contra la geometria y la opacidad no le
+    dice nada.
+    *Si alguna pantalla deja de entenderse a este grado, se anota y se dice: el grado
+    no se cambia por cuenta propia.*                                               */
+var OPACO_ATENUADO = 0.20;
+
 var _caja = null, _esf = null;
 /*  ══ LOS GESTOS DEL TALLER · la tabla ══════════════════════════════════════
     Cada gesto son unos estados y una manera de ponerlos. **Nada mas: la geometria ya
@@ -2699,140 +1921,42 @@ var _caja = null, _esf = null;
     EL ORDEN DE `estados` IMPORTA: **el primero es el de reposo**, y es lo que `gestos()`
     devuelve mientras nadie haya tocado nada.                                       */
 var ESTADO_GESTOS = {};
-var GESTOS = {
-  //  ── el filtro de agua salada · `strainer` ────────────────────
-  "tapa-filtro": { estados: ["puesta", "fuera"], pon: function (v) {
-    if (!INTER.strLid) return;
-    INTER.strLid.position.y = INTER.strLidY + (v === "fuera" ? 0.75 : 0);
-  }},
-  "cesta": { estados: ["dentro", "fuera"], pon: function (v) {
-    if (!INTER.strBasket) return;
-    INTER.strBasket.position.y = INTER.strBasketY + (v === "fuera" ? 0.55 : 0);
-  }},
-  //  la suciedad viaja CON la cesta —esta dentro de ella— y ademas se puede vaciar,
-  //  que es el paso siguiente del taller.
-  "suciedad": { estados: ["dentro", "vaciada"], pon: function (v) {
-    if (INTER.strDirt) INTER.strDirt.visible = (v !== "vaciada");
-  }},
+/*  LOS 18 GESTOS · AHORA SON ESTADOS DE VERDAD.
 
-  //  ── la bomba de agua salada · `impeller` y `nowater` ─────────
-  "tapa-bomba": { estados: ["puesta", "fuera"], pon: function (v) {
-    if (!INTER.rwCover) return;
-    INTER.rwCover.position.x = INTER.rwCoverX + (v === "fuera" ? -0.85 : 0);
-  }},
-  "rodete": { estados: ["dentro", "fuera"], pon: function (v) {
-    if (!INTER.impeller) return;
-    INTER.impeller.position.x = (v === "fuera" ? -1.35 : 0);
-  }},
-  //  **DOS PALAS DE MENOS, QUE ES LA LECCION DE `impeller`**: se cuentan las del viejo
-  //  y faltan dos, y hay que ir a buscarlas al intercambiador. El taller viejo ya hacia
-  //  esto a mano —`INTER.impVanes[1].visible=false`—; aqui es un estado con nombre.
-  "palas": { estados: ["todas", "faltan-dos"], pon: function (v) {
-    if (!INTER.impVanes) return;
-    for (var i = 0; i < INTER.impVanes.length; i++)
-      INTER.impVanes[i].visible = !(v === "faltan-dos" && (i === 1 || i === 4));
-  }},
+    Aqui habia 18 funciones `pon(v)`, cada una moviendo una malla concreta con
+    coordenadas escritas a mano --- `INTER.strLid.position.y = ... + 0.75` ---.
 
-  //  ── la manivela · `handstart` ────────────────────────────────
-  //  **Nace oculta a proposito**: una manivela no vive puesta en el motor, se trae y se
-  //  encaja. Por eso es un gesto y no una pieza del montaje — `verPiezas` no puede
-  //  encender lo que nacio apagado, y aqui eso es la leccion, no un estorbo.
-  "manivela": { estados: ["guardada", "encajada"], pon: function (v) {
-    var m = null;
-    for (var i = 0; i < parts.length; i++)
-      if (parts[i].userData && parts[i].userData.name === "Starting handle") m = parts[i];
-    if (m) m.visible = (v === "encajada");
-  }},
+    En el modelo nuevo **cada estado esta construido como geometria aparte**: la
+    varilla dentro, fuera y limpia son tres varillas, y el gesto enciende una y
+    apaga las otras. Por eso las 18 funciones se quedan en una sola, y por eso se
+    borran en vez de dejarlas: *una funcion que existe y no hace nada es peor que
+    un fallo, porque no se ve.*
 
-  //  ── el prensaestopas · `gland` ───────────────────────────────
-  //  **Su comprobacion ES el goteo**, y tiene tres lecturas: seco es demasiado
-  //  apretado, unas gotas es lo correcto, y un chorro es que hay que apretarlo.
-  "goteo": { estados: ["seco", "gotas", "chorro"], pon: function (v) {
-    INTER.dripRate = (v === "seco") ? 0 : (v === "gotas" ? 0.55 : 2.2);
-    if (INTER.dripGroup) INTER.dripGroup.visible = (v !== "seco");
-  }},
-
-  /*  ══ LOS GESTOS DE LOS SIETE TALLERES RESTANTES ═══════════════════════════
-      Se añaden cuando se construyen sus talleres y no antes: **un gesto que ninguna
-      pantalla pide es una puerta a un cuarto vacio**, y el guardia tendria que
-      medirlo igual.                                                              */
-
-  //  ── la varilla · `oil` y `oilchange` ─────────────────────────
-  //  Sale, se limpia, entra hasta el fondo y vuelve a salir. `INTER.dipOil` es la
-  //  pelicula de aceite, que es lo que se lee: limpia despues de secarla, con nivel
-  //  cuando vuelve a entrar y salir.
-  "varilla": { estados: ["dentro", "fuera", "limpia"], pon: function (v) {
-    if (!INTER.dip || !INTER.dipHome) return;
-    INTER.dip.position.y = INTER.dipHome.y + (v === "dentro" ? 0 : 1.5);
-    if (INTER.dipOil) INTER.dipOil.visible = (v !== "limpia");
-  }},
-
-  //  ── el filtro de aceite · `oilchange` ────────────────────────
-  "filtro-aceite": { estados: ["puesto", "fuera"], pon: function (v) {
-    var m = _pieza("Oil filter");
-    if (m) m.visible = (v !== "fuera");
-  }},
-
-  //  ── los filtros de gasoleo · `fuelfilters` ───────────────────
-  //  El vaso del decantador se abre y su elemento sale; el filtro fino se desenrosca.
-  "elemento-decantador": { estados: ["puesto", "fuera"], pon: function (v) {
-    var m = _pieza("Primary filter element");
-    if (m) m.position.y = (v === "fuera" ? 1.1 : 0) + (m.userData.home ? m.userData.home.y : 0);
-  }},
-  "filtro-fino": { estados: ["puesto", "fuera"], pon: function (v) {
-    var m = _pieza("Secondary fuel filter");
-    if (m) m.visible = (v !== "fuera");
-  }},
-  "llave-deposito": { estados: ["abierta", "cerrada"], pon: function (v) {
-    var m = _pieza("Fuel tank valve");
-    if (m) m.rotation.x = (v === "cerrada" ? Math.PI / 2 : 0);
-  }},
-
-  //  ── el purgado · `bleed` ─────────────────────────────────────
-  //  `INTER.bubbleOn` tiene DOS estados y aqui se usan los dos: 1 mientras salen
-  //  burbujas con el aire, 2 cuando ya sale gasoil limpio. **Esa es la leccion.**
-  "burbujas": { estados: ["ninguna", "con-aire", "limpias"], pon: function (v) {
-    INTER.bubbleOn = (v === "ninguna") ? 0 : (v === "con-aire" ? 1 : 2);
-    if (INTER.bubbleGroup) INTER.bubbleGroup.visible = (v !== "ninguna");
-    despierta();
-  }},
-  "palanca-cebado": { estados: ["arriba", "abajo"], pon: function (v) {
-    if (!INTER.liftLever) return;
-    INTER.liftLever.rotation.z = (v === "abajo" ? -0.5 : 0);
-  }},
-
-  //  ── la correa · `belt` ───────────────────────────────────────
-  //  **`INTER.belt` se reconstruye geometricamente al presionarla**, asi que se hunde
-  //  de verdad. El taller la aprieta con el pulgar y mide la flecha.
-  "correa": { estados: ["quieta", "pulsada"], pon: function (v) {
-    if (INTER.beltThumb) INTER.beltThumb.visible = (v === "pulsada");
-    //  `beltDeflect` NO mide en milimetros aunque su parametro se llame `mm`: resta
-    //  directamente de la `z` del punto de la correa, o sea **unidades del mundo**. Con
-    //  12 el pulgar se iba a `z = -17,95`. A la escala de esta figura —1 unidad ~ 15
-    //  cm— **0,12 son los ~2 cm que un pulgar hunde una correa bien tensada**, que es
-    //  la cifra del taller.
-    if (typeof beltDeflect === "function") beltDeflect(v === "pulsada" ? 0.12 : 0);
-  }},
-
-  //  ── los bornes · `flatbatt` ──────────────────────────────────
-  "bornes": { estados: ["sucios", "limpios"], pon: function (v) {
-    var m = _pieza("Battery terminals");
-    if (!m) return;
-    m.traverse(function (c) {
-      if (c.isMesh && c.material && c.material.color)
-        c.material.color.set(v === "sucios" ? 0x6f8a5c : 0x9aa2a8);
-    });
-  }},
-
-  //  ── los descompresores · `handstart` ─────────────────────────
-  "descompresores": { estados: ["cerrados", "levantados"], pon: function (v) {
-    if (!INTER.decomp) return;
-    for (var i = 0; i < INTER.decomp.length; i++) {
-      var d = INTER.decomp[i];
-      if (d.lev) d.lev.position.y = d.y0 + (v === "levantados" ? 0.18 : 0);
-    }
-  }},
-};
+    Los estados y cual es el de reposo --- el primero de cada lista, como siempre
+    --- vienen de `motor-datos.js`, sacados del mismo sitio donde se construyo la
+    geometria: si estuvieran escritos aqui tambien, el dia que discrepen el sintoma
+    seria una pieza que no aparece nunca y nada que lo explique.                 */
+var GESTOS = {};
+(function armaGestos(){
+  var E = (DATOS && DATOS.estados) || {};
+  Object.keys(E).forEach(function(k){
+    GESTOS[k] = { estados: E[k], pon: function(v){
+      ESTADO_GESTOS[k] = v;
+      /*  DOS DE LOS DIECIOCHO NO ENCIENDEN GEOMETRIA, MANDAN SOBRE UN EFECTO.
+          El goteo y las burbujas no son piezas que esten o no esten: son un ritmo,
+          y el ritmo lo llevan `updateDrips` y `updateBubbles`. Se les pone el
+          mando y ellos hacen el resto.                                          */
+      if (k === "goteo"){
+        INTER.dripRate = (v === "seco") ? 0 : (v === "gotas" ? 0.55 : 2.2);
+        if (INTER.dripGroup) INTER.dripGroup.visible = (v !== "seco");
+      } else if (k === "burbujas"){
+        INTER.bubbleOn = (v === "ninguna") ? 0 : (v === "con-aire" ? 1 : 2);
+        if (INTER.bubbleGroup) INTER.bubbleGroup.visible = (v !== "ninguna");
+      }
+      refrescaGestos();
+    } };
+  });
+})();
 
 /*  BUSCA UNA PIEZA REGISTRADA POR SU NOMBRE. Lo usan los gestos que mueven una pieza
     que ya tiene nombre en vez de una malla suelta de `INTER`.                      */
@@ -2929,23 +2053,21 @@ exEl.addEventListener('input', function(){
 });
 
 /* CUTAWAY — solo el cuerpo del motor (no los accesorios) */
-// reconstruye cutMeshes a partir de una lista blanca por nombre
-(function rebuildCut(){
-  var allow=['Engine block','Oil sump','Bell housing','Cylinder head & valves','Rocker cover',
-             'Cylinder / liner','Liner (cyl.','Water jacket (cooling)','Heat exchanger',
-             'Tube bundle (raw water)','Gearbox / reverse gear'];
-  cutMeshes.length=0;
-  for(var i=0;i<parts.length;i++){
-    var nm=parts[i].userData.name||'';
-    for(var k=0;k<allow.length;k++){ if(nm.indexOf(allow[k])===0){ cutMeshes.push(parts[i]); break; } }
-  }
-})();
+/*  LA LISTA BLANCA SE FUE, Y NO SE SUSTITUYE POR OTRA.
+    Aqui habia once nombres escritos a mano. Ahora **cada pieza del modelo trae su
+    propio `corta`**, puesto en Blender junto a la geometria, asi que no hay dos
+    listas que puedan discrepar el dia que se renombre una pieza. El reparto sigue
+    siendo el mismo criterio: se secciona lo que ENVUELVE --- bloque, culata, tapa
+    de balancines, carter, campana, tapa de distribucion, caja, intercambiador con
+    su haz, bocina y bañera --- y **lo que se mueve se queda entero**, que es lo
+    unico que hace util un corte con el motor en marcha.
+    Lo llena `montaLaFigura()` con `markCut()`, que es el mismo de siempre.      */
 var clipPlane=new THREE.Plane(new THREE.Vector3(0,0,1), 0);
 renderer.localClippingEnabled=true;
 var cutT=0, cutV=DOC.getElementById('cut'), cutVlabel=DOC.getElementById('cutV');
-(function isolateCutMaterials(){
+cuandoLaFigura(function isolateCutMaterials(){
   for(var i=0;i<cutMeshes.length;i++){ cutMeshes[i].traverse(function(c){ if(c.isMesh&&c.material&&!c.userData._cutMat){ c.material=c.material.clone(); c.userData._cutMat=true; c.userData._origSide=c.material.side; } }); }
-})();
+});
 function applyCut(){
   clipPlane.constant=1.2 - cutT*1.2;
   var active=cutT>0.02;
@@ -3026,7 +2148,14 @@ DOC.getElementById('tgRight').addEventListener('click', function(){ DOC.getEleme
 var XAX=new THREE.Vector3(1,0,0), _c1=new THREE.Color(), _c2=new THREE.Color();
 ANIM._last=0; ANIM.dirty=true; despierta();
 function applyValve(v, lift){
-  var d=lift*0.17;
+  /*  Y SI NO HAY VALVULA, NO PASA NADA.  Un `undefined` aqui tumbaba el bucle de
+      dibujo entero y la pagina se quedaba con el ultimo cuadro para siempre ---
+      sin error a la vista, solo una figura que no responde. **Un fotograma no
+      puede matar la funcion.**                                                  */
+  if (!v || !v.stem || !v.head || !v.spring) return;
+  /*  EL ALZADO VA EN UNIDADES DEL CURSO y la valvula cuelga de un envoltorio que
+      esta escalado: un `0,17` crudo aqui la sacaria por el techo de la culata.   */
+  var d=lift*0.17/(ESCALA_FIGURA || 1);
   v.stem.position.y=v.y0.stem-d;
   v.head.position.y=v.y0.head-d;
   v.spring.position.y=v.y0.spring-d*0.5;
@@ -3152,14 +2281,14 @@ function updateTweens(dt){
   }
 }
 /* flecha real de la correa: se reconstruye la curva con un punto hundido */
+/*  APRETAR LA CORREA YA NO ES DEFORMARLA.  Antes esta funcion reconstruia la
+    geometria del tubo para hundirlo; ahora la correa quieta y la pulsada son dos
+    correas, y el gesto `correa` enciende una. Se queda como puerta por si alguien
+    la llama: lo hace el gesto, que es quien sabe.
+    *La flecha es real y esta medida: 12,7 mm sobre un tramo de 224 mm, el 5,7 %,
+    que es lo que hunde un pulgar en una correa bien tensada.*                   */
 function beltDeflect(mm){
-  if(!INTER.belt || !INTER.beltPts) return;
-  var pts=[]; for(var i=0;i<INTER.beltPts.length;i++) pts.push(INTER.beltPts[i].clone());
-  pts[INTER.beltPressIdx].z -= mm;
-  var c=new THREE.CatmullRomCurve3(pts, true, 'catmullrom', 0.5);
-  INTER.belt.geometry.dispose();     INTER.belt.geometry=new THREE.TubeGeometry(c,120,0.05,10,true);
-  INTER.beltFlat.geometry.dispose(); INTER.beltFlat.geometry=new THREE.TubeGeometry(c,120,0.07,4,true);
-  if(INTER.beltThumb) INTER.beltThumb.position.z=1.25-mm*1.6;
+  if (GESTOS["correa"]) GESTOS["correa"].pon(mm > 0.01 ? "pulsada" : "quieta");
 }
 /* burbujas de aire saliendo por el tornillo de purga */
 function updateBubbles(dt){
@@ -3646,6 +2775,7 @@ function letraNueva(txt, hex) {
 }
 
 function sinMarcas() {
+  destapaLosAros();
   for (var i = 0; i < MARCAS.length; i++) {
     var m = MARCAS[i];
     marcaGroup.remove(m.grupo);
@@ -3660,6 +2790,75 @@ function sinMarcas() {
 
 /*  UNA MARCA POR PIEZA. El radio sale de su esfera envolvente, como el del señalador:
     marcar un depósito y un tornillo con el mismo aro haría el aro mentira en los dos. */
+/*  ── Y LO QUE TAPA UNA PIEZA MARCADA SE TRANSPARENTA ─────────────────────────
+    Que la pieza gane el pinchazo arregla la pregunta; no arregla la pantalla. El
+    alumno seguiria pinchando un aro con un colector de admision dentro, acertando
+    sin entender por que.  Asi que **lo que tapa se pone a 0,30**: se ve la pieza
+    marcada y se ve, en voz baja, lo que tiene delante.
+
+    Y SOLO LO QUE TAPA, no el motor entero --- **y esto sigue haciendo falta aunque
+    el motor entero se atenue ya al 20 %**, que es lo que parecia dejarlo sin trabajo.
+    No lo deja, y la razon es de reparto: `atenua` solo actua donde una pantalla
+    ESTRENA piezas, y **las cinco pantallas marcadas del modulo estan todas en la
+    posicion 16 y ninguna estrena ninguna** --- medido ---, asi que en una pantalla
+    con aros `atenua` no llega a correr nunca.  Lo unico que transparenta ahi es
+    esto.
+    Un rayo de la camara al centro de cada pieza marcada dice quien esta por medio, y
+    son cuatro o cinco.  *Las dos cosas se reparten el modulo y no se pisan: el 20 %
+    manda donde se monta, esto manda donde se marca.*                              */
+var TAPAN = [], _rayoAro = null, _tTapan = 0;
+
+function destapaLosAros(){
+  for (var i = 0; i < TAPAN.length; i++){
+    var o = TAPAN[i];
+    if (o.userData._matTapa){ o.material = o.userData._matTapa; o.userData._matTapa = null; }
+  }
+  TAPAN.length = 0;
+}
+
+function transparentaLoQueTapa(lista){
+  destapaLosAros();
+  if (!lista || !lista.length) return;
+  if (!_rayoAro) _rayoAro = new THREE.Raycaster();
+  var caja = new THREE.Box3(), centro = new THREE.Vector3(), dir = new THREE.Vector3();
+  var yaEsta = {};
+  for (var k = 0; k < lista.length; k++){
+    var nom = lista[k] && (lista[k].pieza || lista[k]);
+    var pz = null;
+    for (var i = 0; i < parts.length; i++)
+      if (parts[i].userData && parts[i].userData.name === nom) { pz = parts[i]; break; }
+    if (!pz || !seVeDeVerdad(pz)) continue;
+    caja.setFromObject(pz);
+    if (caja.isEmpty()) continue;
+    caja.getCenter(centro);
+    dir.copy(centro).sub(camera.position);
+    var lejos = dir.length();
+    _rayoAro.set(camera.position, dir.normalize());
+    _rayoAro.far = lejos * 0.98;          //  se para justo antes de la pieza marcada
+    var toca = _rayoAro.intersectObjects(pickables, true);
+    for (var h = 0; h < toca.length; h++){
+      var t = topMesh(toca[h].object);
+      if (!t || !t.userData || !t.userData.name) continue;
+      if (t.userData.name === nom) continue;
+      /*  el escenario no: el casco y las bancadas son el sitio, y volverlos de
+          cristal deja el motor flotando en el aire.                             */
+      if (ESCENARIO[t.userData.name] || yaEsta[t.userData.name]) continue;
+      yaEsta[t.userData.name] = 1;
+      t.traverse(function(o){
+        if (!o.isMesh || !o.material || Array.isArray(o.material)) return;
+        if (o.userData._matTapa) return;
+        o.userData._matTapa = o.material;
+        o.material = o.material.clone();
+        o.material.transparent = true;
+        o.material.opacity = 0.30;
+        o.material.depthWrite = false;
+        o.material.needsUpdate = true;
+        TAPAN.push(o);
+      });
+    }
+  }
+}
+
 function ponMarcas(lista) {
   sinMarcas();
   var bb = new THREE.Box3(), bs = new THREE.Sphere();
@@ -3744,7 +2943,14 @@ var _mp = new THREE.Vector3();
     la encuentra; **seis latidos a la vez son ruido**, y ademas la regla del modulo es que
     lo que se muestra se detiene. Asi que esto solo las coloca.                       */
 function updateMarcas() {
-  if (!marcaGroup.visible) return;
+  /*  LO QUE TAPA DEPENDE DE DONDE SE MIRA, asi que se recalcula --- pero no en cada
+      fotograma: cuatro rayos contra trescientas mallas sesenta veces por segundo es
+      tirar maquina. Cuatro veces por segundo va de sobra para una camara que se
+      mueve con una transicion.                                                    */
+  if (MARCAS.length && Date.now() - _tTapan > 250){
+    _tTapan = Date.now();
+    transparentaLoQueTapa(MARCAS);
+  }  if (!marcaGroup.visible) return;
   for (var i = 0; i < MARCAS.length; i++) {
     var m = MARCAS[i];
     /*  una marca sobre una pieza apagada por el montaje no es una marca: es un aro
@@ -3808,8 +3014,17 @@ function updateMarcas() {
 /*  ══ EL ARRANQUE ═══════════════════════════════════════════════
     Va el ultimo a proposito: `tick()` toca el humo y el senalador, y los dos se
     declaran mas arriba pero DESPUES de donde estaba antes este bloque.        */
+/*  EL ARRANQUE YA NO ES INMEDIATO, Y ESTE ES EL UNICO SITIO DONDE <mantener la
+    API igual> NO SALE GRATIS.  Antes la figura estaba construida en cuanto se
+    evaluaba el fichero y aqui se podia medir, cortar y dibujar de una vez. Ahora
+    hay que esperar a que llegue el `.glb`.
+    Lo de dentro es exactamente lo que habia; lo unico que cambia es CUANDO corre.
+    Quien llame a `montar()` antes de que llegue no nota nada: el lienzo ya esta
+    puesto y la figura aparece cuando aparece.                                   */
+cuandoLaFigura(function arranque(){
 try{
   buildOccluders(); measureBadgeRadii(); updateBadgeOcclusion();
+  refrescaGestos();
   applyCut(); applyExplode();
   renderer.render(scene,camera);
   DOC.getElementById('loader').style.display='none';
@@ -3823,6 +3038,7 @@ try{
   DOC.getElementById('loadtxt').style.display='none';
   DOC.getElementById('err').style.display='block';
 }
+});
 
 /*  ══ LA API ════════════════════════════════════════════════
     Todo lo de arriba es el codigo original sin tocar. Esto es lo unico nuevo, y no
@@ -4395,6 +3611,52 @@ raiz.Motor3D = {
 
   alSeleccionar: function (fn) { API_ganchos.pick = fn; return this; },
 
+  /*  LA ESCENA, PARA MEDIR Y SOLO PARA MEDIR.  Los arneses tienen que poder
+      preguntarle a la geometria QUE LLEVA PUESTO cada malla en vez de creerse una
+      lista escrita a mano --- que gesto mueve que pieza, por ejemplo ---. Sin esto
+      la unica manera de saberlo es escribir la tabla dos veces.  No la modifica
+      nadie: se devuelve para leerla.                                            */
+  /*  ── AVISAME CUANDO LA FIGURA ESTE ───────────────────────────────────────
+      El capitulo tiene que poder esperarla.  Desde que la figura viene de un `.glb`
+      de 3,5 MB, `montar()` devuelve **antes** de que haya una sola pieza, y todo lo
+      que la pantalla le pide en ese instante --- marcar, enfocar, atenuar --- se lo
+      pide a una escena vacia y se pierde sin ruido.
+      `fn` recibe `true` si monto y `false` si no llego; si ya se sabe, se llama en
+      el acto.                                                                    */
+  cuandoMonte: function (fn) {
+    if (typeof fn !== "function") return this;
+    if (figuraLista || figuraRota) fn(!figuraRota);
+    else colaDeFuera.push(fn);
+    return this;
+  },
+
+  /*  Y POR QUE NO LLEGO, para que el capitulo pueda decirselo al alumno en vez de
+      dejarle un cartel de <cargando> que no se va nunca.                        */
+  porQueNoCargo: function () { return figuraRota; },
+
+  __escena: function () { return scene; },
+
+  /*  EL GRADO DE TRANSPARENCIA DE LO ATENUADO, para poder elegirlo mirando.
+      `null` --- lo de fabrica --- deja lo atenuado solido, que es lo que el curso
+      hace hoy. Un numero lo vuelve semitransparente. **No se guarda en ningun
+      sitio**: es una puerta para probar, no un ajuste.                            */
+  __transparencia: function (op) {
+    if (op !== undefined) {
+      OPACO_ATENUADO = (op == null) ? null : Math.max(0.05, Math.min(1, +op));
+      //  lo atenuado se vuelve a pintar con el grado nuevo: `atenua` clona el
+      //  material una vez y lo reusa, asi que hay que devolverlo y repetirlo.
+      var d = this.__ultimaAtenua;
+      if (d) { this.atenua(null); this.atenua(d.lista, d.alfa); }
+    }
+    return OPACO_ATENUADO;
+  },
+
+
+  /*  Y LA CAMARA, por lo mismo: un arnes tiene que poder preguntar DONDE CAE una
+      pieza en pantalla --- proyectarla --- en vez de deducirlo. Se devuelve para
+      leerla.                                                                     */
+  __camara: function () { return camera; },
+
   /*  EL PERDON DEL DEDO, en pixeles de pantalla. Existe para poder MEDIRLO: cuanto
       blanco gana cada pieza con cada radio se barre pinchando, no se estima.  */
   tolerancia: function (px) {
@@ -4440,7 +3702,41 @@ raiz.Motor3D = {
       EL BUCLE SE QUEDA VIVO mientras el motor gira, que es lo que `sigueVivo()`
       promete. En un telefono eso gasta bateria, y es el precio de la pantalla: la
       unica del modulo que lo paga.                                                */
+  /*  ── QUIETA · para quien MIDE, no para quien ensena ──────────────────────
+      Un arnes fotografia y cuenta; **no mide animaciones**.  Y una animacion que
+      no termina --- el motor en marcha, que corre con `marchaResta = Infinity`, o
+      los tres penachos de humo --- deja la pagina sin cerrar bajo el reloj virtual
+      de Chrome: el arnes espera dos minutos, se le mata y dice <no se pudo medir>.
+
+      SALIO EN `9.2` Y `9.3` el dia que `tira-c31` empezo a recorrer las pantallas
+      **con la figura montada**. Antes pulsaba antes de que hubiera figura, asi que
+      el capitulo no llegaba a arrancar nada: *no es que no colgara, es que no se
+      la hacia trabajar.*  **Y el capitulo esta bien**: en un navegador de verdad,
+      pinchando `Next` cuatro veces, contesta en 2 ms --- medido ---.
+
+      SE INTENTARON TRES ATAJOS ANTES Y LOS TRES FALLARON, que es lo que justifica
+      que esto viva aqui y no en el arnes: parar las animaciones DESPUES de medir
+      --- no llega a correr, porque la sonda tampoco ---; topar
+      `requestAnimationFrame` por reloj --- `Date.now()` no sigue al reloj virtual
+      ---; y toparlo por fotogramas --- los resultados bailaban entre corridas ---.
+      *Perseguir al reloj de Chrome fue el error; quitarle el trabajo es el
+      arreglo.*
+
+      Asi que el que mide lo dice una vez, al cargar, y **la pantalla ya no puede
+      arrancar nada**: `enMarcha` y `verHumo` obedecen en falso. No se toca nada
+      mas --- ni el corte, ni los gestos, ni el goteo ---, que son de un solo tiro
+      y terminan.                                                                */
+  quieto: function (v) {
+    QUIETO = !!v;
+    if (QUIETO) {
+      if (typeof setRun === "function") setRun(false);
+      if (typeof setHumo === "function") setHumo(null);
+    }
+    return this;
+  },
+
   enMarcha: function (v, segundos) {
+    if (QUIETO) v = false;
     if (typeof setRun !== "function") {
       falta("setRun", "es lo que arranca el motor, y sin el no hay chorros");
       return this;
@@ -4748,6 +4044,7 @@ raiz.Motor3D = {
       exigirse: la versión de `enfocar` que devolvía `this` en silencio dejó pantallas
       saliendo con el encuadre de la anterior y nada lo decía.                      */
   verHumo: function (color) {
+    if (QUIETO) color = null;
     if (typeof setHumo !== "function") {
       falta("setHumo", "es lo que enciende los tres penachos; sin el no hay humo");
       return false;
@@ -4831,6 +4128,9 @@ raiz.Motor3D = {
   __fondo: function () { return FONDO_APAGADO.getHex(); },
 
   atenua: function (destacadas, alfa) {
+    /*  se recuerda la ultima llamada para poder repetirla al cambiar el grado de
+        transparencia: los materiales se clonan una vez y no se enteran solos.     */
+    this.__ultimaAtenua = destacadas ? { lista: destacadas, alfa: alfa } : null;
     var enc = {};
     if (destacadas) for (var i = 0; i < destacadas.length; i++) enc[destacadas[i]] = true;
     /*  ── EL 0,55 SALE DE UNA MEDIDA, Y LA MEDIDA DICE ALGO QUE NO ESPERABA ────
@@ -4918,18 +4218,26 @@ raiz.Motor3D = {
         o.userData._metBase = o.userData._matVivo.metalness != null
           ? o.userData._matVivo.metalness : 0;
       }
-      /*  ── SE APAGA, NO SE VUELVE DE CRISTAL ──────────────────────────────
-          La primera version bajaba la OPACIDAD, y la foto la tumbo: al 28 % el motor
-          se convertia en una radiografia — se veian los pistones y el cigueñal a
-          traves del bloque—. Destacaba lo nuevo, si, **y a costa de volver el motor
-          una cosa que no es**, y encima empeorando el amasijo de las bielas que Joel
-          trae como tercer fallo.
+      /*  ── SE APAGA, Y DESDE EL 28 DE SEPTIEMBRE TAMBIEN SE TRANSPARENTA ──
+          **ESTA NOTA DECIA LO CONTRARIO Y SE DEJA ENTERA DEBAJO**, porque la medida
+          que la escribio sigue siendo cierta y hay que poder leerla:
 
-          «Apagado» no es «transparente». Lo que se hace es **llevar el color hacia el
-          fondo del compartimento y apagarle el brillo propio**: la pieza sigue siendo
-          solida, sigue tapando lo que hay detras y sigue diciendo donde va — solo que
-          en voz baja. La opacidad de base no se toca, asi que los vasos de cristal
-          siguen siendo de cristal.                                                */
+            > La primera version bajaba la OPACIDAD, y la foto la tumbo: al 28 % el
+            > motor se convertia en una radiografia --- se veian los pistones y el
+            > cigueñal a traves del bloque ---. Destacaba lo nuevo, si, y a costa de
+            > volver el motor una cosa que no es.
+
+          Lo que cambio no es la foto: **es lo que se quiere ver en ella.**  Joel
+          eligio el 20 % con quince fotos delante, sabiendo que a ese grado se ven los
+          pistones a traves del bloque --- se lo dijeron las fotos y lo dijo el que se
+          las dio ---.  *Una medida puede seguir siendo verdad y haber dejado de ser
+          el criterio.*
+
+          Asi que ahora se hacen las dos cosas: se lleva el color hacia el fondo del
+          compartimento, se le apaga el brillo propio **y se baja la opacidad a
+          `OPACO_ATENUADO`**.  Lo de siempre se recupera poniendolo a `null`.
+          La opacidad de base se sigue respetando --- se toma la menor de las dos ---,
+          asi que un vaso de cristal no se vuelve mas opaco por atenuarlo.        */
       /*  ── NI TRANSPARENTE NI MAS CLARO: SIN COLOR Y CON MENOS LUZ ────────
           La segunda version llevaba el color hacia el gris claro del compartimento, y
           **la foto volvio a tumbarla**: el motor atenuado salia MAS BRILLANTE que sin
@@ -4949,6 +4257,19 @@ raiz.Motor3D = {
       /*  el metal apagado sigue reflejando y devuelve el brillo que se le acaba de
           quitar: un cromado atenuado sale mas claro que el bloque sin atenuar  */
       if (o.material.metalness != null) o.material.metalness = o.userData._metBase * a;
+
+      /*  ── Y SI SE HA PEDIDO GRADO, ADEMAS SE TRANSPARENTA ────────────────────
+          `depthWrite` tiene que irse con la transparencia y no es un detalle: una
+          malla transparente que SIGUE escribiendo profundidad tapa igual a la que
+          tiene detras --- se veria translucida y no dejaria ver nada ---, que es
+          justo lo contrario de lo que se pide.
+          La opacidad de base se respeta: un vaso de cristal no se vuelve mas opaco
+          por atenuarlo, asi que se toma la menor de las dos.                      */
+      if (OPACO_ATENUADO != null) {
+        o.material.transparent = true;
+        o.material.opacity = Math.min(o.userData._opBase, OPACO_ATENUADO);
+        o.material.depthWrite = false;
+      }
     });
     ANIM.dirty = true; despierta();
 

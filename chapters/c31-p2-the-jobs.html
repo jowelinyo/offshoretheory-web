@@ -6,11 +6,6 @@
 
 <meta name="viewport" content="width=device-width,initial-scale=1">
 
-<link rel="canonical" href="https://offshoretheory.com/chapters/c31-p2-the-jobs.html">
-<link rel="icon" type="image/svg+xml" href="../assets/img/favicon.svg">
-<meta property="og:image" content="https://offshoretheory.com/assets/img/foto-2.jpg">
-<meta property="og:image:alt" content="A sextant and dividers resting on a paper chart">
-<meta name="twitter:card" content="summary_large_image">
 <style>
 
 @font-face{font-family:'IBM Plex Mono';font-style:normal;font-weight:400;font-display:swap;
@@ -445,6 +440,11 @@ a.pieLink:hover{text-decoration:underline}
 </div>
 <template id="tSig"></template>
 <script src="../assets/js/three.min.js"></script>
+
+<script src="../assets/js/GLTFLoader.js"></script>
+<script src="../assets/js/meshopt_decoder.js"></script>
+<script src="../assets/js/RGBELoader.js"></script>
+<script src="../assets/js/motor-datos.js"></script>
 <script src="../assets/js/motor3d.js"></script>
 <script src="../assets/js/mecanicas-motor.js"></script>
 <script>
@@ -596,8 +596,20 @@ function arrancaFigura(){
       "The 3-D engine could not start in this browser.";
     return false;
   }
-  FIG = Motor3D.montar(document.getElementById("escena"));
-  document.getElementById("escena").classList.add("listo");
+
+  const fig = Motor3D.montar(document.getElementById("escena"));
+
+  fig.cuandoMonte(function (llego) {
+    if (!llego) {
+      document.getElementById("cargando").textContent =
+        "The 3-D engine could not load. Open the course with VER-EL-CURSO.cmd.";
+      return;
+    }
+
+    FIG = fig;
+    document.getElementById("escena").classList.add("listo");
+    pinta();
+  });
   return true;
 }
 
