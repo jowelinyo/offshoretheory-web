@@ -275,7 +275,7 @@ a.pieLink:hover{text-decoration:underline}
   <div id="foot"><div class="pieLinea">rule 18 of 19 &middot; the ladder is the last thing the Rule says, not the first</div>
    <div id="navPie"></div>
    <div class="pie2"><span id="fLog">0 answers logged</span><a class="pieLink" id="deCero">start over</a></div>
-   <div class="sello" id="sello" data-sello="bf4362f9">collision avoidance &middot; module &middot; 20 screens &middot; 25 Sep 2026 &middot; <b>bf4362f9</b></div></div>
+   <div class="sello" id="sello" data-sello="bf4362f9">collision avoidance &middot; module &middot; 20 screens &middot; 29 Sep 2026 &middot; <b>bf4362f9</b></div></div>
  </div>
 </div>
 
@@ -372,6 +372,8 @@ const L = (kind, colour, h, x, rangeKey, extra={}) =>
 function configuration(v){
   const LEN = v.length || 12;
   const L50 = LEN >= 50;
+
+  const DOS_TOPES = L50 || v.segundoTope === true;
   const making = v.makingWay !== false;
   const under  = v.underway  !== false;
 
@@ -380,10 +382,11 @@ function configuration(v){
                   L("port",     "red",  HGT.side(LEN), sideX,"side")];
   const stern  = [L("stern","white",HGT.stern(LEN),-0.96,"stern")];
   const mast1  = [L("masthead","white",HGT.mast1(LEN), 0.55,"masthead")];
-  const mast2  = L50 ? [L("masthead","white",HGT.mast2(LEN),-0.40,"masthead")] : [];
+  const mast2  = DOS_TOPES ? [L("masthead","white",HGT.mast2(LEN),-0.40,"masthead")] : [];
 
+  const DOS_FONDEO = L50 || v.dosFondeo === true;
   if (!under) {
-    return LEN >= 50
+    return DOS_FONDEO
       ? [L("allround","white",HGT.allr(LEN)*0.9, 0.88,"allround"),
          L("allround","white",HGT.stern(LEN)*1.4,-0.88,"allround")]
       : [L("allround","white",HGT.allr(LEN), 0.0,"allround")];
@@ -410,7 +413,7 @@ function configuration(v){
     case "fishingTrawl":
       return [L("allround","green",HGT.allr(LEN)*1.25,0.28,"allround"),
               L("allround","white",HGT.allr(LEN)*0.95,0.28,"allround"),
-              ...(L50?[L("masthead","white",HGT.mast2(LEN),-0.40,"masthead")]:[]),
+              ...(DOS_TOPES?[L("masthead","white",HGT.mast2(LEN),-0.40,"masthead")]:[]),
               ...(making?[...side,...stern]:[])];
 
     case "fishingOther":
@@ -444,12 +447,13 @@ function configuration(v){
 
     case "towing": {
       const TL   = v.towLength || 120;
-      const long = TL > 200;
+
+      const long = TL + (v.towedLength || 0) > 200;
       const stack = [];
       const step = Math.max(2, LEN*0.055);
       for (let i=0;i<(long?3:2);i++)
         stack.push(L("masthead","white",HGT.mast1(LEN)+i*step,0.55,"masthead"));
-      const tug = [...stack, ...(L50?[L("masthead","white",HGT.mast2(LEN)+step*2,-0.40,"masthead")]:[]),
+      const tug = [...stack, ...(DOS_TOPES?[L("masthead","white",HGT.mast2(LEN)+step*2,-0.40,"masthead")]:[]),
                    ...side, ...stern,
                    L("stern","yellow",HGT.stern(LEN)*1.5,-0.96,"towing")];
 
