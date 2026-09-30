@@ -339,7 +339,7 @@ a.pieLink:hover{text-decoration:underline}
   <div id="foot">
    <div id="navPie"></div>
    <div class="pie2"><span id="fLog">0 answers logged</span><a class="pieLink" id="deCero" onclick="deCero()">start over</a></div>
-   <div class="sello" id="sello" data-sello="7ed42764">lights and shapes · part 3 · <b>9 of 9 screens</b> · 29 Sep 2026</div>
+   <div class="sello" id="sello" data-sello="7ed42764">lights and shapes · part 3 · <b>9 of 9 screens</b> · 30 Sep 2026</div>
   </div>
  </div>
 </div>
@@ -944,6 +944,10 @@ const NS = "http://www.w3.org/2000/svg";
 let svg = null, gO = null;
 
 let ESC = 1;
+
+let ALTO_LIBRE = false;
+const esMovil = () => !!(window.matchMedia
+  && window.matchMedia("(max-width:699px)").matches);
 const px = n => n / ESC;
 function el(t, at, pa){
  const e = document.createElementNS(NS, t);
@@ -1625,12 +1629,12 @@ function altoLibreDe(v, anchoPanel){
   return altoLibres(frasesLibres(coloca(v, suyas, suyas)), anchoPanel);
  }catch(e){ return 0; }
 }
-function rotulaLibres(P, dichas, ancho){
+function rotulaLibres(P, dichas, ancho, yDesde){
  const frases = Object.keys(dichas).filter(f => !LIBRES_DICHAS[f]);
  frases.forEach(f => { LIBRES_DICHAS[f] = 1; });
  if(!frases.length) return 0;
 
- let y = P.y0 + px(38);
+ let y = (yDesde !== undefined) ? yDesde : P.y0 + px(38);
  frases.forEach(f => {
   const lineas = parte(f, ancho - px(24), 12.5);
   lineas.forEach((t, i) => {
@@ -1662,7 +1666,10 @@ function pintaNave(P, v, g, o){
 
  if(o.tapaBabor) luces = luces.filter(l => l.kind !== "port");
 
- return dibujaLuces(P, v, luces, todas, Object.assign({g: g}, o));
+ const oo = Object.assign({g: g}, o);
+ const r = dibujaLuces(P, v, luces, todas, oo);
+ if(oo.altoDebajo !== undefined) o.altoDebajo = oo.altoDebajo;
+ return r;
 }
 
 function dibujaLuces(P, v, luces, todas, o){
@@ -1680,7 +1687,7 @@ function dibujaLuces(P, v, luces, todas, o){
 
  const dichas = (o.rotula === false) ? {} : frasesLibres(sitios);
 
- const arriba = P.y0 + altoLibres(dichas, anchoPanel);
+ const arriba = P.y0 + (o.rotulaDebajo ? 0 : altoLibres(dichas, anchoPanel));
 
  const pasos = (o.pasos !== undefined && o.pasos !== null) ? o.pasos
    : (function(){ try { return pasosDe(v, luces, todas); } catch(e){ return 0; } })();
@@ -1688,7 +1695,14 @@ function dibujaLuces(P, v, luces, todas, o){
  const pr = (!o.escorza || o.g === undefined || o.g === null) ? null : PROY(o.g);
 
  const hw = Math.max(20, o.ancho ? o.ancho : (anchoPanel - 24));
- if(o.rotula !== false) rotulaLibres(P, dichas, Math.min(anchoPanel, hw));
+
+ if(o.rotula !== false && o.rotulaDebajo){
+  const an = Math.min(anchoPanel, hw) + px(24);
+  o.altoDebajo = Object.keys(dichas).filter(f => !LIBRES_DICHAS[f]).length
+    ? altoLibres(dichas, an) - px(38) : 0;
+  rotulaLibres(P, dichas, an, P.y1 + px(26));
+ }
+ else if(o.rotula !== false) rotulaLibres(P, dichas, Math.min(anchoPanel, hw));
 
  const refL = fam.plan[1] - fam.plan[0];
  const topeDe = q => (q.masts || []).length
@@ -2434,6 +2448,9 @@ function apila(s, fichas){
 
 function dibuja(){
  guardaDonde(iP);
+
+ ALTO_LIBRE = false;
+ { const wr = document.getElementById("wrap"); if(wr) wr.style.gridTemplateRows = ""; }
  const sP = PZ[iP];
  const reparto = repartoDe(sP);
 
@@ -2453,7 +2470,10 @@ function dibuja(){
   uno.style.display = "none"; pila.style.display = ""; cie.style.display = "";
   const vs = document.getElementById("svg");
   if(vs) vs.innerHTML = "";
-  pila.style.gridTemplateColumns = "repeat(" + sP.cols.length + ",1fr)";
+
+  const mvC = esMovil();
+  pila.style.gridTemplateColumns = mvC ? "minmax(0,1fr)" : "repeat(" + sP.cols.length + ",1fr)";
+  if(mvC){ const wr = document.getElementById("wrap"); if(wr) wr.style.gridTemplateRows = "auto auto"; }
   pila.innerHTML = sP.cols.map(function(c){
    return '<div class="res-col"><h5>' + c.rot + "</h5><div><dl>"
      + c.filas.map(function(f){
@@ -2481,6 +2501,9 @@ function dibuja(){
  svg.setAttribute("viewBox", "0 0 " + D.W + " " + D.H);
  svg.setAttribute("preserveAspectRatio", "xMidYMid meet");
  CAJAS_PROPIAS = 0;
+
+ ALTO_LIBRE = false;
+ { const wr = document.getElementById("wrap"); if(wr) wr.style.gridTemplateRows = ""; }
  ESC = esc();
  NAVE_N = 0;
  HAY_LUZ = false;
@@ -2509,7 +2532,12 @@ function ciñeFicha(){
  const an = Math.max(c.width - 44, CAJA_MIN);
  const al = Math.max(c.height - 40, CAJA_MIN);
  let w = an, h = w / FORMA.r;
- if(h > al){ h = al; w = h * FORMA.r; }
+
+ if(ALTO_LIBRE){
+  const wr = document.getElementById("wrap");
+  if(wr) wr.style.gridTemplateRows = Math.round(h + 40) + "px auto";
+ }
+ else if(h > al){ h = al; w = h * FORMA.r; }
  f.style.width  = Math.round(w) + "px";
  f.style.height = Math.round(h) + "px";
  f.style.flex   = "none";
@@ -2527,7 +2555,8 @@ function ajustaLamina(){
 
   const caja = document.getElementById("obj").getBoundingClientRect();
 
-  let kNueva = Math.min(caja.width / vb.w, caja.height / vb.h) / ESC;
+  let kNueva = Math.min(caja.width / vb.w,
+                        ALTO_LIBRE ? Infinity : caja.height / vb.h) / ESC;
 
   if(HAY_LUZ && LUZ.D * ESC * kNueva > 26) kNueva = 26 / (LUZ.D * ESC);
   const paso = kNueva / KLAM;
@@ -2692,28 +2721,37 @@ function obraVuelta(s){
  const n = s.marcaciones.length;
  const M = 18, ANP = (D.W - M*(n+1))/n;
  const pasos = pasosMax(s.marcaciones.map(q => ({v: s.buque})));
- const ALP = ALTO_PANEL(pasos, 300);
- let bajo = 56 + ALP;
+ const ALP0 = ALTO_PANEL(pasos, 300);
+
+ const col = esMovil();
+ if(col) ALTO_LIBRE = true;
+ const W1 = col ? D.W - M*2 : ANP;
+ const ANC = col ? W1*0.5 : ANP - 67;
+ const ALP = col ? ALP0 * ANC / (ANP - 67) : ALP0;
+ let bajo = 56 + ALP, y = 56;
  s.marcaciones.forEach((q, i) => {
-  const P = panel(M + (ANP + M)*i, 56, ANP, ALP, true, q.rot);
-  pintaNave(P, s.buque, q.g, {escorza: true, pasos: pasos, ancho: ANP - 67});
+  const P = panel(col ? M : M + (ANP + M)*i, col ? y : 56, W1, ALP, true, q.rot);
+  pintaNave(P, s.buque, q.g, {escorza: true, pasos: pasos, ancho: ANC});
 
   const ve = vistas(s.buque, q.g);
-  const n1 = txtCabe(P.cx, P.y1 + px(21), marcacionCorta(q.g), ANP - px(10), 13,
+  const n1 = txtCabe(P.cx, P.y1 + px(21), marcacionCorta(q.g), W1 - px(10), 13,
                      "var(--lam-ink)", 600);
   const n2 = txtCabe(P.cx, P.y1 + px(21) + n1*px(18) + px(2),
     (ve.length === 1 ? "one light" : ve.length + " lights") + " · " + q.pie,
-    ANP - px(10), 12.5, "var(--lam-dim)");
+    W1 - px(10), 12.5, "var(--lam-dim)");
   bajo = Math.max(bajo, P.y1 + px(21) + n1*px(18) + n2*px(17));
+  y = P.y1 + px(21) + n1*px(18) + n2*px(17) + px(30);
  });
 
- renglonAbajo(Math.min(bajo + px(30), D.H - px(74)), s.renglon, s.pie, M, D.W - M);
+ renglonAbajo(Math.min(bajo + px(30), D.H - px(74)), s.renglon, s.pie, M, D.W - M,
+              col ? bajo + px(30) : undefined);
 }
 
 function obraCruce(s){
  const nc = s.naves.length, nf = s.millas.length;
  const M = 20, ANP = (D.W - M*(nc+1))/nc;
  const pasos = pasosMax(s.naves);
+ if(esMovil()) return obraCruceMovil(s, nc, M, ANP, pasos);
 
  const ALP = ALTO_PANEL(pasos, 168, (D.H - 74 - 150)/nf - px(30));
 
@@ -2738,35 +2776,84 @@ function obraCruce(s){
  renglonAbajo(Math.min(bajo + px(26), D.H - px(62)), s.renglon, s.pie, M, D.W - M);
 }
 
+function obraCruceMovil(s, nc, M, ANP, pasos){
+ ALTO_LIBRE = true;
+ const ALP = ALTO_PANEL(pasos, 168);
+ const nH = Math.max.apply(null, s.naves.map(q => txtCabe(M + (ANP + M)*s.naves.indexOf(q)
+   + ANP/2, 56, q.rot, ANP - px(6), 12, "var(--lam-magenta)", 600, "mono")));
+ let y = 56 + (nH - 1)*px(16) + px(30);
+ let bajo = y;
+ s.millas.forEach(nm => {
+  txt(M, y, nm + " MILES OFF", "start", 12, "var(--dim)", 600, "mono");
+  y += px(12);
+  let fondo = y + ALP;
+  s.naves.forEach((q, col) => {
+   const P = panel(M + (ANP + M)*col, y, ANP, ALP, true, "");
+   pintaNave(P, q.v, s.g, {escorza: true, nm: nm, pasos: pasos,
+                           ancho: ANP - 67, rotula: false});
+   const ve = vistas(q.v, s.g).filter(l => nm <= ranges(q.v.length || 12)[l.rangeKey]);
+   const k = txtCabe(P.cx, P.y1 + px(18),
+     ve.length ? (ve.length === 1 ? "one light" : ve.length + " lights")
+               : "nothing at all",
+     ANP - px(10), 13, ve.length ? "var(--lam-ink)" : "var(--lam-alarm)", 600);
+   fondo = Math.max(fondo, P.y1 + px(18) + (k - 1)*px(17));
+  });
+  bajo = fondo;
+  y = fondo + px(40);
+ });
+ renglonAbajo(bajo + px(46), s.renglon, s.pie, M, D.W - M, bajo + px(46));
+}
+
 function obraContra(s){
  const n = s.naves.length;
  const M = 18, ANP = (D.W - M*(n+1))/n;
  const pasos = pasosMax(s.naves);
- const ALP = ALTO_PANEL(pasos, 286);
- let bajo = 52 + ALP;
+ const ALP0 = ALTO_PANEL(pasos, 286);
+
+ const col = esMovil();
+ if(col) ALTO_LIBRE = true;
+ const W1 = col ? D.W - M*2 : ANP;
+ const ANC = col ? W1*0.5 : ANP - 67;
+ const ALP = col ? ALP0 * ANC / (ANP - 67) : ALP0;
+ let bajo = 52 + ALP, y = 52;
  s.naves.forEach((q, i) => {
   const g = q.g === undefined ? s.g : q.g;
-  const P = panel(M + (ANP + M)*i, 52, ANP, ALP, true, q.rot);
-  pintaNave(P, q.v, g, {escorza: true, pasos: pasos, ancho: ANP - 67,
+  const P = panel(col ? M : M + (ANP + M)*i, col ? y : 52, W1, ALP, true, q.rot);
+  pintaNave(P, q.v, g, {escorza: true, pasos: pasos, ancho: ANC,
                         rotula: false});
-  const n1 = txtCabe(P.cx, P.y1 + px(20), marcacionCorta(g), ANP - px(10), 12.5,
+  const n1 = txtCabe(P.cx, P.y1 + px(20), marcacionCorta(g), W1 - px(10), 12.5,
                      "var(--lam-dim)", 400, "mono");
   const n2 = txtCabe(P.cx, P.y1 + px(20) + n1*px(17) + px(3), q.pie,
-                     ANP - px(10), 13, "var(--lam-ink)", 600);
+                     W1 - px(10), 13, "var(--lam-ink)", 600);
   bajo = Math.max(bajo, P.y1 + px(20) + n1*px(17) + n2*px(18));
+  y = P.y1 + px(20) + n1*px(17) + n2*px(18) + px(30);
  });
- renglonAbajo(Math.min(bajo + px(38), D.H - px(62)), s.renglon, s.pie, M, D.W - M);
+
+ renglonAbajo(Math.min(bajo + px(38), D.H - px(62)), s.renglon, s.pie, M, D.W - M,
+              col ? bajo + px(38) : undefined);
 }
 
 function obraRejilla(s){
- const M = 16, cols = 3, filas = Math.ceil(s.naves.length / cols);
+
+ const mv = esMovil();
+ if(mv) ALTO_LIBRE = true;
+ const M = 16, cols = mv ? 2 : 3, filas = Math.ceil(s.naves.length / cols);
  const ANP = (D.W - M*(cols+1))/cols;
  const pasos = pasosMax(s.naves);
- const ALP = ALTO_PANEL(pasos, 172, (D.H - 46 - 96)/2 - px(40));
+ const ALP = mv ? ALTO_PANEL(pasos, 172) * (ANP - 57) / ((D.W - M*4)/3 - 57)
+                : ALTO_PANEL(pasos, 172, (D.H - 46 - 96)/2 - px(40));
+
+ const PIE_R = !mv ? px(74) : Math.max.apply(null, s.naves.map(q => {
+   const marc = q.nm ? marcacionCorta(q.g) + " · " + q.nm + " M" : marcacionCorta(q.g);
+   const ids = identidades({buque: q.v, g: q.g, nm: q.nm});
+   const nom = ids.length === 1 ? ids[0] : "either " + ids.join(", or ");
+   return px(19) + parte(marc, ANP - px(8), 12.5).length*px(16) + px(3)
+        + parte(nom, ANP - px(8), 12.5).length*px(16) + px(24);
+ }));
  s.naves.forEach((q, i) => {
   const cx = i % cols, cy = (i / cols) | 0;
 
-  const P = panel(M + (ANP + M)*cx, 46 + cy*(ALP + px(74)), ANP, ALP, true,
+  const P = panel(M + (ANP + M)*cx, 46 + cy*(ALP + PIE_R), ANP, ALP, true,
                   String.fromCharCode(65 + i), true);
   pintaNave(P, q.v, q.g, {aire: q.aire || 0, escorza: true, nm: q.nm, pasos: pasos,
                           ancho: ANP - 57, rotula: false});
@@ -2783,7 +2870,7 @@ function obraRejilla(s){
      ANP - px(8), 12.5, ids.length === 1 ? "var(--lam-ink)" : "var(--lam-alarm)", 600);
   }
 
-  el("rect", {x: M + (ANP + M)*cx, y: 46 + cy*(ALP + px(74)) - px(6),
+  el("rect", {x: M + (ANP + M)*cx, y: 46 + cy*(ALP + PIE_R) - px(6),
     width: ANP, height: ALP + px(56), fill: "transparent", class: "boton",
     "data-casilla": i});
  });

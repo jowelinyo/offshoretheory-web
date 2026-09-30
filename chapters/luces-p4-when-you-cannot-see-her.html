@@ -358,7 +358,7 @@ a.pieLink:hover{text-decoration:underline}
   <div id="foot">
    <div id="navPie"></div>
    <div class="pie2"><span id="fLog">0 answers logged</span><a class="pieLink" id="deCero" onclick="deCero()">start over</a></div>
-   <div class="sello" id="sello" data-sello="e3226afa">lights and shapes · part 4 · <b>9 of 9 screens</b> · 29 Sep 2026</div>
+   <div class="sello" id="sello" data-sello="e3226afa">lights and shapes · part 4 · <b>9 of 9 screens</b> · 30 Sep 2026</div>
   </div>
  </div>
 </div>
@@ -963,6 +963,10 @@ const NS = "http://www.w3.org/2000/svg";
 let svg = null, gO = null;
 
 let ESC = 1;
+
+let ALTO_LIBRE = false;
+const esMovil = () => !!(window.matchMedia
+  && window.matchMedia("(max-width:699px)").matches);
 const px = n => n / ESC;
 function el(t, at, pa){
  const e = document.createElementNS(NS, t);
@@ -1644,12 +1648,12 @@ function altoLibreDe(v, anchoPanel){
   return altoLibres(frasesLibres(coloca(v, suyas, suyas)), anchoPanel);
  }catch(e){ return 0; }
 }
-function rotulaLibres(P, dichas, ancho){
+function rotulaLibres(P, dichas, ancho, yDesde){
  const frases = Object.keys(dichas).filter(f => !LIBRES_DICHAS[f]);
  frases.forEach(f => { LIBRES_DICHAS[f] = 1; });
  if(!frases.length) return 0;
 
- let y = P.y0 + px(38);
+ let y = (yDesde !== undefined) ? yDesde : P.y0 + px(38);
  frases.forEach(f => {
   const lineas = parte(f, ancho - px(24), 12.5);
   lineas.forEach((t, i) => {
@@ -1681,7 +1685,10 @@ function pintaNave(P, v, g, o){
 
  if(o.tapaBabor) luces = luces.filter(l => l.kind !== "port");
 
- return dibujaLuces(P, v, luces, todas, Object.assign({g: g}, o));
+ const oo = Object.assign({g: g}, o);
+ const r = dibujaLuces(P, v, luces, todas, oo);
+ if(oo.altoDebajo !== undefined) o.altoDebajo = oo.altoDebajo;
+ return r;
 }
 
 function dibujaLuces(P, v, luces, todas, o){
@@ -1699,7 +1706,7 @@ function dibujaLuces(P, v, luces, todas, o){
 
  const dichas = (o.rotula === false) ? {} : frasesLibres(sitios);
 
- const arriba = P.y0 + altoLibres(dichas, anchoPanel);
+ const arriba = P.y0 + (o.rotulaDebajo ? 0 : altoLibres(dichas, anchoPanel));
 
  const pasos = (o.pasos !== undefined && o.pasos !== null) ? o.pasos
    : (function(){ try { return pasosDe(v, luces, todas); } catch(e){ return 0; } })();
@@ -1707,7 +1714,14 @@ function dibujaLuces(P, v, luces, todas, o){
  const pr = (!o.escorza || o.g === undefined || o.g === null) ? null : PROY(o.g);
 
  const hw = Math.max(20, o.ancho ? o.ancho : (anchoPanel - 24));
- if(o.rotula !== false) rotulaLibres(P, dichas, Math.min(anchoPanel, hw));
+
+ if(o.rotula !== false && o.rotulaDebajo){
+  const an = Math.min(anchoPanel, hw) + px(24);
+  o.altoDebajo = Object.keys(dichas).filter(f => !LIBRES_DICHAS[f]).length
+    ? altoLibres(dichas, an) - px(38) : 0;
+  rotulaLibres(P, dichas, an, P.y1 + px(26));
+ }
+ else if(o.rotula !== false) rotulaLibres(P, dichas, Math.min(anchoPanel, hw));
 
  const refL = fam.plan[1] - fam.plan[0];
  const topeDe = q => (q.masts || []).length
@@ -2453,6 +2467,9 @@ function apila(s, fichas){
 
 function dibuja(){
  guardaDonde(iP);
+
+ ALTO_LIBRE = false;
+ { const wr = document.getElementById("wrap"); if(wr) wr.style.gridTemplateRows = ""; }
  const sP = PZ[iP];
  const reparto = repartoDe(sP);
 
@@ -2472,7 +2489,10 @@ function dibuja(){
   uno.style.display = "none"; pila.style.display = ""; cie.style.display = "";
   const vs = document.getElementById("svg");
   if(vs) vs.innerHTML = "";
-  pila.style.gridTemplateColumns = "repeat(" + sP.cols.length + ",1fr)";
+
+  const mvC = esMovil();
+  pila.style.gridTemplateColumns = mvC ? "minmax(0,1fr)" : "repeat(" + sP.cols.length + ",1fr)";
+  if(mvC){ const wr = document.getElementById("wrap"); if(wr) wr.style.gridTemplateRows = "auto auto"; }
   pila.innerHTML = sP.cols.map(function(c){
    return '<div class="res-col"><h5>' + c.rot + "</h5><div><dl>"
      + c.filas.map(function(f){
@@ -2500,6 +2520,9 @@ function dibuja(){
  svg.setAttribute("viewBox", "0 0 " + D.W + " " + D.H);
  svg.setAttribute("preserveAspectRatio", "xMidYMid meet");
  CAJAS_PROPIAS = 0;
+
+ ALTO_LIBRE = false;
+ { const wr = document.getElementById("wrap"); if(wr) wr.style.gridTemplateRows = ""; }
  ESC = esc();
  NAVE_N = 0;
  HAY_LUZ = false;
@@ -2528,7 +2551,12 @@ function ciñeFicha(){
  const an = Math.max(c.width - 44, CAJA_MIN);
  const al = Math.max(c.height - 40, CAJA_MIN);
  let w = an, h = w / FORMA.r;
- if(h > al){ h = al; w = h * FORMA.r; }
+
+ if(ALTO_LIBRE){
+  const wr = document.getElementById("wrap");
+  if(wr) wr.style.gridTemplateRows = Math.round(h + 40) + "px auto";
+ }
+ else if(h > al){ h = al; w = h * FORMA.r; }
  f.style.width  = Math.round(w) + "px";
  f.style.height = Math.round(h) + "px";
  f.style.flex   = "none";
@@ -2546,7 +2574,8 @@ function ajustaLamina(){
 
   const caja = document.getElementById("obj").getBoundingClientRect();
 
-  let kNueva = Math.min(caja.width / vb.w, caja.height / vb.h) / ESC;
+  let kNueva = Math.min(caja.width / vb.w,
+                        ALTO_LIBRE ? Infinity : caja.height / vb.h) / ESC;
 
   if(HAY_LUZ && LUZ.D * ESC * kNueva > 26) kNueva = 26 / (LUZ.D * ESC);
   const paso = kNueva / KLAM;
@@ -3017,9 +3046,28 @@ function sinSonido(cx, y, an){
    + "say exactly the same thing, and they are the lesson.", an, 12, "var(--lam-alarm)");
 }
 
+function obraVocabularioMovil(s, suena){
+ ALTO_LIBRE = true;
+ const M = 30, an0 = D.W - M*2, x0 = M + px(56) + px(14), an = (D.W - M) - x0;
+ let y = 40;
+ if(suena){ botonPara(D.W - M - px(74), y); y += px(52) + px(22); }
+ else { sinSonido(D.W/2, y + px(10), an0); y += px(60); }
+ s.filas.forEach((f, i) => {
+  y += txtCabe(M, y, f.rot, an0, 12.5, "var(--lam-ink)", 600, "mono", "start")*px(17);
+  const yt = y + px(10);
+  mandoDe(M, yt, px(26), "fila:" + i, suena);
+  tiraSonido(x0, yt, an, px(26), f.tramos, VENTANA, f.medio, null, true);
+  y = yt + px(52) + px(14);
+  y += txtCabe(M, y, f.pie, an0, 12.5, "var(--lam-dim)", 400, "ui", "start")*px(17) + px(18);
+ });
+ reglaSonido(x0, y, an, VENTANA);
+ y += px(40);
+ renglonAbajo(y + px(30), s.renglon, s.pie, M, D.W - M, y + px(30));
+}
 function obraVocabulario(s){
 
  const suena = suePuede();
+ if(esMovil()) return obraVocabularioMovil(s, suena);
 
  const M = 40, BOT = COLBOT, HUE = COLHUE;
  const x0 = M + BOT + HUE, an = (D.W - M) - x0;
@@ -3047,6 +3095,7 @@ function obraVocabulario(s){
 function obraCiclo(s){
 
  const suena = suePuede();
+ if(esMovil()) return obraCicloMovil(s, suena);
  const M = 50, x0 = M + COLBOT + COLHUE, an = (D.W - M) - x0;
  let y = 100;
  s.filas.forEach((f, i) => {
@@ -3062,9 +3111,68 @@ function obraCiclo(s){
  renglonAbajo(Math.min(y + px(4), D.H - px(84)), s.renglon, s.pie, M, D.W - M);
 }
 
+function obraCicloMovil(s, suena){
+ ALTO_LIBRE = true;
+ const M = 30, an = D.W - M*2, x0 = M + px(56) + px(14);
+ let y = 40;
+ if(suena){ botonPara(D.W - M - px(74), y); y += px(52) + px(22); }
+ else { sinSonido(D.W/2, y + px(10), an); y += px(60); }
+ s.filas.forEach((f, i) => {
+  const dur = duracion(f.tramos);
+  y += txtCabe(M, y, f.rot, an, 13.5, "var(--lam-ink)", 600, "ui", "start")*px(13.5*1.35);
+  txt(M, y + px(2), (100*dur/f.ciclo).toFixed(1) + "% of the cycle", "start", 12.5,
+      "var(--lam-alarm)", 600, "mono");
+  y += px(22);
+  const yT = y + px(16);
+  mandoDe(M, yT, px(20), "fila:" + i, suena);
+  tiraSonido(x0, yT, (D.W - M) - x0, px(20), f.tramos, f.ciclo, f.medio);
+  y += px(52) + px(34);
+ });
+ renglonAbajo(y + px(30), s.renglon, s.pie, M, D.W - M, y + px(30));
+}
+
+function obraExploraMovil(s, suena){
+ ALTO_LIBRE = true;
+ const M = 30, an = D.W - M*2;
+ const hayDetalle = !!EX.sel;
+ const cuantas = (f, tam) => Math.max.apply(null, s.naves.map(q => parte(f(q), an, tam).length));
+ let y = 40;
+ if(hayDetalle){
+  const q = s.naves.filter(x => x.id === EX.sel)[0];
+  txtCabe(D.W/2, y, q.nombre, an, 16, "var(--lam-ink)", 600);
+  y += cuantas(x => x.nombre, 16)*px(16*1.35) + px(12);
+  botonSuena(M, y, "nave:" + q.id, "", !suena, px(52));
+  if(suena) botonPara(D.W - M - px(74), y);
+  else sinSonido(D.W/2 + px(40), y + px(20), an - px(100));
+  y += px(52) + px(18);
+  y += tiraSonido(M, y, an, px(30), q.tramos, VENTANA, q.medio) + px(20);
+  txtCabe(D.W/2, y, q.dice + " · " + q.cita, an, 13, "var(--lam-magenta)", 600, "mono");
+  y += cuantas(x => x.dice + " · " + x.cita, 13)*px(13*1.35) + px(8);
+  txtCabe(D.W/2, y, q.por, an, 12.5, "var(--lam-dim)");
+  y += cuantas(x => x.por, 12.5)*px(12.5*1.35) + px(30);
+ } else {
+  y += txtCabe(D.W/2, y, s.renglon, an, 15, "var(--lam-dim)")*px(15*1.35) + px(24);
+ }
+ const ALP = px(40);
+ s.naves.forEach(q => {
+  const sel = (EX.sel === q.id), visto = !!EX.vistas[q.id];
+  const P = panel(M, y, an, ALP, true, "");
+  tiraSonido(P.x0 + px(10), P.y0 + ALP/2 - px(9), an - px(20), px(18), q.tramos,
+             VENTANA, q.medio, null, true);
+  const k = txtCabe(P.cx, P.y1 + px(20), q.nombre, an, 12.5,
+                    visto ? "var(--lam-ink)" : "var(--lam-dim)", visto ? 600 : 400);
+  if(sel) el("line", {x1:P.cx - px(30), y1:P.y1 + px(20) + k*px(17) - px(6),
+    x2:P.cx + px(30), y2:P.y1 + px(20) + k*px(17) - px(6),
+    stroke:"var(--magenta-soft)", "stroke-width":px(2.5), "stroke-linecap":"round"});
+  el("rect", {x:M, y:y - px(6), width:an, height:ALP + px(12) + k*px(17),
+    fill:"transparent", class:"boton", "data-buque":q.id});
+  y += ALP + px(20) + k*px(17) + px(16);
+ });
+}
 function obraExplora(s){
  const n = s.naves.length;
  const hayDetalle = !!EX.sel;
+ if(esMovil()) return obraExploraMovil(s, suePuede());
  const yFila = hayDetalle ? 268 : 132;
 
  const suena = suePuede();
@@ -3109,6 +3217,7 @@ function obraExplora(s){
 function obraPaso(s){
  const t = s.tramos[EJ.i];
  const suena = suePuede();
+ if(esMovil()) return obraPasoMovil(s, t, suena);
  const M = 60, x0 = M + COLBOT + COLHUE, an = (D.W - M) - x0;
  txtCabe(D.W/2, 88, t.rot, D.W - px(220), 16, "var(--lam-ink)", 600);
  mandoDe(M, 116, px(34), "paso", suena);
@@ -3118,9 +3227,28 @@ function obraPaso(s){
  renglonAbajo(D.H - px(96), s.renglon, s.pie, M, D.W - M);
 }
 
+function obraPasoMovil(s, t, suena){
+ ALTO_LIBRE = true;
+ const M = 30, an = D.W - M*2;
+ const nRot = Math.max.apply(null, s.tramos.map(q => parte(q.rot, an, 16).length));
+ const nRaz = Math.max.apply(null, s.tramos.map(q => parte(q.razon, an, 13.5).length));
+ let y = 40;
+ txtCabe(D.W/2, y, t.rot, an, 16, "var(--lam-ink)", 600);
+ y += nRot*px(16*1.35) + px(12);
+ botonSuena(M, y, "paso", "", !suena, px(52));
+ if(suena) botonPara(D.W - M - px(74), y);
+ else sinSonido(D.W/2 + px(40), y + px(20), an - px(100));
+ y += px(52) + px(18);
+ y += tiraSonido(M, y, an, px(34), t.son, VENTANA, t.medio || "pito") + px(24);
+ txtCabe(D.W/2, y, t.razon, an, 13.5, "var(--lam-magenta)", 600, "mono");
+ y += nRaz*px(13.5*1.35) + px(30);
+ renglonAbajo(y + px(26), s.renglon, s.pie, M, D.W - M, y + px(26));
+}
+
 function obraNombradas(s){
 
  const suena = suePuede();
+ if(esMovil()) return obraNombradasMovil(s, suena);
  const ALTOB = px(44);
  const M = 46, x0 = M + COLBOT + COLHUE, an = (D.W - M) - x0;
  const suenan = s.filas.filter(f => f.tramos);
@@ -3147,6 +3275,32 @@ function obraNombradas(s){
  renglonAbajo(Math.min(y + px(16), D.H - px(62)), s.renglon, s.pie, M, D.W - M);
 }
 
+function obraNombradasMovil(s, suena){
+ ALTO_LIBRE = true;
+ const M = 30, an = D.W - M*2, x0 = M + px(56) + px(14);
+ const suenan = s.filas.filter(f => f.tramos);
+ const notas  = s.filas.filter(f => !f.tramos);
+ let y = 40;
+ if(suena){ botonPara(D.W - M - px(74), y); y += px(52) + px(22); }
+ else { sinSonido(D.W/2, y + px(10), an); y += px(60); }
+ suenan.forEach((f, k) => {
+  txt(D.W - M, y, f.cita, "end", 12, "var(--lam-magenta)", 600, "mono");
+  y += txtCabe(M, y, f.dice, an - px(80), 13.5, "var(--lam-ink)", 600, "ui", "start")
+       * px(13.5*1.35);
+  const yT = y + px(10);
+  mandoDe(M, yT, px(20), "fila:" + k, suena);
+  tiraSonido(x0, yT, (D.W - M) - x0, px(20), f.tramos, 10, "pito", null, true);
+  y += px(52) + px(22);
+ });
+ y += px(6);
+ notas.forEach(f => {
+  const k = txtCabe(M, y, f.dice + "  ·  " + f.cita, an, 12,
+                    "var(--lam-dim)", 400, "ui", "start");
+  y += k*px(16) + px(4);
+ });
+ renglonAbajo(y + px(40), s.renglon, s.pie, M, D.W - M, y + px(40));
+}
+
 function obraPractica(s){
  const q = PR.q; if(!q) return;
 
@@ -3154,6 +3308,26 @@ function obraPractica(s){
  const M = 60, x0 = M + COLBOT + COLHUE, an = (D.W - M) - x0;
  const n = niebla(q.buque) || {tramos:[SON.PROLONGADO], medio:"pito"};
  const son = q.son || n.tramos, medio = q.medio || n.medio;
+
+ if(esMovil()){
+  ALTO_LIBRE = true;
+  const Mm = 30, anM = D.W - Mm*2;
+  let y = 60;
+  const y0 = y - px(30);
+  txt(Mm, y, "WHAT YOU HEAR", "start", 12, "var(--lam-dim)", 600, "mono");
+  y += px(16);
+  mandoDe(Mm, y, px(52), "pr", suena);
+  if(suena) botonPara(D.W - Mm - px(74), y);
+  y += px(52) + px(20);
+  y += tiraSonido(Mm, y, anM, px(34), son, VENTANA, medio) + px(20);
+  el("rect", {x:Mm - px(14), y:y0, width:anM + px(28), height:y - y0, rx:3,
+    fill:"#07161D", stroke:"var(--sea-line)", "stroke-width":1.2}, gO).parentNode.insertBefore(gO.lastChild, gO.firstChild);
+  txtCabe(D.W/2, y + px(34), s.instruccion2
+    || "You hear this, and nothing else, every two minutes.",
+    anM, 12.5, "var(--lam-dim)");
+  if(!suena) sinSonido(D.W/2, y + px(80), anM);
+  return;
+ }
  el("rect", {x:M - px(14), y:118, width:(D.W - M) - M + px(28), height:px(104), rx:3,
    fill:"#07161D", stroke:"var(--sea-line)", "stroke-width":1.2});
  txt(M, 146, "WHAT YOU HEAR", "start", 12, "var(--lam-dim)", 600, "mono");
