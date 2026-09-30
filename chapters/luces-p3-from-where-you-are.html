@@ -186,8 +186,20 @@ body{display:flex;flex-direction:column;background:var(--page);color:var(--ink-b
 .res-col dd{margin:1px 0 0;font:400 15px/1.4 var(--f-ui);color:var(--ink-secondary)}
 .bglo{margin-top:2px;font:italic 400 16px/1.35 var(--f-display);
  color:var(--ink-secondary)}
+
+.blib{margin-top:4px;font:400 13px/1.35 var(--f-ui);color:var(--ink-secondary)}
 #obj{position:absolute;inset:0}
 #svg{position:absolute;inset:0;width:100%;height:100%;touch-action:none}
+
+#amplia{position:fixed;inset:0;z-index:50;background:var(--sea-deep);display:flex;
+ flex-direction:column;padding:12px;cursor:zoom-out}
+#amplia svg{flex:1;width:100%;min-height:0}
+.amp-cab{display:flex;justify-content:space-between;align-items:center;gap:12px;
+ font:600 12px/1.3 var(--f-mono);letter-spacing:.08em}
+.amp-cierra{min-width:88px;min-height:44px;background:transparent;border-width:2px;
+ border-style:solid;border-radius:5px;font:700 13px var(--f-mono);cursor:pointer}
+[data-amplia]{cursor:zoom-in}
+[data-amplia]:focus-visible{outline:3px solid var(--accent-graphic);outline-offset:2px}
 #obj,#svg,#svg *{-webkit-user-select:none;-moz-user-select:none;user-select:none;
  -webkit-user-drag:none;-webkit-tap-highlight-color:transparent}
 #obj svg .boton{cursor:pointer}
@@ -339,7 +351,7 @@ a.pieLink:hover{text-decoration:underline}
   <div id="foot">
    <div id="navPie"></div>
    <div class="pie2"><span id="fLog">0 answers logged</span><a class="pieLink" id="deCero" onclick="deCero()">start over</a></div>
-   <div class="sello" id="sello" data-sello="7ed42764">lights and shapes · part 3 · <b>9 of 9 screens</b> · 30 Sep 2026</div>
+   <div class="sello" id="sello" data-sello="09fcb5f2">lights and shapes · part 3 · <b>9 of 9 screens</b> · 30 Sep 2026</div>
   </div>
  </div>
 </div>
@@ -473,11 +485,14 @@ function configuration(v){
   const mast2  = DOS_TOPES ? [L("masthead","white",HGT.mast2(LEN),-0.40,"masthead")] : [];
 
   const DOS_FONDEO = L50 || v.dosFondeo === true;
-  if (!under) {
-    return DOS_FONDEO
+  const fondeo = () => DOS_FONDEO
       ? [L("allround","white",HGT.allr(LEN)*0.9, 0.88,"allround"),
          L("allround","white",HGT.stern(LEN)*1.4,-0.88,"allround")]
       : [L("allround","white",HGT.allr(LEN), 0.0,"allround")];
+
+  if (!under && v.type !== "fishingTrawl" && v.type !== "fishingOther"
+             && v.type !== "ram" && v.type !== "pilot") {
+    return fondeo();
   }
 
   switch(v.type){
@@ -502,12 +517,12 @@ function configuration(v){
       return [L("allround","green",HGT.allr(LEN)*1.25,0.28,"allround"),
               L("allround","white",HGT.allr(LEN)*0.95,0.28,"allround"),
               ...(DOS_TOPES?[L("masthead","white",HGT.mast2(LEN),-0.40,"masthead")]:[]),
-              ...(making?[...side,...stern]:[])];
+              ...(under && making?[...side,...stern]:[])];
 
     case "fishingOther":
       return [L("allround","red",HGT.allr(LEN)*1.25,0.28,"allround"),
               L("allround","white",HGT.allr(LEN)*0.95,0.28,"allround"),
-              ...(making?[...side,...stern]:[])];
+              ...(under && making?[...side,...stern]:[])];
 
     case "nuc":
       return [L("allround","red",HGT.allr(LEN)*1.25,0.20,"allround"),
@@ -518,7 +533,7 @@ function configuration(v){
       return [L("allround","red",  HGT.allr(LEN)*1.45,0.20,"allround"),
               L("allround","white",HGT.allr(LEN)*1.20,0.20,"allround"),
               L("allround","red",  HGT.allr(LEN)*0.95,0.20,"allround"),
-              ...(making?[...mast1,...mast2,...side,...stern]:[])];
+              ...(!under ? fondeo() : making?[...mast1,...mast2,...side,...stern]:[])];
 
     case "cbd":
       return [...mast1, ...mast2, ...side, ...stern,
@@ -531,7 +546,7 @@ function configuration(v){
 
       return [L("allround","white",HGT.allr(LEN)*1.25,0.20,"allround"),
               L("allround","red",  HGT.allr(LEN)*0.95,0.20,"allround"),
-              ...side, ...stern];
+              ...(under ? [...side, ...stern] : fondeo())];
 
     case "towing": {
       const TL   = v.towLength || 120;
@@ -674,6 +689,11 @@ const MARCAS_DIA = {
 const NO_ES_TIPO = ["velaYMotor"];
 
 function marcasDia(v) {
+
+  if (v.underway === false && (v.type === "fishingTrawl" || v.type === "fishingOther"))
+    return (MARCAS_DIA[v.type] || []).slice();
+  if (v.underway === false && v.type === "ram")
+    return (MARCAS_DIA.ram || []).concat(MARCAS_DIA.fondeada || []);
   const clave = v.underway === false ? "fondeada"
               : (v.velaYMotor ? "velaYMotor" : v.type);
 
@@ -731,6 +751,27 @@ function citada(v, luces) {
     if (n > 1) return "lleva " + n + " luces de " + k + ", y un buque tiene una";
   }
 
+  if (fondeada && (v.type === "fishingTrawl" || v.type === "fishingOther")) {
+    const par = v.type === "fishingTrawl" ? "green" : "red";
+    if (todoH.length !== 2 || todoH.filter(c => c === par).length !== 1
+        || todoH.filter(c => c === "white").length !== 1)
+      return "R26(a) · pesquero fondeado: solo su par de todo horizonte, y lleva " + todoH.join("/");
+    if (lados || alcance) return "R26(a) · pesquero fondeado con costados o alcance";
+    if (topes > (v.type === "fishingTrawl" ? 1 : 0)) return "R26 · topes de mas en un pesquero fondeado";
+    return null;
+  }
+  if (fondeada && (v.type === "ram" || v.type === "pilot")) {
+    const rojas = todoH.filter(c => c === "red").length;
+    const blancas = todoH.filter(c => c === "white").length;
+    const propias = v.type === "ram" ? {rojas: 2, blancas: 1} : {rojas: 1, blancas: 1};
+    const admitidas = L >= A1.MUY_GRANDE ? [2] : [1, 2];
+    if (rojas !== propias.rojas || admitidas.indexOf(blancas - propias.blancas) < 0
+        || todoH.length !== rojas + blancas)
+      return (v.type === "ram" ? "R27(b)(iv)" : "R29(a)(iii)")
+        + " · fondeado: las suyas Y las de la R30, y lleva " + todoH.join("/");
+    if (topes || lados || alcance) return "fondeada y con luces de navegacion encendidas";
+    return null;
+  }
   if (fondeada) {
 
     const admitidas = L >= A1.MUY_GRANDE ? [2] : [1, 2];
@@ -849,15 +890,24 @@ function coloca(v, luces, completas) {
     .sort((a, b) => luces_[b].h - luces_[a].h);
   let cimaTodoH = null;
 
-  if (fondeada) {
-    if (idx.length === 2) {
+  const pescaFondeada = fondeada
+    && (v.type === "fishingTrawl" || v.type === "fishingOther");
+  let idxA = idx, idxP = [];
+  if (fondeada && (v.type === "ram" || v.type === "pilot")) {
+    const blancas = idx.filter(i => luces_[i].colour === "white");
+    idxP = idx.filter(i => luces_[i].colour !== "white").concat(blancas.slice(0, 1))
+      .sort((a, b) => luces_[b].h - luces_[a].h);
+    idxA = idx.filter(i => idxP.indexOf(i) < 0);
+  }
+  if (fondeada && !pescaFondeada) {
+    if (idxA.length === 2) {
 
-      out[idx[0]] = P(A1.ANCLA_PROA_MIN_50, xTope1(L), "A1 2(k) + R30(a)(i)");
-      out[idx[1]] = P(A1.ANCLA_PROA_MIN_50 - A1.ANCLA_PROA_SOBRE_POPA, xPopa(L),
+      out[idxA[0]] = P(A1.ANCLA_PROA_MIN_50, xTope1(L), "A1 2(k) + R30(a)(i)");
+      out[idxA[1]] = P(A1.ANCLA_PROA_MIN_50 - A1.ANCLA_PROA_SOBRE_POPA, xPopa(L),
                       "A1 2(k) + R30(a)(ii)");
     } else {
 
-      out[idx[0]] = P(VE.baja, xTope1(L), "R30(b) · donde mejor pueda ser vista",
+      out[idxA[0]] = P(VE.baja, xTope1(L), "R30(b) · donde mejor pueda ser vista",
                       "mx");
     }
   } else if (v.type === "fishingTrawl" || v.type === "fishingOther") {
@@ -883,6 +933,16 @@ function coloca(v, luces, completas) {
       out[idx[idx.length - 1 - k]] = P(VE.baja + k * VE.sep, X_MEDIO,
         "A1 2(f) · la altura; el sitio es libre", "x", "2f");
     cimaTodoH = VE.baja + (idx.length - 1) * VE.sep;
+  }
+
+  if (idxP.length && v.type === "pilot") {
+    const alta = Math.max(alturaTope(L), VE.baja + VE.sep);
+    out[idxP[0]] = P(alta,          X_MEDIO, "R29(a)(iii) · en el tope o cerca", "mx", "2f");
+    out[idxP[1]] = P(alta - VE.sep, X_MEDIO, "R29 + A1 2(f)", "x", "2f");
+  } else if (idxP.length) {
+    for (let k = 0; k < idxP.length; k++)
+      out[idxP[idxP.length - 1 - k]] = P(VE.baja + k * VE.sep, X_MEDIO,
+        "R27(b)(iv) + A1 2(f) · la altura; el sitio es libre", "x", "2f");
   }
 
   const iTopes = luces_.map((l, i) => i).filter(i => luces_[i].kind === "masthead")
@@ -927,7 +987,7 @@ if (typeof module !== "undefined") module.exports = {
   tramoRemolque
 };
 
-const PZ = [{"id": "1.S1", "tema": "From where you are · topic 1", "obra": "vuelta", "b": "Next", "reparto": "apiladas", "marca": "D", "h": "She stays where she is. You walk around her.", "buque": {"type": "power", "length": 150, "underway": true, "makingWay": true}, "marcaciones": [{"g": 0, "rot": "DEAD AHEAD", "pie": "both sidelights"}, {"g": 60, "rot": "60°", "pie": "one sidelight now"}, {"g": 112, "rot": "112°", "pie": "the same three"}, {"g": 113, "rot": "113°", "pie": "all three gone"}], "renglon": "One vessel, four places to stand, and four different sights.", "pie": "The same ship, the same lights, and nothing in common between the first panel and the last", "p": ["Everything so far has drawn her <b>from her starboard side, whole</b>. That is a diagram, and a useful one — but you have never once stood there. Here <b>she stays put and you walk</b>, and the hull turns with you: from ahead she is a narrow slab, on her beam she is her whole profile, on her quarter she is her transom.", "Watch what happens to the lights, because it is not gradual. Her mastheads and her sidelights all stop at the <b>same bearing</b> — <b>112.5° from her bow</b> — and her sternlight starts there. <b>225° and 135° make 360°: the horizon is divided once, and the two halves do not overlap.</b>", "Look at the last two panels, because they are <b>one degree apart</b>. At 112° she is showing you three lights and at 113° she is showing you one, and it is not even the same one. <b>The hull has barely moved.</b> That is what a sector is: not a fade, a wall.", "And <b>the cut is not on her beam</b>. It is <b>22.5° abaft it</b>, which is the single most common mistake made about these rules: a vessel 100° off your bow can still see your masthead light, and one at 115° cannot.", "<em>Last, and it is what the whole part is for: an all-round light and a sector light are drawn exactly the same — same disc, same size, same colour. The only thing that separates them is whether they are still there when you cross the cut.</em>"], "calc": "<b>one cut, at 112.5°</b><br>forward &nbsp;mastheads + your sidelight<br>abaft &nbsp;her sternlight, and only that<br>all-round &nbsp;does not know the cut exists"}, {"id": "1.S2", "tema": "From where you are · topic 1", "obra": "cruce", "b": "Now you try", "reparto": "apiladas", "marca": "C", "h": "Where you are, and how far. Together.", "g": 60, "millas": [2, 4], "naves": [{"v": {"type": "power", "length": 150, "underway": true, "makingWay": true}, "rot": "POWER-DRIVEN"}, {"v": {"type": "cbd", "length": 150, "underway": true, "makingWay": true}, "rot": "CONSTRAINED BY DRAUGHT"}, {"v": {"type": "nuc", "length": 90, "underway": true, "makingWay": true}, "rot": "NOT UNDER COMMAND"}], "renglon": "The same three vessels, twice. Two miles, then four.", "pie": "Rule 22 · the masthead light reaches 6 miles and everything else 3", "p": ["You have met bearing and you have met range. <b>Crossing them is new</b>, and it is where the module stops being tidy.", "Rule 22 gives a big vessel <b>6 miles</b> on her masthead light and <b>3</b> on everything else — sidelights, sternlight, and every all-round light she has. So between three and six miles <b>a ship is her masthead lights and nothing else</b>, whatever else she may be carrying.", "Read the middle column. At two miles she is unmistakable: three all-round reds under her mastheads. At four <b>the reds have gone and the mastheads have not</b> — and what is left is exactly an ordinary power-driven vessel. <b>The most hampered ship in the book looks like the freest one.</b>", "Now the right-hand column, and this is the one to keep. A vessel not under command carries <b>no masthead light at all</b>, so <b>nothing she has is promised past three miles</b>. At four she is not a faint ship. <b>She may be nothing at all.</b>", "<b>And «promised» is the word.</b> Rule 22 sets <em>minimum</em> ranges — what a light must do, not what it will do. On a clear night you may pick her up further off; in haze you will not get even that. <em>So the drawing is what you are entitled to assume, and never what you are entitled to rely on.</em>", "<em>Neither of those is a trick of the drawing. Both fall straight out of Rule 22, and both are on the water tonight.</em>"], "calc": "<b>Rule 22</b> &middot; 50 m or more<br>masthead &nbsp;<b>6 M</b><br>sidelights, stern, all-round &nbsp;<b>3 M</b><br><em>so 3–6 M is mastheads only</em>"}, {"id": "1.P1", "tema": "From where you are · topic 1", "obra": "practica", "banco": "DESDE", "reparto": "apiladas", "h": "Where are you standing?", "instruccion": "Read her lights, not her hull. The hull is drawn the same every time; only your place changes.", "p": []}, {"id": "2.S1", "tema": "From where you are · topic 2", "obra": "contra", "b": "Next", "reparto": "apiladas", "marca": "B", "h": "Two mastheads, or a stack of three?", "naves": [{"v": {"type": "power", "length": 150, "underway": true, "makingWay": true}, "g": 40, "rot": "ORDINARY, 150 m", "pie": "two whites, STEPPED"}, {"v": {"type": "towing", "length": 80, "towLength": 120, "towedLength": 60, "underway": true, "makingWay": true}, "g": 40, "rot": "TOW OF 180 m", "pie": "a COLUMN of two, and her own light further aft"}, {"v": {"type": "towing", "length": 80, "towLength": 250, "towedLength": 60, "underway": true, "makingWay": true}, "g": 40, "rot": "TOW OF 310 m", "pie": "a COLUMN of three, and her own light further aft"}], "renglon": "It is not the number. It is the column.", "pie": "Rule 23 steps them; Rule 24 stacks them", "p": ["Everyone learns this one as a count — <em>two is a ship, three is a tug</em> — and the count is what fails you. Look at the three panels: the tug with the short tow is showing <b>three</b> white lights, and she is not the one with the long tow.", "<b>What separates them is the shape, not the total.</b> Rule 23 puts her two mastheads <em>stepped</em>: one forward and low, one aft and higher. Rule 24 puts the towing lights <b>in a vertical line, one directly above another in the same place</b> — and her own after masthead is still there, higher and further aft, on top of the stack.", "So the question is never <em>how many</em>. It is <b>are they in a line or are they stepped</b>, and then the count of the line tells you the length: two for 200 m or less, three above it.", "<b>And that count is not a piece of trivia.</b> The wire between her and her tow runs <b>just under the water and you cannot see any of it</b> — so the column is the only thing that tells you how much water she takes up astern. <b>Two lights: the tow is 200 m or less. Three: more than that, and it can be far more.</b>", "<b>And «the tow» is measured the whole way.</b> Rule 24 says it plainly — <em>«from the stern of the towing vessel to the after end of the tow»</em> — so it is the wire <b>and whatever is on the end of it</b>. A tug with a 60 m barge on 150 m of wire is a tow of 210 m and shows <b>three</b>. <em>Two lights put a ceiling on the whole thing, which is what you actually need; three tell you there is no ceiling worth guessing at.</em>", "<b>The mistake that kills is not passing between them.</b> That one at least looks wrong. It is <b>crossing astern of the tug</b> — which looks like clear water, and is where the wire is. Read the column, work out how much cable is down there, and go round the whole thing. <em>&laquo;Never pass between a tug and her yellow light.&raquo;</em>", "<em>And this pays only from ahead. Cross the cut and the whole stack goes: from her quarter a tug is a sternlight with a yellow light over it, and nothing else — you know there is a wire and you no longer know how long it is. There is no bearing where both clues work at once.</em>"], "calc": "<b>stepped</b> &nbsp;one aft <em>and higher</em> &middot; Rule 23<br><b>stacked</b> &nbsp;one directly above another &middot; Rule 24<br>and from astern &nbsp;<b>the yellow</b>, or nothing"}, {"id": "2.S2", "tema": "From where you are · topic 2", "obra": "contra", "b": "Next", "reparto": "apiladas", "marca": "B", "h": "A green and a white. Which is on top?", "naves": [{"v": {"type": "power", "length": 150, "underway": true, "makingWay": true}, "g": 60, "rot": "ORDINARY", "pie": "white ABOVE green — a masthead over a sidelight"}, {"v": {"type": "fishingTrawl", "length": 60, "underway": true, "makingWay": true}, "g": 60, "rot": "TRAWLING", "pie": "green ABOVE white — Rule 26(b)"}, {"v": {"type": "fishingTrawl", "length": 60, "underway": true, "makingWay": true}, "g": 150, "rot": "THE SAME ONE, ASTERN", "pie": "and the green is STILL THERE"}], "renglon": "A green that survives the cut is not a sidelight.", "pie": "Rule 26(b) against Rule 23 — and the second panel is the one people misread", "p": ["Two white-and-green sights, and at a mile in a seaway they look alike. The first is an ordinary ship showing you her starboard side: a <b>masthead light at 12 m</b> and a <b>sidelight at 4.5</b>, so the white is above the green. The second is a trawler: <b>an all-round green over an all-round white</b>, and the green is on top.", "<b>Which is higher is a good clue and it is true.</b> But it asks you to judge height on two small lights at night, and that is exactly what goes wrong.", "So use the third panel instead. It is <b>the same trawler</b>, seen from her quarter. The ordinary ship, from there, would be showing you <b>a sternlight and nothing else</b> — her green stopped at 112.5°. The trawler's green is <b>all-round</b>, so it is still burning.", "<em>A green that is still there when you cross the cut is not a sidelight. That is the whole of it, and it does not ask you to judge anything.</em>"], "calc": "<b>white over green</b> &nbsp;masthead + sidelight<br><b>green over white</b> &nbsp;Rule 26(b), trawling<br><b>and past the cut</b> &nbsp;a sidelight is gone; an all-round is not"}, {"id": "2.S3", "tema": "From where you are · topic 2", "obra": "contra", "b": "Now you try", "reparto": "apiladas", "marca": "C", "h": "Three reds, or two? Do not count first.", "naves": [{"v": {"type": "nuc", "length": 90, "underway": true, "makingWay": true}, "g": 40, "rot": "NOT UNDER COMMAND", "pie": "two reds, and NOTHING WHITE above them"}, {"v": {"type": "cbd", "length": 150, "underway": true, "makingWay": true}, "g": 40, "rot": "CONSTRAINED BY DRAUGHT", "pie": "three reds, and TWO MASTHEADS above them"}, {"v": {"type": "cbd", "length": 150, "underway": true, "makingWay": true}, "g": 150, "rot": "THE SAME ONE, ASTERN", "pie": "the mastheads have gone. Now you must count"}], "renglon": "From ahead, look above the reds. From astern, there is no shortcut.", "pie": "Rule 27(a) takes her masthead away; Rule 28 lets her keep everything", "p": ["Counting two small red lights against three, at range, in a swell, is a poor way to decide anything — and it is the way it is taught.", "<b>From ahead you do not have to.</b> Rule 27(a) gives a vessel not under command <b>no masthead light at any length</b>: she has broken down and she is not driving. Rule 28 <em>adds</em> its three reds to the full set of Rule 23, so a vessel constrained by her draught still carries her mastheads, her sidelights and her sternlight. <b>A white light above the reds answers the question without counting them.</b>", "The third panel is the honest one. From her quarter <b>the mastheads have cut off</b>, and what is left is reds and a sternlight on both of them. <b>Here there is no shortcut and you have to count.</b> A screen that pretended otherwise would be lying to you.", "These two have rhymes as well, and they are the two the examiner asks about: <em>&laquo;Red over red, captain is dead.&raquo; &laquo;Red, white, red, restricted ability ahead.&raquo;</em> With the three from part 2 that is the whole set of five, and the point of having them all is the same as before — <b>a rhyme is only useful next to the one it could be confused with.</b> These two are that pair.", "<em>And remember what the last topic showed: at four miles the reds are gone and the mastheads are not. The one that cannot get out of your way looks ordinary, and the one that cannot steer is not there at all.</em>"], "calc": "<b>from ahead</b> &nbsp;is there white <em>above</em> the reds?<br>yes &rarr; Rule 28 &middot; no &rarr; Rule 27(a)<br><b>from astern</b> &nbsp;count them, and there is no other way"}, {"id": "2.P1", "tema": "From where you are · topic 2", "obra": "practica", "banco": "CONFUSION", "reparto": "apiladas", "h": "What is she, and does this bearing let you say?", "instruccion": "Stepped or stacked. Colour above or below. White above the reds or not. And say so when the bearing has taken the answer away.", "p": []}, {"id": "3.S1", "tema": "From where you are · topic 3", "obra": "rejilla", "b": "Next", "reparto": "apiladas", "marca": null, "h": "Six contacts, and no two from the same place", "naves": [{"v": {"type": "towing", "length": 80, "towLength": 250, "towedLength": 60, "underway": true, "makingWay": true}, "g": 30}, {"v": {"type": "fishingTrawl", "length": 60, "underway": true, "makingWay": true}, "g": 150}, {"v": {"type": "nuc", "length": 90, "underway": true, "makingWay": true}, "g": 40}, {"v": {"type": "cbd", "length": 150, "underway": true, "makingWay": true}, "g": 40, "nm": 4}, {"v": {"type": "pilot", "length": 24, "underway": true, "makingWay": true}, "g": 90}, {"v": {"type": "power", "length": 150, "underway": true, "makingWay": true}, "g": 160}], "renglon": "Name each one before you open it.", "pie": "Nothing is constant here: the vessel, the bearing and the range all change", "p": ["The last screen of the part, and the only one where <b>nothing is held still</b>. Six contacts: a different vessel each time, from a different bearing, and one of them from a different distance.", "Say what each one is before you tap it. <b>Two of the six cannot be named</b> — the cut has taken the lights that would have told you, or the range has — and for those the honest answer is <em>from here, I cannot say</em>.", "<b>Recognising includes recognising when there is nothing to recognise.</b> It is the difference between a lookout who reports what she sees and one who reports what she guessed."], "calc": "<b>1</b> what is lit?<br><b>2</b> what would be lit that is not?<br><b>3</b> and can this bearing tell them apart?"}, {"id": "3.C1", "tema": "From where you are · topic 3", "obra": "cierre", "b": "Next: when you can't see her", "h": "What you can read now", "cols": [{"rot": "THE CUT", "filas": [["112.5° from her bow", "one cut, and everything sector-shaped ends there"], ["Not on her beam", "22.5° abaft it — the common mistake"], ["Forward of it", "mastheads, and the sidelight of your side"], ["Abaft it", "her sternlight, and only that"], ["All-round lights", "do not know the cut exists"]]}, {"rot": "WHAT SEPARATES THEM", "filas": [["Stepped or stacked", "Rule 23 steps her mastheads; Rule 24 stacks them"], ["Colour above or below", "green over white is fishing; white over green is a ship"], ["White above the reds", "Rule 28 keeps everything; Rule 27(a) has no masthead"], ["A green past the cut", "is not a sidelight"]]}, {"rot": "AND WHAT RANGE DOES", "filas": [["6 miles, and 3", "the masthead outreaches everything she has"], ["Between them", "she is her mastheads and nothing else"], ["Constrained by draught", "at 4 miles she looks ordinary"], ["Not under command", "at 4 miles she is not there"], ["What you still cannot do", "hear her — that is part 4"]]}, {"rot": "AND WHERE TO GO AND SEE IT", "filas": [["Dusk, and first light", "the hull and her lights, both at once"], ["Any working harbour", "tugs, pilots and fishermen, inside one hour"], ["Name her out loud", "and only then look again"]]}], "renglon": "Two questions, always in this order: what is lit, and where am I?", "pie": "Part 4 takes the same vessels and takes the light away", "p": ["You can now do the thing the first two parts could not ask for: <b>read a vessel from where you happen to be standing</b>, and know when where you are standing has taken the answer away.", "The spine of it is one number. <b>112.5° from her bow</b>, and it is the only cut there is. Everything with a sector ends there; everything all-round ignores it; and it sits <b>22.5° abaft her beam</b>, not on it.", "And the second half is Rule 22, which most people never collect: <b>the masthead light reaches twice as far as anything else on her</b>. Between three miles and six, every ship in the book looks the same.", "<em>What is left is the night when you cannot see her at all. She is still required to tell you what she is — and that is part 4.</em>"], "calc": "<b>1</b> what is lit?<br><b>2</b> where does that put me?<br><b>3</b> and what would be lit that is not?"}];
+const PZ = [{"id": "1.S1", "tema": "From where you are · topic 1", "obra": "vuelta", "b": "Next", "reparto": "apiladas", "marca": "D", "h": "She stays where she is. You walk around her.", "buque": {"type": "power", "length": 150, "underway": true, "makingWay": true}, "marcaciones": [{"g": 0, "rot": "DEAD AHEAD", "pie": "both sidelights"}, {"g": 60, "rot": "60°", "pie": "one sidelight now"}, {"g": 112, "rot": "112°", "pie": "the same three"}, {"g": 113, "rot": "113°", "pie": "all three gone"}], "renglon": "One vessel, four places to stand, and four different sights.", "pie": "The same ship, the same lights, and nothing in common between the first panel and the last", "p": ["Everything so far has drawn her <b>from her starboard side, whole</b>. That is a diagram, and a useful one — but you have never once stood there. Here <b>she stays put and you walk</b>, and the hull turns with you: from ahead she is a narrow slab, on her beam she is her whole profile, on her quarter she is her transom.", "Watch what happens to the lights, because it is not gradual. Her mastheads and her sidelights all stop at the <b>same bearing</b> — <b>112.5° from her bow</b> — and her sternlight starts there. <b>225° and 135° make 360°: the horizon is divided once, and the two halves do not overlap.</b>", "Look at the last two panels, because they are <b>one degree apart</b>. At 112° she is showing you three lights and at 113° she is showing you one, and it is not even the same one. <b>The hull has barely moved.</b> That is what a sector is: not a fade, a wall.", "And <b>the cut is not on her beam</b>. It is <b>22.5° abaft it</b>, which is the single most common mistake made about these rules: a vessel 100° off your bow can still see your masthead light, and one at 115° cannot.", "<em>Last, and it is what the whole part is for: an all-round light and a sector light are drawn exactly the same — same disc, same size, same colour. The only thing that separates them is whether they are still there when you cross the cut.</em>"], "calc": "<b>one cut, at 112.5°</b><br>forward &nbsp;mastheads + your sidelight<br>abaft &nbsp;her sternlight, and only that<br>all-round &nbsp;does not know the cut exists"}, {"id": "1.S2", "tema": "From where you are · topic 1", "obra": "cruce", "b": "Now you try", "reparto": "apiladas", "marca": "C", "h": "Where you are, and how far. Together.", "g": 60, "millas": [2, 4], "naves": [{"v": {"type": "power", "length": 150, "underway": true, "makingWay": true}, "rot": "POWER-DRIVEN"}, {"v": {"type": "cbd", "length": 150, "underway": true, "makingWay": true}, "rot": "CONSTRAINED BY DRAUGHT"}, {"v": {"type": "nuc", "length": 90, "underway": true, "makingWay": true}, "rot": "NOT UNDER COMMAND"}], "renglon": "The same three vessels, twice. Two miles, then four.", "pie": "Rule 22 · minimum ranges: the masthead light 6 miles, everything else 3", "p": ["You have met bearing and you have met range. <b>Crossing them is new</b>, and it is where the module stops being tidy.", "Rule 22 gives a big vessel <b>6 miles</b> on her masthead light and <b>3</b> on everything else — sidelights, sternlight, and every all-round light she has. So between three and six miles <b>all Rule 22 promises you of a ship is her masthead lights</b>, whatever else she may be carrying.", "Read the middle column. At two miles she is unmistakable: three all-round reds under her mastheads. At four <b>the reds are no longer promised and the mastheads still are</b> — and what is promised is exactly an ordinary power-driven vessel. <b>The most hampered ship in the book looks like the freest one.</b>", "Now the right-hand column, and this is the one to keep. A vessel not under command carries <b>no masthead light at all</b>, so <b>nothing she has is promised past three miles</b>. At four she is not a faint ship. <b>She may be nothing at all.</b>", "<b>And «promised» is the word.</b> Rule 22 sets <em>minimum</em> ranges — what a light must do, not what it will do. On a clear night you may pick her up further off; in haze you will not get even that. <em>So the drawing is what you are entitled to assume, and never what you are entitled to rely on.</em>", "<em>Neither of those is a trick of the drawing. Both fall straight out of Rule 22, and both are on the water tonight.</em>"], "calc": "<b>Rule 22</b> &middot; 50 m or more<br>masthead &nbsp;<b>6 M</b><br>sidelights, stern, all-round &nbsp;<b>3 M</b><br><em>so 3–6 M is mastheads only</em>"}, {"id": "1.P1", "tema": "From where you are · topic 1", "obra": "practica", "banco": "DESDE", "reparto": "apiladas", "h": "Where are you standing?", "instruccion": "Read her lights, not her hull. The hull is drawn the same every time; only your place changes.", "p": []}, {"id": "2.S1", "tema": "From where you are · topic 2", "obra": "contra", "b": "Next", "reparto": "apiladas", "marca": "B", "h": "Two mastheads, or a stack of three?", "naves": [{"v": {"type": "power", "length": 150, "underway": true, "makingWay": true}, "g": 40, "rot": "ORDINARY, 150 m", "pie": "two whites, STEPPED"}, {"v": {"type": "towing", "length": 80, "towLength": 120, "towedLength": 60, "underway": true, "makingWay": true}, "g": 40, "rot": "TOW OF 180 m", "pie": "a COLUMN of two, and her own light further aft"}, {"v": {"type": "towing", "length": 80, "towLength": 250, "towedLength": 60, "underway": true, "makingWay": true}, "g": 40, "rot": "TOW OF 310 m", "pie": "a COLUMN of three, and her own light further aft"}], "renglon": "It is not the number. It is the column.", "pie": "Rule 23 steps them; Rule 24 stacks them", "p": ["Everyone learns this one as a count — <em>two is a ship, three is a tug</em> — and the count is what fails you. Look at the three panels: the tug with the short tow is showing <b>three</b> white lights, and she is not the one with the long tow.", "<b>What separates them is the shape, not the total.</b> Rule 23 puts her two mastheads <em>stepped</em>: one forward and low, one aft and higher. Rule 24 puts the towing lights <b>in a vertical line, one directly above another in the same place</b> — and, at 50 m or more, her own after masthead is still there: higher, further aft, on a mast of its own and never part of the stack. Rule 24(a)(i) puts the column <em>«instead of»</em> one of her Rule 23 masthead lights, not both.", "So the question is never <em>how many</em>. It is <b>are they in a line or are they stepped</b>, and then the count of the line tells you the length: two for 200 m or less, three above it.", "<b>And that count is not a piece of trivia.</b> The wire between her and her tow runs <b>just under the water and you cannot see any of it</b> — so the column is the only thing that tells you how much water she takes up astern. <b>Two lights: the tow is 200 m or less. Three: more than that, and it can be far more.</b>", "<b>And «the tow» is measured the whole way.</b> Rule 24 says it plainly — <em>«from the stern of the towing vessel to the after end of the tow»</em> — so it is the wire <b>and whatever is on the end of it</b>. A tug with a 60 m barge on 150 m of wire is a tow of 210 m and shows <b>three</b>. <em>Two lights put a ceiling on the whole thing, which is what you actually need; three tell you there is no ceiling worth guessing at.</em>", "<b>The mistake that kills is not passing between them.</b> That one at least looks wrong. It is <b>crossing astern of the tug</b> — which looks like clear water, and is where the wire is. Read the column, work out how much cable is down there, and go round the whole thing. <em>Never cross between a tug and her tow.</em>", "<em>And this pays only from ahead. Cross the cut and the whole stack goes: from her quarter a tug is a sternlight with a yellow light over it, and nothing else — you know there is a wire and you no longer know how long it is. There is no bearing where both clues work at once.</em>"], "calc": "<b>stepped</b> &nbsp;one aft <em>and higher</em> &middot; Rule 23<br><b>stacked</b> &nbsp;one directly above another &middot; Rule 24<br>and from astern &nbsp;<b>the yellow</b>, or nothing"}, {"id": "2.S2", "tema": "From where you are · topic 2", "obra": "contra", "b": "Next", "reparto": "apiladas", "marca": "B", "h": "A green and a white. Which is on top?", "naves": [{"v": {"type": "power", "length": 150, "underway": true, "makingWay": true}, "g": 60, "rot": "ORDINARY", "pie": "white ABOVE green — a masthead over a sidelight"}, {"v": {"type": "fishingTrawl", "length": 60, "underway": true, "makingWay": true}, "g": 60, "rot": "TRAWLING", "pie": "green ABOVE white — Rule 26(b)"}, {"v": {"type": "fishingTrawl", "length": 60, "underway": true, "makingWay": true}, "g": 150, "rot": "THE SAME ONE, ASTERN", "pie": "and the green is STILL THERE"}], "renglon": "A green that survives the cut is not a sidelight.", "pie": "Rule 26(b) against Rule 23 — and the second panel is the one people misread", "p": ["Two white-and-green sights, and at a mile in a seaway they look alike. The first is an ordinary ship showing you her starboard side: a <b>masthead light at 12 m</b> and a <b>sidelight at 4.5</b>, so the white is above the green. The second is a trawler: <b>an all-round green over an all-round white</b>, and the green is on top.", "<b>Which is higher is a good clue and it is true.</b> But it asks you to judge height on two small lights at night, and that is exactly what goes wrong.", "So use the third panel instead. It is <b>the same trawler</b>, seen from her quarter. The ordinary ship, from there, would be showing you <b>a sternlight and nothing else</b> — her green stopped at 112.5°. The trawler's green is <b>all-round</b>, so it is still burning.", "<em>A green that is still there when you cross the cut is not a sidelight. That is the whole of it, and it does not ask you to judge anything.</em>"], "calc": "<b>white over green</b> &nbsp;masthead + sidelight<br><b>green over white</b> &nbsp;Rule 26(b), trawling<br><b>and past the cut</b> &nbsp;a sidelight is gone; an all-round is not"}, {"id": "2.S3", "tema": "From where you are · topic 2", "obra": "contra", "b": "Now you try", "reparto": "apiladas", "marca": "C", "h": "Three reds, or two? Do not count first.", "naves": [{"v": {"type": "nuc", "length": 90, "underway": true, "makingWay": true}, "g": 40, "rot": "NOT UNDER COMMAND", "pie": "two reds, and NOTHING WHITE above them"}, {"v": {"type": "cbd", "length": 150, "underway": true, "makingWay": true}, "g": 40, "rot": "CONSTRAINED BY DRAUGHT", "pie": "three reds, and TWO MASTHEADS above them"}, {"v": {"type": "cbd", "length": 150, "underway": true, "makingWay": true}, "g": 150, "rot": "THE SAME ONE, ASTERN", "pie": "the mastheads have gone. Now you must count"}], "renglon": "From ahead, look above the reds. From astern, there is no shortcut.", "pie": "Rule 27(a) takes her masthead away; Rule 28 lets her keep everything", "p": ["Counting two small red lights against three, at range, in a swell, is a poor way to decide anything — and it is the way it is taught.", "<b>From ahead you do not have to.</b> Rule 27(a) gives a vessel not under command <b>no masthead light at any length</b>: she has broken down and she is not driving. Rule 28 <em>adds</em> its three reds to the full set of Rule 23, so a vessel constrained by her draught still carries her mastheads, her sidelights and her sternlight. <b>A white light above the reds answers the question without counting them.</b>", "The third panel is the honest one. From her quarter <b>the mastheads have cut off</b>, and what is left is reds and a sternlight on both of them. <b>Here there is no shortcut and you have to count.</b> A screen that pretended otherwise would be lying to you.", "These two have rhymes as well, and they are the two the examiner asks about: <em>&laquo;Red over red, captain is dead.&raquo; &laquo;Red, white, red, restricted ability ahead.&raquo;</em> With the three from part 2 that is the whole set of five, and the point of having them all is the same as before — <b>a rhyme is only useful next to the one it could be confused with.</b> These two are that pair.", "<em>And remember what the last topic showed: at four miles the reds are gone and the mastheads are not. The one that cannot get out of your way looks ordinary, and the one that cannot steer is not there at all.</em>"], "calc": "<b>from ahead</b> &nbsp;is there white <em>above</em> the reds?<br>yes &rarr; Rule 28 &middot; no &rarr; Rule 27(a)<br><b>from astern</b> &nbsp;count them, and there is no other way"}, {"id": "2.P1", "tema": "From where you are · topic 2", "obra": "practica", "banco": "CONFUSION", "reparto": "apiladas", "h": "What is she, and does this bearing let you say?", "instruccion": "Stepped or stacked. Colour above or below. White above the reds or not. And say so when the bearing has taken the answer away.", "p": []}, {"id": "3.S1", "tema": "From where you are · topic 3", "obra": "rejilla", "b": "Next", "reparto": "apiladas", "marca": null, "h": "Six contacts, and no two from the same place", "naves": [{"v": {"type": "towing", "length": 80, "towLength": 250, "towedLength": 60, "underway": true, "makingWay": true}, "g": 30}, {"v": {"type": "fishingTrawl", "length": 60, "underway": true, "makingWay": true}, "g": 150}, {"v": {"type": "nuc", "length": 90, "underway": true, "makingWay": true}, "g": 40}, {"v": {"type": "cbd", "length": 150, "underway": true, "makingWay": true}, "g": 40, "nm": 4}, {"v": {"type": "pilot", "length": 24, "underway": true, "makingWay": true}, "g": 90}, {"v": {"type": "power", "length": 150, "underway": true, "makingWay": true}, "g": 160}], "renglon": "Name each one before you open it.", "pie": "Nothing is constant here: the vessel, the bearing and the range all change", "p": ["The last screen of the part, and the only one where <b>nothing is held still</b>. Six contacts: a different vessel each time, from a different bearing, and one of them from a different distance.", "Say what each one is before you tap it. <b>Two of the six cannot be named</b> — the cut has taken the lights that would have told you, or the range has — and for those the honest answer is <em>from here, I cannot say</em>.", "<b>Recognising includes recognising when there is nothing to recognise.</b> It is the difference between a lookout who reports what she sees and one who reports what she guessed."], "calc": "<b>1</b> what is lit?<br><b>2</b> what would be lit that is not?<br><b>3</b> and can this bearing tell them apart?"}, {"id": "3.C1", "tema": "From where you are · topic 3", "obra": "cierre", "b": "Next: when you can't see her", "h": "What you can read now", "cols": [{"rot": "THE CUT", "filas": [["112.5° from her bow", "one cut, and everything sector-shaped ends there"], ["Not on her beam", "22.5° abaft it — the common mistake"], ["Forward of it", "mastheads, and the sidelight of your side"], ["Abaft it", "her sternlight, and only that"], ["All-round lights", "do not know the cut exists"]]}, {"rot": "WHAT SEPARATES THEM", "filas": [["Stepped or stacked", "Rule 23 steps her mastheads; Rule 24 stacks them"], ["Colour above or below", "green over white is fishing; white over green is a ship"], ["White above the reds", "Rule 28 keeps everything; Rule 27(a) has no masthead"], ["A green past the cut", "is not a sidelight"]]}, {"rot": "AND WHAT RANGE DOES", "filas": [["6 miles, and 3", "the masthead outreaches everything she has"], ["Between them", "she is her mastheads and nothing else"], ["Constrained by draught", "at 4 miles she looks ordinary"], ["Not under command", "at 4 miles she is not there"], ["What you still cannot do", "hear her — that is part 4"]]}, {"rot": "AND WHERE TO GO AND SEE IT", "filas": [["Dusk, and first light", "the hull and her lights, both at once"], ["Any working harbour", "tugs, pilots and fishermen, inside one hour"], ["Name her out loud", "and only then look again"]]}], "renglon": "Two questions, always in this order: what is lit, and where am I?", "pie": "Part 4 takes the same vessels and takes the light away", "p": ["You can now do the thing the first two parts could not ask for: <b>read a vessel from where you happen to be standing</b>, and know when where you are standing has taken the answer away.", "The spine of it is one number. <b>112.5° from her bow</b>, and it is the only cut there is. Everything with a sector ends there; everything all-round ignores it; and it sits <b>22.5° abaft her beam</b>, not on it.", "And the second half is Rule 22, which most people never collect: <b>the masthead light reaches twice as far as anything else on her</b>. Between three miles and six, every ship in the book looks the same.", "<em>What is left is the night when you cannot see her at all. She is still required to tell you what she is — and that is part 4.</em>"], "calc": "<b>1</b> what is lit?<br><b>2</b> where does that put me?<br><b>3</b> and what would be lit that is not?"}];
 const YO = "luces-p3-from-where-you-are.html";
 const D = {W:1000, H:640};
 
@@ -1056,7 +1116,9 @@ function cascoDe(v, L){
  if(v && v.gabarra)                          return CASCOS_REF.gabarra;
  if(t === "sailing")                         return CASCOS_REF.velero;
  if(t === "fishingTrawl" || t === "fishingOther") return CASCOS_REF.pesquero;
- if(t === "towing")                          return CASCOS_REF.remolcador;
+
+ if(t === "towing")                          return m < 50 ? CASCOS_REF.remolcador
+                                                          : CASCOS_REF.mercante;
  if(t === "pilot" || t === "pilotUnderway")  return CASCOS_REF.practico;
  if(m < 12)                                  return CASCOS_REF.lancha;
  if(m < 50)                                  return CASCOS_REF.costero;
@@ -1623,6 +1685,20 @@ function altoLibres(dichas, ancho){
 }
 let LIBRES_DICHAS = {};
 
+let FICHA_ROTULO = null;
+function rotulaEnFicha(fi, dichas){
+ const frases = Object.keys(dichas).filter(f => !LIBRES_DICHAS[f]);
+ frases.forEach(f => {
+  LIBRES_DICHAS[f] = 1;
+  const d = document.createElement("div");
+  d.className = "blib";
+  d.setAttribute("data-libre", dichas[f]);
+  d.textContent = f;
+  (fi._pie || fi).appendChild(d);
+ });
+ return frases.length;
+}
+
 function altoLibreDe(v, anchoPanel){
  try{
   const suyas = configuration(v);
@@ -1652,6 +1728,18 @@ function pintaNaveDe(P, v, luces, todas, o){
 }
 
 function pintaNave(P, v, g, o){
+ const r = pintaNave0(P, v, g, o);
+ o = o || {};
+ if(o.amplia !== false && !AMPLIANDO && !FICHA_ROTULO && esMovil()){
+  const kA = AMPLIABLES.length;
+  AMPLIABLES.push({P: P, v: v, g: g, o: Object.assign({}, o), rot: o.rotAmplia || ""});
+  el("rect", {x: P.x0, y: P.y0, width: P.x1 - P.x0, height: P.y1 - P.y0,
+    fill: "transparent", class: "boton", "data-amplia": kA, tabindex: 0,
+    role: "button", "aria-label": "Enlarge this drawing" + (o.rotAmplia ? ": " + o.rotAmplia : "")});
+ }
+ return r;
+}
+function pintaNave0(P, v, g, o){
  o = o || {};
  const todas = configuration(v);
 
@@ -1687,7 +1775,7 @@ function dibujaLuces(P, v, luces, todas, o){
 
  const dichas = (o.rotula === false) ? {} : frasesLibres(sitios);
 
- const arriba = P.y0 + (o.rotulaDebajo ? 0 : altoLibres(dichas, anchoPanel));
+ const arriba = P.y0 + ((o.rotulaDebajo || FICHA_ROTULO) ? 0 : altoLibres(dichas, anchoPanel));
 
  const pasos = (o.pasos !== undefined && o.pasos !== null) ? o.pasos
    : (function(){ try { return pasosDe(v, luces, todas); } catch(e){ return 0; } })();
@@ -1696,7 +1784,8 @@ function dibujaLuces(P, v, luces, todas, o){
 
  const hw = Math.max(20, o.ancho ? o.ancho : (anchoPanel - 24));
 
- if(o.rotula !== false && o.rotulaDebajo){
+ if(o.rotula !== false && FICHA_ROTULO) rotulaEnFicha(FICHA_ROTULO, dichas);
+ else if(o.rotula !== false && o.rotulaDebajo){
   const an = Math.min(anchoPanel, hw) + px(24);
   o.altoDebajo = Object.keys(dichas).filter(f => !LIBRES_DICHAS[f]).length
     ? altoLibres(dichas, an) - px(38) : 0;
@@ -1907,24 +1996,27 @@ const NOMBRE_NAVE = {
   fondeada:     "at anchor"
 };
 
+const FONDEADA_ES_SUYA = {fishingTrawl: 1, fishingOther: 1, ram: 1, pilot: 1};
 function claveDe(v){
- return v.underway === false ? "fondeada"
+ return v.underway === false && !FONDEADA_ES_SUYA[v.type] ? "fondeada"
       : (v.velaYMotor ? "velaYMotor" : v.type);
 }
-const claveNave = v => v.underway === false ? "fondeada" : v.type;
+const claveNave = v => v.underway === false && !FONDEADA_ES_SUYA[v.type] ? "fondeada" : v.type;
 function nombraNave(v){
   const k = claveNave(v), C = CITA[k];
   return (NOMBRE_NAVE[k] || k) + (C ? " \u00b7 " + C.r : "");
 }
 
 const _cacheId = {};
-function identidades(q){
-  const clave = JSON.stringify(q.buque) + "|" + q.g + "|" + q.nm;
+
+function identidades(q, o){
+  const suya = !!(o && o.soloSuMarcacion && q.g !== undefined && q.g !== null);
+  const clave = JSON.stringify(q.buque) + "|" + q.g + "|" + q.nm + "|" + suya;
   if(clave in _cacheId) return _cacheId[clave];
   const yo = escenaLibre(q.buque, q.g, q.nm);
   const out = {};
   if(yo) for(const v of universo(q))
-    for(const g of MARCACIONES){
+    for(const g of (suya ? [q.g] : MARCACIONES)){
       const e = escenaCache(v, g, q.nm);
       if(e && unifica(yo, e)) out[nombraNave(v)] = 1;
     }
@@ -1978,11 +2070,15 @@ window.claseDe = claseDe; window.okDe = okDe;
 function nombraEscena(q){
  if(typeof NOMBRA_ESCENA === "function") return NOMBRA_ESCENA(q);
  const R = ranges(q.buque.length || 12);
- const vis = vistas(q.buque, q.g).filter(l =>
+
+ const vis = vistas(q.buque, q.g).filter(l => !l.tow).filter(l =>
    q.nm === undefined || q.nm === null || q.nm <= R[l.rangeKey]);
  const cuenta = {};
  vis.forEach(l => { const k = l.colour + "|" + (l.kind === "allround" ? "all-round"
-   : l.kind === "masthead" ? "masthead" : l.kind === "stern" ? "sternlight"
+   : l.kind === "masthead" ? "masthead"
+
+   : l.kind === "stern" && l.colour === "yellow" ? "towing light"
+   : l.kind === "stern" ? "sternlight"
    : "sidelight");
    cuenta[k] = (cuenta[k] || 0) + 1; });
  const CIF = ["no", "one", "two", "three", "four", "five", "six"];
@@ -1991,9 +2087,12 @@ function nombraEscena(q){
 
    const suf = (tipo === "all-round" || tipo === "masthead") ? " light" : "";
    return (CIF[n] || n) + " " + col + " " + tipo + suf + (n > 1 ? "s" : ""); });
- if(!trozos.length) return "nothing at all";
- if(trozos.length === 1) return trozos[0];
- return trozos.slice(0, -1).join(", ") + " and " + trozos[trozos.length-1];
+ const fuera = q.buque.type === "towing"
+   ? " — on the tug; her tow, out of the frame, carries its own sidelights and sternlight"
+   : "";
+ if(!trozos.length) return "nothing at all" + fuera;
+ if(trozos.length === 1) return trozos[0] + fuera;
+ return trozos.slice(0, -1).join(", ") + " and " + trozos[trozos.length-1] + fuera;
 }
 
 let EX = {sel:null, vistas:{}};
@@ -2054,7 +2153,9 @@ function responde(s, k){
  const q = PR.q, ok = okDe(s, q), T = TEXTOS[s.banco], bien = (k === ok);
  LOG.push({id:s.id, q:q.id, k:k, bien:bien}); marcaLog();
  if(bien){ PR.hecho = true; PR.n++;
-   PR.res = '<div class="res si"><b>Yes.</b> You are seeing ' + nombraEscena(q)
+
+   PR.res = '<div class="res si"><b>Yes.</b> ' + (q.nm ? "At " + q.nm
+     + " miles Rule 22 promises you " : "You are seeing ") + nombraEscena(q)
      + ". " + T.porque[T.clases[ok]] + "</div>" + quienEs(q);
 
    if(PR.fallos && PR.meta === 2){ PR.meta = 3;
@@ -2071,7 +2172,8 @@ function muestra(s){
  PR.hecho = true; PR.n++;
  LOG.push({id:s.id, q:q.id, k:-1, bien:false, show:true}); marcaLog();
  PR.res = '<div class="res ver"><b>' + T.opciones[ok].replace(/<[^>]+>/g, "") + "</b> "
-   + "There is " + nombraEscena(q) + ". " + T.show[T.clases[ok]] + "</div>"
+   + (q.nm ? "At " + q.nm + " miles Rule 22 promises you " : "There is ")
+   + nombraEscena(q) + ". " + T.show[T.clases[ok]] + "</div>"
    + quienEs(q);
  if(PR.meta === 2) PR.meta = 3;
  dibuja();
@@ -2187,7 +2289,13 @@ function panelPractica(s, p){
    + " of " + PR.meta + "</span>";
  colgaNav(p, nav);
  nav.querySelector("#atras").onclick = () => vaA(iP-1);
- const o = nav.querySelector("#otra");  if(o)  o.onclick  = () => { PR.res = ""; prNuevo(); };
+
+ const o = nav.querySelector("#otra");  if(o)  o.onclick  = () => { PR.res = ""; prNuevo();
+   const lz = document.getElementById("lienzo");
+   if(lz && typeof window.scrollTo === "function"){
+     const t = lz.getBoundingClientRect().top;
+     if(t < 0) window.scrollTo(0, Math.max(0, window.scrollY + t)); }
+   const pn = document.getElementById("pane"); if(pn) pn.scrollTop = 0; };
  const g = nav.querySelector("#sig");   if(g)  g.onclick  = () => vaA(iP+1);
  const sh = nav.querySelector("#show"); if(sh) sh.onclick = () => muestra(s);
  const sk = nav.querySelector("#salta");if(sk) sk.onclick = () => salta(s);
@@ -2364,6 +2472,9 @@ function apila(s, fichas){
   fi.className = "ficha " + (BANDA_ABAJO ? "conpie" : "allado")
                + (i === iM ? " marcada" : "");
 
+  if(q.casilla !== undefined){ fi.setAttribute("data-casilla", q.casilla);
+    fi.style.cursor = "pointer"; }
+
   const es = document.createElement("div");
   es.className = "escena" + (q && q.dia ? " dia" : "");
   const sv = document.createElementNS(NS, "svg");
@@ -2379,6 +2490,7 @@ function apila(s, fichas){
     + '</div><div class="bglo">' + q.glo + '</div>';
   fi.insertBefore(cab, es);
   fi.appendChild(pie);
+  fi._pie = pie;
   cont.appendChild(fi);
   svgs.push({sv: sv, fi: fi, q: q});
  });
@@ -2388,17 +2500,20 @@ function apila(s, fichas){
                           anchoMax / (SUELO_LUZ / LUZ.D) / (1 + 2*AIRE));
  ESC = Math.min(anchoMax / D.W, altoEsc / D.H);
 
- const aireLibre = Math.max.apply(null, svgs.map(function(o){
-   return (o.q && o.q.v && !o.q.dia) ? altoLibreDe(o.q.v, anchoUn) : 0;
- }).concat([0]));
+ const aireLibre = 0;
  const cajas = [], gs = [];
  svgs.forEach(function(o, i){
   svg = o.sv; svg.innerHTML = "";
   gO = el("g", {}, svg);
   gs.push(gO);
   if(o.q) o.q.aire = aireLibre;
-  pintaFicha(o.q, s, anchoUn, i);
+  FICHA_ROTULO = o.fi;
+  try { pintaFicha(o.q, s, anchoUn, i); } finally { FICHA_ROTULO = null; }
  });
+
+ const altosPie = svgs.map(o => o.fi._pie ? o.fi._pie.getBoundingClientRect().height : 0);
+ const pieMax = Math.max.apply(null, altosPie.concat([0]));
+ if(pieMax > 0) svgs.forEach(o => { if(o.fi._pie) o.fi._pie.style.minHeight = pieMax + "px"; });
 
  unificaEscala(document.getElementById("fichas"));
  gs.forEach(function(g){ gO = g; cajas.push(cajaDibujo()); });
@@ -2448,6 +2563,7 @@ function apila(s, fichas){
 
 function dibuja(){
  guardaDonde(iP);
+ AMPLIABLES = [];
 
  ALTO_LIBRE = false;
  { const wr = document.getElementById("wrap"); if(wr) wr.style.gridTemplateRows = ""; }
@@ -2661,9 +2777,20 @@ function vaA(i){
 }
 
 function cableaClic(){
- const s = document.getElementById("svg");
+
+ const s = document.getElementById("lienzo") || document.getElementById("svg");
  if(!s || s._cableado) return;
  s._cableado = true;
+
+ s.addEventListener("click", e => {
+  const za = e.target.closest ? e.target.closest("[data-amplia]") : null;
+  if(za) ampliaDibujo(+za.getAttribute("data-amplia"), za);
+ });
+ s.addEventListener("keydown", e => {
+  if(e.key !== "Enter" && e.key !== " ") return;
+  const za = e.target.closest ? e.target.closest("[data-amplia]") : null;
+  if(za){ e.preventDefault(); ampliaDibujo(+za.getAttribute("data-amplia"), za); }
+ });
  s.addEventListener("pointerdown", e => {
 
   const sn = e.target.closest ? e.target.closest("[data-suena]") : null;
@@ -2679,7 +2806,10 @@ function cableaClic(){
 
   const c = e.target.closest ? e.target.closest("[data-casilla]") : null;
   if(c && PZ[iP].obra === "rejilla"){
-   REJ[+c.getAttribute("data-casilla")] = true; dibuja(); return;
+
+   const kC = +c.getAttribute("data-casilla");
+   if(!REJ[kC]){ REJ[kC] = true; dibuja(); }
+   return;
   }
   const b = e.target.closest ? e.target.closest("[data-buque]") : null;
   if(!b) return;
@@ -2689,6 +2819,56 @@ function cableaClic(){
  });
 }
 addEventListener("resize", dibuja);
+
+let AMPLIABLES = [], AMPLIANDO = false;
+
+const ultimoAmpliable = () => AMPLIABLES.length ? AMPLIABLES.length - 1 : undefined;
+function ampliaDibujo(k, origen){
+ const a = AMPLIABLES[k];
+ if(!a) return;
+ const vieja = document.getElementById("amplia");
+ if(vieja) vieja.remove();
+ const cap = document.createElement("div");
+ cap.id = "amplia";
+ cap.setAttribute("role", "dialog");
+ cap.setAttribute("aria-modal", "true");
+ cap.setAttribute("aria-label", a.rot);
+
+ cap.innerHTML = '<div class="amp-cab" style="color:var(--paper-ink)"><span>'
+   + (a.rot || "Enlarged") + '</span><button type="button" class="amp-cierra" '
+   + 'style="color:var(--paper-ink);border-color:var(--dim)">Close</button></div>';
+ const sv = document.createElementNS(NS, "svg");
+ sv.setAttribute("preserveAspectRatio", "xMidYMid meet");
+ cap.appendChild(sv);
+ document.body.appendChild(cap);
+ const sS = svg, gS = gO;
+ svg = sv; gO = el("g", {}, sv);
+ const g = gO;
+ AMPLIANDO = true;
+ try { pintaNave(a.P, a.v, a.g, Object.assign({}, a.o)); }
+ finally { svg = sS; gO = gS; AMPLIANDO = false; }
+
+ const b = g.getBBox(), m = Math.max(b.width, b.height) * 0.03;
+ sv.setAttribute("viewBox", [b.x - m, b.y - m, b.width + 2*m, b.height + 2*m].join(" "));
+
+ const luzMin = Math.min.apply(null, [].slice.call(sv.querySelectorAll("circle[data-kind]"))
+   .map(c => c.getBoundingClientRect().width).filter(w => w > 0).concat([1e9]));
+ if(luzMin < 12.5 && luzMin < 1e9){
+  sv.style.flex = "none";
+  sv.style.width = Math.ceil(sv.getBoundingClientRect().width * 12.5 / luzMin) + "px";
+  sv.style.height = "100%";
+  cap.style.overflowX = "auto";
+ }
+ const tecla = e => { if(e.key === "Escape"){ e.preventDefault(); cierra(); } };
+ function cierra(){
+  cap.remove();
+  document.removeEventListener("keydown", tecla, true);
+  if(origen && origen.focus) origen.focus();
+ }
+ document.addEventListener("keydown", tecla, true);
+ cap.addEventListener("click", cierra);
+ cap.querySelector(".amp-cierra").focus();
+}
 
 function guardaDonde(i){ vistoPon(YO, i); }
 function donde(){ return vistoPos(YO, PZ.length-1); }
@@ -2753,22 +2933,27 @@ function obraCruce(s){
  const pasos = pasosMax(s.naves);
  if(esMovil()) return obraCruceMovil(s, nc, M, ANP, pasos);
 
- const ALP = ALTO_PANEL(pasos, 168, (D.H - 74 - 150)/nf - px(30));
+ const CABF = px(20);
+ const ALP = ALTO_PANEL(pasos, 168, (D.H - 74 - 150)/nf - px(30) - CABF);
 
  s.naves.forEach((q, col) =>
    txtCabe(M + (ANP + M)*col + ANP/2, 56, q.rot, ANP - px(6), 12,
            "var(--lam-magenta)", 600, "mono"));
  let bajo = 74;
  s.millas.forEach((nm, fila) => {
-  const y = 74 + fila*(ALP + px(40));
+
+  const y = 74 + CABF + fila*(ALP + px(40) + CABF);
+
+  txt(M, y - px(7), nm + " MILES OFF", "start", 12, "var(--lam-dim)", 600, "mono");
   s.naves.forEach((q, col) => {
-   const P = panel(M + (ANP + M)*col, y, ANP, ALP, true, nm + " MILES OFF");
+   const P = panel(M + (ANP + M)*col, y, ANP, ALP, true, "");
    pintaNave(P, q.v, s.g, {escorza: true, nm: nm, pasos: pasos,
                            ancho: ANP - 67, rotula: false});
    const ve = vistas(q.v, s.g).filter(l => nm <= ranges(q.v.length || 12)[l.rangeKey]);
    const k = txtCabe(P.cx, P.y1 + px(18),
-     ve.length ? (ve.length === 1 ? "one light" : ve.length + " lights")
-               : "nothing at all",
+
+     ve.length ? (ve.length === 1 ? "1 light promised" : ve.length + " lights promised")
+               : "none promised",
      ANP - px(10), 13, ve.length ? "var(--lam-ink)" : "var(--lam-alarm)", 600);
    bajo = Math.max(bajo, P.y1 + px(18) + k*px(17));
   });
@@ -2777,25 +2962,33 @@ function obraCruce(s){
 }
 
 function obraCruceMovil(s, nc, M, ANP, pasos){
+
  ALTO_LIBRE = true;
+ const nf = s.millas.length;
+ const ANc = (D.W - M*(nf + 1))/nf;
  const ALP = ALTO_PANEL(pasos, 168);
- const nH = Math.max.apply(null, s.naves.map(q => txtCabe(M + (ANP + M)*s.naves.indexOf(q)
-   + ANP/2, 56, q.rot, ANP - px(6), 12, "var(--lam-magenta)", 600, "mono")));
- let y = 56 + (nH - 1)*px(16) + px(30);
+ s.millas.forEach((nm, col) => txt(M + (ANc + M)*col + ANc/2, 56, nm + " MILES OFF",
+                                    "middle", 12, "var(--lam-dim)", 600, "mono"));
+
+ const kT = txtCabe(D.W/2, 56 + px(22), "Tap any drawing to see it full width.",
+                    D.W - M*2, 12, "var(--lam-dim)", 400);
+ let y = 56 + px(22) + kT*px(16) + px(14);
  let bajo = y;
- s.millas.forEach(nm => {
-  txt(M, y, nm + " MILES OFF", "start", 12, "var(--dim)", 600, "mono");
-  y += px(12);
+ s.naves.forEach((q, fila) => {
+  const kN = txtCabe(D.W/2, y, q.rot, D.W - M*2, 12, "var(--lam-magenta)", 600, "mono");
+  y += (kN - 1)*px(16) + px(12);
   let fondo = y + ALP;
-  s.naves.forEach((q, col) => {
-   const P = panel(M + (ANP + M)*col, y, ANP, ALP, true, "");
-   pintaNave(P, q.v, s.g, {escorza: true, nm: nm, pasos: pasos,
-                           ancho: ANP - 67, rotula: false});
+  s.millas.forEach((nm, col) => {
+   const P = panel(M + (ANc + M)*col, y, ANc, ALP, true, "");
+   const oN = {escorza: true, nm: nm, pasos: pasos, ancho: ANc - 67, rotula: false,
+               rotAmplia: q.rot + " · " + nm + " MILES OFF"};
+   pintaNave(P, q.v, s.g, oN);
    const ve = vistas(q.v, s.g).filter(l => nm <= ranges(q.v.length || 12)[l.rangeKey]);
    const k = txtCabe(P.cx, P.y1 + px(18),
-     ve.length ? (ve.length === 1 ? "one light" : ve.length + " lights")
-               : "nothing at all",
-     ANP - px(10), 13, ve.length ? "var(--lam-ink)" : "var(--lam-alarm)", 600);
+
+     ve.length ? (ve.length === 1 ? "1 light promised" : ve.length + " lights promised")
+               : "none promised",
+     ANc - px(10), 13, ve.length ? "var(--lam-ink)" : "var(--lam-alarm)", 600);
    fondo = Math.max(fondo, P.y1 + px(18) + (k - 1)*px(17));
   });
   bajo = fondo;
@@ -2845,7 +3038,7 @@ function obraRejilla(s){
 
  const PIE_R = !mv ? px(74) : Math.max.apply(null, s.naves.map(q => {
    const marc = q.nm ? marcacionCorta(q.g) + " · " + q.nm + " M" : marcacionCorta(q.g);
-   const ids = identidades({buque: q.v, g: q.g, nm: q.nm});
+   const ids = identidades({buque: q.v, g: q.g, nm: q.nm}, {soloSuMarcacion: true});
    const nom = ids.length === 1 ? ids[0] : "either " + ids.join(", or ");
    return px(19) + parte(marc, ANP - px(8), 12.5).length*px(16) + px(3)
         + parte(nom, ANP - px(8), 12.5).length*px(16) + px(24);
@@ -2857,13 +3050,14 @@ function obraRejilla(s){
                   String.fromCharCode(65 + i), true);
   pintaNave(P, q.v, q.g, {aire: q.aire || 0, escorza: true, nm: q.nm, pasos: pasos,
                           ancho: ANP - 57, rotula: false});
+  const kAi = ultimoAmpliable();
   const abierto = !!REJ[i];
   const y0 = P.y1 + px(19);
   const k = txtCabe(P.cx, y0, q.nm ? marcacionCorta(q.g) + " · " + q.nm + " M"
                                    : marcacionCorta(q.g),
                     ANP - px(8), 12.5, "var(--lam-dim)", 400, "mono");
   if(abierto){
-   const ids = identidades({buque: q.v, g: q.g, nm: q.nm});
+   const ids = identidades({buque: q.v, g: q.g, nm: q.nm}, {soloSuMarcacion: true});
 
    txtCabe(P.cx, y0 + k*px(16) + px(3),
      ids.length === 1 ? ids[0] : "either " + ids.join(", or "),
@@ -2872,18 +3066,27 @@ function obraRejilla(s){
 
   el("rect", {x: M + (ANP + M)*cx, y: 46 + cy*(ALP + PIE_R) - px(6),
     width: ANP, height: ALP + px(56), fill: "transparent", class: "boton",
-    "data-casilla": i});
+    "data-casilla": i,
+
+    "data-amplia": (abierto && esMovil()) ? kAi : undefined,
+    tabindex: (abierto && esMovil()) ? 0 : undefined,
+    role: (abierto && esMovil()) ? "button" : undefined});
  });
 }
 
 function obraPractica(s){
  const q = PR.q; if(!q) return;
  const M = 46;
- const P = panel(M, 76, D.W - M*2, 320, true, "WHAT YOU SEE"
-   + (q.nm ? " \u00b7 " + q.nm + " MILES OFF" : ""));
- pintaNave(P, q.buque, q.g, {ancho: ANCHO_PRACTICA, neutro: true, escorza: true,
-                             soloRemolcador: true, nm: q.nm});
- txtCabe(D.W/2, P.y1 + px(48),
+
+ const rotP = "WHAT YOU SEE" + (q.nm ? " \u00b7 " + q.nm + " MILES OFF" : "");
+
+ const P = panel(M, 76, D.W - M*2, 320, true, "");
+ txt(M + px(12), 76 - px(10), rotP, "start", 12, "var(--dim)", 600, "mono");
+ const oN = {ancho: ANCHO_PRACTICA, neutro: true, escorza: true,
+             soloRemolcador: true, nm: q.nm, rotulaDebajo: true};
+ pintaNave(P, q.buque, q.g, oN);
+ const bajaL = oN.altoDebajo ? oN.altoDebajo + px(20) : 0;
+ txtCabe(D.W/2, P.y1 + px(48) + bajaL,
    "Her hull is the same hull every time. What changes is where you are standing.",
    D.W - px(120), 12.5, "var(--lam-dim)");
 }
@@ -2936,8 +3139,8 @@ const FICHAS = {
     const ve = vistas(q.v, s.g).filter(function(l){
      return nm <= ranges(q.v.length || 12)[l.rangeKey]; });
     out.push({v: q.v, g: s.g, nm: nm, pasos: pasos, rot: nm + " MILES OFF",
-              tit: ve.length ? (ve.length === 1 ? "one light" : ve.length + " lights")
-                             : "nothing at all",
+              tit: ve.length ? (ve.length === 1 ? "1 light promised" : ve.length + " lights promised")
+                             : "none promised",
               glo: q.rot, alarma: !ve.length});
    });
   });
@@ -2948,10 +3151,11 @@ const FICHAS = {
  rejilla: s => {
   const pasos = pasosMax(s.naves);
   const out = s.naves.map(function(q, i){
-   const ids = REJ[i] ? identidades({buque: q.v, g: q.g, nm: q.nm}) : null;
+   const ids = REJ[i] ? identidades({buque: q.v, g: q.g, nm: q.nm}, {soloSuMarcacion: true}) : null;
    return {v: q.v, g: q.g, nm: q.nm, pasos: pasos, casilla: i,
            rot: q.nm ? q.nm + " MILES OFF" : "close aboard",
-           tit: ids ? (ids.length === 1 ? ids[0] : "could be any of " + ids.length)
+
+           tit: ids ? (ids.length === 1 ? ids[0] : "either " + ids.join(", or "))
                     : "tap to name her",
            glo: marcacionCorta(q.g), alarma: !!(ids && ids.length !== 1)};
   });
@@ -3041,7 +3245,7 @@ const VERDAD = {
 const BANCOS = {"DESDE": [{"buque": {"type": "power", "length": 150, "underway": true, "makingWay": true}, "g": 0, "id": "de-merc-proa"}, {"buque": {"type": "sailing", "length": 24, "underway": true, "makingWay": true}, "g": 0, "id": "de-vela-proa"}, {"buque": {"type": "power", "length": 30, "underway": true, "makingWay": true}, "g": 0, "id": "de-m30-proa"}, {"buque": {"type": "power", "length": 150, "underway": true, "makingWay": true}, "g": 20, "id": "de-merc-020"}, {"buque": {"type": "power", "length": 150, "underway": true, "makingWay": true}, "g": 60, "id": "de-merc-060"}, {"buque": {"type": "fishingTrawl", "length": 60, "underway": true, "makingWay": true}, "g": 100, "id": "de-trawl-100"}, {"buque": {"type": "cbd", "length": 150, "underway": true, "makingWay": true}, "g": 112, "id": "de-cbd-112"}, {"buque": {"type": "sailing", "length": 24, "underway": true, "makingWay": true}, "g": 70, "id": "de-vela-070"}, {"buque": {"type": "power", "length": 150, "underway": true, "makingWay": true}, "g": 150, "id": "de-merc-150"}, {"buque": {"type": "power", "length": 150, "underway": true, "makingWay": true}, "g": 168, "id": "de-merc-168"}, {"buque": {"type": "sailing", "length": 24, "underway": true, "makingWay": true}, "g": 160, "id": "de-vela-160"}, {"buque": {"type": "cbd", "length": 150, "underway": true, "makingWay": true}, "g": 150, "id": "de-cbd-150"}, {"buque": {"type": "nuc", "length": 90, "underway": true, "makingWay": false}, "g": 60, "id": "de-nuc-060"}, {"buque": {"type": "nuc", "length": 90, "underway": true, "makingWay": false}, "g": 150, "id": "de-nuc-150"}, {"buque": {"type": "power", "length": 120, "underway": false}, "g": 60, "id": "de-anc-060"}], "CONFUSION": [{"buque": {"type": "power", "length": 150, "underway": true, "makingWay": true}, "g": 40, "id": "cf-merc-040"}, {"buque": {"type": "power", "length": 150, "underway": true, "makingWay": true}, "g": 0, "id": "cf-merc-000"}, {"buque": {"type": "towing", "length": 80, "towLength": 120, "towedLength": 60, "underway": true, "makingWay": true}, "g": 40, "id": "cf-tug-c-040"}, {"buque": {"type": "towing", "length": 80, "towLength": 250, "towedLength": 60, "underway": true, "makingWay": true}, "g": 30, "id": "cf-tug-l-030"}, {"buque": {"type": "towing", "length": 80, "towLength": 250, "towedLength": 60, "underway": true, "makingWay": true}, "g": 150, "id": "cf-tug-l-150"}, {"buque": {"type": "fishingTrawl", "length": 60, "underway": true, "makingWay": true}, "g": 60, "id": "cf-trawl-060"}, {"buque": {"type": "fishingTrawl", "length": 60, "underway": true, "makingWay": true}, "g": 150, "id": "cf-trawl-150"}, {"buque": {"type": "power", "length": 150, "underway": true, "makingWay": true}, "g": 70, "id": "cf-merc-070"}, {"buque": {"type": "nuc", "length": 90, "underway": true, "makingWay": true}, "g": 40, "id": "cf-nuc-040"}, {"buque": {"type": "nuc", "length": 90, "underway": true, "makingWay": true}, "g": 150, "id": "cf-nuc-150"}, {"buque": {"type": "cbd", "length": 150, "underway": true, "makingWay": true}, "g": 40, "id": "cf-cbd-040"}, {"buque": {"type": "cbd", "length": 150, "underway": true, "makingWay": true}, "g": 150, "id": "cf-cbd-150"}, {"buque": {"type": "cbd", "length": 150, "underway": true, "makingWay": true}, "g": 40, "nm": 4, "id": "cf-cbd-lejos"}, {"buque": {"type": "towing", "length": 80, "towLength": 250, "towedLength": 60, "underway": true, "makingWay": true}, "g": 70, "nm": 4, "id": "cf-tug-lejos"}]};
 
 const DONDE_LUEGO = "in part 2, \u00abWhat she is\u00bb";
-const TEXTOS = {"DESDE": {"pregunta": "Where are you standing?", "clases": ["proa", "delante", "detras", "muda"], "opciones": ["<b>Dead ahead of her</b> — you can see both her sidelights.", "<b>Forward of the cut</b> — somewhere inside 112.5° of her bow.", "<b>Abaft the cut</b> — more than 112.5° from her bow.", "<b>Her lights do not say.</b>"], "porque": {"proa": "<b>Both sidelights at once.</b> They overlap for a degree or two right on her stem and nowhere else, so seeing red and green together puts you almost exactly on her bow — and it is the only bearing her lights give you to the degree.", "delante": "A sidelight, or a masthead light, or both. Rule 21 gives the masthead 225° and each sidelight 112.5°, and <b>all three end at the same place</b>: 112.5° from her bow. If any of them is reaching you, you are inside it. <em>What you cannot tell is how far inside: one sidelight looks the same at 20° as at 100°.</em>", "detras": "Her sternlight, and nothing that belongs forward. Rule 21(c) gives it 135° — 67.5° each side of dead astern — and it starts exactly where the others stop. <b>The two halves partition the horizon once and do not overlap.</b>", "muda": "Everything you can see is <b>all-round</b>, and an all-round light does not know where you are standing. That is the whole point of it: Rule 27, 28 and 30 want to be seen from everywhere, so they tell you what she is and say nothing about you."}, "mal": {"proa": "Dead ahead is a claim about seeing <b>two</b> sidelights, one of each colour. One is not enough — one sidelight covers 112.5°.", "delante": "Forward of the cut means something that stops at 112.5° is reaching you: a sidelight or a masthead light. Look again for one.", "detras": "Abaft the cut means her sternlight is what you have. Check whether what you are calling a sternlight is not a masthead light or an all-round white.", "muda": "Something here does place you. A sidelight, a masthead light or a sternlight all belong to a sector, and a sector is an answer."}, "pista": "There is <b>one cut</b> in the whole system and it is at <b>112.5°</b> from her bow — <em>not on her beam</em>, but 22.5° abaft it. Forward of it: mastheads and the sidelight of your side. Abaft it: her sternlight, and only that. All-round lights ignore it.", "show": {"proa": "Red and green together. Only her stem shows you both.", "delante": "A sector light that stops at 112.5° is reaching you, so you are inside it — and no closer than that.", "detras": "Her sternlight, and nothing forward. Past 112.5°.", "muda": "All-round only. Nothing here knows where you are."}}, "CONFUSION": {"pregunta": "What is she — and does this bearing let you say?", "clases": ["power", "towing", "fishingTrawl", "nuc", "cbd", "muda"], "opciones": ["<b>An ordinary power-driven vessel.</b>", "<b>A tug with something behind her.</b>", "<b>A fishing vessel trawling.</b>", "<b>Not under command.</b>", "<b>Constrained by her draught.</b>", "<b>From here you cannot say.</b>"], "porque": {"power": "Masthead lights <b>stepped</b> — the after one higher <em>and further aft</em> — with a sidelight under them. That step is Rule 23. A tug's extra lights sit in <b>one vertical line</b> in the same place, and a line is not a step.", "towing": "Masthead lights <b>in a vertical line</b>, one directly above another in the same column. Rule 24(a)(i): two for a tow of 200 m or less, three above that — and her own after masthead is a fourth, higher and further aft, and not part of the stack. <em>What separates her from an ordinary ship is not the number: it is the column.</em>", "fishingTrawl": "<b>Green over white, and both all-round.</b> On an ordinary vessel the white is <em>above</em> the green, because a masthead light sits at 12 m and a sidelight at 4.5. Here it is the other way up — and better than that: <b>a green that survives the cut is not a sidelight.</b>", "nuc": "Two all-round reds, and <b>no masthead light above them</b>. Rule 27(a) gives her none at any length, so the absence is as good as the count.", "cbd": "Three all-round reds — and she has <b>kept everything</b>: her mastheads, her sidelights, her sternlight. Rule 28 adds to Rule 23 instead of replacing it, so <em>a white light above the reds settles it without counting them.</em>", "muda": "From here what she is showing fits more than one vessel. Either the cut has taken the lights that would have told you, or the distance has. <b>Saying so is the answer</b> — and it is the answer a good lookout gives before she gives a wrong one."}, "mal": {"power": "An ordinary vessel's mastheads are <b>stepped</b>: the after one higher and further aft. Look at whether these are stepped or stacked.", "towing": "A tug shows mastheads <b>in one vertical column</b>, or a yellow light above her sternlight. Check for the column before you count.", "fishingTrawl": "Trawling is a green all-round <b>above</b> a white all-round. If the white is above the green you are looking at a masthead light and a sidelight.", "nuc": "Not under command is <b>two</b> all-round reds and <b>no masthead</b>. Check both halves — the count and the absence.", "cbd": "Constrained by her draught is three all-round reds <em>plus</em> the full set of Rule 23. Look for the mastheads above them.", "muda": "Here the picture does settle it. Something you can see belongs to one of these and to no other — find it before you give up on the picture."}, "pista": "Three questions, in this order. <b>Are the whites stepped or stacked?</b> Stacked is a tow. <b>Is the colour above the white or below it?</b> Above is fishing. <b>Is there a white light above the reds?</b> If there is, she is constrained by her draught and not out of command.", "show": {"power": "Stepped mastheads and a sidelight. Rule 23.", "towing": "A vertical column of mastheads. Rule 24.", "fishingTrawl": "Green over white, all-round. Rule 26(b).", "nuc": "Two all-round reds and no masthead. Rule 27(a).", "cbd": "Three all-round reds under her mastheads. Rule 28.", "muda": "More than one vessel fits this picture from this bearing."}, "sitiosAsignados": true}};
+const TEXTOS = {"DESDE": {"pregunta": "Where are you standing?", "clases": ["proa", "delante", "detras", "muda"], "opciones": ["<b>Dead ahead of her</b> — you can see both her sidelights.", "<b>Forward of the cut</b> — somewhere inside 112.5° of her bow.", "<b>Abaft the cut</b> — more than 112.5° from her bow.", "<b>Her lights do not say.</b>"], "porque": {"proa": "<b>Both sidelights at once.</b> They overlap for a degree or two right on her stem and nowhere else, so seeing red and green together puts you almost exactly on her bow — and it is the only bearing her lights give you to the degree.", "delante": "A sidelight, or a masthead light, or both. Rule 21 gives the masthead 225° and each sidelight 112.5°, and <b>all three end at the same place</b>: 112.5° from her bow. If any of them is reaching you, you are inside it. <em>What you cannot tell is how far inside: one sidelight looks the same at 20° as at 100°.</em>", "detras": "Her sternlight, and nothing that belongs forward. Rule 21(c) gives it 135° — 67.5° each side of dead astern — and it starts exactly where the others stop. <b>The two halves partition the horizon once and do not overlap.</b>", "muda": "Everything you can see is <b>all-round</b>, and an all-round light does not know where you are standing. That is the whole point of it: Rule 27, 28 and 30 want to be seen from everywhere, so they tell you what she is and say nothing about you."}, "mal": {"proa": "Dead ahead is a claim about seeing <b>two</b> sidelights, one of each colour. One is not enough — one sidelight covers 112.5°.", "delante": "Forward of the cut means something that stops at 112.5° is reaching you: a sidelight or a masthead light. Look again for one.", "detras": "Abaft the cut means her sternlight is what you have. Check whether what you are calling a sternlight is not a masthead light or an all-round white.", "muda": "Something here does place you. A sidelight, a masthead light or a sternlight all belong to a sector, and a sector is an answer."}, "pista": "There is <b>one cut</b> in the whole system and it is at <b>112.5°</b> from her bow — <em>not on her beam</em>, but 22.5° abaft it. Forward of it: mastheads and the sidelight of your side. Abaft it: her sternlight, and only that. All-round lights ignore it.", "show": {"proa": "Red and green together. Only her stem shows you both.", "delante": "A sector light that stops at 112.5° is reaching you, so you are inside it — and no closer than that.", "detras": "Her sternlight, and nothing forward. Past 112.5°.", "muda": "All-round only. Nothing here knows where you are."}}, "CONFUSION": {"pregunta": "What is she — and does this bearing let you say?", "clases": ["power", "towing", "fishingTrawl", "nuc", "cbd", "muda"], "opciones": ["<b>An ordinary power-driven vessel.</b>", "<b>A tug with something behind her.</b>", "<b>A fishing vessel trawling.</b>", "<b>Not under command.</b>", "<b>Constrained by her draught.</b>", "<b>From here you cannot say.</b>"], "porque": {"power": "Masthead lights <b>stepped</b> — the after one higher <em>and further aft</em> — with a sidelight under them. That step is Rule 23. A tug's extra lights sit in <b>one vertical line</b> in the same place, and a line is not a step.", "towing": "From forward of her beam, masthead lights <b>in a vertical line</b>, one directly above another — Rule 24(a)(i): two for a tow of 200 m or less, three above that; at 50 m or more her own after masthead is apart, higher and further aft. <b>From abaft her beam</b> the mastheads have cut off, and what says tow is her sternlight with <b>a yellow light directly above it</b> — Rule 24(a)(iv). <em>Column or yellow: either one says there is something behind her.</em>", "fishingTrawl": "<b>Green over white, and both all-round.</b> On an ordinary vessel the white is <em>above</em> the green, because a masthead light sits at 12 m and a sidelight at 4.5. Here it is the other way up — and better than that: <b>a green that survives the cut is not a sidelight.</b>", "nuc": "Two all-round reds, and no more. <b>From ahead</b> the missing masthead settles it too — Rule 27(a) gives her none. <b>From astern</b> anyone's mastheads have cut off, so only the count does: two, not three.", "cbd": "Three all-round reds. Rule 28 adds them to Rule 23 instead of replacing it, so <b>from ahead</b> she has kept her mastheads and a white light above the reds settles it without counting. <b>From astern</b> the mastheads have cut off — what is left is the reds and her sternlight — and it is the count that settles it: three, not two.", "muda": "From here what she is showing fits more than one vessel. Either the cut has taken the lights that would have told you, or the distance has. <b>Saying so is the answer</b> — and it is the answer a good lookout gives before she gives a wrong one."}, "mal": {"power": "An ordinary vessel's mastheads are <b>stepped</b>: the after one higher and further aft. Look at whether these are stepped or stacked.", "towing": "A tug shows mastheads <b>in one vertical column</b>, or a yellow light above her sternlight. Check for the column before you count.", "fishingTrawl": "Trawling is a green all-round <b>above</b> a white all-round. If the white is above the green you are looking at a masthead light and a sidelight.", "nuc": "Not under command is <b>two</b> all-round reds and <b>no masthead</b>. Check both halves — the count and the absence.", "cbd": "Constrained by her draught is three all-round reds <em>plus</em> the full set of Rule 23. From ahead, look for the mastheads above them; from astern, count the reds.", "muda": "Here the picture does settle it. Something you can see belongs to one of these and to no other — find it before you give up on the picture."}, "pista": "Three questions, in this order. <b>Are the whites stepped or stacked?</b> Stacked is a tow. <b>Is the colour above the white or below it?</b> Above is fishing. <b>Is there a white light above the reds?</b> If there is, she is constrained by her draught and not out of command.", "show": {"power": "Stepped mastheads and a sidelight. Rule 23.", "towing": "A vertical column of mastheads — or, from astern, a yellow over her sternlight. Rule 24.", "fishingTrawl": "Green over white, all-round. Rule 26(b).", "nuc": "Two all-round reds and no masthead. Rule 27(a).", "cbd": "Three all-round reds. Rule 28.", "muda": "More than one vessel fits this picture from this bearing."}, "sitiosAsignados": true}};
 const AZAR = 20260817;
 window.identidades = identidades; window.BANCOS = BANCOS; window.TEXTOS = TEXTOS;
 window.DICE = DICE;

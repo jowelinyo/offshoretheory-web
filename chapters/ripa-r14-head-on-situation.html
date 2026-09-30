@@ -271,7 +271,7 @@ a.pieLink:hover{text-decoration:underline}
   <div id="foot"><div class="pieLinea">rule 14 of 19 &middot; if you doubt it is head-on, it is</div>
    <div id="navPie"></div>
    <div class="pie2"><span id="fLog">0 answers logged</span><a class="pieLink" id="deCero">start over</a></div>
-   <div class="sello" id="sello" data-sello="bf4362f9">collision avoidance &middot; module &middot; 20 screens &middot; 29 Sep 2026 &middot; <b>bf4362f9</b></div></div>
+   <div class="sello" id="sello" data-sello="bf4362f9">collision avoidance &middot; module &middot; 20 screens &middot; 30 Sep 2026 &middot; <b>bf4362f9</b></div></div>
  </div>
 </div>
 
@@ -379,11 +379,14 @@ function configuration(v){
   const mast2  = DOS_TOPES ? [L("masthead","white",HGT.mast2(LEN),-0.40,"masthead")] : [];
 
   const DOS_FONDEO = L50 || v.dosFondeo === true;
-  if (!under) {
-    return DOS_FONDEO
+  const fondeo = () => DOS_FONDEO
       ? [L("allround","white",HGT.allr(LEN)*0.9, 0.88,"allround"),
          L("allround","white",HGT.stern(LEN)*1.4,-0.88,"allround")]
       : [L("allround","white",HGT.allr(LEN), 0.0,"allround")];
+
+  if (!under && v.type !== "fishingTrawl" && v.type !== "fishingOther"
+             && v.type !== "ram" && v.type !== "pilot") {
+    return fondeo();
   }
 
   switch(v.type){
@@ -408,12 +411,12 @@ function configuration(v){
       return [L("allround","green",HGT.allr(LEN)*1.25,0.28,"allround"),
               L("allround","white",HGT.allr(LEN)*0.95,0.28,"allround"),
               ...(DOS_TOPES?[L("masthead","white",HGT.mast2(LEN),-0.40,"masthead")]:[]),
-              ...(making?[...side,...stern]:[])];
+              ...(under && making?[...side,...stern]:[])];
 
     case "fishingOther":
       return [L("allround","red",HGT.allr(LEN)*1.25,0.28,"allround"),
               L("allround","white",HGT.allr(LEN)*0.95,0.28,"allround"),
-              ...(making?[...side,...stern]:[])];
+              ...(under && making?[...side,...stern]:[])];
 
     case "nuc":
       return [L("allround","red",HGT.allr(LEN)*1.25,0.20,"allround"),
@@ -424,7 +427,7 @@ function configuration(v){
       return [L("allround","red",  HGT.allr(LEN)*1.45,0.20,"allround"),
               L("allround","white",HGT.allr(LEN)*1.20,0.20,"allround"),
               L("allround","red",  HGT.allr(LEN)*0.95,0.20,"allround"),
-              ...(making?[...mast1,...mast2,...side,...stern]:[])];
+              ...(!under ? fondeo() : making?[...mast1,...mast2,...side,...stern]:[])];
 
     case "cbd":
       return [...mast1, ...mast2, ...side, ...stern,
@@ -437,7 +440,7 @@ function configuration(v){
 
       return [L("allround","white",HGT.allr(LEN)*1.25,0.20,"allround"),
               L("allround","red",  HGT.allr(LEN)*0.95,0.20,"allround"),
-              ...side, ...stern];
+              ...(under ? [...side, ...stern] : fondeo())];
 
     case "towing": {
       const TL   = v.towLength || 120;

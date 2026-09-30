@@ -187,8 +187,20 @@ body{display:flex;flex-direction:column;background:var(--page);color:var(--ink-b
 .res-col dd{margin:1px 0 0;font:400 15px/1.4 var(--f-ui);color:var(--ink-secondary)}
 .bglo{margin-top:2px;font:italic 400 16px/1.35 var(--f-display);
  color:var(--ink-secondary)}
+
+.blib{margin-top:4px;font:400 13px/1.35 var(--f-ui);color:var(--ink-secondary)}
 #obj{position:absolute;inset:0}
 #svg{position:absolute;inset:0;width:100%;height:100%;touch-action:none}
+
+#amplia{position:fixed;inset:0;z-index:50;background:var(--sea-deep);display:flex;
+ flex-direction:column;padding:12px;cursor:zoom-out}
+#amplia svg{flex:1;width:100%;min-height:0}
+.amp-cab{display:flex;justify-content:space-between;align-items:center;gap:12px;
+ font:600 12px/1.3 var(--f-mono);letter-spacing:.08em}
+.amp-cierra{min-width:88px;min-height:44px;background:transparent;border-width:2px;
+ border-style:solid;border-radius:5px;font:700 13px var(--f-mono);cursor:pointer}
+[data-amplia]{cursor:zoom-in}
+[data-amplia]:focus-visible{outline:3px solid var(--accent-graphic);outline-offset:2px}
 #obj,#svg,#svg *{-webkit-user-select:none;-moz-user-select:none;user-select:none;
  -webkit-user-drag:none;-webkit-tap-highlight-color:transparent}
 #obj svg .boton{cursor:pointer}
@@ -358,7 +370,7 @@ a.pieLink:hover{text-decoration:underline}
   <div id="foot">
    <div id="navPie"></div>
    <div class="pie2"><span id="fLog">0 answers logged</span><a class="pieLink" id="deCero" onclick="deCero()">start over</a></div>
-   <div class="sello" id="sello" data-sello="e3226afa">lights and shapes · part 4 · <b>9 of 9 screens</b> · 30 Sep 2026</div>
+   <div class="sello" id="sello" data-sello="eb05c908">lights and shapes · part 4 · <b>9 of 9 screens</b> · 30 Sep 2026</div>
   </div>
  </div>
 </div>
@@ -492,11 +504,14 @@ function configuration(v){
   const mast2  = DOS_TOPES ? [L("masthead","white",HGT.mast2(LEN),-0.40,"masthead")] : [];
 
   const DOS_FONDEO = L50 || v.dosFondeo === true;
-  if (!under) {
-    return DOS_FONDEO
+  const fondeo = () => DOS_FONDEO
       ? [L("allround","white",HGT.allr(LEN)*0.9, 0.88,"allround"),
          L("allround","white",HGT.stern(LEN)*1.4,-0.88,"allround")]
       : [L("allround","white",HGT.allr(LEN), 0.0,"allround")];
+
+  if (!under && v.type !== "fishingTrawl" && v.type !== "fishingOther"
+             && v.type !== "ram" && v.type !== "pilot") {
+    return fondeo();
   }
 
   switch(v.type){
@@ -521,12 +536,12 @@ function configuration(v){
       return [L("allround","green",HGT.allr(LEN)*1.25,0.28,"allround"),
               L("allround","white",HGT.allr(LEN)*0.95,0.28,"allround"),
               ...(DOS_TOPES?[L("masthead","white",HGT.mast2(LEN),-0.40,"masthead")]:[]),
-              ...(making?[...side,...stern]:[])];
+              ...(under && making?[...side,...stern]:[])];
 
     case "fishingOther":
       return [L("allround","red",HGT.allr(LEN)*1.25,0.28,"allround"),
               L("allround","white",HGT.allr(LEN)*0.95,0.28,"allround"),
-              ...(making?[...side,...stern]:[])];
+              ...(under && making?[...side,...stern]:[])];
 
     case "nuc":
       return [L("allround","red",HGT.allr(LEN)*1.25,0.20,"allround"),
@@ -537,7 +552,7 @@ function configuration(v){
       return [L("allround","red",  HGT.allr(LEN)*1.45,0.20,"allround"),
               L("allround","white",HGT.allr(LEN)*1.20,0.20,"allround"),
               L("allround","red",  HGT.allr(LEN)*0.95,0.20,"allround"),
-              ...(making?[...mast1,...mast2,...side,...stern]:[])];
+              ...(!under ? fondeo() : making?[...mast1,...mast2,...side,...stern]:[])];
 
     case "cbd":
       return [...mast1, ...mast2, ...side, ...stern,
@@ -550,7 +565,7 @@ function configuration(v){
 
       return [L("allround","white",HGT.allr(LEN)*1.25,0.20,"allround"),
               L("allround","red",  HGT.allr(LEN)*0.95,0.20,"allround"),
-              ...side, ...stern];
+              ...(under ? [...side, ...stern] : fondeo())];
 
     case "towing": {
       const TL   = v.towLength || 120;
@@ -693,6 +708,11 @@ const MARCAS_DIA = {
 const NO_ES_TIPO = ["velaYMotor"];
 
 function marcasDia(v) {
+
+  if (v.underway === false && (v.type === "fishingTrawl" || v.type === "fishingOther"))
+    return (MARCAS_DIA[v.type] || []).slice();
+  if (v.underway === false && v.type === "ram")
+    return (MARCAS_DIA.ram || []).concat(MARCAS_DIA.fondeada || []);
   const clave = v.underway === false ? "fondeada"
               : (v.velaYMotor ? "velaYMotor" : v.type);
 
@@ -750,6 +770,27 @@ function citada(v, luces) {
     if (n > 1) return "lleva " + n + " luces de " + k + ", y un buque tiene una";
   }
 
+  if (fondeada && (v.type === "fishingTrawl" || v.type === "fishingOther")) {
+    const par = v.type === "fishingTrawl" ? "green" : "red";
+    if (todoH.length !== 2 || todoH.filter(c => c === par).length !== 1
+        || todoH.filter(c => c === "white").length !== 1)
+      return "R26(a) · pesquero fondeado: solo su par de todo horizonte, y lleva " + todoH.join("/");
+    if (lados || alcance) return "R26(a) · pesquero fondeado con costados o alcance";
+    if (topes > (v.type === "fishingTrawl" ? 1 : 0)) return "R26 · topes de mas en un pesquero fondeado";
+    return null;
+  }
+  if (fondeada && (v.type === "ram" || v.type === "pilot")) {
+    const rojas = todoH.filter(c => c === "red").length;
+    const blancas = todoH.filter(c => c === "white").length;
+    const propias = v.type === "ram" ? {rojas: 2, blancas: 1} : {rojas: 1, blancas: 1};
+    const admitidas = L >= A1.MUY_GRANDE ? [2] : [1, 2];
+    if (rojas !== propias.rojas || admitidas.indexOf(blancas - propias.blancas) < 0
+        || todoH.length !== rojas + blancas)
+      return (v.type === "ram" ? "R27(b)(iv)" : "R29(a)(iii)")
+        + " · fondeado: las suyas Y las de la R30, y lleva " + todoH.join("/");
+    if (topes || lados || alcance) return "fondeada y con luces de navegacion encendidas";
+    return null;
+  }
   if (fondeada) {
 
     const admitidas = L >= A1.MUY_GRANDE ? [2] : [1, 2];
@@ -868,15 +909,24 @@ function coloca(v, luces, completas) {
     .sort((a, b) => luces_[b].h - luces_[a].h);
   let cimaTodoH = null;
 
-  if (fondeada) {
-    if (idx.length === 2) {
+  const pescaFondeada = fondeada
+    && (v.type === "fishingTrawl" || v.type === "fishingOther");
+  let idxA = idx, idxP = [];
+  if (fondeada && (v.type === "ram" || v.type === "pilot")) {
+    const blancas = idx.filter(i => luces_[i].colour === "white");
+    idxP = idx.filter(i => luces_[i].colour !== "white").concat(blancas.slice(0, 1))
+      .sort((a, b) => luces_[b].h - luces_[a].h);
+    idxA = idx.filter(i => idxP.indexOf(i) < 0);
+  }
+  if (fondeada && !pescaFondeada) {
+    if (idxA.length === 2) {
 
-      out[idx[0]] = P(A1.ANCLA_PROA_MIN_50, xTope1(L), "A1 2(k) + R30(a)(i)");
-      out[idx[1]] = P(A1.ANCLA_PROA_MIN_50 - A1.ANCLA_PROA_SOBRE_POPA, xPopa(L),
+      out[idxA[0]] = P(A1.ANCLA_PROA_MIN_50, xTope1(L), "A1 2(k) + R30(a)(i)");
+      out[idxA[1]] = P(A1.ANCLA_PROA_MIN_50 - A1.ANCLA_PROA_SOBRE_POPA, xPopa(L),
                       "A1 2(k) + R30(a)(ii)");
     } else {
 
-      out[idx[0]] = P(VE.baja, xTope1(L), "R30(b) · donde mejor pueda ser vista",
+      out[idxA[0]] = P(VE.baja, xTope1(L), "R30(b) · donde mejor pueda ser vista",
                       "mx");
     }
   } else if (v.type === "fishingTrawl" || v.type === "fishingOther") {
@@ -902,6 +952,16 @@ function coloca(v, luces, completas) {
       out[idx[idx.length - 1 - k]] = P(VE.baja + k * VE.sep, X_MEDIO,
         "A1 2(f) · la altura; el sitio es libre", "x", "2f");
     cimaTodoH = VE.baja + (idx.length - 1) * VE.sep;
+  }
+
+  if (idxP.length && v.type === "pilot") {
+    const alta = Math.max(alturaTope(L), VE.baja + VE.sep);
+    out[idxP[0]] = P(alta,          X_MEDIO, "R29(a)(iii) · en el tope o cerca", "mx", "2f");
+    out[idxP[1]] = P(alta - VE.sep, X_MEDIO, "R29 + A1 2(f)", "x", "2f");
+  } else if (idxP.length) {
+    for (let k = 0; k < idxP.length; k++)
+      out[idxP[idxP.length - 1 - k]] = P(VE.baja + k * VE.sep, X_MEDIO,
+        "R27(b)(iv) + A1 2(f) · la altura; el sitio es libre", "x", "2f");
   }
 
   const iTopes = luces_.map((l, i) => i).filter(i => luces_[i].kind === "masthead")
@@ -946,7 +1006,7 @@ if (typeof module !== "undefined") module.exports = {
   tramoRemolque
 };
 
-const PZ = [{"id": "1.S1", "tema": "When you can't see her · topic 1", "obra": "vocabulario", "b": "Next", "h": "Two blasts, and everything is built from them", "filas": [{"rot": "A SHORT BLAST", "tramos": [1], "medio": "pito", "pie": "about one second · Rule 32(b)"}, {"rot": "A PROLONGED BLAST", "tramos": [5], "medio": "pito", "pie": "from four to six seconds · Rule 32(c) · drawn here at five"}, {"rot": "AND THE TWO TOGETHER", "tramos": [5, 1, 1], "medio": "pito", "pie": "one prolonged and two short — the commonest signal in the book"}], "renglon": "One second, or five. Every signal in the rules is made of these two.", "pie": "Rule 32 · and there is no third length", "p": ["Sound is the half of the rules that people skip, and it is the half that works when nothing else does. <b>In fog you have no lights, no shapes and no aspect.</b> You have a noise and a bearing.", "And the vocabulary is <b>two words long</b>. A <b>short blast</b> is about a second. A <b>prolonged blast</b> is four to six — call it five. There is no third length, and nothing in the rules asks you to judge anything finer.", "Look at the strips rather than the numbers. <b>A prolonged blast is five times a short one</b>, and at sea that difference is unmistakable even when you cannot tell where it is coming from. <em>Written down they are two phrases; drawn to scale they are two different things.</em>", "<b>Press a strip and you will hear it.</b> The sound is generated from the same numbers the strip is drawn from — so it cannot drift away from the picture. It plays the <em>pattern</em> only, never the two-minute wait.", "But <b>reading it is still the skill</b>. An examiner will ask you <em>«what does one prolonged and two short mean?»</em> in words, and a lookout reports it in words. The sound is here to fix the length of a prolonged blast in your ear, not to answer anything for you."], "calc": "<b>Rule 32</b><br>short &nbsp;about <b>1 s</b><br>prolonged &nbsp;<b>4 to 6 s</b><br>and nothing else"}, {"id": "1.S2", "tema": "When you can't see her · topic 1", "obra": "ciclo", "b": "Now you try", "h": "And then two minutes of nothing", "filas": [{"rot": "An ordinary vessel making way", "tramos": [5], "medio": "pito", "ciclo": 120}, {"rot": "Not under command, or fishing, or towing", "tramos": [5, 1, 1], "medio": "pito", "ciclo": 120}, {"rot": "Aground — the longest signal in the rules", "tramos": [1, 1, 1, 5, 1, 1, 1], "medio": "campana", "ciclo": 60}], "renglon": "The only screen drawn to the length of the cycle.", "pie": "Rule 35 · at intervals of not more than two minutes — and one minute at anchor", "p": ["Every other strip in this part is drawn <b>eighteen seconds wide</b>, because that is what it takes to see the pattern. This one is drawn <b>two minutes wide</b>, and it is the only one.", "The reason is that the pattern and the interval are different lessons. <b>The pattern is a shape; the interval is a number.</b> A shape you draw; a number you say — <em>except once, when the number is so extreme that seeing it is the point.</em>", "<b>An ordinary vessel making way is audible for four per cent of her cycle.</b> The longest signal in the book — a vessel aground — manages twenty-eight, and only because she rings <em>every minute</em> instead of every two. For the rest of the time there is nothing at all, and the ship is still there.", "<b>And the silence is not slack time — it is what the interval is for.</b> In restricted visibility you keep your lookout <em>by sight and by hearing</em>, and you can hear nothing at all while your own whistle is going. That gap is where the others are, tapping away in the fog. <em>Two minutes is not a limit on how often she may sound. It is how long everybody agrees to be quiet so that everybody can listen.</em>", "<em>That is what fog is: a very small amount of information, arriving late, and then a long silence in which nothing has changed except the range.</em>"], "calc": "<b>Rule 35</b><br>most vessels &nbsp;every <b>2 min</b> or less<br>at anchor &nbsp;every <b>1 min</b> or less"}, {"id": "1.X1", "tema": "When you can't see her · topic 1", "obra": "explora", "b": "Next", "h": "What she has aboard to make the noise with", "naves": [{"id": "chica", "nombre": "Under 12 m", "tramos": [1, 1], "medio": "pito", "cita": "R33(b) + R35(i)", "dice": "some other efficient sound signal", "por": "No whistle and no bell required — but Rule 35(i) still requires some efficient sound signal every two minutes. The one box here about your own boat."}, {"id": "pito", "nombre": "12 m and over", "tramos": [5], "medio": "pito", "cita": "R33(a)", "dice": "a whistle — and no bell yet", "por": "At twelve metres the whistle becomes compulsory, and only the whistle. The bell is eight metres further on."}, {"id": "media", "nombre": "20 m and over", "tramos": [5], "medio": "campana", "cita": "R33(a)", "dice": "a whistle and a bell", "por": "The whistle for what she is doing, the bell for when she has stopped doing it. Every signal in Rules 34 and 35 needs one or the other."}, {"id": "grande", "nombre": "100 m and over", "tramos": [5, 5], "medio": "campanaYgong", "cita": "R33(a)", "dice": "a whistle, a bell and a gong", "por": "Bell forward, gong aft, and the gap between them is her length. And two noises, not just two places: Rule 33(a) says the gong must not be confused with the bell. Press both and hear it."}], "renglon": "Three sizes, three sets of gear. Open each one.", "pie": "Rule 33 · equipment for sound signals", "p": ["Before the signals, what she has to make them with. <b>Rule 33 is short and it is worth having</b>, because it is the only place where the sound half of the rules says anything about her length.", "<b>Twelve metres, twenty metres and a hundred metres</b> — three steps, and not two. Under twelve she needs no particular equipment, only some efficient way of making a noise. At twelve she must have a whistle. At twenty a bell as well, and at a hundred a gong on top of both.", "<em>And that third one is not decoration. At anchor a big ship rings her bell forward and sounds her gong aft — two different noises from two different places, and the distance between them is the ship.</em>"], "calc": "<b>Rule 33</b><br>under 12 m &nbsp;some efficient means<br>12 m and over &nbsp;whistle + bell<br>100 m and over &nbsp;+ gong"}, {"id": "2.X1", "tema": "When you can't see her · topic 2", "obra": "explora", "b": "Next", "h": "The sound version of what you already know", "naves": [{"id": "marcha", "nombre": "Making way", "tramos": [5], "medio": "pito", "cita": "R35(a)", "dice": "one prolonged blast", "por": "An ordinary power-driven vessel with way on. The shortest signal there is, and the commonest thing you will hear."}, {"id": "parada", "nombre": "Stopped in the water", "tramos": [5, 5], "medio": "pito", "cita": "R35(b)", "dice": "two prolonged blasts", "por": "The same vessel, way off, anchor still up. She is under way and she is not moving — which is exactly the distinction part 1 spent a screen on, said in sound."}, {"id": "siete", "nombre": "Any of seven", "tramos": [5, 1, 1], "medio": "pito", "cita": "R35(c)", "dice": "one prolonged and two short", "por": "Not under command, restricted, constrained by draught, both fishing vessels, under sail, and towing. Seven of the ten, and one signal between them: she is not getting out of your way."}, {"id": "remolcado", "nombre": "The vessel being towed", "tramos": [5, 1, 1, 1], "medio": "pito", "cita": "R35(e)", "dice": "one prolonged and three short", "por": "And she gives it immediately after her tug, so what you actually hear is a pair: one-and-two, then one-and-three. That second answer is the wire — but only if she is manned. Rule 35(e) asks it of a towed vessel with people aboard, and an unmanned barge answers nothing."}, {"id": "fondeo", "nombre": "At anchor", "tramos": [5], "medio": "campana", "cita": "R35(g)", "dice": "five seconds of rapid ringing on the bell", "por": "Not the whistle, and every minute instead of every two. A bell in fog means something that is not going anywhere."}, {"id": "practico", "nombre": "A pilot on duty", "tramos": [5, 1, 1, 1, 1], "medio": "pito", "cita": "R35(j)", "dice": "one prolonged and four short", "por": "Four short after her ordinary signal, and she is the only one in the book who adds anything for that reason. Every other fog signal tells you what she is DOING; this one tells you WHO SHE IS."}, {"id": "varada", "nombre": "Aground", "tramos": [1, 1, 1, 5, 1, 1, 1], "medio": "campana", "cita": "R35(h)", "por": "The anchor signal with three separate strokes before it and three after. She is anchored plus something, and the something is that she did not choose it.", "dice": "three strokes, the ringing, three strokes"}], "renglon": "Seven signals for ten vessels — because seven of them share one. Open all seven.", "pie": "Rule 35 · and it is the same list as part 2, read with your ears", "p": ["Here is the thing that makes this part cheap: <b>you already know it</b>. The fog signals are not a new table. They are <b>the same eleven vessels of part 2</b>, sorted by a rule that is blunter than the one for lights.", "<b>And it is blunter on purpose.</b> Lights give you eleven answers because you can see them and pick them apart. Sound gives you <b>seven</b>, and <b>seven of the ten share a single one</b> — one prolonged and two short. In fog the rules stop asking you to identify her and start telling you only what you must do about her.", "So the honest reading of one-and-two is not <em>«which of the seven is it?»</em>. It is <b>«she is not getting out of my way»</b>, and that is all the information there is, and all you need.", "<em>Open them in order. The first two are the same vessel moving and stopped, and telling them apart is the one people fail.</em>"], "calc": "<b>1</b> how many prolonged?<br><b>2</b> how many short after them?<br><b>3</b> or is it the bell?"}, {"id": "2.E1", "tema": "When you can't see her · topic 2", "obra": "paso", "b": "Now you try", "h": "One prolonged, or two", "tramos": [{"rot": "ONE PROLONGED", "son": [5], "medio": "pito", "razon": "R35(a) · under way AND making way"}, {"rot": "TWO PROLONGED, about two seconds apart", "son": [5, 5], "medio": "pito", "razon": "R35(b) · under way, NOT making way"}, {"rot": "AND THIS ONE IS NEITHER", "son": [5, 1, 1], "medio": "pito", "razon": "R35(c) · one prolonged and two SHORT"}], "renglon": "One blast or two. It is the most-failed question in the sound rules.", "pie": "And it is the same distinction as «under way» against «making way», which part 1 spent a screen on", "p": ["Two prolonged blasts instead of one, and she has stopped. That is the whole difference, and it is missed constantly — because both vessels are <b>under way</b>, and only one of them is moving.", "<b>You met this distinction in part 1</b>, drawn in lights: sidelights and a sternlight come on when she moves through the water and go out when she stops. In fog you cannot see any of that. What you get instead is <b>one blast or two</b>.", "And the third strip is there to stop the obvious mistake. <b>One prolonged and two short is not «two blasts»</b> — the two after it are <em>short</em>, and that changes the rule and the vessel. <em>Count the prolonged ones first, and only then count what follows.</em>"], "calc": "<b>one prolonged</b> &nbsp;making way<br><b>two prolonged</b> &nbsp;stopped<br><b>one and two short</b> &nbsp;a different rule entirely"}, {"id": "2.P1", "tema": "When you can't see her · topic 2", "obra": "practica", "banco": "NIEBLA", "h": "You hear this in fog. What is she?", "instruccion": "Count the prolonged blasts first, then whatever follows them. And if it is the bell, she is not going anywhere.", "instruccion2": "You hear this, and nothing else, every two minutes.", "p": []}, {"id": "3.S1", "tema": "When you can't see her · topic 3", "obra": "nombradas", "b": "Now you try", "h": "The ones you give in sight of each other", "filas": [{"tramos": [1], "dice": "I am altering my course to starboard", "cita": "R34(a)"}, {"tramos": [1, 1], "dice": "I am altering my course to port", "cita": "R34(a)"}, {"tramos": [1, 1, 1], "dice": "I am operating astern propulsion", "cita": "R34(a)"}, {"tramos": [1, 1, 1, 1, 1], "dice": "I do not understand you — or I doubt you", "cita": "R34(d)"}, {"dice": "To attract attention: a signal that cannot be mistaken for another", "cita": "R36"}, {"dice": "In distress: the signals of Annex IV", "cita": "R37"}], "renglon": "One, two, three — and then five, which is a different kind of message.", "pie": "Rule 34 · in sight of one another · WHEN to give them is Rule 34's other half, and that is the rules of the road", "p": ["These are not fog signals. <b>They are given in sight of one another</b>, and they say what you are doing <em>as you do it</em> — not what you intend and not what you would like.", "<b>One, two, three: starboard, port, astern.</b> They are the whole of Rule 34(a) and they take ten seconds to learn.", "<b>And here is where the two halves of this part collide.</b> <em>Three short blasts</em> is Rule 34: she is going astern, and you can see her. <em>One prolonged and three short</em> is Rule 35(e): a vessel under tow, in fog, and you can see nothing at all. Both are &laquo;three short&raquo; to anyone counting carelessly, and they are different rules in different weather. <b>Count the prolonged one first — it is the thing that changes the rule and the vessel.</b> One prolonged in front of three short is Rule 35(e); three short on their own are Rule 34(a).", "<b>But do not read a prolonged blast as «fog» on its own.</b> Rule 34(e) gives <b>one prolonged</b> to a vessel <b>nearing a bend</b>, or a place in a channel where something hides what is coming — <em>in sight of others and in clear weather</em> — and anyone who hears it round the bend answers with one of her own. <em>It is the one signal in this screen you are as likely to hear on a bright afternoon as in fog.</em>", "<b>Five is not more of the same.</b> Rule 34(d) is the only signal in the book that is about <em>the other vessel</em>: it means <b>I cannot read what you are doing, or I do not believe it is enough</b>. If you hear it in a crossing situation, it is meant for you and you are the one who has to act.", "<b>And here this module stops.</b> What a blast <em>means</em> is this module's job and you now have all of it. <em>When you are obliged to give one — and who gives way to whom — is Rule 34's other half, and that lives in «The vessel, all round».</em>"], "calc": "<b>R34(a)</b> &nbsp;1 starboard &middot; 2 port &middot; 3 astern<br><b>R34(d)</b> &nbsp;5 or more &middot; doubt<br><b>R36</b> attract attention &middot; <b>R37</b> distress"}, {"id": "3.P1", "tema": "When you can't see her · topic 3", "obra": "practica", "banco": "CODIGO", "h": "What is she telling you?", "instruccion": "She is in sight and she is telling you what she is doing. Count the blasts.", "instruccion2": "In sight of one another, and given as she does it.", "p": []}, {"id": "3.C1", "tema": "When you can't see her · topic 3", "obra": "cierre", "b": "Next: the rules of the road", "h": "What the whole module gave you", "cols": [{"rot": "WHAT SHE SHOWS", "filas": [["Five kinds of light", "and one cut, at 112.5° from her bow"], ["Eleven configurations", "in three families, not eleven separate lessons"], ["Five day shapes", "and every one is a sentence you already read in lights"], ["Her length", "one masthead light or two, and Rule 30 counts the same way"]]}, {"rot": "FROM WHERE YOU ARE", "filas": [["The cut is not on her beam", "it is 22.5° abaft it"], ["Stepped or stacked", "an ordinary vessel against a tug"], ["A green past the cut", "is not a sidelight"], ["6 miles and 3", "between them, every ship looks the same"]]}, {"rot": "AND WHEN YOU CANNOT", "filas": [["Short and prolonged", "one second, or five, and nothing else"], ["Seven signals for ten vessels", "seven of them share one"], ["One prolonged or two", "moving, or stopped"], ["What is left", "WHEN to sound them — that is «The vessel, all round»"]]}], "renglon": "Rules 20 to 37: what she shows, what she is, where you are, and what she sounds like.", "pie": "And the half that is left is not knowledge — it is what you do about it", "p": ["That is Rules 20 to 37, in four parts. <b>Every vessel in this module you can now name from her lights, from her shapes, from any bearing, and from a noise in fog</b> — and between them they are most of what you will ever meet.", "<b>It is worth knowing where the edge of it is.</b> A few things in the rules are not in these four parts: the vessel <b>aground</b> (R30(d)), the one <b>dredging or working underwater</b> (R27(d)) and the <b>diving</b> signals (R27(e)), a sailing vessel's optional <b>red over green</b> (R25(c)), and the <b>overtaking</b> signals in a narrow channel (R34(c)). <em>You have the alphabet; there are a few words left.</em>", "It is worth saying what that is not. <b>It is not seamanship yet.</b> Knowing that one prolonged and two short means a vessel who cannot get out of your way is the easy half; <em>deciding what you are going to do about her, at night, with a tide under you</em>, is the other one.", "<b>That is «The vessel, all round»</b> — the steering and sailing rules, who gives way, and when. Every signal you have learned here has a moment attached to it, and the moments live there.", "<em>You now know what she is saying. The next module is about answering her.</em>"], "calc": "<b>1</b> what is lit, or what did I hear?<br><b>2</b> where does that put me?<br><b>3</b> and what am I going to do about it?"}];
+const PZ = [{"id": "1.S1", "tema": "When you can't see her · topic 1", "obra": "vocabulario", "b": "Next", "h": "Two blasts, and everything is built from them", "filas": [{"rot": "A SHORT BLAST", "tramos": [1], "medio": "pito", "pie": "about one second · Rule 32(b)"}, {"rot": "A PROLONGED BLAST", "tramos": [5], "medio": "pito", "pie": "from four to six seconds · Rule 32(c) · drawn here at five"}, {"rot": "AND THE TWO TOGETHER", "tramos": [5, 1, 1], "medio": "pito", "pie": "one prolonged and two short — the commonest signal in the book"}], "renglon": "One second, or five. Every signal in the rules is made of these two.", "pie": "Rule 32 · and there is no third length", "p": ["Sound is the half of the rules that people skip, and it is the half that works when nothing else does. <b>In fog you have no lights, no shapes and no aspect.</b> You have a noise and a bearing.", "And the vocabulary is <b>two words long</b>. A <b>short blast</b> is about a second. A <b>prolonged blast</b> is four to six — call it five. There is no third length, and nothing in the rules asks you to judge anything finer.", "Look at the strips rather than the numbers. <b>A prolonged blast is five times a short one</b>, and at sea that difference is unmistakable even when you cannot tell where it is coming from. <em>Written down they are two phrases; drawn to scale they are two different things.</em>", "<b>Press a strip and you will hear it.</b> The sound is generated from the same numbers the strip is drawn from — so it cannot drift away from the picture. It plays the <em>pattern</em> only, never the two-minute wait.", "But <b>reading it is still the skill</b>. An examiner will ask you <em>«what does one prolonged and two short mean?»</em> in words, and a lookout reports it in words. The sound is here to fix the length of a prolonged blast in your ear, not to answer anything for you."], "calc": "<b>Rule 32</b><br>short &nbsp;about <b>1 s</b><br>prolonged &nbsp;<b>4 to 6 s</b><br>and nothing else"}, {"id": "1.S2", "tema": "When you can't see her · topic 1", "obra": "ciclo", "b": "Now you try", "h": "And then two minutes of nothing", "filas": [{"rot": "An ordinary vessel making way", "tramos": [5], "medio": "pito", "ciclo": 120}, {"rot": "Not under command, or fishing, or towing", "tramos": [5, 1, 1], "medio": "pito", "ciclo": 120}, {"rot": "Aground — the longest signal in the rules", "tramos": [1, 1, 1, 5, 1, 1, 1], "medio": "campana", "ciclo": 60}], "renglon": "The only screen drawn to the length of the cycle.", "pie": "Rule 35 · at intervals of not more than two minutes — and one minute at anchor", "p": ["Every other strip in this part is drawn <b>eighteen seconds wide</b>, because that is what it takes to see the pattern. This one is drawn <b>two minutes wide</b>, and it is the only one.", "The reason is that the pattern and the interval are different lessons. <b>The pattern is a shape; the interval is a number.</b> A shape you draw; a number you say — <em>except once, when the number is so extreme that seeing it is the point.</em>", "<b>An ordinary vessel making way is audible for four per cent of her cycle.</b> The longest signal in the book — a vessel aground — manages twenty-eight, and only because she rings <em>every minute</em> instead of every two. For the rest of the time there is nothing at all, and the ship is still there.", "<b>And the silence is not slack time — it is what the interval is for.</b> In restricted visibility you keep your lookout <em>by sight and by hearing</em>, and you can hear nothing at all while your own whistle is going. That gap is where the others are, tapping away in the fog. <em>Two minutes is not a limit on how often she may sound. It is how long everybody agrees to be quiet so that everybody can listen.</em>", "<em>That is what fog is: a very small amount of information, arriving late, and then a long silence in which nothing has changed except the range.</em>"], "calc": "<b>Rule 35</b><br>most vessels &nbsp;every <b>2 min</b> or less<br>at anchor &nbsp;every <b>1 min</b> or less"}, {"id": "1.X1", "tema": "When you can't see her · topic 1", "obra": "explora", "b": "Next", "h": "What she has aboard to make the noise with", "naves": [{"id": "chica", "nombre": "Under 12 m", "tramos": [1, 1], "medio": "pito", "cita": "R33(b) + R35(j)", "dice": "some other efficient sound signal", "por": "No whistle and no bell required — but Rule 35(j) still requires some efficient sound signal every two minutes. The one box here about your own boat."}, {"id": "pito", "nombre": "12 to under 20 m", "tramos": [5], "medio": "pito", "cita": "R33(a) + R35(i)", "dice": "a whistle — and no bell yet", "por": "The whistle is compulsory; the bell is not. At anchor or aground she may give some other efficient signal every two minutes instead."}, {"id": "media", "nombre": "20 m and over", "tramos": [5], "medio": "campana", "cita": "R33(a)", "dice": "a whistle and a bell", "por": "The whistle for what she is doing, the bell for when she has stopped doing it. Every signal in Rules 34 and 35 needs one or the other."}, {"id": "grande", "nombre": "100 m and over", "tramos": [5, 5], "medio": "campanaYgong", "cita": "R33(a)", "dice": "a whistle, a bell and a gong", "por": "Bell forward, gong aft, and the gap between them is her length. And two noises, not just two places: Rule 33(a) says the gong must not be confused with the bell. Press both and hear it."}], "renglon": "Three sizes, three sets of gear. Open each one.", "pie": "Rule 33 · equipment for sound signals", "p": ["Before the signals, what she has to make them with. <b>Rule 33 is short and it is worth having</b>, because it is the only place where the sound half of the rules says anything about her length.", "<b>Twelve metres, twenty metres and a hundred metres</b> — three steps, and not two. Under twelve she needs no particular equipment, only some efficient way of making a noise — Rule 35(j). At twelve she must have a whistle, and between twelve and twenty Rule 35(i) excuses her the bell signals at anchor or aground, if she makes some other efficient signal every two minutes. At twenty a bell as well, and at a hundred a gong on top of both.", "<em>And that third one is not decoration. At anchor a big ship rings her bell forward and sounds her gong aft — two different noises from two different places, and the distance between them is the ship.</em>"], "calc": "<b>Rule 33</b><br>under 12 m &nbsp;some efficient means<br>12 m and over &nbsp;whistle &middot; no bell: R35(i)<br>20 m and over &nbsp;+ bell<br>100 m and over &nbsp;+ gong"}, {"id": "2.X1", "tema": "When you can't see her · topic 2", "obra": "explora", "b": "Next", "h": "The sound version of what you already know", "naves": [{"id": "marcha", "nombre": "Making way", "tramos": [5], "medio": "pito", "cita": "R35(a)", "dice": "one prolonged blast", "por": "An ordinary power-driven vessel with way on. The shortest signal there is, and the commonest thing you will hear."}, {"id": "parada", "nombre": "Stopped in the water", "tramos": [5, 5], "medio": "pito", "cita": "R35(b)", "dice": "two prolonged blasts", "por": "The same vessel, way off, anchor still up. She is under way and she is not moving — which is exactly the distinction part 1 spent a screen on, said in sound."}, {"id": "siete", "nombre": "Any of seven", "tramos": [5, 1, 1], "medio": "pito", "cita": "R35(c)", "dice": "one prolonged and two short", "por": "Not under command, restricted, constrained by draught, both fishing vessels, under sail, and towing. Seven of the ten, and one signal between them: she is not getting out of your way."}, {"id": "remolcado", "nombre": "The vessel being towed", "tramos": [5, 1, 1, 1], "medio": "pito", "cita": "R35(e)", "dice": "one prolonged and three short", "por": "And she gives it immediately after her tug, so what you actually hear is a pair: one-and-two, then one-and-three. That second answer is the wire — but only if she is manned. Rule 35(e) asks it of a towed vessel with people aboard, and an unmanned barge answers nothing."}, {"id": "fondeo", "nombre": "At anchor", "tramos": [5], "medio": "campana", "cita": "R35(g)", "dice": "five seconds of rapid ringing on the bell", "por": "Not the whistle, and every minute instead of every two. A bell in fog means something that is not going anywhere."}, {"id": "practico", "nombre": "A pilot on duty", "tramos": [5, 1, 1, 1, 1], "medio": "pito", "cita": "R35(k)", "dice": "one prolonged and four short", "por": "Four short after her ordinary signal, and she is the only one in the book who adds anything for that reason. Every other fog signal tells you what she is DOING; this one tells you WHO SHE IS."}, {"id": "varada", "nombre": "Aground", "tramos": [1, 1, 1, 5, 1, 1, 1], "medio": "campana", "cita": "R35(h)", "por": "The anchor signal with three separate strokes before it and three after. She is anchored plus something, and the something is that she did not choose it.", "dice": "three strokes, the ringing, three strokes"}], "renglon": "Seven signals for ten vessels — because seven of them share one. Open all seven.", "pie": "Rule 35 · and it is the same list as part 2, read with your ears", "p": ["Here is the thing that makes this part cheap: <b>you already know it</b>. The fog signals are not a new table. They are <b>the same eleven vessels of part 2</b>, sorted by a rule that is blunter than the one for lights.", "<b>And it is blunter on purpose.</b> Lights give you eleven answers because you can see them and pick them apart. Sound gives you <b>seven</b>, and <b>seven of the ten share a single one</b> — one prolonged and two short. In fog the rules stop asking you to identify her and start telling you only what you must do about her.", "So the honest reading of one-and-two is not <em>«which of the seven is it?»</em>. It is <b>«she is not getting out of my way»</b>, and that is all the information there is, and all you need.", "<em>Open them in order. The first two are the same vessel moving and stopped, and telling them apart is the one people fail.</em>"], "calc": "<b>1</b> how many prolonged?<br><b>2</b> how many short after them?<br><b>3</b> or is it the bell?"}, {"id": "2.E1", "tema": "When you can't see her · topic 2", "obra": "paso", "b": "Now you try", "h": "One prolonged, or two", "tramos": [{"rot": "ONE PROLONGED", "son": [5], "medio": "pito", "razon": "R35(a) · under way AND making way"}, {"rot": "TWO PROLONGED, about two seconds apart", "son": [5, 5], "medio": "pito", "razon": "R35(b) · under way, NOT making way"}, {"rot": "AND THIS ONE IS NEITHER", "son": [5, 1, 1], "medio": "pito", "razon": "R35(c) · one prolonged and two SHORT"}], "renglon": "One blast or two. It is the most-failed question in the sound rules.", "pie": "And it is the same distinction as «under way» against «making way», which part 1 spent a screen on", "p": ["Two prolonged blasts instead of one, and she has stopped. That is the whole difference, and it is missed constantly — because both vessels are <b>under way</b>, and only one of them is moving.", "<b>You met this distinction in part 1</b>, drawn in lights — and there it only showed on a vessel not under command, restricted or fishing. <b>A power-driven vessel shows the same lights stopped or moving</b> (Rule 23(a)), so by night her lights could never tell you. In fog you get it anyway: <b>one blast or two</b>.", "And the third strip is there to stop the obvious mistake. <b>One prolonged and two short is not «two blasts»</b> — the two after it are <em>short</em>, and that changes the rule and the vessel. <em>Count the prolonged ones first, and only then count what follows.</em>"], "calc": "<b>one prolonged</b> &nbsp;making way<br><b>two prolonged</b> &nbsp;stopped<br><b>one and two short</b> &nbsp;a different rule entirely"}, {"id": "2.P1", "tema": "When you can't see her · topic 2", "obra": "practica", "banco": "NIEBLA", "h": "You hear this in fog. What is she?", "instruccion": "Count the prolonged blasts first, then whatever follows them. And if it is the bell, she is not going anywhere.", "instruccion2": "You hear this, and nothing else, every two minutes.", "p": []}, {"id": "3.S1", "tema": "When you can't see her · topic 3", "obra": "nombradas", "b": "Now you try", "h": "The ones you give in sight of each other", "filas": [{"tramos": [1], "dice": "I am altering my course to starboard", "cita": "R34(a)"}, {"tramos": [1, 1], "dice": "I am altering my course to port", "cita": "R34(a)"}, {"tramos": [1, 1, 1], "dice": "I am operating astern propulsion", "cita": "R34(a)"}, {"tramos": [1, 1, 1, 1, 1], "dice": "I do not understand you — or I doubt you", "cita": "R34(d)"}, {"dice": "To attract attention: a signal that cannot be mistaken for another", "cita": "R36"}, {"dice": "In distress: the signals of Annex IV", "cita": "R37"}], "renglon": "One, two, three — and then five, which is a different kind of message.", "pie": "Rule 34 · in sight of one another · WHEN to give them is Rule 34's other half, and that is the rules of the road", "p": ["These are not fog signals. <b>They are given in sight of one another</b>, and they say what you are doing <em>as you do it</em> — not what you intend and not what you would like.", "<b>One, two, three: starboard, port, astern.</b> They are the whole of Rule 34(a) and they take ten seconds to learn.", "<b>And here is where the two halves of this part collide.</b> <em>Three short blasts</em> is Rule 34(a): she is operating astern propulsion, and you can see her. <em>One prolonged and three short</em> is Rule 35(e): a vessel under tow, in fog, and you can see nothing at all. Both are &laquo;three short&raquo; to anyone counting carelessly, and they are different rules in different weather. <b>Count the prolonged one first — it is the thing that changes the rule and the vessel.</b> One prolonged in front of three short is Rule 35(e); three short on their own are Rule 34(a).", "<b>But do not read a prolonged blast as «fog» on its own.</b> Rule 34(e) gives <b>one prolonged</b> to a vessel <b>nearing a bend</b>, or a place in a channel where something hides what is coming — <em>in sight of others and in clear weather</em> — and anyone who hears it round the bend answers with one of her own. <em>It is the one signal in this screen you are as likely to hear on a bright afternoon as in fog.</em>", "<b>Five is not more of the same.</b> Rule 34(d) is the only signal in the book that is about <em>the other vessel</em>: it means <b>I cannot read what you are doing, or I do not believe it is enough</b>. If you hear it in a crossing situation, it is meant for you and you are the one who has to act.", "<b>And here this module stops.</b> What a blast <em>means</em> is this module's job and you now have all of it. <em>When you are obliged to give one — and who gives way to whom — is Rule 34's other half, and that lives in «The vessel, all round».</em>"], "calc": "<b>R34(a)</b> &nbsp;1 starboard &middot; 2 port &middot; 3 astern<br><b>R34(d)</b> &nbsp;5 or more &middot; doubt<br><b>R34(e)</b> &nbsp;1 prolonged &middot; nearing a bend, <b>in sight</b><br><b>R35(a)</b> &nbsp;1 prolonged &middot; <b>restricted visibility</b>, every 2 min<br><b>R36</b> attract attention &middot; <b>R37</b> distress"}, {"id": "3.P1", "tema": "When you can't see her · topic 3", "obra": "practica", "banco": "CODIGO", "h": "What is she telling you?", "instruccion": "She is in sight and she is telling you what she is doing. Count the blasts.", "instruccion2": "In sight of one another, and given as she does it.", "p": []}, {"id": "3.C1", "tema": "When you can't see her · topic 3", "obra": "cierre", "b": "Next: the rules of the road", "h": "What the whole module gave you", "cols": [{"rot": "WHAT SHE SHOWS", "filas": [["Five kinds of light", "and one cut, at 112.5° from her bow"], ["Eleven configurations", "in three families, not eleven separate lessons"], ["Five day shapes", "and every one is a sentence you already read in lights"], ["Her length", "one masthead light or two, and Rule 30 counts the same way"]]}, {"rot": "FROM WHERE YOU ARE", "filas": [["The cut is not on her beam", "it is 22.5° abaft it"], ["Stepped or stacked", "an ordinary vessel against a tug"], ["A green past the cut", "is not a sidelight"], ["6 miles and 3", "between them, every ship looks the same"]]}, {"rot": "AND WHEN YOU CANNOT", "filas": [["Short and prolonged", "one second, or five, and nothing else"], ["Seven signals for ten vessels", "seven of them share one"], ["One prolonged or two", "moving, or stopped"], ["What is left", "WHEN to sound them — that is «The vessel, all round»"]]}], "renglon": "Rules 20 to 37: what she shows, what she is, where you are, and what she sounds like.", "pie": "And the half that is left is not knowledge — it is what you do about it", "p": ["That is Rules 20 to 37, in four parts. <b>Every vessel in this module you can now name from her lights, from her shapes, from any bearing, and from a noise in fog</b> — and between them they are most of what you will ever meet.", "<b>It is worth knowing where the edge of it is.</b> A few things in the rules are not in these four parts: the vessel <b>aground</b> (R30(d)), the one <b>dredging or working underwater</b> (R27(d)) and the <b>diving</b> signals (R27(e)), a sailing vessel's optional <b>red over green</b> (R25(c)), and the <b>overtaking</b> signals in a narrow channel (R34(c)). <em>You have the alphabet; there are a few words left.</em>", "It is worth saying what that is not. <b>It is not seamanship yet.</b> Knowing that one prolonged and two short means a vessel who cannot get out of your way is the easy half; <em>deciding what you are going to do about her, at night, with a tide under you</em>, is the other one.", "<b>That is «The vessel, all round»</b> — the steering and sailing rules, who gives way, and when. Every signal you have learned here has a moment attached to it, and the moments live there.", "<em>You now know what she is saying. The next module is about answering her.</em>"], "calc": "<b>1</b> what is lit, or what did I hear?<br><b>2</b> where does that put me?<br><b>3</b> and what am I going to do about it?"}];
 const YO = "luces-p4-when-you-cannot-see-her.html";
 const D = {W:1000, H:640};
 
@@ -1075,7 +1135,9 @@ function cascoDe(v, L){
  if(v && v.gabarra)                          return CASCOS_REF.gabarra;
  if(t === "sailing")                         return CASCOS_REF.velero;
  if(t === "fishingTrawl" || t === "fishingOther") return CASCOS_REF.pesquero;
- if(t === "towing")                          return CASCOS_REF.remolcador;
+
+ if(t === "towing")                          return m < 50 ? CASCOS_REF.remolcador
+                                                          : CASCOS_REF.mercante;
  if(t === "pilot" || t === "pilotUnderway")  return CASCOS_REF.practico;
  if(m < 12)                                  return CASCOS_REF.lancha;
  if(m < 50)                                  return CASCOS_REF.costero;
@@ -1642,6 +1704,20 @@ function altoLibres(dichas, ancho){
 }
 let LIBRES_DICHAS = {};
 
+let FICHA_ROTULO = null;
+function rotulaEnFicha(fi, dichas){
+ const frases = Object.keys(dichas).filter(f => !LIBRES_DICHAS[f]);
+ frases.forEach(f => {
+  LIBRES_DICHAS[f] = 1;
+  const d = document.createElement("div");
+  d.className = "blib";
+  d.setAttribute("data-libre", dichas[f]);
+  d.textContent = f;
+  (fi._pie || fi).appendChild(d);
+ });
+ return frases.length;
+}
+
 function altoLibreDe(v, anchoPanel){
  try{
   const suyas = configuration(v);
@@ -1671,6 +1747,18 @@ function pintaNaveDe(P, v, luces, todas, o){
 }
 
 function pintaNave(P, v, g, o){
+ const r = pintaNave0(P, v, g, o);
+ o = o || {};
+ if(o.amplia !== false && !AMPLIANDO && !FICHA_ROTULO && esMovil()){
+  const kA = AMPLIABLES.length;
+  AMPLIABLES.push({P: P, v: v, g: g, o: Object.assign({}, o), rot: o.rotAmplia || ""});
+  el("rect", {x: P.x0, y: P.y0, width: P.x1 - P.x0, height: P.y1 - P.y0,
+    fill: "transparent", class: "boton", "data-amplia": kA, tabindex: 0,
+    role: "button", "aria-label": "Enlarge this drawing" + (o.rotAmplia ? ": " + o.rotAmplia : "")});
+ }
+ return r;
+}
+function pintaNave0(P, v, g, o){
  o = o || {};
  const todas = configuration(v);
 
@@ -1706,7 +1794,7 @@ function dibujaLuces(P, v, luces, todas, o){
 
  const dichas = (o.rotula === false) ? {} : frasesLibres(sitios);
 
- const arriba = P.y0 + (o.rotulaDebajo ? 0 : altoLibres(dichas, anchoPanel));
+ const arriba = P.y0 + ((o.rotulaDebajo || FICHA_ROTULO) ? 0 : altoLibres(dichas, anchoPanel));
 
  const pasos = (o.pasos !== undefined && o.pasos !== null) ? o.pasos
    : (function(){ try { return pasosDe(v, luces, todas); } catch(e){ return 0; } })();
@@ -1715,7 +1803,8 @@ function dibujaLuces(P, v, luces, todas, o){
 
  const hw = Math.max(20, o.ancho ? o.ancho : (anchoPanel - 24));
 
- if(o.rotula !== false && o.rotulaDebajo){
+ if(o.rotula !== false && FICHA_ROTULO) rotulaEnFicha(FICHA_ROTULO, dichas);
+ else if(o.rotula !== false && o.rotulaDebajo){
   const an = Math.min(anchoPanel, hw) + px(24);
   o.altoDebajo = Object.keys(dichas).filter(f => !LIBRES_DICHAS[f]).length
     ? altoLibres(dichas, an) - px(38) : 0;
@@ -1926,24 +2015,27 @@ const NOMBRE_NAVE = {
   fondeada:     "at anchor"
 };
 
+const FONDEADA_ES_SUYA = {fishingTrawl: 1, fishingOther: 1, ram: 1, pilot: 1};
 function claveDe(v){
- return v.underway === false ? "fondeada"
+ return v.underway === false && !FONDEADA_ES_SUYA[v.type] ? "fondeada"
       : (v.velaYMotor ? "velaYMotor" : v.type);
 }
-const claveNave = v => v.underway === false ? "fondeada" : v.type;
+const claveNave = v => v.underway === false && !FONDEADA_ES_SUYA[v.type] ? "fondeada" : v.type;
 function nombraNave(v){
   const k = claveNave(v), C = CITA[k];
   return (NOMBRE_NAVE[k] || k) + (C ? " \u00b7 " + C.r : "");
 }
 
 const _cacheId = {};
-function identidades(q){
-  const clave = JSON.stringify(q.buque) + "|" + q.g + "|" + q.nm;
+
+function identidades(q, o){
+  const suya = !!(o && o.soloSuMarcacion && q.g !== undefined && q.g !== null);
+  const clave = JSON.stringify(q.buque) + "|" + q.g + "|" + q.nm + "|" + suya;
   if(clave in _cacheId) return _cacheId[clave];
   const yo = escenaLibre(q.buque, q.g, q.nm);
   const out = {};
   if(yo) for(const v of universo(q))
-    for(const g of MARCACIONES){
+    for(const g of (suya ? [q.g] : MARCACIONES)){
       const e = escenaCache(v, g, q.nm);
       if(e && unifica(yo, e)) out[nombraNave(v)] = 1;
     }
@@ -1997,11 +2089,15 @@ window.claseDe = claseDe; window.okDe = okDe;
 function nombraEscena(q){
  if(typeof NOMBRA_ESCENA === "function") return NOMBRA_ESCENA(q);
  const R = ranges(q.buque.length || 12);
- const vis = vistas(q.buque, q.g).filter(l =>
+
+ const vis = vistas(q.buque, q.g).filter(l => !l.tow).filter(l =>
    q.nm === undefined || q.nm === null || q.nm <= R[l.rangeKey]);
  const cuenta = {};
  vis.forEach(l => { const k = l.colour + "|" + (l.kind === "allround" ? "all-round"
-   : l.kind === "masthead" ? "masthead" : l.kind === "stern" ? "sternlight"
+   : l.kind === "masthead" ? "masthead"
+
+   : l.kind === "stern" && l.colour === "yellow" ? "towing light"
+   : l.kind === "stern" ? "sternlight"
    : "sidelight");
    cuenta[k] = (cuenta[k] || 0) + 1; });
  const CIF = ["no", "one", "two", "three", "four", "five", "six"];
@@ -2010,9 +2106,12 @@ function nombraEscena(q){
 
    const suf = (tipo === "all-round" || tipo === "masthead") ? " light" : "";
    return (CIF[n] || n) + " " + col + " " + tipo + suf + (n > 1 ? "s" : ""); });
- if(!trozos.length) return "nothing at all";
- if(trozos.length === 1) return trozos[0];
- return trozos.slice(0, -1).join(", ") + " and " + trozos[trozos.length-1];
+ const fuera = q.buque.type === "towing"
+   ? " — on the tug; her tow, out of the frame, carries its own sidelights and sternlight"
+   : "";
+ if(!trozos.length) return "nothing at all" + fuera;
+ if(trozos.length === 1) return trozos[0] + fuera;
+ return trozos.slice(0, -1).join(", ") + " and " + trozos[trozos.length-1] + fuera;
 }
 
 let EX = {sel:null, vistas:{}};
@@ -2073,7 +2172,9 @@ function responde(s, k){
  const q = PR.q, ok = okDe(s, q), T = TEXTOS[s.banco], bien = (k === ok);
  LOG.push({id:s.id, q:q.id, k:k, bien:bien}); marcaLog();
  if(bien){ PR.hecho = true; PR.n++;
-   PR.res = '<div class="res si"><b>Yes.</b> You are seeing ' + nombraEscena(q)
+
+   PR.res = '<div class="res si"><b>Yes.</b> ' + (q.nm ? "At " + q.nm
+     + " miles Rule 22 promises you " : "You are seeing ") + nombraEscena(q)
      + ". " + T.porque[T.clases[ok]] + "</div>" + quienEs(q);
 
    if(PR.fallos && PR.meta === 2){ PR.meta = 3;
@@ -2090,7 +2191,8 @@ function muestra(s){
  PR.hecho = true; PR.n++;
  LOG.push({id:s.id, q:q.id, k:-1, bien:false, show:true}); marcaLog();
  PR.res = '<div class="res ver"><b>' + T.opciones[ok].replace(/<[^>]+>/g, "") + "</b> "
-   + "There is " + nombraEscena(q) + ". " + T.show[T.clases[ok]] + "</div>"
+   + (q.nm ? "At " + q.nm + " miles Rule 22 promises you " : "There is ")
+   + nombraEscena(q) + ". " + T.show[T.clases[ok]] + "</div>"
    + quienEs(q);
  if(PR.meta === 2) PR.meta = 3;
  dibuja();
@@ -2206,7 +2308,13 @@ function panelPractica(s, p){
    + " of " + PR.meta + "</span>";
  colgaNav(p, nav);
  nav.querySelector("#atras").onclick = () => vaA(iP-1);
- const o = nav.querySelector("#otra");  if(o)  o.onclick  = () => { PR.res = ""; prNuevo(); };
+
+ const o = nav.querySelector("#otra");  if(o)  o.onclick  = () => { PR.res = ""; prNuevo();
+   const lz = document.getElementById("lienzo");
+   if(lz && typeof window.scrollTo === "function"){
+     const t = lz.getBoundingClientRect().top;
+     if(t < 0) window.scrollTo(0, Math.max(0, window.scrollY + t)); }
+   const pn = document.getElementById("pane"); if(pn) pn.scrollTop = 0; };
  const g = nav.querySelector("#sig");   if(g)  g.onclick  = () => vaA(iP+1);
  const sh = nav.querySelector("#show"); if(sh) sh.onclick = () => muestra(s);
  const sk = nav.querySelector("#salta");if(sk) sk.onclick = () => salta(s);
@@ -2383,6 +2491,9 @@ function apila(s, fichas){
   fi.className = "ficha " + (BANDA_ABAJO ? "conpie" : "allado")
                + (i === iM ? " marcada" : "");
 
+  if(q.casilla !== undefined){ fi.setAttribute("data-casilla", q.casilla);
+    fi.style.cursor = "pointer"; }
+
   const es = document.createElement("div");
   es.className = "escena" + (q && q.dia ? " dia" : "");
   const sv = document.createElementNS(NS, "svg");
@@ -2398,6 +2509,7 @@ function apila(s, fichas){
     + '</div><div class="bglo">' + q.glo + '</div>';
   fi.insertBefore(cab, es);
   fi.appendChild(pie);
+  fi._pie = pie;
   cont.appendChild(fi);
   svgs.push({sv: sv, fi: fi, q: q});
  });
@@ -2407,17 +2519,20 @@ function apila(s, fichas){
                           anchoMax / (SUELO_LUZ / LUZ.D) / (1 + 2*AIRE));
  ESC = Math.min(anchoMax / D.W, altoEsc / D.H);
 
- const aireLibre = Math.max.apply(null, svgs.map(function(o){
-   return (o.q && o.q.v && !o.q.dia) ? altoLibreDe(o.q.v, anchoUn) : 0;
- }).concat([0]));
+ const aireLibre = 0;
  const cajas = [], gs = [];
  svgs.forEach(function(o, i){
   svg = o.sv; svg.innerHTML = "";
   gO = el("g", {}, svg);
   gs.push(gO);
   if(o.q) o.q.aire = aireLibre;
-  pintaFicha(o.q, s, anchoUn, i);
+  FICHA_ROTULO = o.fi;
+  try { pintaFicha(o.q, s, anchoUn, i); } finally { FICHA_ROTULO = null; }
  });
+
+ const altosPie = svgs.map(o => o.fi._pie ? o.fi._pie.getBoundingClientRect().height : 0);
+ const pieMax = Math.max.apply(null, altosPie.concat([0]));
+ if(pieMax > 0) svgs.forEach(o => { if(o.fi._pie) o.fi._pie.style.minHeight = pieMax + "px"; });
 
  unificaEscala(document.getElementById("fichas"));
  gs.forEach(function(g){ gO = g; cajas.push(cajaDibujo()); });
@@ -2467,6 +2582,7 @@ function apila(s, fichas){
 
 function dibuja(){
  guardaDonde(iP);
+ AMPLIABLES = [];
 
  ALTO_LIBRE = false;
  { const wr = document.getElementById("wrap"); if(wr) wr.style.gridTemplateRows = ""; }
@@ -2680,9 +2796,20 @@ function vaA(i){
 }
 
 function cableaClic(){
- const s = document.getElementById("svg");
+
+ const s = document.getElementById("lienzo") || document.getElementById("svg");
  if(!s || s._cableado) return;
  s._cableado = true;
+
+ s.addEventListener("click", e => {
+  const za = e.target.closest ? e.target.closest("[data-amplia]") : null;
+  if(za) ampliaDibujo(+za.getAttribute("data-amplia"), za);
+ });
+ s.addEventListener("keydown", e => {
+  if(e.key !== "Enter" && e.key !== " ") return;
+  const za = e.target.closest ? e.target.closest("[data-amplia]") : null;
+  if(za){ e.preventDefault(); ampliaDibujo(+za.getAttribute("data-amplia"), za); }
+ });
  s.addEventListener("pointerdown", e => {
 
   const sn = e.target.closest ? e.target.closest("[data-suena]") : null;
@@ -2698,7 +2825,10 @@ function cableaClic(){
 
   const c = e.target.closest ? e.target.closest("[data-casilla]") : null;
   if(c && PZ[iP].obra === "rejilla"){
-   REJ[+c.getAttribute("data-casilla")] = true; dibuja(); return;
+
+   const kC = +c.getAttribute("data-casilla");
+   if(!REJ[kC]){ REJ[kC] = true; dibuja(); }
+   return;
   }
   const b = e.target.closest ? e.target.closest("[data-buque]") : null;
   if(!b) return;
@@ -2708,6 +2838,56 @@ function cableaClic(){
  });
 }
 addEventListener("resize", dibuja);
+
+let AMPLIABLES = [], AMPLIANDO = false;
+
+const ultimoAmpliable = () => AMPLIABLES.length ? AMPLIABLES.length - 1 : undefined;
+function ampliaDibujo(k, origen){
+ const a = AMPLIABLES[k];
+ if(!a) return;
+ const vieja = document.getElementById("amplia");
+ if(vieja) vieja.remove();
+ const cap = document.createElement("div");
+ cap.id = "amplia";
+ cap.setAttribute("role", "dialog");
+ cap.setAttribute("aria-modal", "true");
+ cap.setAttribute("aria-label", a.rot);
+
+ cap.innerHTML = '<div class="amp-cab" style="color:var(--paper-ink)"><span>'
+   + (a.rot || "Enlarged") + '</span><button type="button" class="amp-cierra" '
+   + 'style="color:var(--paper-ink);border-color:var(--dim)">Close</button></div>';
+ const sv = document.createElementNS(NS, "svg");
+ sv.setAttribute("preserveAspectRatio", "xMidYMid meet");
+ cap.appendChild(sv);
+ document.body.appendChild(cap);
+ const sS = svg, gS = gO;
+ svg = sv; gO = el("g", {}, sv);
+ const g = gO;
+ AMPLIANDO = true;
+ try { pintaNave(a.P, a.v, a.g, Object.assign({}, a.o)); }
+ finally { svg = sS; gO = gS; AMPLIANDO = false; }
+
+ const b = g.getBBox(), m = Math.max(b.width, b.height) * 0.03;
+ sv.setAttribute("viewBox", [b.x - m, b.y - m, b.width + 2*m, b.height + 2*m].join(" "));
+
+ const luzMin = Math.min.apply(null, [].slice.call(sv.querySelectorAll("circle[data-kind]"))
+   .map(c => c.getBoundingClientRect().width).filter(w => w > 0).concat([1e9]));
+ if(luzMin < 12.5 && luzMin < 1e9){
+  sv.style.flex = "none";
+  sv.style.width = Math.ceil(sv.getBoundingClientRect().width * 12.5 / luzMin) + "px";
+  sv.style.height = "100%";
+  cap.style.overflowX = "auto";
+ }
+ const tecla = e => { if(e.key === "Escape"){ e.preventDefault(); cierra(); } };
+ function cierra(){
+  cap.remove();
+  document.removeEventListener("keydown", tecla, true);
+  if(origen && origen.focus) origen.focus();
+ }
+ document.addEventListener("keydown", tecla, true);
+ cap.addEventListener("click", cierra);
+ cap.querySelector(".amp-cierra").focus();
+}
 
 function guardaDonde(i){ vistoPon(YO, i); }
 function donde(){ return vistoPos(YO, PZ.length-1); }
@@ -2859,7 +3039,7 @@ function suePlan(tramos, medio, hueco) {
       plan.push({ t0: t, dur: d, tipo: "pito", hz: SUE.PITO_HZ, seg: d });
     } else {
 
-      const esGong = (medio === "campanaYgong" && i === 1);
+      const esGong = (medio === "gong") || (medio === "campanaYgong" && i === 1);
       const tipo = esGong ? "gong" : "campana";
       const hz = esGong ? SUE.GONG_HZ : SUE.CAMPANA_HZ;
       const cae = esGong ? SUE.GONG_CAE : SUE.CAMPANA_CAE;
@@ -2960,6 +3140,10 @@ if (typeof module !== "undefined") module.exports = {
 
 const VENTANA = 18;
 const COLSON = { pito: "#EFD400", campana: "#8FC3DA", gong: "#D46AA8" };
+
+const colsDe = q => q.medio === "campanaYgong" ? [COLSON.campana, COLSON.gong] : null;
+
+const INSTRUMENTOS = [{rot: "BELL", medio: "campana"}, {rot: "GONG", medio: "gong"}];
 
 function reglaSonido(x0, y, an, seg){
  const paso = seg <= 20 ? 5 : 30;
@@ -3141,11 +3325,23 @@ function obraExploraMovil(s, suena){
   const q = s.naves.filter(x => x.id === EX.sel)[0];
   txtCabe(D.W/2, y, q.nombre, an, 16, "var(--lam-ink)", 600);
   y += cuantas(x => x.nombre, 16)*px(16*1.35) + px(12);
+  if(colsDe(q)){
+
+   INSTRUMENTOS.forEach((ins, k) => {
+    botonSuena(M, y, "nave:" + q.id + ":" + k, ins.rot, !suena, px(52));
+    if(k === 0){ if(suena) botonPara(D.W - M - px(74), y);
+                 else sinSonido(D.W/2 + px(60), y + px(20), an - px(140)); }
+    y += px(52) + px(12);
+    y += tiraSonido(M, y, an, px(30), [q.tramos[k]], VENTANA, ins.medio) + px(16);
+   });
+   y += px(4);
+  } else {
   botonSuena(M, y, "nave:" + q.id, "", !suena, px(52));
   if(suena) botonPara(D.W - M - px(74), y);
   else sinSonido(D.W/2 + px(40), y + px(20), an - px(100));
   y += px(52) + px(18);
   y += tiraSonido(M, y, an, px(30), q.tramos, VENTANA, q.medio) + px(20);
+  }
   txtCabe(D.W/2, y, q.dice + " · " + q.cita, an, 13, "var(--lam-magenta)", 600, "mono");
   y += cuantas(x => x.dice + " · " + x.cita, 13)*px(13*1.35) + px(8);
   txtCabe(D.W/2, y, q.por, an, 12.5, "var(--lam-dim)");
@@ -3158,7 +3354,7 @@ function obraExploraMovil(s, suena){
   const sel = (EX.sel === q.id), visto = !!EX.vistas[q.id];
   const P = panel(M, y, an, ALP, true, "");
   tiraSonido(P.x0 + px(10), P.y0 + ALP/2 - px(9), an - px(20), px(18), q.tramos,
-             VENTANA, q.medio, null, true);
+             VENTANA, q.medio, colsDe(q), true);
   const k = txtCabe(P.cx, P.y1 + px(20), q.nombre, an, 12.5,
                     visto ? "var(--lam-ink)" : "var(--lam-dim)", visto ? 600 : 400);
   if(sel) el("line", {x1:P.cx - px(30), y1:P.y1 + px(20) + k*px(17) - px(6),
@@ -3179,10 +3375,14 @@ function obraExplora(s){
  if(hayDetalle){
   const q = s.naves.filter(x => x.id === EX.sel)[0];
 
-  const M = 60, x0 = M + COLBOT + COLHUE, an = (D.W - M) - x0;
+  const dos = !!colsDe(q), hueco2 = dos ? px(78) + px(8) : 0;
+  const M = 60, x0 = M + COLBOT + COLHUE + hueco2, an = (D.W - M) - x0;
   txtCabe(D.W/2, 74, q.nombre, D.W - px(220), 16, "var(--lam-ink)", 600);
-  mandoDe(M, 96, px(30), "nave:" + q.id, suena);
-  tiraSonido(x0, 96, an, px(30), q.tramos, VENTANA, q.medio);
+  if(dos) INSTRUMENTOS.forEach((ins, k) =>
+    botonSuena(M + k*(px(78) + px(8)), 96 + px(15) - px(26), "nave:" + q.id + ":" + k,
+               ins.rot, !suena, px(52)));
+  else mandoDe(M, 96, px(30), "nave:" + q.id, suena);
+  tiraSonido(x0, 96, an, px(30), q.tramos, VENTANA, q.medio, colsDe(q));
   txtCabe(D.W/2, 172, q.dice + " · " + q.cita, an, 13, "var(--lam-magenta)",
           600, "mono");
   txtCabe(D.W/2, 200, q.por, an - px(120), 12.5, "var(--lam-dim)");
@@ -3200,7 +3400,7 @@ function obraExplora(s){
   const P = panel(x, yy - (sel ? px(8) : 0), ANP, ALP, true, "");
 
   tiraSonido(P.x0 + px(8), P.y0 + ALP*0.42, ANP - px(16), px(18), q.tramos,
-             VENTANA, q.medio, null, true);
+             VENTANA, q.medio, colsDe(q), true);
   const k = txtCabe(P.cx, P.y1 + px(20), q.nombre, ANP - px(6), 12.5,
                     visto ? "var(--lam-ink)" : "var(--lam-dim)", visto ? 600 : 400);
   if(sel) el("line", {x1:P.cx - px(30), y1:P.y1 + px(20) + k*px(17) - px(6),
@@ -3408,7 +3608,7 @@ const DICESON = {
   enMarcha: "under way and making way · R35(a)",
   parada:   "under way but stopped in the water · R35(b)",
   estorbada:"hampered, fishing, sailing or towing · R35(c)",
-  practico: "a pilot vessel on duty · R35(j)",
+  practico: "a pilot vessel on duty · R35(k)",
   remolcado:"a manned vessel under tow · R35(e)",
   fondeada: "at anchor · R35(g)",
   varada:   "aground · R35(h)"
@@ -3442,10 +3642,17 @@ function SUENAN(s, dato){
     ? {tramos: f.tramos, medio: f.medio || "pito", hueco: SON.HUECO} : null;
  }
 
- m = /^nave:(.+)$/.exec(dato);
+ m = /^nave:([^:]+)(?::(\d+))?$/.exec(dato);
  if(m){
   const q = (s.naves || []).filter(x => x.id === m[1])[0];
-  return q ? {tramos: q.tramos, medio: q.medio, hueco: SON.HUECO} : null;
+  if(!q) return null;
+
+  if(m[2] !== undefined){
+   const k = +m[2], ins = colsDe(q) ? INSTRUMENTOS[k] : null;
+   return q.tramos[k] === undefined ? null
+     : {tramos: [q.tramos[k]], medio: ins ? ins.medio : q.medio, hueco: SON.HUECO};
+  }
+  return {tramos: q.tramos, medio: q.medio, hueco: SON.HUECO};
  }
 
  if(dato === "paso"){
@@ -3464,7 +3671,7 @@ function SUENAN(s, dato){
 
 const BANCOS = {"NIEBLA": [{"buque": {"type": "power", "length": 60, "underway": true, "makingWay": true, "__clave": "power"}, "son": [5], "medio": "pito", "g": 90, "id": "ni-marcha-1"}, {"buque": {"type": "power", "length": 60, "underway": true, "makingWay": true, "__clave": "power"}, "son": [5], "medio": "pito", "g": 90, "id": "ni-marcha-2"}, {"buque": {"type": "power", "length": 60, "underway": true, "makingWay": true, "__clave": "parada"}, "son": [5, 5], "medio": "pito", "g": 90, "id": "ni-parada-1"}, {"buque": {"type": "power", "length": 60, "underway": true, "makingWay": true, "__clave": "parada"}, "son": [5, 5], "medio": "pito", "g": 90, "id": "ni-parada-2"}, {"buque": {"type": "power", "length": 60, "underway": true, "makingWay": true, "__clave": "nuc"}, "son": [5, 1, 1], "medio": "pito", "g": 90, "id": "ni-estorb-1"}, {"buque": {"type": "power", "length": 60, "underway": true, "makingWay": true, "__clave": "cbd"}, "son": [5, 1, 1], "medio": "pito", "g": 90, "id": "ni-estorb-2"}, {"buque": {"type": "power", "length": 60, "underway": true, "makingWay": true, "__clave": "fishingTrawl"}, "son": [5, 1, 1], "medio": "pito", "g": 90, "id": "ni-estorb-3"}, {"buque": {"type": "power", "length": 60, "underway": true, "makingWay": true, "__clave": "towing"}, "son": [5, 1, 1], "medio": "pito", "g": 90, "id": "ni-estorb-4"}, {"buque": {"type": "power", "length": 60, "underway": true, "makingWay": true, "__clave": "sailing"}, "son": [5, 1, 1], "medio": "pito", "g": 90, "id": "ni-estorb-5"}, {"buque": {"type": "power", "length": 60, "underway": true, "makingWay": true, "__clave": "remolcado"}, "son": [5, 1, 1, 1], "medio": "pito", "g": 90, "id": "ni-remolcado"}, {"buque": {"type": "power", "length": 60, "underway": true, "makingWay": true, "__clave": "pilot"}, "son": [5, 1, 1, 1, 1], "medio": "pito", "g": 90, "id": "ni-pilot"}, {"buque": {"type": "power", "length": 60, "underway": true, "makingWay": true, "__clave": "fondeada"}, "son": [5], "medio": "campana", "g": 90, "id": "ni-fondeo-1"}, {"buque": {"type": "power", "length": 60, "underway": true, "makingWay": true, "__clave": "fondeadaGrande"}, "son": [5, 5], "medio": "campanaYgong", "g": 90, "id": "ni-fondeo-2"}, {"buque": {"type": "power", "length": 60, "underway": true, "makingWay": true, "__clave": "varada"}, "son": [1, 1, 1, 5, 1, 1, 1], "medio": "campana", "g": 90, "id": "ni-varada"}], "CODIGO": [{"buque": {"type": "power", "length": 60, "underway": true, "makingWay": true, "__clave": "r34a"}, "son": [1], "medio": "pito", "g": 90, "id": "co-stbd-1"}, {"buque": {"type": "power", "length": 60, "underway": true, "makingWay": true, "__clave": "r34a"}, "son": [1], "medio": "pito", "g": 90, "id": "co-stbd-2"}, {"buque": {"type": "power", "length": 60, "underway": true, "makingWay": true, "__clave": "r34a"}, "son": [1, 1], "medio": "pito", "g": 90, "id": "co-port-1"}, {"buque": {"type": "power", "length": 60, "underway": true, "makingWay": true, "__clave": "r34a"}, "son": [1, 1], "medio": "pito", "g": 90, "id": "co-port-2"}, {"buque": {"type": "power", "length": 60, "underway": true, "makingWay": true, "__clave": "r34a"}, "son": [1, 1, 1], "medio": "pito", "g": 90, "id": "co-astern-1"}, {"buque": {"type": "power", "length": 60, "underway": true, "makingWay": true, "__clave": "r34a"}, "son": [1, 1, 1], "medio": "pito", "g": 90, "id": "co-astern-2"}, {"buque": {"type": "power", "length": 60, "underway": true, "makingWay": true, "__clave": "r34d"}, "son": [1, 1, 1, 1, 1], "medio": "pito", "g": 90, "id": "co-duda-1"}, {"buque": {"type": "power", "length": 60, "underway": true, "makingWay": true, "__clave": "r34d"}, "son": [1, 1, 1, 1, 1], "medio": "pito", "g": 90, "id": "co-duda-2"}, {"buque": {"type": "power", "length": 60, "underway": true, "makingWay": true, "__clave": "r34a"}, "son": [1], "medio": "pito", "g": 90, "id": "co-stbd-3"}, {"buque": {"type": "power", "length": 60, "underway": true, "makingWay": true, "__clave": "r34a"}, "son": [1, 1], "medio": "pito", "g": 90, "id": "co-port-3"}, {"buque": {"type": "power", "length": 60, "underway": true, "makingWay": true, "__clave": "r34a"}, "son": [1, 1, 1], "medio": "pito", "g": 90, "id": "co-astern-3"}, {"buque": {"type": "power", "length": 60, "underway": true, "makingWay": true, "__clave": "r34d"}, "son": [1, 1, 1, 1, 1], "medio": "pito", "g": 90, "id": "co-duda-3"}]};
 const DONDE_LUEGO = "in part 2, «What she is»";
-const TEXTOS = {"NIEBLA": {"pregunta": "You hear this in fog. What is she?", "clases": ["enMarcha", "parada", "estorbada", "practico", "remolcado", "fondeada", "varada", "muda"], "opciones": ["<b>Under way and making way</b> — an ordinary vessel, moving.", "<b>Under way but stopped</b> in the water.", "<b>Hampered, fishing, sailing or towing</b> — one of seven.", "<b>A pilot vessel</b> on duty.", "<b>A manned vessel under tow.</b>", "<b>At anchor.</b>", "<b>Aground.</b>", "<b>That signal fits more than one.</b>"], "porque": {"enMarcha": "<b>One prolonged blast.</b> Rule 35(a), and it is the shortest signal in the book: an ordinary power-driven vessel with way on. <em>Every two minutes, and nothing in between.</em>", "parada": "<b>Two prolonged blasts.</b> Rule 35(b) — the same vessel with her way off. She is still <em>under way</em>: her anchor is up. <b>One blast or two is the difference between moving and stopped</b>, and it is the one people get wrong.", "estorbada": "<b>One prolonged and two short.</b> Rule 35(c), and it belongs to <b>seven of the ten</b> vessels the light rules cite: not under command, restricted, constrained by draught, both kinds of fishing, under sail, and towing. <em>You cannot tell which — and you do not need to. All seven of them mean the same thing to you: she is not getting out of your way.</em>", "practico": "<b>One prolonged, and then four short.</b> Rule 35(j): a pilot on duty may add four short blasts to her ordinary signal. It is the only fog signal in the book that says <b>who she is</b> rather than what she is doing.", "remolcado": "<b>One prolonged and three short.</b> Rule 35(e), the vessel being towed — and she sounds it <b>immediately after her tug</b>. So the real sight is a pair: one-and-two, then one-and-three. <em>If you hear the second one you know there is a wire.</em> <b>Rule 35(e) asks this of a towed vessel that is manned</b>, so silence behind the tug proves nothing: an unmanned barge is on the end of the same wire and says nothing at all.", "fondeada": "<b>The bell, rung rapidly for about five seconds</b>, and at intervals of not more than <b>one</b> minute — twice as often as everything else. Rule 35(g). At 100 m or more the bell is sounded forward and <b>the gong aft</b>, which is the only way sound tells you a length.", "varada": "<b>Three separate strokes, the rapid ringing, and three strokes again.</b> Rule 35(h). She is at anchor plus something, and the something is that she is not there by choice.", "muda": "That pattern belongs to more than one of these, and nothing in the sound separates them. Saying so is the answer."}, "mal": {"enMarcha": "Making way is <b>one</b> prolonged blast and no more. Count them again — two means she has stopped.", "parada": "Stopped is <b>two</b> prolonged blasts and nothing short after them.", "estorbada": "That group is one prolonged followed by <b>two short</b>. Count the short ones: three is a tow, four is a pilot.", "practico": "A pilot adds <b>four</b> short. Count them.", "remolcado": "The towed vessel is one prolonged and <b>three</b> short. Two is her tug, and four is a pilot.", "fondeada": "At anchor is <b>the bell</b>, not the whistle — and no blasts at all.", "varada": "Aground is the anchor signal <b>with three strokes either side</b> of it. If there are no strokes she is only anchored.", "muda": "Here the pattern does settle it. Count the blasts and look at whether they are prolonged or short."}, "pista": "Count two things and in this order: <b>how many prolonged</b>, and then <b>how many short after them</b>. One prolonged alone: making way. Two prolonged: stopped. One and two short: the group of eight. One and three: a tow. One and four: a pilot. And if it is <b>the bell</b>, she is not going anywhere.", "show": {"enMarcha": "One prolonged. Rule 35(a), making way.", "parada": "Two prolonged. Rule 35(b), stopped in the water.", "estorbada": "One prolonged and two short. Rule 35(c) — any of eight.", "practico": "One prolonged and four short. Rule 35(j), a pilot.", "remolcado": "One prolonged and three short. Rule 35(e), under tow.", "fondeada": "The bell. Rule 35(g), at anchor.", "varada": "Strokes, bell, strokes. Rule 35(h), aground.", "muda": "More than one vessel gives this signal."}, "senuelos": ["muda"], "sitiosAsignados": true}, "CODIGO": {"pregunta": "You hear this from a vessel in sight. What is she telling you?", "clases": ["estribor", "babor", "atras", "duda"], "opciones": ["<b>I am altering my course to starboard.</b>", "<b>I am altering my course to port.</b>", "<b>I am operating astern propulsion.</b>", "<b>I do not understand you</b> — or I doubt you are doing enough."], "porque": {"estribor": "<b>One short blast.</b> Rule 34(a). She is not asking and she is not warning: she is <b>telling you what she is doing right now</b>, as she does it.", "babor": "<b>Two short blasts.</b> Rule 34(a), altering to port. <em>Two is port, and port is the one that starts with the same letter as «pair».</em>", "atras": "<b>Three short blasts.</b> Rule 34(a): her engines are going astern. It does not mean she is moving backwards — only that the propeller is.", "duda": "<b>Five or more short blasts.</b> Rule 34(d), and it is the only signal in the book that is <b>about you</b>: either she cannot read your intentions, or she does not believe you are doing enough. <em>If you hear it, it is almost certainly meant for you.</em>"}, "mal": {"estribor": "Starboard is <b>one</b> short blast. Count again.", "babor": "Port is <b>two</b>. Three is astern propulsion.", "atras": "Astern is <b>three</b>. Five or more is the doubt signal.", "duda": "The doubt signal is <b>five or more</b> short blasts, rapidly."}, "pista": "One, two, three: starboard, port, astern — and that is the whole of Rule 34(a). <b>Five is not four more of the same</b>: it is a different rule and a different kind of message.", "show": {"estribor": "One short. Altering to starboard.", "babor": "Two short. Altering to port.", "atras": "Three short. Astern propulsion.", "duda": "Five short. Doubt — Rule 34(d)."}, "sitiosAsignados": true}};
+const TEXTOS = {"NIEBLA": {"pregunta": "You hear this in fog. What is she?", "clases": ["enMarcha", "parada", "estorbada", "practico", "remolcado", "fondeada", "varada", "muda"], "opciones": ["<b>Under way and making way</b> — an ordinary vessel, moving.", "<b>Under way but stopped</b> in the water.", "<b>Hampered, fishing, sailing or towing</b> — one of seven.", "<b>A pilot vessel</b> on duty.", "<b>A manned vessel under tow.</b>", "<b>At anchor.</b>", "<b>Aground.</b>", "<b>That signal fits more than one.</b>"], "porque": {"enMarcha": "<b>One prolonged blast.</b> Rule 35(a), and it is the shortest signal in the book: an ordinary power-driven vessel with way on. <em>Every two minutes, and nothing in between.</em>", "parada": "<b>Two prolonged blasts.</b> Rule 35(b) — the same vessel with her way off. She is still <em>under way</em>: her anchor is up. <b>One blast or two is the difference between moving and stopped</b>, and it is the one people get wrong.", "estorbada": "<b>One prolonged and two short.</b> Rule 35(c), and it belongs to <b>seven of the ten</b> vessels the light rules cite: not under command, restricted, constrained by draught, both kinds of fishing, under sail, and towing. <em>You cannot tell which — and you do not need to. All seven of them mean the same thing to you: she is not getting out of your way.</em>", "practico": "<b>One prolonged, and then four short.</b> Rule 35(k): a pilot on duty may add four short blasts to her ordinary signal. It is the only fog signal in the book that says <b>who she is</b> rather than what she is doing.", "remolcado": "<b>One prolonged and three short.</b> Rule 35(e), the vessel being towed — and she sounds it <b>immediately after her tug</b>. So the real sight is a pair: one-and-two, then one-and-three. <em>If you hear the second one you know there is a wire.</em> <b>Rule 35(e) asks this of a towed vessel that is manned</b>, so silence behind the tug proves nothing: an unmanned barge is on the end of the same wire and says nothing at all.", "fondeada": "<b>The bell, rung rapidly for about five seconds</b>, and at intervals of not more than <b>one</b> minute — twice as often as everything else. Rule 35(g). At 100 m or more the bell is sounded forward and <b>the gong aft</b>, which is the only way sound tells you a length.", "varada": "<b>Three separate strokes, the rapid ringing, and three strokes again.</b> Rule 35(h). She is at anchor plus something, and the something is that she is not there by choice.", "muda": "That pattern belongs to more than one of these, and nothing in the sound separates them. Saying so is the answer."}, "mal": {"enMarcha": "Making way is <b>one</b> prolonged blast <b>and nothing after it</b>. Listen to what follows the prolonged one: <b>two short</b> after it is the group of seven, Rule 35(c); three short is a tow and four a pilot; and a <b>second prolonged</b> means she has stopped.", "parada": "Stopped is <b>two</b> prolonged blasts and nothing short after them.", "estorbada": "That group is one prolonged followed by <b>two short</b>. Count the short ones: three is a tow, four is a pilot.", "practico": "A pilot adds <b>four</b> short. Count them.", "remolcado": "The towed vessel is one prolonged and <b>three</b> short. Two is her tug, and four is a pilot.", "fondeada": "At anchor is <b>the bell</b>, not the whistle — and no blasts at all.", "varada": "Aground is the anchor signal <b>with three strokes either side</b> of it. If there are no strokes she is only anchored.", "muda": "Here the pattern does settle it. Count the blasts and look at whether they are prolonged or short."}, "pista": "Count two things and in this order: <b>how many prolonged</b>, and then <b>how many short after them</b>. One prolonged alone: making way. Two prolonged: stopped. One and two short: the group of seven. One and three: a tow. One and four: a pilot. And if it is <b>the bell</b>, she is not going anywhere.", "show": {"enMarcha": "One prolonged. Rule 35(a), making way.", "parada": "Two prolonged. Rule 35(b), stopped in the water.", "estorbada": "One prolonged and two short. Rule 35(c) — any of seven.", "practico": "One prolonged and four short. Rule 35(k), a pilot.", "remolcado": "One prolonged and three short. Rule 35(e), under tow.", "fondeada": "The bell. Rule 35(g), at anchor.", "varada": "Strokes, bell, strokes. Rule 35(h), aground.", "muda": "More than one vessel gives this signal."}, "senuelos": ["muda"], "sitiosAsignados": true}, "CODIGO": {"pregunta": "You hear this from a vessel in sight. What is she telling you?", "clases": ["estribor", "babor", "atras", "duda"], "opciones": ["<b>I am altering my course to starboard.</b>", "<b>I am altering my course to port.</b>", "<b>I am operating astern propulsion.</b>", "<b>I do not understand you</b> — or I doubt you are doing enough."], "porque": {"estribor": "<b>One short blast.</b> Rule 34(a). She is not asking and she is not warning: she is <b>telling you what she is doing right now</b>, as she does it.", "babor": "<b>Two short blasts.</b> Rule 34(a), altering to port. <em>Two is port, and port is the one that starts with the same letter as «pair».</em>", "atras": "<b>Three short blasts.</b> Rule 34(a), in its own words: <em>«I am operating astern propulsion»</em>. That is what her engines are doing, not where she is going — she may still be moving ahead while the propeller takes her way off.", "duda": "<b>Five or more short blasts.</b> Rule 34(d), and it is the only signal in the book that is <b>about you</b>: either she cannot read your intentions, or she does not believe you are doing enough. <em>If you hear it, it is almost certainly meant for you.</em>"}, "mal": {"estribor": "Starboard is <b>one</b> short blast. Count again.", "babor": "Port is <b>two</b>. Three is astern propulsion.", "atras": "Astern is <b>three</b>. Five or more is the doubt signal.", "duda": "The doubt signal is <b>five or more</b> short blasts, rapidly."}, "pista": "One, two, three: starboard, port, astern — and that is the whole of Rule 34(a). <b>Five is not four more of the same</b>: it is a different rule and a different kind of message.", "show": {"estribor": "One short. Altering to starboard.", "babor": "Two short. Altering to port.", "atras": "Three short. Astern propulsion.", "duda": "Five short. Doubt — Rule 34(d)."}, "sitiosAsignados": true}};
 const AZAR = 20260818;
 window.BANCOS = BANCOS; window.TEXTOS = TEXTOS; window.DICE = DICE;
 
