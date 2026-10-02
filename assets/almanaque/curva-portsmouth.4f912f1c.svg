@@ -186,4 +186,5 @@
 <text x="60.0" y="1686.0" font-family="Arial" font-size="12" fill="#6B8290">Springs and neaps split by range: the top and bottom 20 % of the year's tides. LW differences are relative to LW Portsmouth, in minutes as hhmm.</text>
 <text x="60.0" y="1702.0" font-family="Arial" font-size="12" fill="#6B8290">* Ports in red have no series of their own in this training almanac: FES gives their differences but not the shape of their tide, so they use the measured curve of their body of water.</text>
 <text x="60.0" y="1718.0" font-family="Arial" font-size="12" fill="#6B8290">Heights above chart datum. Not for navigation.</text>
+<text x="60.0" y="1748.0" font-family="Arial" font-size="10" fill="#6B8290" data-fuente-pie="1">Tide gauge data: Generated using E.U. Copernicus Marine Service Information; Global Ocean - Delayed Mode Sea level product (INSITU_GLO_PHY_SSH_DISCRETE_MY_013_053), https://doi.org/10.17882/93670.</text>
 </svg>

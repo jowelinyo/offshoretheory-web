@@ -3,49 +3,57 @@
 <rect x="0.0" y="0.0" width="1240.0" height="1754.0" fill="#FFFFFF"/>
 <rect x="0.0" y="0.0" width="1240.0" height="104.0" fill="#D4E7F2"/>
 <line x1="0.0" y1="104.0" x2="1240.0" y2="104.0" stroke="#2F4A5A" stroke-width="3.0"/>
-<text x="60.0" y="58.0" font-family="Arial" font-size="34" fill="#2F4A5A" font-weight="bold">DOVER · Kent</text>
+<text x="60.0" y="58.0" font-family="Arial" font-size="34" fill="#2F4A5A" font-weight="bold">DIEPPE · Alabaster Coast</text>
 <text x="1180.0" y="58.0" font-family="Arial" font-size="24" fill="#2F4A5A" font-weight="bold" text-anchor="end">TIDAL CURVE</text>
 <text x="1180.0" y="86.0" font-family="Arial" font-size="14" fill="#6B8290" text-anchor="end">heights in metres above chart datum · hours before and after high water</text>
 <rect x="130.0" y="250.0" width="470.0" height="890.0" fill="#D4E7F2" opacity="0.25"/>
 <line x1="130.0" y1="250.0" x2="130.0" y2="1140.0" stroke="#2F4A5A" stroke-width="1.4" opacity="0.28"/>
 <text x="130.0" y="238.0" font-family="Arial" font-size="14" fill="#2F4A5A" text-anchor="middle">0</text>
 <text x="130.0" y="1162.0" font-family="Arial" font-size="14" fill="#6B8290" text-anchor="middle">0</text>
-<line x1="156.1" y1="250.0" x2="156.1" y2="1140.0" stroke="#2F4A5A" stroke-width="0.6" opacity="0.28"/>
-<line x1="182.2" y1="250.0" x2="182.2" y2="1140.0" stroke="#2F4A5A" stroke-width="1.4" opacity="0.28"/>
-<text x="182.2" y="238.0" font-family="Arial" font-size="14" fill="#2F4A5A" text-anchor="middle">1</text>
-<text x="182.2" y="1162.0" font-family="Arial" font-size="14" fill="#6B8290" text-anchor="middle">1</text>
-<line x1="208.3" y1="250.0" x2="208.3" y2="1140.0" stroke="#2F4A5A" stroke-width="0.6" opacity="0.28"/>
-<line x1="234.4" y1="250.0" x2="234.4" y2="1140.0" stroke="#2F4A5A" stroke-width="1.4" opacity="0.28"/>
-<text x="234.4" y="238.0" font-family="Arial" font-size="14" fill="#2F4A5A" text-anchor="middle">2</text>
-<text x="234.4" y="1162.0" font-family="Arial" font-size="14" fill="#6B8290" text-anchor="middle">2</text>
-<line x1="260.6" y1="250.0" x2="260.6" y2="1140.0" stroke="#2F4A5A" stroke-width="0.6" opacity="0.28"/>
-<line x1="286.7" y1="250.0" x2="286.7" y2="1140.0" stroke="#2F4A5A" stroke-width="1.4" opacity="0.28"/>
-<text x="286.7" y="238.0" font-family="Arial" font-size="14" fill="#2F4A5A" text-anchor="middle">3</text>
-<text x="286.7" y="1162.0" font-family="Arial" font-size="14" fill="#6B8290" text-anchor="middle">3</text>
-<line x1="312.8" y1="250.0" x2="312.8" y2="1140.0" stroke="#2F4A5A" stroke-width="0.6" opacity="0.28"/>
-<line x1="338.9" y1="250.0" x2="338.9" y2="1140.0" stroke="#2F4A5A" stroke-width="1.4" opacity="0.28"/>
-<text x="338.9" y="238.0" font-family="Arial" font-size="14" fill="#2F4A5A" text-anchor="middle">4</text>
-<text x="338.9" y="1162.0" font-family="Arial" font-size="14" fill="#6B8290" text-anchor="middle">4</text>
+<line x1="151.4" y1="250.0" x2="151.4" y2="1140.0" stroke="#2F4A5A" stroke-width="0.6" opacity="0.28"/>
+<line x1="172.7" y1="250.0" x2="172.7" y2="1140.0" stroke="#2F4A5A" stroke-width="1.4" opacity="0.28"/>
+<text x="172.7" y="238.0" font-family="Arial" font-size="14" fill="#2F4A5A" text-anchor="middle">1</text>
+<text x="172.7" y="1162.0" font-family="Arial" font-size="14" fill="#6B8290" text-anchor="middle">1</text>
+<line x1="194.1" y1="250.0" x2="194.1" y2="1140.0" stroke="#2F4A5A" stroke-width="0.6" opacity="0.28"/>
+<line x1="215.5" y1="250.0" x2="215.5" y2="1140.0" stroke="#2F4A5A" stroke-width="1.4" opacity="0.28"/>
+<text x="215.5" y="238.0" font-family="Arial" font-size="14" fill="#2F4A5A" text-anchor="middle">2</text>
+<text x="215.5" y="1162.0" font-family="Arial" font-size="14" fill="#6B8290" text-anchor="middle">2</text>
+<line x1="236.8" y1="250.0" x2="236.8" y2="1140.0" stroke="#2F4A5A" stroke-width="0.6" opacity="0.28"/>
+<line x1="258.2" y1="250.0" x2="258.2" y2="1140.0" stroke="#2F4A5A" stroke-width="1.4" opacity="0.28"/>
+<text x="258.2" y="238.0" font-family="Arial" font-size="14" fill="#2F4A5A" text-anchor="middle">3</text>
+<text x="258.2" y="1162.0" font-family="Arial" font-size="14" fill="#6B8290" text-anchor="middle">3</text>
+<line x1="279.5" y1="250.0" x2="279.5" y2="1140.0" stroke="#2F4A5A" stroke-width="0.6" opacity="0.28"/>
+<line x1="300.9" y1="250.0" x2="300.9" y2="1140.0" stroke="#2F4A5A" stroke-width="1.4" opacity="0.28"/>
+<text x="300.9" y="238.0" font-family="Arial" font-size="14" fill="#2F4A5A" text-anchor="middle">4</text>
+<text x="300.9" y="1162.0" font-family="Arial" font-size="14" fill="#6B8290" text-anchor="middle">4</text>
+<line x1="322.3" y1="250.0" x2="322.3" y2="1140.0" stroke="#2F4A5A" stroke-width="0.6" opacity="0.28"/>
+<line x1="343.6" y1="250.0" x2="343.6" y2="1140.0" stroke="#2F4A5A" stroke-width="1.4" opacity="0.28"/>
+<text x="343.6" y="238.0" font-family="Arial" font-size="14" fill="#2F4A5A" text-anchor="middle">5</text>
+<text x="343.6" y="1162.0" font-family="Arial" font-size="14" fill="#6B8290" text-anchor="middle">5</text>
 <line x1="365.0" y1="250.0" x2="365.0" y2="1140.0" stroke="#2F4A5A" stroke-width="0.6" opacity="0.28"/>
-<line x1="391.1" y1="250.0" x2="391.1" y2="1140.0" stroke="#2F4A5A" stroke-width="1.4" opacity="0.28"/>
-<text x="391.1" y="238.0" font-family="Arial" font-size="14" fill="#2F4A5A" text-anchor="middle">5</text>
-<text x="391.1" y="1162.0" font-family="Arial" font-size="14" fill="#6B8290" text-anchor="middle">5</text>
-<line x1="417.2" y1="250.0" x2="417.2" y2="1140.0" stroke="#2F4A5A" stroke-width="0.6" opacity="0.28"/>
-<line x1="443.3" y1="250.0" x2="443.3" y2="1140.0" stroke="#2F4A5A" stroke-width="1.4" opacity="0.28"/>
-<text x="443.3" y="238.0" font-family="Arial" font-size="14" fill="#2F4A5A" text-anchor="middle">6</text>
-<text x="443.3" y="1162.0" font-family="Arial" font-size="14" fill="#6B8290" text-anchor="middle">6</text>
-<line x1="469.4" y1="250.0" x2="469.4" y2="1140.0" stroke="#2F4A5A" stroke-width="0.6" opacity="0.28"/>
-<line x1="495.6" y1="250.0" x2="495.6" y2="1140.0" stroke="#2F4A5A" stroke-width="1.4" opacity="0.28"/>
-<text x="495.6" y="238.0" font-family="Arial" font-size="14" fill="#2F4A5A" text-anchor="middle">7</text>
-<text x="495.6" y="1162.0" font-family="Arial" font-size="14" fill="#6B8290" text-anchor="middle">7</text>
-<line x1="521.7" y1="250.0" x2="521.7" y2="1140.0" stroke="#2F4A5A" stroke-width="0.6" opacity="0.28"/>
-<line x1="547.8" y1="250.0" x2="547.8" y2="1140.0" stroke="#2F4A5A" stroke-width="1.4" opacity="0.28"/>
-<text x="547.8" y="238.0" font-family="Arial" font-size="14" fill="#2F4A5A" text-anchor="middle">8</text>
-<text x="547.8" y="1162.0" font-family="Arial" font-size="14" fill="#6B8290" text-anchor="middle">8</text>
-<line x1="573.9" y1="250.0" x2="573.9" y2="1140.0" stroke="#2F4A5A" stroke-width="0.6" opacity="0.28"/>
+<line x1="386.4" y1="250.0" x2="386.4" y2="1140.0" stroke="#2F4A5A" stroke-width="1.4" opacity="0.28"/>
+<text x="386.4" y="238.0" font-family="Arial" font-size="14" fill="#2F4A5A" text-anchor="middle">6</text>
+<text x="386.4" y="1162.0" font-family="Arial" font-size="14" fill="#6B8290" text-anchor="middle">6</text>
+<line x1="407.7" y1="250.0" x2="407.7" y2="1140.0" stroke="#2F4A5A" stroke-width="0.6" opacity="0.28"/>
+<line x1="429.1" y1="250.0" x2="429.1" y2="1140.0" stroke="#2F4A5A" stroke-width="1.4" opacity="0.28"/>
+<text x="429.1" y="238.0" font-family="Arial" font-size="14" fill="#2F4A5A" text-anchor="middle">7</text>
+<text x="429.1" y="1162.0" font-family="Arial" font-size="14" fill="#6B8290" text-anchor="middle">7</text>
+<line x1="450.5" y1="250.0" x2="450.5" y2="1140.0" stroke="#2F4A5A" stroke-width="0.6" opacity="0.28"/>
+<line x1="471.8" y1="250.0" x2="471.8" y2="1140.0" stroke="#2F4A5A" stroke-width="1.4" opacity="0.28"/>
+<text x="471.8" y="238.0" font-family="Arial" font-size="14" fill="#2F4A5A" text-anchor="middle">8</text>
+<text x="471.8" y="1162.0" font-family="Arial" font-size="14" fill="#6B8290" text-anchor="middle">8</text>
+<line x1="493.2" y1="250.0" x2="493.2" y2="1140.0" stroke="#2F4A5A" stroke-width="0.6" opacity="0.28"/>
+<line x1="514.5" y1="250.0" x2="514.5" y2="1140.0" stroke="#2F4A5A" stroke-width="1.4" opacity="0.28"/>
+<text x="514.5" y="238.0" font-family="Arial" font-size="14" fill="#2F4A5A" text-anchor="middle">9</text>
+<text x="514.5" y="1162.0" font-family="Arial" font-size="14" fill="#6B8290" text-anchor="middle">9</text>
+<line x1="535.9" y1="250.0" x2="535.9" y2="1140.0" stroke="#2F4A5A" stroke-width="0.6" opacity="0.28"/>
+<line x1="557.3" y1="250.0" x2="557.3" y2="1140.0" stroke="#2F4A5A" stroke-width="1.4" opacity="0.28"/>
+<text x="557.3" y="238.0" font-family="Arial" font-size="14" fill="#2F4A5A" text-anchor="middle">10</text>
+<text x="557.3" y="1162.0" font-family="Arial" font-size="14" fill="#6B8290" text-anchor="middle">10</text>
+<line x1="578.6" y1="250.0" x2="578.6" y2="1140.0" stroke="#2F4A5A" stroke-width="0.6" opacity="0.28"/>
 <line x1="600.0" y1="250.0" x2="600.0" y2="1140.0" stroke="#2F4A5A" stroke-width="1.4" opacity="0.28"/>
-<text x="600.0" y="238.0" font-family="Arial" font-size="14" fill="#2F4A5A" text-anchor="middle">9</text>
-<text x="600.0" y="1162.0" font-family="Arial" font-size="14" fill="#6B8290" text-anchor="middle">9</text>
+<text x="600.0" y="238.0" font-family="Arial" font-size="14" fill="#2F4A5A" text-anchor="middle">11</text>
+<text x="600.0" y="1162.0" font-family="Arial" font-size="14" fill="#6B8290" text-anchor="middle">11</text>
 <text x="365.0" y="212.0" font-family="Arial" font-size="15" fill="#2F4A5A" font-weight="bold" text-anchor="middle">HEIGHT OF HIGH WATER (m)</text>
 <text x="365.0" y="1188.0" font-family="Arial" font-size="15" fill="#6B8290" font-weight="bold" text-anchor="middle">HEIGHT OF LOW WATER (m)</text>
 <rect x="130" y="250" width="470" height="890" fill="none" stroke="#2F4A5A" stroke-width="2"/>
@@ -103,24 +111,24 @@
 <line x1="1170.0" y1="250.0" x2="1170.0" y2="1140.0" stroke="#2F4A5A" stroke-width="0.6" opacity="0.30"/>
 <text x="1170.0" y="1162.0" font-family="Arial" font-size="13" fill="#6B8290" text-anchor="middle">+7</text>
 <text x="915.0" y="1188.0" font-family="Arial" font-size="15" fill="#2F4A5A" font-weight="bold" text-anchor="middle">HOURS BEFORE AND AFTER HIGH WATER</text>
-<polyline points="660.0,1080.1 669.8,1100.6 679.6,1117.2 689.4,1129.6 699.2,1137.3 709.0,1139.4 718.8,1135.1 728.7,1123.1 738.5,1102.0 748.3,1070.6 758.1,1028.0 767.9,973.9 777.7,908.9 787.5,834.6 797.3,753.6 807.1,669.1 816.9,585.3 826.7,505.9 836.5,434.5 846.3,373.8 856.2,325.5 866.0,289.9 875.8,266.5 885.6,253.8 895.4,250.0 905.2,253.2 915.0,262.0 924.8,275.2 934.6,292.3 944.4,313.3 954.2,338.3 964.0,367.4 973.8,400.6 983.7,437.7 993.5,478.2 1003.3,521.3 1013.1,566.0 1022.9,611.7 1032.7,657.6 1042.5,703.1 1052.3,747.8 1062.1,791.4 1071.9,833.7 1081.7,874.4 1091.5,913.4 1101.3,950.3 1111.2,984.7 1121.0,1016.5 1130.8,1045.3 1140.6,1070.7 1150.4,1092.7 1160.2,1110.9 1170.0,1125.1" fill="none" stroke="#2F4A5A" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
-<polyline points="660.0,1132.4 669.8,1136.7 679.6,1134.6 689.4,1125.9 699.2,1110.3 709.0,1087.9 718.8,1058.4 728.7,1022.0 738.5,978.9 748.3,929.4 758.1,874.2 767.9,814.3 777.7,751.0 787.5,685.6 797.3,620.0 807.1,555.8 816.9,494.8 826.7,438.5 836.5,388.4 846.3,345.5 856.2,310.4 866.0,283.4 875.8,264.5 885.6,253.5 895.4,250.0 905.2,253.4 915.0,263.1 924.8,278.7 934.6,299.6 944.4,325.4 954.2,355.7 964.0,390.0 973.8,427.9 983.7,468.9 993.5,512.6 1003.3,558.4 1013.1,605.8 1022.9,654.2 1032.7,703.0 1042.5,751.7 1052.3,799.8 1062.1,846.7 1071.9,892.0 1081.7,935.0 1091.5,975.2 1101.3,1012.1 1111.2,1045.1 1121.0,1073.8 1130.8,1097.6 1140.6,1116.2 1150.4,1129.2 1160.2,1136.2 1170.0,1137.1" fill="none" stroke="#2F4A5A" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="9 6"/>
+<polyline points="660.0,1121.3 669.8,1132.6 679.6,1138.9 689.4,1139.0 699.2,1131.9 709.0,1116.0 718.8,1090.1 728.7,1053.1 738.5,1005.1 748.3,947.2 758.1,881.4 767.9,810.9 777.7,739.2 787.5,669.5 797.3,604.1 807.1,544.6 816.9,491.0 826.7,443.0 836.5,399.5 846.3,360.1 856.2,324.8 866.0,294.5 875.8,270.7 885.6,255.4 895.4,250.0 905.2,255.4 915.0,271.5 924.8,296.9 934.6,329.8 944.4,367.8 954.2,408.8 964.0,451.2 973.8,494.0 983.7,536.8 993.5,579.6 1003.3,622.6 1013.1,665.9 1022.9,709.5 1032.7,752.9 1042.5,795.9 1052.3,837.9 1062.1,878.7 1071.9,917.8 1081.7,954.9 1091.5,989.8 1101.3,1022.0 1111.2,1051.0 1121.0,1076.6 1130.8,1098.4 1140.6,1115.9 1150.4,1129.0 1160.2,1137.1 1170.0,1139.5" fill="none" stroke="#2F4A5A" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+<polyline points="660.0,1137.7 669.8,1137.2 679.6,1130.2 689.4,1116.1 699.2,1094.9 709.0,1066.4 718.8,1030.8 728.7,988.2 738.5,939.3 748.3,885.2 758.1,826.9 767.9,765.9 777.7,703.8 787.5,642.1 797.3,582.1 807.1,524.9 816.9,471.7 826.7,422.9 836.5,379.3 846.3,341.3 856.2,309.3 866.0,283.8 875.8,265.2 885.6,253.8 895.4,250.0 905.2,253.8 915.0,265.0 924.8,283.2 934.6,307.7 944.4,337.7 954.2,372.5 964.0,410.9 973.8,452.4 983.7,496.3 993.5,541.9 1003.3,588.9 1013.1,636.8 1022.9,685.4 1032.7,734.2 1042.5,782.7 1052.3,830.3 1062.1,876.6 1071.9,920.8 1081.7,962.4 1091.5,1000.8 1101.3,1035.4 1111.2,1065.6 1121.0,1091.2 1130.8,1111.6 1140.6,1126.6 1150.4,1135.7 1160.2,1138.7 1170.0,1135.2" fill="none" stroke="#2F4A5A" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="9 6"/>
 <rect x="660" y="250" width="510" height="890" fill="none" stroke="#2F4A5A" stroke-width="2"/>
 <line x1="1020.0" y1="278.0" x2="1080.0" y2="278.0" stroke="#2F4A5A" stroke-width="3.0"/>
 <text x="1086.0" y="283.0" font-family="Arial" font-size="14" fill="#2F4A5A" font-weight="bold">springs</text>
 <line x1="1020.0" y1="302.0" x2="1080.0" y2="302.0" stroke="#2F4A5A" stroke-width="3.0" stroke-dasharray="9 6"/>
 <text x="1086.0" y="307.0" font-family="Arial" font-size="14" fill="#2F4A5A">neaps</text>
-<line x1="409.4" y1="250.0" x2="247.5" y2="1140.0" stroke="#E03127" stroke-width="2.2" opacity="0.90" stroke-dasharray="8 5"/>
-<circle cx="409.4" cy="250.0" r="5" fill="#E03127"/>
-<circle cx="247.5" cy="1140.0" r="5" fill="#E03127"/>
-<line x1="973.8" y1="427.0" x2="660.0" y2="427.0" stroke="#E03127" stroke-width="1.8" opacity="0.90" stroke-dasharray="6 4"/>
-<line x1="600.0" y1="427.0" x2="377.2" y2="427.0" stroke="#E03127" stroke-width="1.8" opacity="0.90" stroke-dasharray="6 4"/>
-<line x1="973.8" y1="1140.0" x2="973.8" y2="427.0" stroke="#E03127" stroke-width="1.8" opacity="0.90" stroke-dasharray="6 4"/>
-<line x1="377.2" y1="427.0" x2="377.2" y2="1140.0" stroke="#E03127" stroke-width="1.8" opacity="0.90" stroke-dasharray="6 4"/>
-<circle cx="377.2" cy="1140.0" r="5" fill="none" stroke="#E03127" stroke-width="2.4"/>
-<text x="419.4" y="270.0" font-family="Arial" font-size="14" fill="#E03127" font-weight="bold">HW 5.35 m</text>
-<text x="257.5" y="1128.0" font-family="Arial" font-size="14" fill="#E03127" font-weight="bold">LW 2.25 m</text>
-<text x="377.2" y="1206.0" font-family="Arial" font-size="16" fill="#E03127" font-weight="bold" text-anchor="middle">4.73 m</text>
+<line x1="433.8" y1="250.0" x2="253.1" y2="1140.0" stroke="#E03127" stroke-width="2.2" opacity="0.90" stroke-dasharray="8 5"/>
+<circle cx="433.8" cy="250.0" r="5" fill="#E03127"/>
+<circle cx="253.1" cy="1140.0" r="5" fill="#E03127"/>
+<line x1="973.8" y1="452.8" x2="660.0" y2="452.8" stroke="#E03127" stroke-width="1.8" opacity="0.90" stroke-dasharray="6 4"/>
+<line x1="600.0" y1="452.8" x2="392.6" y2="452.8" stroke="#E03127" stroke-width="1.8" opacity="0.90" stroke-dasharray="6 4"/>
+<line x1="973.8" y1="1140.0" x2="973.8" y2="452.8" stroke="#E03127" stroke-width="1.8" opacity="0.90" stroke-dasharray="6 4"/>
+<line x1="392.6" y1="452.8" x2="392.6" y2="1140.0" stroke="#E03127" stroke-width="1.8" opacity="0.90" stroke-dasharray="6 4"/>
+<circle cx="392.6" cy="1140.0" r="5" fill="none" stroke="#E03127" stroke-width="2.4"/>
+<text x="443.8" y="270.0" font-family="Arial" font-size="14" fill="#E03127" font-weight="bold">HW 7.11 m</text>
+<text x="263.1" y="1128.0" font-family="Arial" font-size="14" fill="#E03127" font-weight="bold">LW 2.88 m</text>
+<text x="392.6" y="1206.0" font-family="Arial" font-size="16" fill="#E03127" font-weight="bold" text-anchor="middle">6.15 m</text>
 <text x="973.8" y="240.0" font-family="Arial" font-size="14" fill="#E03127" font-weight="bold" text-anchor="middle">+2 h from high water</text>
 <text x="130.0" y="1244.0" font-family="Arial" font-size="20" fill="#2F4A5A" font-weight="bold">NORMAL CURVE, HUNG FROM HIGH WATER</text>
 <text x="130.0" y="1270.0" font-family="Arial" font-size="15" fill="#1A1A1A">Hours are counted from high water, and the factor is still 0 at low water and 1 at high water.</text>
@@ -130,13 +138,14 @@
 <text x="130.0" y="1378.0" font-family="Arial" font-size="15" fill="#1A1A1A">3 · For the TIME at a height: the other way round, from the scale to the line, from the line to the curve and from the curve to the time.</text>
 <text x="130.0" y="1404.0" font-family="Arial" font-size="15" fill="#1A1A1A">4 · Interpolate between the two curves by the day's range: solid for springs, dashed for neaps, with their ranges written below.</text>
 <text x="130.0" y="1446.0" font-family="Arial" font-size="17" fill="#2F4A5A" font-weight="bold">WHAT THESE TWO CURVES SAY, MEASURED FROM 2024</text>
-<text x="130.0" y="1472.0" font-family="Arial" font-size="15" fill="#1A1A1A">springs  mean HW 6.89 m · mean LW 0.84 m · range 6.05 m · average of 142 tides</text>
-<text x="130.0" y="1496.0" font-family="Arial" font-size="15" fill="#1A1A1A">neaps    mean HW 5.41 m · mean LW 2.28 m · range 3.12 m · average of 142 tides</text>
+<text x="130.0" y="1472.0" font-family="Arial" font-size="15" fill="#1A1A1A">springs  mean HW 9.59 m · mean LW 0.93 m · range 8.66 m · average of 142 tides</text>
+<text x="130.0" y="1496.0" font-family="Arial" font-size="15" fill="#1A1A1A">neaps    mean HW 7.24 m · mean LW 3.10 m · range 4.13 m · average of 142 tides</text>
 <text x="130.0" y="1532.0" font-family="Arial" font-size="17" fill="#2F4A5A" font-weight="bold">WHAT IT COSTS TO READ IT</text>
-<text x="130.0" y="1558.0" font-family="Arial" font-size="15" fill="#1A1A1A">Measured over the 706 tides of the year, at thirteen hours of each: 6.7 cm on average and 13.7 cm at the worst hour.</text>
+<text x="130.0" y="1558.0" font-family="Arial" font-size="15" fill="#1A1A1A">Measured over the 706 tides of the year, at thirteen hours of each: 7.3 cm on average and 12.5 cm at the worst hour.</text>
 <line x1="60.0" y1="1642.0" x2="1180.0" y2="1642.0" stroke="#2F4A5A" stroke-width="1.0" opacity="0.35"/>
-<text x="60.0" y="1662.0" font-family="Arial" font-size="12" fill="#6B8290">Curve worked out from the harmonic constants of DOVER · Kent, the same ones the daily tables are made from and the checker marks with.</text>
+<text x="60.0" y="1662.0" font-family="Arial" font-size="12" fill="#6B8290">Curve worked out from the harmonic constants of DIEPPE · Alabaster Coast, the same ones the daily tables are made from and the checker marks with.</text>
 <text x="60.0" y="1678.0" font-family="Arial" font-size="12" fill="#6B8290">Springs and neaps are split by range: the largest 20 % and the smallest 20 % of the year's tides, the same split that gives this port its columns and levels on the secondary ports page.</text>
 <text x="60.0" y="1694.0" font-family="Arial" font-size="12" fill="#6B8290">Each branch is normalised with the tide on ITS side, and between the two curves you interpolate by the day's range.</text>
-<text x="60.0" y="1710.0" font-family="Arial" font-size="12" fill="#6B8290">Heights in metres above chart datum. Mean level 3.82 m. Not for navigation.</text>
+<text x="60.0" y="1710.0" font-family="Arial" font-size="12" fill="#6B8290">Heights in metres above chart datum. Mean level 5.14 m. Not for navigation.</text>
+<text x="60.0" y="1748.0" font-family="Arial" font-size="10" fill="#6B8290" data-fuente-pie="1">Tide gauge data: REFMAR, Shom, observations downloaded September 2026, Licence Ouverte 2.0 (Etalab). Constants analysed by the course; this reuse is not endorsed by the Shom.</text>
 </svg>

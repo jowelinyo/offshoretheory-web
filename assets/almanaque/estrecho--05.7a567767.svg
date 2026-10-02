@@ -317,4 +317,5 @@
 <text x="55.0" y="1634.4" font-family="Arial" font-size="12" fill="#6B8290">Shom, 2026. Atlas de courants de maree 2D au format netcdf, https://dx.doi.org/10.17183/ATLASCOURANTS2D_NETCDF · Licence Ouverte 2.0.</text>
 <text x="55.0" y="1651.4" font-family="Arial" font-size="12" fill="#6B8290" font-weight="bold">«A n'utiliser qu'en complement des cartes et ouvrages nautiques officiels» — to be used only alongside the official charts and nautical publications.</text>
 <text x="55.0" y="1668.4" font-family="Arial" font-size="12" fill="#6B8290">Coastline from OpenStreetMap, ODbL. High waters worked out from the course's own harmonic constants.</text>
+<text x="60.0" y="1748.0" font-family="Arial" font-size="10" fill="#6B8290" data-fuente-pie="1">Tide gauge data: Generated using E.U. Copernicus Marine Service Information; Global Ocean - Delayed Mode Sea level product (INSITU_GLO_PHY_SSH_DISCRETE_MY_013_053), https://doi.org/10.17882/93670.</text>
 </svg>
