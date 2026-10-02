@@ -1,0 +1,189 @@
+<?xml version="1.0" encoding="utf-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="1240" height="1754" viewBox="0 0 1240 1754">
+<rect x="0.0" y="0.0" width="1240.0" height="1754.0" fill="#FFFFFF"/>
+<rect x="0.0" y="0.0" width="1240.0" height="104.0" fill="#D4E7F2"/>
+<line x1="0.0" y1="104.0" x2="1240.0" y2="104.0" stroke="#2F4A5A" stroke-width="3.0"/>
+<text x="60.0" y="58.0" font-family="Arial" font-size="34" fill="#2F4A5A" font-weight="bold">SPECIAL CURVE · PORTSMOUTH</text>
+<text x="1180.0" y="58.0" font-family="Arial" font-size="24" fill="#2F4A5A" font-weight="bold" text-anchor="end">Christchurch to Selsey Bill</text>
+<text x="1180.0" y="86.0" font-family="Arial" font-size="14" fill="#6B8290" text-anchor="end">heights in metres above chart datum · hours before and after LOW WATER at the port</text>
+<rect x="130.0" y="252.7" width="430.0" height="527.3" fill="#D4E7F2" opacity="0.25"/>
+<line x1="130.0" y1="252.7" x2="130.0" y2="780.0" stroke="#2F4A5A" stroke-width="1.4" opacity="0.28"/>
+<text x="130.0" y="240.7" font-family="Arial" font-size="14" fill="#2F4A5A" text-anchor="middle">0</text>
+<text x="130.0" y="802.0" font-family="Arial" font-size="14" fill="#6B8290" text-anchor="middle">0</text>
+<line x1="165.8" y1="252.7" x2="165.8" y2="780.0" stroke="#2F4A5A" stroke-width="0.6" opacity="0.28"/>
+<line x1="201.7" y1="252.7" x2="201.7" y2="780.0" stroke="#2F4A5A" stroke-width="1.4" opacity="0.28"/>
+<text x="201.7" y="240.7" font-family="Arial" font-size="14" fill="#2F4A5A" text-anchor="middle">1</text>
+<text x="201.7" y="802.0" font-family="Arial" font-size="14" fill="#6B8290" text-anchor="middle">1</text>
+<line x1="237.5" y1="252.7" x2="237.5" y2="780.0" stroke="#2F4A5A" stroke-width="0.6" opacity="0.28"/>
+<line x1="273.3" y1="252.7" x2="273.3" y2="780.0" stroke="#2F4A5A" stroke-width="1.4" opacity="0.28"/>
+<text x="273.3" y="240.7" font-family="Arial" font-size="14" fill="#2F4A5A" text-anchor="middle">2</text>
+<text x="273.3" y="802.0" font-family="Arial" font-size="14" fill="#6B8290" text-anchor="middle">2</text>
+<line x1="309.2" y1="252.7" x2="309.2" y2="780.0" stroke="#2F4A5A" stroke-width="0.6" opacity="0.28"/>
+<line x1="345.0" y1="252.7" x2="345.0" y2="780.0" stroke="#2F4A5A" stroke-width="1.4" opacity="0.28"/>
+<text x="345.0" y="240.7" font-family="Arial" font-size="14" fill="#2F4A5A" text-anchor="middle">3</text>
+<text x="345.0" y="802.0" font-family="Arial" font-size="14" fill="#6B8290" text-anchor="middle">3</text>
+<line x1="380.8" y1="252.7" x2="380.8" y2="780.0" stroke="#2F4A5A" stroke-width="0.6" opacity="0.28"/>
+<line x1="416.7" y1="252.7" x2="416.7" y2="780.0" stroke="#2F4A5A" stroke-width="1.4" opacity="0.28"/>
+<text x="416.7" y="240.7" font-family="Arial" font-size="14" fill="#2F4A5A" text-anchor="middle">4</text>
+<text x="416.7" y="802.0" font-family="Arial" font-size="14" fill="#6B8290" text-anchor="middle">4</text>
+<line x1="452.5" y1="252.7" x2="452.5" y2="780.0" stroke="#2F4A5A" stroke-width="0.6" opacity="0.28"/>
+<line x1="488.3" y1="252.7" x2="488.3" y2="780.0" stroke="#2F4A5A" stroke-width="1.4" opacity="0.28"/>
+<text x="488.3" y="240.7" font-family="Arial" font-size="14" fill="#2F4A5A" text-anchor="middle">5</text>
+<text x="488.3" y="802.0" font-family="Arial" font-size="14" fill="#6B8290" text-anchor="middle">5</text>
+<line x1="524.2" y1="252.7" x2="524.2" y2="780.0" stroke="#2F4A5A" stroke-width="0.6" opacity="0.28"/>
+<line x1="560.0" y1="252.7" x2="560.0" y2="780.0" stroke="#2F4A5A" stroke-width="1.4" opacity="0.28"/>
+<text x="560.0" y="240.7" font-family="Arial" font-size="14" fill="#2F4A5A" text-anchor="middle">6</text>
+<text x="560.0" y="802.0" font-family="Arial" font-size="14" fill="#6B8290" text-anchor="middle">6</text>
+<text x="345.0" y="216.7" font-family="Arial" font-size="15" fill="#2F4A5A" font-weight="bold" text-anchor="middle">HEIGHT OF HIGH WATER (m)</text>
+<text x="345.0" y="826.0" font-family="Arial" font-size="15" fill="#6B8290" font-weight="bold" text-anchor="middle">HEIGHT OF LOW WATER (m)</text>
+<rect x="130" y="252" width="430" height="527" fill="none" stroke="#2F4A5A" stroke-width="2"/>
+<line x1="122.0" y1="780.0" x2="1170.0" y2="780.0" stroke="#2F4A5A" stroke-width="0.6" opacity="0.18"/>
+<text x="116.0" y="785.0" font-family="Arial" font-size="13" fill="#6B8290" text-anchor="end">0.0</text>
+<line x1="122.0" y1="727.3" x2="1170.0" y2="727.3" stroke="#2F4A5A" stroke-width="0.6" opacity="0.18"/>
+<text x="116.0" y="732.3" font-family="Arial" font-size="13" fill="#6B8290" text-anchor="end">0.1</text>
+<line x1="122.0" y1="674.5" x2="1170.0" y2="674.5" stroke="#2F4A5A" stroke-width="0.6" opacity="0.18"/>
+<text x="116.0" y="679.5" font-family="Arial" font-size="13" fill="#6B8290" text-anchor="end">0.2</text>
+<line x1="122.0" y1="621.8" x2="1170.0" y2="621.8" stroke="#2F4A5A" stroke-width="0.6" opacity="0.18"/>
+<text x="116.0" y="626.8" font-family="Arial" font-size="13" fill="#6B8290" text-anchor="end">0.3</text>
+<line x1="122.0" y1="569.1" x2="1170.0" y2="569.1" stroke="#2F4A5A" stroke-width="0.6" opacity="0.18"/>
+<text x="116.0" y="574.1" font-family="Arial" font-size="13" fill="#6B8290" text-anchor="end">0.4</text>
+<line x1="122.0" y1="516.4" x2="1170.0" y2="516.4" stroke="#2F4A5A" stroke-width="0.6" opacity="0.18"/>
+<text x="116.0" y="521.4" font-family="Arial" font-size="13" fill="#6B8290" text-anchor="end">0.5</text>
+<line x1="122.0" y1="463.6" x2="1170.0" y2="463.6" stroke="#2F4A5A" stroke-width="0.6" opacity="0.18"/>
+<text x="116.0" y="468.6" font-family="Arial" font-size="13" fill="#6B8290" text-anchor="end">0.6</text>
+<line x1="122.0" y1="410.9" x2="1170.0" y2="410.9" stroke="#2F4A5A" stroke-width="0.6" opacity="0.18"/>
+<text x="116.0" y="415.9" font-family="Arial" font-size="13" fill="#6B8290" text-anchor="end">0.7</text>
+<line x1="122.0" y1="358.2" x2="1170.0" y2="358.2" stroke="#2F4A5A" stroke-width="0.6" opacity="0.18"/>
+<text x="116.0" y="363.2" font-family="Arial" font-size="13" fill="#6B8290" text-anchor="end">0.8</text>
+<line x1="122.0" y1="305.5" x2="1170.0" y2="305.5" stroke="#2F4A5A" stroke-width="0.6" opacity="0.18"/>
+<text x="116.0" y="310.5" font-family="Arial" font-size="13" fill="#6B8290" text-anchor="end">0.9</text>
+<line x1="122.0" y1="252.7" x2="1170.0" y2="252.7" stroke="#2F4A5A" stroke-width="0.6" opacity="0.18"/>
+<text x="116.0" y="257.7" font-family="Arial" font-size="13" fill="#6B8290" text-anchor="end">1.0</text>
+<line x1="122.0" y1="200.0" x2="1170.0" y2="200.0" stroke="#2F4A5A" stroke-width="0.6" opacity="0.18"/>
+<text x="116.0" y="205.0" font-family="Arial" font-size="13" fill="#6B8290" text-anchor="end">1.1</text>
+<rect x="640.0" y="200.0" width="530.0" height="580.0" fill="#D4E7F2" opacity="0.18"/>
+<line x1="640.0" y1="200.0" x2="640.0" y2="780.0" stroke="#2F4A5A" stroke-width="0.6" opacity="0.30"/>
+<text x="640.0" y="802.0" font-family="Arial" font-size="13" fill="#6B8290" text-anchor="middle">-6</text>
+<line x1="680.8" y1="200.0" x2="680.8" y2="780.0" stroke="#2F4A5A" stroke-width="0.6" opacity="0.30"/>
+<text x="680.8" y="802.0" font-family="Arial" font-size="13" fill="#6B8290" text-anchor="middle">-5</text>
+<line x1="721.5" y1="200.0" x2="721.5" y2="780.0" stroke="#2F4A5A" stroke-width="0.6" opacity="0.30"/>
+<text x="721.5" y="802.0" font-family="Arial" font-size="13" fill="#6B8290" text-anchor="middle">-4</text>
+<line x1="762.3" y1="200.0" x2="762.3" y2="780.0" stroke="#2F4A5A" stroke-width="0.6" opacity="0.30"/>
+<text x="762.3" y="802.0" font-family="Arial" font-size="13" fill="#6B8290" text-anchor="middle">-3</text>
+<line x1="803.1" y1="200.0" x2="803.1" y2="780.0" stroke="#2F4A5A" stroke-width="0.6" opacity="0.30"/>
+<text x="803.1" y="802.0" font-family="Arial" font-size="13" fill="#6B8290" text-anchor="middle">-2</text>
+<line x1="843.8" y1="200.0" x2="843.8" y2="780.0" stroke="#2F4A5A" stroke-width="0.6" opacity="0.30"/>
+<text x="843.8" y="802.0" font-family="Arial" font-size="13" fill="#6B8290" text-anchor="middle">-1</text>
+<line x1="884.6" y1="200.0" x2="884.6" y2="780.0" stroke="#2F4A5A" stroke-width="1.4" opacity="0.30"/>
+<text x="884.6" y="802.0" font-family="Arial" font-size="13" fill="#2F4A5A" font-weight="bold" text-anchor="middle">LW</text>
+<line x1="925.4" y1="200.0" x2="925.4" y2="780.0" stroke="#2F4A5A" stroke-width="0.6" opacity="0.30"/>
+<text x="925.4" y="802.0" font-family="Arial" font-size="13" fill="#6B8290" text-anchor="middle">+1</text>
+<line x1="966.2" y1="200.0" x2="966.2" y2="780.0" stroke="#2F4A5A" stroke-width="0.6" opacity="0.30"/>
+<text x="966.2" y="802.0" font-family="Arial" font-size="13" fill="#6B8290" text-anchor="middle">+2</text>
+<line x1="1006.9" y1="200.0" x2="1006.9" y2="780.0" stroke="#2F4A5A" stroke-width="0.6" opacity="0.30"/>
+<text x="1006.9" y="802.0" font-family="Arial" font-size="13" fill="#6B8290" text-anchor="middle">+3</text>
+<line x1="1047.7" y1="200.0" x2="1047.7" y2="780.0" stroke="#2F4A5A" stroke-width="0.6" opacity="0.30"/>
+<text x="1047.7" y="802.0" font-family="Arial" font-size="13" fill="#6B8290" text-anchor="middle">+4</text>
+<line x1="1088.5" y1="200.0" x2="1088.5" y2="780.0" stroke="#2F4A5A" stroke-width="0.6" opacity="0.30"/>
+<text x="1088.5" y="802.0" font-family="Arial" font-size="13" fill="#6B8290" text-anchor="middle">+5</text>
+<line x1="1129.2" y1="200.0" x2="1129.2" y2="780.0" stroke="#2F4A5A" stroke-width="0.6" opacity="0.30"/>
+<text x="1129.2" y="802.0" font-family="Arial" font-size="13" fill="#6B8290" text-anchor="middle">+6</text>
+<line x1="1170.0" y1="200.0" x2="1170.0" y2="780.0" stroke="#2F4A5A" stroke-width="0.6" opacity="0.30"/>
+<text x="1170.0" y="802.0" font-family="Arial" font-size="13" fill="#6B8290" text-anchor="middle">+7</text>
+<text x="905.0" y="826.0" font-family="Arial" font-size="15" fill="#2F4A5A" font-weight="bold" text-anchor="middle">HOURS BEFORE AND AFTER LOW WATER</text>
+<clipPath id="caja"><rect x="640" y="200" width="530" height="580"/></clipPath>
+<polyline id="curva-vivas" data-fmax="1.1" points="640.0,264.0 650.2,255.8 660.4,252.7 670.6,253.6 680.8,257.2 691.0,262.5 701.2,268.4 711.3,274.8 721.5,282.1 731.7,291.0 741.9,303.0 752.1,319.6 762.3,342.1 772.5,371.4 782.7,407.8 792.9,450.7 803.1,498.6 813.3,549.6 823.5,601.1 833.7,650.3 843.8,694.3 854.0,730.7 864.2,757.7 874.4,774.0 884.6,779.6 894.8,775.1 905.0,762.1 915.2,742.9 925.4,720.0 935.6,696.0 945.8,673.2 956.0,653.2 966.2,636.9 976.3,624.1 986.5,614.2 996.7,605.7 1006.9,596.9 1017.1,586.3 1027.3,572.2 1037.5,553.9 1047.7,530.8 1057.9,503.2 1068.1,471.9 1078.3,438.1 1088.5,403.3 1098.7,369.2 1108.8,337.6 1119.0,309.9 1129.2,287.4 1139.4,270.6 1149.6,259.7 1159.8,254.3 1170.0,253.2" fill="none" stroke="#2F4A5A" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" clip-path="url(#caja)"/>
+<polyline id="curva-muertas" data-fmax="1.1" points="640.0,258.5 650.2,254.0 660.4,253.8 670.6,257.8 680.8,265.7 691.0,277.4 701.2,292.7 711.3,311.7 721.5,334.3 731.7,360.3 741.9,389.8 752.1,422.4 762.3,457.7 772.5,495.1 782.7,533.9 792.9,573.1 803.1,611.6 813.3,648.2 823.5,681.8 833.7,711.5 843.8,736.3 854.0,755.6 864.2,769.3 874.4,777.4 884.6,780.0 894.8,777.8 905.0,771.5 915.2,761.8 925.4,749.7 935.6,735.7 945.8,720.5 956.0,704.5 966.2,687.8 976.3,670.3 986.5,651.8 996.7,632.0 1006.9,610.5 1017.1,587.1 1027.3,561.6 1037.5,533.9 1047.7,504.5 1057.9,473.7 1068.1,442.2 1078.3,410.8 1088.5,380.4 1098.7,351.8 1108.8,325.9 1119.0,303.4 1129.2,284.8 1139.4,270.3 1149.6,260.3 1159.8,254.7 1170.0,253.4" fill="none" stroke="#2F4A5A" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" clip-path="url(#caja)" stroke-dasharray="9 6"/>
+<rect x="640" y="200" width="530" height="580" fill="none" stroke="#2F4A5A" stroke-width="2"/>
+<line x1="650.0" y1="148.0" x2="710.0" y2="148.0" stroke="#2F4A5A" stroke-width="3.0"/>
+<text x="716.0" y="153.0" font-family="Arial" font-size="14" fill="#2F4A5A" font-weight="bold">springs · range 3.97 m</text>
+<line x1="930.0" y1="148.0" x2="990.0" y2="148.0" stroke="#2F4A5A" stroke-width="3.0" stroke-dasharray="9 6"/>
+<text x="996.0" y="153.0" font-family="Arial" font-size="14" fill="#2F4A5A">neaps · range 1.90 m</text>
+<line x1="488.3" y1="252.7" x2="158.7" y2="780.0" stroke="#E03127" stroke-width="2.2" opacity="0.90" stroke-dasharray="8 5"/>
+<circle cx="488.3" cy="252.7" r="5" fill="#E03127"/>
+<circle cx="158.7" cy="780.0" r="5" fill="#E03127"/>
+<line x1="1006.9" y1="596.9" x2="640.0" y2="596.9" stroke="#E03127" stroke-width="1.8" opacity="0.90" stroke-dasharray="6 4"/>
+<line x1="560.0" y1="596.9" x2="273.1" y2="596.9" stroke="#E03127" stroke-width="1.8" opacity="0.90" stroke-dasharray="6 4"/>
+<line x1="1006.9" y1="780.0" x2="1006.9" y2="596.9" stroke="#E03127" stroke-width="1.8" opacity="0.90" stroke-dasharray="6 4"/>
+<line x1="273.1" y1="596.9" x2="273.1" y2="780.0" stroke="#E03127" stroke-width="1.8" opacity="0.90" stroke-dasharray="6 4"/>
+<text x="498.3" y="272.7" font-family="Arial" font-size="14" fill="#E03127" font-weight="bold">HW 5.0 m</text>
+<text x="168.7" y="768.0" font-family="Arial" font-size="14" fill="#E03127" font-weight="bold">LW 0.4 m</text>
+<text x="273.1" y="846.0" font-family="Arial" font-size="16" fill="#E03127" font-weight="bold" text-anchor="middle">2.00 m</text>
+<text x="130.0" y="884.0" font-family="Arial" font-size="20" fill="#2F4A5A" font-weight="bold">SPECIAL CURVE, REFERRED TO LOW WATER</text>
+<text x="130.0" y="912.0" font-family="Arial" font-size="14" fill="#1A1A1A">In the Solent high water is a stand of hours and its time says little; low water is sharp. So the curve hangs from LOW WATER.</text>
+<text x="130.0" y="936.0" font-family="Arial" font-size="14" fill="#1A1A1A">1 · LW at your port = LW Portsmouth + the LW difference below; HW and LW heights = Portsmouth's + the height differences.</text>
+<text x="130.0" y="960.0" font-family="Arial" font-size="14" fill="#1A1A1A">2 · Mark the HW height on the top scale and the LW height on the bottom one, and join them with a straight line.</text>
+<text x="130.0" y="984.0" font-family="Arial" font-size="14" fill="#1A1A1A">3 · Enter the curve with the hours from LW at your port, across to the line, and down to the scale: that is the height.</text>
+<text x="130.0" y="1008.0" font-family="Arial" font-size="14" fill="#1A1A1A">4 · Interpolate each difference as on the secondary ports page: the time by the time of LW Portsmouth, the heights by Portsmouth's heights.</text>
+<text x="130.0" y="1042.0" font-family="Arial" font-size="14" fill="#E03127" font-weight="bold">WORKED EXAMPLE, IN RED: Portsmouth, 19 September 2024. LW 17:17 UTC, 0.4 m; HW 5.0 m. At 20:17 UTC, +3.0 h from LW: 2.00 m.</text>
+<text x="130.0" y="1068.0" font-family="Arial" font-size="14" fill="#2F4A5A" font-weight="bold">WHAT IT COSTS TO READ, MEASURED: 6.6 cm on average and 12.4 cm at the worst hour, over the 707 low waters of 2024, against the Portsmouth water.</text>
+<text x="130.0" y="1106.0" font-family="Arial" font-size="16" fill="#2F4A5A" font-weight="bold">PORTS ON THIS CURVE</text>
+<text x="130.0" y="1132.0" font-family="Arial" font-size="13" fill="#6B8290" font-weight="bold">port</text>
+<text x="380.0" y="1132.0" font-family="Arial" font-size="13" fill="#6B8290" font-weight="bold">LW 0600</text>
+<text x="460.0" y="1132.0" font-family="Arial" font-size="13" fill="#6B8290" font-weight="bold">LW 0000</text>
+<text x="550.0" y="1132.0" font-family="Arial" font-size="13" fill="#6B8290" font-weight="bold">MHWS</text>
+<text x="625.0" y="1132.0" font-family="Arial" font-size="13" fill="#6B8290" font-weight="bold">MHWN</text>
+<text x="700.0" y="1132.0" font-family="Arial" font-size="13" fill="#6B8290" font-weight="bold">MLWN</text>
+<text x="775.0" y="1132.0" font-family="Arial" font-size="13" fill="#6B8290" font-weight="bold">MLWS</text>
+<text x="850.0" y="1132.0" font-family="Arial" font-size="13" fill="#6B8290" font-weight="bold">src</text>
+<text x="900.0" y="1132.0" font-family="Arial" font-size="13" fill="#6B8290" font-weight="bold">why this curve</text>
+<text x="130.0" y="1156.0" font-family="Arial" font-size="13" fill="#1A1A1A">Portsmouth</text>
+<text x="380.0" y="1156.0" font-family="Arial" font-size="13" fill="#1A1A1A">+0000</text>
+<text x="460.0" y="1156.0" font-family="Arial" font-size="13" fill="#1A1A1A">+0000</text>
+<text x="550.0" y="1156.0" font-family="Arial" font-size="13" fill="#1A1A1A">0.0</text>
+<text x="625.0" y="1156.0" font-family="Arial" font-size="13" fill="#1A1A1A">0.0</text>
+<text x="700.0" y="1156.0" font-family="Arial" font-size="13" fill="#1A1A1A">0.0</text>
+<text x="775.0" y="1156.0" font-family="Arial" font-size="13" fill="#1A1A1A">0.0</text>
+<text x="850.0" y="1156.0" font-family="Arial" font-size="13" fill="#1A1A1A">M</text>
+<text x="900.0" y="1156.0" font-family="Arial" font-size="13" fill="#1A1A1A">standard port</text>
+<text x="130.0" y="1180.0" font-family="Arial" font-size="13" fill="#E03127">Wootton Creek</text>
+<text x="380.0" y="1180.0" font-family="Arial" font-size="13" fill="#1A1A1A">−0005</text>
+<text x="460.0" y="1180.0" font-family="Arial" font-size="13" fill="#1A1A1A">−0003</text>
+<text x="550.0" y="1180.0" font-family="Arial" font-size="13" fill="#1A1A1A">−0.2</text>
+<text x="625.0" y="1180.0" font-family="Arial" font-size="13" fill="#1A1A1A">−0.1</text>
+<text x="700.0" y="1180.0" font-family="Arial" font-size="13" fill="#1A1A1A">0.0</text>
+<text x="775.0" y="1180.0" font-family="Arial" font-size="13" fill="#1A1A1A">0.0</text>
+<text x="850.0" y="1180.0" font-family="Arial" font-size="13" fill="#1A1A1A">F</text>
+<text x="900.0" y="1180.0" font-family="Arial" font-size="13" fill="#1A1A1A">Spithead · borrowed curve *</text>
+<text x="130.0" y="1204.0" font-family="Arial" font-size="13" fill="#E03127">Ryde</text>
+<text x="380.0" y="1204.0" font-family="Arial" font-size="13" fill="#1A1A1A">+0000</text>
+<text x="460.0" y="1204.0" font-family="Arial" font-size="13" fill="#1A1A1A">+0000</text>
+<text x="550.0" y="1204.0" font-family="Arial" font-size="13" fill="#1A1A1A">0.0</text>
+<text x="625.0" y="1204.0" font-family="Arial" font-size="13" fill="#1A1A1A">0.0</text>
+<text x="700.0" y="1204.0" font-family="Arial" font-size="13" fill="#1A1A1A">0.0</text>
+<text x="775.0" y="1204.0" font-family="Arial" font-size="13" fill="#1A1A1A">0.0</text>
+<text x="850.0" y="1204.0" font-family="Arial" font-size="13" fill="#1A1A1A">F</text>
+<text x="900.0" y="1204.0" font-family="Arial" font-size="13" fill="#1A1A1A">Spithead · borrowed curve *</text>
+<text x="130.0" y="1228.0" font-family="Arial" font-size="13" fill="#E03127">Bembridge</text>
+<text x="380.0" y="1228.0" font-family="Arial" font-size="13" fill="#1A1A1A">+0000</text>
+<text x="460.0" y="1228.0" font-family="Arial" font-size="13" fill="#1A1A1A">+0000</text>
+<text x="550.0" y="1228.0" font-family="Arial" font-size="13" fill="#1A1A1A">0.0</text>
+<text x="625.0" y="1228.0" font-family="Arial" font-size="13" fill="#1A1A1A">0.0</text>
+<text x="700.0" y="1228.0" font-family="Arial" font-size="13" fill="#1A1A1A">0.0</text>
+<text x="775.0" y="1228.0" font-family="Arial" font-size="13" fill="#1A1A1A">0.0</text>
+<text x="850.0" y="1228.0" font-family="Arial" font-size="13" fill="#1A1A1A">F</text>
+<text x="900.0" y="1228.0" font-family="Arial" font-size="13" fill="#1A1A1A">Spithead · borrowed curve *</text>
+<text x="130.0" y="1252.0" font-family="Arial" font-size="13" fill="#E03127">Langstone Harbour</text>
+<text x="380.0" y="1252.0" font-family="Arial" font-size="13" fill="#1A1A1A">+0003</text>
+<text x="460.0" y="1252.0" font-family="Arial" font-size="13" fill="#1A1A1A">+0002</text>
+<text x="550.0" y="1252.0" font-family="Arial" font-size="13" fill="#1A1A1A">+0.1</text>
+<text x="625.0" y="1252.0" font-family="Arial" font-size="13" fill="#1A1A1A">+0.1</text>
+<text x="700.0" y="1252.0" font-family="Arial" font-size="13" fill="#1A1A1A">0.0</text>
+<text x="775.0" y="1252.0" font-family="Arial" font-size="13" fill="#1A1A1A">0.0</text>
+<text x="850.0" y="1252.0" font-family="Arial" font-size="13" fill="#1A1A1A">F</text>
+<text x="900.0" y="1252.0" font-family="Arial" font-size="13" fill="#1A1A1A">Eastern harbours · borrowed curve *</text>
+<text x="130.0" y="1276.0" font-family="Arial" font-size="13" fill="#E03127">Chichester Harbour</text>
+<text x="380.0" y="1276.0" font-family="Arial" font-size="13" fill="#1A1A1A">+0005</text>
+<text x="460.0" y="1276.0" font-family="Arial" font-size="13" fill="#1A1A1A">+0002</text>
+<text x="550.0" y="1276.0" font-family="Arial" font-size="13" fill="#1A1A1A">+0.3</text>
+<text x="625.0" y="1276.0" font-family="Arial" font-size="13" fill="#1A1A1A">+0.2</text>
+<text x="700.0" y="1276.0" font-family="Arial" font-size="13" fill="#1A1A1A">0.0</text>
+<text x="775.0" y="1276.0" font-family="Arial" font-size="13" fill="#1A1A1A">0.0</text>
+<text x="850.0" y="1276.0" font-family="Arial" font-size="13" fill="#1A1A1A">F</text>
+<text x="900.0" y="1276.0" font-family="Arial" font-size="13" fill="#1A1A1A">Eastern harbours · borrowed curve *</text>
+<line x1="60.0" y1="1648.0" x2="1180.0" y2="1648.0" stroke="#2F4A5A" stroke-width="1.0" opacity="0.35"/>
+<text x="60.0" y="1670.0" font-family="Arial" font-size="12" fill="#6B8290">Curve from the Portsmouth tide gauge (Portsmouth standard port constants), normalised with the HW and LW a student gets from the Portsmouth table and these differences.</text>
+<text x="60.0" y="1686.0" font-family="Arial" font-size="12" fill="#6B8290">Springs and neaps split by range: the top and bottom 20 % of the year's tides. LW differences are relative to LW Portsmouth, in minutes as hhmm.</text>
+<text x="60.0" y="1702.0" font-family="Arial" font-size="12" fill="#6B8290">* Ports in red have no series of their own in this training almanac: FES gives their differences but not the shape of their tide, so they use the measured curve of their body of water.</text>
+<text x="60.0" y="1718.0" font-family="Arial" font-size="12" fill="#6B8290">Heights above chart datum. Not for navigation.</text>
+</svg>

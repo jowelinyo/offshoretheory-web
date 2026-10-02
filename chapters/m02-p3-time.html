@@ -259,10 +259,10 @@ a.skip:hover,a.volver:hover,#foot a:hover{color:var(--ink-title);
   <div id="head">
    <div class="hd"><div id="hTit">One instant, several clocks</div></div>
    
-   <div class="sello" id="sello" data-sello="20260925-122354">module 02 &middot; part 3 &middot; <b>24 of 24 screens</b> &middot; 25 Sep 2026</div>
+   <div class="sello" id="sello" data-sello="20261001-000650">module 02 &middot; part 3 &middot; <b>24 of 24 screens</b> &middot; 01 Oct 2026</div>
    <div id="prog"></div></div>
   <div id="pane"></div>
-  <div id="foot"><span id="fLog">0 answers logged</span><a class="volver" id="deCero" onclick="deCero()">start over</a></div>
+  <div id="foot"><a class="volver" id="deCero" onclick="deCero()">start over</a></div>
  </div>
 </div>
 <script>
@@ -4465,11 +4465,9 @@ function mueve(p){
 window.addEventListener("resize",()=>{pinta();});
 
 const pane=()=>document.getElementById("pane");
-function guarda(tipo,resp,ok){LOG.push({type:tipo,id:S().id,v:resp,correct:ok,
-  t:new Date().toISOString()});
 
- try{localStorage.setItem("m02p3log",JSON.stringify(LOG));}catch(e){}
- document.getElementById("fLog").textContent=LOG.length+" answers logged";}
+function guarda(tipo,resp,ok){LOG.push({type:tipo,id:S().id,v:resp,correct:ok,
+  t:new Date().toISOString()});}
 
 window.m02p3export=()=>{const b=new Blob([JSON.stringify(LOG,null,1)],
   {type:"application/json"});
@@ -4487,10 +4485,10 @@ function falla(s,html){const n=FALLO[s.id]=(FALLO[s.id]||0)+1;
  h+='</div>';
  if(n>=3&&s.show)h+='<button class="show" onclick="showme()">Show me</button>';
  const d=document.getElementById("fb"); if(d)d.innerHTML=h;}
-window.showme=()=>{const s=S(); guarda("showme",null,false);
- const z=s.show||{};
 
- if(s.t=="problema"){
+function showmeBanco(s,z){ if(s.t!="problema")return false;
+ guarda("showme",null,false);
+
   const sub=prSube(), q=PR.q;
   LT.muda=null; LT.resuelto=true; pinta(); tira();
   let h='<div class="res ver"><b>Here it is.</b>'
@@ -4501,20 +4499,16 @@ window.showme=()=>{const s=S(); guarda("showme",null,false);
   h+='</div>';
   document.getElementById("fb").innerHTML=h;
   PR.n++; prContador();
-  if(PR.n>=prMeta()){nav(true,"Try the next one"); hecho=true; return;}
-  PR.esp=true; prEspera(); return;}
- if(s.t=="elige"){
-  const c=elCaso();
-  let h='<div class="res ver"><b>Here it is.</b>'
-   +'<div class="calc">'+(c.obra||z.obra(c)).map(x=>"&middot; "+x).join("<br>")+'</div>'
-   +(z.txt||"")+'</div>';
-  document.getElementById("fb").innerHTML=h;
-  hecho=true; nav(true); return;}
- let h='<div class="res ver"><b>Here it is.</b>';
- if(z.obra)h+='<div class="calc">'+z.obra(LT).map(x=>"&middot; "+x).join("<br>")+'</div>';
- h+=(z.txt||"")+'</div>';
- const d=document.getElementById("fb"); if(d)d.innerHTML=h;
- hecho=true; nav(true);};
+  if(PR.n>=prMeta()){hecho=true; nav(true,"Try the next one"); return true;}
+  PR.esp=true; prEspera(); return true;}
+function muestraSolucion(s,z){
+
+ if(s.t=="arrastra"&&typeof s.ck==="function"){let bien=[];
+  for(let d=-4320;d<=4320;d++){try{if(s.ck(LT.t0+d).ok)bien.push(LT.t0+d);}catch(e){}}
+  if(bien.length){LT.t0=bien[Math.floor(bien.length/2)]; LT.resuelto=true; pinta(); tira();}}
+ if(s.t=="elige"){const c=elCaso(); ELG.sel=c.ok; elPinta();
+  return '<b>'+c.ops[c.ok]+'</b>.<div class="calc">'+(c.obra||z.obra(c)).map(x=>"&middot; "+x).join("<br>")+'</div>'+(z.txt||"");}
+ return (z.obra?'<div class="calc">'+z.obra(LT).map(x=>"&middot; "+x).join("<br>")+'</div>':"")+(z.txt||"");}
 function nav(on,etq){const d=document.getElementById("nav"); if(!d)return;
  const s=S(), ult=paso.p==PZ.length-1&&paso.i==PZ[paso.p].s.length-1;
  d.innerHTML=(paso.p||paso.i?'<button class="sec" onclick="atras()">Back</button>':'')
@@ -4781,10 +4775,12 @@ function fin(){
    : '<p><b>This part is complete.</b> Six topics, and the frontier is open: you '
      +'already knew how long a passage takes, and now you can say when it lands '
      +'&mdash; on the right day, in whichever clock is asking.</p>')
- +'<div class="calc"><b>Next: module 03 — Where you are.</b><br> You can steer a course now. This is the other half of the question — and the answer does not arrive in one piece.</div>';
+ +'<div class="calc"><b>Next: module 03 — Where you are.</b><br> You can steer a course now. This is the other half of the question — and the answer does not arrive in one piece.</div>'
+
+ +'<div class="nav" id="nav"></div>';
  const d=document.getElementById("nav");
  if(d)d.innerHTML='<button class="sec" onclick="atras()">Back</button>'
-  +'<button onclick="alUltimo()">Back to the last screen</button>';}
+  +'<button onclick="alUltimo()">Back to the last screen</button><button data-va=m03-p1-position-lines.html onclick=location.assign(this.dataset.va)>Next: module 03 — Where you are &#8594;</button>';}
 
 function alUltimo(){ paso.p=PZ.length-1;
  paso.i=PZ[paso.p].s.length-1; dibuja(); }
@@ -4834,6 +4830,151 @@ function marcoChrome(){
     f.style.setProperty("--ar", D.W + " / " + D.H);
  }catch(e){}
 }
+
+var MUESTRA = null;
+window.showme = function () {
+  var s = S(), z = s.show || {};
+  if (typeof showmeBanco === "function" && showmeBanco(s, z)) return;
+  if (typeof guarda === "function") guarda("showme", null, false);
+  if (typeof VER !== "undefined") VER = s.show ? z : null;
+  MUESTRA = null;
+  var txt = z.txt || "";
+  if (typeof muestraSolucion === "function") { var t = muestraSolucion(s, z); if (t != null) txt = t; }
+  else if (!s.show) txt = muestraComun(s);
+  else muestraCampos(s);
+  hecho = true;
+  if (typeof capa === "function") capa();
+
+  var d = document.getElementById("fb");
+  if (d) d.innerHTML = '<div class="res ver"><b>Here it is.</b>' + (txt ? '<div class="porque">' + txt + '</div>' : "") + '</div>';
+  nav(true, "Try the next one");
+};
+
+function muestraCampos(s) {
+  var h = "";
+  (s.campos || []).forEach(function (c, i) {
+    if (c.val == null) return;
+    var e = document.getElementById("c" + i);
+    var v = c.hora ? String(c.val) : (typeof c.val === "number" ? (c.ang ? String(Math.round(c.val) % 360).padStart(3, "0") : String(c.val)) : String(c.val));
+    if (e) { e.value = v; e.disabled = true; }
+    h += "<br><b>" + c.etq + " " + v + (c.ud ? " " + c.ud.replace(/<[^>]*>/g, "") : "") + "</b>" + (c.por ? " &mdash; " + c.por : "");
+  });
+  return h;
+}
+
+function respuestaDe(ck, max) {
+  var bien = [];
+  for (var v = 0; v <= max; v++) { var r = null; try { r = ck(v); } catch (e) {} if (r && r.ok) bien.push(v); }
+  return bien.length ? bien[Math.floor(bien.length / 2)] : null;
+}
+function muestraComun(s) {
+  if (s.sep) {
+    MUESTRA = {p: s.sep, t: s.nombreBien || "here"};
+
+    return "The right place is the <b>green mark</b> on the chart" + (s.nombreBien ? ": " + s.nombreBien : "") + "."
+      + ((s.cuenta || []).length ? " The working is the one above." : "");
+  }
+  if (s.o) {
+    var i = -1; s.o.forEach(function (o, j) { if (o.ok) i = j; }); if (i < 0) return "";
+    var bs = typeof document.querySelectorAll === "function" ? document.querySelectorAll("#pane button.opt") : [];
+    if (bs[i]) { if (bs[i].classList) bs[i].classList.add("elegida"); else bs[i].className += " elegida"; }
+    return "<b>" + s.o[i].t + "</b>. " + (s.o[i].m || "");
+  }
+  if (s.campos && s.campos.some(function (c) { return c.val != null; })) return muestraCampos(s);
+  if (typeof s.ck === "function") {
+    var v = respuestaDe(s.ck, s.ph == "ddd" ? 359 : 999); if (v == null) return "";
+    var e = typeof document.querySelector === "function" ? document.querySelector("#pane input") : null, w = s.ph == "ddd" ? String(v).padStart(3, "0") : String(v);
+    if (e) { e.value = w; e.disabled = true; }
+    return "<b>" + w + (s.un ? " " + s.un : "") + "</b>." + (s.calc ? '<div class="calc">' + s.calc + "</div>" : "")
+      + ((s.cuenta || []).length ? "<br>" + s.cuenta.join("<br>") : "");
+  }
+  return "";
+}
+
+window.reintenta = function () {
+  var s = S();
+  if (typeof EST !== "undefined") delete EST[s.id];
+  if (typeof FALLO !== "undefined") delete FALLO[s.id];
+  if (typeof MED !== "undefined") delete MED[s.id];
+  if (typeof VER !== "undefined") VER = null;
+  MUESTRA = null;
+  if (typeof alReintentar === "function") alReintentar(s);
+  if (typeof ponEst === "function") ponEst();
+  pinta();
+};
+
+(function () {
+  if (typeof nav !== "function") return;
+  var n0 = nav;
+  nav = function () {
+    var r = n0.apply(this, arguments), s = S(), d = document.getElementById("nav");
+
+    if (d && s && /[.]P[0-9]/.test(s.id || "") && typeof hecho !== "undefined" && hecho && !s.sinAyuda
+        && String(d.innerHTML || "").indexOf("otraVez") < 0) {
+      var html = '<button class="sec otraVez" onclick="reintenta()">Try again</button>';
+      var tras = typeof d.querySelector === "function" ? d.querySelector("button.sec") : null;
+      if (tras && typeof tras.insertAdjacentHTML === "function") tras.insertAdjacentHTML("afterend", html);
+      else d.innerHTML = html + String(d.innerHTML || "");
+    }
+    return r;
+  };
+
+  if (typeof ponEst === "function") { var p0 = ponEst; ponEst = function () { MUESTRA = null; return p0.apply(this, arguments); }; }
+})();
+
+var SALTADAS = {};
+(function () {
+  var idDe = function () { try { var s = S(); return s && s.id; } catch (e) { return null; } };
+  var vacia = function (o) { if (o && typeof o === "object") for (var k in o) delete o[k]; };
+
+  if (typeof window.salta === "function") {
+    var s0 = window.salta;
+    window.salta = function () { var id = idDe(); if (id) SALTADAS[id] = true;
+      var r = s0.apply(this, arguments);
+      if (id && idDe() === id && typeof hecho !== "undefined" && hecho === true) hecho = false;
+      return r; };
+  }
+  if (typeof nav === "function") {
+    var n0 = nav;
+    nav = function (next, txt) { var id = idDe(); if (id && SALTADAS[id]) next = true;
+      return n0.call(this, next, txt); };
+  }
+  if (typeof guarda === "function") {
+    var g0 = guarda;
+    guarda = function (t, r, ok) { if (ok === true) { var id = idDe(); if (id) delete SALTADAS[id]; }
+      return g0.apply(this, arguments); };
+  }
+  if (typeof anota === "function") {
+    var a0 = anota;
+    anota = function (v, ok) { if (ok === true) { var id = idDe(); if (id) delete SALTADAS[id]; }
+      return a0.apply(this, arguments); };
+  }
+  var sinHacer = function () {
+    if (typeof hecho !== "undefined") hecho = false;
+    if (typeof PR !== "undefined" && PR) { PR.hecho = false; PR.saltada = false; }
+    if (typeof PR2 !== "undefined" && PR2) { PR2.hecho = false; }
+  };
+  if (typeof ponEst === "function") {
+    var p0 = ponEst;
+    ponEst = function () { var r = p0.apply(this, arguments); var id = idDe();
+      if (id && SALTADAS[id]) sinHacer(); return r; };
+  }
+  if (typeof deCero === "function") {
+    var d0 = deCero;
+    deCero = function () {
+      if (typeof EST !== "undefined") vacia(EST);
+      if (typeof FALLO !== "undefined") vacia(FALLO);
+      vacia(SALTADAS);
+      if (typeof LOG !== "undefined" && LOG && LOG.length) LOG.length = 0;
+      sinHacer();
+      if (typeof PR !== "undefined" && PR) PR.fallos = 0;
+      if (typeof PR2 !== "undefined" && PR2) PR2.fallos = 0;
+      if (typeof alReiniciar === "function") alReiniciar();
+      return d0.apply(this, arguments);
+    };
+  }
+})();
+
 </script>
 <!-- Cloudflare Web Analytics -->
 <script type='module' src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "624bbb73949b40f0aae4dafec49ac1f6"}'></script>

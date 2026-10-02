@@ -266,6 +266,14 @@ a.skip:hover,a.volver:hover,#foot a:hover{color:var(--ink-title);
  border-radius:0;padding:var(--sp-tight) var(--sp-block);margin:0 0 var(--sp-block);
  font:400 14px/1.7 var(--f-mono)}
 .calc b{font-family:var(--f-ui);font-weight:600;color:var(--ink-title)}
+
+@media (max-width:700px){
+ #wrap{grid-template-columns:minmax(0,1fr);grid-template-rows:auto minmax(0,1fr)}
+ #lienzo{padding:6px 8px;max-height:45vh}
+ #ficha{max-height:calc(45vh - 12px)}
+ #side{border-left:0;border-top:1px solid var(--edge-frame)}
+}
+
 </style>
 
 <h1 id="seo" style="position:absolute;width:1px;height:1px;margin:-1px;padding:0;overflow:hidden;clip:rect(0 0 0 0);clip-path:inset(50%);border:0;white-space:nowrap">Module 03 &middot; Carrying it forward</h1>
@@ -286,7 +294,7 @@ a.skip:hover,a.volver:hover,#foot a:hover{color:var(--ink-title);
    <div class="hd"><div id="hTit">Port Aldern</div></div>
    <div id="prog"></div></div>
   <div id="pane"></div>
-  <div id="foot"><span id="fVer" style="opacity:.6">build 12:24:17</span><a class="volver" id="deCero" onclick="deCero()">start over</a>
+  <div id="foot"><span id="fVer" style="opacity:.6">build 10:40:42</span><a class="volver" id="deCero" onclick="deCero()">start over</a>
    </div>
  </div>
 </div>
@@ -502,14 +510,31 @@ function trLee(){ if(!TR.a||!TR.b)return null;
  const n=trNorte(), d0=Math.min(n,360-n), d180=Math.abs(n-180);
  return {v:((TR.off%360)+360)%360, norte:d0<=7, paralela:Math.min(d0,d180)<=7};}
 
-function trRadio(){return 150*k2();}
+function trTam(){
+ if(window.innerWidth>700)return 1;
+ const r=svg.getBoundingClientRect(), m=Math.min(r.width,r.height);
+ return Math.max(0.4,Math.min(1,0.34*m/150));}
+function trRadio(){return 150*k2()*trTam();}
+function trEncaja(){
+ if(window.innerWidth>700||!TR.a||!TR.b||typeof vb==="undefined")return;
+ const k=k2()*trTam(), L=Math.hypot(TR.b[0]-TR.a[0],TR.b[1]-TR.a[1])||1;
+ const ux=(TR.b[0]-TR.a[0])/L, uy=(TR.b[1]-TR.a[1])/L, R=trRadio(), E=Math.max(0,R*1.5-L/2), W=R*0.72;
+ const c=trCentro(), H=L/2+E+28*k, m=8*k;
+ const ex=Math.max(Math.abs(ux)*H+Math.abs(uy)*W, R), ey=Math.max(Math.abs(uy)*H+Math.abs(ux)*W, R+40*k);
+ let dx=0, dy=0;
+ if(2*(ex+m)<=vb.w){ if(c[0]-ex<vb.x+m)dx=vb.x+m-(c[0]-ex); else if(c[0]+ex>vb.x+vb.w-m)dx=vb.x+vb.w-m-(c[0]+ex); }
+ else dx=vb.x+vb.w/2-c[0];
+ if(2*(ey+m)<=vb.h){ if(c[1]-ey<vb.y+m)dy=vb.y+m-(c[1]-ey); else if(c[1]+ey>vb.y+vb.h-m)dy=vb.y+vb.h-m-(c[1]+ey); }
+ else dy=vb.y+vb.h/2-c[1];
+ if(dx||dy){TR.a=[TR.a[0]+dx,TR.a[1]+dy];TR.b=[TR.b[0]+dx,TR.b[1]+dy];}}
 
 function trCentro(){return [(TR.a[0]+TR.b[0])/2,(TR.a[1]+TR.b[1])/2];}
 
 function transp(){
  const t=S().t; if((t!="protra"&&t!="trazar")||!TR.a)return;
- const k=k2(), C="#1b3a5c";
+ const k=k2()*trTam(), C="#1b3a5c";
  if(!TR.b){el("circle",{cx:TR.a[0],cy:TR.a[1],r:7*k,fill:C},gG);return;}
+ trEncaja();
  const L=Math.hypot(TR.b[0]-TR.a[0],TR.b[1]-TR.a[1]);
  const ux=(TR.b[0]-TR.a[0])/L, uy=(TR.b[1]-TR.a[1])/L, nx=-uy, ny=ux;
  const R=trRadio(), E=Math.max(0,R*1.5-L/2), W=R*0.72;
@@ -561,7 +586,8 @@ function transp(){
 
 function trInicial(){
  const s=S(), p=s.por?[s.por[0]-D.X0,s.por[1]-D.Y0]:[D.W/2,D.H/2], L=460;
- const r=115*Math.PI/180;
+
+ const r=(s.porRumbo!=null?s.porRumbo:115)*Math.PI/180;
  const c=[p[0]+380,p[1]-620];
  TR={a:[c[0]-Math.sin(r)*L,c[1]+Math.cos(r)*L],
      b:[c[0]+Math.sin(r)*L,c[1]-Math.cos(r)*L], off:70};}
@@ -629,6 +655,12 @@ function capa(){while(gL.firstChild)gL.removeChild(gL.firstChild);
   if(b)el("line",{x1:a[0],y1:a[1],x2:b[0],y2:b[1],stroke:"#c8102e","stroke-width":3*k},gL);
   for(const q of medida)el("circle",{cx:q[0],cy:q[1],r:6*k,fill:"#c8102e"},gL);}
  verlo(); guias(); compas(); transp();
+
+ if(typeof MUESTRA!=="undefined"&&MUESTRA){const p=P(MUESTRA.p[0],MUESTRA.p[1]), kk=k2();
+  el("circle",{cx:p[0],cy:p[1],r:16*kk,fill:"none",stroke:"#0a6b52","stroke-width":4*kk},gL);
+  el("circle",{cx:p[0],cy:p[1],r:4*kk,fill:"#0a6b52"},gL);
+  el("text",{x:p[0]+22*kk,y:p[1]-14*kk,"font-size":20*kk,"font-weight":700,"font-family":"DejaVu Sans,sans-serif",
+   fill:"#0a6b52"},gL).textContent=MUESTRA.t;}
 
  if(typeof capaExtra==="function") capaExtra();}
 
@@ -732,7 +764,7 @@ window.leeTr=()=>{const s=S(),r=trLee();
  const q=s.ck(r.v,dz); guarda(s.t,{lee:Math.round(r.v),norte:Math.round(trNorte())},q.ok);
  if(q.ok){MED[s.id]={v:r.v};fb(q.m,"si");pasa();}else falla(s,q.m);};
 
-const PZ=[{"t": "The dry reckoning", "s": [{"id": "1.S1", "h": "Nothing left to look at", "v": [3732.5, 2726.0, 7545], "fix": [[4580.0, 2660.0, "1449 · log 47.4", "", 120.0]], "p": ["<b>That circle is the last thing you saw.</b> Three bearings of three towers, cut at the best angles this chart has, timed at <b>1449</b> with the log reading <b>47.4</b>. <i>It is the fix that closed part 2.</i>", "<b>Now the fog comes down.</b> Or the night, or a coast with nothing on it you can name. Every method in the last two parts needed something in sight, and there is nothing in sight. <b>The chart has not changed and your position has.</b>", "<b>You are not left with nothing.</b> You have three things, and you have been writing all three down since the first screen of part 1: <b>where you were</b>, <b>what course you have steered</b> since, and <b>how far the log says you have run</b>.", "<i>Put those three together and you get a position on the chart. It is not a fix, it does not deserve a circle, and the next screens are about what it is and what it is worth.</i>"], "b": "Next"}, {"id": "1.E1", "h": "Course and distance, drawn", "v0": [3863.0, 2219.0, 2600], "v": [3863.0, 2219.0, 2600], "p": ["<b>Close in on the water you left.</b> This screen is <b>3.86 miles</b> across, the fix is bottom right, and everything that follows is done with a pencil, a plotter and the log &mdash; <i>nothing here is measured off anything you can see.</i>"], "b": "Next", "pasos": [{"t": "<b>Start from the last fix, and from nothing else.</b> 1449, log 47.4. <i>An estimate is only ever as good as the position it is counted from, which is why the circle goes on the chart before anything else does.</i>", "calc": "last fix &nbsp;&middot;&nbsp; <b>1449</b> &nbsp;&middot;&nbsp; log 47.4", "fix": [[4580.0, 2660.0, "1449 · log 47.4", "", 120.0]]}, {"t": "<b>Draw the course you have steered: 300.</b> One line out of the fix, and <b>one arrowhead on it</b> &mdash; that arrowhead is not decoration, it is what says this line is a course through the water. <i>You will meet the same line with two arrowheads in module 05, and it will mean something else.</i><br><br>Nothing on it is a position yet: a course is a direction, and a direction is not a place.", "calc": "course steered &nbsp;&middot;&nbsp; <b>300</b>", "fix": [[4580.0, 2660.0, "1449 · log 47.4", "", 120.0]], "derrota": [[4580.0, 2660.0, 3146.4, 1778.0, 300.0, "300 · 2.5 M"]]}, {"t": "<b>Now stop it where the log says.</b> Half an hour at 5 knots is <b>2.5 miles</b>: the log has gone from 47.4 to <b>49.9</b>. Mark that point with <b>a short line across the course</b>, write the time and the log beside it, and put <b>DR</b> on it.<br><br><i>A line across the track, not a dot in a circle. The two symbols are different because the two things are different, and an examiner reads the difference before he reads the numbers.</i>", "calc": "300 &nbsp;&middot;&nbsp; 2.5 M run &nbsp;&middot;&nbsp; <b>DR 1519</b> &nbsp;&middot;&nbsp; log 49.9", "fix": [[4580.0, 2660.0, "1449 · log 47.4", "", 120.0]], "derrota": [[4580.0, 2660.0, 3146.4, 1778.0, 300.0, "300 · 2.5 M"]], "estima": [[3146.4, 1778.0, 300.0, "DR 1519 · log 49.9"]]}]}, {"id": "1.S2", "h": "And this is not where you are", "v": [3863.0, 2219.0, 2600], "fix": [[4580.0, 2660.0, "1449 · log 47.4", "", 120.0]], "derrota": [[4580.0, 2660.0, 3146.4, 1778.0, 300.0, "300 · 2.5 M"], [4580.0, 2660.0, 3162.0, 1753.1, 301.0, "", 1]], "estima": [[3146.4, 1778.0, 300.0, "DR 1519 · log 49.9", 1], [3162.0, 1753.1, 301.0, "1° out · 81 m", -1]], "p": ["<b>Read the mark for what it says.</b> It says: <i>this is where the course and the log put me, if nothing has pushed me.</i> <b>It does not say where you are</b>, and the difference is the whole of this screen.", "<b>Two things push you, and neither leaves a trace on the log.</b> The tidal stream moves the water you are floating in, and the log cannot feel it because the log measures water. The wind pushes you sideways through it. <b>A GPS would show you where the two of them have put you &mdash; but not how much of it was each, and this mark is drawn without one.</b> <i>Both of them are module 05, where this mark gets corrected and becomes an estimated position. They are named here and taught there.</i>", "<b>And a third one is yours, and it is on this screen.</b> Steer one degree off for this half hour and the mark lands <b>81 metres</b> away &mdash; the faint track. Over the two legs of the next topic, <b>145 metres</b>. <i>Part 1 measured that one degree is 32 metres at one mile; this is the same number pointed forwards instead of sideways.</i>", "<b>So what is it good for?</b> It is the only position you have, it is better than a guess by a long way, and <b>it is the thing you carry a position line forward with</b> &mdash; which is where this part is going."], "b": "Next"}, {"id": "1.P1", "h": "Where does the log put you?", "t": "click", "v": [3863.0, 2219.0, 2600], "fix": [[4580.0, 2660.0, "1449 · log 47.4", "", 120.0]], "derrota": [[4580.0, 2660.0, 3146.4, 1778.0, 300.0, "300 · 2.5 M"]], "sest": [260, 3146.4, 1778.0], "ay": "Click the end of the run, on the course line.", "p": ["<b class='q'>Half an hour on 300, at 5 knots. Where does that put you?</b>", "The fix is drawn, the course is drawn, and the log has gone from <b>47.4</b> to <b>49.9</b>. <i>Put your finger on the end of the run. The question is not where you are &mdash; it is where the course and the log say you would be.</i>"], "b": "Next", "hizo": "worked out a dry reckoning"}]}, {"t": "Keeping the reckoning", "s": [{"id": "2.S1", "h": "Two legs and an alteration", "v": [3224.0, 2432.0, 4400], "fix": [[4580.0, 2660.0, "1449 · log 47.4", "", 120.0]], "derrota": [[4580.0, 2660.0, 3146.4, 1778.0, 300.0, "300 · 2.5 M"], [3146.4, 1778.0, 1868.7, 2203.0, 250.0, "250 · 2.0 M", 0, -1]], "estima": [[3146.4, 1778.0, 300.0, "DR 1519 · log 49.9", 1], [1868.7, 2203.0, 250.0, "DR 1543 · log 51.9", 1]], "p": ["<b>A reckoning is not one line, and a passage is not one course.</b> Here is the same afternoon with the next half hour added: <b>300 for 2.5 miles</b> to the alteration, then <b>250 for 2.0</b>. <i>4.5 miles in 54 minutes, from the fix that closed part 2 to a mark you have never seen.</i>", "<b>Every leg carries its own three things</b> &mdash; a course, a distance and a time &mdash; and every one of them ends in a mark with the log reading beside it. <i>That is why the log gets written down at the alteration and not only at the end: the second leg is counted from there.</i>", "<b>And the chain is only as good as its worst link.</b> One leg steered a degree off, one alteration made two minutes late, and everything after it moves with it. <i>Nothing here corrects itself; a reckoning only gets worse until the next time you see something.</i>"], "b": "Next"}, {"id": "2.E1", "h": "Drawn, leg by leg", "v0": [3224.0, 2432.0, 4400], "v": [3224.0, 2432.0, 4400], "p": ["<b>The same two legs, done with the pencil.</b> <i>Watch where the second one starts &mdash; it is the only thing in this topic that is easy to get wrong, and it is worth 4 630 metres.</i>"], "b": "Next", "pasos": [{"t": "<b>The first leg, as you drew it in topic 1.</b> 300 from the fix, 2.5 miles, and the mark across the track at <b>1519</b> with the log at <b>49.9</b>.<br><br><i>One arrowhead on the course line. One mark at the end of it. Nothing else on the chart yet.</i>", "calc": "300 &nbsp;&middot;&nbsp; 2.5 M &nbsp;&middot;&nbsp; <b>DR 1519</b> &nbsp;&middot;&nbsp; log 49.9", "fix": [[4580.0, 2660.0, "1449 · log 47.4", "", 120.0]], "derrota": [[4580.0, 2660.0, 3146.4, 1778.0, 300.0, "300 · 2.5 M"]], "estima": [[3146.4, 1778.0, 300.0, "DR 1519 · log 49.9", 1]]}, {"t": "<b>At 1519 you alter to 250 &mdash; and the new leg starts HERE, at the mark.</b> Not at the fix. The fix is 2.5 miles astern and it has nothing to do with this leg: <b>everything you count from now on is counted from the alteration</b>, which is why it has its own time and its own log reading.<br><br><i>Count this leg from the fix instead and you finish 4 630 metres from where you should be &mdash; 2.50 miles, which is exactly the length of the leg you skipped.</i>", "calc": "alter at <b>1519</b> &nbsp;&middot;&nbsp; new course <b>250</b> &nbsp;&middot;&nbsp; log 49.9", "fix": [[4580.0, 2660.0, "1449 · log 47.4", "", 120.0]], "derrota": [[4580.0, 2660.0, 3146.4, 1778.0, 300.0, "300 · 2.5 M"], [3146.4, 1778.0, 1868.7, 2203.0, 250.0, "250 · 2.0 M", 0, -1]], "estima": [[3146.4, 1778.0, 300.0, "DR 1519 · log 49.9", 1]]}, {"t": "<b>24 minutes on 250: 2.0 miles, log 51.9.</b> A second mark across the second track, with its own time.<br><br><b>Look at the three symbols on the chart and read them apart.</b> The <b>dot inside a circle</b>, astern, is a fix: you saw it. The <b>two short marks across the tracks</b> are reckonings: you counted them. <i>Neither of the two marks is where you are &mdash; they are where the courses and the log put you, and an examiner tells the two apart before he reads a single number.</i>", "calc": "250 &nbsp;&middot;&nbsp; 2.0 M &nbsp;&middot;&nbsp; <b>DR 1543</b> &nbsp;&middot;&nbsp; log 51.9", "fix": [[4580.0, 2660.0, "1449 · log 47.4", "", 120.0]], "derrota": [[4580.0, 2660.0, 3146.4, 1778.0, 300.0, "300 · 2.5 M"], [3146.4, 1778.0, 1868.7, 2203.0, 250.0, "250 · 2.0 M", 0, -1]], "estima": [[3146.4, 1778.0, 300.0, "DR 1519 · log 49.9", 1], [1868.7, 2203.0, 250.0, "DR 1543 · log 51.9", 1]]}]}, {"id": "2.P1", "h": "Run the second leg", "t": "click", "v": [2590.0, 1990.0, 2100], "derrota": [[4580.0, 2660.0, 3146.4, 1778.0, 300.0, "300 · 2.5 M"], [3146.4, 1778.0, 1868.7, 2203.0, 250.0, "250 · 2.0 M", 0, -1]], "estima": [[3146.4, 1778.0, 300.0, "DR 1519 · log 49.9", 1]], "sest": [260, 1868.7, 2203.0], "ay": "Click the end of the second leg, on the course line.", "p": ["<b class='q'>You altered at 1519. Where does 24 minutes on 250 put you?</b>", "The mark you are counting from is on the screen, with its log reading: <b>1519, log 49.9</b>. The new course is drawn. At 5 knots the log will read <b>51.9</b> when you get there. <i>Count from the alteration, not from the fix &mdash; the fix is off the top right of this screen and it is 2.5 miles behind you.</i>"], "b": "Next", "hizo": "ran the reckoning on from an alteration"}]}, {"t": "Carrying a line forward", "s": [{"id": "3.S1", "h": "One tower, and one line", "v": [2305.0, 2838.0, 2600], "derrota": [[3146.4, 1778.0, 1868.7, 2203.0, 250.0, ""]], "estima": [[1868.7, 2203.0, 250.0, "", 1]], "lns": [[1661.0, 3473.0, 1910.4, 1998.6, "Skelvoe Tower 188", "", 0.62, 1, -1]], "p": ["<b>The fog thins in one direction, and there is one thing in it.</b> Of everything part 1 taught you to shoot, a single object is in sight: <b>Skelvoe Tower bears 188</b>, taken at <b>1543</b> with the log at <b>51.9</b>. <i>Two more objects and this would be over in one step. There are not two more.</i>", "<b>A bearing is a line, not a position.</b> It says you are somewhere along it, and it says nothing about where along it. The mark at the end of the track says the opposite: a place, counted rather than seen. <i>Neither of them on its own is where you are &mdash; one has no distance and the other has nothing you looked at.</i>", "<b>So you take the line with you.</b> Sail on, note the course and the distance, and carry this line forward by exactly that much; then take the same tower again and cross the two. <i>A line that has travelled is no longer alone, and that is the whole of this topic.</i>"], "b": "Next"}, {"id": "3.E1", "h": "Carrying it forward", "v0": [2305.0, 2838.0, 2600], "v": [2305.0, 2838.0, 2600], "p": ["<b>Three moves: take it, carry it, take it again.</b> <i>Watch what moves in the middle one &mdash; it is a line and not a point, and that is where this is lost.</i>"], "b": "Next", "pasos": [{"t": "<b>1543. Skelvoe Tower bears 188.</b> The line is drawn from the tower outwards, and it carries <b>one arrowhead</b> at the far end: that is a position line, taken now.<br><br><i>You are on it. The mark across the track says the run puts you here &mdash; and the line agrees, without proving it.</i>", "calc": "1543 &nbsp;&middot;&nbsp; <b>Skelvoe 188</b> &nbsp;&middot;&nbsp; log 51.9", "derrota": [[3146.4, 1778.0, 1868.7, 2203.0, 250.0, ""]], "estima": [[1868.7, 2203.0, 250.0, "", 1]], "lns": [[1661.0, 3473.0, 1910.4, 1998.6, "Skelvoe Tower 188", "", 0.62, 1, -1]]}, {"t": "<b>Run the leg: 125 for 2.0 miles, 24 minutes.</b> And now the move that matters: <b>what goes forward is the LINE, not the point.</b> Take the whole line and slide it, parallel to itself, by exactly the course and the distance you have run &mdash; every point of it moves the same 2.0 miles on 125.<br><br><b>The carried line gets two arrowheads.</b> On a position line one arrowhead means <i>taken now</i> and two mean <i>carried forward</i>, and an examiner reads that before he reads a number.<br><br><b>And two arrowheads on a course line are a different thing altogether:</b> the <b>ground track</b> &mdash; where the boat actually goes over the ground &mdash; which is module 05. <i>So what tells them apart is not the arrows &mdash; it is the line underneath them. A course is solid and black and you steered it; a position line is dashed and red and you looked along it. Count the arrows second.</i>", "calc": "transfer <b>188</b> &nbsp;&middot;&nbsp; 125 &nbsp;&middot;&nbsp; 2.0 M &nbsp;&middot;&nbsp; log 51.9 &rarr; 53.9", "derrota": [[3146.4, 1778.0, 1868.7, 2203.0, 250.0, ""], [1868.7, 2203.0, 2949.7, 3005.8, 125.0, "125 · 2.0 M", 0, -1]], "estima": [[1868.7, 2203.0, 250.0, "", 1], [2949.7, 3005.8, 125.0, "", -1]], "lns": [[1661.0, 3473.0, 1910.4, 1998.6, "Skelvoe Tower 188", "", 0.62, 1, -1], [2843.2, 3677.4, 3127.2, 1998.6, "Skelvoe Tower 188", "", 0.62, 2, -1]]}, {"t": "<b>1607. Take Skelvoe Tower again: 248.</b> One arrowhead &mdash; it was taken now. And it cuts the carried line at <b>60°</b>.<br><br><b>That crossing is a position, and it is the first one since 1449 that came from something you saw.</b> <i>One object, two looks and a run in between. The circle goes round it because it was observed; the marks across the track never earn one.</i>", "calc": "1607 &nbsp;&middot;&nbsp; <b>Skelvoe 248</b> &nbsp;&middot;&nbsp; cut <b>60°</b> &nbsp;&middot;&nbsp; log 53.9", "derrota": [[3146.4, 1778.0, 1868.7, 2203.0, 250.0, ""], [1868.7, 2203.0, 2949.7, 3005.8, 125.0, "125 · 2.0 M", 0, -1]], "estima": [[1868.7, 2203.0, 250.0, "", 1]], "lns": [[2843.2, 3677.4, 3127.2, 1998.6, "Skelvoe Tower 188", "", 0.62, 2, -1], [1661.0, 3473.0, 3495.0, 2790.9, "Skelvoe Tower 248", "", 0.35, 1, 1]], "arco": [[2959.5, 2990.1, 188.0, 248.0, "60°"]], "fix": [[2959.5, 2990.1, "1607 · log 53.9", "", 128.0]]}]}, {"id": "3.S2", "h": "What makes it good, and what spoils it", "v": [2409.0, 2604.0, 1600], "derrota": [[1868.7, 2203.0, 2949.7, 3005.8, 125.0, "125 · 2.0 M", 0, -1]], "lns": [[2843.2, 3677.4, 3127.2, 1998.6, "", "", 0.62, 2, -1], [1661.0, 3473.0, 3495.0, 2790.9, "", "", 0.35, 1, 1]], "arco": [[2959.5, 2990.1, 188.0, 248.0, "60°"]], "fix": [[2959.5, 2990.1, "1607 · log 53.9", "", 156.5]], "p": ["<b>What makes this fix good is the 60° between the two lines &mdash; and that angle is nothing but the amount the bearing turned:</b> Skelvoe Tower 188 at the first look, Skelvoe Tower 248 at the second. Sail towards the object and it barely turns: two careful looks give you two lines that are almost the same line, and almost the same line is no position at all. <i>The run has to open the bearing, and here it opened it by 60 degrees.</i>", "<b>And a running fix is only as good as the reckoning that carries it.</b> The carried line arrives with everything the run had inside it. One degree out on the first bearing moves it <b>62 m</b> at that range; one degree out on the course you steered moves it <b>65 m</b> over the 2.0 miles run; five per cent out on the distance, <b>185 m</b>. <i>None of that shows on the chart. A crossing looks exactly as sharp when it is wrong.</i>", "<b>And one more, which is not drawn here and not taught here: the tidal stream.</b> What you carried forward is a run <i>through the water</i>, and the water has been moving under you the whole time. Correcting for it is module 05; <b>naming it is this one</b>, because a running fix that ignores it is wrong by however far the stream has taken you.", "<i>On this chart the crossing lands <b>51 m</b> from the mark the reckoning made &mdash; and those 51 metres are not the reckoning's error: they are what writing two bearings to the whole degree costs. In a boat, the stream would add its own on top of them.</i>"], "b": "Next"}, {"id": "3.P1", "h": "Run the line yourself", "t": "click", "v": [2305.0, 2838.0, 2600], "derrota": [[1868.7, 2203.0, 2949.7, 3005.8, 125.0, "125 · 2.0 M", 0, -1]], "lns": [[2843.2, 3677.4, 3127.2, 1998.6, "Skelvoe Tower 188", "", 0.62, 2, -1], [1661.0, 3473.0, 3495.0, 2790.9, "Skelvoe Tower 248", "", 0.35, 1, 1], [1661.0, 3473.0, 1910.4, 1998.6, "Skelvoe Tower 188", "", 0.62, 1, -1]], "sfix": [260, "carried", "1607"], "ay": "Click where the carried line crosses the 1607 bearing.", "p": ["<b class='q'>Skelvoe Tower bore 188 at 1543. You ran 125 for 2.0 miles, and at 1607 Skelvoe Tower bears 248. Where does that put you?</b>", "All three lines are drawn: the bearing you took at 1543 &mdash; Skelvoe Tower 188 &mdash; the same line carried forward by the run &mdash; <b>two arrowheads</b> &mdash; and the bearing you took at 1607, Skelvoe Tower 248. <i>Two of them cross at the tower, and that crossing is worth nothing: the tower is where you were looking, not where you were.</i>"], "b": "Next", "hizo": "fixed with a position line carried forward"}]}, {"t": "Closing", "s": [{"id": "4.S1", "h": "The afternoon, drawn once", "v": [3732.5, 2726.0, 7545], "fix": [[4580.0, 2660.0, "1449 · log 47.4", "", 120.0], [2959.5, 2990.1, "1607 · log 53.9", "", 128.0]], "derrota": [[4580.0, 2660.0, 3146.4, 1778.0, 300.0, "300 · 2.5 M"], [3146.4, 1778.0, 1868.7, 2203.0, 250.0, "250 · 2.0 M", 0, -1], [1868.7, 2203.0, 2949.7, 3005.8, 125.0, "125 · 2.0 M", 0, -1]], "estima": [[3146.4, 1778.0, 300.0, "", 1], [1868.7, 2203.0, 250.0, "", 1]], "lns": [[2843.2, 3677.4, 3127.2, 1998.6, "", "", 0.62, 2, -1], [1661.0, 3473.0, 3495.0, 2790.9, "", "", 0.35, 1, 1]], "p": ["<b>78 minutes, 6.5 miles, and two positions.</b> The dot in a circle at <b>1449</b> is where part 2 left you: three towers, three bearings, one crossing. Then the visibility went. <b>300 for 2.5</b> to the first mark, <b>250 for 2.0</b> to the second, and <b>125 for 2.0</b> to something better than a mark: at <b>1607</b> a second position, built out of <i>one</i> tower looked at twice with the run carried between the looks.<br><br><i>So count the marks and there are two, not three. The reckoning put a third one at the end of the last leg as well &mdash; it is 51 metres from the circle, which at this width is thinner than the pencil &mdash; and drawing both would have hidden the one that was earned.</i>", "<b>The two circles are 2.46 miles apart and you sailed 6.5 to get between them.</b> <i>That is not waste: it is what the chart cannot tell you unless you write down the course, the distance and the time as you go. The log went from 47.4 to 53.9 and nothing was in sight for 54 of those 78 minutes.</i>", "<b>Three things you could not do at 1449, and can now.</b> Put a position on the chart with nothing in sight. Read a mark for what it says instead of what you would like it to say. And take one object, look at it twice with a run in between, and get a position out of it. <i>Not one of the three needs a second tower.</i>", "<b>And one you still cannot do: know how good any of it is.</b> A running fix is only as good as the reckoning that carries it, and a reckoning only gets worse until the next time you see something. <i>Nothing on this screen corrects itself.</i>"], "b": "Next"}, {"id": "4.C1", "h": "What pushes you, and where it is taught", "v": [3732.5, 2726.0, 7545], "fix": [[4580.0, 2660.0, "1449 · log 47.4", "", 120.0], [2959.5, 2990.1, "1607 · log 53.9", "", 128.0]], "derrota": [[4580.0, 2660.0, 3146.4, 1778.0, 300.0, "300 · 2.5 M"], [3146.4, 1778.0, 1868.7, 2203.0, 250.0, "250 · 2.0 M", 0, -1], [1868.7, 2203.0, 2949.7, 3005.8, 125.0, "125 · 2.0 M", 0, -1]], "estima": [[3146.4, 1778.0, 300.0, "", 1], [1868.7, 2203.0, 250.0, "", 1]], "lns": [[2843.2, 3677.4, 3127.2, 1998.6, "", "", 0.62, 2, -1], [1661.0, 3473.0, 3495.0, 2790.9, "", "", 0.35, 1, 1]], "p": ["<b>Everything on this chart is the reckoning, and the reckoning is dry.</b> A course, a distance, a time and a log &mdash; four things you can read on board, and <i>not one of them can feel the water moving under the boat</i>.", "<b>Two things push you, and neither leaves a trace on the log.</b> The <b>tidal stream</b> moves the water you are floating in; <b>leeway</b> pushes you sideways through it. A GPS would show you where the two of them had put you, but not how much of it was each &mdash; and the reckoning is what you keep without one. Applied to the marks you have been drawing, the two of them turn a reckoning into an <b>estimated position</b> &mdash; and that is <b>module 05</b>, which starts from exactly these marks and adds the corrections. <i>There is also a question this module never asked: how much water is under you. That one is <b>module 04</b>.</i>", "<b>And they are not taught here for a measured reason rather than a tidy one.</b> There is no tidal information on this chart at all: <b>11 data files behind it and not one current in any of them</b>, and no tidal diamond printed on the sheet. <i>A stream you cannot look up is a stream somebody has to tell you, and being told the answer is not learning to find it. Skelmar Sound can teach you to keep a reckoning; it cannot teach you to correct one.</i>", "<b>Nothing on the chart changed between this screen and the last one, and that is the point.</b> The question this module opened with &mdash; <i>where are you?</i> &mdash; has been answered three ways: part 1 gave you a single line, and one line is <b>not</b> a position; part 2 crossed two and got a point, then showed the point was a zone; part 3 took the objects away and you got a position anyway. <i>What is still missing cannot be drawn from anything on this screen, which is exactly why it gets a module of its own.</i>"], "b": "Finish"}]}];
+const PZ=[{"t": "The dry reckoning", "s": [{"id": "1.S1", "h": "Nothing left to look at", "v": [3732.5, 2726.0, 7545], "fix": [[4580.0, 2660.0, "1449 · log 47.4", "", 120.0]], "p": ["<b>That circle is the last thing you saw.</b> Three bearings of three towers, cut at the best angles this chart has, timed at <b>1449</b> with the log reading <b>47.4</b>. <i>It is the fix that closed part 2.</i>", "<b>Now the fog comes down.</b> Or the night, or a coast with nothing on it you can name. Every method in the last two parts needed something in sight, and there is nothing in sight. <b>The chart has not changed and your position has.</b>", "<b>You are not left with nothing.</b> You have three things, and you have been writing all three down since the first screen of part 1: <b>where you were</b>, <b>what course you have steered</b> since, and <b>how far the log says you have run</b>.", "<i>Put those three together and you get a position on the chart. It is not a fix, it does not deserve a circle, and the next screens are about what it is and what it is worth.</i>"], "b": "Next"}, {"id": "1.E1", "h": "Course and distance, drawn", "v0": [3863.0, 2219.0, 2600], "v": [3863.0, 2219.0, 2600], "p": ["<b>Close in on the water you left.</b> This screen is <b>3.86 miles</b> across, the fix is bottom right, and everything that follows is done with a pencil, a plotter and the log &mdash; <i>nothing here is measured off anything you can see.</i>"], "b": "Next", "pasos": [{"t": "<b>Start from the last fix, and from nothing else.</b> 1449, log 47.4. <i>An estimate is only ever as good as the position it is counted from, which is why the circle goes on the chart before anything else does.</i>", "calc": "last fix &nbsp;&middot;&nbsp; <b>1449</b> &nbsp;&middot;&nbsp; log 47.4", "fix": [[4580.0, 2660.0, "1449 · log 47.4", "", 120.0]]}, {"t": "<b>Draw the course you have steered: 300.</b> One line out of the fix, and <b>one arrowhead on it</b> &mdash; that arrowhead is not decoration, it is what says this line is a course through the water. <i>You will meet the same line with two arrowheads in module 05, and it will mean something else.</i><br><br>Nothing on it is a position yet: a course is a direction, and a direction is not a place.", "calc": "course steered &nbsp;&middot;&nbsp; <b>300</b>", "fix": [[4580.0, 2660.0, "1449 · log 47.4", "", 120.0]], "derrota": [[4580.0, 2660.0, 3146.4, 1778.0, 300.0, "300 · 2.5 M"]]}, {"t": "<b>Now stop it where the log says.</b> Half an hour at 5 knots is <b>2.5 miles</b>: the log has gone from 47.4 to <b>49.9</b>. Mark that point with <b>a short line across the course</b>, write the time and the log beside it, and put <b>DR</b> on it.<br><br><i>A line across the track, not a dot in a circle. The two symbols are different because the two things are different, and an examiner reads the difference before he reads the numbers.</i>", "calc": "300 &nbsp;&middot;&nbsp; 2.5 M run &nbsp;&middot;&nbsp; <b>DR 1519</b> &nbsp;&middot;&nbsp; log 49.9", "fix": [[4580.0, 2660.0, "1449 · log 47.4", "", 120.0]], "derrota": [[4580.0, 2660.0, 3146.4, 1778.0, 300.0, "300 · 2.5 M"]], "estima": [[3146.4, 1778.0, 300.0, "DR 1519 · log 49.9"]]}]}, {"id": "1.S2", "h": "And this is not where you are", "v": [3863.0, 2219.0, 2600], "fix": [[4580.0, 2660.0, "1449 · log 47.4", "", 120.0]], "derrota": [[4580.0, 2660.0, 3146.4, 1778.0, 300.0, "300 · 2.5 M"], [4580.0, 2660.0, 3162.0, 1753.1, 301.0, "", 1]], "estima": [[3146.4, 1778.0, 300.0, "DR 1519 · log 49.9", 1], [3162.0, 1753.1, 301.0, "1° out · 81 m", -1]], "p": ["<b>Read the mark for what it says.</b> It says: <i>this is where the course and the log put me, if nothing has pushed me.</i> <b>It does not say where you are</b>, and the difference is the whole of this screen.", "<b>Two things push you, and neither leaves a trace on the log.</b> The tidal stream moves the water you are floating in, and the log cannot feel it because the log measures water. The wind pushes you sideways through it. <b>A GPS would show you where the two of them have put you &mdash; but not how much of it was each, and this mark is drawn without one.</b> <i>Both of them are module 05, where this mark gets corrected and becomes an estimated position. They are named here and taught there.</i>", "<b>And a third one is yours, and it is on this screen.</b> Steer one degree off for this half hour and the mark lands <b>81 metres</b> away &mdash; the faint track. Over the two legs of the next topic, <b>145 metres</b>. <i>Part 1 measured that one degree is 32 metres at one mile; this is the same number pointed forwards instead of sideways.</i>", "<b>So what is it good for?</b> It is the only position you have, it is better than a guess by a long way, and <b>it is the thing you carry a position line forward with</b> &mdash; which is where this part is going."], "b": "Next"}, {"id": "1.P1", "h": "Where does the log put you?", "t": "click", "v": [3863.0, 2219.0, 2600], "fix": [[4580.0, 2660.0, "1449 · log 47.4", "", 120.0]], "derrota": [[4580.0, 2660.0, 3146.4, 1778.0, 300.0, "300 · 2.5 M"]], "sest": [260, 3146.4, 1778.0], "ay": "Click the end of the run, on the course line.", "p": ["<b class='q'>Half an hour on 300, at 5 knots. Where does that put you?</b>", "The fix is drawn, the course is drawn, and the log has gone from <b>47.4</b> to <b>49.9</b>. <i>Put your finger on the end of the run. The question is not where you are &mdash; it is where the course and the log say you would be.</i>"], "b": "Next", "hizo": "worked out a dry reckoning"}]}, {"t": "Keeping the reckoning", "s": [{"id": "2.S1", "h": "Two legs and an alteration", "v": [3224.0, 2432.0, 4400], "fix": [[4580.0, 2660.0, "1449 · log 47.4", "", 120.0]], "derrota": [[4580.0, 2660.0, 3146.4, 1778.0, 300.0, "300 · 2.5 M"], [3146.4, 1778.0, 1868.7, 2203.0, 250.0, "250 · 2.0 M", 0, -1]], "estima": [[3146.4, 1778.0, 300.0, "DR 1519 · log 49.9", 1], [1868.7, 2203.0, 250.0, "DR 1543 · log 51.9", 1]], "p": ["<b>A reckoning is not one line, and a passage is not one course.</b> Here is the same afternoon with the next half hour added: <b>300 for 2.5 miles</b> to the alteration, then <b>250 for 2.0</b>. <i>4.5 miles in 54 minutes, from the fix that closed part 2 to a mark you have never seen.</i>", "<b>Every leg carries its own three things</b> &mdash; a course, a distance and a time &mdash; and every one of them ends in a mark with the log reading beside it. <i>That is why the log gets written down at the alteration and not only at the end: the second leg is counted from there.</i>", "<b>And the chain is only as good as its worst link.</b> One leg steered a degree off, one alteration made two minutes late, and everything after it moves with it. <i>Nothing here corrects itself; a reckoning only gets worse until the next time you see something.</i>"], "b": "Next"}, {"id": "2.E1", "h": "Drawn, leg by leg", "v0": [3224.0, 2432.0, 4400], "v": [3224.0, 2432.0, 4400], "p": ["<b>The same two legs, done with the pencil.</b> <i>Watch where the second one starts &mdash; it is the only thing in this topic that is easy to get wrong, and it is worth 4 630 metres.</i>"], "b": "Next", "pasos": [{"t": "<b>The first leg, as you drew it in topic 1.</b> 300 from the fix, 2.5 miles, and the mark across the track at <b>1519</b> with the log at <b>49.9</b>.<br><br><i>One arrowhead on the course line. One mark at the end of it. Nothing else on the chart yet.</i>", "calc": "300 &nbsp;&middot;&nbsp; 2.5 M &nbsp;&middot;&nbsp; <b>DR 1519</b> &nbsp;&middot;&nbsp; log 49.9", "fix": [[4580.0, 2660.0, "1449 · log 47.4", "", 120.0]], "derrota": [[4580.0, 2660.0, 3146.4, 1778.0, 300.0, "300 · 2.5 M"]], "estima": [[3146.4, 1778.0, 300.0, "DR 1519 · log 49.9", 1]]}, {"t": "<b>At 1519 you alter to 250 &mdash; and the new leg starts HERE, at the mark.</b> Not at the fix. The fix is 2.5 miles astern and it has nothing to do with this leg: <b>everything you count from now on is counted from the alteration</b>, which is why it has its own time and its own log reading.<br><br><i>Count this leg from the fix instead and you finish 4 630 metres from where you should be &mdash; 2.50 miles, which is exactly the length of the leg you skipped.</i>", "calc": "alter at <b>1519</b> &nbsp;&middot;&nbsp; new course <b>250</b> &nbsp;&middot;&nbsp; log 49.9", "fix": [[4580.0, 2660.0, "1449 · log 47.4", "", 120.0]], "derrota": [[4580.0, 2660.0, 3146.4, 1778.0, 300.0, "300 · 2.5 M"], [3146.4, 1778.0, 1868.7, 2203.0, 250.0, "250 · 2.0 M", 0, -1]], "estima": [[3146.4, 1778.0, 300.0, "DR 1519 · log 49.9", 1]]}, {"t": "<b>24 minutes on 250: 2.0 miles, log 51.9.</b> A second mark across the second track, with its own time.<br><br><b>Look at the three symbols on the chart and read them apart.</b> The <b>dot inside a circle</b>, astern, is a fix: you saw it. The <b>two short marks across the tracks</b> are reckonings: you counted them. <i>Neither of the two marks is where you are &mdash; they are where the courses and the log put you, and an examiner tells the two apart before he reads a single number.</i>", "calc": "250 &nbsp;&middot;&nbsp; 2.0 M &nbsp;&middot;&nbsp; <b>DR 1543</b> &nbsp;&middot;&nbsp; log 51.9", "fix": [[4580.0, 2660.0, "1449 · log 47.4", "", 120.0]], "derrota": [[4580.0, 2660.0, 3146.4, 1778.0, 300.0, "300 · 2.5 M"], [3146.4, 1778.0, 1868.7, 2203.0, 250.0, "250 · 2.0 M", 0, -1]], "estima": [[3146.4, 1778.0, 300.0, "DR 1519 · log 49.9", 1], [1868.7, 2203.0, 250.0, "DR 1543 · log 51.9", 1]]}]}, {"id": "2.P1", "h": "Run the second leg", "t": "click", "v": [2590.0, 1990.0, 2100], "derrota": [[4580.0, 2660.0, 3146.4, 1778.0, 300.0, "300 · 2.5 M"], [3146.4, 1778.0, 1868.7, 2203.0, 250.0, "250 · 2.0 M", 0, -1]], "estima": [[3146.4, 1778.0, 300.0, "DR 1519 · log 49.9", 1]], "sest": [260, 1868.7, 2203.0], "ay": "Click the end of the second leg, on the course line.", "p": ["<b class='q'>You altered at 1519. Where does 24 minutes on 250 put you?</b>", "The mark you are counting from is on the screen, with its log reading: <b>1519, log 49.9</b>. The new course is drawn. At 5 knots the log will read <b>51.9</b> when you get there. <i>Count from the alteration, not from the fix &mdash; the fix is off the top right of this screen and it is 2.5 miles behind you.</i>"], "b": "Next", "hizo": "ran the reckoning on from an alteration"}]}, {"t": "Carrying a line forward", "s": [{"id": "3.S1", "h": "One tower, and one line", "v": [2305.0, 2838.0, 2600], "derrota": [[3146.4, 1778.0, 1868.7, 2203.0, 250.0, ""]], "estima": [[1868.7, 2203.0, 250.0, "", 1]], "lns": [[1661.0, 3473.0, 1910.4, 1998.6, "Skelvoe Tower 188", "", 0.62, 1, -1]], "p": ["<b>The fog thins in one direction, and there is one thing in it.</b> Of everything part 1 taught you to shoot, a single object is in sight: <b>Skelvoe Tower bears 188</b>, taken at <b>1543</b> with the log at <b>51.9</b>. <i>Two more objects and this would be over in one step. There are not two more.</i>", "<b>A bearing is a line, not a position.</b> It says you are somewhere along it, and it says nothing about where along it. The mark at the end of the track says the opposite: a place, counted rather than seen. <i>Neither of them on its own is where you are &mdash; one has no distance and the other has nothing you looked at.</i>", "<b>So you take the line with you.</b> Sail on, note the course and the distance, and carry this line forward by exactly that much; then take the same tower again and cross the two. <i>A line that has travelled is no longer alone, and that is the whole of this topic.</i>"], "b": "Next"}, {"id": "3.E1", "h": "Carrying it forward", "v0": [2305.0, 2838.0, 2600], "v": [2305.0, 2838.0, 2600], "p": ["<b>Three moves: take it, carry it, take it again.</b> <i>Watch what moves in the middle one &mdash; it is a line and not a point, and that is where this is lost.</i>"], "b": "Next", "pasos": [{"t": "<b>1543. Skelvoe Tower bears 188.</b> The line is drawn from the tower outwards, and it carries <b>one arrowhead</b> at the far end: that is a position line, taken now.<br><br><i>You are on it. The mark across the track says the run puts you here &mdash; and the line agrees, without proving it.</i>", "calc": "1543 &nbsp;&middot;&nbsp; <b>Skelvoe 188</b> &nbsp;&middot;&nbsp; log 51.9", "derrota": [[3146.4, 1778.0, 1868.7, 2203.0, 250.0, ""]], "estima": [[1868.7, 2203.0, 250.0, "", 1]], "lns": [[1661.0, 3473.0, 1910.4, 1998.6, "Skelvoe Tower 188", "", 0.62, 1, -1]]}, {"t": "<b>Run the leg: 125 for 2.0 miles, 24 minutes.</b> And now the move that matters: <b>what goes forward is the LINE, not the point.</b> Take the whole line and slide it, parallel to itself, by exactly the course and the distance you have run &mdash; every point of it moves the same 2.0 miles on 125.<br><br><b>The carried line gets two arrowheads.</b> On a position line one arrowhead means <i>taken now</i> and two mean <i>carried forward</i>, and an examiner reads that before he reads a number.<br><br><b>And two arrowheads on a course line are a different thing altogether:</b> the <b>ground track</b> &mdash; where the boat actually goes over the ground &mdash; which is module 05. <i>So what tells them apart is not the arrows &mdash; it is the line underneath them. A course is solid and black and you steered it; a position line is dashed and red and you looked along it. Count the arrows second.</i>", "calc": "transfer <b>188</b> &nbsp;&middot;&nbsp; 125 &nbsp;&middot;&nbsp; 2.0 M &nbsp;&middot;&nbsp; log 51.9 &rarr; 53.9", "derrota": [[3146.4, 1778.0, 1868.7, 2203.0, 250.0, ""], [1868.7, 2203.0, 2949.7, 3005.8, 125.0, "125 · 2.0 M", 0, -1]], "estima": [[1868.7, 2203.0, 250.0, "", 1], [2949.7, 3005.8, 125.0, "", -1]], "lns": [[1661.0, 3473.0, 1910.4, 1998.6, "Skelvoe Tower 188", "", 0.62, 1, -1], [2843.2, 3677.4, 3127.2, 1998.6, "Skelvoe Tower 188", "", 0.62, 2, -1]]}, {"t": "<b>1607. Take Skelvoe Tower again: 248.</b> One arrowhead &mdash; it was taken now. And it cuts the carried line at <b>60°</b>.<br><br><b>That crossing is a position, and it is the first one since 1449 that came from something you saw.</b> <i>One object, two looks and a run in between. The circle goes round it because it was observed; the marks across the track never earn one.</i>", "calc": "1607 &nbsp;&middot;&nbsp; <b>Skelvoe 248</b> &nbsp;&middot;&nbsp; cut <b>60°</b> &nbsp;&middot;&nbsp; log 53.9", "derrota": [[3146.4, 1778.0, 1868.7, 2203.0, 250.0, ""], [1868.7, 2203.0, 2949.7, 3005.8, 125.0, "125 · 2.0 M", 0, -1]], "estima": [[1868.7, 2203.0, 250.0, "", 1]], "lns": [[2843.2, 3677.4, 3127.2, 1998.6, "Skelvoe Tower 188", "", 0.62, 2, -1], [1661.0, 3473.0, 3495.0, 2790.9, "Skelvoe Tower 248", "", 0.35, 1, 1]], "arco": [[2959.5, 2990.1, 188.0, 248.0, "60°"]], "fix": [[2959.5, 2990.1, "1607 · log 53.9", "", 128.0]]}]}, {"id": "3.S2", "h": "What makes it good, and what spoils it", "v": [2409.0, 2604.0, 1600], "derrota": [[1868.7, 2203.0, 2949.7, 3005.8, 125.0, "125 · 2.0 M", 0, -1]], "lns": [[2843.2, 3677.4, 3127.2, 1998.6, "", "", 0.62, 2, -1], [1661.0, 3473.0, 3495.0, 2790.9, "", "", 0.35, 1, 1]], "arco": [[2959.5, 2990.1, 188.0, 248.0, "60°"]], "fix": [[2959.5, 2990.1, "1607 · log 53.9", "", 156.5]], "p": ["<b>What makes this fix good is the 60° between the two lines &mdash; and that angle is nothing but the amount the bearing turned:</b> Skelvoe Tower 188 at the first look, Skelvoe Tower 248 at the second. Sail towards the object and it barely turns: two careful looks give you two lines that are almost the same line, and almost the same line is no position at all. <i>The run has to open the bearing, and here it opened it by 60 degrees.</i>", "<b>And a running fix is only as good as the reckoning that carries it.</b> The carried line arrives with everything the run had inside it. One degree out on the first bearing moves it <b>62 m</b> at that range; one degree out on the course you steered moves it <b>65 m</b> over the 2.0 miles run; five per cent out on the distance, <b>185 m</b>. <i>None of that shows on the chart. A crossing looks exactly as sharp when it is wrong.</i>", "<b>And one more, which is not drawn here and not taught here: the tidal stream.</b> What you carried forward is a run <i>through the water</i>, and the water has been moving under you the whole time. Correcting for it is module 05; <b>naming it is this one</b>, because a running fix that ignores it is wrong by however far the stream has taken you.", "<i>On this chart the crossing lands <b>51 m</b> from the mark the reckoning made &mdash; and those 51 metres are not the reckoning's error: they are what writing two bearings to the whole degree costs. In a boat, the stream would add its own on top of them.</i>"], "b": "Next"}, {"id": "3.P1", "h": "Run the line yourself", "t": "click", "v": [2305.0, 2838.0, 2600], "derrota": [[1868.7, 2203.0, 2949.7, 3005.8, 125.0, "125 · 2.0 M", 0, -1]], "lns": [[2843.2, 3677.4, 3127.2, 1998.6, "Skelvoe Tower 188", "", 0.62, 2, -1], [1661.0, 3473.0, 3495.0, 2790.9, "Skelvoe Tower 248", "", 0.35, 1, 1], [1661.0, 3473.0, 1910.4, 1998.6, "Skelvoe Tower 188", "", 0.62, 1, -1]], "sfix": [260, "carried", "1607"], "ay": "Click where the carried line crosses the 1607 bearing.", "p": ["<b class='q'>Skelvoe Tower bore 188 at 1543. You ran 125 for 2.0 miles, and at 1607 Skelvoe Tower bears 248. Where does that put you?</b>", "All three lines are drawn: the bearing you took at 1543 &mdash; Skelvoe Tower 188 &mdash; the same line carried forward by the run &mdash; <b>two arrowheads</b> &mdash; and the bearing you took at 1607, Skelvoe Tower 248. <i>Two of them cross at the tower, and that crossing is worth nothing: the tower is where you were looking, not where you were.</i>"], "b": "Next", "hizo": "fixed with a position line carried forward"}]}, {"t": "Closing", "s": [{"id": "4.S1", "h": "The afternoon, drawn once", "v": [3732.5, 2726.0, 7545], "fix": [[4580.0, 2660.0, "1449 · log 47.4", "", 120.0], [2959.5, 2990.1, "1607 · log 53.9", "", 128.0]], "derrota": [[4580.0, 2660.0, 3146.4, 1778.0, 300.0, "300 · 2.5 M"], [3146.4, 1778.0, 1868.7, 2203.0, 250.0, "250 · 2.0 M", 0, -1], [1868.7, 2203.0, 2949.7, 3005.8, 125.0, "125 · 2.0 M", 0, -1]], "estima": [[3146.4, 1778.0, 300.0, "", 1], [1868.7, 2203.0, 250.0, "", 1]], "lns": [[2843.2, 3677.4, 3127.2, 1998.6, "", "", 0.62, 2, -1], [1661.0, 3473.0, 3495.0, 2790.9, "", "", 0.35, 1, 1]], "p": ["<b>78 minutes, 6.5 miles, and two positions.</b> The dot in a circle at <b>1449</b> is where part 2 left you: three towers, three bearings, one crossing. Then the visibility went. <b>300 for 2.5</b> to the first mark, <b>250 for 2.0</b> to the second, and <b>125 for 2.0</b> to something better than a mark: at <b>1607</b> a second position, built out of <i>one</i> tower looked at twice with the run carried between the looks.<br><br><i>So count the marks and there are two, not three. The reckoning put a third one at the end of the last leg as well &mdash; it is 51 metres from the circle, which at this width is thinner than the pencil &mdash; and drawing both would have hidden the one that was earned.</i>", "<b>The two circles are 2.46 miles apart and you sailed 6.5 to get between them.</b> <i>That is not waste: it is what the chart cannot tell you unless you write down the course, the distance and the time as you go. The log went from 47.4 to 53.9 and nothing was in sight for 54 of those 78 minutes.</i>", "<b>Three things you could not do at 1449, and can now.</b> Put a position on the chart with nothing in sight. Read a mark for what it says instead of what you would like it to say. And take one object, look at it twice with a run in between, and get a position out of it. <i>Not one of the three needs a second tower.</i>", "<b>And one you still cannot do: know how good any of it is.</b> A running fix is only as good as the reckoning that carries it, and a reckoning only gets worse until the next time you see something. <i>Nothing on this screen corrects itself.</i>"], "b": "Next"}, {"id": "4.C1", "h": "What pushes you, and where it is taught", "v": [3732.5, 2726.0, 7545], "fix": [[4580.0, 2660.0, "1449 · log 47.4", "", 120.0], [2959.5, 2990.1, "1607 · log 53.9", "", 128.0]], "derrota": [[4580.0, 2660.0, 3146.4, 1778.0, 300.0, "300 · 2.5 M"], [3146.4, 1778.0, 1868.7, 2203.0, 250.0, "250 · 2.0 M", 0, -1], [1868.7, 2203.0, 2949.7, 3005.8, 125.0, "125 · 2.0 M", 0, -1]], "estima": [[3146.4, 1778.0, 300.0, "", 1], [1868.7, 2203.0, 250.0, "", 1]], "lns": [[2843.2, 3677.4, 3127.2, 1998.6, "", "", 0.62, 2, -1], [1661.0, 3473.0, 3495.0, 2790.9, "", "", 0.35, 1, 1]], "p": ["<b>Everything on this chart is the reckoning, and the reckoning is dry.</b> A course, a distance, a time and a log &mdash; four things you can read on board, and <i>not one of them can feel the water moving under the boat</i>.", "<b>Two things push you, and neither leaves a trace on the log.</b> The <b>tidal stream</b> moves the water you are floating in; <b>leeway</b> pushes you sideways through it. A GPS would show you where the two of them had put you, but not how much of it was each &mdash; and the reckoning is what you keep without one. Applied to the marks you have been drawing, the two of them turn a reckoning into an <b>estimated position</b> &mdash; and that is <b>module 05</b>, which starts from exactly these marks and adds the corrections. <i>There is also a question this module never asked: how much water is under you. That one is <b>module 04</b>.</i>", "<b>And they are not taught here for a measured reason rather than a tidy one.</b> There is no tidal information on this chart at all: <b>not one current in any of its data</b>, and no tidal diamond printed on the sheet. <i>A stream you cannot look up is a stream somebody has to tell you, and being told the answer is not learning to find it. Skelmar Sound can teach you to keep a reckoning; it cannot teach you to correct one.</i>", "<b>Nothing on the chart changed between this screen and the last one, and that is the point.</b> The question this module opened with &mdash; <i>where are you?</i> &mdash; has been answered three ways: part 1 gave you a single line, and one line is <b>not</b> a position; part 2 crossed two and got a point, then showed the point was a zone; part 3 took the objects away and you got a position anyway. <i>What is still missing cannot be drawn from anything on this screen, which is exactly why it gets a module of its own.</i>"], "b": "Finish"}]}];
 function S(){return PZ[paso.p].s[paso.i];}
 paso={p:0,i:0};
 function progreso(){
@@ -802,7 +834,7 @@ function fin(){
  `<h3>Chapter complete</h3>
   <p>${frase}</p>
   <div class="calc"><b>Next: module 04 — Tides.</b><br> How much water there is, when, and whether it is enough.</div>
-  <div class="nav" id="nav"><button class="sec" onclick="atras()">&#8592; Back</button></div>`;}
+  <div class="nav" id="nav"><button class="sec" onclick="atras()">&#8592; Back</button><button data-va=m04-p1-definitions.html onclick=location.assign(this.dataset.va)>Next: module 04 — Tides &#8594;</button></div>`;}
 
 let vistaPuesta=null;
 function ponVista(v){
@@ -934,19 +966,45 @@ function falla(s,html){const n=FALLO[s.id]=(FALLO[s.id]||0)+1;
  h+=`</div>`;
  if(n>=3)h+=`<button class="show" onclick="showme()">Show me</button>`;
  const d=document.getElementById("fb"); if(d)d.innerHTML=h;}
-window.showme=()=>{const s=S(),z=s.show||{};
- guarda("showme",null,false);
- if(z.gu){if(z.gu[0]!=null)GU.h=yLat(z.gu[0]);
-          if(z.gu[1]!=null)GU.v=xLon(z.gu[1]);}
- if(z.med)MED[s.id]=z.med;
- if(z.ln)medida=[P(z.ln[0],z.ln[1]),P(z.ln[2],z.ln[3])];
- if(z.div){DIV={a:P(z.div[0],z.div[1]),b:P(z.div[2],z.div[3]),pos:null,or:null};
-  DIV.pos=[DIV.a[0],DIV.a[1]]; dvApoya(z.div[4]=="lon"?[DIV.a[0],-16]:[-16,DIV.a[1]]);}
- VER=z; capa();
- const d=document.getElementById("fb");
- if(d)d.innerHTML=`<div class="res ver"><b>Here it is.</b>${z.txt||""}</div>`
- ;
- nav(true,"Try the next one"); hecho=true;};
+
+function muestraSolucion(s,z){
+ if(s.show){
+  if(z.gu){if(z.gu[0]!=null)GU.h=yLat(z.gu[0]); if(z.gu[1]!=null)GU.v=xLon(z.gu[1]);}
+  if(z.med)MED[s.id]=z.med;
+  if(z.ln)medida=[P(z.ln[0],z.ln[1]),P(z.ln[2],z.ln[3])];
+  if(z.div){DIV={a:P(z.div[0],z.div[1]),b:P(z.div[2],z.div[3]),pos:null,or:null};
+   DIV.pos=[DIV.a[0],DIV.a[1]]; dvApoya(z.div[4]=="lon"?[DIV.a[0],-16]:[-16,DIV.a[1]]);}
+  return z.txt||"";}
+ const marca=(p,t)=>{MUESTRA={p:p,t:t};};
+ const cruza=(a,b)=>{const d=(a[0]-a[2])*(b[1]-b[3])-(a[1]-a[3])*(b[0]-b[2]); if(!d)return null;
+  const u=a[0]*a[3]-a[1]*a[2], w=b[0]*b[3]-b[1]*b[2];
+  return [(u*(b[0]-b[2])-(a[0]-a[2])*w)/d,(u*(b[1]-b[3])-(a[1]-a[3])*w)/d];};
+ if(s.sest){marca([s.sest[1],s.sest[2]],"here");
+  return "The run ends at the <b>green mark</b>: the distance, laid along the course line from where you started.";}
+ if(s.sesq){marca(s.sesq[1],"this corner");
+  return "Work from the <b>green corner</b>: the one of the triangle that puts you nearest the danger.";}
+ if(s.sdos){marca(s.sdos[1],"here");
+  return "You are at the <b>green mark</b>: the crossing the other line agrees with.";}
+ if(s.sfix&&s.lns&&s.lns.length>1){const p=cruza(s.lns[0],s.lns[1]);
+  if(p){marca(p,"the fix"); return "The fix is where the two lines cross: the <b>green mark</b>.";}}
+ if(s.scir){const r=s.scir[2]*(D.PXM||1); marca([s.scir[0]+r,s.scir[1]],"on the circle");
+  return "Anywhere on the circle "+s.scir[2]+" miles round "+(s.scir[4]||"the mark")+": the <b>green mark</b> is one such place.";}
+ if(s.lpos){const l=s.lpos, dx=l[2]-l[0], dy=l[3]-l[1], L=Math.hypot(dx,dy)||1, m=[(l[0]+l[2])/2,(l[1]+l[3])/2];
+  let n=[-dy/L,dx/L]; if((D.W/2-m[0])*n[0]+(D.H/2-m[1])*n[1]<0)n=[-n[0],-n[1]];
+  const k=3*(s.lejos||400); marca([m[0]+n[0]*k,m[1]+n[1]*k],"ruled out");
+  return "The bearing puts you <b>on its line</b>, so anywhere well off it is ruled out: the <b>green mark</b> is one such place.";}
+ if(s.cls&&typeof clase==="function"){let mejor=null, dm=Infinity; const c=[vb.x+vb.w/2,vb.y+vb.h/2];
+  for(let i=1;i<40;i++)for(let j=1;j<30;j++){const x=vb.x+vb.w*i/40, y=vb.y+vb.h*j/30;
+   if(s.cls.indexOf(clase(x,y))>=0){const e=Math.hypot(x-c[0],y-c[1]); if(e<dm){dm=e; mejor=[x+(D.X0||0),y+(D.Y0||0)];}}}
+  if(mejor){marca(mejor,"here");
+   const big=/<span class="big">([^<]*)<\/span>/.exec(s.ok||"");
+   return (big?"<b>"+big[1]+"</b>: ":"")+"the <b>green mark</b> is one place where that depth is right.";}}
+ if(s.t=="trazar"&&typeof s.ck==="function"&&s.por){let v=null;
+  for(let a=0;a<360&&v==null;a++){try{if(s.ck(a,{paralela:true,norte:true,porPunto:true,dist:0}).ok)v=a;}catch(e){}}
+  if(v!=null){const N=CARTA_NORTE||[0,-1], E=[-N[1],N[0]], r=v*Math.PI/180, u=[N[0]*Math.cos(r)+E[0]*Math.sin(r),N[1]*Math.cos(r)+E[1]*Math.sin(r)];
+   const o=s.mk&&s.mk[0]?s.mk[0]:s.por, a=P(o[0],o[1]); TR={a:a,b:[a[0]+u[0]*900,a[1]+u[1]*900],off:v};
+   return "The line runs <b>"+String(v).padStart(3,"0")+"&deg;</b> out of the spire: that figure at the index, the grid square with the meridians, and the rule through the spire.";}}
+ return muestraComun(s);}
 
 function numeros(t){
  let u=String(t||"").toLowerCase()
@@ -1751,6 +1809,151 @@ function marcoChrome(){
     f.style.setProperty("--ar", D.W + " / " + D.H);
  }catch(e){}
 }
+
+var MUESTRA = null;
+window.showme = function () {
+  var s = S(), z = s.show || {};
+  if (typeof showmeBanco === "function" && showmeBanco(s, z)) return;
+  if (typeof guarda === "function") guarda("showme", null, false);
+  if (typeof VER !== "undefined") VER = s.show ? z : null;
+  MUESTRA = null;
+  var txt = z.txt || "";
+  if (typeof muestraSolucion === "function") { var t = muestraSolucion(s, z); if (t != null) txt = t; }
+  else if (!s.show) txt = muestraComun(s);
+  else muestraCampos(s);
+  hecho = true;
+  if (typeof capa === "function") capa();
+
+  var d = document.getElementById("fb");
+  if (d) d.innerHTML = '<div class="res ver"><b>Here it is.</b>' + (txt ? '<div class="porque">' + txt + '</div>' : "") + '</div>';
+  nav(true, "Try the next one");
+};
+
+function muestraCampos(s) {
+  var h = "";
+  (s.campos || []).forEach(function (c, i) {
+    if (c.val == null) return;
+    var e = document.getElementById("c" + i);
+    var v = c.hora ? String(c.val) : (typeof c.val === "number" ? (c.ang ? String(Math.round(c.val) % 360).padStart(3, "0") : String(c.val)) : String(c.val));
+    if (e) { e.value = v; e.disabled = true; }
+    h += "<br><b>" + c.etq + " " + v + (c.ud ? " " + c.ud.replace(/<[^>]*>/g, "") : "") + "</b>" + (c.por ? " &mdash; " + c.por : "");
+  });
+  return h;
+}
+
+function respuestaDe(ck, max) {
+  var bien = [];
+  for (var v = 0; v <= max; v++) { var r = null; try { r = ck(v); } catch (e) {} if (r && r.ok) bien.push(v); }
+  return bien.length ? bien[Math.floor(bien.length / 2)] : null;
+}
+function muestraComun(s) {
+  if (s.sep) {
+    MUESTRA = {p: s.sep, t: s.nombreBien || "here"};
+
+    return "The right place is the <b>green mark</b> on the chart" + (s.nombreBien ? ": " + s.nombreBien : "") + "."
+      + ((s.cuenta || []).length ? " The working is the one above." : "");
+  }
+  if (s.o) {
+    var i = -1; s.o.forEach(function (o, j) { if (o.ok) i = j; }); if (i < 0) return "";
+    var bs = typeof document.querySelectorAll === "function" ? document.querySelectorAll("#pane button.opt") : [];
+    if (bs[i]) { if (bs[i].classList) bs[i].classList.add("elegida"); else bs[i].className += " elegida"; }
+    return "<b>" + s.o[i].t + "</b>. " + (s.o[i].m || "");
+  }
+  if (s.campos && s.campos.some(function (c) { return c.val != null; })) return muestraCampos(s);
+  if (typeof s.ck === "function") {
+    var v = respuestaDe(s.ck, s.ph == "ddd" ? 359 : 999); if (v == null) return "";
+    var e = typeof document.querySelector === "function" ? document.querySelector("#pane input") : null, w = s.ph == "ddd" ? String(v).padStart(3, "0") : String(v);
+    if (e) { e.value = w; e.disabled = true; }
+    return "<b>" + w + (s.un ? " " + s.un : "") + "</b>." + (s.calc ? '<div class="calc">' + s.calc + "</div>" : "")
+      + ((s.cuenta || []).length ? "<br>" + s.cuenta.join("<br>") : "");
+  }
+  return "";
+}
+
+window.reintenta = function () {
+  var s = S();
+  if (typeof EST !== "undefined") delete EST[s.id];
+  if (typeof FALLO !== "undefined") delete FALLO[s.id];
+  if (typeof MED !== "undefined") delete MED[s.id];
+  if (typeof VER !== "undefined") VER = null;
+  MUESTRA = null;
+  if (typeof alReintentar === "function") alReintentar(s);
+  if (typeof ponEst === "function") ponEst();
+  pinta();
+};
+
+(function () {
+  if (typeof nav !== "function") return;
+  var n0 = nav;
+  nav = function () {
+    var r = n0.apply(this, arguments), s = S(), d = document.getElementById("nav");
+
+    if (d && s && /[.]P[0-9]/.test(s.id || "") && typeof hecho !== "undefined" && hecho && !s.sinAyuda
+        && String(d.innerHTML || "").indexOf("otraVez") < 0) {
+      var html = '<button class="sec otraVez" onclick="reintenta()">Try again</button>';
+      var tras = typeof d.querySelector === "function" ? d.querySelector("button.sec") : null;
+      if (tras && typeof tras.insertAdjacentHTML === "function") tras.insertAdjacentHTML("afterend", html);
+      else d.innerHTML = html + String(d.innerHTML || "");
+    }
+    return r;
+  };
+
+  if (typeof ponEst === "function") { var p0 = ponEst; ponEst = function () { MUESTRA = null; return p0.apply(this, arguments); }; }
+})();
+
+var SALTADAS = {};
+(function () {
+  var idDe = function () { try { var s = S(); return s && s.id; } catch (e) { return null; } };
+  var vacia = function (o) { if (o && typeof o === "object") for (var k in o) delete o[k]; };
+
+  if (typeof window.salta === "function") {
+    var s0 = window.salta;
+    window.salta = function () { var id = idDe(); if (id) SALTADAS[id] = true;
+      var r = s0.apply(this, arguments);
+      if (id && idDe() === id && typeof hecho !== "undefined" && hecho === true) hecho = false;
+      return r; };
+  }
+  if (typeof nav === "function") {
+    var n0 = nav;
+    nav = function (next, txt) { var id = idDe(); if (id && SALTADAS[id]) next = true;
+      return n0.call(this, next, txt); };
+  }
+  if (typeof guarda === "function") {
+    var g0 = guarda;
+    guarda = function (t, r, ok) { if (ok === true) { var id = idDe(); if (id) delete SALTADAS[id]; }
+      return g0.apply(this, arguments); };
+  }
+  if (typeof anota === "function") {
+    var a0 = anota;
+    anota = function (v, ok) { if (ok === true) { var id = idDe(); if (id) delete SALTADAS[id]; }
+      return a0.apply(this, arguments); };
+  }
+  var sinHacer = function () {
+    if (typeof hecho !== "undefined") hecho = false;
+    if (typeof PR !== "undefined" && PR) { PR.hecho = false; PR.saltada = false; }
+    if (typeof PR2 !== "undefined" && PR2) { PR2.hecho = false; }
+  };
+  if (typeof ponEst === "function") {
+    var p0 = ponEst;
+    ponEst = function () { var r = p0.apply(this, arguments); var id = idDe();
+      if (id && SALTADAS[id]) sinHacer(); return r; };
+  }
+  if (typeof deCero === "function") {
+    var d0 = deCero;
+    deCero = function () {
+      if (typeof EST !== "undefined") vacia(EST);
+      if (typeof FALLO !== "undefined") vacia(FALLO);
+      vacia(SALTADAS);
+      if (typeof LOG !== "undefined" && LOG && LOG.length) LOG.length = 0;
+      sinHacer();
+      if (typeof PR !== "undefined" && PR) PR.fallos = 0;
+      if (typeof PR2 !== "undefined" && PR2) PR2.fallos = 0;
+      if (typeof alReiniciar === "function") alReiniciar();
+      return d0.apply(this, arguments);
+    };
+  }
+})();
+
 </script>
 
 

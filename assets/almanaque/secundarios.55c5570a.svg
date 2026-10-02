@@ -1,0 +1,441 @@
+<?xml version="1.0" encoding="utf-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="1240" height="1754" viewBox="0 0 1240 1754">
+<rect x="0.0" y="0.0" width="1240.0" height="1754.0" fill="#FFFFFF"/>
+<rect x="0.0" y="0.0" width="1240.0" height="104.0" fill="#D4E7F2"/>
+<line x1="0.0" y1="104.0" x2="1240.0" y2="104.0" stroke="#2F4A5A" stroke-width="3.0"/>
+<text x="60.0" y="58.0" font-family="Arial" font-size="34" fill="#2F4A5A" font-weight="bold">SECONDARY PORTS · TIDAL DIFFERENCES</text>
+<text x="1180.0" y="58.0" font-family="Arial" font-size="24" fill="#2F4A5A" font-weight="bold" text-anchor="end">Dover Strait to Cotentin</text>
+<text x="1180.0" y="86.0" font-family="Arial" font-size="14" fill="#6B8290" text-anchor="end">times in hours and minutes · heights in metres · the Admiralty method</text>
+<text x="60.0" y="150.0" font-family="Arial" font-size="14" fill="#2F4A5A" font-weight="bold">PORT</text>
+<text x="318.0" y="150.0" font-family="Arial" font-size="14" fill="#2F4A5A" font-weight="bold">POSITION</text>
+<text x="560.0" y="150.0" font-family="Arial" font-size="13" fill="#2F4A5A" font-weight="bold" text-anchor="middle">HW</text>
+<text x="640.0" y="150.0" font-family="Arial" font-size="13" fill="#2F4A5A" font-weight="bold" text-anchor="middle">HW</text>
+<text x="720.0" y="150.0" font-family="Arial" font-size="13" fill="#2F4A5A" font-weight="bold" text-anchor="middle">LW</text>
+<text x="800.0" y="150.0" font-family="Arial" font-size="13" fill="#2F4A5A" font-weight="bold" text-anchor="middle">LW</text>
+<text x="885.0" y="150.0" font-family="Arial" font-size="13" fill="#2F4A5A" font-weight="bold" text-anchor="middle">MHWS</text>
+<text x="960.0" y="150.0" font-family="Arial" font-size="13" fill="#2F4A5A" font-weight="bold" text-anchor="middle">MHWN</text>
+<text x="1035.0" y="150.0" font-family="Arial" font-size="13" fill="#2F4A5A" font-weight="bold" text-anchor="middle">MLWN</text>
+<text x="1110.0" y="150.0" font-family="Arial" font-size="13" fill="#2F4A5A" font-weight="bold" text-anchor="middle">MLWS</text>
+<text x="640.0" y="126.0" font-family="Arial" font-size="13" fill="#6B8290" font-weight="bold" text-anchor="middle">TIME DIFFERENCES, at the standard port times in its row</text>
+<text x="760.0" y="126.0" font-family="Arial" font-size="13" fill="#1A1A1A"></text>
+<text x="997.0" y="126.0" font-family="Arial" font-size="13" fill="#6B8290" font-weight="bold" text-anchor="middle">HEIGHT DIFFERENCES (m), at its levels</text>
+<line x1="60.0" y1="160.0" x2="1180.0" y2="160.0" stroke="#2F4A5A" stroke-width="2.0"/>
+<rect x="55.0" y="174.0" width="1130.0" height="33.0" fill="#D4E7F2" opacity="0.55"/>
+<text x="60.0" y="199.0" font-family="Arial" font-size="16" fill="#2F4A5A" font-weight="bold">SWANAGE PIER</text>
+<text x="318.0" y="199.0" font-family="Arial" font-size="14" fill="#2F4A5A">50°36.6′N 01°57.0′W</text>
+<text x="560.0" y="199.0" font-family="Arial" font-size="12" fill="#2F4A5A" font-weight="bold" text-anchor="middle">0900 2100</text>
+<text x="640.0" y="199.0" font-family="Arial" font-size="12" fill="#2F4A5A" font-weight="bold" text-anchor="middle">0600 1800</text>
+<text x="720.0" y="199.0" font-family="Arial" font-size="12" fill="#2F4A5A" font-weight="bold" text-anchor="middle">0400 1600</text>
+<text x="800.0" y="199.0" font-family="Arial" font-size="12" fill="#2F4A5A" font-weight="bold" text-anchor="middle">1000 2200</text>
+<text x="885.0" y="199.0" font-family="Arial" font-size="14" fill="#2F4A5A" font-weight="bold" text-anchor="middle">2.3</text>
+<text x="960.0" y="199.0" font-family="Arial" font-size="14" fill="#2F4A5A" font-weight="bold" text-anchor="middle">1.9</text>
+<text x="1035.0" y="199.0" font-family="Arial" font-size="14" fill="#2F4A5A" font-weight="bold" text-anchor="middle">1.4</text>
+<text x="1110.0" y="199.0" font-family="Arial" font-size="14" fill="#2F4A5A" font-weight="bold" text-anchor="middle">0.7</text>
+<text x="1172.0" y="199.0" font-family="Arial" font-size="11" fill="#E03127" font-weight="bold" text-anchor="middle"></text>
+<text x="60.0" y="232.0" font-family="Arial" font-size="15" fill="#1A1A1A">Studland Bay</text>
+<text x="318.0" y="232.0" font-family="Arial" font-size="14" fill="#1A1A1A">50°39.0′N 01°56.9′W</text>
+<text x="560.0" y="232.0" font-family="Arial" font-size="15" fill="#1A1A1A" text-anchor="middle">+0000</text>
+<text x="640.0" y="232.0" font-family="Arial" font-size="15" fill="#1A1A1A" text-anchor="middle">+0000</text>
+<text x="720.0" y="232.0" font-family="Arial" font-size="15" fill="#1A1A1A" text-anchor="middle">+0000</text>
+<text x="800.0" y="232.0" font-family="Arial" font-size="15" fill="#1A1A1A" text-anchor="middle">+0000</text>
+<text x="885.0" y="232.0" font-family="Arial" font-size="15" fill="#1A1A1A" text-anchor="middle">0.0</text>
+<text x="960.0" y="232.0" font-family="Arial" font-size="15" fill="#1A1A1A" text-anchor="middle">0.0</text>
+<text x="1035.0" y="232.0" font-family="Arial" font-size="15" fill="#1A1A1A" text-anchor="middle">0.0</text>
+<text x="1110.0" y="232.0" font-family="Arial" font-size="15" fill="#1A1A1A" text-anchor="middle">0.0</text>
+<text x="1172.0" y="232.0" font-family="Arial" font-size="13" fill="#6B8290" text-anchor="middle">M</text>
+<text x="60.0" y="265.0" font-family="Arial" font-size="15" fill="#1A1A1A">Poole Harbour</text>
+<text x="318.0" y="265.0" font-family="Arial" font-size="14" fill="#1A1A1A">50°42.0′N 02°00.5′W</text>
+<text x="560.0" y="265.0" font-family="Arial" font-size="15" fill="#1A1A1A" text-anchor="middle">+0014</text>
+<text x="640.0" y="265.0" font-family="Arial" font-size="15" fill="#1A1A1A" text-anchor="middle">+0007</text>
+<text x="720.0" y="265.0" font-family="Arial" font-size="15" fill="#1A1A1A" text-anchor="middle">+0018</text>
+<text x="800.0" y="265.0" font-family="Arial" font-size="15" fill="#1A1A1A" text-anchor="middle">+0005</text>
+<text x="885.0" y="265.0" font-family="Arial" font-size="15" fill="#1A1A1A" text-anchor="middle">0.0</text>
+<text x="960.0" y="265.0" font-family="Arial" font-size="15" fill="#1A1A1A" text-anchor="middle">+0.1</text>
+<text x="1035.0" y="265.0" font-family="Arial" font-size="15" fill="#1A1A1A" text-anchor="middle">0.0</text>
+<text x="1110.0" y="265.0" font-family="Arial" font-size="15" fill="#1A1A1A" text-anchor="middle">0.0</text>
+<text x="1172.0" y="265.0" font-family="Arial" font-size="13" fill="#6B8290" text-anchor="middle">F</text>
+<line x1="60.0" y1="277.0" x2="1180.0" y2="277.0" stroke="#2F4A5A" stroke-width="0.8" opacity="0.35"/>
+<rect x="55.0" y="277.0" width="1130.0" height="33.0" fill="#D4E7F2" opacity="0.55"/>
+<text x="60.0" y="302.0" font-family="Arial" font-size="16" fill="#2F4A5A" font-weight="bold">PORTSMOUTH</text>
+<text x="318.0" y="302.0" font-family="Arial" font-size="14" fill="#2F4A5A">50°48.0′N 01°06.6′W</text>
+<text x="560.0" y="302.0" font-family="Arial" font-size="12" fill="#2F4A5A" font-weight="bold" text-anchor="middle">0000 1200</text>
+<text x="640.0" y="302.0" font-family="Arial" font-size="12" fill="#2F4A5A" font-weight="bold" text-anchor="middle">0700 1900</text>
+<text x="720.0" y="302.0" font-family="Arial" font-size="12" fill="#2F4A5A" font-weight="bold" text-anchor="middle">0600 1800</text>
+<text x="800.0" y="302.0" font-family="Arial" font-size="12" fill="#2F4A5A" font-weight="bold" text-anchor="middle">0000 1200</text>
+<text x="885.0" y="302.0" font-family="Arial" font-size="14" fill="#2F4A5A" font-weight="bold" text-anchor="middle">4.8</text>
+<text x="960.0" y="302.0" font-family="Arial" font-size="14" fill="#2F4A5A" font-weight="bold" text-anchor="middle">3.9</text>
+<text x="1035.0" y="302.0" font-family="Arial" font-size="14" fill="#2F4A5A" font-weight="bold" text-anchor="middle">2.0</text>
+<text x="1110.0" y="302.0" font-family="Arial" font-size="14" fill="#2F4A5A" font-weight="bold" text-anchor="middle">0.8</text>
+<text x="1172.0" y="302.0" font-family="Arial" font-size="11" fill="#E03127" font-weight="bold" text-anchor="middle"></text>
+<text x="60.0" y="335.0" font-family="Arial" font-size="15" fill="#1A1A1A">Littlehampton</text>
+<text x="318.0" y="335.0" font-family="Arial" font-size="14" fill="#1A1A1A">50°48.6′N 00°33.3′W</text>
+<text x="560.0" y="335.0" font-family="Arial" font-size="15" fill="#1A1A1A" text-anchor="middle">−0025</text>
+<text x="640.0" y="335.0" font-family="Arial" font-size="15" fill="#1A1A1A" text-anchor="middle">−0010</text>
+<text x="720.0" y="335.0" font-family="Arial" font-size="15" fill="#1A1A1A" text-anchor="middle">+0031</text>
+<text x="800.0" y="335.0" font-family="Arial" font-size="15" fill="#1A1A1A" text-anchor="middle">+0006</text>
+<text x="885.0" y="335.0" font-family="Arial" font-size="15" fill="#1A1A1A" text-anchor="middle">+1.3</text>
+<text x="960.0" y="335.0" font-family="Arial" font-size="15" fill="#1A1A1A" text-anchor="middle">+0.9</text>
+<text x="1035.0" y="335.0" font-family="Arial" font-size="15" fill="#1A1A1A" text-anchor="middle">+0.2</text>
+<text x="1110.0" y="335.0" font-family="Arial" font-size="15" fill="#1A1A1A" text-anchor="middle">0.0</text>
+<text x="1172.0" y="335.0" font-family="Arial" font-size="13" fill="#6B8290" text-anchor="middle">F</text>
+<text x="60.0" y="368.0" font-family="Arial" font-size="15" fill="#E03127" font-weight="bold">Christchurch to Selsey Bill</text>
+<text x="318.0" y="368.0" font-family="Arial" font-size="14" fill="#E03127" font-weight="bold">14 ports: no differences here. Use the SOLENT SPECIAL CURVES, referred to LW Portsmouth.</text>
+<line x1="60.0" y1="380.0" x2="1180.0" y2="380.0" stroke="#2F4A5A" stroke-width="0.8" opacity="0.35"/>
+<rect x="55.0" y="380.0" width="1130.0" height="33.0" fill="#D4E7F2" opacity="0.55"/>
+<text x="60.0" y="405.0" font-family="Arial" font-size="16" fill="#2F4A5A" font-weight="bold">NEWHAVEN</text>
+<text x="318.0" y="405.0" font-family="Arial" font-size="14" fill="#2F4A5A">50°47.0′N 00°04.0′E</text>
+<text x="560.0" y="405.0" font-family="Arial" font-size="12" fill="#2F4A5A" font-weight="bold" text-anchor="middle">0000 1200</text>
+<text x="640.0" y="405.0" font-family="Arial" font-size="12" fill="#2F4A5A" font-weight="bold" text-anchor="middle">0600 1800</text>
+<text x="720.0" y="405.0" font-family="Arial" font-size="12" fill="#2F4A5A" font-weight="bold" text-anchor="middle">0600 1800</text>
+<text x="800.0" y="405.0" font-family="Arial" font-size="12" fill="#2F4A5A" font-weight="bold" text-anchor="middle">0000 1200</text>
+<text x="885.0" y="405.0" font-family="Arial" font-size="14" fill="#2F4A5A" font-weight="bold" text-anchor="middle">6.9</text>
+<text x="960.0" y="405.0" font-family="Arial" font-size="14" fill="#2F4A5A" font-weight="bold" text-anchor="middle">5.2</text>
+<text x="1035.0" y="405.0" font-family="Arial" font-size="14" fill="#2F4A5A" font-weight="bold" text-anchor="middle">2.2</text>
+<text x="1110.0" y="405.0" font-family="Arial" font-size="14" fill="#2F4A5A" font-weight="bold" text-anchor="middle">0.8</text>
+<text x="1172.0" y="405.0" font-family="Arial" font-size="11" fill="#E03127" font-weight="bold" text-anchor="middle"></text>
+<text x="60.0" y="438.0" font-family="Arial" font-size="15" fill="#1A1A1A">Shoreham</text>
+<text x="318.0" y="438.0" font-family="Arial" font-size="14" fill="#1A1A1A">50°49.8′N 00°13.2′W</text>
+<text x="560.0" y="438.0" font-family="Arial" font-size="15" fill="#1A1A1A" text-anchor="middle">+0006</text>
+<text x="640.0" y="438.0" font-family="Arial" font-size="15" fill="#1A1A1A" text-anchor="middle">+0004</text>
+<text x="720.0" y="438.0" font-family="Arial" font-size="15" fill="#1A1A1A" text-anchor="middle">−0006</text>
+<text x="800.0" y="438.0" font-family="Arial" font-size="15" fill="#1A1A1A" text-anchor="middle">+0000</text>
+<text x="885.0" y="438.0" font-family="Arial" font-size="15" fill="#1A1A1A" text-anchor="middle">−0.4</text>
+<text x="960.0" y="438.0" font-family="Arial" font-size="15" fill="#1A1A1A" text-anchor="middle">−0.3</text>
+<text x="1035.0" y="438.0" font-family="Arial" font-size="15" fill="#1A1A1A" text-anchor="middle">−0.1</text>
+<text x="1110.0" y="438.0" font-family="Arial" font-size="15" fill="#1A1A1A" text-anchor="middle">0.0</text>
+<text x="1172.0" y="438.0" font-family="Arial" font-size="13" fill="#6B8290" text-anchor="middle">F</text>
+<text x="60.0" y="471.0" font-family="Arial" font-size="15" fill="#1A1A1A">Brighton</text>
+<text x="318.0" y="471.0" font-family="Arial" font-size="14" fill="#1A1A1A">50°48.6′N 00°05.9′W</text>
+<text x="560.0" y="471.0" font-family="Arial" font-size="15" fill="#1A1A1A" text-anchor="middle">−0002</text>
+<text x="640.0" y="471.0" font-family="Arial" font-size="15" fill="#1A1A1A" text-anchor="middle">+0001</text>
+<text x="720.0" y="471.0" font-family="Arial" font-size="15" fill="#1A1A1A" text-anchor="middle">−0008</text>
+<text x="800.0" y="471.0" font-family="Arial" font-size="15" fill="#1A1A1A" text-anchor="middle">−0003</text>
+<text x="885.0" y="471.0" font-family="Arial" font-size="15" fill="#1A1A1A" text-anchor="middle">−0.1</text>
+<text x="960.0" y="471.0" font-family="Arial" font-size="15" fill="#1A1A1A" text-anchor="middle">−0.1</text>
+<text x="1035.0" y="471.0" font-family="Arial" font-size="15" fill="#1A1A1A" text-anchor="middle">0.0</text>
+<text x="1110.0" y="471.0" font-family="Arial" font-size="15" fill="#1A1A1A" text-anchor="middle">+0.1</text>
+<text x="1172.0" y="471.0" font-family="Arial" font-size="13" fill="#6B8290" text-anchor="middle">M</text>
+<text x="60.0" y="504.0" font-family="Arial" font-size="15" fill="#1A1A1A">Eastbourne</text>
+<text x="318.0" y="504.0" font-family="Arial" font-size="14" fill="#1A1A1A">50°47.7′N 00°19.7′E</text>
+<text x="560.0" y="504.0" font-family="Arial" font-size="15" fill="#1A1A1A" text-anchor="middle">−0005</text>
+<text x="640.0" y="504.0" font-family="Arial" font-size="15" fill="#1A1A1A" text-anchor="middle">−0001</text>
+<text x="720.0" y="504.0" font-family="Arial" font-size="15" fill="#1A1A1A" text-anchor="middle">+0021</text>
+<text x="800.0" y="504.0" font-family="Arial" font-size="15" fill="#1A1A1A" text-anchor="middle">+0007</text>
+<text x="885.0" y="504.0" font-family="Arial" font-size="15" fill="#1A1A1A" text-anchor="middle">+0.8</text>
+<text x="960.0" y="504.0" font-family="Arial" font-size="15" fill="#1A1A1A" text-anchor="middle">+0.6</text>
+<text x="1035.0" y="504.0" font-family="Arial" font-size="15" fill="#1A1A1A" text-anchor="middle">+0.2</text>
+<text x="1110.0" y="504.0" font-family="Arial" font-size="15" fill="#1A1A1A" text-anchor="middle">0.0</text>
+<text x="1172.0" y="504.0" font-family="Arial" font-size="13" fill="#6B8290" text-anchor="middle">F</text>
+<line x1="60.0" y1="516.0" x2="1180.0" y2="516.0" stroke="#2F4A5A" stroke-width="0.8" opacity="0.35"/>
+<rect x="55.0" y="516.0" width="1130.0" height="33.0" fill="#D4E7F2" opacity="0.55"/>
+<text x="60.0" y="541.0" font-family="Arial" font-size="16" fill="#2F4A5A" font-weight="bold">DOVER</text>
+<text x="318.0" y="541.0" font-family="Arial" font-size="14" fill="#2F4A5A">51°07.0′N 01°19.0′E</text>
+<text x="560.0" y="541.0" font-family="Arial" font-size="12" fill="#2F4A5A" font-weight="bold" text-anchor="middle">0000 1200</text>
+<text x="640.0" y="541.0" font-family="Arial" font-size="12" fill="#2F4A5A" font-weight="bold" text-anchor="middle">0600 1800</text>
+<text x="720.0" y="541.0" font-family="Arial" font-size="12" fill="#2F4A5A" font-weight="bold" text-anchor="middle">0700 1900</text>
+<text x="800.0" y="541.0" font-family="Arial" font-size="12" fill="#2F4A5A" font-weight="bold" text-anchor="middle">0100 1300</text>
+<text x="885.0" y="541.0" font-family="Arial" font-size="14" fill="#2F4A5A" font-weight="bold" text-anchor="middle">6.9</text>
+<text x="960.0" y="541.0" font-family="Arial" font-size="14" fill="#2F4A5A" font-weight="bold" text-anchor="middle">5.4</text>
+<text x="1035.0" y="541.0" font-family="Arial" font-size="14" fill="#2F4A5A" font-weight="bold" text-anchor="middle">2.3</text>
+<text x="1110.0" y="541.0" font-family="Arial" font-size="14" fill="#2F4A5A" font-weight="bold" text-anchor="middle">0.8</text>
+<text x="1172.0" y="541.0" font-family="Arial" font-size="11" fill="#E03127" font-weight="bold" text-anchor="middle"></text>
+<text x="60.0" y="574.0" font-family="Arial" font-size="15" fill="#1A1A1A">Rye</text>
+<text x="318.0" y="574.0" font-family="Arial" font-size="14" fill="#1A1A1A">50°56.2′N 00°45.7′E</text>
+<text x="560.0" y="574.0" font-family="Arial" font-size="15" fill="#1A1A1A" text-anchor="middle">−0007</text>
+<text x="640.0" y="574.0" font-family="Arial" font-size="15" fill="#1A1A1A" text-anchor="middle">−0009</text>
+<text x="720.0" y="574.0" font-family="Arial" font-size="15" fill="#1A1A1A" text-anchor="middle">−0016</text>
+<text x="800.0" y="574.0" font-family="Arial" font-size="15" fill="#1A1A1A" text-anchor="middle">−0016</text>
+<text x="885.0" y="574.0" font-family="Arial" font-size="15" fill="#1A1A1A" text-anchor="middle">+0.7</text>
+<text x="960.0" y="574.0" font-family="Arial" font-size="15" fill="#1A1A1A" text-anchor="middle">+0.4</text>
+<text x="1035.0" y="574.0" font-family="Arial" font-size="15" fill="#1A1A1A" text-anchor="middle">0.0</text>
+<text x="1110.0" y="574.0" font-family="Arial" font-size="15" fill="#1A1A1A" text-anchor="middle">−0.1</text>
+<text x="1172.0" y="574.0" font-family="Arial" font-size="13" fill="#6B8290" text-anchor="middle">F</text>
+<text x="60.0" y="607.0" font-family="Arial" font-size="15" fill="#1A1A1A">Folkestone</text>
+<text x="318.0" y="607.0" font-family="Arial" font-size="14" fill="#1A1A1A">51°04.8′N 01°11.3′E</text>
+<text x="560.0" y="607.0" font-family="Arial" font-size="15" fill="#1A1A1A" text-anchor="middle">−0003</text>
+<text x="640.0" y="607.0" font-family="Arial" font-size="15" fill="#1A1A1A" text-anchor="middle">−0003</text>
+<text x="720.0" y="607.0" font-family="Arial" font-size="15" fill="#1A1A1A" text-anchor="middle">−0003</text>
+<text x="800.0" y="607.0" font-family="Arial" font-size="15" fill="#1A1A1A" text-anchor="middle">−0004</text>
+<text x="885.0" y="607.0" font-family="Arial" font-size="15" fill="#1A1A1A" text-anchor="middle">+0.3</text>
+<text x="960.0" y="607.0" font-family="Arial" font-size="15" fill="#1A1A1A" text-anchor="middle">+0.2</text>
+<text x="1035.0" y="607.0" font-family="Arial" font-size="15" fill="#1A1A1A" text-anchor="middle">+0.1</text>
+<text x="1110.0" y="607.0" font-family="Arial" font-size="15" fill="#1A1A1A" text-anchor="middle">0.0</text>
+<text x="1172.0" y="607.0" font-family="Arial" font-size="13" fill="#6B8290" text-anchor="middle">F</text>
+<line x1="60.0" y1="619.0" x2="1180.0" y2="619.0" stroke="#2F4A5A" stroke-width="0.8" opacity="0.35"/>
+<rect x="55.0" y="619.0" width="1130.0" height="33.0" fill="#D4E7F2" opacity="0.55"/>
+<text x="60.0" y="644.0" font-family="Arial" font-size="16" fill="#2F4A5A" font-weight="bold">BOULOGNE-SUR-MER</text>
+<text x="318.0" y="644.0" font-family="Arial" font-size="14" fill="#2F4A5A">50°43.6′N 01°34.7′E</text>
+<text x="560.0" y="644.0" font-family="Arial" font-size="12" fill="#2F4A5A" font-weight="bold" text-anchor="middle">0100 1300</text>
+<text x="640.0" y="644.0" font-family="Arial" font-size="12" fill="#2F4A5A" font-weight="bold" text-anchor="middle">0700 1900</text>
+<text x="720.0" y="644.0" font-family="Arial" font-size="12" fill="#2F4A5A" font-weight="bold" text-anchor="middle">0800 2000</text>
+<text x="800.0" y="644.0" font-family="Arial" font-size="12" fill="#2F4A5A" font-weight="bold" text-anchor="middle">0200 1400</text>
+<text x="885.0" y="644.0" font-family="Arial" font-size="14" fill="#2F4A5A" font-weight="bold" text-anchor="middle">9.2</text>
+<text x="960.0" y="644.0" font-family="Arial" font-size="14" fill="#2F4A5A" font-weight="bold" text-anchor="middle">7.1</text>
+<text x="1035.0" y="644.0" font-family="Arial" font-size="14" fill="#2F4A5A" font-weight="bold" text-anchor="middle">3.1</text>
+<text x="1110.0" y="644.0" font-family="Arial" font-size="14" fill="#2F4A5A" font-weight="bold" text-anchor="middle">1.1</text>
+<text x="1172.0" y="644.0" font-family="Arial" font-size="11" fill="#E03127" font-weight="bold" text-anchor="middle"></text>
+<text x="60.0" y="677.0" font-family="Arial" font-size="15" fill="#1A1A1A">Etaples</text>
+<text x="318.0" y="677.0" font-family="Arial" font-size="14" fill="#1A1A1A">50°30.9′N 01°38.1′E</text>
+<text x="560.0" y="677.0" font-family="Arial" font-size="15" fill="#1A1A1A" text-anchor="middle">−0016</text>
+<text x="640.0" y="677.0" font-family="Arial" font-size="15" fill="#1A1A1A" text-anchor="middle">−0016</text>
+<text x="720.0" y="677.0" font-family="Arial" font-size="15" fill="#1A1A1A" text-anchor="middle">−0016</text>
+<text x="800.0" y="677.0" font-family="Arial" font-size="15" fill="#1A1A1A" text-anchor="middle">−0016</text>
+<text x="885.0" y="677.0" font-family="Arial" font-size="15" fill="#1A1A1A" text-anchor="middle">+0.5</text>
+<text x="960.0" y="677.0" font-family="Arial" font-size="15" fill="#1A1A1A" text-anchor="middle">+0.3</text>
+<text x="1035.0" y="677.0" font-family="Arial" font-size="15" fill="#1A1A1A" text-anchor="middle">+0.1</text>
+<text x="1110.0" y="677.0" font-family="Arial" font-size="15" fill="#1A1A1A" text-anchor="middle">0.0</text>
+<text x="1172.0" y="677.0" font-family="Arial" font-size="13" fill="#6B8290" text-anchor="middle">R</text>
+<line x1="60.0" y1="689.0" x2="1180.0" y2="689.0" stroke="#2F4A5A" stroke-width="0.8" opacity="0.35"/>
+<rect x="55.0" y="689.0" width="1130.0" height="33.0" fill="#D4E7F2" opacity="0.55"/>
+<text x="60.0" y="714.0" font-family="Arial" font-size="16" fill="#2F4A5A" font-weight="bold">DIEPPE</text>
+<text x="318.0" y="714.0" font-family="Arial" font-size="14" fill="#2F4A5A">49°55.8′N 01°05.1′E</text>
+<text x="560.0" y="714.0" font-family="Arial" font-size="12" fill="#2F4A5A" font-weight="bold" text-anchor="middle">0100 1300</text>
+<text x="640.0" y="714.0" font-family="Arial" font-size="12" fill="#2F4A5A" font-weight="bold" text-anchor="middle">0700 1900</text>
+<text x="720.0" y="714.0" font-family="Arial" font-size="12" fill="#2F4A5A" font-weight="bold" text-anchor="middle">0800 2000</text>
+<text x="800.0" y="714.0" font-family="Arial" font-size="12" fill="#2F4A5A" font-weight="bold" text-anchor="middle">0100 1300</text>
+<text x="885.0" y="714.0" font-family="Arial" font-size="14" fill="#2F4A5A" font-weight="bold" text-anchor="middle">9.6</text>
+<text x="960.0" y="714.0" font-family="Arial" font-size="14" fill="#2F4A5A" font-weight="bold" text-anchor="middle">7.2</text>
+<text x="1035.0" y="714.0" font-family="Arial" font-size="14" fill="#2F4A5A" font-weight="bold" text-anchor="middle">3.1</text>
+<text x="1110.0" y="714.0" font-family="Arial" font-size="14" fill="#2F4A5A" font-weight="bold" text-anchor="middle">0.9</text>
+<text x="1172.0" y="714.0" font-family="Arial" font-size="11" fill="#E03127" font-weight="bold" text-anchor="middle"></text>
+<text x="60.0" y="747.0" font-family="Arial" font-size="15" fill="#1A1A1A">Saint-Valery-sur-Somme</text>
+<text x="318.0" y="747.0" font-family="Arial" font-size="14" fill="#1A1A1A">50°10.8′N 01°38.7′E</text>
+<text x="520.0" y="747.0" font-family="Arial" font-size="13" fill="#E03127" font-style="italic">no tidal data: the RAM gives no low waters here and FES does not fit — see note *</text>
+<text x="60.0" y="780.0" font-family="Arial" font-size="15" fill="#1A1A1A">Le Treport</text>
+<text x="318.0" y="780.0" font-family="Arial" font-size="14" fill="#1A1A1A">50°03.6′N 01°22.6′E</text>
+<text x="560.0" y="780.0" font-family="Arial" font-size="15" fill="#1A1A1A" text-anchor="middle">+0005</text>
+<text x="640.0" y="780.0" font-family="Arial" font-size="15" fill="#1A1A1A" text-anchor="middle">+0005</text>
+<text x="720.0" y="780.0" font-family="Arial" font-size="15" fill="#1A1A1A" text-anchor="middle">+0005</text>
+<text x="800.0" y="780.0" font-family="Arial" font-size="15" fill="#1A1A1A" text-anchor="middle">+0005</text>
+<text x="885.0" y="780.0" font-family="Arial" font-size="15" fill="#1A1A1A" text-anchor="middle">0.0</text>
+<text x="960.0" y="780.0" font-family="Arial" font-size="15" fill="#1A1A1A" text-anchor="middle">0.0</text>
+<text x="1035.0" y="780.0" font-family="Arial" font-size="15" fill="#1A1A1A" text-anchor="middle">−0.1</text>
+<text x="1110.0" y="780.0" font-family="Arial" font-size="15" fill="#1A1A1A" text-anchor="middle">0.0</text>
+<text x="1172.0" y="780.0" font-family="Arial" font-size="13" fill="#6B8290" text-anchor="middle">R</text>
+<text x="60.0" y="813.0" font-family="Arial" font-size="15" fill="#1A1A1A">Saint-Valery-en-Caux</text>
+<text x="318.0" y="813.0" font-family="Arial" font-size="14" fill="#1A1A1A">49°52.1′N 00°42.7′E</text>
+<text x="560.0" y="813.0" font-family="Arial" font-size="15" fill="#1A1A1A" text-anchor="middle">−0011</text>
+<text x="640.0" y="813.0" font-family="Arial" font-size="15" fill="#1A1A1A" text-anchor="middle">−0011</text>
+<text x="720.0" y="813.0" font-family="Arial" font-size="15" fill="#1A1A1A" text-anchor="middle">−0011</text>
+<text x="800.0" y="813.0" font-family="Arial" font-size="15" fill="#1A1A1A" text-anchor="middle">−0011</text>
+<text x="885.0" y="813.0" font-family="Arial" font-size="15" fill="#1A1A1A" text-anchor="middle">−0.6</text>
+<text x="960.0" y="813.0" font-family="Arial" font-size="15" fill="#1A1A1A" text-anchor="middle">−0.5</text>
+<text x="1035.0" y="813.0" font-family="Arial" font-size="15" fill="#1A1A1A" text-anchor="middle">−0.2</text>
+<text x="1110.0" y="813.0" font-family="Arial" font-size="15" fill="#1A1A1A" text-anchor="middle">−0.2</text>
+<text x="1172.0" y="813.0" font-family="Arial" font-size="13" fill="#6B8290" text-anchor="middle">R</text>
+<line x1="60.0" y1="825.0" x2="1180.0" y2="825.0" stroke="#2F4A5A" stroke-width="0.8" opacity="0.35"/>
+<rect x="55.0" y="825.0" width="1130.0" height="33.0" fill="#D4E7F2" opacity="0.55"/>
+<text x="60.0" y="850.0" font-family="Arial" font-size="16" fill="#2F4A5A" font-weight="bold">LE HAVRE</text>
+<text x="318.0" y="850.0" font-family="Arial" font-size="14" fill="#2F4A5A">49°28.9′N 00°06.4′E</text>
+<text x="560.0" y="850.0" font-family="Arial" font-size="12" fill="#2F4A5A" font-weight="bold" text-anchor="middle">0000 1200</text>
+<text x="640.0" y="850.0" font-family="Arial" font-size="12" fill="#2F4A5A" font-weight="bold" text-anchor="middle">0600 1800</text>
+<text x="720.0" y="850.0" font-family="Arial" font-size="12" fill="#2F4A5A" font-weight="bold" text-anchor="middle">0700 1900</text>
+<text x="800.0" y="850.0" font-family="Arial" font-size="12" fill="#2F4A5A" font-weight="bold" text-anchor="middle">0000 1200</text>
+<text x="885.0" y="850.0" font-family="Arial" font-size="14" fill="#2F4A5A" font-weight="bold" text-anchor="middle">8.1</text>
+<text x="960.0" y="850.0" font-family="Arial" font-size="14" fill="#2F4A5A" font-weight="bold" text-anchor="middle">6.6</text>
+<text x="1035.0" y="850.0" font-family="Arial" font-size="14" fill="#2F4A5A" font-weight="bold" text-anchor="middle">3.3</text>
+<text x="1110.0" y="850.0" font-family="Arial" font-size="14" fill="#2F4A5A" font-weight="bold" text-anchor="middle">1.2</text>
+<text x="1172.0" y="850.0" font-family="Arial" font-size="11" fill="#E03127" font-weight="bold" text-anchor="middle">special</text>
+<text x="60.0" y="883.0" font-family="Arial" font-size="15" fill="#1A1A1A">Fecamp</text>
+<text x="318.0" y="883.0" font-family="Arial" font-size="14" fill="#1A1A1A">49°45.7′N 00°22.1′E</text>
+<text x="560.0" y="883.0" font-family="Arial" font-size="15" fill="#1A1A1A" text-anchor="middle">+0022</text>
+<text x="640.0" y="883.0" font-family="Arial" font-size="15" fill="#1A1A1A" text-anchor="middle">+0022</text>
+<text x="720.0" y="883.0" font-family="Arial" font-size="15" fill="#1A1A1A" text-anchor="middle">+0022</text>
+<text x="800.0" y="883.0" font-family="Arial" font-size="15" fill="#1A1A1A" text-anchor="middle">+0022</text>
+<text x="885.0" y="883.0" font-family="Arial" font-size="15" fill="#1A1A1A" text-anchor="middle">+0.6</text>
+<text x="960.0" y="883.0" font-family="Arial" font-size="15" fill="#1A1A1A" text-anchor="middle">+0.3</text>
+<text x="1035.0" y="883.0" font-family="Arial" font-size="15" fill="#1A1A1A" text-anchor="middle">−0.1</text>
+<text x="1110.0" y="883.0" font-family="Arial" font-size="15" fill="#1A1A1A" text-anchor="middle">0.0</text>
+<text x="1172.0" y="883.0" font-family="Arial" font-size="13" fill="#6B8290" text-anchor="middle">R</text>
+<text x="60.0" y="916.0" font-family="Arial" font-size="15" fill="#1A1A1A">Honfleur</text>
+<text x="318.0" y="916.0" font-family="Arial" font-size="14" fill="#1A1A1A">49°25.6′N 00°13.9′E</text>
+<text x="560.0" y="916.0" font-family="Arial" font-size="15" fill="#1A1A1A" text-anchor="middle">−0015</text>
+<text x="640.0" y="916.0" font-family="Arial" font-size="15" fill="#1A1A1A" text-anchor="middle">+0000</text>
+<text x="720.0" y="916.0" font-family="Arial" font-size="15" fill="#1A1A1A" text-anchor="middle">+0027</text>
+<text x="800.0" y="916.0" font-family="Arial" font-size="15" fill="#1A1A1A" text-anchor="middle">+0015</text>
+<text x="885.0" y="916.0" font-family="Arial" font-size="15" fill="#1A1A1A" text-anchor="middle">+0.1</text>
+<text x="960.0" y="916.0" font-family="Arial" font-size="15" fill="#1A1A1A" text-anchor="middle">+0.1</text>
+<text x="1035.0" y="916.0" font-family="Arial" font-size="15" fill="#1A1A1A" text-anchor="middle">0.0</text>
+<text x="1110.0" y="916.0" font-family="Arial" font-size="15" fill="#1A1A1A" text-anchor="middle">+0.1</text>
+<text x="1172.0" y="916.0" font-family="Arial" font-size="13" fill="#6B8290" text-anchor="middle">M</text>
+<text x="60.0" y="949.0" font-family="Arial" font-size="15" fill="#1A1A1A">Deauville</text>
+<text x="318.0" y="949.0" font-family="Arial" font-size="14" fill="#1A1A1A">49°21.8′N 00°04.8′E</text>
+<text x="560.0" y="949.0" font-family="Arial" font-size="15" fill="#1A1A1A" text-anchor="middle">−0001</text>
+<text x="640.0" y="949.0" font-family="Arial" font-size="15" fill="#1A1A1A" text-anchor="middle">−0001</text>
+<text x="720.0" y="949.0" font-family="Arial" font-size="15" fill="#1A1A1A" text-anchor="middle">−0001</text>
+<text x="800.0" y="949.0" font-family="Arial" font-size="15" fill="#1A1A1A" text-anchor="middle">−0001</text>
+<text x="885.0" y="949.0" font-family="Arial" font-size="15" fill="#1A1A1A" text-anchor="middle">+0.4</text>
+<text x="960.0" y="949.0" font-family="Arial" font-size="15" fill="#1A1A1A" text-anchor="middle">+0.3</text>
+<text x="1035.0" y="949.0" font-family="Arial" font-size="15" fill="#1A1A1A" text-anchor="middle">+0.3</text>
+<text x="1110.0" y="949.0" font-family="Arial" font-size="15" fill="#1A1A1A" text-anchor="middle">+0.1</text>
+<text x="1172.0" y="949.0" font-family="Arial" font-size="13" fill="#6B8290" text-anchor="middle">R</text>
+<text x="60.0" y="982.0" font-family="Arial" font-size="15" fill="#1A1A1A">Trouville</text>
+<text x="318.0" y="982.0" font-family="Arial" font-size="14" fill="#1A1A1A">49°23.3′N 00°04.4′E</text>
+<text x="560.0" y="982.0" font-family="Arial" font-size="15" fill="#1A1A1A" text-anchor="middle">−0001</text>
+<text x="640.0" y="982.0" font-family="Arial" font-size="15" fill="#1A1A1A" text-anchor="middle">−0001</text>
+<text x="720.0" y="982.0" font-family="Arial" font-size="15" fill="#1A1A1A" text-anchor="middle">−0001</text>
+<text x="800.0" y="982.0" font-family="Arial" font-size="15" fill="#1A1A1A" text-anchor="middle">−0001</text>
+<text x="885.0" y="982.0" font-family="Arial" font-size="15" fill="#1A1A1A" text-anchor="middle">+0.4</text>
+<text x="960.0" y="982.0" font-family="Arial" font-size="15" fill="#1A1A1A" text-anchor="middle">+0.3</text>
+<text x="1035.0" y="982.0" font-family="Arial" font-size="15" fill="#1A1A1A" text-anchor="middle">+0.3</text>
+<text x="1110.0" y="982.0" font-family="Arial" font-size="15" fill="#1A1A1A" text-anchor="middle">+0.1</text>
+<text x="1172.0" y="982.0" font-family="Arial" font-size="13" fill="#6B8290" text-anchor="middle">R</text>
+<line x1="60.0" y1="994.0" x2="1180.0" y2="994.0" stroke="#2F4A5A" stroke-width="0.8" opacity="0.35"/>
+<rect x="55.0" y="994.0" width="1130.0" height="33.0" fill="#D4E7F2" opacity="0.55"/>
+<text x="60.0" y="1019.0" font-family="Arial" font-size="16" fill="#2F4A5A" font-weight="bold">OUISTREHAM</text>
+<text x="318.0" y="1019.0" font-family="Arial" font-size="14" fill="#2F4A5A">49°17.0′N 00°15.0′W</text>
+<text x="560.0" y="1019.0" font-family="Arial" font-size="12" fill="#2F4A5A" font-weight="bold" text-anchor="middle">1100 2300</text>
+<text x="640.0" y="1019.0" font-family="Arial" font-size="12" fill="#2F4A5A" font-weight="bold" text-anchor="middle">0500 1700</text>
+<text x="720.0" y="1019.0" font-family="Arial" font-size="12" fill="#2F4A5A" font-weight="bold" text-anchor="middle">0700 1900</text>
+<text x="800.0" y="1019.0" font-family="Arial" font-size="12" fill="#2F4A5A" font-weight="bold" text-anchor="middle">0000 1200</text>
+<text x="885.0" y="1019.0" font-family="Arial" font-size="14" fill="#2F4A5A" font-weight="bold" text-anchor="middle">7.8</text>
+<text x="960.0" y="1019.0" font-family="Arial" font-size="14" fill="#2F4A5A" font-weight="bold" text-anchor="middle">6.3</text>
+<text x="1035.0" y="1019.0" font-family="Arial" font-size="14" fill="#2F4A5A" font-weight="bold" text-anchor="middle">3.1</text>
+<text x="1110.0" y="1019.0" font-family="Arial" font-size="14" fill="#2F4A5A" font-weight="bold" text-anchor="middle">1.0</text>
+<text x="1172.0" y="1019.0" font-family="Arial" font-size="11" fill="#E03127" font-weight="bold" text-anchor="middle">special</text>
+<text x="60.0" y="1052.0" font-family="Arial" font-size="15" fill="#1A1A1A">Dives-sur-Mer</text>
+<text x="318.0" y="1052.0" font-family="Arial" font-size="14" fill="#1A1A1A">49°17.7′N 00°05.6′W</text>
+<text x="560.0" y="1052.0" font-family="Arial" font-size="15" fill="#1A1A1A" text-anchor="middle">+0005</text>
+<text x="640.0" y="1052.0" font-family="Arial" font-size="15" fill="#1A1A1A" text-anchor="middle">+0005</text>
+<text x="720.0" y="1052.0" font-family="Arial" font-size="15" fill="#1A1A1A" text-anchor="middle">+0005</text>
+<text x="800.0" y="1052.0" font-family="Arial" font-size="15" fill="#1A1A1A" text-anchor="middle">+0005</text>
+<text x="885.0" y="1052.0" font-family="Arial" font-size="15" fill="#1A1A1A" text-anchor="middle">+0.6</text>
+<text x="960.0" y="1052.0" font-family="Arial" font-size="15" fill="#1A1A1A" text-anchor="middle">+0.4</text>
+<text x="1035.0" y="1052.0" font-family="Arial" font-size="15" fill="#1A1A1A" text-anchor="middle">+0.4</text>
+<text x="1110.0" y="1052.0" font-family="Arial" font-size="15" fill="#1A1A1A" text-anchor="middle">+0.2</text>
+<text x="1172.0" y="1052.0" font-family="Arial" font-size="13" fill="#6B8290" text-anchor="middle">R</text>
+<text x="60.0" y="1085.0" font-family="Arial" font-size="15" fill="#1A1A1A">Courseulles-sur-Mer</text>
+<text x="318.0" y="1085.0" font-family="Arial" font-size="14" fill="#1A1A1A">49°20.0′N 00°27.8′W</text>
+<text x="560.0" y="1085.0" font-family="Arial" font-size="15" fill="#1A1A1A" text-anchor="middle">−0006</text>
+<text x="640.0" y="1085.0" font-family="Arial" font-size="15" fill="#1A1A1A" text-anchor="middle">−0006</text>
+<text x="720.0" y="1085.0" font-family="Arial" font-size="15" fill="#1A1A1A" text-anchor="middle">−0006</text>
+<text x="800.0" y="1085.0" font-family="Arial" font-size="15" fill="#1A1A1A" text-anchor="middle">−0006</text>
+<text x="885.0" y="1085.0" font-family="Arial" font-size="15" fill="#1A1A1A" text-anchor="middle">−0.3</text>
+<text x="960.0" y="1085.0" font-family="Arial" font-size="15" fill="#1A1A1A" text-anchor="middle">−0.3</text>
+<text x="1035.0" y="1085.0" font-family="Arial" font-size="15" fill="#1A1A1A" text-anchor="middle">−0.1</text>
+<text x="1110.0" y="1085.0" font-family="Arial" font-size="15" fill="#1A1A1A" text-anchor="middle">0.0</text>
+<text x="1172.0" y="1085.0" font-family="Arial" font-size="13" fill="#6B8290" text-anchor="middle">R</text>
+<text x="60.0" y="1118.0" font-family="Arial" font-size="15" fill="#1A1A1A">Port-en-Bessin</text>
+<text x="318.0" y="1118.0" font-family="Arial" font-size="14" fill="#1A1A1A">49°20.9′N 00°45.3′W</text>
+<text x="560.0" y="1118.0" font-family="Arial" font-size="15" fill="#1A1A1A" text-anchor="middle">−0017</text>
+<text x="640.0" y="1118.0" font-family="Arial" font-size="15" fill="#1A1A1A" text-anchor="middle">−0017</text>
+<text x="720.0" y="1118.0" font-family="Arial" font-size="15" fill="#1A1A1A" text-anchor="middle">−0017</text>
+<text x="800.0" y="1118.0" font-family="Arial" font-size="15" fill="#1A1A1A" text-anchor="middle">−0017</text>
+<text x="885.0" y="1118.0" font-family="Arial" font-size="15" fill="#1A1A1A" text-anchor="middle">−0.4</text>
+<text x="960.0" y="1118.0" font-family="Arial" font-size="15" fill="#1A1A1A" text-anchor="middle">−0.4</text>
+<text x="1035.0" y="1118.0" font-family="Arial" font-size="15" fill="#1A1A1A" text-anchor="middle">−0.1</text>
+<text x="1110.0" y="1118.0" font-family="Arial" font-size="15" fill="#1A1A1A" text-anchor="middle">0.0</text>
+<text x="1172.0" y="1118.0" font-family="Arial" font-size="13" fill="#6B8290" text-anchor="middle">R</text>
+<text x="60.0" y="1151.0" font-family="Arial" font-size="15" fill="#1A1A1A">Grandcamp</text>
+<text x="318.0" y="1151.0" font-family="Arial" font-size="14" fill="#1A1A1A">49°23.3′N 01°02.8′W</text>
+<text x="560.0" y="1151.0" font-family="Arial" font-size="15" fill="#1A1A1A" text-anchor="middle">−0028</text>
+<text x="640.0" y="1151.0" font-family="Arial" font-size="15" fill="#1A1A1A" text-anchor="middle">−0028</text>
+<text x="720.0" y="1151.0" font-family="Arial" font-size="15" fill="#1A1A1A" text-anchor="middle">−0028</text>
+<text x="800.0" y="1151.0" font-family="Arial" font-size="15" fill="#1A1A1A" text-anchor="middle">−0028</text>
+<text x="885.0" y="1151.0" font-family="Arial" font-size="15" fill="#1A1A1A" text-anchor="middle">−0.6</text>
+<text x="960.0" y="1151.0" font-family="Arial" font-size="15" fill="#1A1A1A" text-anchor="middle">−0.7</text>
+<text x="1035.0" y="1151.0" font-family="Arial" font-size="15" fill="#1A1A1A" text-anchor="middle">−0.2</text>
+<text x="1110.0" y="1151.0" font-family="Arial" font-size="15" fill="#1A1A1A" text-anchor="middle">+0.1</text>
+<text x="1172.0" y="1151.0" font-family="Arial" font-size="13" fill="#6B8290" text-anchor="middle">R</text>
+<line x1="60.0" y1="1163.0" x2="1180.0" y2="1163.0" stroke="#2F4A5A" stroke-width="0.8" opacity="0.35"/>
+<rect x="55.0" y="1163.0" width="1130.0" height="33.0" fill="#D4E7F2" opacity="0.55"/>
+<text x="60.0" y="1188.0" font-family="Arial" font-size="16" fill="#2F4A5A" font-weight="bold">CHERBOURG</text>
+<text x="318.0" y="1188.0" font-family="Arial" font-size="14" fill="#2F4A5A">49°39.1′N 01°38.1′W</text>
+<text x="560.0" y="1188.0" font-family="Arial" font-size="12" fill="#2F4A5A" font-weight="bold" text-anchor="middle">1000 2200</text>
+<text x="640.0" y="1188.0" font-family="Arial" font-size="12" fill="#2F4A5A" font-weight="bold" text-anchor="middle">0400 1600</text>
+<text x="720.0" y="1188.0" font-family="Arial" font-size="12" fill="#2F4A5A" font-weight="bold" text-anchor="middle">0400 1600</text>
+<text x="800.0" y="1188.0" font-family="Arial" font-size="12" fill="#2F4A5A" font-weight="bold" text-anchor="middle">1000 2200</text>
+<text x="885.0" y="1188.0" font-family="Arial" font-size="14" fill="#2F4A5A" font-weight="bold" text-anchor="middle">6.6</text>
+<text x="960.0" y="1188.0" font-family="Arial" font-size="14" fill="#2F4A5A" font-weight="bold" text-anchor="middle">5.0</text>
+<text x="1035.0" y="1188.0" font-family="Arial" font-size="14" fill="#2F4A5A" font-weight="bold" text-anchor="middle">2.8</text>
+<text x="1110.0" y="1188.0" font-family="Arial" font-size="14" fill="#2F4A5A" font-weight="bold" text-anchor="middle">1.2</text>
+<text x="1172.0" y="1188.0" font-family="Arial" font-size="11" fill="#E03127" font-weight="bold" text-anchor="middle"></text>
+<text x="60.0" y="1221.0" font-family="Arial" font-size="15" fill="#1A1A1A">Carentan</text>
+<text x="318.0" y="1221.0" font-family="Arial" font-size="14" fill="#1A1A1A">49°18.6′N 01°14.2′W</text>
+<text x="560.0" y="1221.0" font-family="Arial" font-size="15" fill="#1A1A1A" text-anchor="middle">+0122</text>
+<text x="640.0" y="1221.0" font-family="Arial" font-size="15" fill="#1A1A1A" text-anchor="middle">+0122</text>
+<text x="720.0" y="1221.0" font-family="Arial" font-size="15" fill="#1A1A1A" text-anchor="middle">+0122</text>
+<text x="800.0" y="1221.0" font-family="Arial" font-size="15" fill="#1A1A1A" text-anchor="middle">+0122</text>
+<text x="885.0" y="1221.0" font-family="Arial" font-size="15" fill="#1A1A1A" text-anchor="middle">+0.7</text>
+<text x="960.0" y="1221.0" font-family="Arial" font-size="15" fill="#1A1A1A" text-anchor="middle">+0.7</text>
+<text x="1035.0" y="1221.0" font-family="Arial" font-size="15" fill="#1A1A1A" text-anchor="middle">0.0</text>
+<text x="1110.0" y="1221.0" font-family="Arial" font-size="15" fill="#1A1A1A" text-anchor="middle">+0.1</text>
+<text x="1172.0" y="1221.0" font-family="Arial" font-size="13" fill="#6B8290" text-anchor="middle">R</text>
+<text x="60.0" y="1254.0" font-family="Arial" font-size="15" fill="#1A1A1A">Saint-Vaast-la-Hougue</text>
+<text x="318.0" y="1254.0" font-family="Arial" font-size="14" fill="#1A1A1A">49°35.2′N 01°15.7′W</text>
+<text x="560.0" y="1254.0" font-family="Arial" font-size="15" fill="#1A1A1A" text-anchor="middle">+0117</text>
+<text x="640.0" y="1254.0" font-family="Arial" font-size="15" fill="#1A1A1A" text-anchor="middle">+0117</text>
+<text x="720.0" y="1254.0" font-family="Arial" font-size="15" fill="#1A1A1A" text-anchor="middle">+0117</text>
+<text x="800.0" y="1254.0" font-family="Arial" font-size="15" fill="#1A1A1A" text-anchor="middle">+0117</text>
+<text x="885.0" y="1254.0" font-family="Arial" font-size="15" fill="#1A1A1A" text-anchor="middle">+0.4</text>
+<text x="960.0" y="1254.0" font-family="Arial" font-size="15" fill="#1A1A1A" text-anchor="middle">+0.4</text>
+<text x="1035.0" y="1254.0" font-family="Arial" font-size="15" fill="#1A1A1A" text-anchor="middle">−0.1</text>
+<text x="1110.0" y="1254.0" font-family="Arial" font-size="15" fill="#1A1A1A" text-anchor="middle">−0.1</text>
+<text x="1172.0" y="1254.0" font-family="Arial" font-size="13" fill="#6B8290" text-anchor="middle">R</text>
+<text x="60.0" y="1287.0" font-family="Arial" font-size="15" fill="#1A1A1A">Barfleur</text>
+<text x="318.0" y="1287.0" font-family="Arial" font-size="14" fill="#1A1A1A">49°40.4′N 01°15.5′W</text>
+<text x="560.0" y="1287.0" font-family="Arial" font-size="15" fill="#1A1A1A" text-anchor="middle">+0104</text>
+<text x="640.0" y="1287.0" font-family="Arial" font-size="15" fill="#1A1A1A" text-anchor="middle">+0104</text>
+<text x="720.0" y="1287.0" font-family="Arial" font-size="15" fill="#1A1A1A" text-anchor="middle">+0104</text>
+<text x="800.0" y="1287.0" font-family="Arial" font-size="15" fill="#1A1A1A" text-anchor="middle">+0104</text>
+<text x="885.0" y="1287.0" font-family="Arial" font-size="15" fill="#1A1A1A" text-anchor="middle">+0.1</text>
+<text x="960.0" y="1287.0" font-family="Arial" font-size="15" fill="#1A1A1A" text-anchor="middle">+0.3</text>
+<text x="1035.0" y="1287.0" font-family="Arial" font-size="15" fill="#1A1A1A" text-anchor="middle">0.0</text>
+<text x="1110.0" y="1287.0" font-family="Arial" font-size="15" fill="#1A1A1A" text-anchor="middle">+0.1</text>
+<text x="1172.0" y="1287.0" font-family="Arial" font-size="13" fill="#6B8290" text-anchor="middle">R</text>
+<text x="60.0" y="1320.0" font-family="Arial" font-size="15" fill="#1A1A1A">Omonville-la-Rogue</text>
+<text x="318.0" y="1320.0" font-family="Arial" font-size="14" fill="#1A1A1A">49°42.4′N 01°50.1′W</text>
+<text x="560.0" y="1320.0" font-family="Arial" font-size="15" fill="#1A1A1A" text-anchor="middle">−0014</text>
+<text x="640.0" y="1320.0" font-family="Arial" font-size="15" fill="#1A1A1A" text-anchor="middle">−0014</text>
+<text x="720.0" y="1320.0" font-family="Arial" font-size="15" fill="#1A1A1A" text-anchor="middle">−0014</text>
+<text x="800.0" y="1320.0" font-family="Arial" font-size="15" fill="#1A1A1A" text-anchor="middle">−0014</text>
+<text x="885.0" y="1320.0" font-family="Arial" font-size="15" fill="#1A1A1A" text-anchor="middle">−0.1</text>
+<text x="960.0" y="1320.0" font-family="Arial" font-size="15" fill="#1A1A1A" text-anchor="middle">0.0</text>
+<text x="1035.0" y="1320.0" font-family="Arial" font-size="15" fill="#1A1A1A" text-anchor="middle">0.0</text>
+<text x="1110.0" y="1320.0" font-family="Arial" font-size="15" fill="#1A1A1A" text-anchor="middle">0.0</text>
+<text x="1172.0" y="1320.0" font-family="Arial" font-size="13" fill="#6B8290" text-anchor="middle">R</text>
+<line x1="60.0" y1="1332.0" x2="1180.0" y2="1332.0" stroke="#2F4A5A" stroke-width="0.8" opacity="0.35"/>
+<rect x="55.0" y="1332.0" width="1130.0" height="33.0" fill="#D4E7F2" opacity="0.55"/>
+<text x="60.0" y="1357.0" font-family="Arial" font-size="16" fill="#2F4A5A" font-weight="bold">DIÉLETTE</text>
+<text x="318.0" y="1357.0" font-family="Arial" font-size="14" fill="#2F4A5A">49°33.3′N 01°51.8′W</text>
+<text x="560.0" y="1357.0" font-family="Arial" font-size="12" fill="#2F4A5A" font-weight="bold" text-anchor="middle">0900 2100</text>
+<text x="640.0" y="1357.0" font-family="Arial" font-size="12" fill="#2F4A5A" font-weight="bold" text-anchor="middle">0300 1500</text>
+<text x="720.0" y="1357.0" font-family="Arial" font-size="12" fill="#2F4A5A" font-weight="bold" text-anchor="middle">0300 1500</text>
+<text x="800.0" y="1357.0" font-family="Arial" font-size="12" fill="#2F4A5A" font-weight="bold" text-anchor="middle">0900 2100</text>
+<text x="885.0" y="1357.0" font-family="Arial" font-size="14" fill="#2F4A5A" font-weight="bold" text-anchor="middle">10.0</text>
+<text x="960.0" y="1357.0" font-family="Arial" font-size="14" fill="#2F4A5A" font-weight="bold" text-anchor="middle">7.3</text>
+<text x="1035.0" y="1357.0" font-family="Arial" font-size="14" fill="#2F4A5A" font-weight="bold" text-anchor="middle">4.0</text>
+<text x="1110.0" y="1357.0" font-family="Arial" font-size="14" fill="#2F4A5A" font-weight="bold" text-anchor="middle">1.3</text>
+<text x="1172.0" y="1357.0" font-family="Arial" font-size="11" fill="#E03127" font-weight="bold" text-anchor="middle"></text>
+<text x="60.0" y="1390.0" font-family="Arial" font-size="15" fill="#1A1A1A">Carteret</text>
+<text x="318.0" y="1390.0" font-family="Arial" font-size="14" fill="#1A1A1A">49°22.7′N 01°46.8′W</text>
+<text x="560.0" y="1390.0" font-family="Arial" font-size="15" fill="#1A1A1A" text-anchor="middle">−0009</text>
+<text x="640.0" y="1390.0" font-family="Arial" font-size="15" fill="#1A1A1A" text-anchor="middle">−0009</text>
+<text x="720.0" y="1390.0" font-family="Arial" font-size="15" fill="#1A1A1A" text-anchor="middle">−0009</text>
+<text x="800.0" y="1390.0" font-family="Arial" font-size="15" fill="#1A1A1A" text-anchor="middle">−0009</text>
+<text x="885.0" y="1390.0" font-family="Arial" font-size="15" fill="#1A1A1A" text-anchor="middle">+1.2</text>
+<text x="960.0" y="1390.0" font-family="Arial" font-size="15" fill="#1A1A1A" text-anchor="middle">+0.8</text>
+<text x="1035.0" y="1390.0" font-family="Arial" font-size="15" fill="#1A1A1A" text-anchor="middle">+0.3</text>
+<text x="1110.0" y="1390.0" font-family="Arial" font-size="15" fill="#1A1A1A" text-anchor="middle">+0.1</text>
+<text x="1172.0" y="1390.0" font-family="Arial" font-size="13" fill="#6B8290" text-anchor="middle">R</text>
+<text x="60.0" y="1423.0" font-family="Arial" font-size="15" fill="#1A1A1A">Portbail</text>
+<text x="318.0" y="1423.0" font-family="Arial" font-size="14" fill="#1A1A1A">49°19.7′N 01°42.5′W</text>
+<text x="560.0" y="1423.0" font-family="Arial" font-size="15" fill="#1A1A1A" text-anchor="middle">−0008</text>
+<text x="640.0" y="1423.0" font-family="Arial" font-size="15" fill="#1A1A1A" text-anchor="middle">−0008</text>
+<text x="720.0" y="1423.0" font-family="Arial" font-size="15" fill="#1A1A1A" text-anchor="middle">−0008</text>
+<text x="800.0" y="1423.0" font-family="Arial" font-size="15" fill="#1A1A1A" text-anchor="middle">−0008</text>
+<text x="885.0" y="1423.0" font-family="Arial" font-size="15" fill="#1A1A1A" text-anchor="middle">+1.7</text>
+<text x="960.0" y="1423.0" font-family="Arial" font-size="15" fill="#1A1A1A" text-anchor="middle">+1.3</text>
+<text x="1035.0" y="1423.0" font-family="Arial" font-size="15" fill="#1A1A1A" text-anchor="middle">+0.5</text>
+<text x="1110.0" y="1423.0" font-family="Arial" font-size="15" fill="#1A1A1A" text-anchor="middle">+0.1</text>
+<text x="1172.0" y="1423.0" font-family="Arial" font-size="13" fill="#6B8290" text-anchor="middle">R</text>
+<line x1="60.0" y1="1435.0" x2="1180.0" y2="1435.0" stroke="#2F4A5A" stroke-width="0.8" opacity="0.35"/>
+<line x1="60.0" y1="1600.0" x2="1180.0" y2="1600.0" stroke="#2F4A5A" stroke-width="1.0" opacity="0.35"/>
+<text x="60.0" y="1622.0" font-family="Arial" font-size="12" fill="#6B8290">TIMES: over the HW and LW columns, each STANDARD PORT row gives the times its high and low water fall at springs and at neaps (0000 and 1200 are one column).</text>
+<text x="60.0" y="1638.0" font-family="Arial" font-size="12" fill="#6B8290">Interpolate a time difference by the time of that day's HW or LW at the standard port, between those columns. HEIGHTS: by that day's HW or LW height, between the levels in its row.</text>
+<text x="60.0" y="1654.0" font-family="Arial" font-size="12" fill="#6B8290">Beyond the levels, carry the height difference on in the same proportion: extrapolate it. The time difference stays between its columns. Round each to the minute and the tenth, add them, and between HW and LW use the standard port's curve.</text>
+<text x="60.0" y="1670.0" font-family="Arial" font-size="12" fill="#6B8290">SOURCE, the small letter on the right. M measured: analysed from a tide gauge at the port or within 3 M; checked against the water: Brighton 16 cm and 5 min, Honfleur 27 cm and 20 min.</text>
+<text x="60.0" y="1686.0" font-family="Arial" font-size="12" fill="#6B8290">R RAM: from the levels and establishment published by the Shom (RAM, Licence Ouverte 2.0); expected error 0.536 per mile to the standard port + 5.9 cm and 0.190 per mile + 10.9 min, more in estuaries.</text>
+<text x="60.0" y="1702.0" font-family="Arial" font-size="12" fill="#6B8290">F FES: from the FES2022 tide model (CNES/LEGOS/NOVELTIS/CLS, AVISO), modified: model differences, not measured; expected error 42 cm and 21 min against the ports that have a tide gauge.</text>
+<text x="60.0" y="1718.0" font-family="Arial" font-size="12" fill="#6B8290">* Saint-Valery-sur-Somme: this training almanac has no tidal data for it. Heights above chart datum. Not for navigation.</text>
+</svg>

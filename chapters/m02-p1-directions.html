@@ -260,8 +260,8 @@ a.skip:hover,a.volver:hover,#foot a:hover{color:var(--ink-title);
    <div class="hd"><div id="hTit">Three norths, one heading</div></div>
    <div id="prog"></div></div>
   <div id="pane"></div>
-  <div id="foot"><span id="fLog">0 answers logged</span><a class="volver" id="deCero" onclick="deCero()">start over</a>
-   <div class="sello" id="sello" data-sello="v2026-09-25 12:23">v2026-09-25 12:23</div></div>
+  <div id="foot"><a class="volver" id="deCero" onclick="deCero()">start over</a>
+   <div class="sello" id="sello" data-sello="v2026-10-01 13:12">v2026-10-01 13:12</div></div>
  </div>
 </div>
 <script>
@@ -742,7 +742,7 @@ const PZ=[
     "suma": true,
     "tira": true,
     "h": "And the heading you want is not always on it",
-    "p": "<b>Swing her slowly and watch the lit row jump.</b> It does not slide: it jumps, because there is nothing in between. <b>A card is discrete</b> — twelve rows for three hundred and sixty degrees, and most of the time she is between two of them.<br><br>When she is, you take <b>the nearest row</b>. On this card the rows are never more than two degrees apart, so the nearest one is inside half a degree of the truth — which is closer than you can steer."
+    "p": "<b>Swing her slowly and watch the lit row jump.</b> It does not slide: it jumps, because there is nothing in between. <b>A card is discrete</b> — twelve rows for three hundred and sixty degrees, and most of the time she is between two of them.<br><br>When she is, you take <b>the nearest row</b>. On this card the rows are never more than two degrees apart, so the nearest one is inside a degree of the truth — which is closer than you can steer."
    }
   ]
  },
@@ -1669,6 +1669,8 @@ function PASO(){const s=S();
 const g360=a=>((a%360)+360)%360;
 const leeN=n=>g360(RUMBO+n.off);
 let CENTRO={x:500,y:0}, RADIO=0, COSTURA=0, PIE=0;
+
+let SIN_RUEDA=false;
 const rad2=a=>(a-90)*Math.PI/180;
 const pt2=(a,r)=>[CENTRO.x+r*Math.cos(rad2(a)), CENTRO.y+r*Math.sin(rad2(a))];
 
@@ -1687,6 +1689,7 @@ const RMIN=80;
 let CEDE={nombres:false, pie:false, tirador:false};
 function maquetaE(){
 
+ SIN_RUEDA=false;
  const pasos=[{nombres:false,pie:false,tirador:false},
               {nombres:true, pie:false,tirador:false},
               {nombres:true, pie:true, tirador:false},
@@ -1706,7 +1709,8 @@ function maquetaE(){
   const fr=esCarta(S()) ? tabEstado(PASO()).an : escEstado().an;
   const libre=(HOJA.x1-px(30)-fr)-HOJA.x0;
   CENTRO.x=HOJA.x0+libre/2;
-  RADIO=Math.min(RADIO, libre/2-px(10));}}
+  SIN_RUEDA=(libre/2-px(10))<px(30);
+  RADIO=Math.max(px(20), Math.min(RADIO, libre/2-px(10)));}}
 
 function barcoE(a,r){
  const u=r/150, x=CENTRO.x, y=CENTRO.y;
@@ -2709,7 +2713,7 @@ function prFalla(s,html){
  if(PR2.fallos>=3)h+='<button class="show" onclick="showme()">Show me</button>';
  PRFB=h;}
 
-window.showme=()=>{
+const showmeDelBanco=()=>{
  const q=PR2.q; if(!q)return;
  const s=S(), sub=prSube();
  anota("showme",false);
@@ -2717,6 +2721,8 @@ window.showme=()=>{
  const SHOWS={variacion:showVar, rumbo:showConv, lado:showConv, eleccion:showConv};
  const cual=SHOWS[(s&&s.forma)||"variacion"]||showGenerico;
  PRFB=cual(q,s,sub); prCuenta(); dibuja();};
+
+function showmeBanco(){ showmeDelBanco(); return true; }
 
 function showGenerico(q,s,sub){
  let h='<div class="res ver"><b>Here it is.</b>'
@@ -2873,14 +2879,15 @@ const EST={};
 let DONDE=-1;
 function guardaEst(){const s=S(); if(!s)return;
  EST[s.id]={rumbo:RUMBO, paso:EJ.i, hecho:PR.hecho, fallos:PR.fallos,
-   saltada:PR.saltada, pr:(s.obra=="escribe"?PR2:null), fb:PRFB, iv:iV};}
+   saltada:PR.saltada, pr:(s.obra=="escribe"?PR2:null), fb:PRFB, iv:iV, ir:iR};}
 function ponEst(){const s=S(); if(!s)return;
  const e=EST[s.id];
  EJ.i = e ? e.paso : 0;
  PR   = e ? {hecho:e.hecho, fallos:e.fallos, saltada:e.saltada}
            : {hecho:false, fallos:0, saltada:false};
 
- if(esSigno(s)&&e&&e.iv!==undefined)iV=e.iv;
+ iV = (e&&e.iv!==undefined) ? e.iv : 0;
+ iR = (e&&e.ir!==undefined) ? e.ir : 0;
 
  RUMBO= e ? e.rumbo
           : s.rumbo!==undefined ? s.rumbo
@@ -2902,9 +2909,7 @@ window.salta=()=>{const s=S(); if(!seContesta(s))return;
 
 const LOG=[];
 function anota(v,ok){
- LOG.push({id:S().id, v:v, correct:ok, t:LOG.length});
- const d=document.getElementById("fLog");
- if(d)d.textContent=LOG.length+(LOG.length==1?" answer logged":" answers logged");}
+ LOG.push({id:S().id, v:v, correct:ok, t:LOG.length});}
 
 function compruebaP1(){
  if(PR.hecho)return;
@@ -3147,14 +3152,14 @@ function practica(){
  tresNortes();}
 
 function cuentaAno(hasta){
- const R=ROSAS_ANO[iA];
- const anos=R.hoy-R.a, mins=anos*R.tasa;
+ const RA=ROSAS_ANO[iA];
+ const anos=RA.hoy-RA.a, mins=anos*RA.tasa;
  const gr=Math.floor(mins/60), mn=mins%60;
  const cam=(gr?gr+"\u00b0":"")+(mn?(gr?" ":"")+mn+"\u2032":(gr?"":"0\u2032"));
- const F=[["", String(R.hoy),"this year",COL.escrito,false],
-          ["\u2212", String(R.a),"the rose\u2019s year",COL.suave,true],
+ const F=[["", String(RA.hoy),"this year",COL.escrito,false],
+          ["\u2212", String(RA.a),"the rose\u2019s year",COL.suave,true],
           ["", anos+"","years",COL.magenta,false],
-          ["\u00d7", R.tasa+"\u2032","a year",COL.suave,true],
+          ["\u00d7", RA.tasa+"\u2032","a year",COL.suave,true],
           ["", cam,"of change","#12202b",false]];
  let anN=0;
  for(const q of F) anN=Math.max(anN, anchoTxt(q[2].toUpperCase(),TAM.rot,1.1));
@@ -3181,9 +3186,9 @@ function cuentaAno(hasta){
   el("line",{x1:HOJA.x0,y1:y-sep-px(14),x2:HOJA.x1,y2:y-sep-px(14),stroke:COL.raya,
    "stroke-width":px(GR.filete)});
   rot(HOJA.x0+px(14),y-sep,"printed on the chart","start",COL.suave);
-  txt(HOJA.x0+px(14),y,R.txt+"  "+R.a,"start",TAM.lee,COL.suave,600);
+  txt(HOJA.x0+px(14),y,RA.txt+"  "+RA.a,"start",TAM.lee,COL.suave,600);
   rot(HOJA.x1-px(14),y-sep,"and today","end",COL.magenta);
-  txt(HOJA.x1-px(14),y,R.res,"end",TAM.cifra,COL.magenta,600);}}
+  txt(HOJA.x1-px(14),y,RA.res,"end",TAM.cifra,COL.magenta,600);}}
 const COSTURAA=()=>HOJA.y1-px(90);
 
 const ALTOCUENTA=()=>px(144);
@@ -3198,6 +3203,8 @@ function tresNortes(){
  const cap=px(anchoTxt(capL,TAM.rot,1.1))<=(HOJA.x1-HOJA.x0)/3 ? capL : capC;
  el("rect",{x:HOJA.x0,y:HOJA.y0,width:HOJA.x1-HOJA.x0,height:COSTURA-HOJA.y0,
   fill:COL.agua});
+
+ const _gO=gO; if(SIN_RUEDA)gO=document.createElementNS("http://www.w3.org/2000/svg","g");
 
  el("circle",{cx:CENTRO.x,cy:CENTRO.y,r:RADIO,fill:"none",stroke:COL.tinta,
   "stroke-width":px(1),"stroke-opacity":.3});
@@ -3277,6 +3284,8 @@ function tresNortes(){
    const m1=enClave(p1[0],p1[1]), m2=enClave(p2[0],p2[1]);
 
    if(!(m1&&m2)) rot(m1?p2[0]:p1[0],m1?p2[1]:p1[1],"drag","middle",COL.escrito);}}
+
+ gO=_gO;
 
  if(P.carta)tablillaCaja(P);
 
@@ -3938,12 +3947,10 @@ function fin(){
      : '<p class="prl">All twenty-four screens of this part are done.</p>')
 
   +`<div class="calc"><b>Next: Speed, distance and time.</b><br> An hour is a length. Open it, measure with it and walk it — then the three sums.</div>`
-  +navHTML(true,PZ.length<TOT?"Back to the rose":"Back to the last screen");
+  +navHTML(true,PZ.length<TOT?"Back to the rose":"Back to the last screen").replace('</div>','<button data-va=m02-p2-speed-distance-time.html onclick=location.assign(this.dataset.va)>Next: Speed, distance and time &#8594;</button></div>');
  document.getElementById("btV").onclick=()=>{ iP=PZ.length-1; dibuja(); };
  prog();
- document.getElementById("fLog").textContent=(PZ.length<TOT
-   ? PZ.length+" of "+TOT+" screens built"
-   : "all "+TOT+" screens built");
+
  pinta();}
 
 addEventListener("keydown",e=>{
@@ -3990,6 +3997,151 @@ function marcoChrome(){
     f.style.setProperty("--ar", D.W + " / " + D.H);
  }catch(e){}
 }
+
+var MUESTRA = null;
+window.showme = function () {
+  var s = S(), z = s.show || {};
+  if (typeof showmeBanco === "function" && showmeBanco(s, z)) return;
+  if (typeof guarda === "function") guarda("showme", null, false);
+  if (typeof VER !== "undefined") VER = s.show ? z : null;
+  MUESTRA = null;
+  var txt = z.txt || "";
+  if (typeof muestraSolucion === "function") { var t = muestraSolucion(s, z); if (t != null) txt = t; }
+  else if (!s.show) txt = muestraComun(s);
+  else muestraCampos(s);
+  hecho = true;
+  if (typeof capa === "function") capa();
+
+  var d = document.getElementById("fb");
+  if (d) d.innerHTML = '<div class="res ver"><b>Here it is.</b>' + (txt ? '<div class="porque">' + txt + '</div>' : "") + '</div>';
+  nav(true, "Try the next one");
+};
+
+function muestraCampos(s) {
+  var h = "";
+  (s.campos || []).forEach(function (c, i) {
+    if (c.val == null) return;
+    var e = document.getElementById("c" + i);
+    var v = c.hora ? String(c.val) : (typeof c.val === "number" ? (c.ang ? String(Math.round(c.val) % 360).padStart(3, "0") : String(c.val)) : String(c.val));
+    if (e) { e.value = v; e.disabled = true; }
+    h += "<br><b>" + c.etq + " " + v + (c.ud ? " " + c.ud.replace(/<[^>]*>/g, "") : "") + "</b>" + (c.por ? " &mdash; " + c.por : "");
+  });
+  return h;
+}
+
+function respuestaDe(ck, max) {
+  var bien = [];
+  for (var v = 0; v <= max; v++) { var r = null; try { r = ck(v); } catch (e) {} if (r && r.ok) bien.push(v); }
+  return bien.length ? bien[Math.floor(bien.length / 2)] : null;
+}
+function muestraComun(s) {
+  if (s.sep) {
+    MUESTRA = {p: s.sep, t: s.nombreBien || "here"};
+
+    return "The right place is the <b>green mark</b> on the chart" + (s.nombreBien ? ": " + s.nombreBien : "") + "."
+      + ((s.cuenta || []).length ? " The working is the one above." : "");
+  }
+  if (s.o) {
+    var i = -1; s.o.forEach(function (o, j) { if (o.ok) i = j; }); if (i < 0) return "";
+    var bs = typeof document.querySelectorAll === "function" ? document.querySelectorAll("#pane button.opt") : [];
+    if (bs[i]) { if (bs[i].classList) bs[i].classList.add("elegida"); else bs[i].className += " elegida"; }
+    return "<b>" + s.o[i].t + "</b>. " + (s.o[i].m || "");
+  }
+  if (s.campos && s.campos.some(function (c) { return c.val != null; })) return muestraCampos(s);
+  if (typeof s.ck === "function") {
+    var v = respuestaDe(s.ck, s.ph == "ddd" ? 359 : 999); if (v == null) return "";
+    var e = typeof document.querySelector === "function" ? document.querySelector("#pane input") : null, w = s.ph == "ddd" ? String(v).padStart(3, "0") : String(v);
+    if (e) { e.value = w; e.disabled = true; }
+    return "<b>" + w + (s.un ? " " + s.un : "") + "</b>." + (s.calc ? '<div class="calc">' + s.calc + "</div>" : "")
+      + ((s.cuenta || []).length ? "<br>" + s.cuenta.join("<br>") : "");
+  }
+  return "";
+}
+
+window.reintenta = function () {
+  var s = S();
+  if (typeof EST !== "undefined") delete EST[s.id];
+  if (typeof FALLO !== "undefined") delete FALLO[s.id];
+  if (typeof MED !== "undefined") delete MED[s.id];
+  if (typeof VER !== "undefined") VER = null;
+  MUESTRA = null;
+  if (typeof alReintentar === "function") alReintentar(s);
+  if (typeof ponEst === "function") ponEst();
+  pinta();
+};
+
+(function () {
+  if (typeof nav !== "function") return;
+  var n0 = nav;
+  nav = function () {
+    var r = n0.apply(this, arguments), s = S(), d = document.getElementById("nav");
+
+    if (d && s && /[.]P[0-9]/.test(s.id || "") && typeof hecho !== "undefined" && hecho && !s.sinAyuda
+        && String(d.innerHTML || "").indexOf("otraVez") < 0) {
+      var html = '<button class="sec otraVez" onclick="reintenta()">Try again</button>';
+      var tras = typeof d.querySelector === "function" ? d.querySelector("button.sec") : null;
+      if (tras && typeof tras.insertAdjacentHTML === "function") tras.insertAdjacentHTML("afterend", html);
+      else d.innerHTML = html + String(d.innerHTML || "");
+    }
+    return r;
+  };
+
+  if (typeof ponEst === "function") { var p0 = ponEst; ponEst = function () { MUESTRA = null; return p0.apply(this, arguments); }; }
+})();
+
+var SALTADAS = {};
+(function () {
+  var idDe = function () { try { var s = S(); return s && s.id; } catch (e) { return null; } };
+  var vacia = function (o) { if (o && typeof o === "object") for (var k in o) delete o[k]; };
+
+  if (typeof window.salta === "function") {
+    var s0 = window.salta;
+    window.salta = function () { var id = idDe(); if (id) SALTADAS[id] = true;
+      var r = s0.apply(this, arguments);
+      if (id && idDe() === id && typeof hecho !== "undefined" && hecho === true) hecho = false;
+      return r; };
+  }
+  if (typeof nav === "function") {
+    var n0 = nav;
+    nav = function (next, txt) { var id = idDe(); if (id && SALTADAS[id]) next = true;
+      return n0.call(this, next, txt); };
+  }
+  if (typeof guarda === "function") {
+    var g0 = guarda;
+    guarda = function (t, r, ok) { if (ok === true) { var id = idDe(); if (id) delete SALTADAS[id]; }
+      return g0.apply(this, arguments); };
+  }
+  if (typeof anota === "function") {
+    var a0 = anota;
+    anota = function (v, ok) { if (ok === true) { var id = idDe(); if (id) delete SALTADAS[id]; }
+      return a0.apply(this, arguments); };
+  }
+  var sinHacer = function () {
+    if (typeof hecho !== "undefined") hecho = false;
+    if (typeof PR !== "undefined" && PR) { PR.hecho = false; PR.saltada = false; }
+    if (typeof PR2 !== "undefined" && PR2) { PR2.hecho = false; }
+  };
+  if (typeof ponEst === "function") {
+    var p0 = ponEst;
+    ponEst = function () { var r = p0.apply(this, arguments); var id = idDe();
+      if (id && SALTADAS[id]) sinHacer(); return r; };
+  }
+  if (typeof deCero === "function") {
+    var d0 = deCero;
+    deCero = function () {
+      if (typeof EST !== "undefined") vacia(EST);
+      if (typeof FALLO !== "undefined") vacia(FALLO);
+      vacia(SALTADAS);
+      if (typeof LOG !== "undefined" && LOG && LOG.length) LOG.length = 0;
+      sinHacer();
+      if (typeof PR !== "undefined" && PR) PR.fallos = 0;
+      if (typeof PR2 !== "undefined" && PR2) PR2.fallos = 0;
+      if (typeof alReiniciar === "function") alReiniciar();
+      return d0.apply(this, arguments);
+    };
+  }
+})();
+
 </script>
 <!-- Cloudflare Web Analytics -->
 <script type='module' src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "624bbb73949b40f0aae4dafec49ac1f6"}'></script>

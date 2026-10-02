@@ -266,6 +266,14 @@ a.skip:hover,a.volver:hover,#foot a:hover{color:var(--ink-title);
  border-radius:0;padding:var(--sp-tight) var(--sp-block);margin:0 0 var(--sp-block);
  font:400 14px/1.7 var(--f-mono)}
 .calc b{font-family:var(--f-ui);font-weight:600;color:var(--ink-title)}
+
+@media (max-width:700px){
+ #wrap{grid-template-columns:minmax(0,1fr);grid-template-rows:auto minmax(0,1fr)}
+ #lienzo{padding:6px 8px;max-height:45vh}
+ #ficha{max-height:calc(45vh - 12px)}
+ #side{border-left:0;border-top:1px solid var(--edge-frame)}
+}
+
 </style>
 
 <h1 id="seo" style="position:absolute;width:1px;height:1px;margin:-1px;padding:0;overflow:hidden;clip:rect(0 0 0 0);clip-path:inset(50%);border:0;white-space:nowrap">Module 03 &middot; The line of position</h1>
@@ -286,7 +294,7 @@ a.skip:hover,a.volver:hover,#foot a:hover{color:var(--ink-title);
    <div class="hd"><div id="hTit">Port Aldern</div></div>
    <div id="prog"></div></div>
   <div id="pane"></div>
-  <div id="foot"><span id="fVer" style="opacity:.6">build 12:23:59</span><a class="volver" id="deCero" onclick="deCero()">start over</a>
+  <div id="foot"><span id="fVer" style="opacity:.6">build 10:40:33</span><a class="volver" id="deCero" onclick="deCero()">start over</a>
    </div>
  </div>
 </div>
@@ -502,14 +510,31 @@ function trLee(){ if(!TR.a||!TR.b)return null;
  const n=trNorte(), d0=Math.min(n,360-n), d180=Math.abs(n-180);
  return {v:((TR.off%360)+360)%360, norte:d0<=7, paralela:Math.min(d0,d180)<=7};}
 
-function trRadio(){return 150*k2();}
+function trTam(){
+ if(window.innerWidth>700)return 1;
+ const r=svg.getBoundingClientRect(), m=Math.min(r.width,r.height);
+ return Math.max(0.4,Math.min(1,0.34*m/150));}
+function trRadio(){return 150*k2()*trTam();}
+function trEncaja(){
+ if(window.innerWidth>700||!TR.a||!TR.b||typeof vb==="undefined")return;
+ const k=k2()*trTam(), L=Math.hypot(TR.b[0]-TR.a[0],TR.b[1]-TR.a[1])||1;
+ const ux=(TR.b[0]-TR.a[0])/L, uy=(TR.b[1]-TR.a[1])/L, R=trRadio(), E=Math.max(0,R*1.5-L/2), W=R*0.72;
+ const c=trCentro(), H=L/2+E+28*k, m=8*k;
+ const ex=Math.max(Math.abs(ux)*H+Math.abs(uy)*W, R), ey=Math.max(Math.abs(uy)*H+Math.abs(ux)*W, R+40*k);
+ let dx=0, dy=0;
+ if(2*(ex+m)<=vb.w){ if(c[0]-ex<vb.x+m)dx=vb.x+m-(c[0]-ex); else if(c[0]+ex>vb.x+vb.w-m)dx=vb.x+vb.w-m-(c[0]+ex); }
+ else dx=vb.x+vb.w/2-c[0];
+ if(2*(ey+m)<=vb.h){ if(c[1]-ey<vb.y+m)dy=vb.y+m-(c[1]-ey); else if(c[1]+ey>vb.y+vb.h-m)dy=vb.y+vb.h-m-(c[1]+ey); }
+ else dy=vb.y+vb.h/2-c[1];
+ if(dx||dy){TR.a=[TR.a[0]+dx,TR.a[1]+dy];TR.b=[TR.b[0]+dx,TR.b[1]+dy];}}
 
 function trCentro(){return [(TR.a[0]+TR.b[0])/2,(TR.a[1]+TR.b[1])/2];}
 
 function transp(){
  const t=S().t; if((t!="protra"&&t!="trazar")||!TR.a)return;
- const k=k2(), C="#1b3a5c";
+ const k=k2()*trTam(), C="#1b3a5c";
  if(!TR.b){el("circle",{cx:TR.a[0],cy:TR.a[1],r:7*k,fill:C},gG);return;}
+ trEncaja();
  const L=Math.hypot(TR.b[0]-TR.a[0],TR.b[1]-TR.a[1]);
  const ux=(TR.b[0]-TR.a[0])/L, uy=(TR.b[1]-TR.a[1])/L, nx=-uy, ny=ux;
  const R=trRadio(), E=Math.max(0,R*1.5-L/2), W=R*0.72;
@@ -561,7 +586,8 @@ function transp(){
 
 function trInicial(){
  const s=S(), p=s.por?[s.por[0]-D.X0,s.por[1]-D.Y0]:[D.W/2,D.H/2], L=460;
- const r=115*Math.PI/180;
+
+ const r=(s.porRumbo!=null?s.porRumbo:115)*Math.PI/180;
  const c=[p[0]+380,p[1]-620];
  TR={a:[c[0]-Math.sin(r)*L,c[1]+Math.cos(r)*L],
      b:[c[0]+Math.sin(r)*L,c[1]-Math.cos(r)*L], off:70};}
@@ -629,6 +655,12 @@ function capa(){while(gL.firstChild)gL.removeChild(gL.firstChild);
   if(b)el("line",{x1:a[0],y1:a[1],x2:b[0],y2:b[1],stroke:"#c8102e","stroke-width":3*k},gL);
   for(const q of medida)el("circle",{cx:q[0],cy:q[1],r:6*k,fill:"#c8102e"},gL);}
  verlo(); guias(); compas(); transp();
+
+ if(typeof MUESTRA!=="undefined"&&MUESTRA){const p=P(MUESTRA.p[0],MUESTRA.p[1]), kk=k2();
+  el("circle",{cx:p[0],cy:p[1],r:16*kk,fill:"none",stroke:"#0a6b52","stroke-width":4*kk},gL);
+  el("circle",{cx:p[0],cy:p[1],r:4*kk,fill:"#0a6b52"},gL);
+  el("text",{x:p[0]+22*kk,y:p[1]-14*kk,"font-size":20*kk,"font-weight":700,"font-family":"DejaVu Sans,sans-serif",
+   fill:"#0a6b52"},gL).textContent=MUESTRA.t;}
 
  if(typeof capaExtra==="function") capaExtra();}
 
@@ -788,7 +820,7 @@ function fin(){
  `<h3>Chapter complete</h3>
   <p>${frase}</p>
   <div class="calc"><b>Next: Crossing lines.</b><br> Two lines cross and that is a fix — but the angle they cut at decides what it is worth: the cocked hat, mixing kinds of line, and the size of the zone you are really in.</div>
-  <div class="nav" id="nav"><button class="sec" onclick="atras()">&#8592; Back</button></div>`;}
+  <div class="nav" id="nav"><button class="sec" onclick="atras()">&#8592; Back</button><button data-va=m03-p2-crossing-lines.html onclick=location.assign(this.dataset.va)>Next: Crossing lines &#8594;</button></div>`;}
 
 let vistaPuesta=null;
 function ponVista(v){
@@ -904,19 +936,45 @@ function falla(s,html){const n=FALLO[s.id]=(FALLO[s.id]||0)+1;
  h+=`</div>`;
  if(n>=3)h+=`<button class="show" onclick="showme()">Show me</button>`;
  const d=document.getElementById("fb"); if(d)d.innerHTML=h;}
-window.showme=()=>{const s=S(),z=s.show||{};
- guarda("showme",null,false);
- if(z.gu){if(z.gu[0]!=null)GU.h=yLat(z.gu[0]);
-          if(z.gu[1]!=null)GU.v=xLon(z.gu[1]);}
- if(z.med)MED[s.id]=z.med;
- if(z.ln)medida=[P(z.ln[0],z.ln[1]),P(z.ln[2],z.ln[3])];
- if(z.div){DIV={a:P(z.div[0],z.div[1]),b:P(z.div[2],z.div[3]),pos:null,or:null};
-  DIV.pos=[DIV.a[0],DIV.a[1]]; dvApoya(z.div[4]=="lon"?[DIV.a[0],-16]:[-16,DIV.a[1]]);}
- VER=z; capa();
- const d=document.getElementById("fb");
- if(d)d.innerHTML=`<div class="res ver"><b>Here it is.</b>${z.txt||""}</div>`
- ;
- nav(true,"Try the next one"); hecho=true;};
+
+function muestraSolucion(s,z){
+ if(s.show){
+  if(z.gu){if(z.gu[0]!=null)GU.h=yLat(z.gu[0]); if(z.gu[1]!=null)GU.v=xLon(z.gu[1]);}
+  if(z.med)MED[s.id]=z.med;
+  if(z.ln)medida=[P(z.ln[0],z.ln[1]),P(z.ln[2],z.ln[3])];
+  if(z.div){DIV={a:P(z.div[0],z.div[1]),b:P(z.div[2],z.div[3]),pos:null,or:null};
+   DIV.pos=[DIV.a[0],DIV.a[1]]; dvApoya(z.div[4]=="lon"?[DIV.a[0],-16]:[-16,DIV.a[1]]);}
+  return z.txt||"";}
+ const marca=(p,t)=>{MUESTRA={p:p,t:t};};
+ const cruza=(a,b)=>{const d=(a[0]-a[2])*(b[1]-b[3])-(a[1]-a[3])*(b[0]-b[2]); if(!d)return null;
+  const u=a[0]*a[3]-a[1]*a[2], w=b[0]*b[3]-b[1]*b[2];
+  return [(u*(b[0]-b[2])-(a[0]-a[2])*w)/d,(u*(b[1]-b[3])-(a[1]-a[3])*w)/d];};
+ if(s.sest){marca([s.sest[1],s.sest[2]],"here");
+  return "The run ends at the <b>green mark</b>: the distance, laid along the course line from where you started.";}
+ if(s.sesq){marca(s.sesq[1],"this corner");
+  return "Work from the <b>green corner</b>: the one of the triangle that puts you nearest the danger.";}
+ if(s.sdos){marca(s.sdos[1],"here");
+  return "You are at the <b>green mark</b>: the crossing the other line agrees with.";}
+ if(s.sfix&&s.lns&&s.lns.length>1){const p=cruza(s.lns[0],s.lns[1]);
+  if(p){marca(p,"the fix"); return "The fix is where the two lines cross: the <b>green mark</b>.";}}
+ if(s.scir){const r=s.scir[2]*(D.PXM||1); marca([s.scir[0]+r,s.scir[1]],"on the circle");
+  return "Anywhere on the circle "+s.scir[2]+" miles round "+(s.scir[4]||"the mark")+": the <b>green mark</b> is one such place.";}
+ if(s.lpos){const l=s.lpos, dx=l[2]-l[0], dy=l[3]-l[1], L=Math.hypot(dx,dy)||1, m=[(l[0]+l[2])/2,(l[1]+l[3])/2];
+  let n=[-dy/L,dx/L]; if((D.W/2-m[0])*n[0]+(D.H/2-m[1])*n[1]<0)n=[-n[0],-n[1]];
+  const k=3*(s.lejos||400); marca([m[0]+n[0]*k,m[1]+n[1]*k],"ruled out");
+  return "The bearing puts you <b>on its line</b>, so anywhere well off it is ruled out: the <b>green mark</b> is one such place.";}
+ if(s.cls&&typeof clase==="function"){let mejor=null, dm=Infinity; const c=[vb.x+vb.w/2,vb.y+vb.h/2];
+  for(let i=1;i<40;i++)for(let j=1;j<30;j++){const x=vb.x+vb.w*i/40, y=vb.y+vb.h*j/30;
+   if(s.cls.indexOf(clase(x,y))>=0){const e=Math.hypot(x-c[0],y-c[1]); if(e<dm){dm=e; mejor=[x+(D.X0||0),y+(D.Y0||0)];}}}
+  if(mejor){marca(mejor,"here");
+   const big=/<span class="big">([^<]*)<\/span>/.exec(s.ok||"");
+   return (big?"<b>"+big[1]+"</b>: ":"")+"the <b>green mark</b> is one place where that depth is right.";}}
+ if(s.t=="trazar"&&typeof s.ck==="function"&&s.por){let v=null;
+  for(let a=0;a<360&&v==null;a++){try{if(s.ck(a,{paralela:true,norte:true,porPunto:true,dist:0}).ok)v=a;}catch(e){}}
+  if(v!=null){const N=CARTA_NORTE||[0,-1], E=[-N[1],N[0]], r=v*Math.PI/180, u=[N[0]*Math.cos(r)+E[0]*Math.sin(r),N[1]*Math.cos(r)+E[1]*Math.sin(r)];
+   const o=s.mk&&s.mk[0]?s.mk[0]:s.por, a=P(o[0],o[1]); TR={a:a,b:[a[0]+u[0]*900,a[1]+u[1]*900],off:v};
+   return "The line runs <b>"+String(v).padStart(3,"0")+"&deg;</b> out of the spire: that figure at the index, the grid square with the meridians, and the rule through the spire.";}}
+ return muestraComun(s);}
 
 function numeros(t){
  let u=String(t||"").toLowerCase()
@@ -1286,6 +1344,151 @@ function marcoChrome(){
     f.style.setProperty("--ar", D.W + " / " + D.H);
  }catch(e){}
 }
+
+var MUESTRA = null;
+window.showme = function () {
+  var s = S(), z = s.show || {};
+  if (typeof showmeBanco === "function" && showmeBanco(s, z)) return;
+  if (typeof guarda === "function") guarda("showme", null, false);
+  if (typeof VER !== "undefined") VER = s.show ? z : null;
+  MUESTRA = null;
+  var txt = z.txt || "";
+  if (typeof muestraSolucion === "function") { var t = muestraSolucion(s, z); if (t != null) txt = t; }
+  else if (!s.show) txt = muestraComun(s);
+  else muestraCampos(s);
+  hecho = true;
+  if (typeof capa === "function") capa();
+
+  var d = document.getElementById("fb");
+  if (d) d.innerHTML = '<div class="res ver"><b>Here it is.</b>' + (txt ? '<div class="porque">' + txt + '</div>' : "") + '</div>';
+  nav(true, "Try the next one");
+};
+
+function muestraCampos(s) {
+  var h = "";
+  (s.campos || []).forEach(function (c, i) {
+    if (c.val == null) return;
+    var e = document.getElementById("c" + i);
+    var v = c.hora ? String(c.val) : (typeof c.val === "number" ? (c.ang ? String(Math.round(c.val) % 360).padStart(3, "0") : String(c.val)) : String(c.val));
+    if (e) { e.value = v; e.disabled = true; }
+    h += "<br><b>" + c.etq + " " + v + (c.ud ? " " + c.ud.replace(/<[^>]*>/g, "") : "") + "</b>" + (c.por ? " &mdash; " + c.por : "");
+  });
+  return h;
+}
+
+function respuestaDe(ck, max) {
+  var bien = [];
+  for (var v = 0; v <= max; v++) { var r = null; try { r = ck(v); } catch (e) {} if (r && r.ok) bien.push(v); }
+  return bien.length ? bien[Math.floor(bien.length / 2)] : null;
+}
+function muestraComun(s) {
+  if (s.sep) {
+    MUESTRA = {p: s.sep, t: s.nombreBien || "here"};
+
+    return "The right place is the <b>green mark</b> on the chart" + (s.nombreBien ? ": " + s.nombreBien : "") + "."
+      + ((s.cuenta || []).length ? " The working is the one above." : "");
+  }
+  if (s.o) {
+    var i = -1; s.o.forEach(function (o, j) { if (o.ok) i = j; }); if (i < 0) return "";
+    var bs = typeof document.querySelectorAll === "function" ? document.querySelectorAll("#pane button.opt") : [];
+    if (bs[i]) { if (bs[i].classList) bs[i].classList.add("elegida"); else bs[i].className += " elegida"; }
+    return "<b>" + s.o[i].t + "</b>. " + (s.o[i].m || "");
+  }
+  if (s.campos && s.campos.some(function (c) { return c.val != null; })) return muestraCampos(s);
+  if (typeof s.ck === "function") {
+    var v = respuestaDe(s.ck, s.ph == "ddd" ? 359 : 999); if (v == null) return "";
+    var e = typeof document.querySelector === "function" ? document.querySelector("#pane input") : null, w = s.ph == "ddd" ? String(v).padStart(3, "0") : String(v);
+    if (e) { e.value = w; e.disabled = true; }
+    return "<b>" + w + (s.un ? " " + s.un : "") + "</b>." + (s.calc ? '<div class="calc">' + s.calc + "</div>" : "")
+      + ((s.cuenta || []).length ? "<br>" + s.cuenta.join("<br>") : "");
+  }
+  return "";
+}
+
+window.reintenta = function () {
+  var s = S();
+  if (typeof EST !== "undefined") delete EST[s.id];
+  if (typeof FALLO !== "undefined") delete FALLO[s.id];
+  if (typeof MED !== "undefined") delete MED[s.id];
+  if (typeof VER !== "undefined") VER = null;
+  MUESTRA = null;
+  if (typeof alReintentar === "function") alReintentar(s);
+  if (typeof ponEst === "function") ponEst();
+  pinta();
+};
+
+(function () {
+  if (typeof nav !== "function") return;
+  var n0 = nav;
+  nav = function () {
+    var r = n0.apply(this, arguments), s = S(), d = document.getElementById("nav");
+
+    if (d && s && /[.]P[0-9]/.test(s.id || "") && typeof hecho !== "undefined" && hecho && !s.sinAyuda
+        && String(d.innerHTML || "").indexOf("otraVez") < 0) {
+      var html = '<button class="sec otraVez" onclick="reintenta()">Try again</button>';
+      var tras = typeof d.querySelector === "function" ? d.querySelector("button.sec") : null;
+      if (tras && typeof tras.insertAdjacentHTML === "function") tras.insertAdjacentHTML("afterend", html);
+      else d.innerHTML = html + String(d.innerHTML || "");
+    }
+    return r;
+  };
+
+  if (typeof ponEst === "function") { var p0 = ponEst; ponEst = function () { MUESTRA = null; return p0.apply(this, arguments); }; }
+})();
+
+var SALTADAS = {};
+(function () {
+  var idDe = function () { try { var s = S(); return s && s.id; } catch (e) { return null; } };
+  var vacia = function (o) { if (o && typeof o === "object") for (var k in o) delete o[k]; };
+
+  if (typeof window.salta === "function") {
+    var s0 = window.salta;
+    window.salta = function () { var id = idDe(); if (id) SALTADAS[id] = true;
+      var r = s0.apply(this, arguments);
+      if (id && idDe() === id && typeof hecho !== "undefined" && hecho === true) hecho = false;
+      return r; };
+  }
+  if (typeof nav === "function") {
+    var n0 = nav;
+    nav = function (next, txt) { var id = idDe(); if (id && SALTADAS[id]) next = true;
+      return n0.call(this, next, txt); };
+  }
+  if (typeof guarda === "function") {
+    var g0 = guarda;
+    guarda = function (t, r, ok) { if (ok === true) { var id = idDe(); if (id) delete SALTADAS[id]; }
+      return g0.apply(this, arguments); };
+  }
+  if (typeof anota === "function") {
+    var a0 = anota;
+    anota = function (v, ok) { if (ok === true) { var id = idDe(); if (id) delete SALTADAS[id]; }
+      return a0.apply(this, arguments); };
+  }
+  var sinHacer = function () {
+    if (typeof hecho !== "undefined") hecho = false;
+    if (typeof PR !== "undefined" && PR) { PR.hecho = false; PR.saltada = false; }
+    if (typeof PR2 !== "undefined" && PR2) { PR2.hecho = false; }
+  };
+  if (typeof ponEst === "function") {
+    var p0 = ponEst;
+    ponEst = function () { var r = p0.apply(this, arguments); var id = idDe();
+      if (id && SALTADAS[id]) sinHacer(); return r; };
+  }
+  if (typeof deCero === "function") {
+    var d0 = deCero;
+    deCero = function () {
+      if (typeof EST !== "undefined") vacia(EST);
+      if (typeof FALLO !== "undefined") vacia(FALLO);
+      vacia(SALTADAS);
+      if (typeof LOG !== "undefined" && LOG && LOG.length) LOG.length = 0;
+      sinHacer();
+      if (typeof PR !== "undefined" && PR) PR.fallos = 0;
+      if (typeof PR2 !== "undefined" && PR2) PR2.fallos = 0;
+      if (typeof alReiniciar === "function") alReiniciar();
+      return d0.apply(this, arguments);
+    };
+  }
+})();
+
 </script>
 
 

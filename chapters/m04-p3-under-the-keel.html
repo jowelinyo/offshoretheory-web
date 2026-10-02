@@ -1,0 +1,2006 @@
+﻿<meta charset="utf-8"><title>Module 04 · Under the keel</title>
+
+<meta name="viewport" content="width=device-width,initial-scale=1">
+
+<link rel="stylesheet" media="print" onload="this.media='all';this.onload=null"
+  href="https://fonts.googleapis.com/css2?family=Spectral:ital,wght@0,500;0,600;1,500&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
+<link rel="canonical" href="https://offshoretheory.com/chapters/m04-p3-under-the-keel.html">
+<link rel="icon" type="image/svg+xml" href="../assets/img/favicon.svg">
+<meta property="og:image" content="https://offshoretheory.com/assets/img/foto-2.jpg">
+<meta property="og:image:alt" content="A sextant and dividers resting on a paper chart">
+<meta name="twitter:card" content="summary_large_image">
+<style>
+:root{
+
+  --sea-deep:#0A1E27;
+  --sea:#102B36;
+  --sea-line:#1E4453;
+  --paper:#E3EAEE; --paper-ink:#EFE6D2;
+  --paper-2:#D2DDE3;
+  --paper-line:#A6B3BA;
+  --ink:#15252D;
+  --ink-soft:#5C7079;
+  --dim:#829AA3;
+
+  --magenta:#6B2461;
+  --magenta-soft:#B07FA6;
+  --water:#8FC3DA;
+  --water-deep:#4C8AA8;
+  --drying:#6F9A62;
+  --ochre:#C9932F;
+  --alarm:#B33A22;
+  --ok:#3F7A56;
+
+  --f-display:"Spectral",ui-serif,Georgia,"Iowan Old Style","Palatino Linotype","Times New Roman",serif;
+  --f-ui:"IBM Plex Sans",system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
+  --f-mono:"IBM Plex Mono",ui-monospace,"SF Mono","Cascadia Mono","Segoe UI Mono",Menlo,Consolas,monospace;
+}
+*{box-sizing:border-box}
+html,body{margin:0;height:100%;overflow:hidden;
+ background:var(--sea-deep);color:var(--paper-ink);
+ font:15px/1.5 var(--f-ui);-webkit-font-smoothing:antialiased}
+#wrap{display:flex;height:100%}
+#obj{flex:1;position:relative}
+
+#obj svg .agua{cursor:grab}
+body.arrastrando #obj svg .agua{cursor:grabbing}
+
+.lect{display:grid;grid-template-columns:1fr auto;gap:5px 14px;margin:14px 0 4px;
+ padding:11px 13px;background:var(--paper2);border:1px solid var(--paper-line);
+ border-radius:3px}
+.lect dt{font:600 11px/1.3 var(--f-ui);letter-spacing:.09em;text-transform:uppercase;
+ color:var(--ink-soft);align-self:center}
+.lect dd{margin:0;font:600 14px var(--f-mono);color:var(--ink);text-align:right}
+.lect dd.mal{color:var(--alarm)}
+#svg{position:absolute;inset:0;width:100%;height:100%;touch-action:none}
+#obj,#svg,#svg *{-webkit-user-select:none;-moz-user-select:none;user-select:none;
+ -webkit-user-drag:none;-webkit-tap-highlight-color:transparent}
+#side{width:392px;background:linear-gradient(180deg,#0D2431,#0A1E27);
+ border-left:1px solid var(--sea-line);display:flex;flex-direction:column}
+#head{padding:12px 16px 11px;border-bottom:1px solid var(--sea-line);
+ background:linear-gradient(180deg,#0D2431,#0A1E27)}
+#head b{font-family:var(--f-mono);font-size:11px;letter-spacing:.18em;
+ color:var(--magenta-soft);font-weight:500}
+#hTit{font-size:12px;color:var(--dim);margin-top:3px}
+.hd{display:flex;justify-content:space-between;align-items:baseline;gap:14px}
+a.skip{font:12px var(--f-ui);color:var(--dim);text-decoration:underline;
+ cursor:pointer;white-space:nowrap;flex:none}
+a.skip:hover{color:var(--paper-ink)}
+#prog{display:flex;gap:4px;margin-top:9px}
+#prog i{flex:1;height:4px;background:#ffffff1f;border-radius:2px;cursor:pointer}
+#prog i.on{background:var(--magenta-soft);box-shadow:0 0 0 2px #6B246155}
+#prog i.done{background:var(--ok)}
+#pane{flex:1;overflow:auto;padding:18px 16px}
+#foot{border-top:1px solid var(--sea-line);padding:9px 16px;
+ font-family:var(--f-mono);font-size:10px;letter-spacing:.12em;color:#5E767F}
+
+h2{margin:0 0 10px;font-family:var(--f-display);font-size:23px;font-weight:600;
+ line-height:1.25;color:var(--paper-ink)}
+h3{margin:0 0 9px;font-family:var(--f-mono);font-size:10px;text-transform:uppercase;
+ letter-spacing:.18em;color:var(--magenta-soft);font-weight:500}
+p{margin:0 0 12px;max-width:60ch;color:#D8E2E6}
+p b{color:var(--paper-ink);font-weight:600}
+p em{color:var(--dim)}
+b.q{font-family:var(--f-display);font-size:18px;font-weight:600;color:var(--paper-ink);
+ display:block;margin-bottom:4px;line-height:1.4}
+button{font:600 13px var(--f-ui);padding:9px 15px;border:1px solid transparent;
+ border-radius:3px;cursor:pointer;background:var(--magenta);color:#fff;
+ margin:4px 5px 0 0}
+button:hover{filter:brightness(1.14)}
+button:disabled{opacity:.35;cursor:default;filter:none}
+button.sec{background:transparent;color:#C7D4D9;border-color:var(--sea-line)}
+button.sec:hover{background:#ffffff0f;filter:none}
+button.show{background:var(--ok)}
+:focus-visible{outline:2px solid var(--magenta-soft);outline-offset:2px}
+
+.calc{background:var(--paper);color:var(--ink);border:1px solid var(--paper-line);
+ border-radius:2px;padding:11px 13px;margin:10px 0;
+ font:13px/1.75 var(--f-mono)}
+.calc b{font-family:var(--f-ui);font-weight:600}
+.big{font-family:var(--f-mono);font-size:26px;font-weight:600;letter-spacing:-.02em}
+.res{border:1px solid var(--sea-line);border-radius:3px;padding:11px 13px;margin:10px 0;
+ background:#ffffff0a}
+.res.no{background:#B33A2216;border-color:#B33A2255}
+.res.si{background:#3F7A5616;border-color:#3F7A5655}
+.res.ver{background:#3F7A5610;border-color:#3F7A5644}
+.res.ver>b{display:block;font-family:var(--f-display);font-size:16px;
+ margin-bottom:7px;color:#8FCFA8}
+.pista{margin-top:10px;padding-top:10px;border-top:1px dashed #B33A2255;
+ color:#E3A392}
+.nav{display:flex;gap:8px;align-items:center;margin-top:16px;padding-top:12px;
+ border-top:1px solid var(--sea-line)}
+.crow{display:flex;flex-wrap:wrap;align-items:center;gap:8px;margin:10px 0}
+.ops{margin:14px 0 4px}
+
+.ops button{flex:1 1 auto;min-width:0;margin:0;white-space:normal;line-height:1.3;
+ background:var(--paper);color:var(--ink);border-color:var(--paper-line);
+ text-align:left;font-weight:500;padding:10px 12px}
+.ops button:hover{background:#F2F6F8;filter:none;border-color:var(--magenta)}
+.ops button b{font-family:var(--f-mono);font-weight:600}
+.prl{font-family:var(--f-mono);font-size:11px;letter-spacing:.1em;color:var(--dim)}
+.sello{font-family:var(--f-mono);font-size:10px;letter-spacing:.1em;color:#5E767F;
+ margin-top:4px}
+.sello b{color:var(--dim);font-weight:500}
+
+input::placeholder{color:var(--dim);font-style:italic;font-weight:400}
+
+a.volver{font:12px var(--f-ui);color:var(--dim);text-decoration:none;cursor:pointer;
+ white-space:nowrap;flex:none;letter-spacing:.06em}
+a.volver:hover{color:var(--paper-ink);text-decoration:underline}
+
+.hd{justify-content:flex-start}
+.hd>:last-child{margin-left:auto}
+
+#foot{display:flex;justify-content:space-between;align-items:baseline;gap:14px}
+
+:root{
+ --page:#E8EBED; --panel:#F6F7F7; --card:#FCFCFB; --inset:#F4F6F7; --bar:#1C2B36;
+ --edge-frame:#B7C0C6; --edge-card:#BCC4C9; --edge-inner:#E4E8EA;
+ --edge-panel:#CFD7DC; --edge-leader:#C1C9CE; --edge-button:#A9B4BB;
+ --rule-heavy:#1C2B36;
+ --ink-title:#0F171D; --ink-strong:#141C22; --ink-lead:#20292F; --ink-body:#333D45;
+ --ink-secondary:#4A5A66; --ink-label:#5B6B77; --ink-quiet:#5E6B74;
+ --accent-text:#9A5C10; --accent-graphic:#C97B1B; --accent-on-bar:#E2B15C;
+ --accent-control:var(--accent-graphic);
+ --link:#2F6C8F; --progress-pending:#CDD5DA;
+ --on-bar:#DCE4E9; --on-bar-dim:#B8C7D0; --on-bar-strong:#F6F9FA; --on-primary:#F2F6F8;
+ --sp-hair:4px; --sp-inline:8px; --sp-tight:12px; --sp-card:14px; --sp-block:16px;
+ --sp-col-y:20px; --sp-col-x:22px; --sp-panel-y:18px; --sp-panel-c:22px;
+ --sp-panel-x:30px; --sp-bar-x:24px; --sp-close:40px;
+ --ink-glosa:#4A5C65; --alarm-noche:#D9744E; --dim-banda:#93A9B1;
+ --f-display:"Newsreader",ui-serif,Georgia,"Palatino Linotype","Times New Roman",serif;
+ --f-ui:"IBM Plex Sans",system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;
+ --f-mono:"IBM Plex Mono",ui-monospace,"SF Mono","Segoe UI Mono",Menlo,Consolas,monospace;
+}
+
+html,body{background:var(--page);color:var(--ink-body);
+ font:15px/1.55 var(--f-ui);overflow:hidden}
+body{display:flex;flex-direction:column}
+
+#barra{flex:none;height:54px;display:flex;align-items:center;gap:var(--sp-inline);
+ padding:0 var(--sp-bar-x);background:var(--bar);
+ box-shadow:inset 0 1px 0 rgba(255,255,255,.08)}
+#barra a{text-decoration:none;cursor:pointer;
+ display:inline-flex;align-items:center;min-height:44px}
+#barra .barlink{font:600 15px/1.45 var(--f-ui);color:var(--on-bar);
+ white-space:nowrap;flex:none}
+#barra .barlink:hover{color:var(--on-bar-strong);text-decoration:underline}
+#barra .sep{flex:none;width:1px;height:22px;background:#3A4E5C;margin:0 var(--sp-inline)}
+#miga{font:400 17px/1.2 var(--f-display);color:var(--on-bar-dim);
+ white-space:nowrap;overflow:hidden;text-overflow:ellipsis;min-width:0}
+#miga b{color:var(--on-bar-strong);font-weight:500}
+#barra .crece{flex:1;min-width:var(--sp-inline)}
+#barCont{flex:none;font:400 12px/1.4 var(--f-mono);letter-spacing:.12em;
+ color:var(--accent-on-bar);font-variant-numeric:tabular-nums}
+
+#wrap{flex:1;min-height:0;display:grid;
+ grid-template-columns:minmax(0,1fr) clamp(320px,37%,560px)}
+
+#lienzo{min-width:0;min-height:0;display:grid;place-items:center;
+ padding:var(--sp-col-y) var(--sp-col-x)}
+
+#ficha{--ar:1000/640;aspect-ratio:var(--ar);width:100%;
+ max-width:100%;max-height:100%;min-height:0;position:relative;
+ background:var(--card);border:1px solid var(--edge-card);border-radius:0;
+ box-shadow:0 2px 3px rgba(28,43,54,.07);overflow:hidden}
+#obj{position:absolute;inset:0}
+
+#side{min-height:0;display:flex;flex-direction:column;background:var(--panel);
+ border-left:1px solid var(--edge-frame);width:auto}
+#head{flex:none;padding:var(--sp-panel-y) var(--sp-panel-x);
+ border-bottom:1px solid var(--edge-panel);background:none}
+#head b{font:400 12px/1.4 var(--f-mono);letter-spacing:.12em;text-transform:uppercase;
+ color:var(--ink-label)}
+.hd{display:flex;align-items:baseline;gap:var(--sp-tight)}
+.hd>:last-child{margin-left:auto}
+#hTit{font:400 12px/1.4 var(--f-mono);letter-spacing:.12em;text-transform:uppercase;
+ color:var(--ink-label);margin-top:0;white-space:nowrap;overflow:hidden;
+ text-overflow:ellipsis}
+#prog{display:flex;gap:3px;margin-top:var(--sp-tight)}
+#prog i{flex:1;height:5px;background:var(--progress-pending);border-radius:0;
+ cursor:pointer;box-shadow:none}
+#prog i.done{background:var(--link)}
+#prog i.on{background:var(--accent-graphic);box-shadow:none}
+#pane{flex:1;min-height:0;overflow-y:auto;
+ padding:var(--sp-panel-c) var(--sp-panel-x)}
+#foot{flex:none;border-top:1px solid var(--edge-panel);
+ padding:var(--sp-tight) var(--sp-panel-x);
+ font:400 12px/1.4 var(--f-mono);letter-spacing:.12em;color:var(--ink-quiet);
+ display:flex;align-items:center;gap:var(--sp-tight);flex-wrap:wrap}
+#foot .volver{margin-left:auto}
+.sello{font:400 12px/1.4 var(--f-mono);letter-spacing:.1em;color:var(--ink-quiet);
+ margin-top:var(--sp-hair);width:100%}
+.sello b{color:var(--ink-label);font-weight:500}
+
+h2{margin:0 0 var(--sp-block);font:500 31px/1.18 var(--f-display);
+ color:var(--ink-title)}
+h3{margin:0 0 var(--sp-tight);font:400 12px/1.4 var(--f-mono);letter-spacing:.12em;
+ text-transform:uppercase;color:var(--ink-label)}
+p{margin:0 0 var(--sp-block);max-width:62ch;color:var(--ink-body)}
+p b{color:var(--ink-title);font-weight:600}
+p em{font-style:normal;color:var(--ink-secondary)}
+b.q{display:block;margin:0 0 var(--sp-block);font:400 17px/1.6 var(--f-ui);
+ color:var(--ink-lead);font-weight:400}
+.prl{font:400 12px/1.4 var(--f-mono);letter-spacing:.12em;color:var(--accent-text);
+ margin-left:auto;white-space:nowrap;font-variant-numeric:tabular-nums}
+
+button{font:600 15px/1.45 var(--f-ui);padding:11px 26px;border:1px solid transparent;
+ border-radius:2px;cursor:pointer;background:var(--bar);color:var(--on-primary);
+ min-height:44px;margin:0}
+button:hover:not(:disabled){background:#26394A;filter:none}
+button:disabled{opacity:.45;cursor:default;filter:none}
+button.sec{background:var(--card);color:var(--ink-lead);border-color:var(--edge-button);
+ padding:10px 18px}
+button.sec:hover:not(:disabled){background:var(--inset);filter:none}
+button.show{background:transparent;color:var(--accent-text);
+ border-color:var(--edge-button);padding:10px 18px}
+a.skip,a.volver,#foot a{font:400 15px/1.45 var(--f-ui);color:var(--ink-secondary);
+ cursor:pointer;text-decoration:none;white-space:nowrap;
+ display:inline-flex;align-items:center;min-height:44px;padding:0 var(--sp-tight)}
+a.skip:hover,a.volver:hover,#foot a:hover{color:var(--ink-title);
+ text-decoration:underline}
+.nav{display:flex;gap:var(--sp-inline);align-items:center;flex-wrap:wrap;
+ margin-top:var(--sp-block);padding-top:var(--sp-tight);
+ border-top:1px solid var(--edge-panel)}
+:focus-visible{outline:2px solid var(--accent-graphic);outline-offset:2px}
+
+.ops{display:flex;flex-direction:column;gap:var(--sp-inline);
+ margin:0 0 var(--sp-block)}
+.ops button{display:block;position:relative;width:100%;min-height:52px;
+ padding:15px var(--sp-block);text-align:left;background:var(--card);
+ color:var(--ink-lead);border:1px solid var(--edge-card);
+ font:400 17px/1.45 var(--f-ui);white-space:normal}
+.ops button b{font-weight:600;color:var(--ink-title);font-family:var(--f-ui)}
+.ops button:hover:not(:disabled){background:var(--inset);
+ border-color:var(--edge-button);filter:none}
+.ops button:disabled{opacity:1;cursor:default;color:var(--ink-secondary)}
+.res{margin:0 0 var(--sp-block);padding:var(--sp-tight) var(--sp-block);
+ background:var(--inset);border:1px solid var(--edge-inner);
+ border-left:3px solid var(--edge-panel);color:var(--ink-body);font-size:16px}
+.res b{color:var(--ink-title);font-weight:600}
+.res.si{background:var(--inset);border-color:var(--edge-inner);
+ border-left-color:var(--link)}
+.res.no{background:var(--inset);border-color:var(--edge-inner);
+ border-left-color:var(--accent-graphic)}
+.res.ver{background:var(--inset);border-color:var(--edge-inner);
+ border-left-color:var(--accent-graphic)}
+.res.ver>b{font:500 19px/1.3 var(--f-display);color:var(--ink-title);
+ display:block;margin-bottom:var(--sp-inline)}
+.pista{margin:var(--sp-tight) 0 0;padding:0;border:0;
+ font:italic 400 17px/1.5 var(--f-display);color:var(--ink-secondary)}
+.calc{background:var(--card);color:var(--ink-body);border:1px solid var(--edge-card);
+ border-radius:0;padding:var(--sp-tight) var(--sp-block);margin:0 0 var(--sp-block);
+ font:400 14px/1.7 var(--f-mono)}
+.calc b{font-family:var(--f-ui);font-weight:600;color:var(--ink-title)}
+
+@media (max-width: 924px){
+  html,body{height:auto;overflow:auto}
+  body{display:block}
+  #wrap{height:auto;grid-template-columns:minmax(0,1fr);grid-template-rows:auto auto}
+  #lienzo{padding:10px 12px}
+  #ficha{max-height:none}
+  #side{min-height:auto;border-left:0;border-top:1px solid var(--edge-frame)}
+  #pane{overflow:visible}
+}
+</style>
+
+<div id="barra">
+ <a class="barlink" href="../index.html">&#8592; The course</a>
+ <i class="sep"></i>
+ <div id="miga">Module 04 <span>&middot;</span> <b>Under the keel</b></div>
+ <span class="crece"></span>
+ <a class="barlink" href="../index.html">Contents</a>
+ <span id="barCont"></span>
+</div>
+<div id="wrap">
+ 
+ <div id="lienzo"><div id="ficha"><div id="obj"><svg id="svg"></svg></div></div></div>
+ <div id="side">
+  <div id="head">
+   <div class="hd"><div id="hTit">The line everything is measured from</div></div>
+   <div id="prog"></div></div>
+  <div id="pane"></div>
+  <div id="foot"><a class="volver" id="deCero" onclick="deCero()">start over</a>
+   <div class="sello" id="sello" data-sello="fca076b0">module 04 · part 3 · <b>15 of 15 screens</b> · 02 Oct 2026</div></div>
+ </div>
+</div>
+<script>
+
+"use strict";
+const VISTO_CLAVE = "rya.visto";
+
+const VISTO_V = 2;
+
+function vistoAlmacen(){
+ try{ return (typeof localStorage !== "undefined" && localStorage) ? localStorage : null; }
+ catch(e){ return null; }
+}
+
+function vistoLee(){
+ const A = vistoAlmacen();
+ if(!A) return {v:VISTO_V, empezadas:{}, terminadas:{}, sinAlmacen:true};
+ try{
+  const o = JSON.parse(A.getItem(VISTO_CLAVE) || "null");
+  if(o && o.v === VISTO_V && o.empezadas && o.terminadas) return o;
+ }catch(e){}
+ return {v:VISTO_V, empezadas:{}, terminadas:{}};
+}
+
+function _vistoGuarda(o){
+ const A = vistoAlmacen();
+ if(!A) return o;
+ try{
+  A.setItem(VISTO_CLAVE, JSON.stringify(
+   {v:VISTO_V, empezadas:o.empezadas, terminadas:o.terminadas, pos:o.pos || {}}));
+ }catch(e){}
+ return o;
+}
+
+function _vistoPon(cual, fichero){
+ const o = vistoLee();
+ if(o.sinAlmacen || o[cual][fichero]) return o;
+ o[cual][fichero] = 1;
+ return _vistoGuarda(o);
+}
+
+const vistoEmpieza  = f => _vistoPon("empezadas", f);
+const vistoTermina  = f => _vistoPon("terminadas", f);
+const vistoEmpezada = f => !!vistoLee().empezadas[f];
+const vistoTerminada= f => !!vistoLee().terminadas[f];
+const vistoHayAlmacen = () => !!vistoAlmacen();
+
+function vistoPon(fichero, n){
+ const o = vistoLee();
+ if(o.sinAlmacen) return o;
+ if(!o.pos) o.pos = {};
+ if(o.pos[fichero] === n) return o;
+ o.pos[fichero] = n;
+ return _vistoGuarda(o);
+}
+
+function vistoPos(fichero, tope){
+ const p = vistoLee().pos;
+ const n = p && p[fichero];
+ if(typeof n !== "number" || !isFinite(n) || n < 0) return 0;
+ return (typeof tope === "number" && tope >= 0) ? Math.min(n, tope) : n;
+}
+
+function vistoOlvida(fichero){
+ const o = vistoLee();
+ if(o.sinAlmacen || !o.pos || !(fichero in o.pos)) return o;
+ delete o.pos[fichero];
+ return _vistoGuarda(o);
+}
+
+let RND = 1;
+
+window.azarSemilla = n => {
+ RND = (n >>> 0) || 1;
+ for(let k = 0; k < 8; k++) azar();
+};
+function azar(){
+ RND ^= RND << 13; RND >>>= 0;
+ RND ^= RND >>> 17;
+ RND ^= RND << 5;  RND >>>= 0;
+ return RND / 4294967296;
+}
+function baraja(a){
+ const b = a.slice();
+ for(let i = b.length - 1; i > 0; i--){
+  const j = Math.floor(azar() * (i + 1));
+  const t = b[i]; b[i] = b[j]; b[j] = t;
+ }
+ return b;
+}
+azarSemilla(Date.now());
+
+function bolsaNueva(){ return {i:[], ultima:null}; }
+function saca(bolsa, banco){
+
+ if(bolsa.n!==banco.length){ bolsa.i=[]; bolsa.n=banco.length; }
+ if(!bolsa.i.length){
+  bolsa.i = baraja(banco.map((x, k) => k));
+  if(bolsa.i.length > 1 && banco[bolsa.i[bolsa.i.length - 1]].id === bolsa.ultima){
+   const t = bolsa.i[bolsa.i.length - 1];
+   bolsa.i[bolsa.i.length - 1] = bolsa.i[0]; bolsa.i[0] = t;
+  }
+ }
+ const x = banco[bolsa.i.pop()];
+ bolsa.ultima = x.id;
+ return x;
+}
+
+const PZ=[{"id": "1.S1", "t": "Under the keel · topic 1", "h": "How much water is under her, and is it enough", "obra": "enmarca", "p": ["Everything in the last two blocks was about <b>reading</b>: what the figures on the chart mean, and how much water the tide puts over them. This block is about the only question a navigator actually asks. <b>Can she go?</b>", "Here she is — <i>Kittiwake</i>, the boat this course sails — over <b>Aldern Sound</b>, on a day when the height of tide is <b>2.7 m</b>. The chart gives this spot a sounding of <b>0.5 m</b>, so there is <b>3.2 m</b> of water under her: you already know how to get that.", "But she is not floating on the surface. She <b>draws 1.8 m</b> — that much of her is under the water before you count anything at all. The gap the dashed line marks is what is left <b>under her keel</b>, and it is the only distance in this picture that decides anything.", "And there is one more thing in it that the chart does not print, the almanac does not tabulate and nobody hands you: <b>how much of that gap you want to keep</b>. That figure is called the <b>safety margin</b>.", "Every other figure in this block is <b>measured from something</b> — the sounding down from the datum, the height of tide up from it, the charted clearance of a bridge down from HAT. <b>This one is not measured from anywhere.</b> You decide it, and then the sum has to make room for it.", "<em>Two of the four figures in this block are given to you. One you decide. And the fourth — the answer — is what falls out of the other three.</em>"]}, {"id": "1.E1", "t": "Under the keel · topic 1", "h": "Four figures, and only one of them is yours", "obra": "ejemplo", "pasos": ["<b>0.5 m</b> on the chart, and <b>2.7 m</b> of tide over it. That is <b>3.2 m</b> of water from the surface to the seabed — the <b>depth of water</b>, which is the whole of block one in one line. Nothing here is new yet.", "Now put the boat in it. <i>Kittiwake</i> <b>draws 1.8 m</b>: that is how far her keel hangs below the surface, and it does not change with the tide, the port or the day. Take it off and <b>1.4 m</b> is left between her keel and the ground.", "<b>And now the new one.</b> You have <b>1.4 m</b> under her — and you do not want to use all of it. Swell lifts and drops her, the chart is a survey and not a promise, and the barometer can hold the water down. So you decide to keep <b>0.5 m</b> in hand. That is your <b>safety margin</b>, drawn here in ochre because <em>it is the one figure on this picture that you put there</em>.", "What is left after that is the answer: <b>0.9 m</b>. It is not how much water there is, and it is not how much is under her keel — it is how much is left <b>after</b> you have kept back what you decided to keep. And it is the figure you would say out loud: <em>“we have 0.9 m to spare.”</em>", "<b>The safety margin is never the answer.</b> A question whose answer is a judgement is not a question, and no examiner will ask you how much you should leave — there is no number that is right. What is marked is <b>the sum with your figure in it</b>. Leave 0.3 m or leave 1.2 m, but know what is left when you have."], "cierre": "Now try moving the one figure that is yours."}, {"id": "1.J1", "t": "Under the keel · topic 1", "h": "What your safety margin costs you", "obra": "juego", "p": ["A different place, and the one that matters: <b>the bar</b>, the shallowest way in. The chart gives it <b>0.5 m</b> and <i>Kittiwake</i> draws <b>1.8 m</b> — she cannot even float across it without the tide, never mind clear it.", "The bar along the bottom is the <b>window</b>: the hours of this day when there is enough water to go. The only thing you can move is the one figure that is yours — and every tenth of a metre you keep in hand has to come out of the tide.", "<b>And it is not a flat price.</b> The first tenth costs you about <b>thirteen minutes</b> of window. Through the middle it settles to about <b>seven</b>. And once the window is down to three hours it is back over <b>ten</b> and climbing.", "That shape is the rule of twelfths again, seen from the other side. A tenth is dear when the edge of your window sits <b>near a turn</b> — low water at the start, high water at the end — because there the tide is barely moving and it takes a long time to find another tenth. It is cheap at <b>half tide</b>, where the water is running hardest. <em>The same decision costs you three times as much at one end of the day as it does in the middle.</em>", "<em>Nothing here is scored, and there is no right answer to find.</em> The point is to know what you are buying. Push it far enough and there is no window left at all — but notice how far that is. With this much tide, what your safety margin really costs you is <b>hours</b>, not the passage."]}, {"id": "1.P1", "t": "Under the keel · topic 1", "h": "How much is left under her", "obra": "practica", "forma": "metros", "banco": "paso", "q": "At <b>__SITIO__</b> the chart shows a sounding of <b>__SONDA__ m</b>, and the height of tide is <b>__MAREA__ m</b>. <i>Kittiwake</i> draws <b>__CALADO__ m</b>, and you have decided to keep <b>__RESGUARDO__ m</b> under her keel. <b>How much is left?</b>", "pista": "Add what is there, then take off what uses it. Sounding <b>+</b> tide <b>−</b> draught <b>−</b> safety margin. And if it comes out <b>negative</b>, say so — that is an answer too.", "cierre": "That is the sum this whole block is built on. Next: what your echo sounder reads, which is <em>none</em> of the four figures you just used."}, {"id": "2.S1", "t": "The echo sounder · topic 2", "h": "The same water, three different numbers", "obra": "enmarca2", "p": ["Everything so far came off paper: a sounding printed on a chart, a height of tide out of an almanac. Both are <b>predictions</b>. The echo sounder is the only thing aboard that tells you about the water you are actually in, right now.", "It is also the only instrument aboard that will cheerfully tell you <b>three different things about the same piece of water</b> — and all three of them are right. Here they are: <b>4.5</b>, <b>3.8</b> and <b>2.7</b> metres, over the same seabed, at the same moment.", "The reason is the <b>transducer</b> — the ochre mark on her hull. It is a thing bolted through the bottom of the boat, and it measures from <b>itself</b>. It is not at the surface, it is not at the keel, and nobody who fitted it asked you.", "So the number on the display depends on <b>what the set has been told to add or take off</b>, and that is a setting somebody chose once, years ago, possibly not you. <em>On this boat the three answers are 1.8 m apart — which is her whole draught, and more than anyone leaves as a safety margin.</em>", "The block on definitions promised you this one. It said there was a fourth thing that was <em>none</em> of the three distances, and that it belonged to the block on what is under the keel. This is that block, and this is that thing."]}, {"id": "2.E1", "t": "The echo sounder · topic 2", "h": "Where the zero is, and who put it there", "obra": "ejemplo", "tramos": "t2", "pasos": ["Start with what is true and has no instrument in it: there is <b>4.5 m</b> of water here, surface to seabed. That is the <b>depth of water</b> from block one, and it does not care what anybody has bolted to the hull.", "Now the <b>transducer</b>, in ochre. On <i>Kittiwake</i> it sits <b>0.7 m</b> below the waterline — through the hull, forward of amidships, facing down. Note what that leaves: her keel is another <b>1.1 m</b> below <em>it</em>.", "What it <b>actually measures</b> is the ochre arrow: from itself down to the ground, <b>3.8 m</b>. That is the raw number, and it is worth saying plainly — <em>it is not the depth of water, it is not the sounding, and it is not what is under your keel.</em> It is a distance from a fitting on your hull.", "So the set is given an <b>offset</b>. Tell it the transducer is 0.7 m down and it adds that back: now it shows <b>4.5 m</b>, the depth of water. Tell it instead that the keel is 1.1 m below the transducer and it takes that off: now it shows <b>2.7 m</b>, which is what is under her keel — the answer to topic one, straight off the display.", "<b>Three displays, one piece of water.</b> Which one you are looking at is not something you can tell by looking — the number gives you no clue, because all three are plausible depths. <em>You find out on a day you know: alongside, at a known state of tide, with a lead line or a berth you have measured.</em> Until you have done that, you do not know what your own instrument is telling you."], "cierre": "Now read one you have not seen before."}, {"id": "2.P1", "t": "The echo sounder · topic 2", "h": "What that reading leaves you", "obra": "practica", "forma": "metros", "banco": "eco", "q": "Your echo sounder reads <b>__LECTURA__ m</b>, and it is <b>__COMO__</b>. <i>Kittiwake</i> draws <b>__CALADO__ m</b>, with the transducer <b>__TRANSDUCTOR__ m</b> below the waterline. <b>How much is under her keel?</b>", "pista": "Ask one thing first: <b>where is this set's zero?</b> At the waterline, at the transducer, or at the keel. Everything else is one subtraction, and sometimes it is none.", "cierre": "Three settings, and you can read any of them. Next: working the sum backwards — not <em>how much is there</em> but <em>how much tide do I need</em>."}, {"id": "3.S1", "t": "The tide you need · topic 3", "h": "The same sum, asked the other way round", "obra": "enmarca3", "p": ["Everything so far started with the tide: <em>here is the height, now what is left under her?</em> That is the question you ask when you are already there.", "This is the one you ask <b>before you go</b> — and it is the only one that changes what you do. <em>How much tide does this take?</em> Turn the sum round and it answers itself: what she draws, plus what you keep, over whatever the ground is doing at that spot.", "And look at the spot. <b>the north channel</b> — the chart prints <b>2.0</b> with a line under it, so that ground stands <b>2.0 m above</b> the datum. It is not shallow water; it is dry land for part of the day. The tide has to cover it <em>before</em> she floats at all, and then keep going.", "Stack it up from the ground: <b>2.0 m</b> of drying height, <b>1.8 m</b> of draught, the <b>1.0 m</b> safety margin you decided to keep. The water has to stand at <b>4.8 m</b> above chart datum. Not roughly — that figure, because you chose the safety margin that put it there.", "<em>And that is a height of tide</em> — the kind of figure the almanac page and the tidal curve print. You have just built the number you go and look up. The page tells you whether today has it, and between what times."]}, {"id": "3.E1", "t": "The tide you need · topic 3", "h": "Built from the ground up", "obra": "ejemplo", "tramos": "t3", "pasos": ["Start at the bottom, with the only thing here that never moves: <b>the ground</b>. At the north channel it stands <b>2.0 m above</b> chart datum — the chart prints the figure underlined, which is how you know which side of the line it is on. Everything else gets stacked on top of this.", "<b>What you decide to keep</b>, first, and not last. It goes straight on the ground because that is what it means: <b>1.0 m</b> of water you are not willing to use. Put it at the bottom and it stops being an afterthought.", "Then <b>her draught</b>, <b>1.8 m</b>, standing on top of your safety margin. Now the stack is what she needs: ground, plus what you keep, plus what she draws.", "So the surface has to reach <b>4.8 m above chart datum</b>. That is the answer, and notice what it is <em>not</em>: it is not a time, it is not a depth, and it does not mention today. It is a <b>height of tide</b> — the same kind of figure the almanac prints, which is exactly why you can go and look it up.", "<b>And now the day gets a vote.</b> High water here today is <b>6.2 m</b>, so there is enough — the curve will tell you between what times, and that is block two's job. <em>But it is not always yes.</em> On a neap day high water can be under six metres, and then a spot that needs more than that is not on at any hour. The sum never changes; the answer to <em>“can I go?”</em> changes every day."], "cierre": "Now work out a few, and check whether the day gives them to you."}, {"id": "3.P1", "t": "The tide you need · topic 3", "h": "How much tide does it take", "obra": "practica", "forma": "metros", "banco": "precisa", "q": "At <b>__SITIO__</b> the chart prints <b>__CIFRA__</b>, <b>__COMOSALE__</b>. <i>Kittiwake</i> draws <b>__CALADO__ m</b> and you want to keep <b>__RESGUARDO__ m</b> under her. <b>How much height of tide does it take?</b>", "pista": "Look at the underline first. <b>Underlined</b> means the ground is <em>above</em> the datum and the tide has to cover it — so it <b>adds</b>. <b>No underline</b> means there is water there already, and it <b>counts towards</b> what she needs.", "cierre": "That is the figure you take to the almanac page. Next: the other direction — what the tide takes <em>away</em> when there is something over your head."}, {"id": "4.S1", "t": "Overhead · topic 4", "h": "The one where the tide is not your friend", "obra": "enmarca4", "p": ["Three topics of this block have gone the same way: the tide rises, there is more water, you have more room. It is so consistent that you stop noticing it.", "<b>Now look up.</b> Same boat, same harbour, same rising tide — and every metre it comes up lifts her masthead a metre <em>closer</em> to the bridge. The bridge does not move. <em>This is the only sum in the module that runs the other way.</em>", "And the figure the chart gives you is measured from a line you have not used since block one. The clearance printed here is <b>14.0 m</b>, and it hangs from <b>HAT</b> — the highest tide there is — not from the datum. That is deliberate: it is the room there is on the <em>worst</em> day, so it is the number you can trust without checking anything.", "Which means that on almost every real day there is <b>more</b> room than the chart promises — HAT is 9.2 m and today the tide is only 7.0 m, so the sea has given you 2.2 m back. <i>Kittiwake</i> needs <b>15.6 m</b> of it for her mast.", "<em>The block on definitions showed you this bridge and let you watch the gap close, and said the sum was for the next block.</em> This is the next block."]}, {"id": "4.E1", "t": "Overhead · topic 4", "h": "Charted from the worst day of the year", "obra": "ejemplo", "tramos": "t4", "pasos": ["Chart datum at the bottom, where it always is — and up at the top, <b>HAT</b>, <b>9.2 m</b> above it. That is the highest the tide is ever predicted to reach here. Nothing is hanging from it yet.", "Now the bridge, and its <b>charted clearance</b> — the figure the chart prints: <b>14.0 m</b>, measured <b>down from HAT</b> to the underside. Not from the water, not from the datum. <em>It is the air there is on the day the tide is highest</em> — the worst day there will ever be for getting under it.", "So put the tide down where it is at low water and look what happens. The underside has not moved — bridges do not — but she has dropped away from it, and now there is far more room than the chart promised. <em>The charted figure is a floor, not a forecast.</em>", "<b>And now let it flood.</b> Every metre of tide is a metre off the gap. That is the whole of this topic, and it is the opposite of the last three: down there the tide was giving you water, up here it is taking room away. Same tide, same day, opposite sign.", "So the sum, in the order you would say it out loud: the charted <b>14.0</b>, plus <b>9.2</b> of HAT to get it measured from the datum, minus <b>7.0</b> of tide today, minus her <b>15.6 m</b> of mast. <b>0.6 m</b> over her masthead. And if that came out negative you would wait for the tide to <em>fall</em> — which is a sentence you will not say anywhere else in this block."], "cierre": "Now move the water yourself and watch the figure."}, {"id": "4.J1", "t": "Overhead · topic 4", "h": "Watch the figure, not the gap", "obra": "juego4", "p": ["You have done this before — the same bridge, the same drag — in the block on definitions. There you watched the gap open and close. <b>This time watch the numbers.</b>", "<b>Drag the water up and down.</b> Four figures on the right, and only one of them stays still: her air draught. The tide changes, the air over the water changes with it, and what is left over her masthead changes by exactly the same amount and in the opposite direction.", "Find the height of tide where it comes out at <b>zero</b>. That is the moment her masthead touches the underside, and everything above it is a day you do not go. <em>Notice that it is a fairly ordinary height of tide</em> — this is not a freak-conditions problem.", "<em>Nothing here is scored.</em> The point is that the relation is one metre for one metre, in the direction nobody expects."]}, {"id": "4.P1", "t": "Overhead · topic 4", "h": "How much is left over her masthead", "obra": "practica", "forma": "metros", "banco": "aire", "q": "<b>__CRUCE__</b> is charted at <b>__CGALIBO__ m</b> clearance. HAT here is <b>__CHAT__ m</b> and the height of tide is <b>__MAREA__ m</b>. <i>Kittiwake</i> has an air draught of <b>__CPALO__ m</b>. <b>How much is left over her masthead?</b>", "pista": "The charted figure hangs from <b>HAT</b>, so add HAT to get it measured from the datum. Then <b>take the tide off</b> — up here the tide costs you room, it does not give it. And then her mast.", "cierre": "That is the block. You can work out what is under her keel, what tide it takes to get there, and what is left over her masthead — and which way each one moves when the tide does."}, {"id": "5.C1", "t": "Under the keel · the whole of it", "h": "One tide, two answers", "obra": "cierre", "p": ["Here is the whole block in one picture: <i>Kittiwake</i> at <b>the footbridge at the head</b>, with ground that dries <b>0.8 m</b> under her and a bridge <b>10.5 m</b> over her head. <b>Drag the water.</b>", "<b>The two figures move in opposite directions</b>, by exactly the same amount, at exactly the same moment. Every metre of flood is a metre more under her keel and a metre less over her masthead. There is no state of tide that is best for both, and that is the whole problem of getting a mast up a shallow creek.", "Find the band where <em>both</em> are positive. Here it runs from <b>3.1 m</b> of tide — below that her keel is in the mud — to <b>4.1 m</b>, above which her masthead is in the footbridge. <b>1.0 metre wide</b>, out of a range that runs from nothing to over nine. On a big spring day the water goes straight past it.", "<b>What you can do now.</b> Work out what is under her keel from a chart figure and a height of tide, with whatever safety margin you decide to keep. Read an echo sounder without believing it. Turn the sum round and get the tide you need, so you can go and look up when there is enough. And work out what is left over her masthead — and remember that up there the tide is working against you.", "<em>What comes next is the water moving sideways:</em> tidal streams, which is the last piece of this module — and the one that turns a tide table into a passage."]}];
+let iP=0;
+const S=()=>PZ[iP];
+
+const COL={
+ fondo:"#0A1E27", fondo2:"#102B36", raya:"#1E4453",
+ papel:"#E3EAEE", papel2:"#D2DDE3", rayaPapel:"#A6B3BA",
+
+ escrito:"#15252D", suave:"#455661", tenue:"#829AA3",
+ magenta:"#6B2461", magentaS:"#B07FA6",
+ agua:"#8FC3DA", aguaH:"#4C8AA8", aguaAlta:"#A6D0E2", aguaBaja:"#6FA9C4",
+ tierra:"#E0CFA8", tierraRaya:"#A2731B",
+ seca:"#CBD8B7", secaRaya:"#6F9A62", secaLinea:"#6F9A62",
+ ocre:"#C9932F", rojo:"#B33A22", verde:"#3F7A56", papelClaro:"#F2F6F8",
+
+ ocreTexto:"#8A5A14"};
+
+const TAM={rot:12, dato:14, lee:20, cifra:34, grande:44, hero:56};
+const R={papel:0, caja:3};
+const GR={filete:0.75, marco:1.5, mano:3};
+const D={W:1000,H:640}, MARGEN=24;
+
+const FUENTE={
+ titulo:'"Spectral",ui-serif,Georgia,"Palatino Linotype","Times New Roman",serif',
+ palo:'"IBM Plex Sans",system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif',
+ cifra:'"IBM Plex Mono",ui-monospace,"SF Mono","Cascadia Mono",Menlo,Consolas,monospace'};
+
+const PASO=[{"dia": 0, "sonda": 0.5, "marea": 1.2, "hw": 7.88, "lw": 0.8, "hwH": 12.516666666666667, "calado": 1.8, "resguardo": 0.3, "sobra": -0.4, "id": "paso-00", "sitio": "the bar"}, {"dia": 28, "sonda": 0.5, "marea": 1.2, "hw": 7.85, "lw": 0.84, "hwH": 11.516666666666667, "calado": 1.8, "resguardo": 0.5, "sobra": -0.6, "id": "paso-01", "sitio": "the north channel"}, {"dia": 1, "sonda": 0.9, "marea": 1.4, "hw": 7.67, "lw": 1.03, "hwH": 13.166666666666666, "calado": 1.8, "resguardo": 0.8, "sobra": -0.3, "id": "paso-02", "sitio": "Aldern Sound"}, {"dia": 2, "sonda": 1.1, "marea": 1.7, "hw": 7.35, "lw": 1.39, "hwH": 13.833333333333334, "calado": 1.8, "resguardo": 1.0, "sobra": -0.0, "id": "paso-03", "sitio": "the inner pool"}, {"dia": 3, "sonda": 1.2, "marea": 2.1, "hw": 6.95, "lw": 1.84, "hwH": 14.566666666666666, "calado": 1.8, "resguardo": 1.2, "sobra": 0.3, "id": "paso-04", "sitio": "the bar"}, {"dia": 12, "sonda": 0.9, "marea": 1.8, "hw": 7.15, "lw": 1.57, "hwH": 10.733333333333333, "calado": 1.8, "resguardo": 0.3, "sobra": 0.6, "id": "paso-05", "sitio": "the north channel"}, {"dia": 9, "sonda": 0.5, "marea": 2.7, "hw": 6.49, "lw": 2.53, "hwH": 8.733333333333333, "calado": 1.8, "resguardo": 0.5, "sobra": 0.9, "id": "paso-06", "sitio": "Aldern Sound"}, {"dia": 4, "sonda": 0.9, "marea": 2.9, "hw": 6.52, "lw": 2.31, "hwH": 15.433333333333334, "calado": 1.8, "resguardo": 0.8, "sobra": 1.2, "id": "paso-07", "sitio": "the inner pool"}, {"dia": 5, "sonda": 1.0, "marea": 3.2, "hw": 6.17, "lw": 2.7, "hwH": 16.6, "calado": 1.8, "resguardo": 1.0, "sobra": 1.4, "id": "paso-08", "sitio": "the bar"}, {"dia": 6, "sonda": 1.1, "marea": 3.4, "hw": 6.01, "lw": 2.94, "hwH": 18.0, "calado": 1.8, "resguardo": 1.2, "sobra": 1.5, "id": "paso-09", "sitio": "the north channel"}, {"dia": 7, "sonda": 1.1, "marea": 3.1, "hw": 6.15, "lw": 2.99, "hwH": 6.666666666666667, "calado": 1.8, "resguardo": 0.3, "sobra": 2.1, "id": "paso-10", "sitio": "Aldern Sound"}, {"dia": 8, "sonda": 1.6, "marea": 3.0, "hw": 6.26, "lw": 2.83, "hwH": 7.8, "calado": 1.8, "resguardo": 0.5, "sobra": 2.3, "id": "paso-11", "sitio": "the inner pool"}, {"dia": 10, "sonda": 2.3, "marea": 2.9, "hw": 6.74, "lw": 2.19, "hwH": 9.5, "calado": 1.8, "resguardo": 0.8, "sobra": 2.6, "id": "paso-12", "sitio": "the bar"}, {"dia": 11, "sonda": 3.6, "marea": 2.1, "hw": 6.97, "lw": 1.86, "hwH": 10.15, "calado": 1.8, "resguardo": 1.0, "sobra": 2.9, "id": "paso-13", "sitio": "the north channel"}, {"dia": 13, "sonda": 4.5, "marea": 1.7, "hw": 7.29, "lw": 1.37, "hwH": 11.283333333333333, "calado": 1.8, "resguardo": 1.2, "sobra": 3.2, "id": "paso-14", "sitio": "Aldern Sound"}, {"dia": 14, "sonda": 4.0, "marea": 1.6, "hw": 7.36, "lw": 1.26, "hwH": 11.8, "calado": 1.8, "resguardo": 0.3, "sobra": 3.5, "id": "paso-15", "sitio": "the inner pool"}];
+
+const ECO=[{"id": "eco-00", "ajuste": "waterline", "lectura": 1.7, "profundidad": 1.7, "sitio": "the bar", "dia": 0, "sonda": 0.5, "marea": 1.2, "calado": 1.8, "transductor": 0.7, "sobra": -0.1}, {"id": "eco-01", "ajuste": "transducer", "lectura": 1.0, "profundidad": 1.7, "sitio": "the north channel", "dia": 28, "sonda": 0.5, "marea": 1.2, "calado": 1.8, "transductor": 0.7, "sobra": -0.1}, {"id": "eco-02", "ajuste": "keel", "lectura": 0.5, "profundidad": 2.3, "sitio": "Aldern Sound", "dia": 1, "sonda": 0.9, "marea": 1.4, "calado": 1.8, "transductor": 0.7, "sobra": 0.5}, {"id": "eco-03", "ajuste": "waterline", "lectura": 2.8, "profundidad": 2.8, "sitio": "the inner pool", "dia": 2, "sonda": 1.1, "marea": 1.7, "calado": 1.8, "transductor": 0.7, "sobra": 1.0}, {"id": "eco-04", "ajuste": "transducer", "lectura": 2.6, "profundidad": 3.3, "sitio": "the bar", "dia": 3, "sonda": 1.2, "marea": 2.1, "calado": 1.8, "transductor": 0.7, "sobra": 1.5}, {"id": "eco-05", "ajuste": "keel", "lectura": 0.9, "profundidad": 2.7, "sitio": "the north channel", "dia": 12, "sonda": 0.9, "marea": 1.8, "calado": 1.8, "transductor": 0.7, "sobra": 0.9}, {"id": "eco-06", "ajuste": "waterline", "lectura": 3.2, "profundidad": 3.2, "sitio": "Aldern Sound", "dia": 9, "sonda": 0.5, "marea": 2.7, "calado": 1.8, "transductor": 0.7, "sobra": 1.4}, {"id": "eco-07", "ajuste": "transducer", "lectura": 3.1, "profundidad": 3.8, "sitio": "the inner pool", "dia": 4, "sonda": 0.9, "marea": 2.9, "calado": 1.8, "transductor": 0.7, "sobra": 2.0}, {"id": "eco-08", "ajuste": "keel", "lectura": 2.4, "profundidad": 4.2, "sitio": "the bar", "dia": 5, "sonda": 1.0, "marea": 3.2, "calado": 1.8, "transductor": 0.7, "sobra": 2.4}, {"id": "eco-09", "ajuste": "waterline", "lectura": 4.5, "profundidad": 4.5, "sitio": "the north channel", "dia": 6, "sonda": 1.1, "marea": 3.4, "calado": 1.8, "transductor": 0.7, "sobra": 2.7}, {"id": "eco-10", "ajuste": "transducer", "lectura": 3.5, "profundidad": 4.2, "sitio": "Aldern Sound", "dia": 7, "sonda": 1.1, "marea": 3.1, "calado": 1.8, "transductor": 0.7, "sobra": 2.4}, {"id": "eco-11", "ajuste": "keel", "lectura": 2.8, "profundidad": 4.6, "sitio": "the inner pool", "dia": 8, "sonda": 1.6, "marea": 3.0, "calado": 1.8, "transductor": 0.7, "sobra": 2.8}, {"id": "eco-12", "ajuste": "waterline", "lectura": 5.2, "profundidad": 5.2, "sitio": "the bar", "dia": 10, "sonda": 2.3, "marea": 2.9, "calado": 1.8, "transductor": 0.7, "sobra": 3.4}, {"id": "eco-13", "ajuste": "transducer", "lectura": 1.0, "profundidad": 1.7, "sitio": "the bar", "dia": 0, "sonda": 0.5, "marea": 1.2, "calado": 1.8, "transductor": 0.7, "sobra": -0.1}, {"id": "eco-14", "ajuste": "keel", "lectura": -0.1, "profundidad": 1.7, "sitio": "the north channel", "dia": 28, "sonda": 0.5, "marea": 1.2, "calado": 1.8, "transductor": 0.7, "sobra": -0.1}];
+const ECOEJ={"id": "eco-09", "ajuste": "waterline", "lectura": 4.5, "profundidad": 4.5, "sitio": "the north channel", "dia": 6, "sonda": 1.1, "marea": 3.4, "calado": 1.8, "transductor": 0.7, "sobra": 2.7};
+
+const PRECISA=[{"sitio": "the bar", "cifra": 0.7, "seca": true, "cota": -0.7, "calado": 1.8, "resguardo": 0.3, "pide": 2.8, "id": "pide-00", "dia": 38, "hw": 6.25, "hwH": 8.116666666666667, "lw": 2.61, "alcanza": true}, {"sitio": "the bar", "cifra": 1.0, "seca": false, "cota": 1.0, "calado": 1.8, "resguardo": 0.5, "pide": 1.3, "id": "pide-01", "dia": 38, "hw": 6.25, "hwH": 8.116666666666667, "lw": 2.61, "alcanza": true}, {"sitio": "the bar", "cifra": 0.7, "seca": true, "cota": -0.7, "calado": 1.8, "resguardo": 0.8, "pide": 3.3, "id": "pide-02", "dia": 38, "hw": 6.25, "hwH": 8.116666666666667, "lw": 2.61, "alcanza": true}, {"sitio": "the bar", "cifra": 0.5, "seca": false, "cota": 0.5, "calado": 1.8, "resguardo": 1.0, "pide": 2.3, "id": "pide-03", "dia": 38, "hw": 6.25, "hwH": 8.116666666666667, "lw": 2.61, "alcanza": true}, {"sitio": "the bar", "cifra": 0.7, "seca": true, "cota": -0.7, "calado": 1.8, "resguardo": 1.2, "pide": 3.7, "id": "pide-04", "dia": 38, "hw": 6.25, "hwH": 8.116666666666667, "lw": 2.61, "alcanza": true}, {"sitio": "Aldern Sound", "cifra": 0.9, "seca": false, "cota": 0.9, "calado": 1.8, "resguardo": 0.3, "pide": 1.2, "id": "pide-05", "dia": 38, "hw": 6.25, "hwH": 8.116666666666667, "lw": 2.61, "alcanza": true}, {"sitio": "Aldern Sound", "cifra": 1.3, "seca": true, "cota": -1.3, "calado": 1.8, "resguardo": 0.5, "pide": 3.6, "id": "pide-06", "dia": 38, "hw": 6.25, "hwH": 8.116666666666667, "lw": 2.61, "alcanza": true}, {"sitio": "the bar", "cifra": 0.5, "seca": false, "cota": 0.5, "calado": 1.8, "resguardo": 0.8, "pide": 2.1, "id": "pide-07", "dia": 38, "hw": 6.25, "hwH": 8.116666666666667, "lw": 2.61, "alcanza": true}, {"sitio": "the north channel", "cifra": 2.0, "seca": true, "cota": -2.0, "calado": 1.8, "resguardo": 1.0, "pide": 4.8, "id": "pide-08", "dia": 38, "hw": 6.25, "hwH": 8.116666666666667, "lw": 2.61, "alcanza": true}, {"sitio": "the bar", "cifra": 0.5, "seca": false, "cota": 0.5, "calado": 1.8, "resguardo": 1.2, "pide": 2.5, "id": "pide-09", "dia": 38, "hw": 6.25, "hwH": 8.116666666666667, "lw": 2.61, "alcanza": true}, {"sitio": "the inner pool", "cifra": 3.7, "seca": true, "cota": -3.7, "calado": 1.8, "resguardo": 0.3, "pide": 5.8, "id": "pide-10", "dia": 38, "hw": 6.25, "hwH": 8.116666666666667, "lw": 2.61, "alcanza": true}, {"sitio": "Aldern Sound", "cifra": 0.9, "seca": false, "cota": 0.9, "calado": 1.8, "resguardo": 0.5, "pide": 1.4, "id": "pide-11", "dia": 38, "hw": 6.25, "hwH": 8.116666666666667, "lw": 2.61, "alcanza": true}, {"sitio": "the bar", "cifra": 3.9, "seca": true, "cota": -3.9, "calado": 1.8, "resguardo": 0.8, "pide": 6.5, "id": "pide-12", "dia": 9, "hw": 6.49, "hwH": 8.733333333333333, "lw": 2.53, "alcanza": false}, {"sitio": "the bar", "cifra": 2.3, "seca": false, "cota": 2.3, "calado": 1.8, "resguardo": 1.0, "pide": 0.5, "id": "pide-13", "dia": 38, "hw": 6.25, "hwH": 8.116666666666667, "lw": 2.61, "alcanza": true}, {"sitio": "the north channel", "cifra": 4.9, "seca": true, "cota": -4.9, "calado": 1.8, "resguardo": 1.2, "pide": 7.9, "id": "pide-14", "dia": 0, "hw": 7.88, "hwH": 12.516666666666667, "lw": 0.8, "alcanza": false}];
+const PRECISAEJ={"sitio": "the north channel", "cifra": 2.0, "seca": true, "cota": -2.0, "calado": 1.8, "resguardo": 1.0, "pide": 4.8, "id": "pide-08", "dia": 38, "hw": 6.25, "hwH": 8.116666666666667, "lw": 2.61, "alcanza": true};
+
+const AIRE=[{"cruce": "the road bridge", "galibo": 14.0, "marea": 7.9, "dia": 0, "hw": 7.88, "lw": 0.8, "palo": 15.6, "hat": 9.2, "sobra": -0.3, "id": "aire-00", "pasa": false}, {"cruce": "the power cable above the pool", "galibo": 17.5, "marea": 7.9, "dia": 0, "hw": 7.88, "lw": 0.8, "palo": 15.6, "hat": 9.2, "sobra": 3.2, "id": "aire-01", "pasa": true}, {"cruce": "the footbridge at the head", "galibo": 10.5, "marea": 6.2, "dia": 5, "hw": 6.17, "lw": 2.7, "palo": 15.6, "hat": 9.2, "sobra": -2.1, "id": "aire-02", "pasa": false}, {"cruce": "the road bridge", "galibo": 14.0, "marea": 7.8, "dia": 27, "hw": 7.78, "lw": 0.91, "palo": 15.6, "hat": 9.2, "sobra": -0.2, "id": "aire-03", "pasa": false}, {"cruce": "the power cable above the pool", "galibo": 17.5, "marea": 7.8, "dia": 27, "hw": 7.78, "lw": 0.91, "palo": 15.6, "hat": 9.2, "sobra": 3.3, "id": "aire-04", "pasa": true}, {"cruce": "the footbridge at the head", "galibo": 10.5, "marea": 4.1, "dia": 7, "hw": 6.15, "lw": 2.99, "palo": 15.6, "hat": 9.2, "sobra": 0.0, "id": "aire-05", "pasa": true}, {"cruce": "the road bridge", "galibo": 14.0, "marea": 7.0, "dia": 3, "hw": 6.95, "lw": 1.84, "palo": 15.6, "hat": 9.2, "sobra": 0.6, "id": "aire-06", "pasa": true}, {"cruce": "the power cable above the pool", "galibo": 17.5, "marea": 7.7, "dia": 1, "hw": 7.67, "lw": 1.03, "palo": 15.6, "hat": 9.2, "sobra": 3.4, "id": "aire-07", "pasa": true}, {"cruce": "the footbridge at the head", "galibo": 10.5, "marea": 2.2, "dia": 10, "hw": 6.74, "lw": 2.19, "palo": 15.6, "hat": 9.2, "sobra": 1.9, "id": "aire-08", "pasa": true}, {"cruce": "the road bridge", "galibo": 14.0, "marea": 5.1, "dia": 5, "hw": 6.17, "lw": 2.7, "palo": 15.6, "hat": 9.2, "sobra": 2.5, "id": "aire-09", "pasa": true}, {"cruce": "the power cable above the pool", "galibo": 17.5, "marea": 7.6, "dia": 26, "hw": 7.59, "lw": 1.13, "palo": 15.6, "hat": 9.2, "sobra": 3.5, "id": "aire-10", "pasa": true}, {"cruce": "the footbridge at the head", "galibo": 10.5, "marea": 0.8, "dia": 0, "hw": 7.88, "lw": 0.8, "palo": 15.6, "hat": 9.2, "sobra": 3.3, "id": "aire-11", "pasa": true}, {"cruce": "the road bridge", "galibo": 14.0, "marea": 3.0, "dia": 7, "hw": 6.15, "lw": 2.99, "palo": 15.6, "hat": 9.2, "sobra": 4.6, "id": "aire-12", "pasa": true}, {"cruce": "the power cable above the pool", "galibo": 17.5, "marea": 5.8, "dia": 0, "hw": 7.88, "lw": 0.8, "palo": 15.6, "hat": 9.2, "sobra": 5.3, "id": "aire-13", "pasa": true}, {"cruce": "the footbridge at the head", "galibo": 10.5, "marea": 0.9, "dia": 27, "hw": 7.78, "lw": 0.91, "palo": 15.6, "hat": 9.2, "sobra": 3.2, "id": "aire-14", "pasa": true}];
+const AIREEJ={"cruce": "the road bridge", "galibo": 14.0, "marea": 7.0, "dia": 3, "hw": 6.95, "lw": 1.84, "palo": 15.6, "hat": 9.2, "sobra": 0.6, "id": "aire-06", "pasa": true};
+
+const CIERRE={"seca": 0.8, "resguardo": 0.5, "cruce": "the footbridge at the head", "galibo": 10.5};
+
+const COMO_SE_DICE={"waterline": "zeroed to the waterline", "transducer": "reading straight from the transducer", "keel": "zeroed to the keel"};
+
+const APERTURA={"sonda": 6.5, "seca": 7.3};
+const NIVELES={"HAT": 9.2, "LAT": 0.0, "MHWS": 7.7, "MLWS": 1.3, "MHWN": 6.6, "MLWN": 2.4, "nVivas": 32.0, "nMuertas": 33.0};
+
+const ORILLA=11.2;
+
+const GALIBO=14.0;
+const PALO=15.6;
+const TECHO_P=26.0, SUELO_P=-7.0;
+
+const svg=document.getElementById("svg");
+const pane=()=>document.getElementById("pane");
+let ESC=1, gO=null, gDefs=null;
+function esc(){const r=svg.getBoundingClientRect();
+ return Math.min(r.width/D.W, r.height/D.H)||1;}
+const px=n=>n/ESC;
+function el(t,at,pa){const e=document.createElementNS("http://www.w3.org/2000/svg",t);
+ for(const k in at)e.setAttribute(k,at[k]); (pa||gO).appendChild(e); return e;}
+
+function txt(x,y,s,an,tam,col,peso,fam,esp){
+ const e=el("text",{x:x,y:y,"text-anchor":an||"start","font-size":px(tam||TAM.dato),
+  fill:col||COL.escrito,"font-family":fam||FUENTE.palo});
+ if(peso)e.setAttribute("font-weight",peso);
+ if(esp)e.setAttribute("letter-spacing",px(esp));
+ e.textContent=s; return e;}
+
+const rotulo=(x,y,s,col,an)=>
+ txt(x,y,String(s).toUpperCase(),an,TAM.rot,col||COL.suave,500,FUENTE.cifra,1.4);
+
+const cifra=(x,y,s,tam,col,an)=>
+ txt(x,y,s,an,tam||TAM.dato,col||COL.escrito,600,FUENTE.cifra);
+
+const un=v=>(Math.round(v*10)/10).toFixed(1);
+const anchoTxt=(s,tam)=>String(s).length*tam*0.60;
+
+let HOJA={};
+function maqueta(){const m=px(MARGEN);
+ HOJA={x0:m, y0:m, x1:D.W-m, y1:D.H-m};}
+function fondoConsola(){
+ el("rect",{x:0,y:0,width:D.W,height:D.H,fill:COL.fondo});}
+function lamina(){
+
+ el("rect",{x:HOJA.x0+px(3),y:HOJA.y0+px(4),width:HOJA.x1-HOJA.x0,
+  height:HOJA.y1-HOJA.y0,fill:"#00000055",rx:R.caja});
+ el("rect",{x:HOJA.x0,y:HOJA.y0,width:HOJA.x1-HOJA.x0,height:HOJA.y1-HOJA.y0,
+  fill:COL.papel,rx:R.caja});}
+function marco(){
+ el("rect",{x:HOJA.x0,y:HOJA.y0,width:HOJA.x1-HOJA.x0,height:HOJA.y1-HOJA.y0,
+  fill:"none",stroke:COL.rayaPapel,"stroke-width":px(GR.marco),rx:R.caja});}
+
+function defs(){
+ gDefs=el("defs",{},gO);
+ const g=el("linearGradient",{id:"gAgua",x1:0,y1:0,x2:0,y2:1},gDefs);
+ el("stop",{offset:"0","stop-color":COL.aguaAlta},g);
+ el("stop",{offset:"1","stop-color":COL.aguaBaja},g);
+ for(const [id,col] of [["tramaTierra",COL.tierraRaya],["tramaSeca",COL.secaRaya]]){
+  const p=el("pattern",{id:id,width:px(9),height:px(9),
+   patternUnits:"userSpaceOnUse",patternTransform:"rotate(45)"},gDefs);
+  el("rect",{width:px(9),height:px(9),
+   fill:id=="tramaSeca"?COL.seca:COL.tierra},p);
+  el("line",{x1:0,y1:0,x2:0,y2:px(9),stroke:col,"stroke-width":px(1),
+   "stroke-opacity":.55},p);}}
+
+let MAREA=4.0;
+let CERO=0, VESC=1, ZTOP=0, ZBOT=0;
+
+const FONDO_MAX=Math.max.apply(null,
+ PASO.map(q=>q.sonda).concat([APERTURA.sonda]))+2.6;
+
+const TECHO_MAX=Math.max(ORILLA, NIVELES.HAT, APERTURA.seca)+0.8;
+function laminaMaqueta(){
+ const pie=HOJA.y1-px(14+TAM.rot+10);
+ const alto=HOJA.y0+px(10+TAM.rot+14);
+ ZTOP=TECHO_MAX; ZBOT=-FONDO_MAX;
+ VESC=(pie-alto)/(ZTOP-ZBOT);
+ CERO=alto+ZTOP*VESC;
+ return {pie:pie, alto:alto};}
+const zY=z=>CERO-z*VESC;
+
+function agua(){
+ const y=zY(MAREA), x0=HOJA.x0+px(2), x1=HOJA.x1-px(2);
+ el("rect",{x:x0,y:y,width:x1-x0,height:Math.max(0,HOJA.y1-px(2)-y),
+  fill:"url(#gAgua)",class:"agua"});
+ let d="";
+ for(let x=x0;x<=x1;x+=px(4)){
+  const yy=y+Math.sin(x*0.07*ESC)*px(1.8)+Math.sin(x*0.021*ESC)*px(1.2);
+  d+=(d?"L":"M")+x.toFixed(1)+","+yy.toFixed(1);}
+ el("path",{d:d,fill:"none",stroke:COL.aguaH,"stroke-width":px(1.6),class:"agua"});}
+
+const PERFIL=[[0.00,"canal"],[0.26,"canal"],[0.44,"talud"],[0.58,"subida"],
+              [0.66,"llano"],[0.80,"llano"],[0.90,"medio"],[1.00,"orilla"]];
+function zPerfil(f,sonda,seca){
+ const z=q=>({canal:-sonda, talud:-sonda*0.45, subida:seca*0.55, llano:seca,
+              medio:(seca+ORILLA)/2, orilla:ORILLA})[q];
+ if(f<=0)return z("canal");
+ for(let k=1;k<PERFIL.length;k++){
+  const [fa,qa]=PERFIL[k-1], [fb,qb]=PERFIL[k];
+  if(f<=fb){ const u=(f-fa)/(fb-fa||1); return z(qa)+(z(qb)-z(qa))*u; }}
+ return z("orilla");}
+
+function fondo(sonda,seca){
+ const x0=HOJA.x0+px(2), x1=HOJA.x1-px(2), an=x1-x0;
+ const p=PERFIL.map(([f])=>[x0+an*f, zY(zPerfil(f,sonda,seca))])
+   .concat([[x1,HOJA.y1-px(2)],[x0,HOJA.y1-px(2)]]);
+ const d="M"+p.map(q=>q[0].toFixed(2)+","+q[1].toFixed(2)).join("L")+"Z";
+ el("path",{d:d,fill:"url(#tramaTierra)"});
+
+ const b="M"+p.slice(0,PERFIL.length).map(q=>q[0].toFixed(2)+","+q[1].toFixed(2))
+   .join("L");
+ el("path",{d:b,fill:"none",stroke:COL.tierraRaya,"stroke-width":px(1.8)});
+
+ return {xSonda:x0+an*0.13, ySonda:zY(-sonda), xSeca:x0+an*0.73, ySeca:zY(seca),
+         xOrilla:x1, yOrilla:zY(ORILLA)};}
+
+const nombreCero=()=>"chart datum";
+
+function lineaCero(rotula,derecha,abajo){
+ el("line",{x1:HOJA.x0+px(2),y1:CERO,x2:HOJA.x1-px(2),y2:CERO,
+  stroke:COL.magenta,"stroke-width":px(1.6),
+  "stroke-dasharray":px(8)+" "+px(4)});
+ if(rotula===false)return;
+
+ const y = abajo ? CERO+px(TAM.rot+6) : CERO-px(7);
+ if(derecha)rotulo(HOJA.x1-px(10),y,nombreCero(),COL.magenta,"end");
+ else rotulo(HOJA.x0+px(10),y,nombreCero(),COL.magenta);}
+
+function tintaSobre(fondo){
+ const h=String(fondo).replace("#","");
+ if(h.length<6) return "#FFFFFF";
+ const f=v=>{v/=255; return v<=0.03928?v/12.92:Math.pow((v+0.055)/1.055,2.4);};
+ const L=0.2126*f(parseInt(h.slice(0,2),16))+0.7152*f(parseInt(h.slice(2,4),16))
+        +0.0722*f(parseInt(h.slice(4,6),16));
+ return L>0.22 ? COL.escrito : "#FFFFFF";
+}
+function pildora(x,y,s,col,an){
+ const tam=TAM.dato, w=anchoTxt(s,px(tam))+px(16), h=px(tam)+px(9);
+ el("rect",{x:x-(an=="end"?w:0),y:y-h/2,width:w,height:h,rx:h/2,
+  fill:col||COL.magenta});
+
+ cifra(x+(an=="end"?-w/2:w/2),y+px(tam*0.35),s,tam,tintaSobre(col||COL.magenta),"middle");
+ return w;}
+function cota(x,z,val,seca,resalta){
+ const y=zY(z), col=resalta?COL.rojo:COL.escrito;
+ const g=px(resalta?2.6:1.8);
+ el("line",{x1:x,y1:CERO,x2:x,y2:y,stroke:col,"stroke-width":g});
+ const t=px(5);
+ for(const yy of [CERO,y])
+  el("line",{x1:x-t,y1:yy,x2:x+t,y2:yy,stroke:col,"stroke-width":g});
+
+ const yc=y + (y<CERO ? px(11) : -px(11));
+
+ const w=anchoTxt(un(val),px(TAM.dato))+px(16);
+ const cabeDerecha=(x+px(9)+w)<=(HOJA.x1-px(8));
+ const xp=cabeDerecha ? x+px(9) : x-px(9);
+ pildora(xp,yc,un(val),col,cabeDerecha?undefined:"end");
+
+ if(seca){
+  const a=cabeDerecha ? xp : xp-w;
+  el("line",{x1:a+px(6),y1:yc+px(TAM.dato*0.62),
+   x2:a+w-px(6),y2:yc+px(TAM.dato*0.62),
+   stroke:"#FFFFFF","stroke-width":px(1.4)});}
+ return {x:x,y:yc};}
+
+function flecha(x,y0,y1,val,col,etq,resalta,mudo){
+ const g=px(resalta?2.6:1.8);
+ el("line",{x1:x,y1:y0,x2:x,y2:y1,stroke:col,"stroke-width":g});
+ const t=px(5);
+ for(const yy of [y0,y1])
+  el("line",{x1:x-t,y1:yy,x2:x+t,y2:yy,stroke:col,"stroke-width":g});
+ const yc=(y0+y1)/2;
+
+ if(mudo)return yc;
+ const w=anchoTxt(un(val),px(TAM.dato))+px(16);
+ const cabe=(x+px(9)+w)<=(HOJA.x1-px(8));
+ pildora(cabe?x+px(9):x-px(9),yc,un(val),col,cabe?undefined:"end");
+ if(etq){
+
+  const medio=anchoTxt(etq,px(TAM.rot))/2+px(4);
+
+  const cuerpo=px(TAM.rot);
+  const ex=Math.max(HOJA.x0+px(4)+cuerpo*0.78,
+                    Math.min(HOJA.x1-px(4)-cuerpo*0.24,x-px(11)));
+  const ey=Math.max(HOJA.y0+medio,Math.min(HOJA.y1-medio,yc));
+
+  const e=rotulo(ex,ey,etq,col===COL.ocre?COL.ocreTexto:col,"middle");
+  e.setAttribute("transform","rotate(-90 "+ex.toFixed(1)+" "+ey.toFixed(1)+")");}
+ return yc;}
+
+const BARCO={"nombre": "Kittiwake", "calado": 1.8, "palo": 15.6, "transductor": 0.7, "eslora": 9.4, "bajoQuilla": 1.1, "enHat": -1.6, "con4": 3.6};
+const CALADO_TIPO=BARCO.calado;
+
+let VIVO={};
+let JUEGO={cifra:2.7, seca:false, calado:1.8};
+
+window.jFija=(k,v)=>{
+ if(k=="seca"){ JUEGO.seca=!JUEGO.seca; }
+ else { const n=parseFloat(String(v).replace(",","."));
+        if(!isNaN(n))JUEGO[k]=Math.max(0.1, Math.min(k=="calado"?4.0:9.9, n)); }
+ dibuja();};
+
+function barco(x,zFondo,calado,agua,o){
+ o=o||{};
+ const prof=agua-zFondo;
+ const toca=prof<=calado;
+ const zQuilla=toca? zFondo : agua-calado;
+ const zCub=zQuilla+calado;
+
+ const yQ=zY(zQuilla), yC=zY(zCub);
+ const an=px(o.eslora||58);
+ const mal=toca||o.golpe;
+ const g=el("g",{});
+ if(toca)g.setAttribute("transform","rotate(-7 "+x.toFixed(1)+" "+yQ.toFixed(1)+")");
+ el("path",{d:"M"+(x-an/2)+","+yC+"L"+(x+an/2)+","+yC
+   +"Q"+(x+an/2-px(6))+","+yQ+" "+x+","+yQ
+   +"Q"+(x-an/2+px(6))+","+yQ+" "+(x-an/2)+","+yC+"Z",
+  fill:mal?COL.rojo:COL.escrito},g);
+
+ const zTope = o.palo!==undefined ? zCub+o.palo : null;
+ const yT = zTope!==null ? zY(zTope) : yC-px(34);
+ el("line",{x1:x,y1:yC,x2:x,y2:yT,
+  stroke:mal?COL.rojo:COL.escrito,"stroke-width":px(2)},g);
+
+ if(o.palo!==undefined)
+  el("circle",{cx:x,cy:yT,r:px(3.4),fill:mal?COL.rojo:COL.escrito},g);
+
+ let zTr=null;
+ if(o.transductor!==undefined){
+  zTr=zCub-o.transductor;
+  const xt=x-an*0.22;
+
+  el("rect",{x:xt-px(5),y:zY(zTr)-px(1),width:px(10),height:px(5),
+   fill:COL.ocre,rx:px(1),"data-pieza":"transducer"},g);}
+ return {toca:toca, x:x, yTope:yT, zTope:zTope, yCubierta:yC,
+         zTransductor:zTr, xTransductor:x-an*0.22};}
+
+function pantallaEco(x,y,valor,etq,o){
+ o=o||{};
+
+ const an=o.ancho||px(124), al=px(58);
+ el("rect",{x:x,y:y,width:an,height:al,fill:"#0A1E27",rx:px(3),
+  stroke:COL.ocre,"stroke-width":px(1.4)});
+ cifra(x+an/2,y+px(32),(valor>=0?"":"\u2212")+Math.abs(valor).toFixed(1),
+  TAM.cifra,o.mal?COL.rojo:"#EFE6D2","middle");
+ cifra(x+an/2,y+px(50),String(etq).toUpperCase(),TAM.rot,COL.ocreTexto,"middle");
+ return {x:x,y:y,an:an,al:al};}
+
+function lecturas(x,y,filas){
+
+ const anRot=Math.max.apply(null,
+   filas.map(f=>anchoTxt(String(f[0]).toUpperCase(),px(TAM.rot))
+                +String(f[0]).length*px(1.4)));
+ const anCif=Math.max.apply(null,filas.map(f=>anchoTxt(String(f[1]),px(TAM.dato))));
+ const an=anRot+anCif+px(9)*2+px(14);
+ el("rect",{x:x,y:y,width:an,height:px(18)*filas.length+px(12),
+  fill:COL.papelClaro,stroke:COL.rayaPapel,"stroke-width":px(GR.filete),rx:R.caja});
+ filas.forEach((f,i)=>{
+  const yy=y+px(16)+i*px(18);
+  rotulo(x+px(9),yy,f[0],f[2]||COL.suave);
+  cifra(x+an-px(9),yy,f[1],TAM.dato,f[2]||COL.escrito,"end");});}
+
+function corte(o){
+ o=o||{};
+ const m=laminaMaqueta();
+ const x0=HOJA.x0+px(2), an=(HOJA.x1-px(2))-x0;
+ agua();
+ const f=fondo(o.sonda!==undefined?o.sonda:APERTURA.sonda,
+               o.seca!==undefined?o.seca:APERTURA.seca);
+ if(o.linea)lineaCero(true,o.ceroDerecha,o.ceroAbajo);
+ if(o.sondaCota)cota(f.xSonda,-(o.sonda!==undefined?o.sonda:APERTURA.sonda),
+   (o.sonda!==undefined?o.sonda:APERTURA.sonda),false,o.resalta=="sonda");
+ if(o.secaCota)cota(f.xSeca,(o.seca!==undefined?o.seca:APERTURA.seca),
+   (o.seca!==undefined?o.seca:APERTURA.seca),true,o.resalta=="seca");
+
+ if(o.barco!==false){
+  const f=o.barcoX!==undefined?o.barcoX:0.34;
+  const so=o.sonda!==undefined?o.sonda:APERTURA.sonda;
+  const se=o.seca!==undefined?o.seca:APERTURA.seca;
+  barco(x0+an*f, zPerfil(f,so,se), CALADO_TIPO, MAREA);}
+ rotulo(HOJA.x0+px(10),HOJA.y0+px(10+TAM.rot),
+  o.titulo||"a section through the water",COL.suave);
+
+ if(o.tira)asidero(zY(MAREA));}
+
+function cotaResguardo(x,zFondo,calado,resg,o){
+ o=o||{};
+ const zQuilla=MAREA-calado;
+ const y0=zY(zQuilla), y1=zY(zQuilla-resg);
+ flecha(x,y0,y1,resg,COL.ocre,o.mudo?"":"safety margin",o.resalta,o.mudo);
+
+ const toca=(zQuilla-resg)<=zFondo+0.001;
+ el("line",{x1:x-px(26),y1:y1,x2:x+px(26),y2:y1,
+  stroke:toca?COL.rojo:COL.ocre,"stroke-width":px(toca?2.2:1.4),
+  "stroke-dasharray":px(5)+" "+px(3)});
+ return {toca:toca, z:zQuilla-resg};}
+
+function barraVentana(y,de,a,alto){
+ const x0=HOJA.x0+px(56), x1=HOJA.x1-px(16), an=x1-x0;
+ const hX=h=>x0+((h-0)/24)*an;
+ el("rect",{x:x0,y:y,width:an,height:alto,fill:COL.papel2,rx:px(2)});
+ for(let h=0;h<=24;h+=3){
+  el("line",{x1:hX(h),y1:y,x2:hX(h),y2:y+alto,
+   stroke:COL.rayaPapel,"stroke-width":px(1)});
+  cifra(hX(h),y+alto+px(11),String(h).padStart(2,"0")+"00",TAM.rot,COL.suave,
+   "middle");}
+ el("rect",{x:x0,y:y,width:an,height:alto,fill:"none",
+  stroke:COL.escrito,"stroke-width":px(1.2),rx:px(2)});
+ rotulo(HOJA.x0+px(10),y+alto/2+px(4),"window",COL.escrito);
+ if(de===null||a===null||a<=de){
+  cifra((x0+x1)/2,y+alto/2+px(4),"no window today",TAM.rot,COL.rojo,"middle");
+  return {ancho:0};}
+ el("rect",{x:hX(de),y:y+px(2),width:hX(a)-hX(de),height:alto-px(4),
+  fill:COL.ocre,opacity:.75,rx:px(2)});
+
+ const ancho=a-de;
+ const dice=hhmm(de)+" \u2013 "+hhmm(a);
+ if(anchoTxt(dice,px(TAM.rot))<=hX(a)-hX(de)-px(8))
+
+  cifra((hX(de)+hX(a))/2,y+alto/2+px(4),dice,TAM.rot,COL.escrito,"middle");
+ else
+  cifra(hX(a)+px(6),y+alto/2+px(4),dice,TAM.rot,COL.escrito);
+ return {ancho:ancho};}
+
+const hhmm=m=>{const t=Math.round(m*60);
+ return String(Math.floor(t/60)).padStart(2,"0")+":"
+       +String(t%60).padStart(2,"0");};
+
+const TODO_EL_DIA={siempre:true};
+function ventanaDe(q,resg){
+ const pide=q.calado+resg-q.sonda;
+ if(pide<=q.lw)return {de:0, a:24, ancho:24, pide:pide, siempre:true};
+ if(pide>=q.hw)return {de:null, a:null, ancho:0, pide:pide, nunca:true};
+ const f=(pide-q.lw)/(q.hw-q.lw);
+
+ const out=[];
+ for(const par of [[-CURVA_ALA,0],[0,CURVA_ALA]]){
+  let a=par[0], b=par[1];
+  let fa=factorDia(q,a)-f, fb=factorDia(q,b)-f;
+
+  if(fa*fb>0){
+   if(fa>0)return {de:0, a:24, ancho:24, pide:pide, siempre:true};
+   return {de:null, a:null, ancho:0, pide:pide, nunca:true};}
+  for(let k=0;k<50;k++){
+   const m=(a+b)/2, fm=factorDia(q,m)-f;
+   if(fa*fm<=0){b=m; fb=fm;} else {a=m; fa=fm;}}
+  out.push((a+b)/2);}
+ const de=q.hwH+out[0], a=q.hwH+out[1];
+ return {de:Math.max(0,de), a:Math.min(24,a), pide:pide,
+         ancho:Math.min(24,a)-Math.max(0,de)};}
+
+const CURVA_ALA=6.5, CURVA_PASO=0.25;
+const CURVA_VIVAS=[-0.022, -0.019, -0.007, 0.015, 0.046, 0.085, 0.13, 0.182, 0.238, 0.297, 0.359, 0.421, 0.482, 0.542, 0.6, 0.656, 0.709, 0.758, 0.804, 0.846, 0.883, 0.917, 0.945, 0.969, 0.986, 0.996, 1, 0.996, 0.985, 0.965, 0.939, 0.904, 0.863, 0.816, 0.763, 0.706, 0.646, 0.584, 0.52, 0.457, 0.394, 0.333, 0.275, 0.221, 0.171, 0.128, 0.09, 0.061, 0.039, 0.026, 0.023, 0.028, 0.043], CURVA_MUERTAS=[-0.055, -0.043, -0.02, 0.013, 0.057, 0.111, 0.173, 0.241, 0.313, 0.387, 0.462, 0.534, 0.602, 0.665, 0.721, 0.771, 0.815, 0.852, 0.883, 0.91, 0.932, 0.952, 0.968, 0.981, 0.991, 0.998, 1, 0.997, 0.989, 0.974, 0.952, 0.924, 0.888, 0.846, 0.798, 0.745, 0.688, 0.628, 0.567, 0.505, 0.444, 0.384, 0.327, 0.273, 0.222, 0.177, 0.137, 0.104, 0.079, 0.063, 0.057, 0.061, 0.075];
+const UVIVAS=5.78;
+const curvaDe=q=>((q.hw-q.lw)>=UVIVAS ? CURVA_VIVAS : CURVA_MUERTAS);
+function factorDia(q,h){
+ const x=(Math.max(-CURVA_ALA,Math.min(CURVA_ALA,h))+CURVA_ALA)/CURVA_PASO;
+ const i=Math.floor(x), u=x-i, p=curvaDe(q);
+ return p[i]+(p[Math.min(i+1,p.length-1)]-p[i])*u;}
+
+function laminaPuente(){
+ const pie=HOJA.y1-px(14+TAM.rot+10);
+ const alto=HOJA.y0+px(10+TAM.rot+14);
+ ZTOP=TECHO_P; ZBOT=SUELO_P;
+ VESC=(pie-alto)/(ZTOP-ZBOT);
+ CERO=alto+ZTOP*VESC;
+ return {pie:pie, alto:alto};}
+
+function puente(o){
+ o=o||{};
+ const x0=HOJA.x0+px(2), x1=HOJA.x1-px(2), an=x1-x0;
+
+ const G=(o.galibo!==undefined)?o.galibo:GALIBO;
+ const zBajo=NIVELES.HAT+G;
+ const yBajo=zY(zBajo);
+ const h=px(13);
+ if(o.tablero!==false){
+
+ el("rect",{x:x0,y:yBajo-h,width:an,height:h,fill:COL.raya});
+
+ el("rect",{x:x0,y:yBajo-px(3.5),width:an,height:px(3.5),fill:COL.escrito});
+
+ if(o.rotula!==false)
+  cifra(x1-px(8),yBajo-px(4.5),
+   ("charted "+un(G)+" m above HAT").toUpperCase(),
+   TAM.rot,COL.papelClaro,"end");
+ }
+ if(o.hat!==false){
+
+  el("line",{x1:x0,y1:zY(NIVELES.HAT),x2:x1,y2:zY(NIVELES.HAT),
+   stroke:COL.magenta,"stroke-width":px(1.6),
+   "stroke-dasharray":px(8)+" "+px(4)});
+
+  if(!o.mudo)
+   rotulo(x0+px(10),zY(NIVELES.HAT)-px(6),
+    "HAT  "+un(NIVELES.HAT)+" m",COL.magenta);}
+ if(o.cota)
+  flecha(x0+an*0.66,zY(NIVELES.HAT),yBajo,G,COL.ocre,
+   "charted clearance",o.resalta=="galibo");
+ return {yBajo:yBajo, zBajo:zBajo};}
+
+function escenaPuente(o){
+ o=o||{};
+ laminaPuente();
+
+ const x0=HOJA.x0+px(2), x1=HOJA.x1-px(2), an=x1-x0;
+ const yA=zY(MAREA);
+ el("rect",{x:x0,y:yA,width:an,height:Math.max(0,HOJA.y1-px(2)-yA),
+  fill:"url(#gAgua)",class:"agua"});
+ let d="";
+ for(let x=x0;x<=x1;x+=px(4)){
+  const yy=yA+Math.sin(x*0.07*ESC)*px(1.8)+Math.sin(x*0.021*ESC)*px(1.2);
+  d+=(d?"L":"M")+x.toFixed(1)+","+yy.toFixed(1);}
+ el("path",{d:d,fill:"none",stroke:COL.aguaH,"stroke-width":px(1.6),class:"agua"});
+
+ const zLecho=(o.lecho!==undefined)?o.lecho:-5.0;
+ el("rect",{x:x0,y:zY(zLecho),width:an,height:HOJA.y1-px(2)-zY(zLecho),
+  fill:"url(#tramaTierra)"});
+ el("line",{x1:x0,y1:zY(zLecho),x2:x1,y2:zY(zLecho),
+  stroke:COL.tierraRaya,"stroke-width":px(1.8)});
+
+ el("line",{x1:x0,y1:CERO,x2:x1,y2:CERO,stroke:COL.magenta,
+  "stroke-width":px(1.6),"stroke-dasharray":px(8)+" "+px(4)});
+
+ if(!o.mudo)
+  rotulo(x0+px(10),CERO+px(TAM.rot+6),nombreCero(),COL.magenta);
+
+ const pu=puente({cota:o.cota, resalta:o.resalta, mudo:o.mudo, tablero:o.tablero,
+   galibo:o.galibo, rotula:o.rotula, hat:o.hat});
+
+ const zTope=MAREA+PALO;
+ const golpe=(o.tablero!==false)&&(zTope>=pu.zBajo);
+ const b=barco(x0+an*0.30, zLecho, BARCO.calado, MAREA,
+   {palo:PALO, eslora:74, golpe:golpe});
+
+ if(o.hueco!==false){
+
+  const xh=x0+an*0.30+px(30), col=golpe?COL.rojo:COL.verde;
+  const yT=b.yTope, yB=pu.yBajo;
+  el("line",{x1:xh,y1:yT,x2:xh,y2:yB,stroke:col,"stroke-width":px(2.2),
+   "stroke-dasharray":px(5)+" "+px(3)});
+  for(const yy of [yT,yB])
+   el("line",{x1:xh-px(5),y1:yy,x2:xh+px(5),y2:yy,stroke:col,
+    "stroke-width":px(2.2)});
+  if(golpe)
+   cifra(x0+an*0.30,pu.yBajo+px(18),"no room",TAM.dato,COL.rojo,"middle");}
+ rotulo(HOJA.x0+px(10),HOJA.y0+px(10+TAM.rot),
+  o.titulo||"the bridge hangs from HAT, and upwards",COL.suave);
+ if(o.tira)asidero(yA);
+
+ return {golpe:golpe, zTope:b.zTope, zBajo:pu.zBajo,
+         xHueco:x0+an*0.30+px(30)};}
+
+const EJPASO={"dia": 9, "sonda": 0.5, "marea": 2.7, "hw": 6.49, "lw": 2.53, "hwH": 8.733333333333333, "calado": 1.8, "resguardo": 0.5, "sobra": 0.9, "id": "paso-06", "sitio": "Aldern Sound"};
+
+const ESPASO={"dia": 0, "sonda": 0.5, "marea": 1.2, "hw": 7.88, "lw": 0.8, "hwH": 12.516666666666667, "calado": 1.8, "resguardo": 0.3, "sobra": -0.4, "id": "paso-00", "sitio": "the bar"};
+
+const PASOS1=[
+ {n:"What the chart and the almanac give you", ensena:{}},
+ {n:"What she draws", ensena:{barco:1}},
+ {n:"And what you decide to leave", ensena:{barco:1, resg:1}},
+ {n:"What is left", ensena:{barco:1, resg:1, sobra:1}},
+ {n:"The one figure nobody gives you", ensena:{barco:1, resg:1, sobra:1, quien:1}}];
+
+const PASOS2=[
+ {n:"The water she is floating in", ensena:{}},
+ {n:"Where the thing actually is", ensena:{tr:1}},
+ {n:"What it actually measures", ensena:{tr:1, cruda:1}},
+ {n:"The two ways of talking it round", ensena:{tr:1, cruda:1, tres:1}},
+ {n:"Three numbers, one piece of water", ensena:{tr:1, tres:1, juntas:1}}];
+
+let EJ={i:0};
+
+const PASOS3=[
+ {n:"The ground, and where it stands", ensena:{}},
+
+ {n:"What you decide to leave", ensena:{resg:1}},
+ {n:"And what she draws", ensena:{resg:1, calado:1, barco:1}},
+ {n:"So the water has to reach here", ensena:{resg:1, calado:1, barco:1, nivel:1}},
+ {n:"Does the day give it to you",
+  ensena:{resg:1, calado:1, barco:1, nivel:1, hw:1}}];
+
+const PASOS4=[
+ {n:"The line it hangs from", ensena:{tablero:false, hat:1}},
+ {n:"Charted from the worst day of the year", ensena:{hat:1, cotaGalibo:1}},
+ {n:"So today it is better than that", ensena:{hat:1, cotaGalibo:1, baja:1}},
+ {n:"And the tide takes it back", ensena:{hat:1, cotaGalibo:1}},
+ {n:"What is left over her masthead", ensena:{hat:1, cotaGalibo:1, sobra:1}}];
+
+const PASOSDE=s=>({t1:PASOS1, t2:PASOS2, t3:PASOS3, t4:PASOS4})[(s&&s.tramos)||"t1"]
+ ||PASOS1;
+const TRAMO=()=>{const P=PASOSDE(S()); return P[EJ.i]||P[P.length-1];};
+
+function escenaPaso(q,resg,e){
+ e=e||{};
+ MAREA=q.marea;
+ corte({linea:1, sonda:q.sonda, seca:false, barco:false,
+   ceroDerecha:true,
+   titulo:e.titulo||"one moment \u00b7 " + q.sitio});
+ const x0=HOJA.x0+px(2), an=(HOJA.x1-px(2))-x0;
+ const fx=0.38;
+ const zLecho=zPerfil(fx,q.sonda,0);
+ if(e.barco)barco(x0+an*fx, zLecho, q.calado, MAREA, {nombre:BARCO.nombre});
+ let r=null;
+ if(e.resg)r=cotaResguardo(x0+an*fx, zLecho, q.calado, resg,
+   {resalta:e.quien});
+
+ if(e.sobra&&r){
+  const sobra=(r.z)-zLecho;
+  const yy=(zY(r.z)+zY(zLecho))/2;
+
+  pildora(x0+an*fx-px(30),yy,
+   (sobra>=0?"+":"")+sobra.toFixed(1)+" m to spare",
+   sobra>=0?COL.verde:COL.rojo,"end");}
+ return r;}
+
+function enmarca(){
+ const q=EJPASO;
+ MAREA=q.marea;
+ corte({linea:1, sonda:q.sonda, seca:false, barco:false, ceroDerecha:true,
+   titulo:"one boat, one place, one moment \u00b7 " + q.sitio});
+ const x0=HOJA.x0+px(2), an=(HOJA.x1-px(2))-x0, fx=0.38;
+ const x=x0+an*fx, zLecho=zPerfil(fx,q.sonda,0);
+ barco(x, zLecho, q.calado, MAREA, {nombre:BARCO.nombre});
+
+ const y0=zY(MAREA-q.calado), y1=zY(zLecho);
+ el("line",{x1:x,y1:y0,x2:x,y2:y1,stroke:COL.magenta,"stroke-width":px(1.8),
+  "stroke-dasharray":px(5)+" "+px(4)});
+ pildora(x+px(46),(y0+y1)/2,"how much?",COL.magenta);
+ VIVO={};}
+
+function ejemplo(){
+ const P=TRAMO(), q=EJPASO;
+ escenaPaso(q,q.resguardo,P.ensena);
+ VIVO={};}
+
+let LAB={resg:0.5};
+window.labResg=d=>{
+ LAB.resg=Math.max(0,Math.min(3.0,Math.round((LAB.resg+d)*10)/10));
+ dibuja();};
+
+function juego(){
+ const q=ESPASO;
+ escenaPaso(q,LAB.resg,{barco:1,resg:1,sobra:1,
+   titulo:"drag nothing, decide one thing \u00b7 nothing here is scored"});
+ const v=ventanaDe(q,LAB.resg);
+ const y=HOJA.y1-px(46);
+ const b=barraVentana(y,v.de,v.a,px(18));
+ VIVO={lab:1, resg:LAB.resg, pide:v.pide,
+       de:v.de, a:v.a, ancho:b.ancho};}
+
+function rayaNivel(z,etq,o){
+ o=o||{};
+ const y=zY(z);
+ el("line",{x1:HOJA.x0+px(8),y1:y,x2:HOJA.x1-px(8),y2:y,
+  stroke:o.col||COL.magenta,"stroke-width":px(1.8),
+  "stroke-dasharray":px(10)+" "+px(5),"data-pieza":o.pieza||"nivel"});
+ if(etq)pildora(HOJA.x1-px(14),y,etq,o.col||COL.magenta,"end");
+ return y;}
+
+function escenaEco(q,e){
+ e=e||{};
+
+ MAREA=q.marea;
+ const sonda=q.sonda;
+ corte({linea:1, sonda:sonda, seca:false, barco:false, ceroDerecha:true,
+   titulo:e.titulo||"one instrument, three answers"});
+ const x0=HOJA.x0+px(2), an=(HOJA.x1-px(2))-x0, fx=0.34;
+ const x=x0+an*fx, zLecho=zPerfil(fx,sonda,0);
+ const b=barco(x, zLecho, q.calado, MAREA,
+   {nombre:BARCO.nombre, transductor:e.tr?q.transductor:undefined});
+
+ if(e.cruda&&b.zTransductor!==null)
+  flecha(b.xTransductor, zY(b.zTransductor), zY(zLecho),
+   Math.round((b.zTransductor-zLecho)*10)/10, COL.ocre, "what it measures");
+ return {x:x, zLecho:zLecho, b:b, sonda:sonda};}
+
+function tresLecturas(q,y,cual){
+ const prof=q.profundidad, bajoT=prof-q.transductor;
+ const V=[["waterline",prof],["transducer",bajoT],
+          ["keel",prof-q.calado]];
+
+ const hueco=px(14);
+ const cabe=(HOJA.x1-HOJA.x0)-px(40);
+ const anC=Math.min(px(124),(cabe-(V.length-1)*hueco)/V.length);
+ const total=V.length*anC+(V.length-1)*hueco;
+ const x0=(HOJA.x0+HOJA.x1)/2-total/2;
+ for(let i=0;i<V.length;i++){
+  if(cual!==undefined&&cual!==i)continue;
+  pantallaEco(x0+i*(anC+hueco), y, Math.round(V[i][1]*10)/10, V[i][0], {ancho:anC});}
+ return {x0:x0, total:total, anC:anC,
+         valores:V.map(v=>Math.round(v[1]*10)/10)};}
+
+function enmarca2(){
+ const q=ECOEJ;
+ escenaEco(q,{tr:1, titulo:"the same water, three times"});
+ tresLecturas(q, HOJA.y1-px(74));
+ VIVO={};}
+
+function ejemplo2(){
+ const P=TRAMO(), q=ECOEJ, e=P.ensena;
+ escenaEco(q,{tr:e.tr, cruda:e.cruda,
+   titulo:"one instrument, and where it is bolted"});
+ if(e.juntas)tresLecturas(q, HOJA.y1-px(74));
+ else if(e.tres)tresLecturas(q, HOJA.y1-px(74), 0);
+ else if(e.cruda)tresLecturas(q, HOJA.y1-px(74), 1);
+ VIVO={};}
+
+function practica2(){
+ const q=PR2.q;
+ if(!q){ corte({linea:1, barco:false}); return; }
+ escenaEco(q,{tr:1, titulo:"what does that reading leave you?"});
+ pantallaEco((HOJA.x0+HOJA.x1)/2-px(62), HOJA.y1-px(74),
+  q.lectura, q.ajuste);
+ VIVO={};}
+
+function escenaPrecisa(q,e){
+ e=e||{};
+
+ MAREA=e.nivel? q.pide : Math.max(q.seca?q.cifra+0.4:0.6, q.lw);
+ corte({linea:1,
+   sonda:q.seca?0:q.cifra, seca:q.seca?q.cifra:0,
+   ceroDerecha:true, barco:false,
+   titulo:e.titulo||("how much tide does it take \u00b7 "+q.sitio)});
+ const x0=HOJA.x0+px(2), an=(HOJA.x1-px(2))-x0, fx=0.38;
+ const x=x0+an*fx, zLecho=zPerfil(fx,q.seca?0:q.cifra,q.seca?q.cifra:0);
+
+ if(e.resg)
+  flecha(x-px(34), zY(zLecho+q.resguardo), zY(zLecho), q.resguardo, COL.ocre,
+   "safety margin");
+ if(e.calado)
+  flecha(x-px(140), zY(zLecho+q.resguardo+q.calado), zY(zLecho+q.resguardo),
+   q.calado, COL.escrito, "her draught");
+ if(e.barco)barco(x, zLecho+q.resguardo, q.calado, zLecho+q.resguardo+q.calado,
+   {nombre:BARCO.nombre});
+ if(e.nivel)rayaNivel(q.pide, un(q.pide)+" m of tide", {pieza:"pide"});
+
+ if(e.hw)rayaNivel(q.hw, "HW today \u00b7 "+un(q.hw)+" m",
+   {col:q.alcanza?COL.verde:COL.rojo, pieza:"hw"});
+ return {x:x, zLecho:zLecho};}
+
+function enmarca3(){ escenaPrecisa(PRECISAEJ,{resg:1, calado:1, barco:1, nivel:1,
+  titulo:"the same sum, asked the other way round"}); VIVO={}; }
+
+function ejemplo3(){
+ const P=TRAMO(), q=PRECISAEJ;
+ escenaPrecisa(q,P.ensena);
+ VIVO={};}
+
+function practica3(){
+ const q=PR2.q;
+ if(!q){ corte({linea:1, barco:false}); return; }
+ escenaPrecisa(q,{resg:1, calado:1, barco:1,
+   titulo:"how high does the water have to stand?"});
+ VIVO={};}
+
+function cotaAire(x,zTope,zBajo){
+ const sobra=Math.round((zBajo-zTope)*10)/10;
+
+ flecha(x, zY(zBajo), zY(zTope), sobra,
+   sobra>=0?COL.verde:COL.rojo, "");
+ return sobra;}
+
+function escenaAire(q,e){
+ e=e||{};
+ MAREA=e.marea!==undefined?e.marea:q.marea;
+ const r=escenaPuente({galibo:q.galibo, cota:e.cotaGalibo,
+   tablero:e.tablero, hat:e.hat,
+   hueco:!e.sobra,
+
+   rotula:!e.cotaGalibo,
+   titulo:e.titulo||("what is left over her masthead \u00b7 "+q.cruce)});
+
+ let sobra=null;
+
+ if(e.sobra&&r.zBajo!==undefined&&r.zTope!==undefined)
+
+  sobra=cotaAire(r.xHueco+px(52), r.zTope, r.zBajo);
+ return {r:r, sobra:sobra};}
+
+function enmarca4(){
+ escenaAire(AIREEJ,{cotaGalibo:1, sobra:1,
+   titulo:"the one that works the other way round"});
+ VIVO={};}
+
+function ejemplo4(){
+ const P=TRAMO(), q=AIREEJ, e=P.ensena;
+ escenaAire(q,{tablero:e.tablero, hat:e.hat, cotaGalibo:e.cotaGalibo,
+   sobra:e.sobra, marea:e.baja?q.lw:q.marea});
+ VIVO={};}
+
+function juego4(){
+ const q=AIREEJ;
+ const r=escenaAire(q,{cotaGalibo:1, sobra:1, marea:MAREA,
+   titulo:"drag the water \u00b7 nothing here is scored"});
+ VIVO={aire:1, marea:MAREA, galibo:q.galibo, palo:q.palo, hat:q.hat,
+       sobra:r.sobra, golpe:r.sobra!==null&&r.sobra<0};}
+
+function practica4(){
+ const q=PR2.q;
+ if(!q){ escenaPuente({titulo:"\u00a0"}); return; }
+ escenaAire(q,{cotaGalibo:1,
+   titulo:"how much is left over her masthead?"});
+ VIVO={};}
+
+function cierre(){
+
+ const LECHO=CIERRE.seca, RESG=CIERRE.resguardo;
+ const r=escenaPuente({lecho:LECHO, galibo:CIERRE.galibo, hueco:false,
+   titulo:"one tide, two answers \u00b7 "+CIERRE.cruce});
+ const x0=HOJA.x0+px(2), an=(HOJA.x1-px(2))-x0;
+ const x=x0+an*0.30;
+
+ const arriba=Math.round((r.zBajo-r.zTope)*10)/10;
+ flecha(x+px(52), zY(r.zBajo), zY(r.zTope), arriba,
+   arriba>=0?COL.verde:COL.rojo, "");
+
+ const zQuilla=MAREA-BARCO.calado;
+ const abajo=Math.round((zQuilla-RESG-LECHO)*10)/10;
+ flecha(x+px(52), zY(zQuilla), zY(LECHO), Math.round((zQuilla-LECHO)*10)/10,
+   abajo>=0?COL.verde:COL.rojo, "");
+ VIVO={cierre:1, marea:MAREA, arriba:arriba, abajo:abajo, resg:RESG};}
+
+function practica(){
+ const s=S();
+ if(s&&s.banco=="eco"){ practica2(); return; }
+ if(s&&s.banco=="precisa"){ practica3(); return; }
+ if(s&&s.banco=="aire"){ practica4(); return; }
+ const q=PR2.q;
+ if(!q){ corte({linea:1, barco:false}); return; }
+ escenaPaso(q,q.resguardo,{barco:1,resg:1,
+   titulo:"how much is left under her?"});
+ VIVO={};}
+
+let PR2={q:null,n:0,meta:2,fallos:0,esp:false,hecho:false};
+let PRB={};
+
+const prBanco=s=>({paso:PASO, eco:ECO, precisa:PRECISA, aire:AIRE})[s.banco]||PASO;
+
+window.prBancoDe=prBanco;
+
+function prNuevo(){const s=S();
+ if(!PRB[s.id])PRB[s.id]=bolsaNueva();
+ PR2.q=saca(PRB[s.id],prBanco(s));
+ PR2.fallos=0; PR2.esp=false;
+ PRFB="";}
+function prSube(){ if(PR2.meta>2)return false; PR2.meta=3; return true; }
+
+function semillaDe(s){let h=2166136261>>>0;
+ for(let i=0;i<s.length;i++){h^=s.charCodeAt(i); h=Math.imul(h,16777619)>>>0;}
+ return h||1;}
+function tiradaDe(s){let R=semillaDe(s);
+ return ()=>{R^=R<<13; R>>>=0; R^=R>>>17; R^=R<<5; R>>>=0; return R/4294967296;};}
+
+function prLee(){
+ const d=document.getElementById("prIn");
+ return d ? String(d.value||"").trim() : "";}
+
+const cotaDe=(cifra,seca)=>(seca?-cifra:cifra);
+
+function bajoQuilla(ajuste,lectura,calado,transductor){
+ if(ajuste=="waterline")return lectura-calado;
+ if(ajuste=="transducer")return lectura-(calado-transductor);
+ return lectura;}
+
+const FORMAS={
+
+ metros:{
+
+  eg:"0.0",
+  cu:"metres, like <b>0.0</b>",
+
+  norma:v=>{const z=String(v).replace(/\s|m$/gi,"").replace(",",".")
+    .replace(/[\u2212\u2013\u2014]/g,"-");
+   return /^-?\d{1,2}(\.\d)?$/.test(z)
+     ? (Math.round(parseFloat(z)*10)/10).toFixed(1) : null;},
+  mal:"<b>Metres, to one decimal</b>, like <b>0.0</b> \u2014 and with a "
+      +"<b>minus</b> in front if she does not make it.",
+
+  bien:q=>(Math.round((q.ajuste!==undefined
+    ? bajoQuilla(q.ajuste,q.lectura,q.calado,q.transductor)
+    : q.pide!==undefined
+    ? q.calado+q.resguardo-cotaDe(q.cifra,q.seca)
+    : q.galibo!==undefined
+    ? q.galibo+q.hat-q.marea-q.palo
+    : q.sonda+q.marea-q.calado-q.resguardo)*10)/10).toFixed(1),
+  eco:v=>v+" m"}};
+const forma=s=>FORMAS[(s&&s.forma)||"metros"];
+const prBien=(q,s)=>forma(s||S()).bien(q,s||S());
+
+let PRFB="";
+function prFalla(s,html){
+ PR2.fallos++;
+ let h='<div class="res no">'+html;
+ if(PR2.fallos>=2&&s.pista)h+='<div class="pista">'+s.pista+'</div>';
+ h+='</div>';
+ if(PR2.fallos>=3)h+='<button class="show" onclick="showme()">Show me</button>';
+ PRFB=h;}
+
+function prCuenta(){
+ PR2.n++;
+ if(PR2.n>=PR2.meta){ PR2.hecho=true; PR2.esp=false; return true; }
+ PR2.esp=true; return false;}
+
+window.prSigue=()=>{ if(!PR2.esp)return; prNuevo(); dibuja(); };
+
+window.compruebo=dado=>{
+ if(PR2.esp||PR2.hecho)return;
+ const s=S(), q=PR2.q, F=forma(s);
+ const v=F.norma(dado!==undefined?dado:prLee());
+ if(v===null){ prFalla(s,F.mal); dibuja(); return; }
+ if(v!==prBien(q,s)){
+
+  if(q.galibo!==undefined){
+   const d=parseFloat(v), bien=parseFloat(prBien(q,s));
+   let f="";
+   if(Math.abs(d-(q.galibo+q.hat+q.marea-q.palo))<0.06)
+    f=" You have <b>added</b> the tide. Everywhere else in this block the tide gave "
+     +"you water \u2014 here it takes room away. Every metre it rises lifts her "
+     +"masthead a metre closer to the bridge, and the bridge does not move.";
+   else if(Math.abs(d-(q.galibo-q.palo))<0.06)
+    f=" You have left out <b>HAT</b>. The charted clearance hangs from the highest "
+     +"tide of all, not from the datum \u2014 so there is another "+un(q.hat)
+     +" m of height under it before the tide of the day is counted at all.";
+   else if(Math.abs(d-(q.galibo+q.hat-q.marea))<0.06)
+    f=" That is the air over the water. You have not taken off <b>her air draught</b>"
+     +" \u2014 the "+un(q.palo)+" m of mast and aerial that has to fit in it.";
+   else if(Math.abs(d-q.galibo)<0.06)
+    f=" That is the <b>charted clearance</b>, straight off the paper. It is what is "
+     +"there on the worst day of the year, over the water and before anything of "
+     +"yours is in the way.";
+   else if(Math.abs(d+bien)<0.06&&Math.abs(bien)>0.05)
+    f=(bien<0
+      ? " Right size, wrong way round: there is no "+un(-bien)+" m to spare "
+       +"\u2014 she is "+un(-bien)+" m <b>too tall</b>."
+      : " Right size, wrong way round: she clears it by "+un(bien)+" m.");
+   prFalla(s,"<b>"+forma(s).eco(v,q)+"</b> is not it."+f);
+   anota(v,false); dibuja(); return;}
+
+  if(q.pide!==undefined){
+   const d=parseFloat(v), bien=parseFloat(prBien(q,s));
+   const alReves=q.calado+q.resguardo+cotaDe(q.cifra,q.seca);
+   let f="";
+   if(Math.abs(d-alReves)<0.06)
+    f=(q.seca
+      ? " You have taken the drying height <b>off</b>. It is ground standing "
+       +un(q.cifra)+" m <b>above</b> the datum \u2014 that is what the underline "
+       +"means \u2014 so the tide has to cover it <em>before</em> she floats at all."
+      : " You have <b>added</b> the sounding. There is already "+un(q.cifra)
+       +" m of water there at datum, so it counts <em>towards</em> what she needs, "
+       +"not against it.");
+   else if(Math.abs(d-(q.calado-cotaDe(q.cifra,q.seca)))<0.06)
+    f=" You have left out the <b>safety margin</b>. Floating is not the test \u2014 you "
+     +"decided to keep "+un(q.resguardo)+" m in hand, and that has to come out of "
+     +"the tide like everything else.";
+   else if(Math.abs(d-(q.resguardo-cotaDe(q.cifra,q.seca)))<0.06)
+    f=" You have left out <b>her draught</b>. She sits "+un(q.calado)+" m into the "
+     +"water before you leave anything at all.";
+   else if(Math.abs(d-q.hw)<0.06)
+    f=" That is <b>high water</b> today. It is the figure you compare your answer "
+     +"<em>against</em> \u2014 what you want is how much she <b>needs</b>, which does "
+     +"not depend on the day at all.";
+   prFalla(s,"<b>"+forma(s).eco(v,q)+"</b> is not it."+f);
+   anota(v,false); dibuja(); return;}
+
+  if(q.ajuste!==undefined){
+   const d=parseFloat(v), bien=parseFloat(prBien(q,s));
+   let f="";
+   if(Math.abs(d-q.lectura)<0.06)
+    f=" That is what the display says. It only <em>is</em> what is under her keel "
+     +"when the set is <b>zeroed to the keel</b>, and this one is "
+     +(q.ajuste=="waterline"?"zeroed to the <b>waterline</b>"
+                            :"reading straight from the <b>transducer</b>")+".";
+   else if(q.ajuste=="transducer"&&Math.abs(d-(q.lectura-q.calado))<0.06)
+    f=" You have taken off her whole draught, but the transducer is not at the "
+     +"waterline \u2014 it is already "+un(q.transductor)+" m down. What is below "
+     +"<b>it</b> is only "+un(q.calado-q.transductor)+" m of her.";
+   else if(Math.abs(d-(q.lectura-q.transductor))<0.06)
+    f=" You have taken off the <b>depth of the transducer</b>. What you need is what "
+     +"is under it: "+un(q.calado)+" \u2212 "+un(q.transductor)+" = <b>"
+     +un(q.calado-q.transductor)+" m</b> of keel below the thing.";
+   else if(Math.abs(d-(q.lectura+(q.lectura-bien)))<0.06&&Math.abs(q.lectura-bien)>0.05)
+    f=" Right size, wrong direction: whatever is between the transducer and the keel "
+     +"comes <b>off</b> the reading, not on to it. Nothing below her is deeper than "
+     +"the water.";
+   prFalla(s,"<b>"+forma(s).eco(v,q)+"</b> is not it."+f);
+   anota(v,false); dibuja(); return;}
+
+  if(q.sobra!==undefined){
+   const d=parseFloat(v), bien=parseFloat(prBien(q,s));
+   let f="";
+   if(Math.abs(d-(q.sonda+q.marea-q.calado))<0.06)
+    f=" That is what is under her keel. You have not taken off the <b>safety margin</b> "
+     +"\u2014 the "+un(q.resguardo)+" m you decided to keep in hand, which is the "
+     +"whole point of keeping it.";
+   else if(Math.abs(d-(q.sonda+q.marea-q.resguardo))<0.06)
+    f=" You have taken off the safety margin but not <b>her draught</b>. She sits "
+     +un(q.calado)+" m into the water before you leave anything at all.";
+   else if(Math.abs(d-(q.sonda+q.marea))<0.06)
+    f=" That is the <b>depth of water</b> \u2014 the whole column, from the surface to "
+     +"the seabed. She is floating in most of it.";
+   else if(Math.abs(d-(q.sonda-q.calado-q.resguardo))<0.06)
+    f=" You have left out the <b>tide</b>. The sounding is what is there at chart "
+     +"datum; today there is "+un(q.marea)+" m more.";
+
+   else if(Math.abs(d+bien)<0.06&&Math.abs(bien)>0.05)
+    f=(bien<0
+      ? " You have the size of it right, but the wrong way round: there is <b>no</b> "
+       +un(-bien)+" m to spare \u2014 she is "+un(-bien)+" m <b>short</b>."
+      : " You have the size of it right, but the wrong way round: she has "+un(bien)
+       +" m <b>to spare</b>.");
+   prFalla(s,"<b>"+forma(s).eco(v,q)+"</b> is not it."+f);
+   anota(v,false); dibuja(); return;}
+  if(s.forma=="metros"&&q.rango!==undefined){
+
+   const d=parseFloat(v);
+   let f="";
+   if(Math.abs(d-q.pleamar)<0.06)
+    f=" That is the <b>height of high water</b>, measured from the datum. The range "
+     +"is measured <b>between the two turns</b>, not from the datum.";
+   else if(Math.abs(d-q.bajamar)<0.06)
+    f=" That is the height of low water on its own.";
+   else if(Math.abs(d-(q.pleamar+q.bajamar))<0.06)
+    f=" You added them. The range is a <b>difference</b>: high water <b>minus</b> "
+     +"low water.";
+   prFalla(s,"<b>"+forma(s).eco(v,q)+"</b> is not it."+f);
+   anota(v,false); dibuja(); return;}
+  if(s.forma=="eleccion"&&q.clase!==undefined){
+
+   const dado=CLASES[+v][0];
+   const mayor=(dado=="springs")||(q.clase=="neaps"&&dado=="in between");
+   let f="";
+   if((dado=="springs"&&q.clase=="neaps")||(dado=="neaps"&&q.clase=="springs"))
+    f=" You have it the wrong way round. This day's range is <b>"+un(q.rango)
+     +" m</b>, and springs are the <b>big</b> ones.";
+   else
+    f=" Its range is <b>"+un(q.rango)+" m</b>, and the fortnight runs from "
+     +un(Math.min.apply(null,DIAS.map(x=>x.rango)))+" to "
+     +un(Math.max.apply(null,DIAS.map(x=>x.rango)))+". Most days are in between: "
+     +"that is what makes reading the springs column every day so expensive.";
+   prFalla(s,"<b>"+CLASES[+v][1].replace(/<[^>]+>/g,"")+"</b> is not it."+f);
+   anota(v,false); dibuja(); return;}
+  if(s.forma=="metros"){
+   const d=parseFloat(v), bien=parseFloat(prBien(q,s));
+   let f="";
+   if(Math.abs(d-q.cifra)<0.06)
+    f=" That is the figure the chart prints, on its own. <b>The tide has to go on "
+     +"top of it.</b>";
+   else if(Math.abs(d-q.altura)<0.06)
+    f=" That is the height of tide, on its own. <b>It is the water over the datum, "
+     +"not over the seabed.</b>";
+   else if(Math.abs(d-(q.seca?q.altura+q.cifra:q.altura-q.cifra))<0.06)
+    f=q.seca
+     ? " You added. That figure is <u>underlined</u>: the ground stands <b>above</b> "
+      +"the datum, so it comes <b>off</b> the height of tide."
+     : " You subtracted. A plain sounding is water below the datum, so the tide "
+      +"<b>adds</b> to it.";
+   prFalla(s,"<b>"+forma(s).eco(v,q)+"</b> is not it."+f);
+   anota(v,false); dibuja(); return;}
+  if(s.forma=="eleccion"&&q.deCarta!==undefined){
+
+   const dado=REF4[+v][0], bien=q.n;
+   const QUE={
+    "hat-arriba":"A vertical clearance is the air over <b>HAT</b> \u2014 the worst "
+      +"day of the year, so the chart never promises more than there is.",
+    "mhws-arriba":"An elevation \u2014 a light, a hilltop \u2014 is measured from "
+      +"<b>MHWS</b>. It is the fourth reference on the chart, and the one nobody "
+      +"tells you about.",
+    "datum-abajo":"A plain sounding is water, measured <b>down</b> from the datum.",
+    "datum-arriba":"An underlined figure is ground, measured <b>up</b> from the "
+      +"datum."};
+   prFalla(s,"<b>"+REF4[+v][1].replace(/<[^>]+>/g,"")+"</b> is not it. "
+     +(QUE[bien]||""));
+   anota(v,false); dibuja(); return;}
+  if(s.forma=="eleccion"&&q.via!==undefined){
+
+   const dado=N4[+v][0], bien=q.n;
+   const alta=x=>x[1]=="H", viva=x=>x[3]=="S";
+   let f="";
+   if(alta(dado)!==alta(bien))
+    f=" That is a <b>"+(alta(dado)?"high":"low")+"</b> water level and the answer "
+     +"is a <b>"+(alta(bien)?"high":"low")+"</b> one. The middle letter is the one "
+     +"that says which.";
+   else
+    f=" Right half of the line, wrong pair. <b>"+(viva(dado)?"Springs":"Neaps")
+     +"</b> is the "+(viva(dado)?"outer":"inner")+" one, and this is the "
+     +(viva(bien)?"outer":"inner")+": <b>"+(viva(bien)?"springs":"neaps")+"</b>.";
+   prFalla(s,"<b>"+dado+"</b> is not it."+f);
+   anota(v,false); dibuja(); return;}
+  if(s.forma=="eleccion"&&q.n!==undefined){
+   const el2=opsDe(q)[+v];
+   const QUE={height:"A height of tide is measured from the datum <b>up to the "
+     +"surface</b>, and it changes through the day.",
+    sounding:"A sounding is <b>printed on the paper</b> and does not move.",
+    depth:"A depth of water is the <b>whole column</b> over the seabed."};
+   const cual=(el2.t.match(/height|sounding|depth/)||[])[0];
+   prFalla(s,"<b>"+forma(s).eco(v,q).trim()+"</b> is not it. "+(QUE[cual]||""));
+   anota(v,false); dibuja(); return;}
+  const o=opsDe(q)[+v];
+  let firma="";
+  if(/chart datum/.test(o.t))
+   firma=q.seca
+    ? " An <b>underlined</b> figure is ground that stands <b>above</b> the datum. "
+     +"That is the sign that puts boats aground."
+    : " A plain sounding is water: the seabed is <b>below</b> the datum, and the "
+     +"tide adds to it.";
+  else if(/surface/.test(o.t))
+   firma=" The surface moves with the tide, so nothing on a chart can be measured "
+    +"from it. Everything hangs from the datum.";
+  else if(/keel/.test(o.t))
+   firma=" What is under your keel depends on your boat. A chart does not know your "
+    +"draught.";
+  prFalla(s,"<b>"+F.eco(v,q)+"</b> is not it."+firma);
+  anota(v,false); dibuja(); return;}
+ anota(v,true);
+ PRFB="";
+ if(!prCuenta())
+  PRFB='<div class="res si"><b>'+F.eco(v,q)+'</b> — that is it.</div>';
+ dibuja();};
+
+function showPaso(q,s,sub){
+ const bien=parseFloat(forma(s).bien(q,s));
+ let h='<div class="res ver"><b>Here it is.</b>'
+  +'<div class="calc">'
+  +'the sounding at '+String(q.sitio)+' &nbsp;<b>'+un(q.sonda)+'</b><br>'
+  +'the height of tide &nbsp;<b>+ '+un(q.marea)+'</b>'
+  +' &nbsp;→&nbsp; '+un(q.sonda+q.marea)+' m of water<br>'
+  +'less her draught &nbsp;<b>\u2212 '+un(q.calado)+'</b>'
+  +' &nbsp;→&nbsp; '+un(q.sonda+q.marea-q.calado)+' m under her keel<br>'
+  +'less the safety margin you leave &nbsp;<b>\u2212 '+un(q.resguardo)+'</b>'
+  +'</div>'
+  +'<p>It is <b class="big">'+(bien>=0?"+":"")+un(bien)+' m</b>'
+  +(bien<0
+    ? ' \u2014 <b>she does not go.</b> She is '+un(-bien)+' m short of the water she '
+     +'needs, so she waits for more tide or she goes somewhere else.'
+    : ' to spare.')+'</p>';
+ if(sub)h+='<div class="pista">And <b>one more after this</b>: this one you did not '
+  +'get out on your own, so it is worth doing another.</div>';
+ return h+'</div>';}
+
+function showEco(q,s,sub){
+ const bien=parseFloat(forma(s).bien(q,s));
+ const DE={waterline:["zeroed to the waterline",
+   "so it is showing you the <b>depth of water</b>",
+   "less her draught &nbsp;<b>\u2212 "],
+  transducer:["reading straight from the transducer",
+   "so it is showing you what is under <b>the transducer</b>, "
+   +"which is already "+un(q.transductor)+" m down",
+   "less the keel below it &nbsp;<b>\u2212 "],
+  keel:["zeroed to the keel",
+   "so somebody has already told it where her keel is",
+   "less nothing at all &nbsp;<b>\u2212 "]};
+ const d=DE[q.ajuste];
+ let h='<div class="res ver"><b>Here it is.</b>'
+  +'<div class="calc">'
+  +'the display reads &nbsp;<b>'+un(q.lectura)+'</b><br>'
+  +'it is '+d[0]+', '+d[1]+'<br>'
+  +d[2]+un(q.lectura-bien)+'</b>'
+  +'</div>'
+  +'<p>It is <b class="big">'+(bien>=0?"+":"")+un(bien)+' m</b>'
+  +(bien<0
+    ? ' \u2014 <b>she is aground</b>, or about to be.'
+    : ' under her keel.')+'</p>';
+ if(sub)h+='<div class="pista">And <b>one more after this</b>: this one you did not '
+  +'get out on your own, so it is worth doing another.</div>';
+ return h+'</div>';}
+
+function showPrecisa(q,s,sub){
+ const bien=parseFloat(forma(s).bien(q,s));
+ let h='<div class="res ver"><b>Here it is.</b>'
+  +'<div class="calc">'
+  +'she draws &nbsp;<b>'+un(q.calado)+'</b><br>'
+  +'and you keep &nbsp;<b>+ '+un(q.resguardo)+'</b>'
+  +' &nbsp;\u2192&nbsp; '+un(q.calado+q.resguardo)+' m of water needed over the ground'
+  +'<br>'
+  +(q.seca
+    ? 'the ground stands <b>'+un(q.cifra)+' m above</b> the datum (it is underlined)'
+     +' &nbsp;<b>+ '+un(q.cifra)+'</b>'
+    : 'and there is already <b>'+un(q.cifra)+' m</b> of water there at datum'
+     +' &nbsp;<b>\u2212 '+un(q.cifra)+'</b>')
+  +'</div>'
+  +'<p>It needs <b class="big">'+un(bien)+' m</b> of tide.</p>'
+
+  +'<div class="calc">take that to the almanac page: high water today is <b>'
+  +un(q.hw)+' m</b>'+(q.alcanza
+    ? ' \u2014 <b>so it is on</b>, and the curve gives you between what times.'
+    : ' \u2014 <b>so it is not on today.</b> Not at any hour: the tide never gets '
+     +'that high. Another day, or another way in.')+'</div>';
+ if(sub)h+='<div class="pista">And <b>one more after this</b>: this one you did not '
+  +'get out on your own, so it is worth doing another.</div>';
+ return h+'</div>';}
+
+function showAire(q,s,sub){
+ const bien=parseFloat(forma(s).bien(q,s));
+ let h='<div class="res ver"><b>Here it is.</b>'
+  +'<div class="calc">'
+  +'charted clearance at '+String(q.cruce)+' &nbsp;<b>'+un(q.galibo)+'</b>'
+  +' &nbsp;\u2014 measured down from HAT<br>'
+  +'so from the datum the underside is at &nbsp;<b>+ '+un(q.hat)+'</b>'
+  +' &nbsp;\u2192&nbsp; '+un(q.galibo+q.hat)+' m<br>'
+  +'less today\u2019s tide &nbsp;<b>\u2212 '+un(q.marea)+'</b>'
+  +' &nbsp;\u2192&nbsp; '+un(q.galibo+q.hat-q.marea)+' m of air over the water<br>'
+  +'less her air draught &nbsp;<b>\u2212 '+un(q.palo)+'</b>'
+  +'</div>'
+  +'<p>It is <b class="big">'+(bien>=0?"+":"")+un(bien)+' m</b>'
+  +(bien<0
+    ? ' \u2014 <b>she does not fit.</b> Wait for the tide to <em>fall</em>, which is '
+     +'the opposite of everything else in this block.'
+    : ' over her masthead.')+'</p>';
+ if(sub)h+='<div class="pista">And <b>one more after this</b>: this one you did not '
+  +'get out on your own, so it is worth doing another.</div>';
+ return h+'</div>';}
+
+const showmeDelBanco=()=>{
+ const q=PR2.q; if(!q)return;
+ const s=S(), sub=prSube();
+ anota("showme",false);
+ PRFB=(q.ajuste!==undefined?showEco
+      :q.pide!==undefined?showPrecisa
+      :q.galibo!==undefined?showAire:showPaso)(q,s,sub);
+ prCuenta(); dibuja();};
+
+function showmeBanco(){ showmeDelBanco(); return true; }
+
+window.salta=()=>{ anota("skipped",false);
+ PR2.hecho=true; PR2.esp=false; PRFB=""; dibuja(); };
+const seContesta=s=>!!s&&s.obra=="practica";
+
+const LOG=[];
+function anota(v,ok){const s=S();
+ LOG.push({p:s?s.id:"?",v:String(v),ok:!!ok});}
+
+const EST={};
+function guardaEst(){const s=S(); if(!s)return;
+ EST[s.id]={EJ:{i:EJ.i}, PR2:{q:PR2.q,n:PR2.n,meta:PR2.meta,fallos:PR2.fallos,
+  esp:PR2.esp,hecho:PR2.hecho}, PRFB:PRFB, MAREA:MAREA};}
+function ponEst(){const s=S(); if(!s)return;
+ const e=EST[s.id];
+ if(e){ EJ={i:e.EJ.i}; PR2=Object.assign({},e.PR2); PRFB=e.PRFB;
+        if(e.MAREA!==undefined)MAREA=e.MAREA; return; }
+ EJ={i:0}; PRFB="";
+ PR2={q:null,n:0,meta:2,fallos:0,esp:false,hecho:false};
+ MAREA=4.0;
+ if(s.obra=="practica")prNuevo();}
+
+let TIRA=false;
+
+const seArrastra=()=>{const s=S();
+
+ if(s&&s.obra=="juego4")return true;
+
+ if(s&&s.obra=="cierre")return true;
+ if(!s||s.obra!="ejemplo")return false;
+ return !!TRAMO().ensena.tira;};
+
+function aMarea(e){
+ const r=svg.getBoundingClientRect(), s=esc();
+ const y=(e.clientY-r.top-(r.height-D.H*s)/2)/s;
+ const z=(CERO-y)/VESC;
+ return Math.max(0, Math.min(NIVELES.HAT, Math.round(z*10)/10));}
+
+function mueveAgua(e){
+ MAREA=aMarea(e); pinta(); refrescaLecturas(); }
+svg.addEventListener("pointerdown",e=>{ if(!seArrastra())return;
+ TIRA=true; e.preventDefault&&e.preventDefault(); mueveAgua(e);});
+svg.addEventListener("pointermove",e=>{ if(TIRA&&seArrastra())mueveAgua(e);});
+svg.addEventListener("pointerup",()=>{TIRA=false;});
+svg.addEventListener("pointercancel",()=>{TIRA=false;});
+
+function pinta(){
+ svg.setAttribute("viewBox","0 0 "+D.W+" "+D.H);
+ svg.setAttribute("preserveAspectRatio","xMidYMid meet");
+ ESC=esc();
+ while(svg.firstChild)svg.removeChild(svg.firstChild);
+ gO=el("g",{},svg);
+ maqueta();
+ defs();
+ fondoConsola();
+ lamina();
+ const s=S();
+
+ if(s&&s.obra=="enmarca")enmarca();
+ else if(s&&s.obra=="enmarca2")enmarca2();
+ else if(s&&s.obra=="enmarca3")enmarca3();
+ else if(s&&s.obra=="enmarca4")enmarca4();
+ else if(s&&s.obra=="juego4")juego4();
+ else if(s&&s.obra=="cierre")cierre();
+ else if(s&&s.obra=="juego")juego();
+ else if(s&&s.obra=="ejemplo")
+  ({t2:ejemplo2, t3:ejemplo3, t4:ejemplo4}[s.tramos]||ejemplo)();
+ else if(s&&s.obra=="practica")practica();
+ else corte({linea:1,sondaCota:1,secaCota:1});
+ marco();}
+
+const TOT=15;
+function prog(){
+ marcoChrome();const d=document.getElementById("prog"); if(!d)return;
+ d.innerHTML="";
+ for(let i=0;i<TOT;i++){const b=document.createElement("i");
+  b.className=i<iP?"done":i==iP?"on":"";
+  if(i<PZ.length){
+  b.title="Screen "+(i+1)+" of "+TOT+" · "+PZ[i].h;
+                   b.onclick=()=>{guardaEst(); iP=i; dibuja();}; }
+  else { b.title="not built yet"; b.style.opacity=".3"; }
+  d.appendChild(b);}
+ const h=document.getElementById("hTit");
+ if(h)h.textContent = iP<PZ.length
+  ? "Screen "+(iP+1)+" of "+TOT
+  : "Screen "+PZ.length+" of "+TOT+" built";}
+
+window.atras=()=>{ if(iP<=0)return; guardaEst(); iP--; dibuja(); };
+function navHTML(hayAtras,etq){
+ return '<div class="nav">'
+  +(hayAtras?'<button class="sec" id="btA" onclick="atras()">Back</button>':'')
+  +'<button id="btV">'+etq+'</button></div>';}
+
+window.ejSig=()=>{ const s=S();
+ if(s&&EJ.i<PASOSDE(s).length-1){EJ.i++; dibuja();} };
+window.ejAtras=()=>{ if(EJ.i>0){EJ.i--; dibuja();} };
+
+function filasLectura(){
+
+ if(VIVO&&VIVO.cierre){
+  return [["height of tide",un(VIVO.marea)+" m",0],
+   ["over her masthead",(VIVO.arriba>=0?"+":"")+un(VIVO.arriba)+" m",
+    VIVO.arriba<0?1:0],
+   ["under her keel, after a "+un(VIVO.resg)+" m safety margin",
+    (VIVO.abajo>=0?"+":"")+un(VIVO.abajo)+" m",VIVO.abajo<0?1:0]]
+   .map(f=>'<dt>'+f[0]+'</dt><dd'+(f[2]?' class="mal"':'')+'>'+f[1]+'</dd>').join("");}
+ if(VIVO&&VIVO.aire){
+  const s=VIVO.sobra;
+  return [["height of tide",un(VIVO.marea)+" m",0],
+   ["air she needs",un(VIVO.palo)+" m",0],
+   ["air there is",un(VIVO.galibo+VIVO.hat-VIVO.marea)+" m",0],
+   ["over her masthead",(s>=0?"+":"")+un(s)+" m",s<0?1:0]]
+   .map(f=>'<dt>'+f[0]+'</dt><dd'+(f[2]?' class="mal"':'')+'>'+f[1]+'</dd>').join("");}
+ if(!VIVO||!VIVO.lab)return "";
+ const sin=!VIVO.ancho;
+ const F=[
+  ["safety margin",un(VIVO.resg)+" m",0],
+  ["tide she needs",un(VIVO.pide)+" m",0],
+
+  ["window today",sin?"none":(VIVO.ancho.toFixed(1)+" h"),sin?1:0],
+  ["between",sin?"\u2014":(hhmm(VIVO.de)+" \u2013 "+hhmm(VIVO.a)),sin?1:0]];
+ return F.map(f=>
+  '<dt>'+f[0]+'</dt><dd'+(f[2]?' class="mal"':'')+'>'+f[1]+'</dd>').join("");}
+
+function lecturasHTML(){
+ const f=filasLectura();
+ return f? '<dl class="lect" id="lect">'+f+'</dl>' : "";}
+
+function refrescaLecturas(){
+ const n=document.getElementById("lect");
+ if(n)n.innerHTML=filasLectura();}
+
+function panel(){
+ const s=S(), p=pane();
+ if(!s){ fin(); return; }
+ let h='<div class="hd"><h3>'+s.t+'</h3>';
+ if(seContesta(s)&&!PR2.hecho)h+='<a class="skip" onclick="salta()">Skip</a>';
+ h+='</div><h2>'+s.h+'</h2>';
+
+ if(s.obra=="enmarca"||s.obra=="enmarca2"||s.obra=="enmarca3"
+    ||s.obra=="enmarca4"){
+  h+=s.p.map(x=>'<p>'+x+'</p>').join("");
+  h+=navHTML(iP>0,"Next");}
+
+ else if(s.obra=="cierre"){
+  h+=s.p.map(x=>'<p>'+x+'</p>').join("");
+  h+=lecturasHTML();
+  h+=navHTML(iP>0,"Next");}
+
+ else if(s.obra=="juego4"){
+
+  h+=s.p.map(x=>'<p>'+x+'</p>').join("");
+  h+=lecturasHTML();
+  h+=navHTML(iP>0,"Next");}
+
+ else if(s.obra=="juego"){
+
+  h+=s.p.map(x=>'<p>'+x+'</p>').join("");
+  h+='<div class="crow">'
+   +'<span class="prl">safety margin</span>'
+   +'<button class="sec" onclick="labResg(-0.1)">\u2212 0.1</button>'
+   +'<span style="font:700 16px var(--f-mono);color:var(--ochre);'
+   +'min-width:58px;text-align:center">'+un(LAB.resg)+' m</span>'
+   +'<button class="sec" onclick="labResg(0.1)">+ 0.1</button>'
+   +'</div>';
+  h+=lecturasHTML();
+  h+=navHTML(iP>0,"Next");}
+
+ else if(s.obra=="ejemplo"){
+  const P=TRAMO(), PS=PASOSDE(s);
+  h+='<p class="prl">STEP '+(EJ.i+1)+' OF '+PS.length+' · '
+   +P.n.toUpperCase()+'</p>';
+  h+='<p>'+s.pasos[EJ.i]+'</p>';
+  const ultimo=EJ.i==PS.length-1;
+  h+='<div class="nav">'
+   +'<button class="sec" onclick="'+(EJ.i===0?"atras()":"ejAtras()")+'">Back</button>'
+   +'<button id="btV">'+(ultimo?"Next":"Next step")+'</button></div>';}
+
+ else if(s.obra=="practica"){
+  const q=PR2.q;
+  if(PR2.hecho){
+   h+='<p>'+s.cierre+'</p>'+navHTML(iP>0,"Next");}
+  else if(q){
+   h+='<p><b class="q">'+String(s.q)
+
+      .replace("__SITIO__",String(q.sitio||""))
+      .replace("__SONDA__",un(q.sonda))
+      .replace("__MAREA__",un(q.marea))
+      .replace("__CALADO__",un(q.calado))
+      .replace("__RESGUARDO__",un(q.resguardo))
+
+      .replace("__LECTURA__",un(q.lectura))
+      .replace("__COMO__",String(COMO_SE_DICE[q.ajuste]||""))
+      .replace("__TRANSDUCTOR__",un(q.transductor))
+
+      .replace("__CIFRA__",un(q.cifra))
+      .replace("__COMOSALE__",q.seca?"underlined":"with no underline")
+
+      .replace("__CRUCE__",String(q.cruce||""))
+      .replace("__CGALIBO__",un(q.galibo))
+      .replace("__CPALO__",un(q.palo))
+      .replace("__CHAT__",un(q.hat))
+      +'</b></p>';
+   if(s.forma=="metros"){
+    h+='<div class="crow"><input id="prIn" inputmode="decimal" '
+     +'placeholder="'+forma(s).eg+'" style="width:90px;padding:9px 11px;'
+     +'border-radius:3px;border:1px solid var(--paper-line);background:var(--paper);'
+     +'color:var(--ink);font:600 15px var(--f-mono);text-align:center">'
+     +'<span class="prl">metres</span>'
+     +'<button onclick="compruebo()">Check</button></div>';}
+
+   h+=PRFB;
+   if(PR2.esp)h+='<div class="nav"><button id="btV">Next problem</button></div>';
+   else h+='<p class="prl">'+PR2.n+' OF '+PR2.meta+' DONE</p>';
+   if(iP>0&&!PR2.esp)h+='<div class="nav">'
+    +'<button class="sec" onclick="atras()">Back</button></div>';}}
+
+ p.innerHTML=h;
+
+ const b=document.getElementById("btV");
+ if(b)b.onclick=
+  (s.obra=="ejemplo"&&EJ.i<PASOSDE(s).length-1) ? ()=>{ ejSig(); }
+  : (s.obra=="practica"&&PR2.esp)          ? ()=>{ prSigue(); }
+  : ()=>{ guardaEst(); iP++; dibuja(); };
+ prog();}
+
+let ENTRADA=null;
+function dibuja(){ guardaDonde(iP);
+ if(iP>=PZ.length){ prog(); fin(); return; }
+ const s=S();
+
+ if(ENTRADA!==s.id){ ENTRADA=s.id; ponEst();
+  if(typeof window.scrollTo==="function") window.scrollTo(0,0);
+  const pn=document.getElementById("pane"); if(pn) pn.scrollTop=0; }
+ pinta();
+ panel();}
+
+function fin(){
+ pinta();
+ const p=pane();
+
+ const faltan=TOT-PZ.length;
+ p.innerHTML='<h3>'+(faltan?'End of what is built':'End of the part')+'</h3>'
+  +'<h2>'+PZ.length+' of '+TOT+' screens</h2>'
+  +(faltan
+    ? '<p>This part is <b>'+faltan+' screens short</b> of finished, and there is '
+      +'nothing after this one yet.</p>'
+    : '<p><b>This part is complete.</b> You can work out what is under her keel, and '
+      +'\u2014 more to the point \u2014 whether it is enough.</p>')
+
+  +`<div class="calc"><b>Next: Tidal streams.</b><br> Set and drift. The diamonds on the chart, and the atlas.</div>`
+  +'<div class="nav">'
+  +'<button class="sec" onclick="atras()">Back</button>'
+  +'<button id="btV">Back to the last screen</button><button data-va=m04-p4-tidal-streams.html onclick=location.assign(this.dataset.va)>Next: Tidal streams &#8594;</button></div>';
+ const b=document.getElementById("btV");
+ if(b)b.onclick=()=>{ iP=PZ.length-1; dibuja(); };}
+
+const YO = "m04-p3-under-the-keel.html";
+function guardaDonde(i){ vistoPon(YO, i); }
+function donde(){ return vistoPos(YO, PZ.length-1); }
+
+function deCero(){ vistoOlvida(YO); iP=0; dibuja(); }
+
+iP=donde();
+dibuja();
+
+function marcoChrome(){
+ try{
+  const t = (typeof PZ !== "undefined" && PZ.length) ? PZ.length
+          : (typeof TOT !== "undefined" ? TOT : 0);
+  const i = (typeof iP !== "undefined") ? iP
+          : ((typeof paso !== "undefined" && paso && typeof paso.p === "number") ? paso.p : 0);
+  const dc = n => (n < 10 ? "0" : "") + n;
+  const b = document.getElementById("barCont");
+  if (b && t) b.textContent = dc(i + 1) + " / " + dc(t);
+  const f = document.getElementById("ficha");
+  if (f && f.style && f.style.setProperty
+      && typeof D !== "undefined" && D && D.W && D.H)
+    f.style.setProperty("--ar", D.W + " / " + D.H);
+ }catch(e){}
+}
+
+var MUESTRA = null;
+window.showme = function () {
+  var s = S(), z = s.show || {};
+  if (typeof showmeBanco === "function" && showmeBanco(s, z)) return;
+  if (typeof guarda === "function") guarda("showme", null, false);
+  if (typeof VER !== "undefined") VER = s.show ? z : null;
+  MUESTRA = null;
+  var txt = z.txt || "";
+  if (typeof muestraSolucion === "function") { var t = muestraSolucion(s, z); if (t != null) txt = t; }
+  else if (!s.show) txt = muestraComun(s);
+  else muestraCampos(s);
+  hecho = true;
+  if (typeof capa === "function") capa();
+
+  var d = document.getElementById("fb");
+  if (d) d.innerHTML = '<div class="res ver"><b>Here it is.</b>' + (txt ? '<div class="porque">' + txt + '</div>' : "") + '</div>';
+  nav(true, "Try the next one");
+};
+
+function muestraCampos(s) {
+  var h = "";
+  (s.campos || []).forEach(function (c, i) {
+    if (c.val == null) return;
+    var e = document.getElementById("c" + i);
+    var v = c.hora ? String(c.val) : (typeof c.val === "number" ? (c.ang ? String(Math.round(c.val) % 360).padStart(3, "0") : String(c.val)) : String(c.val));
+    if (e) { e.value = v; e.disabled = true; }
+    h += "<br><b>" + c.etq + " " + v + (c.ud ? " " + c.ud.replace(/<[^>]*>/g, "") : "") + "</b>" + (c.por ? " &mdash; " + c.por : "");
+  });
+  return h;
+}
+
+function respuestaDe(ck, max) {
+  var bien = [];
+  for (var v = 0; v <= max; v++) { var r = null; try { r = ck(v); } catch (e) {} if (r && r.ok) bien.push(v); }
+  return bien.length ? bien[Math.floor(bien.length / 2)] : null;
+}
+function muestraComun(s) {
+  if (s.sep) {
+    MUESTRA = {p: s.sep, t: s.nombreBien || "here"};
+
+    return "The right place is the <b>green mark</b> on the chart" + (s.nombreBien ? ": " + s.nombreBien : "") + "."
+      + ((s.cuenta || []).length ? " The working is the one above." : "");
+  }
+  if (s.o) {
+    var i = -1; s.o.forEach(function (o, j) { if (o.ok) i = j; }); if (i < 0) return "";
+    var bs = typeof document.querySelectorAll === "function" ? document.querySelectorAll("#pane button.opt") : [];
+    if (bs[i]) { if (bs[i].classList) bs[i].classList.add("elegida"); else bs[i].className += " elegida"; }
+    return "<b>" + s.o[i].t + "</b>. " + (s.o[i].m || "");
+  }
+  if (s.campos && s.campos.some(function (c) { return c.val != null; })) return muestraCampos(s);
+  if (typeof s.ck === "function") {
+    var v = respuestaDe(s.ck, s.ph == "ddd" ? 359 : 999); if (v == null) return "";
+    var e = typeof document.querySelector === "function" ? document.querySelector("#pane input") : null, w = s.ph == "ddd" ? String(v).padStart(3, "0") : String(v);
+    if (e) { e.value = w; e.disabled = true; }
+    return "<b>" + w + (s.un ? " " + s.un : "") + "</b>." + (s.calc ? '<div class="calc">' + s.calc + "</div>" : "")
+      + ((s.cuenta || []).length ? "<br>" + s.cuenta.join("<br>") : "");
+  }
+  return "";
+}
+
+window.reintenta = function () {
+  var s = S();
+  if (typeof EST !== "undefined") delete EST[s.id];
+  if (typeof FALLO !== "undefined") delete FALLO[s.id];
+  if (typeof MED !== "undefined") delete MED[s.id];
+  if (typeof VER !== "undefined") VER = null;
+  MUESTRA = null;
+  if (typeof alReintentar === "function") alReintentar(s);
+  if (typeof ponEst === "function") ponEst();
+  pinta();
+};
+
+(function () {
+  if (typeof nav !== "function") return;
+  var n0 = nav;
+  nav = function () {
+    var r = n0.apply(this, arguments), s = S(), d = document.getElementById("nav");
+
+    if (d && s && /[.]P[0-9]/.test(s.id || "") && typeof hecho !== "undefined" && hecho && !s.sinAyuda
+        && String(d.innerHTML || "").indexOf("otraVez") < 0) {
+      var html = '<button class="sec otraVez" onclick="reintenta()">Try again</button>';
+      var tras = typeof d.querySelector === "function" ? d.querySelector("button.sec") : null;
+      if (tras && typeof tras.insertAdjacentHTML === "function") tras.insertAdjacentHTML("afterend", html);
+      else d.innerHTML = html + String(d.innerHTML || "");
+    }
+    return r;
+  };
+
+  if (typeof ponEst === "function") { var p0 = ponEst; ponEst = function () { MUESTRA = null; return p0.apply(this, arguments); }; }
+})();
+
+var SALTADAS = {};
+(function () {
+  var idDe = function () { try { var s = S(); return s && s.id; } catch (e) { return null; } };
+  var vacia = function (o) { if (o && typeof o === "object") for (var k in o) delete o[k]; };
+
+  if (typeof window.salta === "function") {
+    var s0 = window.salta;
+    window.salta = function () { var id = idDe(); if (id) SALTADAS[id] = true;
+      var r = s0.apply(this, arguments);
+      if (id && idDe() === id && typeof hecho !== "undefined" && hecho === true) hecho = false;
+      return r; };
+  }
+  if (typeof nav === "function") {
+    var n0 = nav;
+    nav = function (next, txt) { var id = idDe(); if (id && SALTADAS[id]) next = true;
+      return n0.call(this, next, txt); };
+  }
+  if (typeof guarda === "function") {
+    var g0 = guarda;
+    guarda = function (t, r, ok) { if (ok === true) { var id = idDe(); if (id) delete SALTADAS[id]; }
+      return g0.apply(this, arguments); };
+  }
+  if (typeof anota === "function") {
+    var a0 = anota;
+    anota = function (v, ok) { if (ok === true) { var id = idDe(); if (id) delete SALTADAS[id]; }
+      return a0.apply(this, arguments); };
+  }
+  var sinHacer = function () {
+    if (typeof hecho !== "undefined") hecho = false;
+    if (typeof PR !== "undefined" && PR) { PR.hecho = false; PR.saltada = false; }
+    if (typeof PR2 !== "undefined" && PR2) { PR2.hecho = false; }
+  };
+  if (typeof ponEst === "function") {
+    var p0 = ponEst;
+    ponEst = function () { var r = p0.apply(this, arguments); var id = idDe();
+      if (id && SALTADAS[id]) sinHacer(); return r; };
+  }
+  if (typeof deCero === "function") {
+    var d0 = deCero;
+    deCero = function () {
+      if (typeof EST !== "undefined") vacia(EST);
+      if (typeof FALLO !== "undefined") vacia(FALLO);
+      vacia(SALTADAS);
+      if (typeof LOG !== "undefined" && LOG && LOG.length) LOG.length = 0;
+      sinHacer();
+      if (typeof PR !== "undefined" && PR) PR.fallos = 0;
+      if (typeof PR2 !== "undefined" && PR2) PR2.fallos = 0;
+      if (typeof alReiniciar === "function") alReiniciar();
+      return d0.apply(this, arguments);
+    };
+  }
+})();
+
+</script>
+<!-- Cloudflare Web Analytics -->
+<script type='module' src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "624bbb73949b40f0aae4dafec49ac1f6"}'></script>
+<!-- End Cloudflare Web Analytics -->
+</body>
+</html>
