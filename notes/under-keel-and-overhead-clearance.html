@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Under-keel clearance and overhead clearance</title>
+<link rel="icon" type="image/svg+xml" href="../assets/img/favicon.svg">
+<meta name="description" content="Sounding plus tide, minus draught and a safety margin. Correct the echo sounder, find the tide you need to cross, and what is left over the masthead.">
+<link rel="canonical" href="https://offshoretheory.com/notes/under-keel-and-overhead-clearance.html">
+
+<meta property="og:title" content="Under-keel clearance and overhead clearance">
+<meta property="og:description" content="Sounding plus tide, minus draught and a safety margin. Correct the echo sounder, find the tide you need to cross, and what is left over the masthead.">
+<meta property="og:image" content="https://offshoretheory.com/assets/img/foto-2.jpg">
+<meta property="og:image:alt" content="A sextant and dividers resting on a paper chart">
+<meta name="twitter:card" content="summary_large_image">
+<script type="application/ld+json">
+{
+ "@context": "https://schema.org",
+ "@type": "LearningResource",
+ "name": "Under-keel clearance and overhead clearance",
+ "description": "Sounding plus tide, minus draught and a safety margin. Correct the echo sounder, find the tide you need to cross, and what is left over the masthead.",
+ "url": "https://offshoretheory.com/notes/under-keel-and-overhead-clearance.html",
+ "inLanguage": "en",
+ "learningResourceType": "reading notes",
+ "isPartOf": {
+  "@id": "https://offshoretheory.com/#organization"
+ },
+ "about": "Under the keel"
+}
+</script>
+<style>
+/* ---------------------------------------------------------------------------
+   Tipografias y paleta: las mismas declaraciones que index.html, copiadas tal
+   cual. Nada se carga de fuera del repositorio.
+   --------------------------------------------------------------------------- */
+@font-face{font-family:'IBM Plex Mono';font-style:normal;font-weight:400;font-display:swap;
+ src:url(../assets/fonts/IBMPlexMono-400-normal-latin.woff2) format('woff2');
+ unicode-range:U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD}
+@font-face{font-family:'IBM Plex Mono';font-style:normal;font-weight:400;font-display:swap;
+ src:url(../assets/fonts/IBMPlexMono-400-normal-latin-ext.woff2) format('woff2');
+ unicode-range:U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF}
+@font-face{font-family:'IBM Plex Sans';font-style:normal;font-weight:400 600;font-display:swap;
+ src:url(../assets/fonts/IBMPlexSans-400-normal-latin.woff2) format('woff2');
+ unicode-range:U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD}
+@font-face{font-family:'IBM Plex Sans';font-style:normal;font-weight:400 600;font-display:swap;
+ src:url(../assets/fonts/IBMPlexSans-400-normal-latin-ext.woff2) format('woff2');
+ unicode-range:U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF}
+@font-face{font-family:'Newsreader';font-style:normal;font-weight:500;font-display:swap;
+ src:url(../assets/fonts/Newsreader-500-normal-latin.woff2) format('woff2');
+ unicode-range:U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD}
+@font-face{font-family:'Newsreader';font-style:normal;font-weight:500;font-display:swap;
+ src:url(../assets/fonts/Newsreader-500-normal-latin-ext.woff2) format('woff2');
+ unicode-range:U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF}
+@font-face{font-family:'Gloock Logo';font-style:normal;font-weight:400;font-display:swap;
+ src:url(../assets/fonts/gloock-logo.woff2) format('woff2')}
+
+:root{
+  --night:#0E1116;
+  --night-2:#161B22;
+  --line:#46525F;
+  --ink:#E8EAED;
+  --ink-soft:#9BA6B2;
+  --dim:#8B96A2;
+  --faint:#79838F;
+
+  /* -- Los tres colores del curso. Nada de esto se repite suelto mas abajo. --
+     acento : --accent-graphic de balizamiento y luces. El ambar de los
+              elementos destacados. NO es --alarm (#B33A22), que es el rojo
+              de los avisos. En rules-of-the-road el mismo ambar es --ochre.
+     azul   : --water de balizamiento.
+     magenta: --magenta-soft de rules-of-the-road.                         */
+  --accent:#C97B1B;
+  --blue:#8FC3DA;
+  --magenta:#E86AA0;
+
+  /* Tinta sobre el ambar macizo del boton: 5,6:1 de contraste. */
+  --on-accent:#1A1206;
+
+  --line-top:#232B36;   /* filetes: bajo la barra y entre las columnas */
+
+  --col-hover:rgba(255,255,255,.03);  /* aclarado de columna al pasar el raton */
+  --card-link:#C3CBD4;
+  --f-display:"Newsreader",ui-serif,Georgia,"Palatino Linotype","Times New Roman",serif;
+  --f-ui:"IBM Plex Sans",system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;
+  --f-mono:"IBM Plex Mono",ui-monospace,"SF Mono","Segoe UI Mono",Menlo,Consolas,monospace;
+}
+
+*{box-sizing:border-box}
+html,body{margin:0;padding:0}
+body{background:var(--night);color:var(--ink);font:15px/1.6 var(--f-ui);
+ -webkit-font-smoothing:antialiased}
+
+/* --- barra del logo, identica a la de la portada -------------------------- */
+/* Barra superior, pegada al borde de arriba. */
+.topbar{margin:0;padding-top:16px;padding-bottom:16px;
+ border-bottom:0.5px solid var(--line-top)}
+/* Su relleno lateral, el mismo corto que en la portada. */
+.topbar{padding-left:clamp(20px,2vw,34px);padding-right:clamp(20px,2vw,34px)}
+
+/* Logo: simbolo ambar y nombre en claro. El ambar solo en el simbolo. */
+.logo{display:inline-flex;align-items:center;gap:14px;text-decoration:none}
+.logo:hover,.logo:focus-visible{filter:brightness(1.15)}
+.logo svg{display:block;flex:none}
+.logo__name{font-family:"Gloock Logo",serif;font-size:clamp(18px,1.6vw,26px);
+ color:var(--ink);letter-spacing:.3px;line-height:1.1}
+
+/* --- el texto ------------------------------------------------------------- */
+.doc{max-width:680px;margin:0 auto;padding:72px clamp(24px,4vw,40px) 96px}
+
+.doc h1{font-family:var(--f-display);font-weight:500;font-size:clamp(30px,3.4vw,44px);
+ line-height:1.15;letter-spacing:-.01em;color:var(--ink);margin:0 0 10px}
+.doc .updated{font-family:var(--f-mono);font-size:12px;color:var(--dim);margin:0 0 48px}
+
+.doc h2{font-family:var(--f-display);font-weight:500;font-size:clamp(20px,1.9vw,26px);
+ line-height:1.25;color:var(--ink);margin:44px 0 14px}
+
+.doc p{font-size:15px;line-height:1.7;color:var(--ink-soft);margin:0 0 18px}
+.doc .who{color:var(--ink)}
+
+.doc a{color:var(--accent);text-decoration:none}
+.doc a:hover,.doc a:focus-visible{text-decoration:underline}
+
+/* --- BLOQUE 3 · pie -------------------------------------------------------- */
+footer{background:var(--night);padding:44px 64px;border-top:0.5px solid rgba(70,82,95,.4)}
+footer p{margin:0;font-size:12px;line-height:1.7;color:var(--faint)}
+footer .name{font-family:var(--f-mono);letter-spacing:.1em;color:var(--dim)}
+footer a{color:var(--dim);text-decoration:none}
+footer a:hover,footer a:focus-visible{color:var(--ink-soft)}
+
+/* --- MOVIL ---------------------------------------------------------------- */
+@media (max-width:800px){
+  .topbar{padding-left:24px;padding-right:24px}
+  .logo svg{width:28px;height:28px}
+  .logo__name{font-size:18px}
+  .doc{padding:48px 24px 64px}
+  .doc h2{margin-top:36px}
+  footer{padding:36px 24px}
+}
+/* --- lo que anaden las notas, con los tokens de arriba y ningun color nuevo --- */
+.doc p.lede{font-family:var(--f-display);font-size:clamp(17px,1.6vw,21px);
+ line-height:1.5;color:var(--ink);margin:0 0 30px}
+.doc p b{color:var(--ink);font-weight:600}
+.doc p i{color:var(--dim)}
+.doc .ir{margin:0 0 6px;padding:15px 18px;background:var(--night-2);
+ border:0.5px solid var(--line-top);border-left:2px solid var(--accent)}
+.doc .ir a{font-family:var(--f-mono);font-size:13px;letter-spacing:.02em}
+.doc .ir .que{display:block;margin-top:6px;font-size:13px;color:var(--faint)}
+.doc h2{scroll-margin-top:24px}
+
+/* --- y lo que anade la portada de las notas --- */
+.doc h3{font-family:var(--f-ui);font-weight:600;font-size:15px;letter-spacing:.01em;
+ color:var(--ink);margin:30px 0 4px}
+.doc p.sub{font-size:14px;color:var(--faint);margin:0 0 14px}
+.doc ul.notas{list-style:none;margin:0;padding:0}
+.doc ul.notas li{padding:11px 0;border-top:0.5px solid var(--line-top)}
+.doc ul.notas li:last-child{border-bottom:0.5px solid var(--line-top)}
+.doc ul.notas a{font-weight:600}
+.doc ul.notas span{display:block;margin-top:4px;font-size:14px;line-height:1.55;
+ color:var(--ink-soft)}
+</style>
+</head>
+
+<body>
+
+<div class="topbar">
+  <a class="logo" href="../index.html">
+    <svg viewBox="0 0 40 40" width="34" height="34" aria-hidden="true">
+      <path d="M17 17 L25 19 L20 25 Z" fill="var(--accent)" fill-opacity="0.5"/>
+      <line x1="7" y1="14.5" x2="35" y2="21.5" stroke="var(--accent)"
+            stroke-width="1.4" stroke-linecap="round"/>
+      <line x1="29" y1="14" x2="16" y2="30" stroke="var(--accent)"
+            stroke-width="1.4" stroke-linecap="round"/>
+      <line x1="21.5" y1="29" x2="15.5" y2="13" stroke="var(--accent)"
+            stroke-width="1.4" stroke-linecap="round"/>
+    </svg>
+    <span class="logo__name">Offshore Theory</span>
+  </a>
+</div>
+
+<main class="doc">
+
+  <h1>Module 04 · Under the keel</h1>
+  <p class="updated">Reading notes &middot; Module 04 &middot; Tides</p>
+  <p class="lede">Sounding + tide − draught − safety margin. The tide you need, and what is left over her masthead.</p>
+  <p class="ir"><a href="../chapters/m04-p3-under-the-keel.html">Open the interactive chapter &rarr;</a><span class="que">The same material with the chart, the drawings and the exercises.</span></p>
+
+  <h2 id="under-the-keel">Under the keel</h2>
+  <h3>How much water is under her, and is it enough</h3>
+  <p>Everything in the last two blocks was about <b>reading</b>: what the figures on the chart mean, and how much water the tide puts over them. This block is about the only question a navigator actually asks. <b>Can she go?</b></p>
+  <p>Here she is — <i>Kittiwake</i>, the boat this course sails — over <b>Aldern Sound</b>, on a day when the height of tide is <b>2.7 m</b>. The chart gives this spot a sounding of <b>0.5 m</b>, so there is <b>3.2 m</b> of water under her: you already know how to get that.</p>
+  <p>But she is not floating on the surface. She <b>draws 1.8 m</b> — that much of her is under the water before you count anything at all. The gap the dashed line marks is what is left <b>under her keel</b>, and it is the only distance in this picture that decides anything.</p>
+  <p>And there is one more thing in it that the chart does not print, the almanac does not tabulate and nobody hands you: <b>how much of that gap you want to keep</b>. That figure is called the <b>safety margin</b>.</p>
+  <p>Every other figure in this block is <b>measured from something</b> — the sounding down from the datum, the height of tide up from it, the charted clearance of a bridge down from HAT. <b>This one is not measured from anywhere.</b> You decide it, and then the sum has to make room for it.</p>
+  <p>Two of the four figures in this block are given to you. One you decide. And the fourth — the answer — is what falls out of the other three.</p>
+  <h3>Four figures, and only one of them is yours</h3>
+  <p><b>0.5 m</b> on the chart, and <b>2.7 m</b> of tide over it. That is <b>3.2 m</b> of water from the surface to the seabed — the <b>depth of water</b>, which is the whole of block one in one line. Nothing here is new yet.</p>
+  <p>Now put the boat in it. <i>Kittiwake</i> <b>draws 1.8 m</b>: that is how far her keel hangs below the surface, and it does not change with the tide, the port or the day. Take it off and <b>1.4 m</b> is left between her keel and the ground.</p>
+  <p><b>And now the new one.</b> You have <b>1.4 m</b> under her — and you do not want to use all of it. Swell lifts and drops her, the chart is a survey and not a promise, and the barometer can hold the water down. So you decide to keep <b>0.5 m</b> in hand. That is your <b>safety margin</b>, drawn here in ochre because it is the one figure on this picture that you put there .</p>
+  <p>What is left after that is the answer: <b>0.9 m</b>. It is not how much water there is, and it is not how much is under her keel — it is how much is left <b>after</b> you have kept back what you decided to keep. And it is the figure you would say out loud: “we have 0.9 m to spare.”</p>
+  <p><b>The safety margin is never the answer.</b> A question whose answer is a judgement is not a question, and no examiner will ask you how much you should leave — there is no number that is right. What is marked is <b>the sum with your figure in it</b>. Leave 0.3 m or leave 1.2 m, but know what is left when you have.</p>
+  <h2 id="the-echo-sounder">The echo sounder</h2>
+  <h3>The same water, three different numbers</h3>
+  <p>Everything so far came off paper: a sounding printed on a chart, a height of tide out of an almanac. Both are <b>predictions</b>. The echo sounder is the only thing aboard that tells you about the water you are actually in, right now.</p>
+  <p>It is also the only instrument aboard that will cheerfully tell you <b>three different things about the same piece of water</b> — and all three of them are right. Here they are: <b>4.5</b>, <b>3.8</b> and <b>2.7</b> metres, over the same seabed, at the same moment.</p>
+  <p>The reason is the <b>transducer</b> — the ochre mark on her hull. It is a thing bolted through the bottom of the boat, and it measures from <b>itself</b>. It is not at the surface, it is not at the keel, and nobody who fitted it asked you.</p>
+  <p>So the number on the display depends on <b>what the set has been told to add or take off</b>, and that is a setting somebody chose once, years ago, possibly not you. On this boat the three answers are 1.8 m apart — which is her whole draught, and more than anyone leaves as a safety margin.</p>
+  <p>The block on definitions promised you this one. It said there was a fourth thing that was none of the three distances, and that it belonged to the block on what is under the keel. This is that block, and this is that thing.</p>
+  <h3>Where the zero is, and who put it there</h3>
+  <p>Start with what is true and has no instrument in it: there is <b>4.5 m</b> of water here, surface to seabed. That is the <b>depth of water</b> from block one, and it does not care what anybody has bolted to the hull.</p>
+  <p>Now the <b>transducer</b>, in ochre. On <i>Kittiwake</i> it sits <b>0.7 m</b> below the waterline — through the hull, forward of amidships, facing down. Note what that leaves: her keel is another <b>1.1 m</b> below it .</p>
+  <p>What it <b>actually measures</b> is the ochre arrow: from itself down to the ground, <b>3.8 m</b>. That is the raw number, and it is worth saying plainly — it is not the depth of water, it is not the sounding, and it is not what is under your keel. It is a distance from a fitting on your hull.</p>
+  <p>So the set is given an <b>offset</b>. Tell it the transducer is 0.7 m down and it adds that back: now it shows <b>4.5 m</b>, the depth of water. Tell it instead that the keel is 1.1 m below the transducer and it takes that off: now it shows <b>2.7 m</b>, which is what is under her keel — the answer to topic one, straight off the display.</p>
+  <p><b>Three displays, one piece of water.</b> Which one you are looking at is not something you can tell by looking — the number gives you no clue, because all three are plausible depths. You find out on a day you know: alongside, at a known state of tide, with a lead line or a berth you have measured. Until you have done that, you do not know what your own instrument is telling you.</p>
+  <h2 id="the-tide-you-need">The tide you need</h2>
+  <h3>The same sum, asked the other way round</h3>
+  <p>Everything so far started with the tide: here is the height, now what is left under her? That is the question you ask when you are already there.</p>
+  <p>This is the one you ask <b>before you go</b> — and it is the only one that changes what you do. How much tide does this take? Turn the sum round and it answers itself: what she draws, plus what you keep, over whatever the ground is doing at that spot.</p>
+  <p>And look at the spot. <b>the north channel</b> — the chart prints <b>2.0</b> with a line under it, so that ground stands <b>2.0 m above</b> the datum. It is not shallow water; it is dry land for part of the day. The tide has to cover it before she floats at all, and then keep going.</p>
+  <p>Stack it up from the ground: <b>2.0 m</b> of drying height, <b>1.8 m</b> of draught, the <b>1.0 m</b> safety margin you decided to keep. The water has to stand at <b>4.8 m</b> above chart datum. Not roughly — that figure, because you chose the safety margin that put it there.</p>
+  <p>And that is a height of tide — the kind of figure the almanac page and the tidal curve print. You have just built the number you go and look up. The page tells you whether today has it, and between what times.</p>
+  <h3>Built from the ground up</h3>
+  <p>Start at the bottom, with the only thing here that never moves: <b>the ground</b>. At the north channel it stands <b>2.0 m above</b> chart datum — the chart prints the figure underlined, which is how you know which side of the line it is on. Everything else gets stacked on top of this.</p>
+  <p><b>What you decide to keep</b>, first, and not last. It goes straight on the ground because that is what it means: <b>1.0 m</b> of water you are not willing to use. Put it at the bottom and it stops being an afterthought.</p>
+  <p>Then <b>her draught</b>, <b>1.8 m</b>, standing on top of your safety margin. Now the stack is what she needs: ground, plus what you keep, plus what she draws.</p>
+  <p>So the surface has to reach <b>4.8 m above chart datum</b>. That is the answer, and notice what it is not : it is not a time, it is not a depth, and it does not mention today. It is a <b>height of tide</b> — the same kind of figure the almanac prints, which is exactly why you can go and look it up.</p>
+  <p><b>And now the day gets a vote.</b> High water here today is <b>6.2 m</b>, so there is enough — the curve will tell you between what times, and that is block two's job. But it is not always yes. On a neap day high water can be under six metres, and then a spot that needs more than that is not on at any hour. The sum never changes; the answer to “can I go?” changes every day.</p>
+  <h2 id="overhead">Overhead</h2>
+  <h3>The one where the tide is not your friend</h3>
+  <p>Three topics of this block have gone the same way: the tide rises, there is more water, you have more room. It is so consistent that you stop noticing it.</p>
+  <p><b>Now look up.</b> Same boat, same harbour, same rising tide — and every metre it comes up lifts her masthead a metre closer to the bridge. The bridge does not move. This is the only sum in the module that runs the other way.</p>
+  <p>And the figure the chart gives you is measured from a line you have not used since block one. The clearance printed here is <b>14.0 m</b>, and it hangs from <b>HAT</b> — the highest tide there is — not from the datum. That is deliberate: it is the room there is on the worst day, so it is the number you can trust without checking anything.</p>
+  <p>Which means that on almost every real day there is <b>more</b> room than the chart promises — HAT is 9.2 m and today the tide is only 7.0 m, so the sea has given you 2.2 m back. <i>Kittiwake</i> needs <b>15.6 m</b> of it for her mast.</p>
+  <p>The block on definitions showed you this bridge and let you watch the gap close, and said the sum was for the next block. This is the next block.</p>
+  <h3>Charted from the worst day of the year</h3>
+  <p>Chart datum at the bottom, where it always is — and up at the top, <b>HAT</b>, <b>9.2 m</b> above it. That is the highest the tide is ever predicted to reach here. Nothing is hanging from it yet.</p>
+  <p>Now the bridge, and its <b>charted clearance</b> — the figure the chart prints: <b>14.0 m</b>, measured <b>down from HAT</b> to the underside. Not from the water, not from the datum. It is the air there is on the day the tide is highest — the worst day there will ever be for getting under it.</p>
+  <p>So put the tide down where it is at low water and look what happens. The underside has not moved — bridges do not — but she has dropped away from it, and now there is far more room than the chart promised. The charted figure is a floor, not a forecast.</p>
+  <p><b>And now let it flood.</b> Every metre of tide is a metre off the gap. That is the whole of this topic, and it is the opposite of the last three: down there the tide was giving you water, up here it is taking room away. Same tide, same day, opposite sign.</p>
+  <p>So the sum, in the order you would say it out loud: the charted <b>14.0</b>, plus <b>9.2</b> of HAT to get it measured from the datum, minus <b>7.0</b> of tide today, minus her <b>15.6 m</b> of mast. <b>0.6 m</b> over her masthead. And if that came out negative you would wait for the tide to fall — which is a sentence you will not say anywhere else in this block.</p>
+  <h3>Watch the figure, not the gap</h3>
+  <p>You have done this before — the same bridge, the same drag — in the block on definitions. There you watched the gap open and close. <b>This time watch the numbers.</b></p>
+  <p><b>Drag the water up and down.</b> Four figures on the right, and only one of them stays still: her air draught. The tide changes, the air over the water changes with it, and what is left over her masthead changes by exactly the same amount and in the opposite direction.</p>
+  <p>Find the height of tide where it comes out at <b>zero</b>. That is the moment her masthead touches the underside, and everything above it is a day you do not go. Notice that it is a fairly ordinary height of tide — this is not a freak-conditions problem.</p>
+  <p>Nothing here is scored. The point is that the relation is one metre for one metre, in the direction nobody expects.</p>
+  <h2 id="under-the-keel-the-whole-of-it">Under the keel · the whole of it</h2>
+  <h3>One tide, two answers</h3>
+  <p>Here is the whole block in one picture: <i>Kittiwake</i> at <b>the footbridge at the head</b>, with ground that dries <b>0.8 m</b> under her and a bridge <b>10.5 m</b> over her head. <b>Drag the water.</b></p>
+  <p><b>The two figures move in opposite directions</b>, by exactly the same amount, at exactly the same moment. Every metre of flood is a metre more under her keel and a metre less over her masthead. There is no state of tide that is best for both, and that is the whole problem of getting a mast up a shallow creek.</p>
+  <p>Find the band where both are positive. Here it runs from <b>3.1 m</b> of tide — below that her keel is in the mud — to <b>4.1 m</b>, above which her masthead is in the footbridge. <b>1.0 metre wide</b>, out of a range that runs from nothing to over nine. On a big spring day the water goes straight past it.</p>
+  <p><b>What you can do now.</b> Work out what is under her keel from a chart figure and a height of tide, with whatever safety margin you decide to keep. Read an echo sounder without believing it. Turn the sum round and get the tide you need, so you can go and look up when there is enough. And work out what is left over her masthead — and remember that up there the tide is working against you.</p>
+  <p>What comes next is the water moving sideways: tidal streams, which is the last piece of this module — and the one that turns a tide table into a passage.</p>
+
+  <p class="ir"><a href="../chapters/m04-p3-under-the-keel.html">Open the interactive chapter &rarr;</a><span class="que">The same material with the chart, the drawings and the exercises.</span></p>
+  <p class="ir"><a href="index.html">All the reading notes &rarr;</a></p>
+
+</main>
+
+<footer>
+  <p class="name">Offshore Theory</p>
+  <p>Independent preparation. Not affiliated with or accredited by the RYA.</p>
+  <p><a href="../index.html">Back to Offshore Theory</a></p>
+</footer>
+
+<!-- Cloudflare Web Analytics -->
+<script type='module' src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "624bbb73949b40f0aae4dafec49ac1f6"}'></script>
+<!-- End Cloudflare Web Analytics -->
+</body>
+</html>

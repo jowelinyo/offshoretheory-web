@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Using a nautical almanac: standard and secondary ports</title>
+<link rel="icon" type="image/svg+xml" href="../assets/img/favicon.svg">
+<meta name="description" content="How an almanac is made, then its tide sums: times and heights at a standard port, secondary port differences, and the Solent's special tidal curves.">
+<link rel="canonical" href="https://offshoretheory.com/notes/using-a-nautical-almanac-standard-and-secondary-ports.html">
+
+<meta property="og:title" content="Using a nautical almanac: standard and secondary ports">
+<meta property="og:description" content="How an almanac is made, then its tide sums: times and heights at a standard port, secondary port differences, and the Solent's special tidal curves.">
+<meta property="og:image" content="https://offshoretheory.com/assets/img/foto-2.jpg">
+<meta property="og:image:alt" content="A sextant and dividers resting on a paper chart">
+<meta name="twitter:card" content="summary_large_image">
+<script type="application/ld+json">
+{
+ "@context": "https://schema.org",
+ "@type": "LearningResource",
+ "name": "Using a nautical almanac: standard and secondary ports",
+ "description": "How an almanac is made, then its tide sums: times and heights at a standard port, secondary port differences, and the Solent's special tidal curves.",
+ "url": "https://offshoretheory.com/notes/using-a-nautical-almanac-standard-and-secondary-ports.html",
+ "inLanguage": "en",
+ "learningResourceType": "reading notes",
+ "isPartOf": {
+  "@id": "https://offshoretheory.com/#organization"
+ },
+ "about": "The book and the tide"
+}
+</script>
+<style>
+/* ---------------------------------------------------------------------------
+   Tipografias y paleta: las mismas declaraciones que index.html, copiadas tal
+   cual. Nada se carga de fuera del repositorio.
+   --------------------------------------------------------------------------- */
+@font-face{font-family:'IBM Plex Mono';font-style:normal;font-weight:400;font-display:swap;
+ src:url(../assets/fonts/IBMPlexMono-400-normal-latin.woff2) format('woff2');
+ unicode-range:U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD}
+@font-face{font-family:'IBM Plex Mono';font-style:normal;font-weight:400;font-display:swap;
+ src:url(../assets/fonts/IBMPlexMono-400-normal-latin-ext.woff2) format('woff2');
+ unicode-range:U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF}
+@font-face{font-family:'IBM Plex Sans';font-style:normal;font-weight:400 600;font-display:swap;
+ src:url(../assets/fonts/IBMPlexSans-400-normal-latin.woff2) format('woff2');
+ unicode-range:U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD}
+@font-face{font-family:'IBM Plex Sans';font-style:normal;font-weight:400 600;font-display:swap;
+ src:url(../assets/fonts/IBMPlexSans-400-normal-latin-ext.woff2) format('woff2');
+ unicode-range:U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF}
+@font-face{font-family:'Newsreader';font-style:normal;font-weight:500;font-display:swap;
+ src:url(../assets/fonts/Newsreader-500-normal-latin.woff2) format('woff2');
+ unicode-range:U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD}
+@font-face{font-family:'Newsreader';font-style:normal;font-weight:500;font-display:swap;
+ src:url(../assets/fonts/Newsreader-500-normal-latin-ext.woff2) format('woff2');
+ unicode-range:U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF}
+@font-face{font-family:'Gloock Logo';font-style:normal;font-weight:400;font-display:swap;
+ src:url(../assets/fonts/gloock-logo.woff2) format('woff2')}
+
+:root{
+  --night:#0E1116;
+  --night-2:#161B22;
+  --line:#46525F;
+  --ink:#E8EAED;
+  --ink-soft:#9BA6B2;
+  --dim:#8B96A2;
+  --faint:#79838F;
+
+  /* -- Los tres colores del curso. Nada de esto se repite suelto mas abajo. --
+     acento : --accent-graphic de balizamiento y luces. El ambar de los
+              elementos destacados. NO es --alarm (#B33A22), que es el rojo
+              de los avisos. En rules-of-the-road el mismo ambar es --ochre.
+     azul   : --water de balizamiento.
+     magenta: --magenta-soft de rules-of-the-road.                         */
+  --accent:#C97B1B;
+  --blue:#8FC3DA;
+  --magenta:#E86AA0;
+
+  /* Tinta sobre el ambar macizo del boton: 5,6:1 de contraste. */
+  --on-accent:#1A1206;
+
+  --line-top:#232B36;   /* filetes: bajo la barra y entre las columnas */
+
+  --col-hover:rgba(255,255,255,.03);  /* aclarado de columna al pasar el raton */
+  --card-link:#C3CBD4;
+  --f-display:"Newsreader",ui-serif,Georgia,"Palatino Linotype","Times New Roman",serif;
+  --f-ui:"IBM Plex Sans",system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;
+  --f-mono:"IBM Plex Mono",ui-monospace,"SF Mono","Segoe UI Mono",Menlo,Consolas,monospace;
+}
+
+*{box-sizing:border-box}
+html,body{margin:0;padding:0}
+body{background:var(--night);color:var(--ink);font:15px/1.6 var(--f-ui);
+ -webkit-font-smoothing:antialiased}
+
+/* --- barra del logo, identica a la de la portada -------------------------- */
+/* Barra superior, pegada al borde de arriba. */
+.topbar{margin:0;padding-top:16px;padding-bottom:16px;
+ border-bottom:0.5px solid var(--line-top)}
+/* Su relleno lateral, el mismo corto que en la portada. */
+.topbar{padding-left:clamp(20px,2vw,34px);padding-right:clamp(20px,2vw,34px)}
+
+/* Logo: simbolo ambar y nombre en claro. El ambar solo en el simbolo. */
+.logo{display:inline-flex;align-items:center;gap:14px;text-decoration:none}
+.logo:hover,.logo:focus-visible{filter:brightness(1.15)}
+.logo svg{display:block;flex:none}
+.logo__name{font-family:"Gloock Logo",serif;font-size:clamp(18px,1.6vw,26px);
+ color:var(--ink);letter-spacing:.3px;line-height:1.1}
+
+/* --- el texto ------------------------------------------------------------- */
+.doc{max-width:680px;margin:0 auto;padding:72px clamp(24px,4vw,40px) 96px}
+
+.doc h1{font-family:var(--f-display);font-weight:500;font-size:clamp(30px,3.4vw,44px);
+ line-height:1.15;letter-spacing:-.01em;color:var(--ink);margin:0 0 10px}
+.doc .updated{font-family:var(--f-mono);font-size:12px;color:var(--dim);margin:0 0 48px}
+
+.doc h2{font-family:var(--f-display);font-weight:500;font-size:clamp(20px,1.9vw,26px);
+ line-height:1.25;color:var(--ink);margin:44px 0 14px}
+
+.doc p{font-size:15px;line-height:1.7;color:var(--ink-soft);margin:0 0 18px}
+.doc .who{color:var(--ink)}
+
+.doc a{color:var(--accent);text-decoration:none}
+.doc a:hover,.doc a:focus-visible{text-decoration:underline}
+
+/* --- BLOQUE 3 · pie -------------------------------------------------------- */
+footer{background:var(--night);padding:44px 64px;border-top:0.5px solid rgba(70,82,95,.4)}
+footer p{margin:0;font-size:12px;line-height:1.7;color:var(--faint)}
+footer .name{font-family:var(--f-mono);letter-spacing:.1em;color:var(--dim)}
+footer a{color:var(--dim);text-decoration:none}
+footer a:hover,footer a:focus-visible{color:var(--ink-soft)}
+
+/* --- MOVIL ---------------------------------------------------------------- */
+@media (max-width:800px){
+  .topbar{padding-left:24px;padding-right:24px}
+  .logo svg{width:28px;height:28px}
+  .logo__name{font-size:18px}
+  .doc{padding:48px 24px 64px}
+  .doc h2{margin-top:36px}
+  footer{padding:36px 24px}
+}
+/* --- lo que anaden las notas, con los tokens de arriba y ningun color nuevo --- */
+.doc p.lede{font-family:var(--f-display);font-size:clamp(17px,1.6vw,21px);
+ line-height:1.5;color:var(--ink);margin:0 0 30px}
+.doc p b{color:var(--ink);font-weight:600}
+.doc p i{color:var(--dim)}
+.doc .ir{margin:0 0 6px;padding:15px 18px;background:var(--night-2);
+ border:0.5px solid var(--line-top);border-left:2px solid var(--accent)}
+.doc .ir a{font-family:var(--f-mono);font-size:13px;letter-spacing:.02em}
+.doc .ir .que{display:block;margin-top:6px;font-size:13px;color:var(--faint)}
+.doc h2{scroll-margin-top:24px}
+
+/* --- y lo que anade la portada de las notas --- */
+.doc h3{font-family:var(--f-ui);font-weight:600;font-size:15px;letter-spacing:.01em;
+ color:var(--ink);margin:30px 0 4px}
+.doc p.sub{font-size:14px;color:var(--faint);margin:0 0 14px}
+.doc ul.notas{list-style:none;margin:0;padding:0}
+.doc ul.notas li{padding:11px 0;border-top:0.5px solid var(--line-top)}
+.doc ul.notas li:last-child{border-bottom:0.5px solid var(--line-top)}
+.doc ul.notas a{font-weight:600}
+.doc ul.notas span{display:block;margin-top:4px;font-size:14px;line-height:1.55;
+ color:var(--ink-soft)}
+</style>
+</head>
+
+<body>
+
+<div class="topbar">
+  <a class="logo" href="../index.html">
+    <svg viewBox="0 0 40 40" width="34" height="34" aria-hidden="true">
+      <path d="M17 17 L25 19 L20 25 Z" fill="var(--accent)" fill-opacity="0.5"/>
+      <line x1="7" y1="14.5" x2="35" y2="21.5" stroke="var(--accent)"
+            stroke-width="1.4" stroke-linecap="round"/>
+      <line x1="29" y1="14" x2="16" y2="30" stroke="var(--accent)"
+            stroke-width="1.4" stroke-linecap="round"/>
+      <line x1="21.5" y1="29" x2="15.5" y2="13" stroke="var(--accent)"
+            stroke-width="1.4" stroke-linecap="round"/>
+    </svg>
+    <span class="logo__name">Offshore Theory</span>
+  </a>
+</div>
+
+<main class="doc">
+
+  <h1>Module 06 · The book and the tide</h1>
+  <p class="updated">Reading notes &middot; Module 06 &middot; The almanac</p>
+  <p class="lede">From Skelmar to the Channel: how the almanac is made, the standard ports, the secondary ports and the Solent.</p>
+  <p class="ir"><a href="../chapters/m06-p1-the-book-and-the-tide.html">Open the interactive chapter &rarr;</a><span class="que">The same material with the chart, the drawings and the exercises.</span></p>
+
+  <h2 id="from-skelmar-to-the-channel">From Skelmar to the Channel</h2>
+  <h3>Two charts</h3>
+  <p>Until now you have navigated on a chart made for learning: <b>Skelmar Sound</b>, with <b>one</b> standard port, Aldern Quay, and one tidal atlas referred to it. On purpose: so that you never had to ask <i>referred to which port?</i></p>
+  <p>From here the chart is the real one: <b>the English Channel</b>. <b>11</b> standard ports and <b>40</b> secondary ports, two countries, two times in the tables, two chart datums, and a book you have to know how to open. <a href="true-magnetic-and-compass.html">Module 02</a> said it: <i>the almanac gets a module of its own, later: <a href="using-a-nautical-almanac-standard-and-secondary-ports.html">module 06</a></i>. This is it.</p>
+  <p><b>This was Skelmar.</b> One port of reference, and every tidal figure hung from it.</p>
+  <p><b>And this is the Channel</b>, the area of the course chart: every standard port with its own tide table, and the secondary ports that hang from them. The page is the first of the almanac.</p>
+  <h3>The same gesture on both</h3>
+  <p>A worked comparison. In Skelmar the stream at diamond C came from <b>high water at Aldern Quay</b> and <b>the range of the day</b> (<a href="chart-datum-and-tide-levels.html">module 04, part 4</a>). In the Channel the stream in the Dover Strait comes from <b>high water at Dover</b> and <b>the coefficient of the day</b>. The three questions you asked in <a href="chart-datum-and-tide-levels.html">module 04</a>, <i>from where, at what time, on which day</i>, are the same. <b>What changes is the page that answers them.</b></p>
+  <p>Look at the page heading: <b>HW DOVER</b>. Every one of its thirteen pages is an hour before or after high water at Dover.</p>
+  <p>And look at its foot: <b>how to interpolate between neaps and springs</b> &mdash; with the coefficient printed under each day of the tide tables. That is the next chapter; here it is only shown.</p>
+  <h3>What does not change, and where you learnt it</h3>
+  <p><b>Every procedure you know stays exactly as it was.</b> None changes its shape; what changes is which page the numbers come from, and that now you have to choose the page:</p>
+  <h2 id="how-the-book-is-made">How the book is made</h2>
+  <h3>A book with a year</h3>
+  <p>An almanac is bought <b>every year</b>, because its numbers go out of date: last year's almanac is a mistake with a binding. Every page of this one carries its year in the heading.</p>
+  <p>The heading of the Dover table: the port, its position, the months of the page and <b>2024</b>.</p>
+  <p>And its foot, which every page has: where the figures come from, and <b>not for navigation</b>. This almanac is for training: it is made from the course's own tidal constants, and it says so.</p>
+  <h3>Standard ports and secondary ports</h3>
+  <p>A <b>standard port</b> is one whose tide has been measured in its own water: it has its own table and its own curve. It is not chosen for being important. A <b>secondary port</b> has <b>no table</b>: it has <b>a difference on a standard port</b>, and you work its tide from that port's page.</p>
+  <p>On this page every standard port has the secondary ports that hang from it: <b>Portsmouth</b> has <b>15</b>, most of them on the Solent's own curves; <b>Dover</b> has <b>2</b>, Rye and Folkestone; <b>Boulogne-sur-Mer</b> has <b>1</b>, Etaples; and <b>Calais</b> has <b>0</b>.</p>
+  <h3>The heading tells you the time and the datum</h3>
+  <p>Before any sum, <b>three questions to the book: which page, in what time, above which datum</b>. The answer to the last two is in the heading of every table.</p>
+  <p><b>Dover</b>: <i>TIMES IN UTC · standard (winter) time</i>, <i>on shaded days, summer time: add 1 hour</i>, and heights above the <i>Admiralty chart datum</i>.</p>
+  <p><b>Boulogne-sur-Mer</b>: <i>TIMES IN UTC+1</i>, and heights above the Shom's <i>zéro hydrographique</i>. <b>Each coast prints its own winter time.</b> It is what <a href="true-magnetic-and-compass.html">module 02</a> taught about the zone of a table; here you use it.</p>
+  <p>And the foot says when the clocks change in 2024: <b>31 March</b> and <b>27 October</b>, in red on the page. Between those two dates every day is shaded: add one hour for the clock ashore.</p>
+  <h3>What goes under the date</h3>
+  <p>Under each date: <b>two coefficients</b> &mdash; the morning and the afternoon high water &mdash; and the phase of the moon on the day it falls. On 19 September Dover prints <b>coef 112 117</b>.</p>
+  <p><b>The coefficient is French, and it is not a number of this port</b>: it is worked out at Brest and holds for the whole Channel. It is printed in the English tables too because <b>the Shom tidal stream atlas is entered with it</b>, and that atlas covers both shores. That is the next chapter.</p>
+  <p>The moon agrees: full moon on the <b>18</b>th, and big coefficients the day after.</p>
+  <h2 id="the-standard-port-with-module-04-s-sums">The standard port, with module 04's sums</h2>
+  <h3>Dover's page, read like Aldern Quay's</h3>
+  <p>Nothing new: the page of the standard port is read exactly as you read Aldern Quay's in <a href="chart-datum-and-tide-levels.html">module 04</a>. Four tides a day, <b>high waters in black, low waters in grey</b>, time in four figures and height in metres.</p>
+  <p>19 September at Dover, in UTC: <b>LW 0650 0.6</b> · <b>HW 1128 7.4</b> · <b>LW 1913 0.4</b> · <b>HW 2352 7.3</b>.</p>
+  <h3>Dover's curve</h3>
+  <p>The curve of the standard port, read as in <a href="chart-datum-and-tide-levels.html">module 04</a>. The page carries its own worked example in red, and says what it is made of.</p>
+  <p><b>The example in red</b>: HW <b>5.35 m</b> at the top, LW <b>2.25 m</b> at the bottom, joined; in at <b>+2 h</b> from high water, across to the line and down: <b>4.73 m</b>.</p>
+  <p><b>What the two curves say</b>: the mean range at springs is <b>6.05 m</b> and at neaps <b>3.12 m</b>. Those are the two figures you place the day's range between.</p>
+  <p><b>And what it costs to read it</b>: <b>6.7 cm</b> on average over the year and <b>13.7 cm</b> at the worst hour. A printed curve is an approximation, and this page tells you how good.</p>
+  <p><b>Two standard ports of the Channel have no normal curve</b>: Le Havre and Ouistreham print a <b>special curve</b>, hung from low water, because their high water has a stand. They are named here and not practised.</p>
+  <h2 id="secondary-ports">Secondary ports</h2>
+  <h3>40 ports without a table</h3>
+  <p>A passage in the Channel nearly always starts or ends at a secondary port. The book does not give its tide: it gives <b>how much earlier or later, and how much higher or lower, than its standard port</b>.</p>
+  <p>Of the <b>40</b> secondary ports of the chart, <b>25</b> have their differences on this page; <b>14</b>, between Christchurch and Selsey Bill, go by the Solent special curves (topic 5); and <b>1</b> has no data at all.</p>
+  <p><i>It is what <a href="chart-datum-and-tide-levels.html">module 04</a> was going to teach and left for a chart that could hold it. The chart is here.</i></p>
+  <h3>Two rows, read together</h3>
+  <p><b>Rye</b>, under <b>DOVER</b>. The secondary port's row gives its differences; the standard port's row, above it, says <b>when and at what height</b> each difference holds. Read them together, column by column:</p>
+  <h3>The easy case: the same figure at springs and neaps</h3>
+  <p><b>Saint-Vaast-la-Hougue</b>, under <b>CHERBOURG</b>: the same time difference in all four columns and the same height difference at springs and at neaps. There is nothing to interpolate.</p>
+  <p>The row: <b>+0117</b> on every time, <b>+0.4</b> on the high waters and <b>−0.1</b> on the low.</p>
+  <p>Cherbourg on 19 September, in <b>UTC+1</b>: HW <b>0926 6.9</b>, LW <b>0357 0.6</b>.</p>
+  <p>Add and that is all: Saint-Vaast HW <b>10:43</b>, <b>7.3 m</b>; LW <b>05:14</b>, <b>0.5 m</b> &mdash; in UTC+1, the time of the page you read it from.</p>
+  <h3>When springs and neaps differ: the Admiralty method</h3>
+  <p><b>Eastbourne</b>, under <b>NEWHAVEN</b>, on 1 September. Its springs and neaps figures are not the same, so you place the day between them: the <b>time</b> by Newhaven's time, the <b>height</b> by Newhaven's height.</p>
+  <p>The two rows. NEWHAVEN: high water at springs <b>0000 &middot; 1200</b>, at neaps <b>0600 &middot; 1800</b>; low water at springs <b>0600 &middot; 1800</b>, at neaps <b>0000 &middot; 1200</b>; MHWS <b>6.9</b>, MHWN <b>5.2</b>, MLWN <b>2.2</b>, MLWS <b>0.8</b>. Eastbourne: <b>−0005 &middot; −0001</b> on high water, <b>+0021 &middot; +0007</b> on low water; <b>+0.8 &middot; +0.6</b> and <b>+0.2 &middot; 0.0</b> on the heights.</p>
+  <p><b>HW Newhaven</b>: <b>10:16</b>, <b>6.1 m</b>, in UTC.</p>
+  <p><b>Time</b>: 10:16 lies between the neaps column, 06:00, and the springs column, 12:00 &mdash; 4 h 16 min past the first, of the 6 h between them: <b>71 %</b> of the way to springs. Eastbourne's difference goes from −0001 at neaps to −0005 at springs: <b>-4 min</b>, so HW <b>10:12</b>.</p>
+  <p><b>Height</b>: 6.1 m lies between Newhaven's MHWN, 5.2, and its MHWS, 6.9: <b>53 %</b> of the way to springs. Eastbourne's difference goes from +0.6 at MHWN to +0.8 at MHWS: <b>+0.7 m</b>, so HW <b>6.8 m</b>.</p>
+  <p>Low water has its own columns and its own levels. <b>LW Newhaven</b>: <b>04:13</b>, <b>1.5 m</b>, in UTC. <b>Time</b>: 04:13 lies between the neaps column, 00:00, and the springs column, 06:00 &mdash; 4 h 13 min past the first, of the 6 h between them: <b>70 %</b> of the way to springs. Eastbourne's difference goes from +0007 at neaps to +0021 at springs: <b>+17 min</b>, so LW <b>04:30</b>. <b>Height</b>: 1.5 m lies between Newhaven's MLWN, 2.2, and its MLWS, 0.8: <b>50 %</b> of the way to springs. Eastbourne's difference goes from +0.2 at MLWN to 0.0 at MLWS: <b>+0.1 m</b>, so LW <b>1.6 m</b>.</p>
+  <h3>Beyond MHWS: extrapolate the height</h3>
+  <p>19 September at Newhaven: a big spring tide. <b>Brighton</b>, from Newhaven:</p>
+  <p><b>HW Newhaven</b>: <b>11:45</b>, <b>7.4 m</b>, in UTC.</p>
+  <p><b>Time</b>: 11:45 lies between the neaps column, 06:00, and the springs column, 12:00 &mdash; 5 h 45 min past the first, of the 6 h between them: <b>96 %</b> of the way to springs. Brighton's difference goes from +0001 at neaps to −0002 at springs: <b>-2 min</b>, so HW <b>11:43</b>.</p>
+  <p><b>Height</b>: Brighton's difference is <b>−0.1</b> at MHWS and at MHWN: HW <b>7.3 m</b>. <i>(The tidal stream does the same above coefficient 95 &mdash; next chapter.)</i></p>
+  <p>The same for every level: beyond MHWS or MHWN, or MLWS or MLWN, the <b>height</b> difference is carried on in the same proportion. The <b>time</b> difference never leaves its columns. The next practice needs it.</p>
+  <h3>Between high and low water: the standard port's curve</h3>
+  <p>A secondary port has no curve of its own: it uses its standard port's, going in with <b>its own</b> times and <b>its own</b> heights.</p>
+  <p>Brighton on 19 September at <b>10:40 UTC</b>: its HW is <b>11:43</b>, <b>7.3 m</b>, and the LW on that side <b>0.5 m</b>. 10:40 is <b>63 minutes</b> before its high water.</p>
+  <p>On <b>Newhaven's</b> curve: Brighton's two heights on the scales, joined; in by the time, across and down: <b>6.7 m</b>. The same figure the checker gets.</p>
+  <h3>The small letter on the right</h3>
+  <p>Each row says where its differences come from, and the foot of the page says how far to trust each kind:</p>
+  <p><b>M</b>, measured from a tide gauge at the port: Brighton misses the water by <b>16 cm</b> and <b>5 min</b>. <b>R</b>, from the Shom's published levels: the error <b>grows with the miles to the standard port</b>. <b>F</b>, from the FES2022 model: <b>42 cm</b> and <b>21 min</b> to be expected.</p>
+  <p><i>A commercial almanac does not say it; this one does, and a careful skipper reads it.</i></p>
+  <h2 id="the-solent-which-is-not-like-the-others">The Solent, which is not like the others</h2>
+  <h3>A high water that lasts for hours</h3>
+  <p>In the Solent high water is a stand of hours and its time says little; <b>low water is sharp</b>. So the curve is hung <b>from low water</b>, and between Christchurch and Selsey Bill the secondary ports page gives no differences: it sends you to <b>the Solent special curves</b>, referred to <b>low water at Portsmouth</b>.</p>
+  <p><b>Lymington</b>: the double high water of the western Solent and of Southampton Water.</p>
+  <p><b>Portsmouth</b>: the long high water of Spithead.</p>
+  <p><b>Christchurch Bay</b>, from the Bournemouth gauge.</p>
+  <p>And <b>Dover</b>'s, for comparison: a normal curve, hung from high water, with a sharp top.</p>
+  <h3>The page's own example, all of it</h3>
+  <p>The Lymington page carries its worked example in red: 19 September, the low water nearest midday, and the height three hours later. It is done with the steps you know, <b>starting from the other end</b>.</p>
+  <p>Portsmouth on 19 September: LW <b>1717 0.4</b>, in UTC.</p>
+  <p>Lymington's differences on low water are printed on its page, and they are interpolated exactly as on the secondary ports page, with Portsmouth's columns and levels. <b>Time</b>: 17:17 lies between the neaps column, 12:00, and the springs column, 18:00 &mdash; 5 h 17 min past the first, of the 6 h between them: <b>88 %</b> of the way to springs. Lymington's difference goes from −0013 at neaps to −0021 at springs: <b>-20 min</b>, so LW <b>16:57</b>.</p>
+  <p><b>Height</b>: 0.4 m is below Portsmouth's MLWS, 0.8 m: beyond the levels, so the height difference is <b>extrapolated</b> &mdash; carried on in the same proportion. From its MLWN, 2.0, to its MLWS, 0.8, is the whole way; 0.4 m is <b>133 %</b> of it. Lymington's difference goes from −0.4 at MLWN to −0.1 at MLWS; carried on, <b>+0.0 m</b>, so LW <b>0.4 m</b>.</p>
+  <p>Its high water is <b>the next one</b>: <b>3.2 m</b>, at <b>00:26</b> on the <b>20th</b> &mdash; past midnight, so <b>the date changes</b>, and on Portsmouth's page it is on the next day's line. That is the high water the example joins its low water to.</p>
+  <p>At <b>19:57</b>, <b>+3.0 h</b> after low water: in by the hours from LW, across to the line, down: <b>1.86 m</b>. It is the red example on the page.</p>
+  <h3>Ports with no series of their own</h3>
+  <p><b>Ports that share a body of water share a curve.</b></p>
+  <p><b>Cowes</b> has no series of its own in this training almanac: it uses Lymington's curve, and the page prints it <b>in red</b>, <i>borrowed curve</i>. A port in red borrows the shape of its tide from its body of water, and the page says so.</p>
+  <p><b>Christchurch</b> is not in the Solent: it uses the curve of its own bay, from the Bournemouth gauge. Read against Christchurch Bay's water, that curve costs <b>8.3 cm</b>; Lymington's would cost <b>22.4 cm</b>.</p>
+
+  <p class="ir"><a href="../chapters/m06-p1-the-book-and-the-tide.html">Open the interactive chapter &rarr;</a><span class="que">The same material with the chart, the drawings and the exercises.</span></p>
+  <p class="ir"><a href="index.html">All the reading notes &rarr;</a></p>
+
+</main>
+
+<footer>
+  <p class="name">Offshore Theory</p>
+  <p>Independent preparation. Not affiliated with or accredited by the RYA.</p>
+  <p><a href="../index.html">Back to Offshore Theory</a></p>
+</footer>
+
+<!-- Cloudflare Web Analytics -->
+<script type='module' src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "624bbb73949b40f0aae4dafec49ac1f6"}'></script>
+<!-- End Cloudflare Web Analytics -->
+</body>
+</html>

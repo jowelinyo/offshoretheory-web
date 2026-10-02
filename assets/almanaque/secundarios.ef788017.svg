@@ -430,10 +430,11 @@
 <text x="1110.0" y="1423.0" font-family="Arial" font-size="15" fill="#1A1A1A" text-anchor="middle">+0.1</text>
 <text x="1172.0" y="1423.0" font-family="Arial" font-size="13" fill="#6B8290" text-anchor="middle">R</text>
 <line x1="60.0" y1="1435.0" x2="1180.0" y2="1435.0" stroke="#2F4A5A" stroke-width="0.8" opacity="0.35"/>
-<line x1="60.0" y1="1600.0" x2="1180.0" y2="1600.0" stroke="#2F4A5A" stroke-width="1.0" opacity="0.35"/>
-<text x="60.0" y="1622.0" font-family="Arial" font-size="12" fill="#6B8290">TIMES: over the HW and LW columns, each STANDARD PORT row gives the times its high and low water fall at springs and at neaps (0000 and 1200 are one column).</text>
-<text x="60.0" y="1638.0" font-family="Arial" font-size="12" fill="#6B8290">Interpolate a time difference by the time of that day's HW or LW at the standard port, between those columns. HEIGHTS: by that day's HW or LW height, between the levels in its row.</text>
-<text x="60.0" y="1654.0" font-family="Arial" font-size="12" fill="#6B8290">Beyond the levels, carry the height difference on in the same proportion: extrapolate it. The time difference stays between its columns. Round each to the minute and the tenth, add them, and between HW and LW use the standard port's curve.</text>
+<line x1="60.0" y1="1584.0" x2="1180.0" y2="1584.0" stroke="#2F4A5A" stroke-width="1.0" opacity="0.35"/>
+<text x="60.0" y="1606.0" font-family="Arial" font-size="12" fill="#6B8290">TIMES: over the HW and LW columns, each STANDARD PORT row gives the times its high and low water fall at springs and at neaps (0000 and 1200 are one column).</text>
+<text x="60.0" y="1622.0" font-family="Arial" font-size="12" fill="#6B8290">Interpolate a time difference by the time of that day's HW or LW at the standard port, between those columns. HEIGHTS: by that day's HW or LW height, between the levels in its row.</text>
+<text x="60.0" y="1638.0" font-family="Arial" font-size="12" fill="#6B8290">Beyond the levels, carry the height difference on in the same proportion: extrapolate it. The time difference stays between its columns. Round each to the minute and the tenth, add them, and between HW and</text>
+<text x="60.0" y="1654.0" font-family="Arial" font-size="12" fill="#6B8290">LW use the standard port's curve.</text>
 <text x="60.0" y="1670.0" font-family="Arial" font-size="12" fill="#6B8290">SOURCE, the small letter on the right. M measured: analysed from a tide gauge at the port or within 3 M; checked against the water: Brighton 16 cm and 5 min, Honfleur 27 cm and 20 min.</text>
 <text x="60.0" y="1686.0" font-family="Arial" font-size="12" fill="#6B8290">R RAM: from the levels and establishment published by the Shom (RAM, Licence Ouverte 2.0); expected error 0.536 per mile to the standard port + 5.9 cm and 0.190 per mile + 10.9 min, more in estuaries.</text>
 <text x="60.0" y="1702.0" font-family="Arial" font-size="12" fill="#6B8290">F FES: from the FES2022 tide model (CNES/LEGOS/NOVELTIS/CLS, AVISO), modified: model differences, not measured; expected error 42 cm and 21 min against the ports that have a tide gauge.</text>

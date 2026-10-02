@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Tidal stream atlas, port entry, sun and moon</title>
+<link rel="icon" type="image/svg+xml" href="../assets/img/favicon.svg">
+<meta name="description" content="Read a tidal stream atlas with the coefficient, carry the stream to the chart, check port entry, tidal gates, sun and moon, and plan a day from the book.">
+<link rel="canonical" href="https://offshoretheory.com/notes/tidal-stream-atlas-port-entry-sun-and-moon.html">
+
+<meta property="og:title" content="Tidal stream atlas, port entry, sun and moon">
+<meta property="og:description" content="Read a tidal stream atlas with the coefficient, carry the stream to the chart, check port entry, tidal gates, sun and moon, and plan a day from the book.">
+<meta property="og:image" content="https://offshoretheory.com/assets/img/foto-2.jpg">
+<meta property="og:image:alt" content="A sextant and dividers resting on a paper chart">
+<meta name="twitter:card" content="summary_large_image">
+<script type="application/ld+json">
+{
+ "@context": "https://schema.org",
+ "@type": "LearningResource",
+ "name": "Tidal stream atlas, port entry, sun and moon",
+ "description": "Read a tidal stream atlas with the coefficient, carry the stream to the chart, check port entry, tidal gates, sun and moon, and plan a day from the book.",
+ "url": "https://offshoretheory.com/notes/tidal-stream-atlas-port-entry-sun-and-moon.html",
+ "inLanguage": "en",
+ "learningResourceType": "reading notes",
+ "isPartOf": {
+  "@id": "https://offshoretheory.com/#organization"
+ },
+ "about": "The stream and the rest of the book"
+}
+</script>
+<style>
+/* ---------------------------------------------------------------------------
+   Tipografias y paleta: las mismas declaraciones que index.html, copiadas tal
+   cual. Nada se carga de fuera del repositorio.
+   --------------------------------------------------------------------------- */
+@font-face{font-family:'IBM Plex Mono';font-style:normal;font-weight:400;font-display:swap;
+ src:url(../assets/fonts/IBMPlexMono-400-normal-latin.woff2) format('woff2');
+ unicode-range:U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD}
+@font-face{font-family:'IBM Plex Mono';font-style:normal;font-weight:400;font-display:swap;
+ src:url(../assets/fonts/IBMPlexMono-400-normal-latin-ext.woff2) format('woff2');
+ unicode-range:U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF}
+@font-face{font-family:'IBM Plex Sans';font-style:normal;font-weight:400 600;font-display:swap;
+ src:url(../assets/fonts/IBMPlexSans-400-normal-latin.woff2) format('woff2');
+ unicode-range:U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD}
+@font-face{font-family:'IBM Plex Sans';font-style:normal;font-weight:400 600;font-display:swap;
+ src:url(../assets/fonts/IBMPlexSans-400-normal-latin-ext.woff2) format('woff2');
+ unicode-range:U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF}
+@font-face{font-family:'Newsreader';font-style:normal;font-weight:500;font-display:swap;
+ src:url(../assets/fonts/Newsreader-500-normal-latin.woff2) format('woff2');
+ unicode-range:U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD}
+@font-face{font-family:'Newsreader';font-style:normal;font-weight:500;font-display:swap;
+ src:url(../assets/fonts/Newsreader-500-normal-latin-ext.woff2) format('woff2');
+ unicode-range:U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF}
+@font-face{font-family:'Gloock Logo';font-style:normal;font-weight:400;font-display:swap;
+ src:url(../assets/fonts/gloock-logo.woff2) format('woff2')}
+
+:root{
+  --night:#0E1116;
+  --night-2:#161B22;
+  --line:#46525F;
+  --ink:#E8EAED;
+  --ink-soft:#9BA6B2;
+  --dim:#8B96A2;
+  --faint:#79838F;
+
+  /* -- Los tres colores del curso. Nada de esto se repite suelto mas abajo. --
+     acento : --accent-graphic de balizamiento y luces. El ambar de los
+              elementos destacados. NO es --alarm (#B33A22), que es el rojo
+              de los avisos. En rules-of-the-road el mismo ambar es --ochre.
+     azul   : --water de balizamiento.
+     magenta: --magenta-soft de rules-of-the-road.                         */
+  --accent:#C97B1B;
+  --blue:#8FC3DA;
+  --magenta:#E86AA0;
+
+  /* Tinta sobre el ambar macizo del boton: 5,6:1 de contraste. */
+  --on-accent:#1A1206;
+
+  --line-top:#232B36;   /* filetes: bajo la barra y entre las columnas */
+
+  --col-hover:rgba(255,255,255,.03);  /* aclarado de columna al pasar el raton */
+  --card-link:#C3CBD4;
+  --f-display:"Newsreader",ui-serif,Georgia,"Palatino Linotype","Times New Roman",serif;
+  --f-ui:"IBM Plex Sans",system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;
+  --f-mono:"IBM Plex Mono",ui-monospace,"SF Mono","Segoe UI Mono",Menlo,Consolas,monospace;
+}
+
+*{box-sizing:border-box}
+html,body{margin:0;padding:0}
+body{background:var(--night);color:var(--ink);font:15px/1.6 var(--f-ui);
+ -webkit-font-smoothing:antialiased}
+
+/* --- barra del logo, identica a la de la portada -------------------------- */
+/* Barra superior, pegada al borde de arriba. */
+.topbar{margin:0;padding-top:16px;padding-bottom:16px;
+ border-bottom:0.5px solid var(--line-top)}
+/* Su relleno lateral, el mismo corto que en la portada. */
+.topbar{padding-left:clamp(20px,2vw,34px);padding-right:clamp(20px,2vw,34px)}
+
+/* Logo: simbolo ambar y nombre en claro. El ambar solo en el simbolo. */
+.logo{display:inline-flex;align-items:center;gap:14px;text-decoration:none}
+.logo:hover,.logo:focus-visible{filter:brightness(1.15)}
+.logo svg{display:block;flex:none}
+.logo__name{font-family:"Gloock Logo",serif;font-size:clamp(18px,1.6vw,26px);
+ color:var(--ink);letter-spacing:.3px;line-height:1.1}
+
+/* --- el texto ------------------------------------------------------------- */
+.doc{max-width:680px;margin:0 auto;padding:72px clamp(24px,4vw,40px) 96px}
+
+.doc h1{font-family:var(--f-display);font-weight:500;font-size:clamp(30px,3.4vw,44px);
+ line-height:1.15;letter-spacing:-.01em;color:var(--ink);margin:0 0 10px}
+.doc .updated{font-family:var(--f-mono);font-size:12px;color:var(--dim);margin:0 0 48px}
+
+.doc h2{font-family:var(--f-display);font-weight:500;font-size:clamp(20px,1.9vw,26px);
+ line-height:1.25;color:var(--ink);margin:44px 0 14px}
+
+.doc p{font-size:15px;line-height:1.7;color:var(--ink-soft);margin:0 0 18px}
+.doc .who{color:var(--ink)}
+
+.doc a{color:var(--accent);text-decoration:none}
+.doc a:hover,.doc a:focus-visible{text-decoration:underline}
+
+/* --- BLOQUE 3 · pie -------------------------------------------------------- */
+footer{background:var(--night);padding:44px 64px;border-top:0.5px solid rgba(70,82,95,.4)}
+footer p{margin:0;font-size:12px;line-height:1.7;color:var(--faint)}
+footer .name{font-family:var(--f-mono);letter-spacing:.1em;color:var(--dim)}
+footer a{color:var(--dim);text-decoration:none}
+footer a:hover,footer a:focus-visible{color:var(--ink-soft)}
+
+/* --- MOVIL ---------------------------------------------------------------- */
+@media (max-width:800px){
+  .topbar{padding-left:24px;padding-right:24px}
+  .logo svg{width:28px;height:28px}
+  .logo__name{font-size:18px}
+  .doc{padding:48px 24px 64px}
+  .doc h2{margin-top:36px}
+  footer{padding:36px 24px}
+}
+/* --- lo que anaden las notas, con los tokens de arriba y ningun color nuevo --- */
+.doc p.lede{font-family:var(--f-display);font-size:clamp(17px,1.6vw,21px);
+ line-height:1.5;color:var(--ink);margin:0 0 30px}
+.doc p b{color:var(--ink);font-weight:600}
+.doc p i{color:var(--dim)}
+.doc .ir{margin:0 0 6px;padding:15px 18px;background:var(--night-2);
+ border:0.5px solid var(--line-top);border-left:2px solid var(--accent)}
+.doc .ir a{font-family:var(--f-mono);font-size:13px;letter-spacing:.02em}
+.doc .ir .que{display:block;margin-top:6px;font-size:13px;color:var(--faint)}
+.doc h2{scroll-margin-top:24px}
+
+/* --- y lo que anade la portada de las notas --- */
+.doc h3{font-family:var(--f-ui);font-weight:600;font-size:15px;letter-spacing:.01em;
+ color:var(--ink);margin:30px 0 4px}
+.doc p.sub{font-size:14px;color:var(--faint);margin:0 0 14px}
+.doc ul.notas{list-style:none;margin:0;padding:0}
+.doc ul.notas li{padding:11px 0;border-top:0.5px solid var(--line-top)}
+.doc ul.notas li:last-child{border-bottom:0.5px solid var(--line-top)}
+.doc ul.notas a{font-weight:600}
+.doc ul.notas span{display:block;margin-top:4px;font-size:14px;line-height:1.55;
+ color:var(--ink-soft)}
+</style>
+</head>
+
+<body>
+
+<div class="topbar">
+  <a class="logo" href="../index.html">
+    <svg viewBox="0 0 40 40" width="34" height="34" aria-hidden="true">
+      <path d="M17 17 L25 19 L20 25 Z" fill="var(--accent)" fill-opacity="0.5"/>
+      <line x1="7" y1="14.5" x2="35" y2="21.5" stroke="var(--accent)"
+            stroke-width="1.4" stroke-linecap="round"/>
+      <line x1="29" y1="14" x2="16" y2="30" stroke="var(--accent)"
+            stroke-width="1.4" stroke-linecap="round"/>
+      <line x1="21.5" y1="29" x2="15.5" y2="13" stroke="var(--accent)"
+            stroke-width="1.4" stroke-linecap="round"/>
+    </svg>
+    <span class="logo__name">Offshore Theory</span>
+  </a>
+</div>
+
+<main class="doc">
+
+  <h1>Module 06 · The stream and the rest of the book</h1>
+  <p class="updated">Reading notes &middot; Module 06 &middot; The almanac</p>
+  <p class="lede">The Channel's tidal stream atlas with the coefficient, the stream carried to the chart, port entry, sun and moon, and a day sheet from the book alone.</p>
+  <p class="ir"><a href="../chapters/m06-p2-the-stream-and-the-rest-of-the-book.html">Open the interactive chapter &rarr;</a><span class="que">The same material with the chart, the drawings and the exercises.</span></p>
+
+  <h2 id="the-channel-s-tidal-stream-atlas">The Channel's tidal stream atlas</h2>
+  <h3>Nine sheets, thirteen pages each, all on HW Dover</h3>
+  <p>The stream atlas of the Channel is <a href="chart-datum-and-tide-levels.html">module 04</a>'s atlas with three changes: <b>nine sheets</b> instead of one, every page referred to <b>high water at Dover</b>, and the <b>coefficient</b> instead of the range.</p>
+  <p>Two sheets cover the whole Channel, one arrow every few miles: <b>The Channel, Western Half</b> and <b>The Channel, Eastern Half</b>.</p>
+  <p>Seven more zoom in where the stream is fast or close to the coast, with arrows much closer together. <b>Use the finest sheet that covers the place</b>: where there is a sheet of the Strait, the sheet of the whole Channel is not used.</p>
+  <p>Each sheet has thirteen pages, from six hours before high water at Dover to six hours after, and every arrow is read as in <a href="chart-datum-and-tide-levels.html">module 04</a>: it points where the water goes, and its two figures are tenths of a knot at neaps and at springs.</p>
+  <h3>Which page: module 04's sum, on Dover</h3>
+  <p>Which page is <a href="chart-datum-and-tide-levels.html">module 04</a>'s sum (<i>the stream: from where, at what time, on which day</i>) with Dover in place of Aldern Quay.</p>
+  <p>19 September: high water at Dover <b>11:28</b> UTC.</p>
+  <p>Leaving at <b>06:30 UTC</b>, you are some five hours before it, rounded to the hour: page <b>-5</b>. Its heading says it: <i>HW DOVER -5 h</i>.</p>
+  <p>And what is new: the Shom's grid runs on Calais and Boulogne, not on Dover. <b>The page has already translated it</b>, and its foot says by how much.</p>
+  <h3>Between neaps and springs: the coefficient</h3>
+  <p>In <a href="chart-datum-and-tide-levels.html">module 04</a> you placed the day between neaps and springs with the range at Aldern Quay. In the Channel you do it with the <b>coefficient</b>: 45 is mean neaps, 95 mean springs.</p>
+  <p>How an arrow reads: its two figures are tenths of a knot at neaps and at springs.</p>
+  <p>The rule and its example, printed at the foot of every page: <b>knots = neaps + (springs &minus; neaps) &times; (coefficient &minus; 45) / 50</b>.</p>
+  <p>Above 95 the rule goes on: the stream is <b>stretched beyond springs</b>, as the example with coefficient 112 shows. A secondary port's height difference does the same beyond MHWS: it is extrapolated (part 1, topic 4).</p>
+  <h3>Which of the two coefficients</h3>
+  <p>The tide page prints two coefficients a day, one for each high water <b>at Brest</b>, and under each one the time of that high water, in the page's time.</p>
+  <p>1 September: <b>65</b> for the Brest high water of <b>03:01</b>, and <b>74</b> for the one of <b>15:15</b>.</p>
+  <p><b>Take the one whose Brest time is nearest yours</b>: at 07:00, <b>65</b>; at 13:30, <b>74</b>. It is what the foot of the page says, and what the checker does.</p>
+  <h3>What the page does not say</h3>
+  <p>Every page ends by saying what it cannot tell you, and a careful skipper reads it:</p>
+  <p><b>between two arrows the stream is not the mean of the two</b>; <b>where there is no arrow there is no data</b>, which includes harbour mouths; and <b>the arrows with a circle</b> come from a model calibrated against the Shom, where the Shom's grid does not reach.</p>
+  <h3>The Solent turns before high water</h3>
+  <p>In Hurst Narrows, the western gate of the Solent, the stream turns to the west <b>before</b> high water at Dover. later in the course builds a passage on it; here it is only read, on 19 September.</p>
+  <p>Page <b>-1</b>, an hour before high water at Dover: the arrow in the Narrows still points east. Read with the day's coefficient, <b>056&deg; at 0.1 knots</b>.</p>
+  <p>Page <b>HW</b>: it has turned. <b>248&deg; at 2.1 knots</b>, out through the Needles.</p>
+  <h2 id="from-the-page-to-the-triangle">From the page to the triangle</h2>
+  <h3>The stream you read is module 05's arrow</h3>
+  <p>A direction and a speed for an hour: what <a href="tidal-streams-and-the-estimated-position.html">module 05</a> drew as a vector and added to the dead reckoning to get the estimated position. In the middle of the Strait, <b>50&deg;57.0&prime;N 1&deg;27.0&prime;E</b>, on 19 September. Between arrows it is read the way <a href="chart-datum-and-tide-levels.html">module 04, part 4</a> taught in Skelmar; here it is, in the Channel.</p>
+  <p>At <b>06:00 UTC</b> it is page <b>-5</b>, and the coefficient is <b>112</b>: the Brest time nearest 06:00. The point is not on an arrow, so take <b>the three arrows round it</b>, A, B and C.</p>
+  <p>Measure each one yourself, with the tools below: its <b>set</b> with the plotter, and <b>how far it is</b> with the dividers, carried to <b>the latitude scale at the side of the page</b> &mdash; one minute of latitude is one mile. And each arrow's two figures with the day's coefficient, as the foot of the page says.</p>
+  <p><b>The nearer an arrow, the more it counts</b>: each one weighs one over its distance, and the three weights are shared out so that they add up to one.</p>
+  <p>Then the set and the rate are each the three figures mixed with those weights. <b>Mind 000</b>: here the three sets lie between 209&deg; and 225&deg; and mix as they are; if they lay on both sides of north &mdash; 350&deg; and 010&deg; &mdash; their plain average would be 180&deg;, due south. Add 360 to the small ones first, mix, and take 360 off if the answer is over 360. The stream: <b>217&deg; at 3.6 knots</b>, the same the checker gives. <b>Mixing sets and rates separately is a shortcut, and it only holds when the arrows are close and alike.</b> Halfway between <b>090&deg; at 2 knots</b> and <b>270&deg; at 2 knots</b> it gives 180&deg; at 2 knots, and the water there hardly moves: the two cancel. Then add them as arrows: draw each one from the same point, as long as its weight times its rate, end to end, and the stream runs from the start to the end of the last one. That is what the foot of the atlas page says &mdash; all three drawn from the same point &mdash; and what the checker does; with arrows this close, the two ways give the same answer.</p>
+  <p>On the chart it is <a href="tidal-streams-and-the-estimated-position.html">module 05</a>'s arrow: from the point, <b>217&deg;</b>, as long as <b>3.6 miles</b> &mdash; one hour of it.</p>
+  <p>An hour later, at <b>07:00</b>, it is the next page, and its three arrows read the same way give <b>217&deg; at 4.0 knots</b>. Each hour of a passage has its own.</p>
+  <h3>And what comes in module 07</h3>
+  <p>The first leg from Dover to Boulogne: <b>160&deg;, 14.7 miles</b>. Leaving at 06:30 on 19 September at 6 knots, it takes <b>2.4 hours</b>, and hour by hour the stream runs almost across it.</p>
+  <p>The leg on the chart.</p>
+  <p>Across the leg the stream runs at <b>2.9 knots</b> on average, towards the starboard side: left alone, it would set you <b>7.1 miles</b> off the line. That is why this leg is the critical one, and why later in the course gives it a chapter: <a href="tidal-streams-and-the-estimated-position.html">module 05</a>'s triangle, with the stream taken from here, hour by hour. <b>Here the course to steer is not built</b>.</p>
+  <h2 id="what-the-book-carries-that-is-not-tides">What the book carries that is not tides</h2>
+  <h3>An almanac is more than tides</h3>
+  <p>Look at the contents again: after the tides and the streams, two more sections. <b>Port entry</b>, what each port asks of you when you arrive; and <b>sun and moon</b>, when it gets light and dark.</p>
+  <p>Other almanacs carry more &mdash; lights, distances, harbour plans, radio &mdash; and this one says what it does not carry, at the end of this topic.</p>
+  <h3>Port entry: what decides the time, apart from the water</h3>
+  <p>Each port has its card: its position, the source and the date it was read, and its rules in three parts. <b>What the port requires</b>: the radio, a lock, a sill, a bridge, a drying harbour. <b>What no official source says</b>, to ask the harbour. And apart, at the end, <b>what the course checks</b> when your plan arrives.</p>
+  <p><b>Dover</b> requires the radio &mdash; Dover VTS and the marina, each on its channel, and permission to enter &mdash; and says where visitors berth: outside the lock and the sill. So the course checks neither for a visitor, and it says so in its own part.</p>
+  <p><b>Boulogne-sur-Mer</b>: its channel, and a visitor behind the lock would have its times to meet. Whether you must call is <i>not stated</i>: it is in the part to ask the harbour.</p>
+  <p>And how to use the page, at its foot: <b>HW is that port's own high water</b>, worked out as in topic 4 when it is a secondary port.</p>
+  <h3>Who to call, and when</h3>
+  <p>The first line of each card is the radio: the channels, who answers on each, and whether you must call before entering.</p>
+  <p><b>Dover</b>: Dover VTS on 74 and the marina on 80. <b>You must ask Dover VTS for permission two miles off</b>, and permission to enter the Outer Harbour is only given within 200 m of the west or east entrance; inside, you keep a listening watch on 74.</p>
+  <p><b>Boulogne-sur-Mer</b>: the harbour on its channel. Whether you must call is <i>not stated</i>, so the card puts it with what to ask the harbour: its own notice has the last word, and a call costs nothing.</p>
+  <h3>Sun and moon</h3>
+  <p>Light and dark decide a passage as much as the tide. The book has a page of them for Dover and one for Cherbourg.</p>
+  <p>19 September at Dover, in UTC: the sun rises at <b>05:36</b> and sets at <b>17:58</b>; civil twilight begins at <b>05:03</b> and ends at <b>18:31</b>.</p>
+  <p>And its foot: all times in UTC, and how to carry them to another port along the coast &mdash; <b>4 minutes for each degree of longitude</b>, later to the west.</p>
+  <p>That rule holds <b>at the same latitude</b>: carried four degrees west along Dover's parallel, it is exact to the minute on the worst day of the year. North or south of the page it drifts: one degree of latitude south of Dover it is up to <b>5 minutes</b> out, near midsummer and midwinter; at Cherbourg, a degree and a half south, up to <b>8</b>. So use the rule along the coast near the page's latitude, and <b>for a port well north or south of it, use that port's own table</b> &mdash; Cherbourg has one.</p>
+  <h3>The moon, on the tide page</h3>
+  <p>The moon's phase is printed on the tide page, on the day it falls, and it warns of springs: <b>full moon on the 18th</b>, and the next day coefficients of <b>112 and 117</b>.</p>
+  <h3>Distances: by sea, not in a straight line</h3>
+  <p>This almanac has no table of distances: you take them from the chart, <b>by sea</b>.</p>
+  <p>Diélette to Cherbourg: <b>10.6 miles</b> in a straight line &mdash; across the Cotentin, over land.</p>
+  <p>By sea, round Cap de la Hague: <b>28.7 miles</b>, almost three times as far &mdash; the solid line, kept in water deep enough and clear of the cape. Measured by sea, Boulogne to Dover is <b>25.7 miles</b>: at 6 knots, <b>4 h 17 min</b> before any stream.</p>
+  <h3>What this book does not carry, and where to look</h3>
+  <p>A commercial almanac carries more than this one. What is missing here, and where you find it:</p>
+  <h2 id="all-together">All together</h2>
+  <h3>What you can do now</h3>
+  <p>Open the book at the right page, in the right time and above the right datum. Work a secondary port. Read the Channel's stream with the coefficient, and carry it to the chart. Check a port's entry and the light of the day.</p>
+  <p><b>What you do with all that &mdash; a passage plan &mdash; comes later in the course.</b></p>
+
+  <p class="ir"><a href="../chapters/m06-p2-the-stream-and-the-rest-of-the-book.html">Open the interactive chapter &rarr;</a><span class="que">The same material with the chart, the drawings and the exercises.</span></p>
+  <p class="ir"><a href="index.html">All the reading notes &rarr;</a></p>
+
+</main>
+
+<footer>
+  <p class="name">Offshore Theory</p>
+  <p>Independent preparation. Not affiliated with or accredited by the RYA.</p>
+  <p><a href="../index.html">Back to Offshore Theory</a></p>
+</footer>
+
+<!-- Cloudflare Web Analytics -->
+<script type='module' src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "624bbb73949b40f0aae4dafec49ac1f6"}'></script>
+<!-- End Cloudflare Web Analytics -->
+</body>
+</html>

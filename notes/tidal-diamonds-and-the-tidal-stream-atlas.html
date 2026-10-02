@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Tidal diamonds and the tidal stream atlas</title>
+<link rel="icon" type="image/svg+xml" href="../assets/img/favicon.svg">
+<meta name="description" content="Set and rate from the tidal diamonds on the chart and from the atlas, worked between springs and neaps, and the tidal gates that decide when you go.">
+<link rel="canonical" href="https://offshoretheory.com/notes/tidal-diamonds-and-the-tidal-stream-atlas.html">
+
+<meta property="og:title" content="Tidal diamonds and the tidal stream atlas">
+<meta property="og:description" content="Set and rate from the tidal diamonds on the chart and from the atlas, worked between springs and neaps, and the tidal gates that decide when you go.">
+<meta property="og:image" content="https://offshoretheory.com/assets/img/foto-2.jpg">
+<meta property="og:image:alt" content="A sextant and dividers resting on a paper chart">
+<meta name="twitter:card" content="summary_large_image">
+<script type="application/ld+json">
+{
+ "@context": "https://schema.org",
+ "@type": "LearningResource",
+ "name": "Tidal diamonds and the tidal stream atlas",
+ "description": "Set and rate from the tidal diamonds on the chart and from the atlas, worked between springs and neaps, and the tidal gates that decide when you go.",
+ "url": "https://offshoretheory.com/notes/tidal-diamonds-and-the-tidal-stream-atlas.html",
+ "inLanguage": "en",
+ "learningResourceType": "reading notes",
+ "isPartOf": {
+  "@id": "https://offshoretheory.com/#organization"
+ },
+ "about": "Tidal streams"
+}
+</script>
+<style>
+/* ---------------------------------------------------------------------------
+   Tipografias y paleta: las mismas declaraciones que index.html, copiadas tal
+   cual. Nada se carga de fuera del repositorio.
+   --------------------------------------------------------------------------- */
+@font-face{font-family:'IBM Plex Mono';font-style:normal;font-weight:400;font-display:swap;
+ src:url(../assets/fonts/IBMPlexMono-400-normal-latin.woff2) format('woff2');
+ unicode-range:U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD}
+@font-face{font-family:'IBM Plex Mono';font-style:normal;font-weight:400;font-display:swap;
+ src:url(../assets/fonts/IBMPlexMono-400-normal-latin-ext.woff2) format('woff2');
+ unicode-range:U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF}
+@font-face{font-family:'IBM Plex Sans';font-style:normal;font-weight:400 600;font-display:swap;
+ src:url(../assets/fonts/IBMPlexSans-400-normal-latin.woff2) format('woff2');
+ unicode-range:U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD}
+@font-face{font-family:'IBM Plex Sans';font-style:normal;font-weight:400 600;font-display:swap;
+ src:url(../assets/fonts/IBMPlexSans-400-normal-latin-ext.woff2) format('woff2');
+ unicode-range:U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF}
+@font-face{font-family:'Newsreader';font-style:normal;font-weight:500;font-display:swap;
+ src:url(../assets/fonts/Newsreader-500-normal-latin.woff2) format('woff2');
+ unicode-range:U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD}
+@font-face{font-family:'Newsreader';font-style:normal;font-weight:500;font-display:swap;
+ src:url(../assets/fonts/Newsreader-500-normal-latin-ext.woff2) format('woff2');
+ unicode-range:U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF}
+@font-face{font-family:'Gloock Logo';font-style:normal;font-weight:400;font-display:swap;
+ src:url(../assets/fonts/gloock-logo.woff2) format('woff2')}
+
+:root{
+  --night:#0E1116;
+  --night-2:#161B22;
+  --line:#46525F;
+  --ink:#E8EAED;
+  --ink-soft:#9BA6B2;
+  --dim:#8B96A2;
+  --faint:#79838F;
+
+  /* -- Los tres colores del curso. Nada de esto se repite suelto mas abajo. --
+     acento : --accent-graphic de balizamiento y luces. El ambar de los
+              elementos destacados. NO es --alarm (#B33A22), que es el rojo
+              de los avisos. En rules-of-the-road el mismo ambar es --ochre.
+     azul   : --water de balizamiento.
+     magenta: --magenta-soft de rules-of-the-road.                         */
+  --accent:#C97B1B;
+  --blue:#8FC3DA;
+  --magenta:#E86AA0;
+
+  /* Tinta sobre el ambar macizo del boton: 5,6:1 de contraste. */
+  --on-accent:#1A1206;
+
+  --line-top:#232B36;   /* filetes: bajo la barra y entre las columnas */
+
+  --col-hover:rgba(255,255,255,.03);  /* aclarado de columna al pasar el raton */
+  --card-link:#C3CBD4;
+  --f-display:"Newsreader",ui-serif,Georgia,"Palatino Linotype","Times New Roman",serif;
+  --f-ui:"IBM Plex Sans",system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;
+  --f-mono:"IBM Plex Mono",ui-monospace,"SF Mono","Segoe UI Mono",Menlo,Consolas,monospace;
+}
+
+*{box-sizing:border-box}
+html,body{margin:0;padding:0}
+body{background:var(--night);color:var(--ink);font:15px/1.6 var(--f-ui);
+ -webkit-font-smoothing:antialiased}
+
+/* --- barra del logo, identica a la de la portada -------------------------- */
+/* Barra superior, pegada al borde de arriba. */
+.topbar{margin:0;padding-top:16px;padding-bottom:16px;
+ border-bottom:0.5px solid var(--line-top)}
+/* Su relleno lateral, el mismo corto que en la portada. */
+.topbar{padding-left:clamp(20px,2vw,34px);padding-right:clamp(20px,2vw,34px)}
+
+/* Logo: simbolo ambar y nombre en claro. El ambar solo en el simbolo. */
+.logo{display:inline-flex;align-items:center;gap:14px;text-decoration:none}
+.logo:hover,.logo:focus-visible{filter:brightness(1.15)}
+.logo svg{display:block;flex:none}
+.logo__name{font-family:"Gloock Logo",serif;font-size:clamp(18px,1.6vw,26px);
+ color:var(--ink);letter-spacing:.3px;line-height:1.1}
+
+/* --- el texto ------------------------------------------------------------- */
+.doc{max-width:680px;margin:0 auto;padding:72px clamp(24px,4vw,40px) 96px}
+
+.doc h1{font-family:var(--f-display);font-weight:500;font-size:clamp(30px,3.4vw,44px);
+ line-height:1.15;letter-spacing:-.01em;color:var(--ink);margin:0 0 10px}
+.doc .updated{font-family:var(--f-mono);font-size:12px;color:var(--dim);margin:0 0 48px}
+
+.doc h2{font-family:var(--f-display);font-weight:500;font-size:clamp(20px,1.9vw,26px);
+ line-height:1.25;color:var(--ink);margin:44px 0 14px}
+
+.doc p{font-size:15px;line-height:1.7;color:var(--ink-soft);margin:0 0 18px}
+.doc .who{color:var(--ink)}
+
+.doc a{color:var(--accent);text-decoration:none}
+.doc a:hover,.doc a:focus-visible{text-decoration:underline}
+
+/* --- BLOQUE 3 · pie -------------------------------------------------------- */
+footer{background:var(--night);padding:44px 64px;border-top:0.5px solid rgba(70,82,95,.4)}
+footer p{margin:0;font-size:12px;line-height:1.7;color:var(--faint)}
+footer .name{font-family:var(--f-mono);letter-spacing:.1em;color:var(--dim)}
+footer a{color:var(--dim);text-decoration:none}
+footer a:hover,footer a:focus-visible{color:var(--ink-soft)}
+
+/* --- MOVIL ---------------------------------------------------------------- */
+@media (max-width:800px){
+  .topbar{padding-left:24px;padding-right:24px}
+  .logo svg{width:28px;height:28px}
+  .logo__name{font-size:18px}
+  .doc{padding:48px 24px 64px}
+  .doc h2{margin-top:36px}
+  footer{padding:36px 24px}
+}
+/* --- lo que anaden las notas, con los tokens de arriba y ningun color nuevo --- */
+.doc p.lede{font-family:var(--f-display);font-size:clamp(17px,1.6vw,21px);
+ line-height:1.5;color:var(--ink);margin:0 0 30px}
+.doc p b{color:var(--ink);font-weight:600}
+.doc p i{color:var(--dim)}
+.doc .ir{margin:0 0 6px;padding:15px 18px;background:var(--night-2);
+ border:0.5px solid var(--line-top);border-left:2px solid var(--accent)}
+.doc .ir a{font-family:var(--f-mono);font-size:13px;letter-spacing:.02em}
+.doc .ir .que{display:block;margin-top:6px;font-size:13px;color:var(--faint)}
+.doc h2{scroll-margin-top:24px}
+
+/* --- y lo que anade la portada de las notas --- */
+.doc h3{font-family:var(--f-ui);font-weight:600;font-size:15px;letter-spacing:.01em;
+ color:var(--ink);margin:30px 0 4px}
+.doc p.sub{font-size:14px;color:var(--faint);margin:0 0 14px}
+.doc ul.notas{list-style:none;margin:0;padding:0}
+.doc ul.notas li{padding:11px 0;border-top:0.5px solid var(--line-top)}
+.doc ul.notas li:last-child{border-bottom:0.5px solid var(--line-top)}
+.doc ul.notas a{font-weight:600}
+.doc ul.notas span{display:block;margin-top:4px;font-size:14px;line-height:1.55;
+ color:var(--ink-soft)}
+</style>
+</head>
+
+<body>
+
+<div class="topbar">
+  <a class="logo" href="../index.html">
+    <svg viewBox="0 0 40 40" width="34" height="34" aria-hidden="true">
+      <path d="M17 17 L25 19 L20 25 Z" fill="var(--accent)" fill-opacity="0.5"/>
+      <line x1="7" y1="14.5" x2="35" y2="21.5" stroke="var(--accent)"
+            stroke-width="1.4" stroke-linecap="round"/>
+      <line x1="29" y1="14" x2="16" y2="30" stroke="var(--accent)"
+            stroke-width="1.4" stroke-linecap="round"/>
+      <line x1="21.5" y1="29" x2="15.5" y2="13" stroke="var(--accent)"
+            stroke-width="1.4" stroke-linecap="round"/>
+    </svg>
+    <span class="logo__name">Offshore Theory</span>
+  </a>
+</div>
+
+<main class="doc">
+
+  <h1>Module 04 · Tidal streams</h1>
+  <p class="updated">Reading notes &middot; Module 04 &middot; Tides</p>
+  <p class="lede">Set and drift. The diamonds on the chart, and the atlas.</p>
+  <p class="ir"><a href="../chapters/m04-p4-tidal-streams.html">Open the interactive chapter &rarr;</a><span class="que">The same material with the chart, the drawings and the exercises.</span></p>
+
+  <h2 id="what-moves-sideways">What moves sideways</h2>
+  <h3>The same tide, two questions</h3>
+  <p>The last three parts asked one question: <b>how much water is there?</b> This one asks the other: <b>which way is it going, and how fast?</b></p>
+  <p>While the tide rises and falls at Aldern Quay, the water of Skelmar Sound runs one way and then the other. That is a <b>tidal stream</b>: the same tide, seen sideways.</p>
+  <p>The arrow in the middle of the Sound is the water at one place, four hours before high water. In a few hours it will be pointing the other way.</p>
+  <h3>Thirteen hours of one place</h3>
+  <p>Diamond <b>C</b>, in the middle of the Sound, hour by hour. Above, the height at Aldern Quay on 1 May 2026; below, the water at C.</p>
+  <p><b>Four hours before high water: 095 at 2.3 knots</b> &mdash; going east. <b>One before: 049 at 0.5</b> &mdash; almost still. <b>Three after: 271 at 2.2</b> &mdash; going west.</p>
+  <p>Two words carry it. <b>Set</b> is the direction the water is going <b>to</b>; <b>rate</b> is how fast, in knots.</p>
+  <p>And the one that decides a passage: <b>the slackest water is not at high water.</b> At C it comes 1 hour before it.</p>
+  <h3>Move the hour</h3>
+  <p>Drag the hour from six before high water to six after. The height climbs and falls on the curve; the arrow at C swings round.</p>
+  <p><b>Watch the two together:</b> they do not keep time with each other.</p>
+  <h2 id="the-tidal-diamonds">The tidal diamonds</h2>
+  <h3>Ten places where the stream is given</h3>
+  <p>A <b>magenta diamond with a letter</b> marks a place on the chart where the stream is given hour by hour, in a table at the side of the chart.</p>
+  <p>They sit <b>where the water does something</b>: <b>A</b>, the gap north-west of the Sound, between the islet and the north shore; <b>B</b>, the western Sound, south of the gap; <b>C</b>, the middle of the Sound, off Fladda; <b>D</b>, the eastern Sound; <b>E</b>, the way out to the north-east; <b>F</b>, the southern channel, east of the precautionary area; <b>G</b>, the passage north of Auskerry; <b>H</b>, the channel west of Skelvoe; <b>I</b>, the bay south of Skerry Steps; <b>J</b>, the approach to Kirkvoe Haven.</p>
+  <p>And the table says which port it is counted from: <i>referred to HW at Aldern Quay</i> &mdash; <b>a port that is not on this chart</b>. A stream is counted from the high water of one standard port, wherever that port is.</p>
+  <h3>The table, column by column</h3>
+  <p>Rows: <b>6 before</b> &hellip; <b>HW</b> &hellip; <b>6 after</b>. For each diamond, three columns: <b>Dir</b> in degrees true, <b>Sp</b> the rate in knots at mean springs, <b>Np</b> at mean neaps.</p>
+  <p>Diamond C, row <b>3 after</b>: <b>271 &middot; 2.2 &middot; 1.4</b>.</p>
+  <h3>Which row?</h3>
+  <p>On 1 May 2026 high water at Aldern Quay is at <b>0937</b>. At <b>1230</b> it is 2 h 53 min after it, and that is rounded to the nearest whole hour: row <b>3 after</b>.</p>
+  <p>At C: <b>271, 2.2 at springs and 1.4 at neaps</b>.</p>
+  <h2 id="between-springs-and-neaps">Between springs and neaps</h2>
+  <h3>The day is hardly ever springs or neaps</h3>
+  <p>Where a day falls is said by its <b>range</b> &mdash; and it has to be <b>the range of the tide you are working in</b>: the high water you count from, and the low water next to it <b>on the side of your time</b>.</p>
+  <p>At 1230 on 1 May you are after the high water of <b>0937, 6.8 m</b>, so the low water is the next one, <b>1522, 2.0 m</b>: the range is <b>6.8 &minus; 2.0 = 4.8 m</b>. Between 4.2 at mean neaps and 6.4 at mean springs, <b>27 % of the way to springs</b>.</p>
+  <p><i>Before a high water it would be the low water before it: the rising tide.</i></p>
+  <h3>The sum</h3>
+  <p>The rate moves from the neaps figure towards the springs figure <b>in the same proportion as the range</b>.</p>
+  <p>At C at 1230 on 1 May: row 3 after gives 2.2 at springs and 1.4 at neaps; the range is 4.8. So the stream is <b>271 at 1.6 knots</b>.</p>
+  <h2 id="the-tidal-stream-atlas">The tidal stream atlas</h2>
+  <h3>Thirteen pages, one for each hour</h3>
+  <p>Where a diamond gives one place, the atlas gives <b>the whole chart</b>: an arrow every 0.9 miles. <b>Every arrow is the same length; its thickness is its strength.</b> This page is <b>3 hours before</b> high water at Aldern Quay: the Sound runs east.</p>
+  <p>And <b>3 hours after</b>: it runs west. Each arrow carries two figures in <b>tenths of a knot</b>, neaps and springs: <b>15,22</b> is 1.5 and 2.2 knots &mdash; not 15 and 22. <b>The foot of every page carries the sum for the day.</b></p>
+  <h3>Which page?</h3>
+  <p>The same sum as the row of a diamond: high water at Aldern Quay on the day, and the time you want, rounded to the hour. On 1 May at 1230: the page headed <b>HW ALDERN QUAY +3 h</b>.</p>
+  <h3>Read an arrow, and measure it</h3>
+  <p>On that page, the arrow at <b>46&deg;14.9&prime;N 5&deg;53.1&prime;W</b>: figures <b>15,22</b> &mdash; 1.5 knots at neaps and 2.2 at springs.</p>
+  <p><b>Its direction is not written: you measure it</b>, with the plotter you used in <a href="true-magnetic-and-compass.html">module 02</a>. Drag the edge along the arrow, the arrowhead of the plotter the way the water goes; turn the rose until its grid lies north&ndash;south; and read the index. <b>This one is 276.</b> Measured like that, it is good to <b>3&deg;</b>.</p>
+  <h3>Between the arrows, step by step</h3>
+  <p>The place you want is hardly ever on an arrow. At <b>Y</b>, 46&deg;15.3&prime;N 5&deg;54.0&prime;W, on page +3: take <b>the three arrows round it</b>.</p>
+  <p><b>Measure how far each one is, with the dividers</b> &mdash; the ones you have used since <a href="true-magnetic-and-compass.html">module 02</a>. Click on <b>Y</b>, then on <b>the middle of the arrow</b>: that is the span. Drag the dividers to <b>the latitude scale at the side of the chart</b> and read it: <b>one minute of latitude is one mile</b>. Never the longitude scale along the top. Here: 261 &middot; 2.0 kn at <b>0.54 M</b>, 276 &middot; 2.2 kn at <b>0.76 M</b>, 288 &middot; 1.6 kn at <b>0.77 M</b>.</p>
+  <p><b>The nearer an arrow, the more it counts</b>: each one weighs one over its distance, and the three weights are shared out so that they add up to one: 1/0.54 &rarr; <b>42 %</b>, 1/0.76 &rarr; <b>29 %</b>, 1/0.77 &rarr; <b>29 %</b>.</p>
+  <p>Then the <b>set</b> and the <b>rate</b> are each the three figures mixed with those weights: <b>273 at 1.9 knots</b> at springs. The water at Y runs 272 at 2.1: reading between arrows is good to a few degrees and a couple of tenths, and that is the margin this chapter accepts &mdash; <b>5&deg; and 0.2 knots</b>.</p>
+  <p><b>Mixing sets like this only works when they are close together.</b> Across north it goes wrong: <b>350</b> and <b>010</b> both point north, but their average is <b>180</b> &mdash; due south. So when the sets you mix lie on both sides of 000, <b>add 360 to the small ones first</b>, mix, and take 360 off if the answer comes out over 360.</p>
+  <h2 id="diamond-or-atlas">Diamond or atlas</h2>
+  <h3>At a diamond they agree</h3>
+  <p>The atlas has an arrow on every diamond. At C, page +3: <b>14,22 at 271</b>. The table of C, row 3 after: <b>271 &middot; 2.2 &middot; 1.4</b>.</p>
+  <p><b>It is the same water, measured once.</b></p>
+  <h3>Away from it, they may not</h3>
+  <p>In the southern channel, <b>0.6 miles south of F</b>, where it narrows, one hour before high water. Diamond F says <b>038 at 3.7</b> at springs; the nearest atlas arrow &mdash; in the narrow part &mdash; says <b>31,48: 4.8 knots</b>. The water at X runs at about 5.</p>
+  <p><b>Use the source nearest to where you are, in the same channel.</b> A diamond in another channel is no use however near it is.</p>
+  <p><b>And when two disagree, which figure you plan with depends on what the stream does for you.</b> When it is <b>against you</b>, or when it <b>decides a gate</b>, plan with the <b>stronger</b>: that is the one that can stop you. When it is <b>with you</b>, do not count on the stronger to work out when you arrive: it gives a time that is too good, and you get there late with the plan saying you are early.</p>
+  <h2 id="tidal-gates-in-skelmar">Tidal gates in Skelmar</h2>
+  <h3>The strongest water on the chart</h3>
+  <p>The gate is worked <b>where the water limits you</b>: the narrow part of the southern channel, not diamond F, which sits in wider water and reads short. The atlas gives that place hour by hour &mdash; its arrow, page by page.</p>
+  <p>At springs it reaches <b>4.8 knots, 1 before high water</b>, going 017.</p>
+  <p><i>Kittiwake</i> does 5 knots through the water. <b>Head-on, you subtract</b>: against 4.8 she makes 0.2 over the ground. <i>From the side it is no longer a subtraction &mdash; that is <a href="tidal-streams-and-the-estimated-position.html">module 05</a>.</i></p>
+  <h3>The gate, in its table</h3>
+  <p>Going south, the stream is against you whenever the narrow arrow runs north. With a rule of <b>no more than 2.5 knots against</b>:</p>
+  <p>at springs the channel is shut at <b>2 before, 1 before, HW, 1 after</b>; at neaps only at <b>1 before and HW</b>.</p>
+  <p><b>The gate is wider at neaps.</b></p>
+  <h3>Each row is an hour</h3>
+  <p>A row of the table is not a moment: <b>it is the hour centred on its time</b>. On a day with high water at 1526, the row <b>1 before</b> covers 1356 to 1456, the row <b>HW</b> covers 1456 to 1556.</p>
+  <p>So a gate made of shut rows <b>opens half an hour after the time of the last one, and shuts half an hour before the time of the first</b>. The line below is that day, row by row.</p>
+  <h3>What a gate does not promise</h3>
+  <p>A gate worked out on paper says when the water lets you through. <b>It does not say you will be there.</b></p>
+  <p><b>You may arrive late</b> &mdash; a slow leg, a late start. <b>Getting through takes time</b>: the gate has to be open for the whole of your passage through the narrows, not just when you enter. And <b>wind against the stream</b> raises a steep, breaking sea in exactly the places where the stream is strongest.</p>
+  <p><b>So have the other plan ready before you go</b>: where you wait, or where you go instead, if you miss it.</p>
+  <h2 id="all-of-it-on-your-own">All of it, on your own</h2>
+  <h3>What you can do now</h3>
+  <p><b>Where, when and which day:</b> a stream read from a diamond or from the atlas, for one hour, with its set and its rate.</p>
+  <p>On 1 May at 1230, at C: <b>271 at 1.6 knots</b>. That is exactly how <a href="tidal-streams-and-the-estimated-position.html">module 05</a> hands you a stream &mdash; <i>&laquo;271 at 1.6 knots for this hour&raquo;</i>.</p>
+  <p><b>What you do with it</b> &mdash; draw it, see where it takes you, work out the course to steer &mdash; <b>is <a href="tidal-streams-and-the-estimated-position.html">module 05</a></b>.</p>
+
+  <p class="ir"><a href="../chapters/m04-p4-tidal-streams.html">Open the interactive chapter &rarr;</a><span class="que">The same material with the chart, the drawings and the exercises.</span></p>
+  <p class="ir"><a href="index.html">All the reading notes &rarr;</a></p>
+
+</main>
+
+<footer>
+  <p class="name">Offshore Theory</p>
+  <p>Independent preparation. Not affiliated with or accredited by the RYA.</p>
+  <p><a href="../index.html">Back to Offshore Theory</a></p>
+</footer>
+
+<!-- Cloudflare Web Analytics -->
+<script type='module' src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "624bbb73949b40f0aae4dafec49ac1f6"}'></script>
+<!-- End Cloudflare Web Analytics -->
+</body>
+</html>

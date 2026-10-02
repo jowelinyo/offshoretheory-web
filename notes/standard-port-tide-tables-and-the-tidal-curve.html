@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Standard port tide tables and the tidal curve</title>
+<link rel="icon" type="image/svg+xml" href="../assets/img/favicon.svg">
+<meta name="description" content="Read high and low water off the almanac page, then work the tidal curve both ways: the height at a given time, and the time for the height you need.">
+<link rel="canonical" href="https://offshoretheory.com/notes/standard-port-tide-tables-and-the-tidal-curve.html">
+
+<meta property="og:title" content="Standard port tide tables and the tidal curve">
+<meta property="og:description" content="Read high and low water off the almanac page, then work the tidal curve both ways: the height at a given time, and the time for the height you need.">
+<meta property="og:image" content="https://offshoretheory.com/assets/img/foto-2.jpg">
+<meta property="og:image:alt" content="A sextant and dividers resting on a paper chart">
+<meta name="twitter:card" content="summary_large_image">
+<script type="application/ld+json">
+{
+ "@context": "https://schema.org",
+ "@type": "LearningResource",
+ "name": "Standard port tide tables and the tidal curve",
+ "description": "Read high and low water off the almanac page, then work the tidal curve both ways: the height at a given time, and the time for the height you need.",
+ "url": "https://offshoretheory.com/notes/standard-port-tide-tables-and-the-tidal-curve.html",
+ "inLanguage": "en",
+ "learningResourceType": "reading notes",
+ "isPartOf": {
+  "@id": "https://offshoretheory.com/#organization"
+ },
+ "about": "Standard port heights"
+}
+</script>
+<style>
+/* ---------------------------------------------------------------------------
+   Tipografias y paleta: las mismas declaraciones que index.html, copiadas tal
+   cual. Nada se carga de fuera del repositorio.
+   --------------------------------------------------------------------------- */
+@font-face{font-family:'IBM Plex Mono';font-style:normal;font-weight:400;font-display:swap;
+ src:url(../assets/fonts/IBMPlexMono-400-normal-latin.woff2) format('woff2');
+ unicode-range:U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD}
+@font-face{font-family:'IBM Plex Mono';font-style:normal;font-weight:400;font-display:swap;
+ src:url(../assets/fonts/IBMPlexMono-400-normal-latin-ext.woff2) format('woff2');
+ unicode-range:U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF}
+@font-face{font-family:'IBM Plex Sans';font-style:normal;font-weight:400 600;font-display:swap;
+ src:url(../assets/fonts/IBMPlexSans-400-normal-latin.woff2) format('woff2');
+ unicode-range:U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD}
+@font-face{font-family:'IBM Plex Sans';font-style:normal;font-weight:400 600;font-display:swap;
+ src:url(../assets/fonts/IBMPlexSans-400-normal-latin-ext.woff2) format('woff2');
+ unicode-range:U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF}
+@font-face{font-family:'Newsreader';font-style:normal;font-weight:500;font-display:swap;
+ src:url(../assets/fonts/Newsreader-500-normal-latin.woff2) format('woff2');
+ unicode-range:U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD}
+@font-face{font-family:'Newsreader';font-style:normal;font-weight:500;font-display:swap;
+ src:url(../assets/fonts/Newsreader-500-normal-latin-ext.woff2) format('woff2');
+ unicode-range:U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF}
+@font-face{font-family:'Gloock Logo';font-style:normal;font-weight:400;font-display:swap;
+ src:url(../assets/fonts/gloock-logo.woff2) format('woff2')}
+
+:root{
+  --night:#0E1116;
+  --night-2:#161B22;
+  --line:#46525F;
+  --ink:#E8EAED;
+  --ink-soft:#9BA6B2;
+  --dim:#8B96A2;
+  --faint:#79838F;
+
+  /* -- Los tres colores del curso. Nada de esto se repite suelto mas abajo. --
+     acento : --accent-graphic de balizamiento y luces. El ambar de los
+              elementos destacados. NO es --alarm (#B33A22), que es el rojo
+              de los avisos. En rules-of-the-road el mismo ambar es --ochre.
+     azul   : --water de balizamiento.
+     magenta: --magenta-soft de rules-of-the-road.                         */
+  --accent:#C97B1B;
+  --blue:#8FC3DA;
+  --magenta:#E86AA0;
+
+  /* Tinta sobre el ambar macizo del boton: 5,6:1 de contraste. */
+  --on-accent:#1A1206;
+
+  --line-top:#232B36;   /* filetes: bajo la barra y entre las columnas */
+
+  --col-hover:rgba(255,255,255,.03);  /* aclarado de columna al pasar el raton */
+  --card-link:#C3CBD4;
+  --f-display:"Newsreader",ui-serif,Georgia,"Palatino Linotype","Times New Roman",serif;
+  --f-ui:"IBM Plex Sans",system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;
+  --f-mono:"IBM Plex Mono",ui-monospace,"SF Mono","Segoe UI Mono",Menlo,Consolas,monospace;
+}
+
+*{box-sizing:border-box}
+html,body{margin:0;padding:0}
+body{background:var(--night);color:var(--ink);font:15px/1.6 var(--f-ui);
+ -webkit-font-smoothing:antialiased}
+
+/* --- barra del logo, identica a la de la portada -------------------------- */
+/* Barra superior, pegada al borde de arriba. */
+.topbar{margin:0;padding-top:16px;padding-bottom:16px;
+ border-bottom:0.5px solid var(--line-top)}
+/* Su relleno lateral, el mismo corto que en la portada. */
+.topbar{padding-left:clamp(20px,2vw,34px);padding-right:clamp(20px,2vw,34px)}
+
+/* Logo: simbolo ambar y nombre en claro. El ambar solo en el simbolo. */
+.logo{display:inline-flex;align-items:center;gap:14px;text-decoration:none}
+.logo:hover,.logo:focus-visible{filter:brightness(1.15)}
+.logo svg{display:block;flex:none}
+.logo__name{font-family:"Gloock Logo",serif;font-size:clamp(18px,1.6vw,26px);
+ color:var(--ink);letter-spacing:.3px;line-height:1.1}
+
+/* --- el texto ------------------------------------------------------------- */
+.doc{max-width:680px;margin:0 auto;padding:72px clamp(24px,4vw,40px) 96px}
+
+.doc h1{font-family:var(--f-display);font-weight:500;font-size:clamp(30px,3.4vw,44px);
+ line-height:1.15;letter-spacing:-.01em;color:var(--ink);margin:0 0 10px}
+.doc .updated{font-family:var(--f-mono);font-size:12px;color:var(--dim);margin:0 0 48px}
+
+.doc h2{font-family:var(--f-display);font-weight:500;font-size:clamp(20px,1.9vw,26px);
+ line-height:1.25;color:var(--ink);margin:44px 0 14px}
+
+.doc p{font-size:15px;line-height:1.7;color:var(--ink-soft);margin:0 0 18px}
+.doc .who{color:var(--ink)}
+
+.doc a{color:var(--accent);text-decoration:none}
+.doc a:hover,.doc a:focus-visible{text-decoration:underline}
+
+/* --- BLOQUE 3 · pie -------------------------------------------------------- */
+footer{background:var(--night);padding:44px 64px;border-top:0.5px solid rgba(70,82,95,.4)}
+footer p{margin:0;font-size:12px;line-height:1.7;color:var(--faint)}
+footer .name{font-family:var(--f-mono);letter-spacing:.1em;color:var(--dim)}
+footer a{color:var(--dim);text-decoration:none}
+footer a:hover,footer a:focus-visible{color:var(--ink-soft)}
+
+/* --- MOVIL ---------------------------------------------------------------- */
+@media (max-width:800px){
+  .topbar{padding-left:24px;padding-right:24px}
+  .logo svg{width:28px;height:28px}
+  .logo__name{font-size:18px}
+  .doc{padding:48px 24px 64px}
+  .doc h2{margin-top:36px}
+  footer{padding:36px 24px}
+}
+/* --- lo que anaden las notas, con los tokens de arriba y ningun color nuevo --- */
+.doc p.lede{font-family:var(--f-display);font-size:clamp(17px,1.6vw,21px);
+ line-height:1.5;color:var(--ink);margin:0 0 30px}
+.doc p b{color:var(--ink);font-weight:600}
+.doc p i{color:var(--dim)}
+.doc .ir{margin:0 0 6px;padding:15px 18px;background:var(--night-2);
+ border:0.5px solid var(--line-top);border-left:2px solid var(--accent)}
+.doc .ir a{font-family:var(--f-mono);font-size:13px;letter-spacing:.02em}
+.doc .ir .que{display:block;margin-top:6px;font-size:13px;color:var(--faint)}
+.doc h2{scroll-margin-top:24px}
+
+/* --- y lo que anade la portada de las notas --- */
+.doc h3{font-family:var(--f-ui);font-weight:600;font-size:15px;letter-spacing:.01em;
+ color:var(--ink);margin:30px 0 4px}
+.doc p.sub{font-size:14px;color:var(--faint);margin:0 0 14px}
+.doc ul.notas{list-style:none;margin:0;padding:0}
+.doc ul.notas li{padding:11px 0;border-top:0.5px solid var(--line-top)}
+.doc ul.notas li:last-child{border-bottom:0.5px solid var(--line-top)}
+.doc ul.notas a{font-weight:600}
+.doc ul.notas span{display:block;margin-top:4px;font-size:14px;line-height:1.55;
+ color:var(--ink-soft)}
+</style>
+</head>
+
+<body>
+
+<div class="topbar">
+  <a class="logo" href="../index.html">
+    <svg viewBox="0 0 40 40" width="34" height="34" aria-hidden="true">
+      <path d="M17 17 L25 19 L20 25 Z" fill="var(--accent)" fill-opacity="0.5"/>
+      <line x1="7" y1="14.5" x2="35" y2="21.5" stroke="var(--accent)"
+            stroke-width="1.4" stroke-linecap="round"/>
+      <line x1="29" y1="14" x2="16" y2="30" stroke="var(--accent)"
+            stroke-width="1.4" stroke-linecap="round"/>
+      <line x1="21.5" y1="29" x2="15.5" y2="13" stroke="var(--accent)"
+            stroke-width="1.4" stroke-linecap="round"/>
+    </svg>
+    <span class="logo__name">Offshore Theory</span>
+  </a>
+</div>
+
+<main class="doc">
+
+  <h1>Module 04 · Standard port heights</h1>
+  <p class="updated">Reading notes &middot; Module 04 &middot; Tides</p>
+  <p class="lede">The almanac page and the tidal curve, walked forwards and backwards.</p>
+  <p class="ir"><a href="../chapters/m04-p2-standard-port-heights.html">Open the interactive chapter &rarr;</a><span class="que">The same material with the chart, the drawings and the exercises.</span></p>
+
+  <h2 id="the-page">The page</h2>
+  <h3>The page you actually open</h3>
+  <p>Everything in this block comes off one page. Here it is: <b>two months of one port, day after day</b>, and for each day the times and heights of its high and low waters. Your day is somewhere in there, and finding it is the first thing you do.</p>
+  <p>That is all an almanac is being asked to do here. How the book is arranged, and how you find a port you have never heard of, is the module on the almanac — not this one.</p>
+  <p>Three things to find before you read a single number: <b>which port</b>, <b>which day</b>, and <b>which hour those numbers are in</b>. The third one is the one that puts boats on the mud in summer.</p>
+  <p>You already know that last one: it is the line you met in the module on time. Here you only have to notice it.</p>
+  <h3>Which port, which day, which hour</h3>
+  <p>The port, at the top. <b>A page is printed for one port and no other</b>, and the figures below belong to it alone.</p>
+  <p>The day, down the left of each block: <b>the date in big figures</b>, and under it the day of the week. <b>One block, one day</b> — and the block carries everything that happens to the water that day.</p>
+  <p>Its tides run <b>down the block, in clock order</b>: four lines, one to a tide — high, low, high, low — each with the time it happens and the height it reaches. A day with only three tides leaves the fourth line empty.</p>
+  <p>Top left, in its box: <b>STANDARD TIME (UT)</b>, and under it for Summer Time add ONE hour in non-shaded areas . Now look at the background of the blocks: <b>it changes part way down</b>. Before that Sunday the page and your watch agree; after it your watch says one hour more, and a tide read an hour late is a tide you have missed.</p>
+  <h2 id="the-curve">The curve</h2>
+  <h3>Four moments, and everything in between</h3>
+  <p>The table gave you <b>four moments of the day</b> — two high waters and two low ones — and the water was doing something at all the other hours too.</p>
+  <p>Almost nothing you ever want to know happens at one of those four moments. <b>You want to know at half past nine</b>, because that is when you were thinking of leaving.</p>
+  <p>So the almanac prints a second thing beside the numbers: <b>a picture of the shape the water makes</b> between one turn and the next. Not for a day — for the port.</p>
+  <p>This screen is about <b>what that picture is</b>. Reading a height off it is the next thing, and it is easier once you know what you are reading.</p>
+  <h3>The picture the almanac prints beside the numbers</h3>
+  <p>Along the bottom, <b>hours before and after high water</b> — not hours of the day. High water sits at zero, and everything is counted from it. That is why the same picture works for any day.</p>
+  <p>Up the side, from <b>low water at the bottom to high water at the top</b>. Not metres: the fraction of your own range . And it is marked in <b>tenths</b>, so that a height you have worked out can actually be found on it.</p>
+  <p>Now the curve for a <b>day of big range</b>. Follow it from the left: the water climbs, turns at high water, and falls away again.</p>
+  <p>And the one for a <b>quiet day</b>. Same axes, different shape — a small tide is not just a big tide made shorter.</p>
+  <p><b>They are furthest apart on the way up</b>, about three and a quarter hours before high water. On a big day that gap is the red figure, and it is why the almanac bothers to print two.</p>
+  <h2 id="height-at-an-hour">Height at an hour</h2>
+  <h3>The four marks that give you a height</h3>
+  <p>Two boxes, side by side, and they share the same up-and-down: <b>low water at the bottom, high water at the top</b>. On the left, metres. On the right, the curve you have just met. That shared up-and-down is the trick — a line drawn across at one height crosses both boxes at once.</p>
+  <p><b>First mark: high water</b>, on the top edge of the left-hand box, at its height in metres. That comes straight off the page you read in topic one.</p>
+  <p><b>Second mark: low water</b>, on the bottom edge. Now the box knows how far the water is going to move today.</p>
+  <p><b>Third: join them.</b> That sloping line is your day , and here is what it is for: it turns a <b>fraction into metres</b>. A quarter of the way up, halfway, three quarters — the line tells you what each one is worth today. Everything after this is reading, not deciding.</p>
+  <p><b>Now go in at the hour</b> you care about, on the bottom of the right-hand box. It is measured <b>from high water</b>, not from midnight.</p>
+  <p><b>Up to the curve.</b> That is how far up the tide has come at that hour, as a fraction of the day’s range — and the curve you are reading is the one interpolated for today, between the printed springs and neaps.</p>
+  <p><b>Across to the line</b> — the sloping one, the one you drew. Where the two meet is your day’s water at that hour, and it is sitting directly above the metres scale.</p>
+  <p><b>And down to read it.</b> Where you land on the bottom scale is the height of tide at that hour. Four marks and two lines — that is the whole method, and you will use it for the rest of the module.</p>
+  <h3>Try it before it counts</h3>
+  <p><b>The next screen asks you to do this for real.</b> This one does not: the sheet is yours to play with. <b>Drag on the top edge</b> of the left-hand box to put high water where the table says, <b>on the bottom edge</b> for low water, and <b>along the bottom of the right-hand box</b> for the hour. <b>Nothing here is scored</b> — move things about and watch what happens.</p>
+  <p>Watch what the sloping line does when you move either end: a bigger range tips it flatter, and every fraction of the curve is suddenly worth more metres. That single line is the whole difference between one day and another.</p>
+  <p>And notice that the height does <b>not</b> change at an even rate as you move the hour. Around high water and around low water you can drag a long way for very little; halfway between, an hour costs you more than a metre. That is the whole reason the curve exists — if the tide rose and fell at a steady rate a ruler would do.</p>
+  <h2 id="when-not-how-much">When, not how much</h2>
+  <h3>The question you will actually ask</h3>
+  <p>You can now take a height off the sheet: give it an hour, and it gives you metres.</p>
+  <p><b>Nobody ever asks that.</b> Nobody stands on the pontoon wondering how much water there is at three o'clock.</p>
+  <p>What you ask is <b>the other way round</b>: at what time will there be enough? Because what you are deciding is <b>when to leave</b>.</p>
+  <p>Same sheet. Same four marks. Walked the other way.</p>
+  <h3>The same sheet, walked backwards</h3>
+  <p>Here is the question you will actually ask, and it is not the one you have been practising. Nobody stands at a chart table wondering how much water there is at half past nine. They wonder <b>how late they can leave it</b>.</p>
+  <p><b>High water first</b>, as before — same box, same top edge. Nothing about the sheet changes when you walk it backwards.</p>
+  <p><b>And low water.</b> Careful here: a window crosses high water, so it touches both of the day’s low waters. You draw the line to the <b>lower</b> of the two — that way your window comes out a little shorter than the truth, which is the error you want to have.</p>
+  <p><b>Join them.</b> Same line, same job: it turned a fraction into metres, and now it is going to turn metres back into a fraction.</p>
+  <p><b>Now go in at the height you need</b>, on the metres scale, and drop down to the line. This is the one figure on the sheet that is not printed anywhere: it came out of your own subtraction.</p>
+  <p><b>Across to the curve — and look what happens.</b> The line you have drawn meets the curve <b>twice</b>. Of course it does: the tide passes every height on the way up and again on the way down.</p>
+  <p><b>So there are two hours to read, not one</b>, and you take them both down to the scale. And they are not mirror images: the second crossing sits <b>23 to 35 minutes</b> nearer high water than the first one is early — measured across every stretch on this page. That is <b>two quarter-hours</b> of the scale you are reading, so working the second one out by subtraction puts you two marks wrong.</p>
+  <p><b>That is your window</b>: from the first to the second, and everything in between is water enough. Neither one on its own answers the question.</p>
+  <h2 id="springs-and-neaps">Springs and neaps</h2>
+  <h3>Two curves, and your day is neither</h3>
+  <p>The sheet has been printed with <b>two curves</b> all along: one for a day of big range, one for a quiet one.</p>
+  <p><b>Your day is almost never either of them.</b> Measured over a year at Aldern Quay, <b>90 days of the 365</b> fall between the two — neither springs nor neaps.</p>
+  <p>So the two curves are not a pair of boxes to be sorted into. They are <b>the two ends of a range</b>, and the day you are working sits somewhere along it.</p>
+  <p>This screen is about <b>landing in between</b>.</p>
+  <h3>Landing between them</h3>
+  <p>Start where you always start: <b>the range of the day</b>, high water less low water, straight off the table. That single number decides the shape.</p>
+  <p>The printed springs curve was taken from a day of <b>7.6 m</b>. Hold your day's range against it.</p>
+  <p>The neaps one from a day of <b>3.1 m</b>. Now your day's range has one of the printed ranges above it and the other below.</p>
+  <p><b>And that is the whole of it.</b> However far your range sits between the two printed ranges, <b>your curve sits the same distance between the two printed curves</b>. Not the nearest one — the one in between.</p>
+  <h2 id="without-the-sheet">Without the sheet</h2>
+  <h3>The one you can do without the book</h3>
+  <p>The curve you have been reading is printed for a <b>standard port</b> — and at a standard port a yacht usually has water to spare. The depth under her was never really the question.</p>
+  <p>Where you do put her keel at risk there is no curve printed at all: a cove, a small harbour, a bar, an anchorage off on its own. Nobody prints one for those.</p>
+  <p>What you have there is what the book gives for <b>high water and low water</b> — when they turn, and how high they get. And that is enough.</p>
+  <p>You have learned the sheet. This topic is for the water that has no curve: <b>not a shortcut for anyone who would rather not draw one</b>, but the only method there is where there is none to draw.</p>
+  <h3>The rule of twelfths</h3>
+  <p>You will not always have a sheet in front of you. <b>Take the stretch from one turn of the tide to the next and cut it into six</b> — those are the «hours» of the rule, and they are sixths of however long that stretch actually is, not hours of the clock.</p>
+  <p>And here is what the rule is standing in for: <b>the curve you have been drawing all block</b>. This is not a second method. It is the same method done in your head.</p>
+  <p><b>First hour: one twelfth of the range.</b> The tide has only just turned and it is barely moving.</p>
+  <p><b>Second: two twelfths.</b> Getting on with it now.</p>
+  <p><b>Third and fourth: three twelfths each.</b> Half the range in two hours — this is the middle of the tide, and it is where the water moves fastest.</p>
+  <p><b>Fifth: two again</b>, easing off.</p>
+  <p><b>And the sixth: the last twelfth.</b> One, two, three, three, two, one — that is the whole rule, and it is worth knowing by heart.</p>
+  <p><b>The red bar marks where your staircase leaves the curve furthest behind.</b> That gap is the price of doing it in your head instead of on paper.</p>
+  <p>And against the real tide — not the curve, the water — the rule is out by <b>0.17 m on average and 0.48 m at worst</b>. Worst <b>in the middle of the tide</b>, where the water moves fastest and a mistake costs you most; best at the turns, where it barely moves. Knowing where it lets you down is what makes it safe to use.</p>
+
+  <p class="ir"><a href="../chapters/m04-p2-standard-port-heights.html">Open the interactive chapter &rarr;</a><span class="que">The same material with the chart, the drawings and the exercises.</span></p>
+  <p class="ir"><a href="index.html">All the reading notes &rarr;</a></p>
+
+</main>
+
+<footer>
+  <p class="name">Offshore Theory</p>
+  <p>Independent preparation. Not affiliated with or accredited by the RYA.</p>
+  <p><a href="../index.html">Back to Offshore Theory</a></p>
+</footer>
+
+<!-- Cloudflare Web Analytics -->
+<script type='module' src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "624bbb73949b40f0aae4dafec49ac1f6"}'></script>
+<!-- End Cloudflare Web Analytics -->
+</body>
+</html>
