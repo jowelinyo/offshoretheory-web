@@ -267,7 +267,7 @@
   </url>
   <url>
     <loc>https://offshoretheory.com/notes/</loc>
-    <lastmod>2026-09-26</lastmod>
+    <lastmod>2026-10-02</lastmod>
     <priority>0.8</priority>
   </url>
   <url>
@@ -276,8 +276,13 @@
     <priority>0.7</priority>
   </url>
   <url>
+    <loc>https://offshoretheory.com/notes/chart-datum-and-tide-levels.html</loc>
+    <lastmod>2026-10-02</lastmod>
+    <priority>0.7</priority>
+  </url>
+  <url>
     <loc>https://offshoretheory.com/notes/chart-depths-and-soundings.html</loc>
-    <lastmod>2026-09-26</lastmod>
+    <lastmod>2026-10-02</lastmod>
     <priority>0.7</priority>
   </url>
   <url>
@@ -317,17 +322,17 @@
   </url>
   <url>
     <loc>https://offshoretheory.com/notes/course-to-steer.html</loc>
-    <lastmod>2026-09-26</lastmod>
+    <lastmod>2026-10-02</lastmod>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://offshoretheory.com/notes/crossing-bearings-and-the-cocked-hat.html</loc>
-    <lastmod>2026-09-26</lastmod>
+    <lastmod>2026-10-02</lastmod>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://offshoretheory.com/notes/dead-reckoning-and-the-running-fix.html</loc>
-    <lastmod>2026-09-26</lastmod>
+    <lastmod>2026-10-02</lastmod>
     <priority>0.7</priority>
   </url>
   <url>
@@ -372,7 +377,7 @@
   </url>
   <url>
     <loc>https://offshoretheory.com/notes/position-lines-bearings-and-transits.html</loc>
-    <lastmod>2026-09-26</lastmod>
+    <lastmod>2026-10-02</lastmod>
     <priority>0.7</priority>
   </url>
   <url>
@@ -387,7 +392,12 @@
   </url>
   <url>
     <loc>https://offshoretheory.com/notes/speed-distance-and-time.html</loc>
-    <lastmod>2026-09-26</lastmod>
+    <lastmod>2026-10-02</lastmod>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://offshoretheory.com/notes/standard-port-tide-tables-and-the-tidal-curve.html</loc>
+    <lastmod>2026-10-02</lastmod>
     <priority>0.7</priority>
   </url>
   <url>
@@ -396,8 +406,18 @@
     <priority>0.7</priority>
   </url>
   <url>
+    <loc>https://offshoretheory.com/notes/tidal-diamonds-and-the-tidal-stream-atlas.html</loc>
+    <lastmod>2026-10-02</lastmod>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://offshoretheory.com/notes/tidal-stream-atlas-port-entry-sun-and-moon.html</loc>
+    <lastmod>2026-10-02</lastmod>
+    <priority>0.7</priority>
+  </url>
+  <url>
     <loc>https://offshoretheory.com/notes/tidal-streams-and-the-estimated-position.html</loc>
-    <lastmod>2026-09-26</lastmod>
+    <lastmod>2026-10-02</lastmod>
     <priority>0.7</priority>
   </url>
   <url>
@@ -406,8 +426,18 @@
     <priority>0.7</priority>
   </url>
   <url>
+    <loc>https://offshoretheory.com/notes/under-keel-and-overhead-clearance.html</loc>
+    <lastmod>2026-10-02</lastmod>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://offshoretheory.com/notes/using-a-nautical-almanac-standard-and-secondary-ports.html</loc>
+    <lastmod>2026-10-02</lastmod>
+    <priority>0.7</priority>
+  </url>
+  <url>
     <loc>https://offshoretheory.com/notes/utc-bst-and-time-zones.html</loc>
-    <lastmod>2026-09-26</lastmod>
+    <lastmod>2026-10-02</lastmod>
     <priority>0.7</priority>
   </url>
   <url>
