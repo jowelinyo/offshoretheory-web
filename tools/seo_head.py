@@ -70,6 +70,11 @@ def _corte(p, s):
         raise SystemExit(u"  PARADO: `%s` no tiene `<style`, y de ahi sale la "
                          u"frontera de su cabecera." % p)
     cab = s[:m.start()]
+    #  EL JSON-LD ES CABECERA · 2 de octubre de 2026. Lo pone esta misma herramienta en las notas -un `<script
+    #  type="application/ld+json">`-, y en la pasada siguiente lo encontraba antes del `<style>` y PARABA: no se
+    #  podia correr dos veces sobre una nota, que es justo lo que pide el README despues de cada copia. Se aparta
+    #  antes de mirar; cualquier otro `script` sigue parando.
+    cab = re.sub(r'(?is)<script\s+type="application/ld\+json"\s*>.*?</script>', u"", cab)
     tags = set(t.lower() for t in re.findall(r"<\s*/?\s*([a-zA-Z][a-zA-Z0-9]*)", cab))
     fuera = tags - SOLO_CABEZA
     if fuera:
