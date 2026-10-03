@@ -199,6 +199,10 @@ a.pieLink:hover{text-decoration:underline}
 @media (max-width:699px){
  #barra .sep, #barra a[href="../index.html"]:last-of-type{display:none}
 }
+
+@media (max-width:699px){
+ #barCont{display:none}
+}
 </style>
 </head><body>
 
@@ -208,6 +212,7 @@ a.pieLink:hover{text-decoration:underline}
  <i class="sep"></i>
  <div id="miga"><b>Collision avoidance</b> &middot; Rule 3 &middot; General definitions</div>
  <span class="crece"></span>
+ <a class="barlink" href="ripa-sim-bridge-simulator.html">Simulator</a>
  <a class="barlink" href="ripa-r0-the-nineteen-rules.html#flashcards">Flashcards</a>
  <i class="sep"></i>
  <a class="barlink" href="../index.html">Contents</a>
@@ -517,7 +522,7 @@ function vaA(i){
   location.href = MARCO.paginas[i].f;
 }
 
-const CUENTA = dosCifras(MARCO.i + 1) + " / " + dosCifras(N);
+const CUENTA = MARCO.cuenta || (dosCifras(MARCO.i + 1) + " / " + dosCifras(N));
 function ponCuenta(){
   const b = $("barCont");
   if(b && b.textContent !== CUENTA) b.textContent = CUENTA;
@@ -529,7 +534,7 @@ if(typeof MutationObserver !== "undefined" && $("barCont"))
 
 (function(){
   const pr = $("prog");
-  if(!pr) return;
+  if(!pr || MARCO.sinTira) return;
   pr.innerHTML = "";
   MARCO.paginas.forEach(function(q, i){
     const b = document.createElement("i");
@@ -601,7 +606,7 @@ if(typeof MutationObserver !== "undefined" && $("pane"))
   d.onclick = function(){
     vistoOlvida(YO);
     marcaNav();
-    location.href = MARCO.paginas[0].f;
+    location.href = MARCO.deCero || MARCO.paginas[0].f;
   };
 })();
 
