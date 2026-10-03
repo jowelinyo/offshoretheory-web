@@ -160,6 +160,11 @@ p b{color:var(--ink-title);font-weight:600}
  #wrap{grid-template-columns:minmax(0,1fr);
   grid-template-rows:clamp(320px,56vh,640px) minmax(0,1fr)}
  #side{grid-column:1;grid-row:2;border-left:0;border-top:1px solid var(--edge-frame)}
+
+ html,body{height:auto;overflow:visible}
+ #wrap{flex:none;grid-template-rows:auto auto}
+ #ficha{height:clamp(320px,56vh,640px);touch-action:pan-y}
+ #pane{overflow:visible}
 }
 </style><style data-marco="1">
 
@@ -240,7 +245,7 @@ a.pieLink:hover{text-decoration:underline}
   <div id="foot"><div class="pieLinea">rule 9 of 19 &middot; not impeding is not keeping out of the way</div>
    <div id="navPie"></div>
    <div class="pie2"><span id="fLog">0 answers logged</span><a class="pieLink" id="deCero">start over</a></div>
-   <div class="sello" id="sello" data-sello="bf4362f9">collision avoidance &middot; module &middot; 20 screens &middot; 25 Sep 2026 &middot; <b>bf4362f9</b></div></div>
+   <div class="sello" id="sello" data-sello="bf4362f9">collision avoidance &middot; module &middot; 20 screens &middot; 03 Oct 2026 &middot; <b>bf4362f9</b></div></div>
  </div>
 </div>
 
@@ -298,17 +303,19 @@ const CANAL = {
   seca: -0.5
 };
 
-const ELLA = {n: "a laden coaster", tons: 6000, calado: 9.5, margen: 0.10, eslora: 95, manga: 14};
+const ELLA = {n: "a laden coaster", tons: 6000, calado: 9.5, margen: 0.10, eslora: 95, manga: 14,
+              tipo: "mercante"};
 
 const BUQUES = [
+
   {id: "motor", n: "A power-driven vessel of 40 m", corto: "Power, 40 m",
-   eslora: 40, calado: 3.5, deber: ["a"]},
+   eslora: 40, calado: 3.5, deber: ["a"], tipo: "costero"},
   {id: "chico", n: "A power-driven vessel of 15 m", corto: "Power, under 20 m",
-   eslora: 15, calado: 1.4, deber: ["a", "b"]},
+   eslora: 15, calado: 1.4, deber: ["a", "b"], tipo: "motor20"},
   {id: "vela",  n: "A sailing vessel of 12 m", corto: "Sailing vessel",
-   eslora: 12, calado: 2.0, deber: ["a", "b"]},
+   eslora: 12, calado: 2.0, deber: ["a", "b"], tipo: "velero"},
   {id: "pesca", n: "A vessel engaged in fishing", corto: "Engaged in fishing",
-   eslora: 18, calado: 2.6, deber: ["a", "c"]}
+   eslora: 18, calado: 2.6, deber: ["a", "c"], tipo: "pesquero"}
 ];
 const MARGEN_TUYO = 0.5;
 
@@ -576,50 +583,64 @@ function dilo9(e){
   return {donde: donde, toca: toca, aviso: aviso, letra: e.sit.ley};
 }
 
+const CASCOS_TIPOS = {"formato":1,"tipos":{"velero":{"nombre":"sailing yacht","eslora_m":12,"semimanga":0.15,"horquilla":[0.26,0.36],"planta":[[-0.5,0.72],[-0.4583,0.7695],[-0.4167,0.8141],[-0.375,0.854],[-0.3333,0.889],[-0.2917,0.9192],[-0.25,0.9447],[-0.2083,0.9653],[-0.1667,0.9812],[-0.125,0.9922],[-0.0833,0.9985],[-0.0417,0.9988],[0,0.9816],[0.0417,0.9541],[0.0833,0.9188],[0.125,0.8764],[0.1667,0.8275],[0.2083,0.7718],[0.25,0.7091],[0.2917,0.6386],[0.3333,0.5592],[0.375,0.4686],[0.4167,0.3627],[0.4583,0.2316],[0.5,0],[0.4583,-0.2316],[0.4167,-0.3627],[0.375,-0.4686],[0.3333,-0.5592],[0.2917,-0.6386],[0.25,-0.7091],[0.2083,-0.7718],[0.1667,-0.8275],[0.125,-0.8764],[0.0833,-0.9188],[0.0417,-0.9541],[0,-0.9816],[-0.0417,-0.9988],[-0.0833,-0.9985],[-0.125,-0.9922],[-0.1667,-0.9812],[-0.2083,-0.9653],[-0.25,-0.9447],[-0.2917,-0.9192],[-0.3333,-0.889],[-0.375,-0.854],[-0.4167,-0.8141],[-0.4583,-0.7695],[-0.5,-0.72]],"detalles":[{"forma":[[-0.1585,-0.7791],[0.1341,-0.7791],[0.1341,0.7791],[-0.1585,0.7791]],"tinta":"suave","desde_px":13}],"aparejo":{"palo":[0.1,0],"botavara":[-0.3,0.31]},"perfil":{"casco":[[-0.5,0.1171],[0.3537,0.1317],[0.5,0.1659],[0.4366,0],[-0.4707,0]],"bloques":[{"a":[-0.1585,0.1341],"z":[0.1171,0.1756],"semiancho":0.7791}],"palos":[{"a":0.0366,"z":[0.1171,0.8585]}],"perchas":[{"a":[-0.3049,0.2073],"z":0.2146}]}},"lancha":{"nombre":"motor boat under 12 m","eslora_m":8,"semimanga":0.15,"horquilla":[0.28,0.4],"planta":[[-0.5,0.9],[-0.4583,0.9152],[-0.4167,0.9296],[-0.375,0.943],[-0.3333,0.9554],[-0.2917,0.9668],[-0.25,0.977],[-0.2083,0.9859],[-0.1667,0.9932],[-0.125,0.9984],[-0.0833,0.9996],[-0.0417,0.9953],[0,0.986],[0.0417,0.9717],[0.0833,0.9522],[0.125,0.927],[0.1667,0.8958],[0.2083,0.8579],[0.25,0.8122],[0.2917,0.7575],[0.3333,0.6917],[0.375,0.611],[0.4167,0.5084],[0.4583,0.3662],[0.5,0],[0.4583,-0.3662],[0.4167,-0.5084],[0.375,-0.611],[0.3333,-0.6917],[0.2917,-0.7575],[0.25,-0.8122],[0.2083,-0.8579],[0.1667,-0.8958],[0.125,-0.927],[0.0833,-0.9522],[0.0417,-0.9717],[0,-0.986],[-0.0417,-0.9953],[-0.0833,-0.9996],[-0.125,-0.9984],[-0.1667,-0.9932],[-0.2083,-0.9859],[-0.25,-0.977],[-0.2917,-0.9668],[-0.3333,-0.9554],[-0.375,-0.943],[-0.4167,-0.9296],[-0.4583,-0.9152],[-0.5,-0.9]],"detalles":[{"forma":[[-0.1,-0.8479],[0.1,-0.8479],[0.1,0.8479],[-0.1,0.8479]],"tinta":"suave","desde_px":15}],"aparejo":null,"perfil":{"casco":[[-0.5,0.176],[0.3,0.2],[0.5,0.248],[0.42,0],[-0.452,0]],"bloques":[{"a":[-0.1,0.1],"z":[0.176,0.288],"semiancho":0.8479}],"palos":[{"a":-0.02,"z":[0.288,0.544]}],"perchas":[]}},"motor20":{"nombre":"motor vessel under 20 m","eslora_m":15,"semimanga":0.14,"horquilla":[0.24,0.33],"planta":[[-0.5,0.85],[-0.4583,0.8703],[-0.4167,0.8897],[-0.375,0.9079],[-0.3333,0.9251],[-0.2917,0.941],[-0.25,0.9556],[-0.2083,0.9687],[-0.1667,0.9802],[-0.125,0.9898],[-0.0833,0.997],[-0.0417,0.9999],[0,0.9959],[0.0417,0.986],[0.0833,0.9702],[0.125,0.948],[0.1667,0.9191],[0.2083,0.8828],[0.25,0.8381],[0.2917,0.7836],[0.3333,0.7171],[0.375,0.6347],[0.4167,0.5292],[0.4583,0.3818],[0.5,0],[0.4583,-0.3818],[0.4167,-0.5292],[0.375,-0.6347],[0.3333,-0.7171],[0.2917,-0.7836],[0.25,-0.8381],[0.2083,-0.8828],[0.1667,-0.9191],[0.125,-0.948],[0.0833,-0.9702],[0.0417,-0.986],[0,-0.9959],[-0.0417,-0.9999],[-0.0833,-0.997],[-0.125,-0.9898],[-0.1667,-0.9802],[-0.2083,-0.9687],[-0.25,-0.9556],[-0.2917,-0.941],[-0.3333,-0.9251],[-0.375,-0.9079],[-0.4167,-0.8897],[-0.4583,-0.8703],[-0.5,-0.85]],"detalles":[{"forma":[[-0.197,-0.6671],[0.3182,-0.6671],[0.3182,0.6671],[-0.197,0.6671]],"tinta":"suave","desde_px":17},{"forma":[[-0.2394,-0.5968],[0.3606,-0.5968],[0.3606,0.5968],[-0.2394,0.5968]],"tinta":"suave","desde_px":18}],"aparejo":null,"perfil":{"casco":[[-0.5,0.1697],[0.2576,0.1879],[0.5,0.2303],[0.4212,0],[-0.4636,0]],"bloques":[{"a":[-0.197,0.3182],"z":[0.1697,0.4485],"semiancho":0.6671},{"a":[-0.2394,0.3606],"z":[0.4485,0.5212],"semiancho":0.5968}],"palos":[],"perchas":[]}},"costero":{"nombre":"coaster, 40 m","eslora_m":40,"semimanga":0.1,"horquilla":[0.15,0.25],"planta":[[-0.5,0.85],[-0.4583,0.877],[-0.4167,0.9006],[-0.375,0.921],[-0.3333,0.9383],[-0.2917,0.9529],[-0.25,0.965],[-0.2083,0.9749],[-0.1667,0.9827],[-0.125,0.9886],[-0.0833,0.9931],[-0.0417,0.9962],[0,0.9982],[0.0417,0.9993],[0.0833,0.9998],[0.125,1],[0.1667,0.9994],[0.2083,0.9911],[0.25,0.9706],[0.2917,0.9354],[0.3333,0.8821],[0.375,0.8057],[0.4167,0.6958],[0.4583,0.526],[0.5,0],[0.4583,-0.526],[0.4167,-0.6958],[0.375,-0.8057],[0.3333,-0.8821],[0.2917,-0.9354],[0.25,-0.9706],[0.2083,-0.9911],[0.1667,-0.9994],[0.125,-1],[0.0833,-0.9998],[0.0417,-0.9993],[0,-0.9982],[-0.0417,-0.9962],[-0.0833,-0.9931],[-0.125,-0.9886],[-0.1667,-0.9827],[-0.2083,-0.9749],[-0.25,-0.965],[-0.2917,-0.9529],[-0.3333,-0.9383],[-0.375,-0.921],[-0.4167,-0.9006],[-0.4583,-0.877],[-0.5,-0.85]],"detalles":[{"forma":[[-0.4653,-0.7852],[-0.1875,-0.7852],[-0.1875,0.7852],[-0.4653,0.7852]],"tinta":"suave","desde_px":20},{"forma":[[-0.4896,-0.7711],[-0.1632,-0.7711],[-0.1632,0.7711],[-0.4896,0.7711]],"tinta":"suave","desde_px":20}],"aparejo":null,"perfil":{"casco":[[-0.5,0.1042],[0.316,0.1146],[0.5,0.1458],[0.4375,0],[-0.4792,0]],"bloques":[{"a":[-0.4653,-0.1875],"z":[0.1042,0.2639],"semiancho":0.7852},{"a":[-0.4896,-0.1632],"z":[0.2639,0.3125],"semiancho":0.7711}],"palos":[{"a":-0.3264,"z":[0.3125,0.5139]},{"a":0.2292,"z":[0.1042,0.4444]}],"perchas":[]}},"mercante":{"nombre":"ship over 50 m","eslora_m":90,"semimanga":0.075,"horquilla":[0.1,0.19],"planta":[[-0.5,0.8],[-0.4583,0.8409],[-0.4167,0.8751],[-0.375,0.9035],[-0.3333,0.9268],[-0.2917,0.9456],[-0.25,0.9605],[-0.2083,0.9721],[-0.1667,0.9809],[-0.125,0.9875],[-0.0833,0.9922],[-0.0417,0.9954],[0,0.9975],[0.0417,0.9988],[0.0833,0.9995],[0.125,0.9998],[0.1667,1],[0.2083,1],[0.25,1],[0.2917,0.9954],[0.3333,0.9738],[0.375,0.9251],[0.4167,0.835],[0.4583,0.669],[0.5,0],[0.4583,-0.669],[0.4167,-0.835],[0.375,-0.9251],[0.3333,-0.9738],[0.2917,-0.9954],[0.25,-1],[0.2083,-1],[0.1667,-1],[0.125,-0.9998],[0.0833,-0.9995],[0.0417,-0.9988],[0,-0.9975],[-0.0417,-0.9954],[-0.0833,-0.9922],[-0.125,-0.9875],[-0.1667,-0.9809],[-0.2083,-0.9721],[-0.25,-0.9605],[-0.2917,-0.9456],[-0.3333,-0.9268],[-0.375,-0.9035],[-0.4167,-0.8751],[-0.4583,-0.8409],[-0.5,-0.8]],"detalles":[{"forma":[[0.3395,-0.3565],[0.4753,-0.3565],[0.4753,0.3565],[0.3395,0.3565]],"tinta":"suave","desde_px":57},{"forma":[[-0.4753,-0.7418],[-0.2284,-0.7418],[-0.2284,0.7418],[-0.4753,0.7418]],"tinta":"suave","desde_px":27},{"forma":[[-0.4926,-0.7265],[-0.2111,-0.7265],[-0.2111,0.7265],[-0.4926,0.7265]],"tinta":"suave","desde_px":28}],"aparejo":null,"perfil":{"casco":[[-0.5,0.0741],[0.3395,0.0815],[0.5,0.1037],[0.4506,0],[-0.4802,0]],"bloques":[{"a":[0.3395,0.4753],"z":[0.0741,0.1111],"semiancho":0.3565},{"a":[-0.4753,-0.2284],"z":[0.0741,0.1975],"semiancho":0.7418},{"a":[-0.4926,-0.2111],"z":[0.1975,0.2321],"semiancho":0.7265}],"palos":[{"a":-0.3519,"z":[0.2321,0.4148]},{"a":0.2901,"z":[0.0741,0.3358]}],"perchas":[]}},"pesquero":{"nombre":"fishing vessel","eslora_m":20,"semimanga":0.135,"horquilla":[0.22,0.33],"planta":[[-0.5,0.75],[-0.4583,0.7899],[-0.4167,0.8264],[-0.375,0.8594],[-0.3333,0.8889],[-0.2917,0.9149],[-0.25,0.9375],[-0.2083,0.9566],[-0.1667,0.9722],[-0.125,0.9844],[-0.0833,0.9931],[-0.0417,0.9983],[0,1],[0.0417,0.9936],[0.0833,0.9777],[0.125,0.9533],[0.1667,0.9206],[0.2083,0.8792],[0.25,0.8286],[0.2917,0.7674],[0.3333,0.6939],[0.375,0.6046],[0.4167,0.4928],[0.4583,0.342],[0.5,0],[0.4583,-0.342],[0.4167,-0.4928],[0.375,-0.6046],[0.3333,-0.6939],[0.2917,-0.7674],[0.25,-0.8286],[0.2083,-0.8792],[0.1667,-0.9206],[0.125,-0.9533],[0.0833,-0.9777],[0.0417,-0.9936],[0,-1],[-0.0417,-0.9983],[-0.0833,-0.9931],[-0.125,-0.9844],[-0.1667,-0.9722],[-0.2083,-0.9566],[-0.25,-0.9375],[-0.2917,-0.9149],[-0.3333,-0.8889],[-0.375,-0.8594],[-0.4167,-0.8264],[-0.4583,-0.7899],[-0.5,-0.75]],"detalles":[{"forma":[[-0.4649,-0.7052],[-0.1842,-0.7052],[-0.1842,0.7052],[-0.4649,0.7052]],"tinta":"suave","desde_px":16},{"forma":[[-0.4895,-0.6841],[-0.1596,-0.6841],[-0.1596,0.6841],[-0.4895,0.6841]],"tinta":"suave","desde_px":17}],"aparejo":null,"perfil":{"casco":[[-0.5,0.1053],[0.307,0.1158],[0.5,0.1474],[0.4404,0],[-0.4789,0]],"bloques":[{"a":[-0.4649,-0.1842],"z":[0.1053,0.2667],"semiancho":0.7052},{"a":[-0.4895,-0.1596],"z":[0.2667,0.3158],"semiancho":0.6841}],"palos":[{"a":-0.3246,"z":[0.3158,0.5895]},{"a":0.2018,"z":[0.1053,0.4421]}],"perchas":[{"a":[-0.3246,0.0614],"z":0.3789}]}},"remolcador":{"nombre":"tug","eslora_m":30,"semimanga":0.15,"horquilla":[0.28,0.42],"planta":[[-0.5,0.6],[-0.4583,0.652],[-0.4167,0.7012],[-0.375,0.7476],[-0.3333,0.7909],[-0.2917,0.8311],[-0.25,0.868],[-0.2083,0.9014],[-0.1667,0.931],[-0.125,0.9565],[-0.0833,0.9772],[-0.0417,0.9925],[0,1],[0.0417,0.9981],[0.0833,0.9911],[0.125,0.9782],[0.1667,0.9584],[0.2083,0.9309],[0.25,0.8944],[0.2917,0.8473],[0.3333,0.7869],[0.375,0.7088],[0.4167,0.6045],[0.4583,0.4519],[0.5,0],[0.4583,-0.4519],[0.4167,-0.6045],[0.375,-0.7088],[0.3333,-0.7869],[0.2917,-0.8473],[0.25,-0.8944],[0.2083,-0.9309],[0.1667,-0.9584],[0.125,-0.9782],[0.0833,-0.9911],[0.0417,-0.9981],[0,-1],[-0.0417,-0.9925],[-0.0833,-0.9772],[-0.125,-0.9565],[-0.1667,-0.931],[-0.2083,-0.9014],[-0.25,-0.868],[-0.2917,-0.8311],[-0.3333,-0.7909],[-0.375,-0.7476],[-0.4167,-0.7012],[-0.4583,-0.652],[-0.5,-0.6]],"detalles":[{"forma":[[-0.1444,-0.7517],[0.3,-0.7517],[0.3,0.7517],[-0.1444,0.7517]],"tinta":"suave","desde_px":14},{"forma":[[-0.1756,-0.7111],[0.3311,-0.7111],[0.3311,0.7111],[-0.1756,0.7111]],"tinta":"suave","desde_px":15}],"aparejo":null,"perfil":{"casco":[[-0.5,0.1333],[0.2556,0.1467],[0.5,0.1956],[0.4244,0],[-0.4733,0]],"bloques":[{"a":[-0.1444,0.3],"z":[0.1333,0.3644],"semiancho":0.7517},{"a":[-0.1756,0.3311],"z":[0.3644,0.4267],"semiancho":0.7111}],"palos":[{"a":0.0778,"z":[0.4267,0.8444]}],"perchas":[]}},"practico":{"nombre":"pilot vessel","eslora_m":16,"semimanga":0.15,"horquilla":[0.26,0.35],"planta":[[-0.5,0.8],[-0.4583,0.8271],[-0.4167,0.8529],[-0.375,0.8772],[-0.3333,0.9001],[-0.2917,0.9213],[-0.25,0.9407],[-0.2083,0.9583],[-0.1667,0.9736],[-0.125,0.9864],[-0.0833,0.996],[-0.0417,0.9997],[0,0.9926],[0.0417,0.9777],[0.0833,0.9559],[0.125,0.9271],[0.1667,0.8914],[0.2083,0.8481],[0.25,0.7966],[0.2917,0.7357],[0.3333,0.6635],[0.375,0.5767],[0.4167,0.4691],[0.4583,0.3249],[0.5,0],[0.4583,-0.3249],[0.4167,-0.4691],[0.375,-0.5767],[0.3333,-0.6635],[0.2917,-0.7357],[0.25,-0.7966],[0.2083,-0.8481],[0.1667,-0.8914],[0.125,-0.9271],[0.0833,-0.9559],[0.0417,-0.9777],[0,-0.9926],[-0.0417,-0.9997],[-0.0833,-0.996],[-0.125,-0.9864],[-0.1667,-0.9736],[-0.2083,-0.9583],[-0.25,-0.9407],[-0.2917,-0.9213],[-0.3333,-0.9001],[-0.375,-0.8772],[-0.4167,-0.8529],[-0.4583,-0.8271],[-0.5,-0.8]],"detalles":[{"forma":[[-0.197,-0.6208],[0.3182,-0.6208],[0.3182,0.6208],[-0.197,0.6208]],"tinta":"suave","desde_px":17},{"forma":[[-0.2394,-0.546],[0.3606,-0.546],[0.3606,0.546],[-0.2394,0.546]],"tinta":"suave","desde_px":19}],"aparejo":null,"perfil":{"casco":[[-0.5,0.1697],[0.2576,0.1879],[0.5,0.2303],[0.4212,0],[-0.4636,0]],"bloques":[{"a":[-0.197,0.3182],"z":[0.1697,0.4485],"semiancho":0.6208},{"a":[-0.2394,0.3606],"z":[0.4485,0.5212],"semiancho":0.546}],"palos":[{"a":0.0455,"z":[0.5212,0.9455]}],"perchas":[]}},"gabarra":{"nombre":"barge","eslora_m":60,"semimanga":0.125,"horquilla":[0.18,0.3],"planta":[[-0.5,1],[-0.4583,1],[-0.4167,1],[-0.375,1],[-0.3333,1],[-0.2917,1],[-0.25,1],[-0.2083,1],[-0.1667,1],[-0.125,1],[-0.0833,1],[-0.0417,1],[0,1],[0.0417,1],[0.0833,1],[0.125,1],[0.1667,1],[0.2083,1],[0.25,1],[0.2917,1],[0.3333,1],[0.375,1],[0.4167,1],[0.4583,0.9933],[0.5,0],[0.4583,-0.9933],[0.4167,-1],[0.375,-1],[0.3333,-1],[0.2917,-1],[0.25,-1],[0.2083,-1],[0.1667,-1],[0.125,-1],[0.0833,-1],[0.0417,-1],[0,-1],[-0.0417,-1],[-0.0833,-1],[-0.125,-1],[-0.1667,-1],[-0.2083,-1],[-0.25,-1],[-0.2917,-1],[-0.3333,-1],[-0.375,-1],[-0.4167,-1],[-0.4583,-1],[-0.5,-1]],"detalles":[],"aparejo":null,"perfil":{"casco":[[-0.5,0.08],[0.5,0.08],[0.4667,0],[-0.4667,0]],"bloques":[],"palos":[],"perchas":[]}},"generico":{"nombre":"generic vessel","eslora_m":null,"semimanga":0.1,"horquilla":[0.15,0.25],"planta":[[-0.5,0.85],[-0.4583,0.8657],[-0.4167,0.8812],[-0.375,0.8964],[-0.3333,0.911],[-0.2917,0.925],[-0.25,0.9382],[-0.2083,0.9504],[-0.1667,0.9615],[-0.125,0.9714],[-0.0833,0.9799],[-0.0417,0.987],[0,0.9927],[0.0417,0.9967],[0.0833,0.9992],[0.125,1],[0.1667,0.9808],[0.2083,0.9333],[0.25,0.8616],[0.2917,0.7677],[0.3333,0.6529],[0.375,0.518],[0.4167,0.3639],[0.4583,0.191],[0.5,0],[0.4583,-0.191],[0.4167,-0.3639],[0.375,-0.518],[0.3333,-0.6529],[0.2917,-0.7677],[0.25,-0.8616],[0.2083,-0.9333],[0.1667,-0.9808],[0.125,-1],[0.0833,-0.9992],[0.0417,-0.9967],[0,-0.9927],[-0.0417,-0.987],[-0.0833,-0.9799],[-0.125,-0.9714],[-0.1667,-0.9615],[-0.2083,-0.9504],[-0.25,-0.9382],[-0.2917,-0.925],[-0.3333,-0.911],[-0.375,-0.8964],[-0.4167,-0.8812],[-0.4583,-0.8657],[-0.5,-0.85]],"detalles":[],"aparejo":null,"perfil":null}},"figuras_de_hoy":{"nueve":{"semimanga":0.09,"planta":[[0.5,0],[0.26,0.85],[0.1,1],[-0.44,0.9],[-0.5,0.55],[-0.5,-0.55],[-0.44,-0.9],[0.1,-1],[0.26,-0.85]]},"velero_fino":{"semimanga":0.085,"planta":[[0.52,0],[0.1,1],[-0.4,0.85],[-0.46,0],[-0.4,-0.85],[0.1,-1]],"aparejo":{"palo":[0.1,0],"botavara":[-0.3,0.62]}},"ladeada":{"semimanga":0.34,"pantalla":[[0.52,-0.2,"L"],[0.06,0.62,"M"],[-0.46,0.42,"M"],[-0.34,-0.66,"M"],[0.1,-0.86,"M"]]},"costado":{"perfil":[[-0.5,1],[0.44,1],[0.5,0],[-0.42,0]]},"fuselaje":{"perfil":[[-0.46,0],[0.4,0],[0.5,0.5],[-0.3,0.7],[-0.5,0.1]]}}};
+
+function cascoFigura(id){
+  const f = (CASCOS_TIPOS.figuras_de_hoy || {})[id] || (CASCOS_TIPOS.tipos || {})[id];
+  if(!f) throw new Error("cascos-tipos.json no tiene el dibujo «" + id + "»");
+  return f;
+}
+
+function puntosPlanta(f, L, P){
+  const M = L*f.semimanga;
+  return f.planta.map(q => P(L*q[0], M*q[1]));
+}
+function caminoRedondo(q){
+  return "M" + q.map(p => p[0].toFixed(1) + "," + p[1].toFixed(1)).join(" L") + " Z";
+}
+
+function caminoFino(q){
+  return "M" + q.map(p => p[0].toFixed(2) + "," + p[1].toFixed(2)).join(" L") + " Z";
+}
+
+function caminoCrudo(q){
+  return "M" + q.map(p => p[0] + "," + p[1]).join(" L") + " Z";
+}
+
 function cascoEnPlanta(x, y, rumbo, tinta, L, quien, opt){
   const o = opt || {};
   const g = rumbo*Math.PI/180, sn = Math.sin(g), cs = Math.cos(g);
   const P = o.este ? (av, tr) => [x + cs*av - sn*tr, y + sn*av + cs*tr]
                    : (av, tr) => [x + sn*av + cs*tr, y - cs*av + sn*tr];
-  const M = L*0.09;
-  const q = [P(L*0.50, 0), P(L*0.26, M*0.85), P(L*0.10, M),
-             P(-L*0.44, M*0.9), P(-L*0.50, M*0.55),
-             P(-L*0.50, -M*0.55), P(-L*0.44, -M*0.9),
-             P(L*0.10, -M), P(L*0.26, -M*0.85)];
+  const q = puntosPlanta(cascoFigura("nueve"), L, P);
   const gr = el("g", {"data-barco": quien});
-  el("path", {d: "M" + q.map(p => p[0].toFixed(1) + "," + p[1].toFixed(1)).join(" L")
-                + " Z", fill: tinta, opacity: .95, "data-buque": "1"}, gr);
+  el("path", {d: caminoRedondo(q), fill: tinta, opacity: .95, "data-buque": "1"}, gr);
   return L;
 }
 
 function plantaBarco(x, y, rumbo, tinta, op, largo, padre){
   const g = rumbo*Math.PI/180, sn = Math.sin(g), cs = Math.cos(g);
-  const L = largo || px(24), M = L*0.34;
+  const L = largo || px(24);
   const P = (av, tr) => [x + sn*av + cs*tr, y - cs*av + sn*tr];
-  const q = [P(L*0.5, 0), P(L*0.14, M), P(-L*0.5, M*0.8),
-             P(-L*0.5, -M*0.8), P(L*0.14, -M)];
 
-  el("path", {d: "M" + q.map(p => p[0].toFixed(1) + "," + p[1].toFixed(1)).join(" L")
-                + " Z", fill: tinta, opacity: op === undefined ? .95 : op,
-              "data-buque": "1"}, padre);
+  el("path", {d: caminoRedondo(puntosPlanta(cascoFigura("generico"), L, P)), fill: tinta,
+              opacity: op === undefined ? .95 : op, "data-buque": "1"}, padre);
 }
 
 function cascoVelero(x, y, rumbo, tinta, L, padre){
   const g = rumbo*Math.PI/180, sn = Math.sin(g), cs = Math.cos(g);
   const P = (av, tr) => [x + sn*av + cs*tr, y - cs*av + sn*tr];
-  const B2 = L*0.085;
-  const casco = [P(L*0.52, 0), P(L*0.10, B2), P(-L*0.40, B2*0.85),
-                 P(-L*0.46, 0), P(-L*0.40, -B2*0.85), P(L*0.10, -B2)];
-  el("path", {d: "M" + casco.map(p => p[0].toFixed(1) + "," + p[1].toFixed(1))
-                          .join(" L") + " Z", fill: tinta, opacity: .95,
-              "data-buque": "1"}, padre);
+  el("path", {d: caminoRedondo(puntosPlanta(cascoFigura("velero_fino"), L, P)),
+              fill: tinta, opacity: .95, "data-buque": "1"}, padre);
 }
 
 function aparejoDeVelero(x, y, rumbo, tinta, L, lado, opt){
   const o = opt || {};
   const g = rumbo*Math.PI/180, sn = Math.sin(g), cs = Math.cos(g);
   const P = (av, tr) => [x + sn*av + cs*tr, y - cs*av + sn*tr];
-  const a = P(L*0.10, 0), b = P(-L*0.30, lado*L*0.62);
+  const ap = (o.tipo ? cascoFigura(o.tipo) : cascoFigura("velero_fino")).aparejo;
+  const a = P(L*ap.palo[0], ap.palo[1] ? lado*L*ap.palo[1] : 0);
+  const b = P(L*ap.botavara[0], lado*L*ap.botavara[1]);
   const grueso = o.grueso === undefined ? 3 : o.grueso;
   const palo   = o.palo   === undefined ? 3 : o.palo;
   el("circle", {cx: a[0], cy: a[1], r: palo, fill: tinta}, o.padre);
@@ -629,43 +650,336 @@ function aparejoDeVelero(x, y, rumbo, tinta, L, lado, opt){
 }
 
 function perfilDeCostado(x, y, L, H, b, tinta, padre){
-  el("path", {d: "M" + (x - L*0.5) + "," + (y - H*b)
-                + " L" + (x + L*0.44) + "," + (y - H*b)
-                + " L" + (x + L*0.5) + "," + y
-                + " L" + (x - L*0.42) + "," + y + " Z",
-              fill: tinta, opacity: .95, "data-buque": "1"}, padre);
+  const q = cascoFigura("costado").perfil.map(p => [x + L*p[0], y - H*b*p[1]]);
+  el("path", {d: caminoCrudo(q), fill: tinta, opacity: .95, "data-buque": "1"}, padre);
 }
 
 function fuselajeDeCostado(x, y, L, H, tinta, padre){
-  el("path", {d: "M" + (x - L*0.46) + "," + y + " L" + (x + L*0.40) + "," + y
-                + " L" + (x + L*0.50) + "," + (y - H*0.5)
-                + " L" + (x - L*0.30) + "," + (y - H*0.7)
-                + " L" + (x - L*0.50) + "," + (y - H*0.1) + " Z",
-              fill: tinta, opacity: .95, "data-buque": "1"}, padre);
+  const q = cascoFigura("fuselaje").perfil.map(p => [x + L*p[0], y - H*p[1]]);
+  el("path", {d: caminoCrudo(q), fill: tinta, opacity: .95, "data-buque": "1"}, padre);
 }
 
 function cascoLadeado(x, y, L, tinta, padre){
-  const M = L*0.34;
-  el("path", {d: "M" + (x + L*0.52) + "," + (y - L*0.20)
-                + " L" + (x + L*0.06) + "," + (y + M*0.62)
-                + " L" + (x - L*0.46) + "," + (y + M*0.42)
-                + " L" + (x - L*0.34) + "," + (y - M*0.66)
-                + " L" + (x + L*0.10) + "," + (y - M*0.86) + " Z",
-              fill: tinta, opacity: .95, "data-buque": "1"}, padre);
+  const f = cascoFigura("ladeada"), M = L*f.semimanga;
+  const q = f.pantalla.map(p => [x + L*p[0], y + (p[2] === "M" ? M : L)*p[1]]);
+  el("path", {d: caminoCrudo(q), fill: tinta, opacity: .95, "data-buque": "1"}, padre);
+}
+
+function tintaDe(nombre, tinta, o){
+  const t = (o && o.tintas) || {};
+  return nombre === "casco" ? tinta : (t[nombre] || tinta);
+}
+function buquePlanta(x, y, rumbo, tinta, L, tipo, opt){
+  const o = opt || {}, f = cascoFigura(tipo);
+  const g = rumbo*Math.PI/180, sn = Math.sin(g), cs = Math.cos(g);
+
+  const P = o.este ? (av, tr) => [x + cs*av - sn*tr, y + sn*av + cs*tr]
+                   : (av, tr) => [x + sn*av + cs*tr, y - cs*av + sn*tr];
+  const gr = el("g", {"data-barco": o.quien || null, "data-tipo": tipo}, o.padre);
+  el("path", {d: caminoFino(puntosPlanta(f, L, P)), fill: tinta,
+              opacity: o.op === undefined ? .95 : o.op, "data-buque": "1"}, gr);
+  const enPantalla = L*(o.escala || 1);
+  (f.detalles || []).forEach(function(dt){
+    if(enPantalla < dt.desde_px) return;
+    el("path", {d: caminoFino(puntosPlanta({semimanga: f.semimanga, planta: dt.forma}, L, P)),
+                fill: tintaDe(dt.tinta, tinta, o), "data-detalle": "1"}, gr);
+  });
+
+  if(f.aparejo && !o.este && o.aparejo !== false)
+    aparejoDeVelero(x, y, rumbo, tinta, L, o.lado || 1,
+                    {tipo: tipo, padre: gr,
+                     grueso: o.grueso === undefined ? Math.max(1.2, L*0.025) : o.grueso,
+                     palo: o.palo === undefined ? Math.max(1.4, L*0.03) : o.palo,
+                     marca: o.marca});
+  return gr;
+}
+
+function cajaPlanta(L, tipo, rumbo, este){
+  const f = cascoFigura(tipo), g = rumbo*Math.PI/180;
+  const a = L/2, b = L*f.semimanga;
+  const s = Math.abs(Math.sin(g)), c = Math.abs(Math.cos(g));
+  return este ? {hx: c*a + s*b, hy: s*a + c*b} : {hx: s*a + c*b, hy: c*a + s*b};
+}
+function sitiosJunto(x, y, caja, lineas, u){
+  const n = lineas.length, w = 6.6*u*Math.max.apply(null, lineas.map(t => t.length));
+  return [[x, y + caja.hy + 14*u],
+          [x, y - caja.hy - 6*u - (n - 1)*15*u],
+          [x + caja.hx + 8*u + w/2, y + 4*u - (n - 1)*7.5*u],
+          [x - caja.hx - 8*u - w/2, y + 4*u - (n - 1)*7.5*u]];
+}
+function cajaQueOcupa(x, y, caja){
+  return [x - caja.hx, y - caja.hy, x + caja.hx, y + caja.hy];
+}
+
+function colocaRotulo(x0, y0, lineas, o){
+  const px = o.px, P = o.puestos, c = o.tapa || null;
+  const alto = lineas.length*px(o.renglon || 15);
+  const ancho = px(o.porLetra || 6.6)*Math.max.apply(null, lineas.map(t => t.length));
+  const orilla = o.orilla ? Math.max(px(o.orilla), ancho/2 + px(16)) : ancho/2 + px(16);
+  const izq = orilla, der = o.ancho - orilla;
+  const suelo = o.y1 - px(28) - alto, techo = o.y0 + px(20);
+  const corte = (a0, a1, b0, b1) => Math.max(0, Math.min(a1, b1) - Math.max(a0, b0));
+  const choca = (x, y) => (c !== null && x + ancho/2 > c[0] && x - ancho/2 < c[2]
+                           && y + alto > c[1] && y - px(12) < c[3])
+    || P.some(q => x + ancho/2 > q[0] && x - ancho/2 < q[2]
+                && y + alto + px(4) > q[1] && y - px(16) < q[3]);
+  const pisa = (x, y) => (c !== null ? corte(x - ancho/2, x + ancho/2, c[0], c[2])
+                                       *corte(y - px(12), y + alto, c[1], c[3]) : 0)
+    + P.reduce((s, q) => s + corte(x - ancho/2, x + ancho/2, q[0], q[2])
+                             *corte(y - px(16), y + alto + px(4), q[1], q[3]), 0);
+  let x = Math.max(izq, Math.min(x0, der));
+  let y = Math.max(techo, Math.min(y0, suelo));
+  if(o.anillos){
+    const cabe = (x, y) => x >= izq - 0.5 && x <= der + 0.5
+                        && y >= techo - 0.5 && y <= suelo + 0.5;
+    if(choca(x, y)){
+      let puesto = false, mejor = {x: x, y: y, a: pisa(x, y)};
+      for(let r = 1; r <= 30 && !puesto; r++){
+        const v = r*px(9), w = v*0.72;
+        const vueltas = [[0, v], [0, -v], [v, 0], [-v, 0],
+                         [w, w], [-w, w], [w, -w], [-w, -w]];
+        for(let i = 0; i < vueltas.length && !puesto; i++){
+          const cx = x + vueltas[i][0], cy = y + vueltas[i][1];
+          if(!cabe(cx, cy)) continue;
+          if(!choca(cx, cy)){ x = cx; y = cy; puesto = true; }
+          else { const a = pisa(cx, cy); if(a < mejor.a) mejor = {x: cx, y: cy, a: a}; }
+        }
+      }
+      if(!puesto){ x = mejor.x; y = mejor.y; }
+    }
+  } else {
+    let mejor = {x: x, y: y, a: pisa(x, y)};
+    const apunta = v => { const a = pisa(x, v); if(a < mejor.a) mejor = {x: x, y: v, a: a}; };
+    if(choca(x, y) && o.otros) for(const q of o.otros){
+      const xa = x, w = Math.max(techo, Math.min(q[1], suelo));
+      x = Math.max(izq, Math.min(q[0], der));
+      if(!choca(x, w)){ y = w; break; }
+      apunta(w);
+      x = xa;
+    }
+    if(choca(x, y)){
+      let puesto = false;
+
+      for(let v = y; v <= suelo && !puesto; v += px(9))
+        if(!choca(x, v)){ y = v; puesto = true; } else apunta(v);
+      for(let v = y; v >= techo && !puesto; v -= px(9))
+        if(!choca(x, v)){ y = v; puesto = true; } else apunta(v);
+      if(!puesto){ x = mejor.x; y = mejor.y; }
+    }
+  }
+  P.push([x - ancho/2, y - px(12), x + ancho/2, y + alto]);
+  return {x: x, y: y};
+}
+
+function cedenLasSondas(svg, m){
+  const todas = [].slice.call(svg.querySelectorAll("text"));
+  const sondas = todas.filter(t => t.getAttribute("fill") === "var(--carta-sonda)");
+
+  const otras = todas.filter(t => sondas.indexOf(t) < 0).map(t => t.getBBox())
+    .concat([].map.call(svg.querySelectorAll("path[data-buque]"), p => p.getBBox()))
+    .concat([].map.call(svg.querySelectorAll("[data-boya]"), p => p.getBBox()));
+
+  const puestas = [];
+  sondas.forEach(function(s){
+    const a = s.getBBox();
+    if(otras.some(b => a.x < b.x + b.width + m && a.x + a.width + m > b.x
+                    && a.y < b.y + b.height + m && a.y + a.height + m > b.y)){ s.remove(); return; }
+    if(puestas.some(b => a.x < b.x + b.width && a.x + a.width > b.x
+                      && a.y < b.y + b.height && a.y + a.height > b.y)){ s.remove(); return; }
+    puestas.push(a);
+  });
+}
+
+function buquePerfil(x, yAgua, L, tipo, tinta, opt){
+  const o = opt || {}, f = cascoFigura(tipo).perfil;
+  if(!f) throw new Error("el tipo «" + tipo + "» no tiene perfil");
+  const X = a => x + a*L, Y = z => yAgua - z*L, grueso = Math.max(1, L*0.012);
+  const gr = el("g", {"data-tipo": tipo, "data-vista": "perfil"}, o.padre);
+  el("path", {d: caminoRedondo(f.casco.map(p => [X(p[0]), Y(p[1])])), fill: tinta,
+              "data-buque": "1"}, gr);
+  f.bloques.forEach(b => el("path", {d: caminoRedondo([[X(b.a[0]), Y(b.z[1])], [X(b.a[1]), Y(b.z[1])],
+                                                      [X(b.a[1]), Y(b.z[0])], [X(b.a[0]), Y(b.z[0])]]),
+                                     fill: tintaDe("suave", tinta, o)}, gr));
+  f.palos.forEach(m => el("line", {x1: X(m.a), y1: Y(m.z[0]), x2: X(m.a), y2: Y(m.z[1]),
+                                   stroke: tinta, "stroke-width": grueso}, gr));
+  f.perchas.forEach(s => el("line", {x1: X(s.a[0]), y1: Y(s.z), x2: X(s.a[1]), y2: Y(s.z),
+                                     stroke: tinta, "stroke-width": grueso}, gr));
+  return gr;
+}
+
+function envolturaConvexa(P){
+  P = P.slice().sort((a, b) => a[0] - b[0] || a[1] - b[1]);
+  const cr = (o, a, b) => (a[0]-o[0])*(b[1]-o[1]) - (a[1]-o[1])*(b[0]-o[0]);
+  const lo = [], hi = [];
+  for(const q of P){ while(lo.length >= 2 && cr(lo[lo.length-2], lo[lo.length-1], q) <= 0) lo.pop(); lo.push(q); }
+  for(let i = P.length - 1; i >= 0; i--){ const q = P[i];
+    while(hi.length >= 2 && cr(hi[hi.length-2], hi[hi.length-1], q) <= 0) hi.pop(); hi.push(q); }
+  hi.pop(); lo.pop(); return lo.concat(hi);
+}
+
+function semiDe(f, a){
+  let best = 0;
+  const q = f.planta;
+  for(let i = 0; i < q.length; i++){
+    const A = q[i], B = q[(i + 1) % q.length];
+    if((A[0] - a)*(B[0] - a) > 0 || A[0] === B[0]) continue;
+    const b = A[1] + (B[1] - A[1])*(a - A[0])/(B[0] - A[0]);
+    if(b > best) best = b;
+  }
+  return best;
+}
+function buqueAspecto(x, yAgua, L, tipo, m, tinta, opt){
+  const o = opt || {}, f = cascoFigura(tipo), pf = f.perfil;
+  if(!pf) throw new Error("el tipo «" + tipo + "» no tiene perfil");
+  const r = m*Math.PI/180, rx = Math.sin(r), ry = -Math.cos(r), dx = Math.cos(r);
+  const M = f.semimanga;
+  const S = (a, b, z) => [x + (a*rx + b*M*ry)*L, yAgua - z*L];
+  const gr = el("g", {"data-tipo": tipo, "data-vista": "aspecto", "data-marcacion": m}, o.padre);
+
+  const cas = pf.casco, cort = (a, arriba) => { let best = null;
+    for(let i = 0; i < cas.length; i++){ const A = cas[i], B = cas[(i+1) % cas.length];
+      if((A[0] - a)*(B[0] - a) > 0 || A[0] === B[0]) continue;
+      const z = A[1] + (B[1] - A[1])*(a - A[0])/(B[0] - A[0]);
+      if(best === null || (arriba ? z > best : z < best)) best = z; }
+    return best; };
+  const a0 = Math.min.apply(null, cas.map(p => p[0])), a1 = Math.max.apply(null, cas.map(p => p[0]));
+  const pts = [];
+  for(let i = 0; i <= 40; i++){
+    const a = a0 + 0.0001 + (a1 - a0 - 0.0002)*i/40;
+    const zt = cort(a, true), zb = cort(a, false); if(zt === null) continue;
+    const s = semiDe(f, a);
+    pts.push(S(a, s, zt), S(a, -s, zt), S(a, s, zb), S(a, -s, zb));
+  }
+  el("path", {d: caminoRedondo(envolturaConvexa(pts)), fill: tinta, "data-buque": "1"}, gr);
+  pf.bloques.map(b => ({b: b, prof: ((b.a[0] + b.a[1])/2)*dx}))
+    .sort((A, B) => A.prof - B.prof).forEach(function(q){
+      const b = q.b, Q = [];
+      b.a.forEach(a => [-b.semiancho, b.semiancho].forEach(v => b.z.forEach(z => Q.push(S(a, v, z)))));
+      el("path", {d: caminoRedondo(envolturaConvexa(Q)), fill: tintaDe("suave", tinta, o)}, gr);
+    });
+  const grueso = Math.max(1, L*0.012);
+  pf.palos.forEach(p => { const A = S(p.a, 0, p.z[0]), B = S(p.a, 0, p.z[1]);
+    el("line", {x1: A[0], y1: A[1], x2: B[0], y2: B[1], stroke: tinta, "stroke-width": grueso}, gr); });
+  pf.perchas.forEach(p => { const A = S(p.a[0], 0, p.z), B = S(p.a[1], 0, p.z);
+    el("line", {x1: A[0], y1: A[1], x2: B[0], y2: B[1], stroke: tinta, "stroke-width": grueso}, gr); });
+  return gr;
 }
 
 const ANCHO = 950;
 let E9 = {ox: 0, oy: 0, k: 1, y0: 0, y1: 0};
+
+let MOVIL9 = false;
+
+function dosFilas9(){
+  const w = D.W - D.W*0.028*2;
+  const largo = Math.max.apply(null, BUQUES.map(b => b.corto.length));
+  return (w - px(30))/4 < largo*px(6.4) + px(18);
+}
+function arribaBanda9(){ return px(dosFilas9() ? 188 : 150); }
+
+function boyas9(){
+  const r = px(8), m = px(3), out = [];
+  [-limiteCanal(), limiteCanal()].forEach(function(o){
+    [0.14, 0.38, 0.62, 0.86].forEach(function(f){
+      const x = QX(o), y = E9.y0 + (E9.y1 - E9.y0)*f;
+      out.push([x - r - m, y - r*1.5 - m, x + r + m, y + r*1.2 + m]);
+    });
+  });
+  return out;
+}
+
+function cajaTxt9(x, y, n, tam, ancla, renglones){
+  const w = n*px(tam*0.62), x0 = ancla === "start" ? x : ancla === "end" ? x - w : x - w/2;
+  return [x0, y - px(tam), x0 + w, y + px(4) + (renglones || 0)*px(16)];
+}
+
+let PUESTOS9 = [];
+function chocaCon9(c){
+  return PUESTOS9.some(b => c[0] < b[2] && c[2] > b[0] && c[1] < b[3] && c[3] > b[1]);
+}
+
+function pisa9(c){
+  const corte = (a0, a1, b0, b1) => Math.max(0, Math.min(a1, b1) - Math.max(a0, b0));
+  return PUESTOS9.reduce((s, b) => s + corte(c[0], c[2], b[0], b[2])*corte(c[1], c[3], b[1], b[3]), 0);
+}
+function coloca9(sitios){
+
+  const dentro = sitios.filter(q => q.caja[0] >= px(4) && q.caja[2] <= D.W - px(4)
+                                 && q.caja[1] >= E9.y0 + px(14) && q.caja[3] <= E9.y1 - px(4));
+  const L = dentro.length ? dentro : sitios;
+  const s = L.filter(q => !chocaCon9(q.caja))[0]
+         || L.reduce((a, b) => pisa9(b.caja) < pisa9(a.caja) ? b : a);
+  PUESTOS9.push(s.caja);
+  return s;
+}
+
+function fijos9(){
+  const y = E9.y1;
+  return boyas9().concat([[px(20), y - px(24), px(24) + 18*px(6.2) + px(4), y],
+                          [D.W - px(24) - 16*px(6.2) - px(4), y - px(24), D.W, y],
+                          [QX(0) - px(34), y - px(32), QX(0) + px(34), y - px(4)]]);
+}
+
+function cascos9(e){
+  const xe = QX(-CANAL.medio*0.5), ye = QY(S9.sit === "alcanzas" ? 200 : 320);
+  const L = esloraDibujada9(ELLA.eslora);
+  const xt = QX(S9.off), yt = E9.oy, r = esloraDibujada9(e.buque.eslora)*0.78;
+  const rf = S9.sit === "fondeas" ? Math.max(QM(e.borneo), r) : r;
+  return [[xe - L*0.12, ye - L/2, xe + L*0.12, ye + L/2], [xt - rf, yt - rf, xt + rf, yt + rf]];
+}
+function corrimientos9(arriba, abajo){
+  const out = [0];
+  for(let k = 1; k <= 10; k++){
+    if(arriba) out.push(-k*px(16));
+    if(abajo) out.push(k*px(16));
+  }
+  return out;
+}
+const BANDA9M = 96;
+function bajo9(){ return px(MOVIL9 ? BANDA9M : 58); }
+
+function arriba9(){
+  return Math.max(px(96), esloraDibujada9(buqueDe(S9.tipo).eslora)/2 + px(72));
+}
 function fija9(){
-  E9.y0 = px(150);
-  E9.y1 = D.H - px(58);
+  E9.y0 = arribaBanda9();
+  E9.y1 = D.H - bajo9();
   E9.ox = D.W*0.5;
   E9.k = D.W / ANCHO;
-  E9.oy = E9.y1 - px(96);
+  E9.oy = E9.y1 - arriba9();
 }
 const QX = m => E9.ox + m*E9.k;
 const QY = m => E9.oy - m*E9.k;
 const QM = m => m*E9.k;
+
+const DIBUJO9 = {fraccion: 2, fraccionMovil: 1.4};
+
+function ellaPedida9(){
+  const f = MOVIL9 ? DIBUJO9.fraccionMovil : DIBUJO9.fraccion;
+  return Math.max(esloraDibujada(ELLA.eslora), f*QM(ELLA.eslora));
+}
+
+function ellaDibujada9(){
+  const suelo = esloraDibujada(ELLA.eslora);
+  const tuMayor = Math.max.apply(null, BUQUES.map(b => b.eslora));
+  const cabe = L => {
+    const t = L*Math.pow(tuMayor/ELLA.eslora, DIBUJO.exponente);
+    const oy = E9.y1 - Math.max(px(96), t/2 + px(72));
+    return oy - QM(320) - L/2 >= E9.y0 + px(6) && oy - QM(354) >= E9.y0 + px(14);
+  };
+  let L = ellaPedida9();
+  while(L > suelo && !cabe(L)) L = Math.max(suelo, L*0.97);
+  return L;
+}
+function esloraDibujada9(m){
+  return ellaDibujada9()*Math.pow(m/ELLA.eslora, DIBUJO.exponente);
+}
+
+function casco9(x, y, rumbo, tinta, L, tipo, quien, op){
+  buquePlanta(x, y, rumbo, tinta, L, tipo,
+              {quien: quien, escala: ESC, op: op, tintas: {suave: "var(--lam-linea)",
+                                                           papel: "var(--carta)"}});
+}
 
 const S9 = {off: 0, tipo: "chico", sit: "canal"};
 
@@ -697,6 +1011,8 @@ function carta9(){
   });
 
   const cel = px(104);
+
+  const cerco = Math.max(px(72), esloraDibujada9(buqueDe(S9.tipo).eslora)*0.78 + px(14));
   for(let i = 0; i*cel < D.W + cel; i++){
     for(let j = 0; j*cel < D.H + cel; j++){
       const r1 = sondaDe(i, j), r2 = sondaDe(i + 41, j + 17), r3 = sondaDe(i + 7, j + 91);
@@ -704,7 +1020,7 @@ function carta9(){
       const x = i*cel + r1*cel*0.7, y = j*cel + r2*cel*0.7;
       if(x < px(26) || x > D.W - px(26)) continue;
       if(y < E9.y0 + px(18) || y > E9.y1 - px(34)) continue;
-      if(Math.hypot(x - QX(S9.off), y - E9.oy) < px(72)) continue;
+      if(Math.hypot(x - QX(S9.off), y - E9.oy) < cerco) continue;
       const s = sondaEn((x - E9.ox)/E9.k);
       if(s < 2.0) continue;
       sonda(x, y, s === CANAL.dragado ? s : s*(0.94 + r1*0.12));
@@ -731,8 +1047,30 @@ function tuAguaDeFuera(e){
   el("rect", {x: QX(-e.tuAgua), y: y0, width: QM(2*e.tuAgua), height: y1 - y0,
               fill: "none", stroke: "var(--accent-graphic)", "stroke-width": px(1.4),
               "stroke-dasharray": px(7) + "," + px(5), "stroke-opacity": .85});
-  txt(QX(-e.tuAgua) + px(8), y1 - px(22), "HOW FAR YOUR OWN KEEL REACHES", "start",
-      10.5, "var(--accent-text)", 600, "mono");
+}
+
+function rotuloTuAgua9(e){
+  const y0 = E9.y0 + px(10), y1 = E9.y1 - px(34);
+  const rot = "HOW FAR YOUR OWN KEEL REACHES", sitios = [];
+  const pasos = [];
+  for(let dy = 0; y1 - px(22) + dy > y0 + px(16); dy -= px(8)) pasos.push(dy);
+
+  const dos = ["HOW FAR YOUR OWN", "KEEL REACHES"], tres = ["HOW FAR", "YOUR OWN", "KEEL REACHES"];
+  [[rot], dos, tres].forEach(function(ren){
+    const n = Math.max.apply(null, ren.map(t => t.length)), alto = (ren.length - 1)*px(14);
+    pasos.forEach(function(dy){
+      [[QX(-e.tuAgua) + px(8), "start"], [QX(e.tuAgua) - px(8), "end"]].forEach(function(q){
+        const y = y1 - px(22) - alto + dy;
+        sitios.push({x: q[0], y: y, an: q[1], ren: ren,
+                     caja: [cajaTxt9(q[0], y, n, 10.5, q[1])[0], y - px(10.5),
+                            cajaTxt9(q[0], y, n, 10.5, q[1])[2], y + px(4) + alto]});
+      });
+    });
+  });
+  const s = coloca9(sitios);
+  s.ren.forEach(function(t, i){
+    txt(s.x, s.y + i*px(14), t, s.an, 10.5, "var(--accent-text)", 600, "mono");
+  });
 }
 
 function lateral(x, y, verde){
@@ -741,11 +1079,11 @@ function lateral(x, y, verde){
     el("path", {d: "M" + x + "," + (y - r*1.5) + " L" + (x + r) + "," + (y + r*0.9)
                   + " L" + (x - r) + "," + (y + r*0.9) + " Z",
                 fill: "var(--baliza-verde)", stroke: "var(--lam-ink)",
-                "stroke-width": px(1)});
+                "stroke-width": px(1), "data-boya": "verde"});
   else
     el("rect", {x: x - r*0.9, y: y - r*1.2, width: r*1.8, height: r*2.2, rx: px(1.5),
                 fill: "var(--baliza-roja)", stroke: "var(--lam-ink)",
-                "stroke-width": px(1)});
+                "stroke-width": px(1), "data-boya": "roja"});
 }
 
 function derrota9(x0, y0, x1, y1, tinta, ancho){
@@ -761,14 +1099,26 @@ function punta9(x, y, rumbo, tinta){
               fill: tinta});
 }
 
+function rotuloCalado9(x, y, tinta){
+  const r = "she draws " + ELLA.calado.toFixed(1) + " m", sitios = [];
+
+  corrimientos9(true, true).forEach(function(dy){
+    [[x - QM(62), "end"], [x + QM(62), "start"]].forEach(function(q){
+      sitios.push({x: q[0], y: y - QM(34) + dy, an: q[1],
+                   caja: cajaTxt9(q[0], y - QM(34) + dy, r.length, 11, q[1])});
+    });
+  });
+  const s = coloca9(sitios);
+  txt(s.x, s.y, r, s.an, 11, tinta, 600, "mono");
+}
 function tuBarco(x, y, rumbo, e, tinta){
-  const L = esloraDibujada(e.buque.eslora);
+  const L = esloraDibujada9(e.buque.eslora);
 
   const r = L*0.78;
   el("circle", {cx: x, cy: y, r: r, fill: tinta, opacity: .13});
   el("circle", {cx: x, cy: y, r: r, fill: "none", stroke: tinta,
                 "stroke-width": px(1.4), "stroke-opacity": .55});
-  plantaBarco(x, y, rumbo, tinta, 1, L);
+  casco9(x, y, rumbo, tinta, L, e.buque.tipo, "tu", 1);
 }
 
 const PISTAS = {};
@@ -820,31 +1170,31 @@ const P9 = {
       const suY = 200;
       derrota9(QX(suOff), QY(suY), QX(suOff), QY(CANAL_LARGO), dim, 1.6);
       punta9(QX(suOff), QY(CANAL_LARGO), 0, dim);
-      plantaBarco(QX(suOff), QY(suY), 0, "var(--lam-ink)", .92,
-                  esloraDibujada(ELLA.eslora));
+      const L = esloraDibujada9(ELLA.eslora);
+      casco9(QX(suOff), QY(suY), 0, "var(--lam-ink)", L, ELLA.tipo, "ella", .92);
 
-      txt(QX(suOff), QY(suY) - QM(75), "ahead of you, and slower", "middle", 11,
-          dim, 600, "mono");
+      const ya = QY(suY) - Math.max(QM(75), L/2 + px(14)), ra = "ahead of you, and slower";
+      const sa = coloca9(corrimientos9(true, false).map(dy => ({y: ya + dy,
+                   caja: cajaTxt9(QX(suOff), ya + dy, ra.length, 11, "middle")})));
+      txt(QX(suOff), sa.y, ra, "middle", 11, dim, 600, "mono");
     } else if(s === "vuelta"){
 
       const suY = 320;
       derrota9(QX(suOff), QY(CANAL_LARGO), QX(suOff), QY(suY - 120), dim, 1.6);
       punta9(QX(suOff), QY(suY - 120), 180, dim);
-      plantaBarco(QX(suOff), QY(suY), 180, "var(--lam-ink)", .92,
-                  esloraDibujada(ELLA.eslora));
+      casco9(QX(suOff), QY(suY), 180, "var(--lam-ink)", esloraDibujada9(ELLA.eslora),
+             ELLA.tipo, "ella", .92);
 
-      txt(QX(suOff) - QM(62), QY(suY) - QM(34), "she draws " + ELLA.calado.toFixed(1) + " m",
-          "end", 11, dim, 600, "mono");
+      rotuloCalado9(QX(suOff), QY(suY), dim);
     } else {
       const suY = 320;
 
       derrota9(QX(suOff), QY(CANAL_LARGO), QX(suOff), QY(suY - 120), dim, 1.6);
       punta9(QX(suOff), QY(suY - 120), 180, dim);
-      plantaBarco(QX(suOff), QY(suY), 180, "var(--lam-ink)", .92,
-                  esloraDibujada(ELLA.eslora));
+      casco9(QX(suOff), QY(suY), 180, "var(--lam-ink)", esloraDibujada9(ELLA.eslora),
+             ELLA.tipo, "ella", .92);
 
-      txt(QX(suOff) - QM(62), QY(suY) - QM(34), "she draws " + ELLA.calado.toFixed(1) + " m",
-          "end", 11, dim, 600, "mono");
+      rotuloCalado9(QX(suOff), QY(suY), dim);
     }
 
     if(s === "cruzas"){
@@ -862,7 +1212,10 @@ const P9 = {
       el("circle", {cx: xTu, cy: yTu - QM(e.borneo*0.8), r: px(4), fill: tinta});
       tuBarco(xTu, yTu, 0, e, tinta);
 
-      txt(xTu, yTu - QM(e.borneo) - px(6), "where you swing", "middle", 11,
+      const yw = yTu - Math.max(QM(e.borneo), esloraDibujada9(e.buque.eslora)*0.78) - px(6);
+      const sw = coloca9(corrimientos9(true, false).map(dy => ({y: yw + dy,
+                   caja: cajaTxt9(xTu, yw + dy, 15, 11, "middle")})));
+      txt(xTu, sw.y, "where you swing", "middle", 11,
           tinta, 600, "mono");
     } else {
       derrota9(xTu, E9.y1 - px(24), xTu, QY(CANAL_LARGO), tinta, 2.4);
@@ -871,9 +1224,23 @@ const P9 = {
     }
 
     const sep = S9.sit === "fondeas" ? QM(e.borneo) + px(12)
-                                     : esloraDibujada(e.buque.eslora)*0.78 + px(10);
-    txt(xTu + sep, yTu + px(3), "you", "start", 11.5, tinta, 600, "mono");
-    txt(xTu + sep, yTu + px(19), e.sonda.toFixed(1) + " m", "start", 10.5,
+                                     : esloraDibujada9(e.buque.eslora)*0.78 + px(10);
+
+    const dcha = xTu + sep + px(52) <= D.W - px(6);
+
+    const lados = [dcha, !dcha].filter(d => !d || xTu + sep + px(52) <= D.W - px(6))
+                               .filter(d => d || xTu - sep - px(52) >= px(6));
+    const sy = [];
+
+    corrimientos9(true, true).forEach(function(dy){
+      lados.forEach(function(d){
+        const xx = d ? xTu + sep : xTu - sep, an = d ? "start" : "end";
+        sy.push({x: xx, an: an, dy: dy, caja: cajaTxt9(xx, yTu + px(3) + dy, 7, 11.5, an, 1)});
+      });
+    });
+    const st = coloca9(sy);
+    txt(st.x, yTu + px(3) + st.dy, "you", st.an, 11.5, tinta, 600, "mono");
+    txt(st.x, yTu + px(19) + st.dy, e.sonda.toFixed(1) + " m", st.an, 10.5,
         "var(--lam-dim)", 600, "mono");
   },
 
@@ -890,7 +1257,9 @@ const P9 = {
         lateral(QX(q[0]), E9.y0 + (E9.y1 - E9.y0)*f, q[1]);
       });
     });
+    PUESTOS9 = fijos9().concat(cascos9(e));
     this.escena(e);
+    rotuloTuAgua9(e);
 
     const M = D.W*0.028, w = D.W - M*2;
     el("rect", {x: 0, y: 0, width: D.W, height: E9.y0, fill: "var(--lam-papel)"});
@@ -907,16 +1276,33 @@ const P9 = {
           (S9.off === 0 ? "on the axis"
            : Math.abs(S9.off) + " m to " + (S9.off > 0 ? "starboard" : "port")));
 
-    const hb = px(30), yb = px(104), wb = (w - px(30))/4;
+    const pf = dosFilas9() ? 2 : 4;
+    const hb = px(30), yb = px(104), wb = (w - px(10)*(pf - 1))/pf;
     BUQUES.forEach(function(b, i){
-      boton9("b:" + b.id, M + i*(wb + px(10)), yb, wb, hb, null, b.corto,
+      const f = Math.floor(i/pf), c = i % pf;
+      boton9("b:" + b.id, M + c*(wb + px(10)), yb + f*(hb + px(8)), wb, hb, null, b.corto,
              b.id === S9.tipo);
     });
-    const hs = px(30), ys = E9.y1 + px(14), ws = (w - px(40))/5;
+
+    const porFila = MOVIL9 ? 3 : 5;
+    const hs = px(30), ys = E9.y1 + px(14), ws = (w - px(10)*(porFila - 1))/porFila;
     SITUACIONES.forEach(function(s, i){
-      boton9("s:" + s.id, M + i*(ws + px(10)), ys, ws, hs, s.ley, s.n,
+      const f = Math.floor(i/porFila), c = i % porFila;
+      boton9("s:" + s.id, M + c*(ws + px(10)), ys + f*(hs + px(8)), ws, hs, s.ley, s.n,
              s.id === S9.sit);
     });
+
+    cedenLasSondas(svg, px(3));
+  },
+
+  altoMovil(){
+    E9.k = D.W / ANCHO;
+
+    const L = ellaPedida9();
+    const t = L*Math.pow(Math.max.apply(null, BUQUES.map(b => b.eslora))/ELLA.eslora,
+                         DIBUJO.exponente);
+    return arribaBanda9() + px(16) + Math.max(QM(354), QM(320) + L/2 + px(14))
+         + Math.max(px(96), t/2 + px(72)) + px(BANDA9M);
   },
 
   mueve(id, u){
@@ -1000,10 +1386,24 @@ const P9 = {
 
 function redibuja(){
   svg = document.getElementById("svg");
-  const caja = document.getElementById("ficha").getBoundingClientRect();
+  const ficha = document.getElementById("ficha");
+
+  const movil = !!(window.matchMedia && matchMedia("(max-width:699px)").matches);
+  if(!movil && ficha.style.height) ficha.style.height = "";
+  MOVIL9 = movil;
+  const caja = ficha.getBoundingClientRect();
   if(!caja.width || !caja.height) return;
   D.H = Math.max(420, Math.round(D.W * caja.height / caja.width));
   ESC = caja.width / D.W;
+  if(movil && P9.altoMovil){
+    const pide = Math.ceil(P9.altoMovil());
+
+    if(pide > D.H - 4){
+      D.H = pide;
+      const h = Math.ceil(D.H*ESC) + "px";
+      if(ficha.style.height !== h) ficha.style.height = h;
+    }
+  }
   svg.setAttribute("viewBox", "0 0 " + D.W + " " + D.H);
   svg.setAttribute("preserveAspectRatio", "xMidYMid meet");
   while(svg.firstChild) svg.removeChild(svg.firstChild);
