@@ -361,7 +361,7 @@ a.pieLink:hover{text-decoration:underline}
   <div id="foot">
    <div id="navPie"></div>
    <div class="pie2"><span id="fLog">0 answers logged</span><a class="pieLink" id="deCero" onclick="deCero()">start over</a></div>
-   <div class="sello" id="sello" data-sello="229b3052">lights and shapes · part 2 · <b>14 of 14 screens</b> · 01 Oct 2026</div>
+   <div class="sello" id="sello" data-sello="229b3052">lights and shapes · part 2 · <b>14 of 14 screens</b> · 03 Oct 2026</div>
   </div>
  </div>
 </div>
@@ -1287,43 +1287,37 @@ function cascoDe(v, L){
 }
 const familiaDe = L => cascoDe(null, L);
 
-const POSICIONES = {
-  mercante: {"tope_proa":[120,104],"tope_popa":[-140,72],"costado":[-140,168],"alcance":[-195,200],"remolque":[-195,182],"ancla_proa":[175,150],"ancla_popa":[-165,188],"topes_col":null,"arte":null,"columna":{"libre":[120,116],"bajo_tope":[120,128]},"paso_luz":18.0},
-  costero: {"tope_proa":[70,112],"tope_popa":[-90,92],"costado":[-130,170],"alcance":[-135,200],"remolque":[-135,182],"ancla_proa":[75,138],"ancla_popa":[-100,168],"topes_col":null,"arte":null,"columna":{"libre":[70,124],"bajo_tope":[70,88]},"paso_luz":18.0},
-  pesquero: {"tope_proa":[60,114],"tope_popa":[-90,72],"costado":[-130,168],"alcance":[-135,200],"remolque":[-135,182],"ancla_proa":[60,140],"ancla_popa":[-100,170],"topes_col":null,"arte":[132,150],"columna":{"libre":[60,118],"bajo_tope":[60,130]},"paso_luz":18.0},
-  remolcador: {"tope_proa":[20,56],"tope_popa":[20,38],"costado":[-30,166],"alcance":[-105,200],"remolque":[-105,182],"ancla_proa":[60,150],"ancla_popa":[-80,178],"topes_col":{"f":20,"y_base":74,"paso":18.0,"crece":"arriba"},"arte":null,"columna":{"libre":[20,96],"bajo_tope":[20,116]},"paso_luz":18.0},
-  practico: {"tope_proa":[10,96],"tope_popa":[10,84],"costado":[-30,172],"alcance":[-75,206],"remolque":null,"ancla_proa":[48,150],"ancla_popa":[-55,178],"topes_col":null,"arte":null,"columna":{"libre":[10,84],"bajo_tope":[10,108]},"paso_luz":18.0},
-  velero: {"tope_proa":[10,118],"tope_popa":null,"costado":[78,208],"alcance":[-95,214],"remolque":null,"ancla_proa":[10,130],"ancla_popa":null,"topes_col":null,"arte":null,"columna":{"libre":[10,68],"bajo_tope":[10,130]},"paso_luz":18.0},
-  lancha: {"tope_proa":[0,172],"tope_popa":null,"costado":[28,210],"alcance":[-55,214],"remolque":null,"ancla_proa":[0,172],"ancla_popa":null,"topes_col":null,"arte":null,"columna":{"libre":[0,172],"bajo_tope":[0,186]},"paso_luz":16.0},
-  gabarra: {"tope_proa":null,"tope_popa":null,"costado":[130,212],"alcance":[-145,212],"remolque":null,"ancla_proa":[100,170],"ancla_popa":[-100,195],"topes_col":null,"arte":null,"columna":{"libre":[0,150],"bajo_tope":[0,150]},"paso_luz":18.0}
-};
+const SITIOS_TIPOS = {"velero":{"semimanga":0.15,"paso_luz":0.087805,"radio_luz":0.034146,"tope_proa":[0.036585,0.595122],"tope_popa":null,"costado":[0.368293,0.156098],"alcance":[-0.47561,0.126829],"remolque":null,"ancla_proa":[0.036585,0.536585],"ancla_popa":null,"arte":null,"columna":{"libre":[0.036585,0.839024],"bajo_tope":[0.036585,0.536585]},"topes_col":null,"fichas":[{"id":"11-vela-rojo-verde","luces":[{"clase":"allround","color":"red","a":0.036585,"b":0,"z":0.839024},{"clase":"allround","color":"green","a":0.036585,"b":0,"z":0.75122},{"clase":"starboard","color":"green","a":0.368293,"b":1,"z":0.156098},{"clase":"port","color":"red","a":0.368293,"b":-1,"z":0.156098},{"clase":"stern","color":"white","a":-0.47561,"b":0,"z":0.126829}]},{"id":"10-vela-farol","luces":[{"clase":"combinado","color":"white","a":0.036585,"b":0,"z":0.839024}]},{"id":"12-vela-motor","luces":[{"clase":"masthead","color":"white","a":0.036585,"b":0,"z":0.595122},{"clase":"starboard","color":"green","a":0.368293,"b":1,"z":0.156098},{"clase":"port","color":"red","a":0.368293,"b":-1,"z":0.156098},{"clase":"stern","color":"white","a":-0.47561,"b":0,"z":0.126829}]},{"id":"09-vela","luces":[{"clase":"starboard","color":"green","a":0.368293,"b":1,"z":0.156098},{"clase":"port","color":"red","a":0.368293,"b":-1,"z":0.156098},{"clase":"stern","color":"white","a":-0.47561,"b":0,"z":0.126829}]}]},"lancha":{"semimanga":0.15,"paso_luz":0.128,"radio_luz":0.056,"tope_proa":[-0.02,0.544],"tope_popa":null,"costado":[0.204,0.24],"alcance":[-0.46,0.208],"remolque":null,"ancla_proa":[-0.02,0.544],"ancla_popa":null,"arte":null,"columna":{"libre":[-0.02,0.544],"bajo_tope":[-0.02,0.432]},"topes_col":null,"fichas":[{"id":"03-mecanica-12","luces":[{"clase":"allround","color":"white","a":-0.02,"b":0,"z":0.544},{"clase":"starboard","color":"green","a":0.204,"b":1,"z":0.24},{"clase":"port","color":"red","a":0.204,"b":-1,"z":0.24}]}]},"motor20":{"semimanga":0.14,"paso_luz":0.109091,"radio_luz":0.042424,"tope_proa":[0.0455,0.64],"tope_popa":null,"costado":[-0.19697,0.412121],"costado_b":0.6671,"alcance":[-0.469697,0.206061],"remolque":null,"ancla_proa":[0.275758,0.545455],"ancla_popa":null,"arte":null,"columna":{"libre":[0.0455,0.62],"bajo_tope":[0.0455,0.5]},"topes_col":null,"fichas":[]},"costero":{"semimanga":0.1,"paso_luz":0.0625,"radio_luz":0.024306,"tope_proa":[0.229167,0.444444],"tope_popa":[-0.326389,0.513889],"costado":[-0.465278,0.243056],"alcance":[-0.482639,0.138889],"remolque":[-0.482639,0.201389],"ancla_proa":[0.246528,0.354167],"ancla_popa":[-0.361111,0.25],"arte":null,"columna":{"libre":[0.229167,0.402778],"bajo_tope":[0.229167,0.527778]},"topes_col":null,"fichas":[{"id":"23-fondeado-menor","luces":[{"clase":"allround","color":"white","a":0.246528,"b":0,"z":0.354167}]},{"id":"04-colchon","luces":[{"clase":"masthead","color":"white","a":0.229167,"b":0,"z":0.444444},{"clase":"allround","color":"yellow","a":0.229167,"b":0,"z":0.527778},{"clase":"starboard","color":"green","a":-0.465278,"b":1,"z":0.243056},{"clase":"port","color":"red","a":-0.465278,"b":-1,"z":0.243056},{"clase":"stern","color":"white","a":-0.482639,"b":0,"z":0.138889}]},{"id":"02-mecanica-20","luces":[{"clase":"masthead","color":"white","a":0.229167,"b":0,"z":0.444444},{"clase":"starboard","color":"green","a":-0.465278,"b":1,"z":0.243056},{"clase":"port","color":"red","a":-0.465278,"b":-1,"z":0.243056},{"clase":"stern","color":"white","a":-0.482639,"b":0,"z":0.138889}]}]},"mercante":{"semimanga":0.075,"paso_luz":0.044444,"radio_luz":0.017284,"tope_proa":[0.290123,0.335802],"tope_popa":[-0.351852,0.414815],"costado":[-0.351852,0.177778],"alcance":[-0.487654,0.098765],"remolque":[-0.487654,0.14321],"ancla_proa":[0.425926,0.222222],"ancla_popa":[-0.41358,0.128395],"arte":null,"columna":{"libre":[0.290123,0.306173],"bajo_tope":[0.290123,0.276543]},"topes_col":null,"fichas":[{"id":"18-calado","luces":[{"clase":"masthead","color":"white","a":0.290123,"b":0,"z":0.335802},{"clase":"masthead","color":"white","a":-0.351852,"b":0,"z":0.414815},{"clase":"allround","color":"red","a":0.290123,"b":0,"z":0.276543},{"clase":"allround","color":"red","a":0.290123,"b":0,"z":0.232099},{"clase":"allround","color":"red","a":0.290123,"b":0,"z":0.187654},{"clase":"starboard","color":"green","a":-0.351852,"b":1,"z":0.14321},{"clase":"port","color":"red","a":-0.351852,"b":-1,"z":0.14321},{"clase":"stern","color":"white","a":-0.487654,"b":0,"z":0.098765}]},{"id":"24-varado","luces":[{"clase":"allround","color":"white","a":0.425926,"b":0,"z":0.222222},{"clase":"allround","color":"white","a":-0.41358,"b":0,"z":0.128395},{"clase":"allround","color":"red","a":0.290123,"b":0,"z":0.306173},{"clase":"allround","color":"red","a":0.290123,"b":0,"z":0.261728}]},{"id":"17-maniobra","luces":[{"clase":"masthead","color":"white","a":0.290123,"b":0,"z":0.335802},{"clase":"masthead","color":"white","a":-0.351852,"b":0,"z":0.414815},{"clase":"allround","color":"red","a":0.290123,"b":0,"z":0.276543},{"clase":"allround","color":"white","a":0.290123,"b":0,"z":0.232099},{"clase":"allround","color":"red","a":0.290123,"b":0,"z":0.187654},{"clase":"starboard","color":"green","a":-0.351852,"b":1,"z":0.14321},{"clase":"port","color":"red","a":-0.351852,"b":-1,"z":0.14321},{"clase":"stern","color":"white","a":-0.487654,"b":0,"z":0.098765}]},{"id":"16-sin-gobierno","luces":[{"clase":"allround","color":"red","a":0.290123,"b":0,"z":0.306173},{"clase":"allround","color":"red","a":0.290123,"b":0,"z":0.261728},{"clase":"starboard","color":"green","a":-0.351852,"b":1,"z":0.148148},{"clase":"port","color":"red","a":-0.351852,"b":-1,"z":0.148148},{"clase":"stern","color":"white","a":-0.487654,"b":0,"z":0.098765}]},{"id":"22-fondeado-50","luces":[{"clase":"allround","color":"white","a":0.425926,"b":0,"z":0.222222},{"clase":"allround","color":"white","a":-0.41358,"b":0,"z":0.128395}]},{"id":"01-mecanica-50","luces":[{"clase":"masthead","color":"white","a":0.290123,"b":0,"z":0.335802},{"clase":"masthead","color":"white","a":-0.351852,"b":0,"z":0.414815},{"clase":"starboard","color":"green","a":-0.351852,"b":1,"z":0.177778},{"clase":"port","color":"red","a":-0.351852,"b":-1,"z":0.177778},{"clase":"stern","color":"white","a":-0.487654,"b":0,"z":0.098765}]}]},"pesquero":{"semimanga":0.135,"paso_luz":0.101754,"radio_luz":0.024561,"tope_proa":[0.201754,0.442105],"tope_popa":[-0.324561,0.589474],"costado":[-0.464912,0.252632],"alcance":[-0.482456,0.140351],"remolque":[-0.482456,0.203509],"ancla_proa":[0.201754,0.350877],"ancla_popa":[-0.359649,0.245614],"arte":[0.454386,0.315789],"columna":{"libre":[0.201754,0.42807],"bajo_tope":[0.201754,0.385965]},"topes_col":null,"fichas":[{"id":"13-arrastre","luces":[{"clase":"allround","color":"green","a":0.201754,"b":0,"z":0.42807},{"clase":"allround","color":"white","a":0.201754,"b":0,"z":0.326316},{"clase":"masthead","color":"white","a":-0.324561,"b":0,"z":0.589474},{"clase":"starboard","color":"green","a":-0.464912,"b":1,"z":0.252632},{"clase":"port","color":"red","a":-0.464912,"b":-1,"z":0.252632},{"clase":"stern","color":"white","a":-0.482456,"b":0,"z":0.140351}]},{"id":"15-pesca-arte","luces":[{"clase":"allround","color":"red","a":0.201754,"b":0,"z":0.42807},{"clase":"allround","color":"white","a":0.201754,"b":0,"z":0.326316},{"clase":"allround","color":"white","a":0.454386,"b":0,"z":0.315789},{"clase":"starboard","color":"green","a":-0.464912,"b":1,"z":0.252632},{"clase":"port","color":"red","a":-0.464912,"b":-1,"z":0.252632},{"clase":"stern","color":"white","a":-0.482456,"b":0,"z":0.140351}]},{"id":"14-pesca","luces":[{"clase":"allround","color":"red","a":0.201754,"b":0,"z":0.42807},{"clase":"allround","color":"white","a":0.201754,"b":0,"z":0.326316},{"clase":"starboard","color":"green","a":-0.464912,"b":1,"z":0.252632},{"clase":"port","color":"red","a":-0.464912,"b":-1,"z":0.252632},{"clase":"stern","color":"white","a":-0.482456,"b":0,"z":0.140351}]}]},"remolcador":{"semimanga":0.15,"paso_luz":0.08,"radio_luz":0.031111,"tope_proa":[0.077778,0.817778],"tope_popa":[0.077778,0.897778],"costado":[-0.144444,0.328889],"alcance":[-0.477778,0.177778],"remolque":[-0.477778,0.257778],"ancla_proa":[0.255556,0.4],"ancla_popa":[-0.366667,0.275556],"arte":null,"columna":{"libre":[0.077778,0.64],"bajo_tope":[0.077778,0.551111]},"topes_col":{"a":0.077778,"z":0.737778,"paso":0.08},"fichas":[{"id":"19-draga","luces":[{"clase":"masthead","color":"white","a":0.077778,"b":0,"z":0.844444},{"clase":"allround","color":"red","a":0.077778,"b":0,"z":0.551111},{"clase":"allround","color":"white","a":0.077778,"b":0,"z":0.471111},{"clase":"allround","color":"red","a":0.077778,"b":0,"z":0.391111},{"clase":"allround","color":"red","a":-0.011111,"b":-0.9,"z":0.364444},{"clase":"allround","color":"red","a":-0.011111,"b":-0.9,"z":0.284444},{"clase":"allround","color":"green","a":-0.011111,"b":0.9,"z":0.364444},{"clase":"allround","color":"green","a":-0.011111,"b":0.9,"z":0.284444},{"clase":"starboard","color":"green","a":-0.144444,"b":1,"z":0.311111},{"clase":"port","color":"red","a":-0.144444,"b":-1,"z":0.311111},{"clase":"stern","color":"white","a":-0.477778,"b":0,"z":0.177778}]},{"id":"06-remolque-largo","luces":[{"clase":"masthead","color":"white","a":0.077778,"b":0,"z":0.897778},{"clase":"masthead","color":"white","a":0.077778,"b":0,"z":0.817778},{"clase":"masthead","color":"white","a":0.077778,"b":0,"z":0.737778},{"clase":"starboard","color":"green","a":-0.144444,"b":1,"z":0.328889},{"clase":"port","color":"red","a":-0.144444,"b":-1,"z":0.328889},{"clase":"stern","color":"white","a":-0.477778,"b":0,"z":0.177778},{"clase":"stern","color":"yellow","a":-0.477778,"b":0,"z":0.257778,"t":true}]},{"id":"08-empuje","luces":[{"clase":"masthead","color":"white","a":0.077778,"b":0,"z":0.817778},{"clase":"masthead","color":"white","a":0.077778,"b":0,"z":0.737778},{"clase":"starboard","color":"green","a":-0.144444,"b":1,"z":0.328889},{"clase":"port","color":"red","a":-0.144444,"b":-1,"z":0.328889},{"clase":"stern","color":"white","a":-0.477778,"b":0,"z":0.177778}]},{"id":"05-remolque-corto","luces":[{"clase":"masthead","color":"white","a":0.077778,"b":0,"z":0.817778},{"clase":"masthead","color":"white","a":0.077778,"b":0,"z":0.737778},{"clase":"starboard","color":"green","a":-0.144444,"b":1,"z":0.328889},{"clase":"port","color":"red","a":-0.144444,"b":-1,"z":0.328889},{"clase":"stern","color":"white","a":-0.477778,"b":0,"z":0.177778},{"clase":"stern","color":"yellow","a":-0.477778,"b":0,"z":0.257778,"t":true}]}]},"practico":{"semimanga":0.15,"paso_luz":0.109091,"radio_luz":0.042424,"tope_proa":[0.045455,0.872727],"tope_popa":[0.045455,0.945455],"costado":[-0.19697,0.412121],"alcance":[-0.469697,0.206061],"remolque":null,"ancla_proa":[0.275758,0.545455],"ancla_popa":[-0.348485,0.375758],"arte":null,"columna":{"libre":[0.045455,0.945455],"bajo_tope":[0.045455,0.8]},"topes_col":null,"fichas":[{"id":"21-practico-fondeado","luces":[{"clase":"allround","color":"white","a":0.045455,"b":0,"z":0.945455},{"clase":"allround","color":"red","a":0.045455,"b":0,"z":0.836364},{"clase":"allround","color":"white","a":0.275758,"b":0,"z":0.545455}]},{"id":"20-practico","luces":[{"clase":"allround","color":"white","a":0.045455,"b":0,"z":0.945455},{"clase":"allround","color":"red","a":0.045455,"b":0,"z":0.836364},{"clase":"starboard","color":"green","a":-0.19697,"b":1,"z":0.412121},{"clase":"port","color":"red","a":-0.19697,"b":-1,"z":0.412121},{"clase":"stern","color":"white","a":-0.469697,"b":0,"z":0.206061}]}]},"gabarra":{"semimanga":0.125,"paso_luz":0.06,"radio_luz":0.023333,"tope_proa":null,"tope_popa":null,"costado":[0.433333,0.093333],"alcance":[-0.483333,0.093333],"remolque":null,"ancla_proa":[0.333333,0.233333],"ancla_popa":[-0.333333,0.15],"arte":null,"columna":{"libre":[0,0.3],"bajo_tope":[0,0.3]},"topes_col":null,"fichas":[{"id":"07-remolcado","luces":[{"clase":"starboard","color":"green","a":0.433333,"b":1,"z":0.093333},{"clase":"port","color":"red","a":0.433333,"b":-1,"z":0.093333},{"clase":"stern","color":"white","a":-0.483333,"b":0,"z":0.093333}]}]}};
 
-const L_REF = {
-  "costero|allround:white": {id:"23-fondeado-menor", L:[{"k":"allround","col":"white","f":75,"s":0,"y":138,"t":false}]},
-  "costero|allround:yellow,masthead:white,port:red,starboard:green,stern:white": {id:"04-colchon", L:[{"k":"masthead","col":"white","f":70,"s":0,"y":112,"t":false},{"k":"allround","col":"yellow","f":70,"s":0,"y":88,"t":false},{"k":"starboard","col":"green","f":-130,"s":22,"y":170,"t":false},{"k":"port","col":"red","f":-130,"s":-22,"y":170,"t":false},{"k":"stern","col":"white","f":-135,"s":0,"y":200,"t":false}]},
-  "costero|masthead:white,port:red,starboard:green,stern:white": {id:"02-mecanica-20", L:[{"k":"masthead","col":"white","f":70,"s":0,"y":112,"t":false},{"k":"starboard","col":"green","f":-130,"s":22,"y":170,"t":false},{"k":"port","col":"red","f":-130,"s":-22,"y":170,"t":false},{"k":"stern","col":"white","f":-135,"s":0,"y":200,"t":false}]},
-  "gabarra|port:red,starboard:green,stern:white": {id:"07-remolcado", L:[{"k":"starboard","col":"green","f":130,"s":28,"y":212,"t":false},{"k":"port","col":"red","f":130,"s":-28,"y":212,"t":false},{"k":"stern","col":"white","f":-145,"s":0,"y":212,"t":false}]},
-  "lancha|allround:white,port:red,starboard:green": {id:"03-mecanica-12", L:[{"k":"allround","col":"white","f":0,"s":0,"y":172,"t":false},{"k":"starboard","col":"green","f":28,"s":11,"y":210,"t":false},{"k":"port","col":"red","f":28,"s":-11,"y":210,"t":false}]},
-  "mercante|allround:red,allround:red,allround:red,masthead:white,masthead:white,port:red,starboard:green,stern:white": {id:"18-calado", L:[{"k":"masthead","col":"white","f":120,"s":0,"y":104,"t":false},{"k":"masthead","col":"white","f":-140,"s":0,"y":72,"t":false},{"k":"allround","col":"red","f":120,"s":0,"y":128,"t":false},{"k":"allround","col":"red","f":120,"s":0,"y":146,"t":false},{"k":"allround","col":"red","f":120,"s":0,"y":164,"t":false},{"k":"starboard","col":"green","f":-140,"s":30,"y":182,"t":false},{"k":"port","col":"red","f":-140,"s":-30,"y":182,"t":false},{"k":"stern","col":"white","f":-195,"s":0,"y":200,"t":false}]},
-  "mercante|allround:red,allround:red,allround:white,allround:white": {id:"24-varado", L:[{"k":"allround","col":"white","f":175,"s":0,"y":150,"t":false},{"k":"allround","col":"white","f":-165,"s":0,"y":188,"t":false},{"k":"allround","col":"red","f":120,"s":0,"y":116,"t":false},{"k":"allround","col":"red","f":120,"s":0,"y":134,"t":false}]},
-  "mercante|allround:red,allround:red,allround:white,masthead:white,masthead:white,port:red,starboard:green,stern:white": {id:"17-maniobra", L:[{"k":"masthead","col":"white","f":120,"s":0,"y":104,"t":false},{"k":"masthead","col":"white","f":-140,"s":0,"y":72,"t":false},{"k":"allround","col":"red","f":120,"s":0,"y":128,"t":false},{"k":"allround","col":"white","f":120,"s":0,"y":146,"t":false},{"k":"allround","col":"red","f":120,"s":0,"y":164,"t":false},{"k":"starboard","col":"green","f":-140,"s":30,"y":182,"t":false},{"k":"port","col":"red","f":-140,"s":-30,"y":182,"t":false},{"k":"stern","col":"white","f":-195,"s":0,"y":200,"t":false}]},
-  "mercante|allround:red,allround:red,port:red,starboard:green,stern:white": {id:"16-sin-gobierno", L:[{"k":"allround","col":"red","f":120,"s":0,"y":116,"t":false},{"k":"allround","col":"red","f":120,"s":0,"y":134,"t":false},{"k":"starboard","col":"green","f":-140,"s":30,"y":180,"t":false},{"k":"port","col":"red","f":-140,"s":-30,"y":180,"t":false},{"k":"stern","col":"white","f":-195,"s":0,"y":200,"t":false}]},
-  "mercante|allround:white,allround:white": {id:"22-fondeado-50", L:[{"k":"allround","col":"white","f":175,"s":0,"y":150,"t":false},{"k":"allround","col":"white","f":-165,"s":0,"y":188,"t":false}]},
-  "mercante|masthead:white,masthead:white,port:red,starboard:green,stern:white": {id:"01-mecanica-50", L:[{"k":"masthead","col":"white","f":120,"s":0,"y":104,"t":false},{"k":"masthead","col":"white","f":-140,"s":0,"y":72,"t":false},{"k":"starboard","col":"green","f":-140,"s":30,"y":168,"t":false},{"k":"port","col":"red","f":-140,"s":-30,"y":168,"t":false},{"k":"stern","col":"white","f":-195,"s":0,"y":200,"t":false}]},
-  "pesquero|allround:green,allround:white,masthead:white,port:red,starboard:green,stern:white": {id:"13-arrastre", L:[{"k":"allround","col":"green","f":60,"s":0,"y":118,"t":false},{"k":"allround","col":"white","f":60,"s":0,"y":136,"t":false},{"k":"masthead","col":"white","f":-90,"s":0,"y":72,"t":false},{"k":"starboard","col":"green","f":-130,"s":22,"y":168,"t":false},{"k":"port","col":"red","f":-130,"s":-22,"y":168,"t":false},{"k":"stern","col":"white","f":-135,"s":0,"y":200,"t":false}]},
-  "pesquero|allround:red,allround:white,allround:white,port:red,starboard:green,stern:white": {id:"15-pesca-arte", L:[{"k":"allround","col":"red","f":60,"s":0,"y":118,"t":false},{"k":"allround","col":"white","f":60,"s":0,"y":136,"t":false},{"k":"allround","col":"white","f":132,"s":0,"y":150,"t":false},{"k":"starboard","col":"green","f":-130,"s":22,"y":168,"t":false},{"k":"port","col":"red","f":-130,"s":-22,"y":168,"t":false},{"k":"stern","col":"white","f":-135,"s":0,"y":200,"t":false}]},
-  "pesquero|allround:red,allround:white,port:red,starboard:green,stern:white": {id:"14-pesca", L:[{"k":"allround","col":"red","f":60,"s":0,"y":118,"t":false},{"k":"allround","col":"white","f":60,"s":0,"y":136,"t":false},{"k":"starboard","col":"green","f":-130,"s":22,"y":168,"t":false},{"k":"port","col":"red","f":-130,"s":-22,"y":168,"t":false},{"k":"stern","col":"white","f":-135,"s":0,"y":200,"t":false}]},
-  "practico|allround:red,allround:white,allround:white": {id:"21-practico-fondeado", L:[{"k":"allround","col":"white","f":10,"s":0,"y":84,"t":false},{"k":"allround","col":"red","f":10,"s":0,"y":102,"t":false},{"k":"allround","col":"white","f":48,"s":0,"y":150,"t":false}]},
-  "practico|allround:red,allround:white,port:red,starboard:green,stern:white": {id:"20-practico", L:[{"k":"allround","col":"white","f":10,"s":0,"y":84,"t":false},{"k":"allround","col":"red","f":10,"s":0,"y":102,"t":false},{"k":"starboard","col":"green","f":-30,"s":14,"y":172,"t":false},{"k":"port","col":"red","f":-30,"s":-14,"y":172,"t":false},{"k":"stern","col":"white","f":-75,"s":0,"y":206,"t":false}]},
-  "remolcador|allround:green,allround:green,allround:red,allround:red,allround:red,allround:red,allround:white,masthead:white,port:red,starboard:green,stern:white": {id:"19-draga", L:[{"k":"masthead","col":"white","f":20,"s":0,"y":50,"t":false},{"k":"allround","col":"red","f":20,"s":0,"y":116,"t":false},{"k":"allround","col":"white","f":20,"s":0,"y":134,"t":false},{"k":"allround","col":"red","f":20,"s":0,"y":152,"t":false},{"k":"allround","col":"red","f":0,"s":-18,"y":158,"t":false},{"k":"allround","col":"red","f":0,"s":-18,"y":176,"t":false},{"k":"allround","col":"green","f":0,"s":18,"y":158,"t":false},{"k":"allround","col":"green","f":0,"s":18,"y":176,"t":false},{"k":"starboard","col":"green","f":-30,"s":20,"y":170,"t":false},{"k":"port","col":"red","f":-30,"s":-20,"y":170,"t":false},{"k":"stern","col":"white","f":-105,"s":0,"y":200,"t":false}]},
-  "remolcador|masthead:white,masthead:white,masthead:white,port:red,starboard:green,stern:white,stern:yellow": {id:"06-remolque-largo", L:[{"k":"masthead","col":"white","f":20,"s":0,"y":38,"t":false},{"k":"masthead","col":"white","f":20,"s":0,"y":56,"t":false},{"k":"masthead","col":"white","f":20,"s":0,"y":74,"t":false},{"k":"starboard","col":"green","f":-30,"s":20,"y":166,"t":false},{"k":"port","col":"red","f":-30,"s":-20,"y":166,"t":false},{"k":"stern","col":"white","f":-105,"s":0,"y":200,"t":false},{"k":"stern","col":"yellow","f":-105,"s":0,"y":182,"t":true}]},
-  "remolcador|masthead:white,masthead:white,port:red,starboard:green,stern:white": {id:"08-empuje", L:[{"k":"masthead","col":"white","f":20,"s":0,"y":56,"t":false},{"k":"masthead","col":"white","f":20,"s":0,"y":74,"t":false},{"k":"starboard","col":"green","f":-30,"s":20,"y":166,"t":false},{"k":"port","col":"red","f":-30,"s":-20,"y":166,"t":false},{"k":"stern","col":"white","f":-105,"s":0,"y":200,"t":false}]},
-  "remolcador|masthead:white,masthead:white,port:red,starboard:green,stern:white,stern:yellow": {id:"05-remolque-corto", L:[{"k":"masthead","col":"white","f":20,"s":0,"y":56,"t":false},{"k":"masthead","col":"white","f":20,"s":0,"y":74,"t":false},{"k":"starboard","col":"green","f":-30,"s":20,"y":166,"t":false},{"k":"port","col":"red","f":-30,"s":-20,"y":166,"t":false},{"k":"stern","col":"white","f":-105,"s":0,"y":200,"t":false},{"k":"stern","col":"yellow","f":-105,"s":0,"y":182,"t":true}]},
-  "velero|allround:green,allround:red,port:red,starboard:green,stern:white": {id:"11-vela-rojo-verde", L:[{"k":"allround","col":"red","f":10,"s":0,"y":68,"t":false},{"k":"allround","col":"green","f":10,"s":0,"y":86,"t":false},{"k":"starboard","col":"green","f":78,"s":15,"y":208,"t":false},{"k":"port","col":"red","f":78,"s":-15,"y":208,"t":false},{"k":"stern","col":"white","f":-95,"s":0,"y":214,"t":false}]},
-  "velero|combinado:white": {id:"10-vela-farol", L:[{"k":"combinado","col":"white","f":10,"s":0,"y":68,"t":false}]},
-  "velero|masthead:white,port:red,starboard:green,stern:white": {id:"12-vela-motor", L:[{"k":"masthead","col":"white","f":10,"s":0,"y":118,"t":false},{"k":"starboard","col":"green","f":78,"s":15,"y":208,"t":false},{"k":"port","col":"red","f":78,"s":-15,"y":208,"t":false},{"k":"stern","col":"white","f":-95,"s":0,"y":214,"t":false}]},
-  "velero|port:red,starboard:green,stern:white": {id:"09-vela", L:[{"k":"starboard","col":"green","f":78,"s":15,"y":208,"t":false},{"k":"port","col":"red","f":78,"s":-15,"y":208,"t":false},{"k":"stern","col":"white","f":-95,"s":0,"y":214,"t":false}]}
-};
+function marcoDe(t){
+ if(CASCOS_REF[t]) return CASCOS_REF[t];
+ const sm = SITIOS_TIPOS[t].semimanga*(SITIOS_TIPOS[t].costado_b || 1);
+ return {nombre: t, plan: [-500, 500, 2000*sm], ywater: 1000};
+}
+const POSICIONES = {}, L_REF = {};
+(function(){
+ for(const t in SITIOS_TIPOS){
+  const S = SITIOS_TIPOS[t], h = marcoDe(t), ref = !!CASCOS_REF[t];
+  const mid = (h.plan[0] + h.plan[1])/2, len = h.plan[1] - h.plan[0], medm = h.plan[2]/2;
+  const R = x => { if(!ref) return x; const v = Math.round(x); return v === 0 ? 0 : v; };
+  const F = a => R(a*len + mid), Y = z => R(h.ywater - z*len);
+  const P2 = p => p ? [F(p[0]), Y(p[1])] : null;
+  POSICIONES[t] = {
+   tope_proa: P2(S.tope_proa), tope_popa: P2(S.tope_popa), costado: P2(S.costado),
+   alcance: P2(S.alcance), remolque: P2(S.remolque), ancla_proa: P2(S.ancla_proa),
+   ancla_popa: P2(S.ancla_popa),
+   topes_col: S.topes_col ? {f: F(S.topes_col.a), y_base: Y(S.topes_col.z),
+                             paso: R(S.topes_col.paso*len), crece: "arriba"} : null,
+   arte: P2(S.arte),
+   columna: {libre: P2(S.columna.libre), bajo_tope: P2(S.columna.bajo_tope)},
+   paso_luz: R(S.paso_luz*len)};
+  (S.fichas || []).forEach(function(fi){
+   const L = fi.luces.map(l => ({k: l.clase, col: l.color, f: F(l.a), s: R(l.b*medm),
+                                 y: Y(l.z), t: !!l.t}));
+   L_REF[t + "|" + L.map(q => q.k + ":" + q.col).sort().join(",")] = {id: fi.id, L: L};
+  });
+ }
+})();
 
 const D_MARCA = 16.0, PASO_MARCA = 6.0;
 const ALTO_MARCA = {"bola":16.0,"cono_arriba":16.0,"cono_abajo":16.0,"bicono":32.0,"rombo":32.0,"cilindro":32.0,
@@ -1361,7 +1355,29 @@ function anclasDe(h){
  return (AIRE_CASCO[nom] = out);
 }
 
-function silueta(hueco, h, tinta, nave, pr, pts, marcas){
+function paloConTopes(v, h){
+ if(!v) return h;
+ const todas = configuration(v).filter(l => !l.tow);
+ if(!todas.some(l => l.kind === "masthead")) return h;
+ const sr = sitiaRef(v, todas, todas, h), col = {};
+ todas.forEach(function(l, i){
+  if(l.kind === "masthead" && sr[i]) (col[sr[i].f] = col[sr[i].f] || []).push(sr[i].y);
+ });
+ let crece = false;
+ const masts = (h.masts || []).map(function(m){
+  const ys = col[m[0]];
+  if(!ys) return m;
+
+  const alto = Math.min.apply(null, ys);
+  if(alto >= m[1]) return m;
+  const tope = alto - (REF_D/2 - 1);
+  crece = true;
+  return [m[0], tope, m[2]];
+ });
+ return crece ? Object.assign({}, h, {masts: masts, nombre: nombreCasco(h)}) : h;
+}
+function silueta(hueco, h0, tinta, nave, pr, pts, marcas, v){
+ const h = paloConTopes(v, h0);
  const PJ = pr || {f: 1, s: 0, lado: 0, proa: false};
  const f0 = h.plan[0], f1 = h.plan[1], hb = h.plan[2] / 2;
 
@@ -1380,10 +1396,11 @@ function silueta(hueco, h, tinta, nave, pr, pts, marcas){
    mete(Math.min(X(b[0]), X(b[2])) - mg, Math.max(X(b[0]), X(b[2])) + mg, b[1], b[3]); });
  (h.spars || []).forEach(q => mete(Math.min(X(q[0]), X(q[1])), Math.max(X(q[0]), X(q[1])),
                                    q[2], q[2] + 2.5));
- (h.masts || []).forEach(m => mete(X(m[0]) - 2, X(m[0]) + 2, m[1], m[2]));
 
- const topeM = (h.masts || []).length
-   ? Math.min.apply(null, h.masts.map(function(m){ return m[1]; })) : h.ydeck;
+ (h0.masts || []).forEach(m => mete(X(m[0]) - 2, X(m[0]) + 2, m[1], m[2]));
+
+ const topeM = (h0.masts || []).length
+   ? Math.min.apply(null, h0.masts.map(function(m){ return m[1]; })) : h.ydeck;
  mete(x0, x1, topeM - REF_D/2, y1);
  anclasDe(h).forEach(function(q){
   const cx = X(q[0], q[1]);
@@ -1470,7 +1487,7 @@ function casco(P, v, noche, marcas, centroX, largoReal, fam, pr){
  const hueco = {x: P.x0 + 10, y: (P.y0 + P.y1)/2 - altoHueco/2,
                 w: Math.max(20, (P.x1 - P.x0) - 20),
                 h: altoHueco};
- const S = silueta(hueco, h, tinta, yo, pr, null, marcas);
+ const S = silueta(hueco, h, tinta, yo, pr, null, marcas, v);
  const M = medidasDe(S, hueco);
  const refL = h.plan[1] - h.plan[0];
  return {x0: M.ox + M.k*S.X(h.plan[0]), x1: M.ox + M.k*S.X(h.plan[1]),
@@ -1621,6 +1638,7 @@ const COLOR_CENTELLEO = {yellow:"#EFD400"};
 function vistas(v, g){ return configuration(v).filter(l => visible(l, g)); }
 
 function nombreCasco(h){
+ if(h && h.nombre) return h.nombre;
  for(const k in CASCOS_REF) if(CASCOS_REF[k] === h) return k;
  return "mercante";
 }
@@ -2033,7 +2051,7 @@ function dibujaLuces(P, v, luces, todas, o){
   const hA = {x: hueco.x + util*(rB/tot) + sep, y: hueco.y, w: util*(rA/tot), h: hueco.h};
   const hB = {x: hueco.x, y: hueco.y, w: util*(rB/tot), h: hueco.h};
   const nA = NAVE_N++, nB = NAVE_N++;
-  const SA = silueta(hA, fa, "#24343D", nA, pr, uno);
+  const SA = silueta(hA, fa, "#24343D", nA, pr, uno, undefined, v);
   const SB = silueta(hB, fr, "#24343D", nB, pr, dos);
   uno.forEach(p => p.nave = nA); dos.forEach(p => p.nave = nB);
   pintaPuntos(uno, REF_D/2, L,  nA, SA.nodo);
@@ -2055,7 +2073,7 @@ function dibujaLuces(P, v, luces, todas, o){
  const yo = NAVE_N++;
 
  const S = silueta(hueco, fam, o.sinCasco ? "none" : (o.dia ? "var(--ink)" : "#24343D"),
-                   yo, pr, pts);
+                   yo, pr, pts, undefined, v);
 
  if(v.underway === false && L >= A1.CUBIERTAS_ILUMINADAS_DESDE)
   focosCubierta(pts, S, yo);
