@@ -109,7 +109,11 @@ p b{color:var(--ink-title);font-weight:600}
  border-color:var(--accent-graphic);color:var(--accent-text)}
 #miras{display:contents}
 .marcas{padding:0 var(--sp-card) var(--sp-tight);font:400 12.5px/1.6 var(--f-mono);color:var(--ink-label)}
-#alTimon{background:var(--bar);border-color:var(--bar);color:var(--on-primary)}
+
+#alTimon{background:var(--bar);border-color:var(--bar);color:var(--on-primary);
+ margin:0 0 var(--sp-block)}
+
+#fLog{display:none}
 
 .encs{display:flex;flex-wrap:wrap;gap:var(--sp-inline);margin:0 0 var(--sp-tight)}
 .quien{font-size:14px;line-height:1.55;color:var(--ink-secondary)}
@@ -243,6 +247,7 @@ a.pieLink:hover{text-decoration:underline}
   <div id="pane">
    <div id="entrada">
     <h2>The bridge simulator</h2>
+    <button type="button" id="alTimon">Take the helm</button>
     <p>You are on watch, in clear visibility, and another vessel is coming up over the horizon &mdash; sometimes two or three. Work out what she is, whether there is a risk of collision and who keeps out of the way, then handle your ship. When the encounter is over, your manoeuvre is marked against the Rules.</p>
     <ul class="como">
      <li><b>Play</b> runs the clock, thirty times faster than real time. <b>Pause</b> stops it, and you can answer at any moment.</li>
@@ -251,7 +256,6 @@ a.pieLink:hover{text-decoration:underline}
      <li><b>The helm</b> turns you 10&deg; or 30&deg; to port or to starboard. <b>The engine</b> goes to half speed and back to full.</li>
     </ul>
     <p class="criterio">The marking quotes the Rules, and next to them a few figures: a safe passing distance, how many minutes before the closest point of approach, how large a turn. Those figures are the criterion of this exercise, not the Rules &mdash; the Rules give none.</p>
-    <button type="button" id="alTimon">Take the helm</button>
    </div>
    <div id="juego" hidden>
     <div class="encs" id="niveles"></div>
