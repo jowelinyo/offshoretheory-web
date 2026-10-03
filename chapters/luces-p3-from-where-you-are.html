@@ -341,6 +341,7 @@ a.pieLink:hover{text-decoration:underline}
  <div id="miga">Lights and shapes of vessels <span>&middot;</span> <b>From where you are</b></div>
  <span class="crece"></span>
  
+ <a class="barlink" href="luces-p1-what-she-shows.html#flashcards">Flashcards</a>
  <a class="barlink" href="../index.html">Contents</a>
  <span id="barCont"></span>
 </div>
@@ -1702,6 +1703,16 @@ function sitiaRef(v, luces, todas, h){
   } else bl.forEach(l => pon(l, {f: P.ancla_proa[0], s: 0, y: P.ancla_proa[1]}));
   const anc = P.columna.libre;
   ro.forEach((l, k) => pon(l, {f: anc[0], s: 0, y: anc[1] + k * P.paso_luz}));
+ } else if(fondeada && !v.obstruccion && v.type === "ram"){
+
+  const r30 = configuration(Object.assign({}, v, {type: "power"}));
+  const esFondeo = l => r30.some(q => q.colour === l.colour && q.h === l.h && q.x === l.x);
+  const an = th.filter(esFondeo), co = th.filter(l => !esFondeo(l));
+  if(an.length >= 2 && P.ancla_popa){
+   pon(an[0], {f: P.ancla_proa[0], s: 0, y: P.ancla_proa[1]});
+   pon(an[1], {f: P.ancla_popa[0], s: 0, y: P.ancla_popa[1]});
+  } else an.forEach(l => pon(l, {f: P.ancla_proa[0], s: 0, y: P.ancla_proa[1]}));
+  co.forEach((l, k) => pon(l, {f: P.columna.libre[0], s: 0, y: P.columna.libre[1] + k * P.paso_luz}));
  } else if(fondeada && !v.obstruccion){
 
   if(th.length >= 2 && P.ancla_popa){
@@ -3471,7 +3482,9 @@ const B360 = (function(){
  function pinta(padre, o){
   const v = o.v, m = o.m, dist = o.dist, noche = !!o.noche, cj = o.caja;
   const sn = Math.sin(m*Math.PI/180), cs = Math.cos(m*Math.PI/180);
-  const ps = piezas(o.tipo, v);
+
+  const ps = piezas(o.tipo, v).filter(p => !(o.soloRemolcador && v.type === "towing" && !v.remolcada
+                                              && p.tipo === "gabarra"));
 
   const ext0 = Math.min.apply(null, ps.map(p => p.off - p.Lm/2));
   const ext1 = Math.max.apply(null, ps.map(p => p.off + p.Lm/2));
@@ -3615,7 +3628,8 @@ function buque360(padre, o){
  }
  return B360.pinta(padre, {tipo: tipo || tipoDe(v), v: v, m: o.marcacion || 0,
                            dist: o.distancia === undefined ? 1 : o.distancia,
-                           noche: o.modo !== "dia", caja: o.caja, u1: o.u1 || 6});
+                           noche: o.modo !== "dia", caja: o.caja, u1: o.u1 || 6,
+                           soloRemolcador: !!o.soloRemolcador});
 }
 
 const ALTO_PANEL = (pasos, minimo, tope) =>

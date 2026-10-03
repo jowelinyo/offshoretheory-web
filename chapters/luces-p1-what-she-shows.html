@@ -342,6 +342,7 @@ a.pieLink:hover{text-decoration:underline}
  <div id="miga">Lights and shapes of vessels <span>&middot;</span> <b>What she shows</b></div>
  <span class="crece"></span>
  
+ <a class="barlink" href="#flashcards">Flashcards</a>
  <a class="barlink" href="../index.html">Contents</a>
  <span id="barCont"></span>
 </div>
@@ -1771,6 +1772,16 @@ function sitiaRef(v, luces, todas, h){
   } else bl.forEach(l => pon(l, {f: P.ancla_proa[0], s: 0, y: P.ancla_proa[1]}));
   const anc = P.columna.libre;
   ro.forEach((l, k) => pon(l, {f: anc[0], s: 0, y: anc[1] + k * P.paso_luz}));
+ } else if(fondeada && !v.obstruccion && v.type === "ram"){
+
+  const r30 = configuration(Object.assign({}, v, {type: "power"}));
+  const esFondeo = l => r30.some(q => q.colour === l.colour && q.h === l.h && q.x === l.x);
+  const an = th.filter(esFondeo), co = th.filter(l => !esFondeo(l));
+  if(an.length >= 2 && P.ancla_popa){
+   pon(an[0], {f: P.ancla_proa[0], s: 0, y: P.ancla_proa[1]});
+   pon(an[1], {f: P.ancla_popa[0], s: 0, y: P.ancla_popa[1]});
+  } else an.forEach(l => pon(l, {f: P.ancla_proa[0], s: 0, y: P.ancla_proa[1]}));
+  co.forEach((l, k) => pon(l, {f: P.columna.libre[0], s: 0, y: P.columna.libre[1] + k * P.paso_luz}));
  } else if(fondeada && !v.obstruccion){
 
   if(th.length >= 2 && P.ancla_popa){
@@ -3540,7 +3551,9 @@ const B360 = (function(){
  function pinta(padre, o){
   const v = o.v, m = o.m, dist = o.dist, noche = !!o.noche, cj = o.caja;
   const sn = Math.sin(m*Math.PI/180), cs = Math.cos(m*Math.PI/180);
-  const ps = piezas(o.tipo, v);
+
+  const ps = piezas(o.tipo, v).filter(p => !(o.soloRemolcador && v.type === "towing" && !v.remolcada
+                                              && p.tipo === "gabarra"));
 
   const ext0 = Math.min.apply(null, ps.map(p => p.off - p.Lm/2));
   const ext1 = Math.max.apply(null, ps.map(p => p.off + p.Lm/2));
@@ -3684,7 +3697,8 @@ function buque360(padre, o){
  }
  return B360.pinta(padre, {tipo: tipo || tipoDe(v), v: v, m: o.marcacion || 0,
                            dist: o.distancia === undefined ? 1 : o.distancia,
-                           noche: o.modo !== "dia", caja: o.caja, u1: o.u1 || 6});
+                           noche: o.modo !== "dia", caja: o.caja, u1: o.u1 || 6,
+                           soloRemolcador: !!o.soloRemolcador});
 }
 
 function diceEstado(q){
@@ -4278,6 +4292,1154 @@ window.identidades = identidades; window.BANCOS = BANCOS; window.TEXTOS = TEXTOS
 
 vistoEmpieza(YO);
 vaA(donde());
+</script>
+<style>
+
+#fcWrap{flex:1;min-height:0;display:grid;
+ grid-template-columns:minmax(0,1fr) clamp(320px,37%,560px)}
+#fcLienzo{min-width:0;min-height:0;display:grid;place-items:center;
+ padding:var(--sp-col-y) var(--sp-col-x)}
+#fcSvg{width:100%;height:100%;max-height:100%;display:block}
+#fcSide{grid-column:2;min-width:0;display:flex;flex-direction:column;
+ border-left:1px solid var(--edge-frame);background:var(--panel);
+ padding:var(--sp-panel-y) var(--sp-panel-x);overflow:auto}
+#fcPane .hd h3{font-family:var(--f-mono);font-size:.72rem;letter-spacing:.08em;
+ text-transform:uppercase;color:var(--ink-label);margin:0 0 var(--sp-block)}
+#fcPane .prl{display:block;font-family:var(--f-mono);font-size:.74rem;
+ color:var(--accent-text);margin-bottom:var(--sp-hair)}
+#fcPane .q{display:block;font-family:var(--f-display);font-size:1.28rem;
+ color:var(--ink-title);margin-bottom:var(--sp-block);line-height:1.25}
+#fcPane .premisa{margin:0 0 var(--sp-block);color:var(--ink-body);line-height:1.5}
+#fcPane .res{border-left:3px solid var(--accent-graphic);padding:var(--sp-card);
+ background:var(--card);margin-bottom:var(--sp-block)}
+#fcPane .res b{color:var(--ink-title)}
+#fcPane .res p{margin:var(--sp-hair) 0 0;color:var(--ink-body);line-height:1.5}
+#fcPane .res ul{margin:var(--sp-hair) 0 0;padding-left:1.2em;color:var(--ink-body);line-height:1.5}
+#fcPane .res.no{border-left-color:var(--alarm)}
+#fcPane .regla{display:inline-block;font-family:var(--f-mono);font-size:.78rem;font-weight:600;
+ color:var(--accent-text);border:1px solid var(--accent-text);border-radius:3px;padding:0 5px;
+ margin-left:4px;vertical-align:1px}
+#fcPane .pista{margin-top:var(--sp-block);padding-top:var(--sp-hair);
+ border-top:1px solid var(--edge-inner);color:var(--ink-secondary);font-size:.92rem;line-height:1.45}
+#fcPane .ops{display:flex;flex-direction:column;gap:var(--sp-hair);margin-bottom:var(--sp-block)}
+#fcPane .ops button{text-align:left;padding:var(--sp-card);line-height:1.4;
+ border:1px solid var(--edge-button);background:var(--card);color:var(--ink-body);
+ font-family:var(--f-ui);font-size:.96rem;cursor:pointer}
+#fcPane .ops button b{color:var(--ink-title)}
+#fcPane .ops button:disabled{color:var(--ink-quiet);cursor:default}
+#fcPane .son{display:flex;gap:var(--sp-inline);margin-bottom:var(--sp-block)}
+#fcPane .nav{display:flex;gap:var(--sp-inline);margin-top:var(--sp-block)}
+#fcPane .nav button,#fcPane .son button{min-height:44px;padding:var(--sp-hair) var(--sp-card);
+ font-family:var(--f-ui);font-size:.96rem;cursor:pointer;border:1px solid var(--edge-button);
+ background:var(--card);color:var(--ink-body)}
+#fcPane .nav button#fcV,#fcPane .nav button.show,#fcPane .son #fcSon{background:var(--accent-control);
+ border-color:var(--accent-control);color:var(--on-primary);font-weight:600}
+
+#fcAmplia{position:fixed;inset:0;z-index:60;background:var(--sea-deep, #050c12);display:flex;
+ flex-direction:column;overflow:auto}
+#fcAmplia svg{display:block;margin:0 auto}
+#fcAmplia .amp-cab{color:var(--paper-ink)}
+#fcAmplia .amp-cierra{color:var(--paper-ink);border-color:var(--dim)}
+
+@media (max-width:699px){
+ #fcWrap{display:block;overflow:auto}
+ #fcLienzo{display:block;padding:var(--sp-hair)}
+ #fcSvg{width:100%;height:auto;max-height:none}
+ #fcSide{border-left:0;border-top:1px solid var(--edge-frame)}
+}
+</style>
+
+<script>
+(function(){
+const AZAR = 20261003;
+const TABLA_5C1 = [{"rot": "NO COLOUR ABOVE", "filas": [["Power-driven · R23", "mastheads, sidelights, stern — and no shape"], ["Sailing · R25", "nothing above the sidelights"], ["Sail and engine · R25(e)", "a cone by day, and nothing by night"], ["At anchor · R30", "one white, or two — Rule 30 on its own"]]}, {"rot": "A PAIR, ONE OVER ONE", "filas": [["Trawling · R26(b)", "green over white"], ["Fishing otherwise · R26(c)", "red over white — gear may be out to the side"], ["Pilot · R29", "white over red — the order is the whole difference"], ["Towing · R24", "a stack of mastheads, and a yellow over the stern"]]}, {"rot": "A STRING OF REDS", "filas": [["Not under command · R27(a)", "two reds; two balls"], ["Restricted · R27(b)", "red, white, red; ball, diamond, ball"], ["Constrained by draught · R28", "three reds; a cylinder — and it ADDS to R23"], ["Aground · R30(d)", "anchor lights and two reds; three balls"], ["What you still cannot do", "say where she is going — that is part 3"]]}];
+
+const SON = {
+
+  CORTO: 1,
+  PROLONGADO: 5,
+  PROLONGADO_MIN: 4, PROLONGADO_MAX: 6,
+
+  HUECO: 1,
+
+  INTERVALO: 120,
+  INTERVALO_FONDEO: 60,
+
+  CAMPANA: 5,
+
+  PITO_DESDE: 12,
+  CAMPANA_DESDE: 20,
+  GONG_DESDE: 100
+};
+
+function equipoDe(L) {
+  const l = L || 12;
+  if (l < SON.PITO_DESDE)
+    return { lleva: ["otro"], cita: "R33(b)",
+             dice: "some other efficient sound signal" };
+  if (l < SON.CAMPANA_DESDE)
+    return { lleva: ["pito"], cita: "R33(a)",
+             dice: "a whistle, and no bell required" };
+  if (l < SON.GONG_DESDE)
+    return { lleva: ["pito", "campana"], cita: "R33(a)",
+             dice: "a whistle and a bell" };
+  return { lleva: ["pito", "campana", "gong"], cita: "R33(a)",
+           dice: "a whistle, a bell and a gong" };
+}
+
+const LG = SON.PROLONGADO, CT = SON.CORTO;
+
+const NIEBLA = {
+
+  power: { tramos: [LG], medio: "pito", cita: "R35(a)",
+           dice: "one prolonged blast",
+           por: "under way and making way through the water" },
+
+  parada: { tramos: [LG, LG], medio: "pito", cita: "R35(b)",
+            dice: "two prolonged blasts",
+            por: "under way but stopped in the water" },
+
+  sailing: { tramos: [LG, CT, CT], medio: "pito", cita: "R35(c)",
+             dice: "one prolonged and two short",
+             por: "a sailing vessel is in the Rule 35(c) list" },
+
+  nuc: { tramos: [LG, CT, CT], medio: "pito", cita: "R35(c)",
+         dice: "one prolonged and two short",
+         por: "not under command" },
+  ram: { tramos: [LG, CT, CT], medio: "pito", cita: "R35(c)",
+         dice: "one prolonged and two short",
+         por: "restricted in her ability to manoeuvre" },
+  cbd: { tramos: [LG, CT, CT], medio: "pito", cita: "R35(c)",
+         dice: "one prolonged and two short",
+         por: "constrained by her draught" },
+  fishingTrawl: { tramos: [LG, CT, CT], medio: "pito", cita: "R35(c)",
+                  dice: "one prolonged and two short", por: "engaged in fishing" },
+  fishingOther: { tramos: [LG, CT, CT], medio: "pito", cita: "R35(c)",
+                  dice: "one prolonged and two short", por: "engaged in fishing" },
+  towing: { tramos: [LG, CT, CT], medio: "pito", cita: "R35(c)",
+            dice: "one prolonged and two short", por: "towing or pushing" },
+
+  remolcado: { tramos: [LG, CT, CT, CT], medio: "pito", cita: "R35(e)",
+               dice: "one prolonged and three short",
+               por: "a manned vessel being towed, right after her tug" },
+
+  pilot: { tramos: [LG, CT, CT, CT, CT], medio: "pito", cita: "R35(a) + R35(j)",
+           dice: "one prolonged, and then four short",
+           por: "a pilot vessel on duty adds four short to her ordinary signal" },
+
+  fondeada: { tramos: [SON.CAMPANA], medio: "campana", cita: "R35(g)",
+              dice: "five seconds of rapid ringing on the bell",
+              por: "at anchor", intervalo: SON.INTERVALO_FONDEO },
+
+  fondeadaGrande: { tramos: [SON.CAMPANA, SON.CAMPANA], medio: "campanaYgong",
+                    cita: "R35(g)",
+                    dice: "the bell forward, then the gong aft, five seconds each",
+                    por: "at anchor and 100 m or more",
+                    intervalo: SON.INTERVALO_FONDEO },
+
+  varada: { tramos: [1, 1, 1, SON.CAMPANA, 1, 1, 1], medio: "campana",
+            cita: "R35(h)",
+            dice: "three strokes, the rapid ringing, and three strokes again",
+            por: "aground", intervalo: SON.INTERVALO_FONDEO }
+};
+
+function niebla(v) {
+  if (v.underway === false)
+    return (v.length || 12) >= SON.GONG_DESDE ? NIEBLA.fondeadaGrande : NIEBLA.fondeada;
+  if (v.remolcado) return NIEBLA.remolcado;
+  return NIEBLA[v.velaYMotor ? "power" : v.type] || null;
+}
+
+const MANIOBRA = [
+  { tramos: [CT], cita: "R34(a)", dice: "I am altering my course to starboard" },
+  { tramos: [CT, CT], cita: "R34(a)", dice: "I am altering my course to port" },
+  { tramos: [CT, CT, CT], cita: "R34(a)",
+    dice: "I am operating astern propulsion" },
+  { tramos: [CT, CT, CT, CT, CT], cita: "R34(d)",
+    dice: "I do not understand your intentions, or I doubt you are taking enough "
+        + "action to avoid collision" }
+];
+
+const ADELANTAMIENTO = [
+  { tramos: [LG, LG, CT], cita: "R34(c)(i)",
+    dice: "I intend to overtake you on your starboard side" },
+  { tramos: [LG, LG, CT, CT], cita: "R34(c)(i)",
+    dice: "I intend to overtake you on your port side" },
+  { tramos: [LG, CT, LG, CT], cita: "R34(c)(ii)", dice: "I agree to be overtaken" },
+  { tramos: [CT, CT, CT, CT, CT], cita: "R34(d)",
+    dice: "I do not understand you, or I am in doubt" }
+];
+
+const OTRAS = [
+  { cita: "R36", dice: "To attract attention: any light or sound signal that cannot "
+                     + "be mistaken for an authorised one" },
+  { cita: "R37", dice: "In distress: the signals of Annex IV" }
+];
+
+function duracion(tramos) {
+  return tramos.reduce((a, t) => a + t, 0) + SON.HUECO * (tramos.length - 1);
+}
+
+if (typeof module !== "undefined") module.exports = {
+  SON, NIEBLA, MANIOBRA, ADELANTAMIENTO, OTRAS, equipoDe, niebla, duracion
+};
+
+const SUE = {
+
+  PITO_HZ: 130,
+  ARMONICOS: [[1, 1.00], [2, 0.50], [3, 0.28], [4, 0.14]],
+
+  CAMPANA_HZ: 660, CAMPANA_CAE: 1.2,
+  GONG_HZ: 190,    GONG_CAE: 3.0,
+
+  REPIQUE_POR_SEG: 6,
+
+  GOLPE_SUELTO: 1,
+
+  RAMPA: 0.04
+};
+
+function suePlan(tramos, medio, hueco) {
+  const H = (hueco === undefined) ? 1 : hueco;
+  const plan = [];
+  let t = 0;
+  (tramos || []).forEach((d, i) => {
+    if (medio === "pito" || !medio) {
+      plan.push({ t0: t, dur: d, tipo: "pito", hz: SUE.PITO_HZ, seg: d });
+    } else {
+
+      const esGong = (medio === "gong") || (medio === "campanaYgong" && i === 1);
+      const tipo = esGong ? "gong" : "campana";
+      const hz = esGong ? SUE.GONG_HZ : SUE.CAMPANA_HZ;
+      const cae = esGong ? SUE.GONG_CAE : SUE.CAMPANA_CAE;
+
+      const golpes = d >= 3 ? Math.round(d * SUE.REPIQUE_POR_SEG) : 1;
+      const paso = golpes > 1 ? d / golpes : 0;
+      for (let k = 0; k < golpes; k++)
+        plan.push({ t0: t + k * paso, dur: Math.min(cae, d), tipo: tipo, hz: hz,
+                    seg: d, golpe: k });
+    }
+    t += d + H;
+  });
+  return plan;
+}
+
+function sueDura(tramos, hueco) {
+  const H = (hueco === undefined) ? 1 : hueco;
+  return (tramos || []).reduce((a, d) => a + d, 0) + H * ((tramos || []).length - 1);
+}
+
+let SUEACT = null, SUENODOS = [], SUEFIN = 0;
+
+function suePuede() {
+  return typeof window !== "undefined"
+    && !!(window.AudioContext || window.webkitAudioContext);
+}
+
+function sueCtx() {
+  if (SUEACT) return SUEACT;
+  if (!suePuede()) return null;
+  try {
+    SUEACT = new (window.AudioContext || window.webkitAudioContext)();
+  } catch (e) { SUEACT = null; }
+  return SUEACT;
+}
+
+function sueTono(ctx, t0, dur, hz, vol) {
+  const g = ctx.createGain();
+  g.gain.setValueAtTime(0, t0);
+  g.gain.linearRampToValueAtTime(vol, t0 + SUE.RAMPA);
+  g.gain.setValueAtTime(vol, t0 + dur - SUE.RAMPA);
+  g.gain.linearRampToValueAtTime(0, t0 + dur);
+  g.connect(ctx.destination);
+  SUE.ARMONICOS.forEach(([n, a]) => {
+    const o = ctx.createOscillator();
+    o.type = "sine";
+    o.frequency.setValueAtTime(hz * n, t0);
+    const ga = ctx.createGain();
+    ga.gain.setValueAtTime(a, t0);
+    o.connect(ga); ga.connect(g);
+    o.start(t0); o.stop(t0 + dur + 0.02);
+    SUENODOS.push(o);
+  });
+}
+
+function sueGolpe(ctx, t0, cae, hz, vol) {
+  const g = ctx.createGain();
+  g.gain.setValueAtTime(vol, t0);
+  g.gain.exponentialRampToValueAtTime(0.0001, t0 + cae);
+  g.connect(ctx.destination);
+
+  [[1, 1.0], [2.7, 0.42], [5.4, 0.16]].forEach(([n, a]) => {
+    const o = ctx.createOscillator();
+    o.type = "sine";
+    o.frequency.setValueAtTime(hz * n, t0);
+    const ga = ctx.createGain();
+    ga.gain.setValueAtTime(a, t0);
+    o.connect(ga); ga.connect(g);
+    o.start(t0); o.stop(t0 + cae + 0.02);
+    SUENODOS.push(o);
+  });
+}
+
+function sueToca(tramos, medio, hueco, vol) {
+  suePara();
+  const ctx = sueCtx();
+  if (!ctx) return -1;
+  if (ctx.state === "suspended" && ctx.resume) { try { ctx.resume(); } catch (e) {} }
+  const v = vol === undefined ? 0.16 : vol;
+  const t0 = ctx.currentTime + 0.05;
+  const plan = suePlan(tramos, medio, hueco);
+  plan.forEach(p => {
+    if (p.tipo === "pito") sueTono(ctx, t0 + p.t0, p.dur, p.hz, v);
+    else sueGolpe(ctx, t0 + p.t0, p.dur, p.hz, v * 1.3);
+  });
+  SUEFIN = sueDura(tramos, hueco);
+  return SUEFIN;
+}
+
+function suePara() {
+  SUENODOS.forEach(o => { try { o.stop(); } catch (e) {} });
+  SUENODOS = [];
+}
+
+if (typeof module !== "undefined") module.exports = {
+  SUE, suePlan, sueDura, suePuede
+};
+
+"use strict";
+
+const FC = {on:false, modo:null, ses:null, i:0, vuelta:false, primera:null, desde:0,
+ rit:null, luz:null};
+
+function fcRitmoPara(){
+ if(FC.rit){ FC.rit.para(); FC.rit = null; }
+ FC.luz = null;
+ if(typeof ritmoPara === "function") ritmoPara();
+}
+const FC_CLAVE = "luces.cards", FC_V = 1;
+
+function fcAlmacen(){
+ try{ return (typeof localStorage !== "undefined" && localStorage) ? localStorage : null; }
+ catch(e){ return null; }
+}
+
+const _objeto = o => !!o && typeof o === "object" && !Array.isArray(o);
+
+function fcLee(){
+ const A = fcAlmacen();
+ if(A) try{
+  const o = JSON.parse(A.getItem(FC_CLAVE) || "null");
+
+  if(_objeto(o) && o.v === FC_V && _objeto(o.cartas)){
+
+   const limpio = {};
+   for(const k in o.cartas){
+    const c = o.cartas[k];
+    if(!_objeto(c)) continue;
+    const peso = Number(c.peso);
+    limpio[k] = {ok: Number(c.ok) || 0, mal: Number(c.mal) || 0,
+                 peso: (isFinite(peso) && peso >= 1) ? Math.min(peso, 3) : 1};
+   }
+   return {v: FC_V, cartas: limpio};
+  }
+ }catch(e){}
+ return {v:FC_V, cartas:{}};
+}
+function fcGuarda(o){
+ const A = fcAlmacen();
+ if(A) try{ A.setItem(FC_CLAVE, JSON.stringify(o)); }catch(e){}
+}
+const fcPeso = id => { const c = fcLee().cartas[id]; return (c && c.peso) || 1; };
+
+function fcAnota(id, bien){
+ const o = fcLee(), c = o.cartas[id] || {ok:0, mal:0, peso:1};
+ if(bien){ c.ok++; c.peso = Math.max(1, c.peso - 1); }
+ else    { c.mal++; c.peso = 3; }
+ o.cartas[id] = c; fcGuarda(o);
+}
+
+let FCR = ((typeof AZAR === "number" ? AZAR : 1) >>> 0) || 1;
+function fcAzar(){ FCR ^= FCR<<13; FCR >>>= 0; FCR ^= FCR>>>17; FCR ^= FCR<<5;
+ FCR >>>= 0; return FCR / 4294967296; }
+
+const fcModo = id => CARTAS_MODOS.filter(m => m.id === id)[0];
+const fcDelModo = id => CARTAS.filter(c => c.modo === id);
+
+const fcAbierto = id => vistoEmpezada(fcModo(id).requiere);
+
+function fcReparte(modo, n){
+ const pool = fcDelModo(modo).slice(), out = [];
+ while(out.length < n && pool.length){
+  let tot = 0; for(const c of pool) tot += fcPeso(c.id);
+  let r = fcAzar() * tot, k = 0;
+  while(k < pool.length - 1 && (r -= fcPeso(pool[k].id)) > 0) k++;
+  out.push(pool.splice(k, 1)[0].id);
+ }
+ return out;
+}
+
+function fcEmpieza(modo){
+ FC.modo = modo; FC.ses = fcReparte(modo, POR_SESION);
+ FC.i = 0; FC.vuelta = false; FC.primera = {}; FC.repes = {};
+ fcRitmoPara(); pinta();
+}
+
+const fcCarta = () => CARTAS.filter(c => c.id === FC.ses[FC.i])[0];
+const fcFin = () => !!FC.ses && FC.i >= FC.ses.length;
+
+const FC_VUELTAS = 1;
+
+function fcJuzga(bien){
+ const id = FC.ses[FC.i];
+ if(!(id in FC.primera)) FC.primera[id] = bien;
+ fcAnota(id, bien);
+ FC.repes = FC.repes || {};
+ if(!bien && (FC.repes[id] || 0) < FC_VUELTAS && FC.ses.indexOf(id, FC.i + 1) < 0){
+  FC.repes[id] = (FC.repes[id] || 0) + 1;
+  FC.ses.splice(Math.min(FC.i + 4, FC.ses.length), 0, id);
+ }
+ FC.i++; FC.vuelta = false; fcRitmoPara(); pinta();
+}
+
+window.fcAbre = () => { FC.on = true; FC.desde = iP; FC.modo = null; FC.ses = null;
+ fcRitmoPara(); pinta(); };
+window.fcCierra = () => { FC.on = false; fcRitmoPara(); vaA(FC.desde); };
+
+function fcRejilla(ids, titulo){
+ fcRitmoPara();
+ lamina(titulo || "");
+ const n = ids.length; if(!n) return;
+ const fila = Math.min(n, 6), filas = Math.ceil(n / fila);
+ const k0 = n <= 3 ? 96 : n <= 6 ? 74 : 60;
+ const arriba = px(46), abajo = px(30);
+ const k = kQueCabe(k0 * filas, arriba, abajo) / filas;
+ const alto = px(2 * k) + px(30), sep = px(20);
+ const bloque = filas * alto + (filas - 1) * sep;
+ const h = HOJA();
+ const y0 = h.y0 + arriba + ((h.al - arriba - abajo) - bloque) / 2 + px(2 * k);
+ const dx = (D.W - px(2 * MARGEN) - px(30)) / fila;
+ ids.forEach((id, i) => {
+  const m = marcaDe(id); if(!m) return;
+  marca(m, px(MARGEN) + px(15) + dx * (i % fila) + dx / 2,
+        y0 + (alto + sep) * Math.floor(i / fila), k,
+        {agua:false, nombre:m.corto});
+ });
+}
+
+function fcLuz(cx, cy, r, rt){
+ const halo = el("circle", {cx:cx, cy:cy, r:r*2.4, fill:rt.hex, "fill-opacity":0});
+ const lam  = el("circle", {cx:cx, cy:cy, r:r, fill:LUZ_APAGADA,
+                            stroke:C.raya, "stroke-width":px(1.4)});
+ FC.luz = {on:rt.on, per:rt.per, cols:rt.cols, lam:lam, halo:halo};
+ FC.rit = ritmoMotor((_, t) => fcPinta(t));
+ FC.rit.luz(rt.on, rt.per);
+ FC.rit.arranca();
+}
+
+function fcPinta(t){
+ const L = FC.luz; if(!L) return;
+ const k = ritmoTramo(L.on, L.per, t);
+ L.lam.setAttribute("fill", k < 0 ? LUZ_APAGADA : L.cols[k]);
+ L.halo.setAttribute("fill-opacity", k < 0 ? 0 : .30);
+ if(k >= 0) L.halo.setAttribute("fill", L.cols[k]);
+}
+
+function fcLienzo(){
+ if(!FC.modo || fcFin()){
+  const ids = fcFin()
+   ? FC.ses.filter((id,i,a) => a.indexOf(id)===i && FC.primera[id]===false)
+           .map(id => CARTAS.filter(c=>c.id===id)[0].marca)
+   : CARTAS_ORDEN;
+  fcRejilla(ids, fcFin() ? "the ones you missed" : "the deck");
+  return;
+ }
+
+ lamina("");
+ const c = fcCarta(); if(!c) return;
+ const rt = c.ritmo;
+
+ if(rt && !c.marca){
+  const h = HOJA();
+  el("rect", {x:h.x0, y:h.y0, width:h.an, height:h.al, rx:px(3), fill:"#08161D"});
+  fcLuz(D.W / 2, h.y0 + h.al * 0.46, px(26), rt);
+  txt(D.W / 2, h.y1 - px(16), "watch one whole cycle", "middle",
+      T.rot, "#4E6B78", 600, "ui", .8);
+  return;
+ }
+
+ const m = marcaDe(c.marca); if(!m) return;
+
+ const alto = rt ? px(34) : 0;
+ const k = kQueCabe(230, px(24) + alto, px(40));
+ const base = lineaAgua(k, px(24) + alto, px(40));
+ marca(m, D.W / 2, base, k, {agua:false});
+ if(rt) fcLuz(D.W / 2, base - px(2 * k) - px(16), px(11), rt);
+}
+
+function fcPanel(p){
+ const hd = document.createElement("div"); hd.className = "hd";
+ hd.innerHTML = "<h3>Flashcards</h3>";
+ p.appendChild(hd);
+
+ if(!FC.modo){ fcElector(p); return; }
+ if(fcFin()){ fcRecuento(p); return; }
+
+ const c = fcCarta(), md = fcModo(FC.modo), d = c.detras;
+ p.insertAdjacentHTML("beforeend",
+  '<span class="prl">' + md.titulo + " · card " + (FC.i + 1) + " of " + FC.ses.length
+  + "</span>");
+ p.insertAdjacentHTML("beforeend", '<b class="q">' + md.pregunta + "</b>");
+
+ if(!FC.vuelta){
+  const nav = document.createElement("div"); nav.className = "nav";
+  nav.innerHTML = '<button class="sec" id="fcSal">Leave</button>'
+   + '<button id="fcV">Turn it over</button>';
+  p.appendChild(nav);
+
+  nav.querySelector("#fcV").onclick = () => { FC.vuelta = true; pinta(); };
+  nav.querySelector("#fcSal").onclick = window.fcCierra;
+  return;
+ }
+
+ p.insertAdjacentHTML("beforeend",
+  '<div class="res ver"><b>' + d.nombre + "</b>"
+  + "<p>" + d.senas.join(" &middot; ") + "</p>"
+  + "<p>" + d.hace + "</p>"
+
+  + '<div class="calc">' + d.luz
+     + (d.fuente === "memoria" ? "  <b>(from memory, not the chart)</b>" : "")
+     + "</div>"
+
+  + (d.libre ? '<div class="pista">' + d.libre + "</div>" : "")
+  + "</div>");
+
+ const nav = document.createElement("div"); nav.className = "nav";
+ nav.innerHTML = '<button class="sec" id="fcMal">Missed it</button>'
+  + '<button class="show" id="fcBien">Got it</button>';
+ p.appendChild(nav);
+ nav.querySelector("#fcBien").onclick = () => fcJuzga(true);
+ nav.querySelector("#fcMal").onclick = () => fcJuzga(false);
+}
+
+function fcElector(p){
+ p.insertAdjacentHTML("beforeend",
+  "<p> <b>Pick what you want to practise</b> — they are "
+  + "different things to remember, so they are never mixed in one run.</p>"
+  + "<p><em> Mixing them trains both "
+  + "worse: you answer with whichever comes first and the other never gets its "
+  + "turn. <b></em></p>");
+
+ if(!vistoHayAlmacen())
+  p.insertAdjacentHTML("beforeend",
+   '<div class="res no">This browser is not letting the course remember what you '
+   + "have finished, so nothing can unlock.</div>");
+ const ops = document.createElement("div"); ops.className = "ops";
+ CARTAS_MODOS.forEach(md => {
+  const abierto = fcAbierto(md.id), n = fcDelModo(md.id).length;
+  const b = document.createElement("button");
+  b.innerHTML = "<b>" + md.titulo + "</b> &middot; " + md.lema
+   + (abierto ? "<br>" + n + " cards" : "<br>" + md.bloqueado);
+  b.disabled = !abierto;
+  b.onclick = () => fcEmpieza(md.id);
+  ops.appendChild(b);
+ });
+ p.appendChild(ops);
+ const nav = document.createElement("div"); nav.className = "nav";
+ nav.innerHTML = '<button class="sec" id="fcSal">Back to the screens</button>';
+ p.appendChild(nav);
+ nav.querySelector("#fcSal").onclick = window.fcCierra;
+}
+
+function fcRecuento(p){
+ const vistas = FC.ses.filter((id,i,a) => a.indexOf(id) === i);
+ const bien = vistas.filter(id => FC.primera[id]).length;
+ const mal = vistas.filter(id => FC.primera[id] === false);
+ p.insertAdjacentHTML("beforeend",
+  '<div class="res ' + (mal.length ? "" : "si") + '"><b>' + bien + " of "
+  + vistas.length + "</b>"
+  + (mal.length
+     ? "<p>You missed these " + (mal.length === 1 ? "one" : mal.length)
+       + ". <b>They will come round more often</b> until you do not.</p>"
+       + "<p>" + mal.map(id => CARTAS.filter(c=>c.id===id)[0].detras.nombre)
+                   .join(" &middot; ") + "</p>"
+     : "<p><b>All of them, first time.</b></p>") + "</div>");
+ const nav = document.createElement("div"); nav.className = "nav";
+ nav.innerHTML = '<button class="sec" id="fcSal">Back to the screens</button>'
+  + '<button id="fcOtra">Another ten</button>';
+ p.appendChild(nav);
+ nav.querySelector("#fcOtra").onclick = () => fcEmpieza(FC.modo);
+ nav.querySelector("#fcSal").onclick = window.fcCierra;
+}
+
+window.FCEST = () => ({on:FC.on, modo:FC.modo, i:FC.i, vuelta:FC.vuelta,
+ largo:FC.ses ? FC.ses.length : 0, fin:fcFin(),
+ carta:(FC.ses && !fcFin()) ? FC.ses[FC.i] : null,
+ luz:FC.luz ? {per:FC.luz.per, tramos:FC.luz.on.length,
+               color:FC.luz.lam.getAttribute("fill")} : null,
+ anda:!!(FC.rit && FC.rit.anda()),
+ vueltas:FC.repes ? Object.keys(FC.repes).length : 0,
+ distintas:FC.ses ? new Set(FC.ses).size : 0,
+ abiertos:CARTAS_MODOS.filter(m => fcAbierto(m.id)).map(m => m.id)});
+window.fcEmpieza = fcEmpieza; window.fcJuzga = fcJuzga; window.fcPeso = fcPeso;
+
+"use strict";
+
+const FCL_NS = "http://www.w3.org/2000/svg";
+const FCL = {svg: null, capa: null, panel: null, clave: null, m: 0, H: 340, pisan: 0,
+             ampliable: false, sonido: null, forzada: null, rojo: null};
+function fclEl(t, a, p){
+ const n = document.createElementNS(FCL_NS, t);
+ for(const k in a) if(a[k] !== null && a[k] !== undefined) n.setAttribute(k, a[k]);
+ (p || FCL.svg).appendChild(n);
+ return n;
+}
+function fclTxt(x, y, s, anc, tam, col, peso){
+ const n = fclEl("text", {x: x, y: y, "text-anchor": anc || "middle", "font-size": tam,
+  fill: col || "var(--ink)", "font-weight": peso || 400, "font-family": "var(--f-ui)",
+  "pointer-events": "none"});
+ n.textContent = s;
+ return n;
+}
+
+function fclLineas(s, ancho, tam){
+ const cabe = Math.max(8, Math.floor(ancho/(tam*0.52)));
+ const out = []; let l = "";
+ String(s).split(" ").forEach(w => {
+  if(l && (l + " " + w).length > cabe){ out.push(l); l = w; } else l = l ? l + " " + w : w;
+ });
+ if(l) out.push(l);
+ return out;
+}
+const mayus = s => s.charAt(0).toUpperCase() + s.slice(1);
+
+const P1 = "luces-p1-what-she-shows.html", P2 = "luces-p2-what-she-is.html",
+      P3 = "luces-p3-from-where-you-are.html", P4 = "luces-p4-when-you-cannot-see-her.html";
+const CARTAS_MODOS = [
+ {id: "night", titulo: "At night", lema: "a ship by her lights alone", requiere: P1,
+  pregunta: "What is she?", bloqueado: "Opens when you start part 1"},
+ {id: "day", titulo: "By day", lema: "a ship by her shapes", requiere: P1,
+  pregunta: "What is she telling you?", bloqueado: "Opens when you start part 1"},
+ {id: "pairs", titulo: "Pairs and strings", lema: "the twelve classes of part 2", requiere: P2,
+  pregunta: "No colour above, a pair, or a string of reds? And what is she?", bloqueado: "Opens when you start part 2"},
+ {id: "where", titulo: "From where you are", lema: "which side of her you are on", requiere: P3,
+  pregunta: "Where are you, and which way is she heading?", bloqueado: "Opens when you start part 3"},
+ {id: "fog", titulo: "In fog", lema: "who she is, by what you hear", requiere: P4,
+  pregunta: "You hear this in fog. Who is she?", bloqueado: "Opens when you start part 4"},
+ {id: "signals", titulo: "Signals in sight", lema: "what she is telling you", requiere: P4,
+  pregunta: "In sight of each other, you hear this. What does it say?", bloqueado: "Opens when you start part 4"},
+ {id: "rules", titulo: "The rules", lema: "Rules 20 to 37 and Annex I", requiere: P1,
+  pregunta: "Answer it, then turn it over.", bloqueado: "Opens when you start part 1"}
+];
+const CARTAS_ORDEN = [];
+const POR_SESION = 10;
+
+const EJEMPLO_5C1 = {
+ "R23":    {tipo: "mercante",   estado: "under way, making way"},
+ "R25":    {tipo: "velero",     estado: "under sail, making way"},
+ "R25(e)": {tipo: "velero",     estado: "sailing and motoring", dia: true},
+ "R30":    {tipo: "mercante",   estado: "at anchor"},
+ "R26(b)": {tipo: "pesquero",   estado: "trawling, making way"},
+ "R26(c)": {tipo: "pesquero",   estado: "fishing (not trawling), making way"},
+ "R29":    {tipo: "practico",   estado: "on pilotage duty, under way"},
+ "R24":    {tipo: "remolcador", estado: "towing, tow 200 m or less"},
+ "R27(a)": {tipo: "mercante",   estado: "not under command, making way"},
+ "R27(b)": {tipo: "mercante",   estado: "restricted in ability to manoeuvre, making way"},
+ "R28":    {tipo: "mercante",   estado: "constrained by her draught"},
+ "R30(d)": {tipo: "mercante",   varada: true}
+};
+
+const QUIEN_NIEBLA = {
+ power: "A power-driven vessel making way", parada: "A power-driven vessel under way but stopped",
+ sailing: "A sailing vessel", nuc: "A vessel not under command",
+ ram: "A vessel restricted in her ability to manoeuvre", cbd: "A vessel constrained by her draught",
+ fishingTrawl: "A vessel trawling", fishingOther: "A vessel fishing, not trawling",
+ towing: "A vessel towing", remolcado: "A manned vessel being towed",
+ pilot: "A pilot vessel on duty, making way", fondeada: "A vessel at anchor",
+ fondeadaGrande: "A vessel at anchor, of {0} m or more", varada: "A vessel aground"
+};
+const QUIEN_NIEBLA_EX = {fondeadaGrande: ["SON.GONG_DESDE"]};
+const MEDIO = {pito: "on the whistle", campana: "on the bell", campanaYgong: "on the bell and the gong"};
+
+const PREGUNTA_OTRAS = {"R36": "How may you attract the attention of another vessel?",
+                        "R37": "How does a vessel in distress call for help?"};
+
+const CORTES_R22 = (() => { const c = []; let p = JSON.stringify(ranges(1));
+ for(let L = 2; L <= 200; L++){ const q = JSON.stringify(ranges(L)); if(q !== p){ c.push(L); p = q; } }
+ return c; })();
+const ALCANCES = "Masthead {1}; sidelights {2}; sternlight {3}; towing light {4}; all-round lights {5} miles.";
+const exAlc = L => ["ranges(" + L + ").masthead", "ranges(" + L + ").side", "ranges(" + L + ").stern",
+                    "ranges(" + L + ").towing", "ranges(" + L + ").allround"];
+
+const REGLAS = [
+ {id: "r21a", cita: "R21(a)", q: "What arc does a masthead light show?",
+  a: "{0}°: from right ahead to {1}° abaft the beam on either side.", ex: ["2*ARC.masthead", "ARC.masthead-90"]},
+ {id: "r21b", cita: "R21(b)", q: "What arc does each sidelight show?",
+  a: "{0}°: from right ahead to {1}° abaft the beam on its own side.", ex: ["ARC.sidelight", "ARC.sidelight-90"]},
+ {id: "r21c", cita: "R21(c)", q: "What arc does a sternlight show?",
+  a: "{0}°: {1}° from right aft on each side.", ex: ["360-2*ARC.stern", "180-ARC.stern"]},
+ {id: "r21d", cita: "R21(d)", q: "What colour is a towing light, and what arc does it show?",
+  a: "Yellow, over the same {0}° as a sternlight.", ex: ["360-2*ARC.stern"]},
+ {id: "r21e", cita: "R21(e)", q: "What arc does an all-round light show?",
+  a: "{0}°, unbroken.", ex: ["2*ARC.allRound"]},
+ {id: "r22a", cita: "R22(a)", q: "How far must the lights of a vessel of {0} m or more be visible?",
+  a: ALCANCES, ex: ["CORTES_R22[2]"].concat(exAlc("CORTES_R22[2]"))},
+ {id: "r22b", cita: "R22(b)", q: "How far must the lights of a vessel of {0} m or more, but less than {6} m, be visible?",
+  a: ALCANCES, ex: ["CORTES_R22[1]"].concat(exAlc("CORTES_R22[1]"), ["CORTES_R22[2]"])},
+ {id: "r22b2", cita: "R22(b)", q: "How far must the lights of a vessel of {0} m or more, but less than {6} m, be visible?",
+  a: ALCANCES, ex: ["CORTES_R22[0]"].concat(exAlc("CORTES_R22[0]"), ["CORTES_R22[1]"])},
+ {id: "r22c", cita: "R22(c)", q: "How far must the lights of a vessel of less than {0} m be visible?",
+  a: ALCANCES, ex: ["CORTES_R22[0]"].concat(exAlc("CORTES_R22[0]-1"))},
+ {id: "r20", cita: "R20(b) and (c)", q: "When must the lights be shown?",
+  a: "From sunset to sunrise, and also by day in restricted visibility. No other light may be shown that could be mistaken for them.", ex: []},
+ {id: "r23a", cita: "R23(a)(ii)", q: "Which power-driven vessels must show a second masthead light?",
+  a: "Those of {0} m or more. A smaller one may show it.", ex: ["A1.MUY_GRANDE"]},
+ {id: "r24a", cita: "R24(a)", q: "How many masthead lights does a vessel towing show, and when does she add a diamond by day?",
+  a: "Two in a vertical line, or three when the tow is more than {0} m long; and the diamond only then.", ex: ["TOW_LARGO_DIAMANTE"]},
+ {id: "r30a", cita: "R30(a) and (b)", q: "Which vessels at anchor must show two anchor lights?",
+  a: "Those of {0} m or more: one forward and a lower one aft. A smaller one may show a single all-round white.", ex: ["A1.MUY_GRANDE"]},
+ {id: "r30c", cita: "R30(c)", q: "What else must a vessel of {0} m or more show at anchor?",
+  a: "Her working lights, or equivalent, to light up her decks.", ex: ["A1.CUBIERTAS_ILUMINADAS_DESDE"]},
+ {id: "r30d", cita: "R30(d)", q: "A vessel aground: which lights, and which shapes?",
+  a: "Her anchor lights and two all-round reds in a vertical line; by day, three balls.", ex: []},
+ {id: "r32", cita: "R32(b) and (c)", q: "How long is a short blast, and how long a prolonged one?",
+  a: "About {0} second; from {1} to {2} seconds.", ex: ["SON.CORTO", "SON.PROLONGADO_MIN", "SON.PROLONGADO_MAX"]},
+ {id: "r33a", cita: "R33(a)", q: "What must a vessel of {0} m or more carry to make sound signals?",
+  a: "A whistle and a bell; and from {1} m, a gong as well.", ex: ["SON.CAMPANA_DESDE", "SON.GONG_DESDE"]},
+ {id: "r33a2", cita: "R33(a)", q: "What must a vessel of {0} m or more, but less than {1} m, carry to make sound signals?",
+  a: "A whistle. No bell is required.", ex: ["SON.PITO_DESDE", "SON.CAMPANA_DESDE"]},
+ {id: "r33b", cita: "R33(b)", q: "What must a vessel of less than {0} m have to make sound signals?",
+  a: "Some other efficient means of making a sound signal.", ex: ["SON.PITO_DESDE"]},
+ {id: "r35a", cita: "R35(a)", q: "In restricted visibility, how often must a vessel under way sound her signal?",
+  a: "At intervals of not more than {0} minutes.", ex: ["SON.INTERVALO/60"]},
+ {id: "r35g", cita: "R35(g)", q: "At anchor in restricted visibility: what, and how often?",
+  a: "The bell rung rapidly for about {0} seconds, at intervals of not more than {1} minute.", ex: ["SON.CAMPANA", "SON.INTERVALO_FONDEO/60"]},
+ {id: "a1-2ai", cita: "Annex I 2(a)(i)", q: "On a power-driven vessel of {0} m or more, how high must the forward masthead light be above the hull?",
+  a: "Not less than {1} m, and not less than her breadth; but it need not be more than {2} m.", ex: ["A1.GRANDE", "A1.TOPE_SOBRE_CASCO_MIN", "A1.TOPE_NUNCA_HACE_FALTA_MAS"]},
+ {id: "a1-2aii", cita: "Annex I 2(a)(ii)", q: "A power-driven vessel with two masthead lights: how much higher is the after one?",
+  a: "At least {0} m higher than the forward one.", ex: ["A1.TOPE2_SOBRE_TOPE1"]},
+ {id: "a1-2ii", cita: "Annex I 2(i)(i)", q: "Lights in a vertical line, on a vessel of {0} m or more: how far apart, and how high the lowest?",
+  a: "Not less than {1} m apart, and the lowest not less than {2} m above the hull, unless a towing light is required.", ex: ["A1.GRANDE", "A1.VERT_SEP_GRANDE", "A1.VERT_BAJA_GRANDE"]},
+ {id: "a1-2iii", cita: "Annex I 2(i)(ii)", q: "Lights in a vertical line, on a vessel of less than {0} m: how far apart, and how high the lowest?",
+  a: "Not less than {1} m apart, and the lowest not less than {2} m above the gunwale.", ex: ["A1.GRANDE", "A1.VERT_SEP_CHICO", "A1.VERT_BAJA_CHICO"]},
+ {id: "a1-2j", cita: "Annex I 2(j)", q: "Fishing: how high must the lower all-round light be above the sidelights?",
+  a: "Not less than {0} times the distance between the two all-round lights.", ex: ["A1.PESCA_SOBRE_COSTADOS_VECES"]},
+ {id: "a1-2k", cita: "Annex I 2(k)", q: "Two anchor lights: how much higher is the forward one?",
+  a: "Not less than {0} m above the after one; and on a vessel of {1} m or more, not less than {2} m above the hull.", ex: ["A1.ANCLA_PROA_SOBRE_POPA", "A1.MUY_GRANDE", "A1.ANCLA_PROA_MIN_50"]}
+];
+
+const FCL_VALE = {ARC: ARC, A1: A1, SON: SON, TOW_LARGO_DIAMANTE: TOW_LARGO_DIAMANTE,
+                  CORTES_R22: CORTES_R22, ranges: ranges};
+const fclValor = e => (new Function("V", "with(V){ return (" + e + "); }"))(FCL_VALE);
+const fclRellena = (t, ex) => { const v = ex.map(fclValor);
+ return t.replace(/[{]([0-9]+)[}]/g, (_, k) => String(v[+k])); };
+
+const nombreBuque = (t, rot) => mayus(CASCOS_TIPOS.tipos[t].nombre) + ", " + rot;
+function construye(){
+ const C = [];
+ B360.TIPOS.forEach(t => B360.estados(t).forEach((e, k) => {
+  C.push({id: "n-" + t + "-" + k, modo: "night", tipo: t, estado: e.rot, detras: {nombre: nombreBuque(t, e.rot)}});
+  C.push({id: "w-" + t + "-" + k, modo: "where", tipo: t, estado: e.rot, detras: {nombre: nombreBuque(t, e.rot)}});
+  if(marcasDia(e.v).length)
+   C.push({id: "d-" + t + "-" + k, modo: "day", tipo: t, estado: e.rot, detras: {nombre: nombreBuque(t, e.rot)}});
+ }));
+ TABLA_5C1.forEach((col, i) => col.filas.forEach((f, j) => {
+  const m = f[0].match(/^(.*) · (R[0-9]+(?:[(][a-z][)])?)$/);
+  if(!m) return;
+  const ej = EJEMPLO_5C1[m[2]];
+  if(!ej) throw new Error("la fila «" + f[0] + "» de 5.C1 no tiene buque de ejemplo");
+  C.push({id: "p-" + i + "-" + j, modo: "pairs", tipo: ej.tipo, estado: ej.estado, varada: ej.varada,
+          dia: !!ej.dia, columna: col.rot, clase: m[1], regla: m[2], dice: f[1], detras: {nombre: m[1]}});
+ }));
+ Object.keys(NIEBLA).forEach(k => C.push({id: "f-" + k, modo: "fog", clave: k,
+  detras: {nombre: fclRellena(QUIEN_NIEBLA[k], QUIEN_NIEBLA_EX[k] || [])}}));
+ MANIOBRA.concat(ADELANTAMIENTO, OTRAS).forEach((s, k) => C.push({id: "s-" + k, modo: "signals", senal: s,
+  detras: {nombre: mayus(s.dice)}}));
+ REGLAS.forEach(r => C.push({id: "r-" + r.id, modo: "rules", regla: r, detras: {nombre: fclRellena(r.q, r.ex)}}));
+ return C;
+}
+const CARTAS = construye();
+
+function naveDe(c){
+ if(c.varada) return {type: "varada", length: CASCOS_TIPOS.tipos[c.tipo].eslora_m};
+ const e = B360.estados(c.tipo).filter(q => q.rot === c.estado)[0];
+ if(!e) throw new Error("la carta " + c.id + ": «" + c.tipo + "» no tiene el estado «" + c.estado + "»");
+ return e.v;
+}
+
+const PROPIA_FONDEADO = ["fishingTrawl", "fishingOther", "ram", "pilot"];
+function reglaDe(v){
+ if(v.velaYMotor) return "R25(e)";
+ if(v.type === "varada") return CITA.varada.r;
+ if(v.underway === false && PROPIA_FONDEADO.indexOf(v.type) < 0) return CITA.fondeada.r;
+ return CITA[v.type].r;
+}
+
+function distDe(v){
+ const R = ranges(v.length || 12);
+ return Math.min.apply(null, configuration(v).map(l => R[l.rangeKey]));
+}
+
+const vePieza = (v, l) => v.type !== "towing" ? true : (v.remolcada ? !!l.tow : !l.tow);
+const remolca = v => v.type === "towing" && !v.remolcada;
+function lado(m){
+ const a = B360.aspecto(m), b = Math.abs(a), d = a >= 0 ? "starboard" : "port";
+ if(b < 3) return "right ahead of her"; if(b > 177) return "right astern of her";
+ if(b < 87) return "on her " + d + " bow"; if(b <= 93) return "on her " + d + " beam";
+ return "on her " + d + " quarter";
+}
+
+function porSusLuces(ve){
+ const k = new Set(ve.map(l => l.kind));
+ if(k.has("starboard") && k.has("port"))
+  return {cual: "ambos", t: "Both sidelights: you are within " + CUTOFF + "° of right ahead of her, and she is heading for you (R21(b))."};
+ if(k.has("starboard"))
+  return {cual: "verde", t: "Her green sidelight: you are on her starboard side, within " + ARC.sidelight + "° of her bow (R21(b))."};
+ if(k.has("port"))
+  return {cual: "roja", t: "Her red sidelight: you are on her port side, within " + ARC.sidelight + "° of her bow (R21(b))."};
+ if(k.has("stern"))
+  return {cual: "alcance", t: "Her sternlight: you are within " + (180 - ARC.stern) + "° of right astern of her (R21(c))."};
+ return {cual: "nada", t: "No sidelight and no sternlight: from her lights alone you cannot tell which way she is heading."};
+}
+const NOMBRE_LUZ = {masthead: "masthead light", starboard: "starboard sidelight", port: "port sidelight",
+ stern: "sternlight", towing: "towing light", allround: "all-round light"};
+const NOMBRE_MARCA = {ball: "a ball", diamond: "a diamond", cylinder: "a cylinder",
+ cone: "a cone, point up", coneUp: "a cone, point down", flagA: "flag A"};
+const esBuque = c => c.modo === "night" || c.modo === "day" || c.modo === "pairs" || c.modo === "where";
+const deNoche = c => !(c.modo === "day" || c.dia);
+
+const FCL_W = 600, FCL_H0 = 340, FCL_HMAX = 720, FCL_PASO = 60, LUZ_PX = 12;
+function fclEscala(){
+ const r = FCL.svg.getBoundingClientRect();
+ return Math.min(r.width/FCL_W, r.height/FCL.H) || 1;
+}
+function fclFondo(noche){
+ fclEl("rect", {width: FCL_W, height: FCL.H, fill: noche ? "#050c12" : "#dfe8ee"});
+ fclEl("rect", {y: FCL.H*0.70, width: FCL_W, height: FCL.H*0.30, fill: noche ? "#0a1822" : "#9fb4c2"});
+}
+function fclAgranda(){
+ const k = fclEscala();
+ const L = [].slice.call(FCL.svg.querySelectorAll("circle[data-luz]"));
+ const P = L.map(c => [+c.getAttribute("cx"), +c.getAttribute("cy")]);
+ L.forEach((c, i) => {
+  let dmin = Infinity;
+  P.forEach((q, j) => { if(j !== i) dmin = Math.min(dmin, Math.hypot(q[0] - P[i][0], q[1] - P[i][1])); });
+
+  const r0 = +c.getAttribute("r"), r = Math.ceil(Math.min(Math.max(r0, LUZ_PX/2/k), dmin/2 - 1/k)*100)/100;
+  if(r > r0){
+   c.setAttribute("r", r.toFixed(2));
+   const halo = c.previousElementSibling;
+   if(halo && halo.tagName === "circle" && !halo.hasAttribute("data-luz")) halo.setAttribute("r", (r*2.6).toFixed(2));
+  }
+ });
+}
+
+function fclPisan(){
+ const k = fclEscala();
+ const L = [].map.call(FCL.svg.querySelectorAll("circle[data-luz]"), c => [+c.getAttribute("cx"), +c.getAttribute("cy"), +c.getAttribute("r")]);
+ let n = 0;
+ for(let i = 0; i < L.length; i++) for(let j = i + 1; j < L.length; j++)
+  if(Math.hypot(L[i][0] - L[j][0], L[i][1] - L[j][1]) < L[i][2] + L[j][2] - 0.5/k) n++;
+ return n;
+}
+const fclLuzMin = () => Math.min.apply(null, [].map.call(FCL.svg.querySelectorAll("circle[data-luz]"),
+ c => c.getBoundingClientRect().width).concat([99]));
+function fclBuque(c, m){
+ const v = naveDe(c), noche = deNoche(c), d = distDe(v);
+ const pinta1 = u1 => {
+  FCL.svg.innerHTML = ""; FCL.svg.setAttribute("viewBox", "0 0 " + FCL_W + " " + FCL.H); fclFondo(noche);
+  return buque360(FCL.svg, {v: v, tipo: c.tipo, marcacion: m, distancia: d, modo: noche ? "noche" : "dia",
+                            caja: {x0: 20, y0: 0, x1: FCL_W - 20, y1: FCL.H}, u1: u1, soloRemolcador: true});
+ };
+ pinta1(2.5);
+ const b = FCL.svg.querySelector("[data-b360]").getBBox(), agua = FCL.H*0.70;
+ pinta1(2.5*Math.min((FCL_W - 60)/Math.max(1, b.width), (agua - 18)/Math.max(1, agua - b.y)));
+ if(noche) fclAgranda();
+ FCL.d = d;
+}
+function fclFrenteBuque(c){
+
+ const sortea = FCL.forzada === null;
+ for(let intento = 0; intento < 24; intento++){
+  FCL.m = sortea ? Math.floor(Math.random()*360) : FCL.forzada;
+
+  FCL.H = FCL_H0;
+  fclBuque(c, FCL.m);
+  let antes = fclLuzMin();
+  while(deNoche(c) && antes < LUZ_PX && FCL.H + FCL_PASO <= FCL_HMAX){
+   FCL.H += FCL_PASO;
+   fclBuque(c, FCL.m);
+   const ahora = fclLuzMin();
+   if(ahora <= antes + 0.01){ FCL.H -= FCL_PASO; fclBuque(c, FCL.m); break; }
+   antes = ahora;
+  }
+  FCL.pisan = deNoche(c) ? fclPisan() : 0;
+  if(!FCL.pisan || !sortea) break;
+ }
+ FCL.ampliable = deNoche(c) && fclLuzMin() < LUZ_PX - 0.01;
+ if(FCL.ampliable)
+  fclTxt(FCL_W/2, FCL.H - 14, "tap the picture to enlarge it", "middle", 24, "#8fa7b4", 600).setAttribute("data-amplia-pista", "1");
+}
+
+function fclTira(tramos, medio){
+ FCL.H = FCL_H0; FCL.svg.setAttribute("viewBox", "0 0 " + FCL_W + " " + FCL.H);
+ fclEl("rect", {width: FCL_W, height: FCL.H, fill: "var(--paper)"});
+ const u = Math.min(36, (FCL_W - 80)/(tramos.reduce((a, t) => a + t, 0) + SON.HUECO*(tramos.length - 1)));
+ let x = (FCL_W - u*(tramos.reduce((a, t) => a + t, 0) + SON.HUECO*(tramos.length - 1)))/2;
+ tramos.forEach(t => { fclEl("rect", {x: x, y: 150, width: t*u, height: 36, rx: 18,
+  fill: "var(--ink)", "data-tramo": t}); x += (t + SON.HUECO)*u; });
+ if(medio) fclTxt(FCL_W/2, 240, MEDIO[medio], "middle", 18, "var(--ink-soft)", 600);
+}
+function fclCaraRegla(texto){
+ FCL.H = FCL_H0; FCL.svg.setAttribute("viewBox", "0 0 " + FCL_W + " " + FCL.H);
+ fclEl("rect", {width: FCL_W, height: FCL.H, fill: "var(--paper)"});
+ const L = fclLineas(texto, FCL_W - 100, 26), y0 = FCL.H/2 - (L.length - 1)*18;
+ L.forEach((l, i) => fclTxt(FCL_W/2, y0 + i*36, l, "middle", 26, "var(--ink)", 600)
+   .setAttribute("data-pregunta", i ? "+" : "1"));
+}
+function fclFrente(c){
+ FCL.svg.innerHTML = ""; FCL.ampliable = false; FCL.pisan = 0; FCL.d = null;
+ if(esBuque(c)) fclFrenteBuque(c);
+ else if(c.modo === "fog"){ const n = NIEBLA[c.clave]; fclTira(n.tramos, n.medio); }
+ else if(c.modo === "signals"){
+  if(c.senal.tramos) fclTira(c.senal.tramos, "pito"); else fclCaraRegla(PREGUNTA_OTRAS[c.senal.cita]);
+ }
+ else fclCaraRegla(fclRellena(c.regla.q, c.regla.ex));
+ if(FCL.rojo) FCL.rojo(c);
+}
+
+const fclChip = r => ' <span class="regla" data-regla="' + r + '">' + r + "</span>";
+function fclDorso(c){
+ if(c.modo === "fog"){
+  const n = NIEBLA[c.clave];
+
+  const igual = Object.keys(NIEBLA).filter(k => k !== c.clave && NIEBLA[k].medio === n.medio
+   && NIEBLA[k].tramos.join(",") === n.tramos.join(","));
+  return "<b>" + c.detras.nombre + fclChip(n.cita) + "</b><p>" + mayus(n.dice) + ", " + MEDIO[n.medio] + ".</p>"
+   + (igual.length ? '<div class="pista">The same signal: ' + igual.map(k => fclRellena(QUIEN_NIEBLA[k], QUIEN_NIEBLA_EX[k] || []).toLowerCase()).join("; ") + ".</div>" : "");
+ }
+ if(c.modo === "signals")
+  return "<b>" + c.detras.nombre + fclChip(c.senal.cita) + "</b>";
+ if(c.modo === "rules")
+  return '<b data-respuesta="1">' + fclRellena(c.regla.a, c.regla.ex) + "</b><p>" + fclChip(c.regla.cita) + "</p>";
+ const v = naveDe(c), noche = deNoche(c);
+ const ve = seenFrom(v, B360.aspecto(FCL.m)).filter(l => vePieza(v, l));
+ let h = c.modo === "pairs"
+  ? '<b data-clase="' + c.clase + '">' + c.clase + fclChip(c.regla) + '</b><p data-columna="' + c.columna + '">'
+    + mayus(c.columna.toLowerCase()) + ": " + c.dice + ".</p>"
+  : "<b>" + c.detras.nombre + fclChip(reglaDe(v)) + "</b>";
+ if(c.modo === "where"){
+  const q = porSusLuces(ve);
+  h += '<p data-lado="' + lado(FCL.m) + '" data-cual="' + q.cual + '">You are ' + lado(FCL.m) + " (" + FCL.m
+    + "° from her bow). " + q.t + "</p>";
+ }
+ if(noche) h += "<p>You see:</p><ul>" + ve.map(l => '<li data-luz="' + l.kind + '" data-color="' + l.colour
+   + '" data-tow="' + (l.tow ? 1 : 0) + '">' + l.colour + " · " + (NOMBRE_LUZ[l.kind] || l.kind)
+   + (l.tow ? " (on the tow)" : "") + "</li>").join("") + "</ul>";
+ else {
+  const mk = marcasDia(v);
+  h += mk.length ? "<p>She shows, from the top down:</p><ul>" + mk.map(k => '<li data-marca="' + k + '">'
+    + NOMBRE_MARCA[k] + "</li>").join("") + "</ul>" : "<p>She shows no day shape.</p>";
+ }
+
+ if(remolca(v) || v.remolcada){
+  const largo = towRemolque(v) > TOW_LARGO_DIAMANTE;
+  const como = noche ? (v.remolcada ? "her own lights do not tell you; the tug's masthead lights do"
+                                    : "her string of masthead lights tells you")
+                     : (largo ? "the diamond tells you"
+                              : "by day nothing tells you: the diamond is only for a tow of more than " + TOW_LARGO_DIAMANTE + " m");
+  h += "<p>The tow is " + (largo ? "more than " + TOW_LARGO_DIAMANTE + " m" : TOW_LARGO_DIAMANTE + " m or less")
+    + " long: " + como + " (R24).</p>";
+ }
+ return h;
+}
+
+function fclPie(c){
+ if(!esBuque(c)) return "";
+ const v = naveDe(c);
+ return (deNoche(c) ? "At night." : "By day.")
+  + (remolca(v) ? " She is towing: her tow is astern of her, out of the picture." : "")
+  + (v.remolcada ? " She is being towed: the tug is ahead of her, out of the picture." : "");
+}
+
+function fclTramosDe(c){
+ if(c.modo === "fog") return {tramos: NIEBLA[c.clave].tramos, medio: NIEBLA[c.clave].medio};
+ if(c.modo === "signals" && c.senal.tramos) return {tramos: c.senal.tramos, medio: "pito"};
+ return null;
+}
+function fclToca(c){
+ const s = fclTramosDe(c); if(!s) return;
+ FCL.sonido = {id: c.id, tramos: s.tramos.slice(), medio: s.medio};
+ if(typeof sueToca === "function") sueToca(s.tramos, s.medio, SON.HUECO);
+}
+
+fcLienzo = function(){
+ if(!FC.modo || fcFin()){ fcRejilla(null, fcFin() ? "the ones you missed" : "the deck"); FCL.clave = null; return; }
+ const c = fcCarta(); if(!c) return;
+ const clave = FC.i + ":" + c.id;
+ if(FCL.clave === clave && FCL.svg.childNodes.length) return;
+ FCL.clave = clave;
+ fclFrente(c);
+};
+fcRejilla = function(ids, titulo){
+ FCL.H = FCL_H0; FCL.svg.innerHTML = ""; FCL.svg.setAttribute("viewBox", "0 0 " + FCL_W + " " + FCL.H);
+ fclEl("rect", {width: FCL_W, height: FCL.H, fill: "var(--paper)"});
+ fclTxt(FCL_W/2, 60, (titulo || "").toUpperCase(), "middle", 16, "var(--ink-soft)", 600);
+ const L = fcFin()
+  ? (FC.ses.filter((id, i, a) => a.indexOf(id) === i && FC.primera[id] === false).length
+      ? ["the ones you missed come round more often", "until you stop missing them"]
+      : ["nothing. You had every one of them."])
+  : CARTAS_MODOS.map(md => md.titulo + " · " + CARTAS.filter(c => c.modo === md.id).length + " cards");
+ L.forEach((l, i) => fclTxt(FCL_W/2, 110 + i*30, l, "middle", 19, "var(--ink-soft)", 400));
+};
+fcPanel = function(p){
+ const hd = document.createElement("div"); hd.className = "hd";
+ hd.innerHTML = "<h3>Flashcards</h3>";
+ p.appendChild(hd);
+ if(!FC.modo){ fcElector(p); return; }
+ if(fcFin()){ fcRecuento(p); return; }
+ const c = fcCarta(), md = fcModo(FC.modo);
+ p.insertAdjacentHTML("beforeend", '<span class="prl">' + md.titulo + " · card " + (FC.i + 1) + " of " + FC.ses.length + "</span>");
+ p.insertAdjacentHTML("beforeend", '<b class="q">' + md.pregunta + "</b>");
+ const pie = fclPie(c);
+ if(pie) p.insertAdjacentHTML("beforeend", '<p class="premisa" data-pie="1">' + pie + "</p>");
+
+ if(fclTramosDe(c)){
+  const s = document.createElement("div"); s.className = "son";
+  s.innerHTML = '<button type="button" id="fcSon">&#9654; Play the signal</button><button type="button" class="sec" id="fcCalla">Stop</button>';
+  p.appendChild(s);
+  s.querySelector("#fcSon").onclick = () => fclToca(c);
+  s.querySelector("#fcCalla").onclick = () => { if(typeof suePara === "function") suePara(); };
+ }
+ if(FCL.ampliable){
+  const a = document.createElement("div"); a.className = "son";
+  a.innerHTML = '<button type="button" id="fcAmp">Enlarge the picture</button>';
+  p.appendChild(a);
+  a.querySelector("#fcAmp").onclick = fclAmplia;
+ }
+ if(!FC.vuelta){
+  const nav = document.createElement("div"); nav.className = "nav";
+  nav.innerHTML = '<button class="sec" id="fcSal">Leave</button><button id="fcV">Turn it over</button>';
+  p.appendChild(nav);
+  nav.querySelector("#fcV").onclick = () => { FC.vuelta = true; pinta(); };
+  nav.querySelector("#fcSal").onclick = window.fcCierra;
+  return;
+ }
+ p.insertAdjacentHTML("beforeend", '<div class="res ver" id="fcDorso">' + fclDorso(c) + "</div>");
+ const nav = document.createElement("div"); nav.className = "nav";
+ nav.innerHTML = '<button class="sec" id="fcMal">Missed it</button><button class="show" id="fcBien">Got it</button>';
+ p.appendChild(nav);
+ nav.querySelector("#fcBien").onclick = () => fcJuzga(true);
+ nav.querySelector("#fcMal").onclick = () => fcJuzga(false);
+};
+fcElector = function(p){
+ p.insertAdjacentHTML("beforeend",
+  "<p><b>Seven decks</b>, " + CARTAS.length + " cards. Pick what you want to practise: they are different "
+  + "things to remember, so they are never mixed in one run. Each deck opens when you start the part that teaches it.</p>");
+ if(!vistoHayAlmacen())
+  p.insertAdjacentHTML("beforeend", '<div class="res no">This browser is not letting the course remember what you '
+   + "have opened, so nothing can unlock.</div>");
+ const ops = document.createElement("div"); ops.className = "ops";
+ CARTAS_MODOS.forEach(md => {
+  const abierto = fcAbierto(md.id), n = fcDelModo(md.id).length;
+  const b = document.createElement("button");
+  b.setAttribute("data-modo", md.id);
+  b.innerHTML = "<b>" + md.titulo + "</b> &middot; " + md.lema + (abierto ? "<br>" + n + " cards" : "<br>" + md.bloqueado);
+  b.disabled = !abierto;
+  b.onclick = () => fcEmpieza(md.id);
+  ops.appendChild(b);
+ });
+ p.appendChild(ops);
+ const nav = document.createElement("div"); nav.className = "nav";
+ nav.innerHTML = '<button class="sec" id="fcSal">Back to the screens</button>';
+ p.appendChild(nav);
+ nav.querySelector("#fcSal").onclick = window.fcCierra;
+};
+
+function fclCapa(){
+ if(FCL.capa) return FCL.capa;
+ const w = document.getElementById("wrap");
+ const c = document.createElement("div");
+ c.id = "fcWrap";
+ c.innerHTML = '<div id="fcLienzo"><svg id="fcSvg" viewBox="0 0 ' + FCL_W + " " + FCL_H0
+  + '" preserveAspectRatio="xMidYMid meet" role="img" aria-label="The card"></svg></div>'
+  + '<div id="fcSide"><div id="fcPane"></div></div>';
+ w.parentNode.insertBefore(c, w.nextSibling);
+ FCL.capa = c;
+ FCL.svg = c.querySelector("#fcSvg");
+ FCL.panel = c.querySelector("#fcPane");
+ FCL.svg.addEventListener("click", () => { if(FCL.ampliable) fclAmplia(); });
+ return c;
+}
+
+function fclAmplia(){
+ fclCierraAmplia();
+ const min = fclLuzMin(), ancho = FCL.svg.getBoundingClientRect().width;
+ const cap = document.createElement("div");
+ cap.id = "fcAmplia"; cap.setAttribute("role", "dialog"); cap.setAttribute("aria-modal", "true");
+ cap.setAttribute("aria-label", "The card, enlarged");
+ cap.innerHTML = '<div class="amp-cab"><span>The card, enlarged</span><button type="button" class="amp-cierra">Close</button></div>';
+ const sv = FCL.svg.cloneNode(true);
+ sv.removeAttribute("id");
+ sv.style.width = Math.ceil(ancho*(LUZ_PX + 0.5)/Math.max(0.1, min)) + "px";
+ sv.style.height = "auto"; sv.style.flex = "none"; sv.style.maxHeight = "none";
+ cap.appendChild(sv);
+ document.body.appendChild(cap);
+ cap.addEventListener("click", fclCierraAmplia);
+ cap.querySelector(".amp-cierra").focus();
+}
+function fclCierraAmplia(){ const a = document.getElementById("fcAmplia"); if(a) a.remove(); }
+document.addEventListener("keydown", e => { if(e.key === "Escape") fclCierraAmplia(); }, true);
+
+function pinta(){
+ if(!FC.on){
+  fclCierraAmplia();
+  if(typeof suePara === "function") suePara();
+  if(FCL.capa){ FCL.capa.remove(); FCL.capa = null; FCL.svg = null; FCL.panel = null; FCL.clave = null; }
+  document.getElementById("wrap").style.display = "";
+  return;
+ }
+ fclCapa();
+ document.getElementById("wrap").style.display = "none";
+ fcLienzo();
+ FCL.panel.innerHTML = "";
+ fcPanel(FCL.panel);
+}
+
+let iP = 0;
+function vaA(){
+ pinta();
+ if(location.hash === "#flashcards")
+  try{ history.replaceState(null, "", location.pathname + location.search); }catch(e){}
+}
+
+function fclEnlace(){ if(location.hash === "#flashcards" && !FC.on) window.fcAbre(); }
+window.addEventListener("hashchange", fclEnlace);
+fclEnlace();
+
+window.FCLUCES = {
+ cartas: () => CARTAS.map(c => ({id: c.id, modo: c.modo, tipo: c.tipo || null, estado: c.estado || null,
+  varada: !!c.varada, dia: !!c.dia, clase: c.clase || null, regla5: c.regla && c.modo === "pairs" ? c.regla : null,
+  clave: c.clave || null, senal: c.senal || null, reglaCarta: c.modo === "rules" ? c.regla : null})),
+ pon: (id, m) => {
+  const c = CARTAS.filter(x => x.id === id)[0]; if(!c) return false;
+  FC.on = true; FC.modo = c.modo; FC.ses = [id]; FC.i = 0; FC.vuelta = false; FC.primera = {}; FC.repes = {};
+  FCL.forzada = m === undefined ? null : m; FCL.clave = null;
+  try { pinta(); } finally { FCL.forzada = null; }
+  return true;
+ },
+ voltea: () => { FC.vuelta = true; pinta(); },
+ estado: () => ({m: FCL.m, d: FCL.d, H: FCL.H, pisan: FCL.pisan, ampliable: FCL.ampliable, luzMin: fclLuzMin()}),
+ nave: id => { const c = CARTAS.filter(x => x.id === id)[0]; return c && esBuque(c) ? naveDe(c) : null; },
+ toca: () => { FCL.sonido = null; const b = document.getElementById("fcSon"); if(b) b.click(); return FCL.sonido; },
+ amplia: () => { fclAmplia(); const a = document.getElementById("fcAmplia");
+  const r = a ? Math.min.apply(null, [].map.call(a.querySelectorAll("circle[data-luz]"), n => n.getBoundingClientRect().width).concat([99])) : null;
+  fclCierraAmplia(); return r; },
+ rojo: f => { FCL.rojo = f; },
+ FCL: FCL
+};
+
+})();
 </script>
 <!-- Cloudflare Web Analytics -->
 <script type='module' src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "624bbb73949b40f0aae4dafec49ac1f6"}'></script>
