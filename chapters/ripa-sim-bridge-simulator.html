@@ -250,7 +250,7 @@ a.pieLink:hover{text-decoration:underline}
    <button type="button" id="corre">Play</button>
    <button type="button" id="marcar">Take a bearing</button>
    <button type="button" id="prism" aria-pressed="false">Binoculars</button><span id="miras"></span>
-   <button type="button" id="otra">Start again</button></div>
+   <button type="button" id="deNuevo">Start again</button></div>
   <div class="mandos"><span class="reloj" id="rumbo"></span>
    <button type="button" id="b30">&#9664;&#9664; 30&deg; port</button><button type="button" id="b10">&#9664; 10&deg;</button>
    <button type="button" id="e10">10&deg; &#9654;</button><button type="button" id="e30">30&deg; stbd &#9654;&#9654;</button>
@@ -2957,7 +2957,8 @@ $("niveles").innerHTML = Object.keys(SIM_NIVELES).map(n => '<button type="button
 $("otro").onclick = () => { ST.semilla++; empieza(); };
 $("corre").onclick = () => alterna();
 $("marcar").onclick = marca;
-$("otra").onclick = () => reinicia();
+
+$("deNuevo").onclick = () => reinicia();
 $("prism").onclick = () => { ST.prism = !ST.prism; $("prism").setAttribute("aria-pressed", String(ST.prism)); dibuja(); };
 [["b30", -30], ["b10", -10], ["e10", 10], ["e30", 30]].forEach(q => $(q[0]).onclick = () => ordena(q[1]));
 $("media").onclick = () => ordena(0, ST.esc.propio.speed*0.5);
