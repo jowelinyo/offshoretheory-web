@@ -1445,7 +1445,11 @@ const P7 = {
           ? "Her bearing has not appreciably changed, and she is getting closer. "
             + "Rule 7(d)(i) does not ask you to decide: it says the risk "
             + "<em class='ley'>shall be deemed to exist</em>."
-          : "Her bearing kept opening, and it opened fast. She goes past.")
+
+          : "Her bearing is changing, a little more than this screen counts as steady, and "
+            + "she is not set to pass close: no risk is apparent. But a changing bearing does "
+            + "not rule risk out &mdash; Rule 7(d)(ii) &mdash; and if there is any doubt, "
+            + "Rule 7(a) says it exists. Keep taking her bearing until she is past.")
       +  "</div>";
     h += '<dl class="lect"><dt>her bearing moves</dt><dd>'
       +  Math.abs(r.rate).toFixed(2) + "&deg;/min</dd>"
@@ -1453,11 +1457,11 @@ const P7 = {
       +  "<dt>closest approach</dt><dd>" + r.cpa.toFixed(2) + " M in "
       +  Math.round(r.tcpa*60) + " min</dd></dl>";
     h += '<p class="pista">' + (acerto ? "You called it right. " : "You called it wrong. ")
-      +  "The rule of thumb on deck: under about <b>three degrees</b> of change, treat "
-      +  "it as risk &mdash; and always take it to the <b>same point of her</b>, with "
-      +  "the <b>compass</b>. Notice she moved a degree even when the answer was risk: "
-      +  "the rule does not say the bearing must not change, it says it must not "
-      +  "<b>appreciably</b> change.</p>";
+
+      +  "If her bearing does not <b>appreciably</b> change, there is risk &mdash; Rule "
+      +  "7(d)(i). Even if it changes, there may be &mdash; Rule 7(d)(ii). And if you are "
+      +  "in any doubt, there is &mdash; Rule 7(a). Always take it to the <b>same point of "
+      +  "her</b>, with the <b>compass</b>.</p>";
     h += '<button class="otra" data-di="otra">Another vessel</button>';
     return h;
   }
